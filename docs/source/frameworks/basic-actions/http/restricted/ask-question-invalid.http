@@ -1,4 +1,4 @@
-POST /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32/questions HTTP/1.0
+POST /api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1525
 Content-Type: application/json
@@ -42,7 +42,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Question can be add only during the enquiry period: from (2023-01-01 00:00:00+02:00) to (2023-01-14 00:00:00+02:00)."
+      "description": "Question can be add only during the enquiry period: from (2023-01-01T00:00:00+02:00) to (2023-01-14T00:00:00+02:00)."
     }
   ]
 }

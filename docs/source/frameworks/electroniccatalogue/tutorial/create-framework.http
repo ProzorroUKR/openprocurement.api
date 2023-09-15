@@ -51,21 +51,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c
 
 {
   "data": {
-    "prettyID": "UA-F-2023-01-01-000001",
+    "status": "draft",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "owner": "broker",
-    "status": "draft",
     "qualificationPeriod": {
       "endDate": "2023-03-02T00:00:00+02:00"
     },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -88,23 +95,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/19554516edc64
       },
       "kind": "central"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "id": "19554516edc64b80ad4a2834f4505fbe"
+    "prettyID": "UA-F-2023-01-01-000001",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "id": "1b70e498d27e4c1dba8838d6807dac0c"
   },
   "access": {
-    "token": "5f94ccea4dfb4cdebd5de69ecd449013",
-    "transfer": "6f6038c2516d49c3921309a580209b71"
-  }
+    "token": "a7c5e242dae046dcbf238ba184295e8c",
+    "transfer": "1244f5ae7e994bc8a3b44b1004d5b808"
+  },
+  "config": {}
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
+GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents?acc_token=3abb3c33e785449ca322284f6ccfbeaf HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,25 +9,27 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "dc3a00e2a21e45259890216f6c0e543b",
+      "relatedItem": "30eb3b69a8174931a5bc64636ea3e4b2",
+      "id": "2379d9c9a78f43c4a3cb72c9100c8784",
+      "datePublished": "2023-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_changes.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d11ca4c1fd0b4a2f80bd5e74a6da52d2?Signature=kWWQwE4OnCp4g4ZgykRjc4TcDN87gzj7Uo6bqsdHa64HQJ9h%2FxubjfysczaJV9zLLsSE3u81A8ODWWhM3jNXAQ%3D%3D&KeyID=a8968c46",
-      "datePublished": "2023-01-01T00:00:00+02:00",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
       "dateModified": "2023-01-01T00:00:00+02:00",
-      "relatedItem": "021c093dc15d4e078ce3061ae63cd514",
+      "language": "uk",
       "documentOf": "change"
     },
     {
-      "id": "72fdf9de6e2f4261afd2e1f0b78b5d9c",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86c9d65b81ed4b6ca7b236b3cb537550?Signature=JWrmVhZvxw4C8JVy1%2B7j1azTXTvCtOM1bcT5YSq%2B5NPMuFGtPd5CxSw0P5YitMZBzGChzjsXIrcMYoMWXtbdDA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=aSUaH4aKyvvHHNyDgX%2BUS92rE%2Fpy8aEUBTNaribYkkc5XyYX4awtgUD8TuwG0XeiLc87akD36sgPaPE32NZnCg%3D%3D&KeyID=a8968c46",
+      "language": "uk",
+      "documentOf": "agreement",
+      "id": "fbacaaf3d97b4c0cbf6b2c78aedec61b",
       "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00",
-      "documentOf": "agreement"
+      "dateModified": "2023-01-01T00:00:00+02:00"
     }
   ]
 }

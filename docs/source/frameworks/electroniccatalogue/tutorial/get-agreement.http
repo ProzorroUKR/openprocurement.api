@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/aee921790b7e4aa499579e35356db752 HTTP/1.0
+GET /api/2.5/agreements/79dd1754fcce4d448546c348a418c1da HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,16 +10,57 @@ Content-Type: application/json
   "data": {
     "agreementID": "UA-2023-01-17-000001",
     "status": "active",
-    "date": "2023-01-17T00:00:00+02:00",
-    "dateCreated": "2023-01-17T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "owner": "broker",
-    "agreementType": "electronicCatalogue",
-    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
     "period": {
       "startDate": "2023-01-17T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
     },
+    "contracts": [
+      {
+        "id": "7407b24d82f448a299f6cd77f4e38c12",
+        "qualificationID": "520521800ae94c52b85de3898d2c1a84",
+        "status": "active",
+        "submissionID": "c032bcbca6d942d88bfa243b8b266b15",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "scale": "micro",
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "a9d6e91f6b8646959772df4ef205282d",
+            "type": "activation",
+            "status": "scheduled",
+            "dueDate": "2023-03-02T00:00:00+02:00",
+            "dateModified": "2023-01-17T00:00:00+02:00"
+          }
+        ],
+        "date": "2023-01-17T00:00:00+02:00"
+      }
+    ],
+    "dateCreated": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-01-17T00:00:00+02:00",
+    "owner": "broker",
+    "agreementType": "electronicCatalogue",
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
       "identifier": {
@@ -41,6 +82,7 @@ Content-Type: application/json
       },
       "kind": "central"
     },
+    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
     "classification": {
       "description": "Mustard seeds",
       "scheme": "ДК021",
@@ -53,50 +95,9 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "contracts": [
-      {
-        "id": "44bb648f8cff41b3b6a376d302a8088c",
-        "qualificationID": "7f9989cca2bd45d99a498754bd5aa6e4",
-        "status": "active",
-        "submissionID": "2424b8b0c5ba45688a777cdca4f1f698",
-        "suppliers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "scale": "micro",
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            }
-          }
-        ],
-        "milestones": [
-          {
-            "id": "bf4a154a262d41cdbf6d9410172fa89a",
-            "type": "activation",
-            "status": "scheduled",
-            "dueDate": "2023-03-02T00:00:00+02:00",
-            "dateModified": "2023-01-17T00:00:00+02:00"
-          }
-        ],
-        "date": "2023-01-17T00:00:00+02:00"
-      }
-    ],
-    "id": "aee921790b7e4aa499579e35356db752",
-    "next_check": "2023-03-02T00:00:00+02:00"
-  }
+    "next_check": "2023-03-02T00:00:00+02:00",
+    "id": "79dd1754fcce4d448546c348a418c1da"
+  },
+  "config": {}
 }
 

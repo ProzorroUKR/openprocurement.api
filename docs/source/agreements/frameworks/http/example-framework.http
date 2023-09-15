@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/9b13d67e723e43c4a2eb0ddeaaa95540 HTTP/1.0
+GET /api/2.5/frameworks/5028030e17804dd8b73bdd9dd287a845 HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,14 +11,26 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2022-12-31T23:00:00+02:00",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "test",
+    "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-16T00:00:00+02:00",
-    "owner": "test",
-    "status": "active",
     "period": {
       "startDate": "2022-12-31T23:00:00+02:00",
-      "endDate": "2023-04-01T00:00:00+02:00"
+      "endDate": "2023-04-01T00:00:00+03:00"
     },
     "qualificationPeriod": {
       "startDate": "2022-12-31T23:00:00+02:00",
@@ -29,6 +41,7 @@ Content-Type: application/json
       "endDate": "2023-01-14T00:00:00+02:00",
       "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
+    "next_check": "2023-01-28T00:00:00+02:00",
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -51,21 +64,9 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "agreementID": "f4be6c80d2924d309a0277b683cb00cb",
-    "id": "9b13d67e723e43c4a2eb0ddeaaa95540",
-    "next_check": "2023-01-28T00:00:00+02:00"
-  }
+    "agreementID": "5802d80bdd4e4c9bbd5495240c9ebe6e",
+    "id": "5028030e17804dd8b73bdd9dd287a845"
+  },
+  "config": {}
 }
 

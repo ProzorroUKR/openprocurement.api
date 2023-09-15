@@ -129,7 +129,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         with open(TARGET_DIR + 'answer-question-after-clarifications-until.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
-                {'data': {"answer": "Таблицю додано в файлі"}},
+                {'data': {"answer": "Таблицю додано"}},
                 status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')

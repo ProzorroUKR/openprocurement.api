@@ -54,21 +54,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333
 
 {
   "data": {
-    "prettyID": "UA-F-2023-01-01-000001",
+    "status": "draft",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "owner": "broker",
-    "status": "draft",
     "qualificationPeriod": {
       "endDate": "2023-03-02T00:00:00+02:00"
     },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -91,23 +98,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/9bd2fdb557904
       },
       "kind": "defense"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "id": "9bd2fdb5579045be9cfff9fb1a397e32"
+    "prettyID": "UA-F-2023-01-01-000001",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "id": "6f4f10deaaae4f8b9d117837474a9333"
   },
   "access": {
-    "token": "77e8aeb431c44efa97ff595190dc86ba",
-    "transfer": "5d5818a5c50648bda23a4c0a93eeeb2f"
+    "token": "a2ff40fa3e7143baa0a0b38805036fe7",
+    "transfer": "0b5fce6b65e4463aa9ec39a7dea1aeb9"
   },
   "config": {
     "restrictedDerivatives": true

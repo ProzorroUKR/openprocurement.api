@@ -9,16 +9,16 @@ Content-Type: application/json
 {
   "data": [
     {
-      "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
+      "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
       "dateModified": "2023-01-20T00:00:00+02:00",
-      "id": "d96d76a4ef4f4d3eae4b099d0404e31f",
+      "id": "fd9a2e1f2e674531813756d4d0aaa351",
       "restricted": true
     },
     {
-      "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
-      "dateModified": "2023-01-20T00:00:00+02:00",
+      "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
       "status": "active",
-      "id": "2a997181ec504fcdbfaf4c759a02895e"
+      "dateModified": "2023-01-20T00:00:00+02:00",
+      "id": "e0fc16d4a32e49bbb327106221ee3afe"
     }
   ],
   "next_page": {

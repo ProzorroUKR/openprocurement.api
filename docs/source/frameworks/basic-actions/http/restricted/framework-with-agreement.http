@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32 HTTP/1.0
+GET /api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -10,13 +10,22 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-20T00:00:00+02:00",
-    "owner": "broker",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
     "questions": [
       {
-        "id": "c0b3b9bc304945b59cccc96f522283aa",
+        "id": "bfbf3b0718564cc1b1d4dab56c4d796f",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -25,17 +34,17 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "contactPoint": {
+            "name": "Андрій Олексюк",
+            "email": "aagt@gmail.com",
+            "telephone": "+380322916930"
+          },
           "address": {
             "streetAddress": "вул. Островського, 34",
             "locality": "м. Львів",
             "region": "Львівська область",
             "postalCode": "79013",
             "countryName": "Україна"
-          },
-          "contactPoint": {
-            "name": "Андрій Олексюк",
-            "email": "aagt@gmail.com",
-            "telephone": "+380322916930"
           }
         },
         "title": "Калорійність",
@@ -45,7 +54,10 @@ Content-Type: application/json
         "dateAnswered": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "status": "active",
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-20T00:00:00+02:00",
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-31T00:00:00+02:00"
@@ -59,6 +71,7 @@ Content-Type: application/json
       "endDate": "2023-01-14T00:00:00+02:00",
       "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
+    "next_check": "2023-01-28T00:00:00+02:00",
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -81,21 +94,8 @@ Content-Type: application/json
       },
       "kind": "defense"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "agreementID": "bee1ec7b25674a89918be6257ac54948",
-    "id": "9bd2fdb5579045be9cfff9fb1a397e32",
-    "next_check": "2023-01-28T00:00:00+02:00"
+    "agreementID": "d99f25c41f374c55854ba197e2e4c560",
+    "id": "6f4f10deaaae4f8b9d117837474a9333"
   },
   "config": {
     "restrictedDerivatives": true
