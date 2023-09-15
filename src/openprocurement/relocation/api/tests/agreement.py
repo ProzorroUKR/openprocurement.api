@@ -3,7 +3,6 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.framework.cfaua.models.agreement import Agreement
 from openprocurement.framework.cfaua.tests.data import (
     test_tender_token as test_agreement_tender_token,
     test_agreement_data,
@@ -325,7 +324,7 @@ class AgreementOwnerOwnershipChangeTest(BaseAgreementOwnershipChangeTest):
 
         agreement_doc = self.mongodb.agreements.get(self.agreement_id)
         agreement_doc["owner"] = "deleted_broker"
-        self.mongodb.agreements.save(Agreement(agreement_doc))
+        self.mongodb.agreements.save(agreement_doc)
 
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(

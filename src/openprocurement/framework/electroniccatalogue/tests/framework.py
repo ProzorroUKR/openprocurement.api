@@ -8,7 +8,6 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseApiWebTest,
 )
 from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
-    simple_add_framework,
     cpb_standard_status,
     create_framework_draft_invalid_kind,
     accreditation_level,
@@ -33,12 +32,6 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     unsuccessful_status,
     complete_status,
 )
-
-
-class FrameworkTest(BaseApiWebTest):
-    initial_data = test_framework_electronic_catalogue_data
-
-    test_simple_add_framework = snitch(simple_add_framework)
 
 
 class FrameworkResourceTest(BaseFrameworkWebTest):
@@ -71,7 +64,6 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(FrameworkTest))
     suite.addTest(unittest.makeSuite(FrameworkResourceTest))
     return suite
 

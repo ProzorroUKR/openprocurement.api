@@ -236,21 +236,21 @@ def patch_submission_pending(self):
     self.assertEqual(response.content_type, "application/json")
     qualification_id = response.json["data"]["qualificationID"]
 
-    qualification_ignore_patch_data = {
+    qualification_invalid_patch_data = {
         "date": (get_now() + timedelta(days=2)).isoformat(),
         "dateModified": (get_now() + timedelta(days=1)).isoformat(),
-        "submissionID": "0" * 32,
         "qualificationType": "changed",
+        "submissionID": "0" * 32,
     }
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": qualification_ignore_patch_data}
+        {"data": qualification_invalid_patch_data},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    qualification = self.app.get("/qualifications/{}".format(qualification_id)).json["data"]
-    for field in qualification_ignore_patch_data:
-        self.assertNotEqual(qualification.get(field, ""), qualification_ignore_patch_data[field])
+    error_fields = [field["name"] for field in response.json["errors"]]
+    self.assertListEqual(sorted(error_fields), list(qualification_invalid_patch_data.keys()))
 
     qualification_patch_data = {
         "status": "active"
@@ -375,9 +375,14 @@ def patch_submission_pending_config_restricted(self):
             "restricted": True,
         }
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         document = response.json["data"]
@@ -560,16 +565,21 @@ def patch_qualification_active(self):
     self.assertEqual(response.content_type, "application/json")
     qualification_id = response.json["data"]["qualificationID"]
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", b"content")]
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "active", "frameworkID": framework2_id}},
+        {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -592,9 +602,14 @@ def patch_qualification_active(self):
         }]
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name2.doc", b"content2")],
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -631,9 +646,14 @@ def patch_qualification_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     qualification_id = response.json["data"]["qualificationID"]
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", b"content")]
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
@@ -662,9 +682,14 @@ def patch_qualification_unsuccessful(self):
         }]
     )
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name2.doc", b"content2")],
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -679,7 +704,7 @@ def patch_qualification_unsuccessful(self):
 
     response = self.app.patch_json(
         "/qualifications/{}/documents/{}?acc_token={}".format(qualification_id, document_id, self.framework_token),
-        {"data": {"name": "name2.doc"}},
+        {"data": {"title": "name1.doc"}},
         status=403,
     )
     self.assertEqual(
@@ -776,9 +801,14 @@ def date_qualification(self):
     qualification = response.json["data"]
     date = qualification["date"]
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-        upload_files=[("file", "name  name.doc", b"content")]
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -824,9 +854,14 @@ def dateModified_qualification(self):
     dateModified = qualification["dateModified"]
 
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
-        response = self.app.post(
+        response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
+            {"data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -934,9 +969,14 @@ def qualification_token_invalid(self):
 
 
 def get_documents_list(self):
-    self.app.post(
+    self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name name.doc", b"content2")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
 
     response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
@@ -945,9 +985,14 @@ def get_documents_list(self):
 
 
 def get_document_by_id(self):
-    self.app.post(
+    self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "name%s.doc" % i, b"content2") for i in range(3)],
+        {"data": [{
+            "title": f"укр{i}.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        } for i in range(3)]},
     )
     documents = self.mongodb.qualifications.get(self.qualification_id).get("documents")
     for doc in documents:
@@ -985,19 +1030,17 @@ def create_qualification_document_forbidden(self):
 
 
 def create_qualification_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        response = self.app.post(
-            "/qualifications/{}/documents".format(self.qualification_id),
-            upload_files=[("file", "укр.doc", b"content")],
-        )
-        self.assertEqual(response.status, "201 Created")
 
 
 def create_qualification_document_json_bulk(self):
@@ -1024,29 +1067,22 @@ def create_qualification_document_json_bulk(self):
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-
-    def assert_document(document, title):
-        self.assertEqual(title, document["title"])
-        self.assertIn("Signature=", document["url"])
-        self.assertIn("KeyID=", document["url"])
-        self.assertNotIn("Expires=", document["url"])
-
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     qualification = self.mongodb.qualifications.get(self.qualification_id)
     doc_1 = qualification["documents"][0]
     doc_2 = qualification["documents"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     response = self.app.get("/qualifications/{}/documents".format(self.qualification_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
 
 def document_not_found(self):
@@ -1058,8 +1094,15 @@ def document_not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
-    response = self.app.post(
-        "/qualifications/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/qualifications/some_id/documents",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1067,15 +1110,6 @@ def document_not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
-    response = self.app.post(
-        "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/qualifications/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
@@ -1086,10 +1120,15 @@ def document_not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/qualifications/{}/documents/some_id".format(self.qualification_id),
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1116,9 +1155,14 @@ def document_not_found(self):
 
 
 def put_qualification_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1128,23 +1172,22 @@ def put_qualification_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
-        response = self.app.put(
+        response = self.app.put_json(
             "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-            upload_files=[("file", "name name.doc", b"content2")],
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
-    self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     qualification = self.mongodb.qualifications.get(self.qualification_id)
     self.assertIn(key, qualification["documents"][-1]["url"])
-    self.assertIn("Signature=", qualification["documents"][-1]["url"])
-    self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-    self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
     response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1161,9 +1204,14 @@ def put_qualification_document(self):
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
     with freeze_time((get_now() + timedelta(days=2)).isoformat()):
-        response = self.app.post(
+        response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1176,33 +1224,22 @@ def put_qualification_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
-    response = self.app.put(
+    response = self.app.put_json(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
-    self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     qualification = self.mongodb.qualifications.get(self.qualification_id)
     self.assertIn(key, qualification["documents"][-1]["url"])
-    self.assertIn("Signature=", qualification["documents"][-1]["url"])
-    self.assertIn("KeyID=", qualification["documents"][-1]["url"])
-    self.assertNotIn("Expires=", qualification["documents"][-1]["url"])
 
     response = self.app.get("/qualifications/{}/documents/{}".format(self.qualification_id, doc_id, key))
     self.assertEqual(response.status, "200 OK")
@@ -1224,10 +1261,14 @@ def put_qualification_document(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
-        "contentX",
-        content_type="application/msword",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

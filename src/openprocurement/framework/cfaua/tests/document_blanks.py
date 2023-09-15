@@ -27,9 +27,14 @@ def create_agreement_document_forbidden(self):
 
 
 def create_agreement_documents(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -44,8 +49,15 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
 
-    response = self.app.post(
-        "/agreements/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/agreements/some_id/documents",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -53,17 +65,15 @@ def not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
     )
-    response = self.app.post(
-        "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
+    response = self.app.put_json(
+        "/agreements/some_id/documents/some_id",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/agreements/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -74,8 +84,13 @@ def not_found(self):
 
     response = self.app.put(
         "/agreements/{}/documents/some_id".format(self.agreement_id),
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -102,9 +117,14 @@ def not_found(self):
 
 
 def put_contract_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -113,9 +133,14 @@ def put_contract_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
-        upload_files=[("file", "name name.doc", b"content2")],
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -141,9 +166,14 @@ def put_contract_document(self):
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/agreements/{}/documents?acc_token={}".format(self.agreement_id, self.agreement_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -156,26 +186,20 @@ def put_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
-    response = self.app.put(
+    response = self.app.put_json(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
-        "content3",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
 
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
     self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
@@ -200,9 +224,14 @@ def put_contract_document(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
-    response = self.app.put(
+    response = self.app.put_json(
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
-        "contentX",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
         status=403,
     )

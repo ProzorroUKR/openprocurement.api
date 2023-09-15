@@ -3,7 +3,7 @@ import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.cfaua.tests.base import BaseWebTest, BaseAgreementContentWebTest
+from openprocurement.framework.cfaua.tests.base import BaseAgreementTest, BaseAgreementContentWebTest
 from openprocurement.framework.cfaua.tests.change_blanks import (
     no_items_agreement_change,
     not_found,
@@ -22,7 +22,7 @@ from openprocurement.framework.cfaua.tests.change_blanks import (
 from openprocurement.framework.cfaua.tests.data import test_agreement_data
 
 
-class AgreementNoItemsChangeTest(BaseWebTest):
+class AgreementNoItemsChangeTest(BaseAgreementTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_agreement_data
     test_no_items_agreement_change = snitch(no_items_agreement_change)

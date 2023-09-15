@@ -298,20 +298,6 @@ def create_submission_after_period_ends(self):
 
 def create_submission_draft_invalid(self):
     request_path = "/submissions"
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
-    )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -349,6 +335,7 @@ def create_submission_draft_invalid(self):
     data = {
         "frameworkID": self.framework_id,
         "invalid_field": "invalid_value",
+        "submissionType": self.initial_submission_data["submissionType"]
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -360,7 +347,7 @@ def create_submission_draft_invalid(self):
 
     data = {
         "frameworkID": self.framework_id,
-        "qualificationID": "0" * 32,
+        "submissionType": self.initial_submission_data["submissionType"],
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -373,16 +360,16 @@ def create_submission_draft_invalid(self):
 
     data = deepcopy(self.initial_submission_data)
     data["frameworkID"] = "some_id"
-    response = self.app.post_json(request_path, {"data": data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
         [{
-            'description': 'frameworkID must be one of exists frameworks',
+            'description': ['frameworkID must be one of exists frameworks'],
             'location': 'body',
-            'name': 'data',
+            'name': 'frameworkID',
         }],
     )
 
@@ -580,9 +567,14 @@ def create_submission_config_restricted(self):
         submission_owner = submission["owner"]
         self.assertNotEqual(submission_owner, framework_owner)
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", "укр.doc", b"content")],
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         document = response.json["data"]
@@ -764,7 +756,7 @@ def patch_submission_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(submission["status"], "draft")
 
-    submission_ignore_patch_data = {
+    submission_invalid_patch_data = {
         "date": (get_now() + timedelta(days=2)).isoformat(),
         "dateModified": (get_now() + timedelta(days=1)).isoformat(),
         "datePublished": (get_now() + timedelta(days=1)).isoformat(),
@@ -773,14 +765,14 @@ def patch_submission_draft(self):
         "submissionType": "changed",
     }
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_ignore_patch_data}
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": submission_invalid_patch_data},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    submission = self.app.get("/submissions/{}".format(submission["id"], token)).json["data"]
-    for field in submission_ignore_patch_data:
-        self.assertNotEqual(submission.get(field, ""), submission_ignore_patch_data[field])
-
+    error_fields = [field["name"] for field in response.json["errors"]]
+    self.assertListEqual(sorted(error_fields), list(submission_invalid_patch_data.keys()))
     submission_patch_data = {
         "tenderers": [{
             "name": "Оновленна назва",
@@ -967,7 +959,7 @@ def patch_submission_active(self):
     data["tenderers"][0]["name"] = "Updated name"
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": data},
+        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1001,7 +993,7 @@ def patch_submission_active(self):
 
 
 def patch_submission_active_fast(self):
-    target = "openprocurement.framework.core.views.submission.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+    target = "openprocurement.framework.core.procedure.state.submission.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
@@ -1086,6 +1078,7 @@ def patch_submission_deleted(self):
     self.assertEqual(submission["status"], "deleted")
 
     data["tenderers"][0]["name"] = "Updated name"
+    data.pop("submissionType", None)
 
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": data},
@@ -1185,7 +1178,6 @@ def submission_fields(self):
     fields = set(
         [
             "id",
-            "submissionType",
             "dateModified",
             "date",
             "status",
@@ -1194,6 +1186,7 @@ def submission_fields(self):
     )
     self.assertEqual(set(submission) - set(self.initial_submission_data), fields)
     self.assertIn(submission["id"], response.headers["Location"])
+    self.assertIn("submissionType", submission)
 
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "active"}}
@@ -1468,19 +1461,19 @@ def create_submission_document_forbidden(self):
 
 
 def create_submission_documents(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {
+            "data": {
+                "title": "name1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        response = self.app.post(
-            "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", "укр.doc", b"content")],
-        )
-        self.assertEqual(response.status, "201 Created")
 
 
 def create_submission_document_json_bulk(self):
@@ -1507,29 +1500,22 @@ def create_submission_document_json_bulk(self):
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-
-    def assert_document(document, title):
-        self.assertEqual(title, document["title"])
-        self.assertIn("Signature=", document["url"])
-        self.assertIn("KeyID=", document["url"])
-        self.assertNotIn("Expires=", document["url"])
-
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     submission = self.mongodb.submissions.get(self.submission_id)
     doc_1 = submission["documents"][0]
     doc_2 = submission["documents"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     response = self.app.get("/submissions/{}/documents".format(self.submission_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
 
 def document_not_found(self):
@@ -1541,8 +1527,15 @@ def document_not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
-    response = self.app.post(
-        "/submissions/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
+    response = self.app.post_json(
+        "/submissions/some_id/documents",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1550,17 +1543,15 @@ def document_not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
-    response = self.app.post(
-        "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
+    response = self.app.put_json(
+        "/submissions/some_id/documents/some_id",
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/submissions/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1569,10 +1560,15 @@ def document_not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "submission_id"}]
     )
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/submissions/{}/documents/some_id".format(self.submission_id),
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=404,
-        upload_files=[("file", "name.doc", b"content2")],
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -1599,9 +1595,14 @@ def document_not_found(self):
 
 
 def put_submission_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1611,23 +1612,21 @@ def put_submission_document(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
-        response = self.app.put(
+        response = self.app.put_json(
             "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-            upload_files=[("file", "name name.doc", b"content2")],
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(doc_id, response.json["data"]["id"])
-
-        self.assertIn("Signature=", response.json["data"]["url"])
-        self.assertIn("KeyID=", response.json["data"]["url"])
-        self.assertNotIn("Expires=", response.json["data"]["url"])
         key = response.json["data"]["url"].split("/")[-1].split("?")[0]
         submission = self.mongodb.submissions.get(self.submission_id)
         self.assertIn(key, submission["documents"][-1]["url"])
-        self.assertIn("Signature=", submission["documents"][-1]["url"])
-        self.assertIn("KeyID=", submission["documents"][-1]["url"])
-        self.assertNotIn("Expires=", submission["documents"][-1]["url"])
 
         response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id))
         self.assertEqual(response.status, "200 OK")
@@ -1644,9 +1643,14 @@ def put_submission_document(self):
         self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
         self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-        response = self.app.post(
+        response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            upload_files=[("file", "name.doc", b"content")],
+             {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1659,33 +1663,21 @@ def put_submission_document(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
         self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
-    response = self.app.put(
+    response = self.app.put_json(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        "content3",
-        content_type="application/msword",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
-    self.assertNotIn("Expires=", response.json["data"]["url"])
     key = response.json["data"]["url"].split("/")[-1].split("?")[0]
     framework = self.mongodb.submissions.get(self.submission_id)
     self.assertIn(key, framework["documents"][-1]["url"])
-    self.assertIn("Signature=", framework["documents"][-1]["url"])
-    self.assertIn("KeyID=", framework["documents"][-1]["url"])
-    self.assertNotIn("Expires=", framework["documents"][-1]["url"])
 
     response = self.app.get("/submissions/{}/documents/{}".format(self.submission_id, doc_id, key))
     self.assertEqual(response.status, "200 OK")
@@ -1702,10 +1694,14 @@ def put_submission_document(self):
     self.assertEqual(response.content_type, "application/json")
 
     self.set_submission_status("complete")
-    response = self.app.put(
+    response = self.app.put_json(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        "contentX",
-        content_type="application/msword",
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1739,15 +1735,20 @@ def put_submission_document(self):
 
 
 def put_submission_document_fast(self):
-    target = "openprocurement.framework.core.validation.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+    target = "openprocurement.framework.core.procedure.validation.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
 
     with mock.patch(target, self.framework_id):
-        response = self.app.post(
+        response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(
                 self.submission_id,
                 self.submission_token,
             ),
-            upload_files=[("file", "укр.doc", b"content")],
+            {"data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.set_submission_status("complete")
 
@@ -1759,13 +1760,18 @@ def put_submission_document_fast(self):
     self.assertIn(doc_id, response.headers["Location"])
 
     with mock.patch(target, self.framework_id):
-        response = self.app.put(
+        response = self.app.put_json(
             "/submissions/{}/documents/{}?acc_token={}".format(
                 self.submission_id,
                 doc_id,
                 self.submission_token,
             ),
-            upload_files=[("file", "name name.doc", b"content2")],
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

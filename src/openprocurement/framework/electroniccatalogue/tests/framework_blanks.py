@@ -1,35 +1,8 @@
 from copy import deepcopy
-from uuid import uuid4
 
-from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
-from openprocurement.framework.electroniccatalogue.models import Framework
 from openprocurement.framework.electroniccatalogue.tests.base import non_active_cpb_id
 
-
-def simple_add_framework(self):
-    set_now()
-
-    u = Framework(self.initial_data)
-    u.prettyID = "UA-F"
-    u.dateModified = get_now().isoformat()
-
-    assert u.id is None
-    assert u.rev is None
-
-    u.id = uuid4().hex
-    self.mongodb.frameworks.save(u, insert=True)
-
-    assert u.id is not None
-    assert u.rev is not None
-
-    fromdb = self.mongodb.frameworks.get(u.id)
-
-    assert u.prettyID == fromdb["prettyID"]
-    assert u.doc_type is None
-
-    self.mongodb.frameworks.delete(u.id)
 
 def create_framework_draft_invalid_kind(self):
     request_path = "/frameworks"

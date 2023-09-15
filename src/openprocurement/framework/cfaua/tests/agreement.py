@@ -6,7 +6,6 @@ from openprocurement.framework.cfaua.tests.agreement_blanks import (
     create_agreement,
     create_agreement_with_documents,
     create_agreement_with_features,
-    patch_agreement_features_invalid,
     get_agreements_by_id,
     generate_credentials,
     agreement_patch_invalid,
@@ -43,7 +42,6 @@ class AgreementResourceTest(BaseAgreementTest):
     test_create_agreement = snitch(create_agreement)
     test_create_agreement_with_documents = snitch(create_agreement_with_documents)
     test_create_agreement_with_features = snitch(create_agreement_with_features)
-    test_patch_agreement_features_invalid = snitch(patch_agreement_features_invalid)
     test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
     test_skip_address_validation = snitch(skip_address_validation)
 

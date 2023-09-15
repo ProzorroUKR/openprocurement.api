@@ -7,6 +7,13 @@ from openprocurement.framework.core.database import (
 )
 from logging import getLogger
 from pkg_resources import iter_entry_points
+
+from openprocurement.framework.core.procedure.utils import (
+    extract_framework_doc,
+    extract_submission_doc,
+    extract_qualification_doc,
+    extract_agreement_doc,
+)
 from openprocurement.framework.core.utils import (
     extract_doc,
     register_framework_frameworkType,
@@ -38,6 +45,10 @@ def includeme(config):
     config.add_request_method(extract_doc, "submission", reify=True)
     config.add_request_method(extract_doc, "qualification", reify=True)
     config.add_request_method(extract_doc, "agreement", reify=True)
+    config.add_request_method(extract_framework_doc, "framework_doc", reify=True)
+    config.add_request_method(extract_submission_doc, "submission_doc", reify=True)
+    config.add_request_method(extract_qualification_doc, "qualification_doc", reify=True)
+    config.add_request_method(extract_agreement_doc, "agreement_doc", reify=True)
 
     # framework frameworkType plugins support
     config.registry.framework_frameworkTypes = {}
@@ -56,7 +67,8 @@ def includeme(config):
     config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
     config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
     config.add_directive("add_agreement_agreementTypes", register_agreement_agreementType)
-    config.scan("openprocurement.framework.core.views")
+    # config.scan("openprocurement.framework.core.views")
+    config.scan("openprocurement.framework.core.procedure.views")
 
     # search for plugins
     settings = config.get_settings()

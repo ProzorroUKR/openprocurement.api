@@ -46,19 +46,17 @@ def create_framework_document_forbidden(self):
 
 
 def create_framework_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        response = self.app.post(
-            "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-            upload_files=[("file", "укр.doc", b"content")],
-        )
-        self.assertEqual(response.status, "201 Created")
 
 
 def create_framework_document_json_bulk(self):
@@ -85,29 +83,22 @@ def create_framework_document_json_bulk(self):
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-
-    def assert_document(document, title):
-        self.assertEqual(title, document["title"])
-        self.assertIn("Signature=", document["url"])
-        self.assertIn("KeyID=", document["url"])
-        self.assertNotIn("Expires=", document["url"])
-
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     framework = self.mongodb.frameworks.get(self.framework_id)
     doc_1 = framework["documents"][0]
     doc_2 = framework["documents"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
     response = self.app.get("/frameworks/{}/documents".format(self.framework_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     doc_1 = response.json["data"][0]
     doc_2 = response.json["data"][1]
-    assert_document(doc_1, "name1.doc")
-    assert_document(doc_2, "name2.doc")
+    self.assertEqual("name1.doc", doc_1["title"])
+    self.assertEqual("name2.doc", doc_2["title"])
 
 
 def not_found(self):
@@ -128,15 +119,6 @@ def not_found(self):
     self.assertEqual(
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
     )
-    response = self.app.post(
-        "/frameworks/{}/documents".format(self.framework_id),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
     response = self.app.put(
         "/frameworks/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
@@ -177,9 +159,14 @@ def not_found(self):
 
 
 def put_contract_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -188,9 +175,14 @@ def put_contract_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    response = self.app.put(
+    response = self.app.put_json(
         "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        upload_files=[("file", "name name.doc", b"content2")],
+        {"data": {
+            "title": "name name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -214,9 +206,14 @@ def put_contract_document(self):
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    response = self.app.post(
+    response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        upload_files=[("file", "name.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -229,33 +226,6 @@ def put_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
-    response = self.app.put(
-        "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        "content3",
-        content_type="application/msword",
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"]["id"])
-
-    self.assertIn("Signature=", response.json["data"]["url"])
-    self.assertIn("KeyID=", response.json["data"]["url"])
-    self.assertNotIn("Expires=", response.json["data"]["url"])
-    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
-    framework = self.mongodb.frameworks.get(self.framework_id)
-    self.assertIn(key, framework["documents"][-1]["url"])
-    self.assertIn("Signature=", framework["documents"][-1]["url"])
-    self.assertIn("KeyID=", framework["documents"][-1]["url"])
-    self.assertNotIn("Expires=", framework["documents"][-1]["url"])
 
     response = self.app.get("/frameworks/{}/documents/{}".format(self.framework_id, doc_id, key))
     self.assertEqual(response.status, "200 OK")
@@ -272,23 +242,6 @@ def put_contract_document(self):
     self.assertEqual(response.content_type, "application/json")
 
     self.set_status("complete")
-    response = self.app.put(
-        "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        "contentX",
-        content_type="application/msword",
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Can't update document in current (complete) framework status",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
     #  document in current (complete) framework status
     response = self.app.patch_json(
         "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
@@ -300,7 +253,7 @@ def put_contract_document(self):
         response.json["errors"],
         [
             {
-                "description": "Can't update document in current (complete)" " framework status",
+                "description": "Can't update document in current (complete) framework status",
                 "location": "body",
                 "name": "data",
             }

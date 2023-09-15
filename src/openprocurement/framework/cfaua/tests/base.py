@@ -26,6 +26,10 @@ class BaseAgreementWebTest(BaseAgreementTest):
 
     def create_agreement(self):
         data = deepcopy(self.initial_data)
+        if documents := data.get("documents"):
+            for doc in documents:
+                doc["url"] = self.generate_docservice_url()
+                doc["hash"] = "md5:00000000000000000000000000000000"
         with change_auth(self.app, ("Basic", ("agreements", ""))):
             response = self.app.post_json("/agreements", {"data": data})
         self.agreement = response.json["data"]

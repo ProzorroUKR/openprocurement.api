@@ -4,13 +4,14 @@ from datetime import timedelta
 from mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.framework.cfaua.models.agreement import Agreement
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def no_items_agreement_change(self):
     data = deepcopy(self.initial_data)
     del data["items"]
-    response = self.app.post_json("/agreements", {"data": data})
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": data})
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -52,7 +53,7 @@ def no_items_agreement_change(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(agreement["id"], token),
-        {"data": {"status": "terminated", "description": "test description"}},
+        {"data": {"status": "terminated"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "terminated")
@@ -292,8 +293,13 @@ def create_change_invalid(self):
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token),
         {"data": {"changes": [deepcopy(self.initial_change)]}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "changes", "description": "Rogue field"},
+    )
 
     response = self.app.get("/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token))
     self.assertEqual(response.status, "200 OK")
@@ -446,14 +452,6 @@ def patch_change(self):
     self.assertEqual(change["agreementNumber"], "№ 146")
     creation_date = change["date"]
 
-    now = get_now().isoformat()
-    response = self.app.patch_json(
-        "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
-        {"data": {"date": now}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, b"null")
-
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
         {"data": {"rationale_ru": "шота на руськом"}},
@@ -475,16 +473,24 @@ def patch_change(self):
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
         {"data": {"rationaleType": "thirdParty"}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, b"null")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "rationaleType", "description": "Rogue field"}
+    )
 
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),
         {"data": {"id": "1234" * 8}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.body, b"null")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "id", "description": "Rogue field"}
+    )
 
     self.app.authorization = None
     response = self.app.patch_json(
@@ -858,7 +864,7 @@ def change_date_signed_very_old_agreements_data(self):
     # prepare old agreement data
     agreement = self.mongodb.agreements.get(self.agreement["id"])
     agreement["dateSigned"] = None
-    self.mongodb.agreements.save(Agreement(agreement))
+    self.mongodb.agreements.save(agreement)
 
     response = self.app.get("/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token))
     self.assertEqual(response.status, "200 OK")
@@ -945,7 +951,7 @@ def change_date_signed_very_old_agreements_data(self):
     agreement = self.mongodb.agreements.get(self.agreement["id"])
     last_change = agreement["changes"][-1]
     last_change["dateSigned"] = None
-    self.mongodb.agreements.save(Agreement(agreement))
+    self.mongodb.agreements.save(agreement)
 
     response = self.app.get(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], last_change["id"], self.agreement_token)
@@ -992,7 +998,7 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
     # prepare old agreement data
     agreement = self.mongodb.agreements.get(self.agreement["id"])
     agreement["dateSigned"] = None
-    self.mongodb.agreements.save(Agreement(agreement))
+    self.mongodb.agreements.save(agreement)
 
     response = self.app.get("/agreements/{}?acc_token={}".format(self.agreement["id"], self.agreement_token))
     self.assertEqual(response.status, "200 OK")
@@ -1017,7 +1023,7 @@ def date_signed_on_change_creation_for_very_old_agreements_data(self):
     agreement = self.mongodb.agreements.get(self.agreement["id"])
     last_change = agreement["changes"][-1]
     last_change["dateSigned"] = None
-    self.mongodb.agreements.save(Agreement(agreement))
+    self.mongodb.agreements.save(agreement)
 
     response = self.app.get(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], last_change["id"], self.agreement_token)
@@ -1146,7 +1152,7 @@ def multi_change(self):
     )
 
 
-@patch("openprocurement.framework.cfaua.models.agreement.get_now")
+@patch("openprocurement.framework.cfaua.procedure.models.change.get_now")
 def activate_change_after_1_cancelled(self, mocked_model_get_now):
     # first change
     data = deepcopy(self.initial_change)

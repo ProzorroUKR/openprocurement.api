@@ -7,10 +7,6 @@ from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.dps.models import (
-    Submission,
-    Agreement,
-)
 from openprocurement.framework.core.models import CONTRACT_BAN_DURATION
 from openprocurement.framework.dps.tests.base import (
     ban_milestone_data,
@@ -372,7 +368,7 @@ def change_agreement(self):
     new_procuringEntity["contactPoint"]["telephone"] = "+380440000000"
     response = self.app.patch_json(
         f"/frameworks/{self.framework_id}?acc_token={self.framework_token}",
-        {"data": {"procuringEntity": new_procuringEntity}}
+        {"data": {"procuringEntity": {"contactPoint": new_procuringEntity["contactPoint"]}}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -410,9 +406,18 @@ def patch_contract_suppliers(self):
             [{"location": "url", "name": "permission", "description": "Forbidden"}]
         )
 
+    supplier = {
+        "address": {
+            "countryName": "Україна",
+            "postalCode": "01220",
+            "region": "м. Київ",
+            "locality": "м. Київ",
+            "streetAddress": "вул. Банкова, 11, корпус 1"
+        }
+    }
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
-        {"data": {"suppliers": self.initial_submission_data["tenderers"] * 2}},
+        {"data": {"suppliers": [supplier, supplier]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -422,30 +427,18 @@ def patch_contract_suppliers(self):
         [{"location": "body", "name": "suppliers", "description": ["Contract must have only one supplier"]}]
     )
 
-    contract_ignore_patch_fields = {
-        "id": f"{'0' * 32}",
-        "qualificationID": "",
-        "status": "terminated",
-        "submissionID": "",
+    contract_invalid_patch_fields = {
         "milestones": [{"type": "ban"}],
-        "date": "2020-03-10T01:00:20.514000+02:00",
-        "suppliers": [{
-            "scale": "large",
-            "name": "new_name",
-            "name_en": "new_name",
-            "name_ru": "new_name",
-            "identifier": {"scheme": "UA-EDR", "id": "00000001", "legalName": "new_legalName"},
-        }]
+        "qualificationID": "",
+        "submissionID": "",
     }
-    contract_data = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
-        {"data": contract_ignore_patch_fields},
+        {"data": contract_invalid_patch_fields},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    for field in contract_ignore_patch_fields:
-        self.assertEqual(response.json["data"].get(field), contract_data.get(field))
+    error_fields = [field["name"] for field in response.json["errors"]]
+    self.assertListEqual(sorted(error_fields), list(contract_invalid_patch_fields.keys()))
 
     contract_patch_fields = {
         "suppliers": [{
@@ -560,7 +553,7 @@ def patch_contract_active_status(self):
 
     submission = self.mongodb.submissions.get(self.submission_id)
     submission["status"] = "draft"
-    self.mongodb.submissions.save(Submission(submission))
+    self.mongodb.submissions.save(submission)
 
     response = self.app.patch_json(
         f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
@@ -585,7 +578,7 @@ def patch_contract_active_status(self):
     agreement["contracts"].append(contract)
     agreement["contracts"][0]["status"] = "terminated"
     agreement["contracts"][1]["suppliers"][0]["identifier"]["id"] = "1111222"
-    self.mongodb.agreements.save(Agreement(agreement))
+    self.mongodb.agreements.save(agreement)
 
     # should be fine
     response = self.app.patch_json(
@@ -787,8 +780,6 @@ def post_milestone_invalid(self):
 
 def post_ban_milestone(self):
     milestone_data = deepcopy(ban_milestone_data)
-    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
-    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
         {"data": milestone_data}
@@ -798,9 +789,6 @@ def post_ban_milestone(self):
     milestone = response.json["data"]
     self.assertEqual(milestone["type"], milestone_data["type"])
     self.assertIsNotNone(milestone["dateModified"])
-    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
-    self.assertIsNotNone(milestone["dueDate"])
-    self.assertNotEqual(milestone["dueDate"], milestone_data["dueDate"])
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
     contract = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}").json["data"]
@@ -828,8 +816,6 @@ def post_ban_milestone(self):
 def post_ban_milestone_with_documents(self):
     milestone_data = deepcopy(ban_milestone_data_with_documents)
     milestone_data["documents"][0]["url"] = self.generate_docservice_url()
-    milestone_data["dateModified"] = "2020-03-10T01:00:20.514000+02:00"
-    milestone_data["dueDate"] = "2020-03-10T01:00:20.514000+02:00"
     response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
         {"data": milestone_data}
@@ -839,9 +825,6 @@ def post_ban_milestone_with_documents(self):
     milestone = response.json["data"]
     self.assertEqual(milestone["type"], milestone_data["type"])
     self.assertIsNotNone(milestone["dateModified"])
-    self.assertNotEqual(milestone["dateModified"], milestone_data["dateModified"])
-    self.assertIsNotNone(milestone["dueDate"])
-    self.assertNotEqual(milestone["dueDate"], milestone_data["dueDate"])
     self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 
@@ -901,21 +884,18 @@ def create_milestone_document_forbidden(self):
 
 
 def create_milestone_documents(self):
-    response = self.app.post(
+    response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents?acc_token={self.framework_token}",
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-
-    with change_auth(self.app, ("Basic", ("token", ""))):
-        response = self.app.post(
-            f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-            f"/documents?acc_token={self.framework_token}",
-            upload_files=[("file", "укр.doc", b"content")],
-        )
-        self.assertEqual(response.status, "201 Created")
 
 
 def create_milestone_document_json_bulk(self):
@@ -973,10 +953,15 @@ def create_milestone_document_json_bulk(self):
 
 
 def put_milestone_document(self):
-    response = self.app.post(
+    response = self.app.post_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents?acc_token={self.framework_token}",
-        upload_files=[("file", "укр.doc", b"content")],
+        {"data": {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -985,10 +970,15 @@ def put_milestone_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
-        response = self.app.put(
+        response = self.app.put_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
             f"/documents/{doc_id}?acc_token={self.framework_token}",
-            upload_files=[("file", "name name.doc", b"content2")],
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -1027,10 +1017,15 @@ def put_milestone_document(self):
     self.assertEqual(dateModified2, response.json["data"][2]["dateModified"])
 
     with freeze_time((get_now() + timedelta(days=2)).isoformat()):
-        response = self.app.post(
+        response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
             f"/documents?acc_token={self.framework_token}",
-            upload_files=[("file", "name.doc", b"content")],
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1045,20 +1040,15 @@ def put_milestone_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
     self.assertEqual(dateModified, response.json["data"][2]["dateModified"])
-    response = self.app.put(
+    response = self.app.put_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents/{doc_id}?acc_token={self.framework_token}",
-        status=404,
-        upload_files=[("invalid_name", "name.doc", b"content")],
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "body", "name": "file"}])
-    response = self.app.put(
-        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
-        f"/documents/{doc_id}?acc_token={self.framework_token}",
-        "content3",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
     )
     self.assertEqual(response.status, "200 OK")
@@ -1099,10 +1089,15 @@ def put_milestone_document(self):
     self.assertEqual(response.content_type, "application/json")
 
     self.set_contract_status("terminated")
-    response = self.app.put(
+    response = self.app.put_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
         f"/documents/{doc_id}?acc_token={self.framework_token}",
-        "contentX",
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
         content_type="application/msword",
         status=403,
     )
