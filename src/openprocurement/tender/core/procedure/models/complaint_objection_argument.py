@@ -2,6 +2,7 @@ from enum import Enum
 from uuid import uuid4
 
 from schematics.types import StringType, MD5Type
+from schematics.types.serializable import serializable
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.models import Model
@@ -13,12 +14,19 @@ class EvidenceType(Enum):
     internal = "internal"
 
 
+class EvidenceDocument(PostDocument):
+
+    @serializable
+    def dateModified(self):
+        pass
+
+
 class Evidence(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     type = StringType(choices=[choice.value for choice in EvidenceType], required=True)
     title = StringType(required=True)
     description = StringType(required=True)
-    documents = ListType(ModelType(PostDocument), min_size=1, required=True)
+    documents = ListType(ModelType(EvidenceDocument), min_size=1, required=True)
 
 
 class Argument(Model):
