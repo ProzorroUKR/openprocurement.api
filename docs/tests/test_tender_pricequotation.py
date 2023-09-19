@@ -386,6 +386,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.get('/tenders/{}/awards'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
 
+
         with open(TARGET_DIR + 'contract-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/contracts'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
@@ -598,3 +599,4 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
+

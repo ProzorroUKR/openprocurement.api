@@ -1,0 +1,137 @@
+PATCH /api/2.5/tenders/bc77a76696c54e15bf3c933a54fe10c3/contracts/c52a7446f60947589e56560d38b1b612?acc_token=8d3775a905d94c2184646a77323cfd0b HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 54
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "value": {
+      "amount": 200,
+      "amountNet": 190
+    }
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "c52a7446f60947589e56560d38b1b612",
+    "buyerID": "22222222222222222222222222222222",
+    "awardID": "4a612f58ede4430a9192781217044ee7",
+    "contractID": "UA-2023-01-01-000001-a-2",
+    "status": "pending",
+    "value": {
+      "amount": 200.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 190.0
+    },
+    "items": [
+      {
+        "id": "6e914978c21c4396b03bc0a3e41658e4",
+        "description": "портфелі",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      },
+      {
+        "id": "85c354a1d9da41c7a31272a5d9f027e3",
+        "description": "портфелі",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      }
+    ],
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
+        },
+        "scale": "micro"
+      }
+    ],
+    "date": "2023-01-01T00:00:00+02:00"
+  }
+}
+

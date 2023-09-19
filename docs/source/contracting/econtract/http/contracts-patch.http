@@ -1,0 +1,183 @@
+PATCH /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 148
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "value": {
+      "amount": 438,
+      "amountNet": 430
+    },
+    "period": {
+      "startDate": "2023-09-01T01:00:00+03:00",
+      "endDate": "2023-10-01T01:00:00+03:00"
+    }
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "awardID": "c220713cbd024586b6382ef97a852dc7",
+    "contractID": "UA-2023-09-01-000001-a-1",
+    "period": {
+      "startDate": "2023-09-01T01:00:00+03:00",
+      "endDate": "2023-10-01T01:00:00+03:00"
+    },
+    "dateSigned": "2023-09-01T01:00:00+03:00",
+    "date": "2023-09-01T01:00:00+03:00",
+    "dateModified": "2023-09-01T01:00:00+03:00",
+    "dateCreated": "2023-09-01T01:00:00+03:00",
+    "items": [
+      {
+        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2016-03-20T18:47:47.136678+02:00",
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
+        },
+        "classification": {
+          "description": "Комп’ютерне обладнанн",
+          "scheme": "ДК021",
+          "id": "30230000-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "штук",
+          "value": {
+            "amount": 12.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "H87"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
+    "owner": "broker",
+    "changes": [
+      {
+        "rationale": "Друга і третя поставка має бути розфасована",
+        "rationale_en": "Contract change cause",
+        "rationaleTypes": [
+          "volumeCuts",
+          "priceReduction"
+        ],
+        "id": "b9887678ba3c448b977467c0fe3ada31",
+        "status": "pending",
+        "date": "2023-09-01T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "id": "0042d18dfb254f4a8a0c166f1e980196",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
+        "documentOf": "contract",
+        "datePublished": "2023-09-01T01:00:00+03:00",
+        "dateModified": "2023-09-01T01:00:00+03:00"
+      },
+      {
+        "id": "9202cd64da8f42a5942c68dc14bf534a",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "documentOf": "contract",
+        "datePublished": "2023-09-01T01:00:00+03:00",
+        "dateModified": "2023-09-01T01:00:00+03:00"
+      },
+      {
+        "relatedItem": "b9887678ba3c448b977467c0fe3ada31",
+        "id": "32ec55c6c6144f7a8fceea1ed68a5290",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_changes.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/32ec55c6c6144f7a8fceea1ed68a5290?download=34862599de094db7a8c9c37996ea4847",
+        "documentOf": "change",
+        "datePublished": "2023-09-01T01:00:00+03:00",
+        "dateModified": "2023-09-01T01:00:00+03:00"
+      }
+    ],
+    "value": {
+      "amount": 438.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 430.0
+    },
+    "status": "active",
+    "buyer": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "signerDocument": "документ який дозволяє",
+        "organizationStatus": "статус"
+      }
+    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "signerDocument": "документ який дозволяє",
+          "organizationStatus": "статус"
+        }
+      }
+    ],
+    "contractTemplateUri": "templates/contracts/test.html",
+    "bid_owner": "broker",
+    "id": "0df8cf97d5cb4ba98a7355f981e0afd2"
+  }
+}
+

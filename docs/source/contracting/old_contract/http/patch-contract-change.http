@@ -1,0 +1,30 @@
+PATCH /api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074/changes/19806b5aa29f40b1b4cb1995b8086448?acc_token=f0914b01682a45bf9e8540e2d1026a68 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 255
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "rationale": "Друга і третя поставка має бути розфасована"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "Друга і третя поставка має бути розфасована",
+    "rationale_en": "Contract change cause",
+    "rationaleTypes": [
+      "volumeCuts",
+      "priceReduction"
+    ],
+    "id": "19806b5aa29f40b1b4cb1995b8086448",
+    "status": "pending",
+    "date": "2023-01-01T00:00:01+02:00"
+  }
+}
+

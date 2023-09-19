@@ -1,0 +1,228 @@
+PATCH /api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074?acc_token=f0914b01682a45bf9e8540e2d1026a68 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 114
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "terminated",
+    "amountPaid": {
+      "amount": 430,
+      "amountNet": 420,
+      "valueAddedTaxIncluded": true
+    }
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "awardID": "034e185d515f40a1a151c02cc3516157",
+    "contractID": "UA-2023-01-01-000001-a-1",
+    "period": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-31T00:00:01+02:00"
+    },
+    "dateSigned": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateCreated": "2023-01-01T00:00:01+02:00",
+    "items": [
+      {
+        "id": "b08960c0f87b47a78ac6347d98e8af52",
+        "description": "футляри до державних нагород",
+        "quantity": 2.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      },
+      {
+        "id": "1f7aeaf465fd44f393098f8363a5e059",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "tender_id": "fb4ee4451adb48f981d1518851ee4007",
+    "owner": "broker",
+    "status": "terminated",
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "scale": "micro",
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
+      }
+    ],
+    "changes": [
+      {
+        "rationale": "Друга і третя поставка має бути розфасована",
+        "rationale_en": "Contract change cause",
+        "rationaleTypes": [
+          "volumeCuts",
+          "priceReduction"
+        ],
+        "dateSigned": "2023-01-01T00:00:01+02:00",
+        "id": "19806b5aa29f40b1b4cb1995b8086448",
+        "status": "active",
+        "date": "2022-12-31T22:00:01"
+      }
+    ],
+    "documents": [
+      {
+        "relatedItem": "19806b5aa29f40b1b4cb1995b8086448",
+        "id": "833bbc0dd7774261ac511a0f34bf7148",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_changes.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074/documents/833bbc0dd7774261ac511a0f34bf7148?download=f63818a2a95e4f2ab5e07260dfe16911",
+        "documentOf": "change",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
+      {
+        "id": "56918609bfe74595810ba22fc084b8dc",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract.doc",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074/documents/56918609bfe74595810ba22fc084b8dc?download=6b559700bb5245049bdee88a6b887e04",
+        "documentOf": "contract",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
+      {
+        "id": "ee98698b3a5548cd8bdf9b45ba60ada7",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_additional_docs.doc",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074/documents/ee98698b3a5548cd8bdf9b45ba60ada7?download=bdd3fb01fd5543dcb7c49a037c335baf",
+        "documentOf": "contract",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
+      {
+        "id": "ee98698b3a5548cd8bdf9b45ba60ada7",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_additional_docs.doc",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074/documents/ee98698b3a5548cd8bdf9b45ba60ada7?download=3dc187c0d95d4d9aaf3954aed82eb6fe",
+        "documentOf": "contract",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      }
+    ],
+    "amountPaid": {
+      "amount": 430.0,
+      "currency": "UAH",
+      "amountNet": 420.0,
+      "valueAddedTaxIncluded": true
+    },
+    "value": {
+      "amount": 438.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 430.0
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "kind": "general",
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      }
+    },
+    "id": "f4f720d3c82542d7867e5008d3db5074"
+  }
+}
+

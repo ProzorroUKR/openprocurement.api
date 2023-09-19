@@ -1,0 +1,147 @@
+GET /api/2.5/contracts/f4f720d3c82542d7867e5008d3db5074 HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "awardID": "034e185d515f40a1a151c02cc3516157",
+    "contractID": "UA-2023-01-01-000001-a-1",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 490.0
+    },
+    "items": [
+      {
+        "id": "b08960c0f87b47a78ac6347d98e8af52",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      },
+      {
+        "id": "1f7aeaf465fd44f393098f8363a5e059",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
+        },
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "scale": "micro",
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
+      }
+    ],
+    "owner": "broker",
+    "tender_id": "fb4ee4451adb48f981d1518851ee4007",
+    "status": "active",
+    "dateSigned": "2023-01-01T00:00:01+02:00",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "kind": "general",
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      }
+    },
+    "dateCreated": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-01-01T00:00:01+02:00",
+    "id": "f4f720d3c82542d7867e5008d3db5074"
+  }
+}
+
