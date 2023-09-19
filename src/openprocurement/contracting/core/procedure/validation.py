@@ -25,7 +25,7 @@ def _validate_contract_accreditation_level(request, model):
 # changes
 def validate_contract_change_add_not_in_allowed_contract_status(request, **kwargs):
     contract = request.validated["contract"]
-    if contract["status"] not in ["pending", "active"]:
+    if contract["status"] != "active":
         raise_operation_error(
             request, f"Can't add contract change in current ({contract['status']}) contract status"
         )
@@ -39,7 +39,7 @@ def validate_create_contract_change(request, **kwargs):
 
 def validate_contract_change_update_not_in_allowed_change_status(request, **kwargs):
     change = request.validated["change"]
-    if change["status"] == "active":
+    if change["status"] != "active":
         raise_operation_error(request, f"Can't update contract change in current ({change['status']}) status")
 
 

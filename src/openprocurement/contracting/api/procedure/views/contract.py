@@ -2,7 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
 from openprocurement.api.context import get_request
-from openprocurement.contracting.core.procedure.validation import validate_contract_update_not_in_allowed_status
+from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_owner,
+    validate_contract_update_not_in_allowed_status
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     unless_administrator,
@@ -42,7 +45,7 @@ class GeneralContractResource(ContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-            unless_admins(unless_administrator(validate_item_owner("contract"))),
+            unless_admins(unless_administrator(validate_contract_owner)),
             validate_input_data(conditional_contract_model),
             validate_patch_data_simple(Contract, item_name="contract"),
             unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),

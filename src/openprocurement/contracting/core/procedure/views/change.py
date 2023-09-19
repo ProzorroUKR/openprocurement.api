@@ -1,7 +1,7 @@
 from openprocurement.api.utils import context_unpack, json_view
 
 from openprocurement.tender.core.procedure.utils import set_item, get_items
-from openprocurement.tender.core.procedure.validation import unless_administrator, unless_admins, validate_item_owner
+from openprocurement.tender.core.procedure.validation import unless_administrator, unless_admins
 from openprocurement.tender.core.procedure.validation import validate_input_data, validate_patch_data
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
@@ -10,6 +10,7 @@ from openprocurement.contracting.api.procedure.state.change import ChangeState
 from openprocurement.contracting.core.procedure.models.change import PostChange, PatchChange, Change
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_owner,
     validate_create_contract_change,
     validate_contract_change_add_not_in_allowed_contract_status,
     validate_contract_change_update_not_in_allowed_change_status,
@@ -50,7 +51,7 @@ class ContractsChangesResource(ContractBaseResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-            unless_administrator(unless_admins(validate_item_owner("contract"))),
+            unless_administrator(unless_admins(validate_contract_owner)),
             validate_input_data(PostChange),
             validate_contract_change_add_not_in_allowed_contract_status,
             validate_create_contract_change,
@@ -85,7 +86,7 @@ class ContractsChangesResource(ContractBaseResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-            unless_administrator(unless_admins(validate_item_owner("contract"))),
+            unless_administrator(unless_admins(validate_contract_owner)),
             validate_input_data(PatchChange, none_means_remove=True),
             validate_patch_data(Change, item_name="change"),
             validate_contract_change_update_not_in_allowed_change_status

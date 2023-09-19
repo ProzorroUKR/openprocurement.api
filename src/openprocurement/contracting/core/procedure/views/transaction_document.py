@@ -1,13 +1,13 @@
 from openprocurement.api.utils import json_view
 
 from openprocurement.contracting.core.procedure.views.transaction import resolve_transaction
-from openprocurement.tender.core.procedure.views.document import resolve_document
 from openprocurement.contracting.core.procedure.views.document import BaseDocumentResource
+from openprocurement.contracting.core.procedure.validation import validate_contract_owner
+from openprocurement.tender.core.procedure.views.document import resolve_document
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     unless_bots,
     unless_admins,
-    validate_item_owner,
 )
 from openprocurement.contracting.core.procedure.models.document import PostTransactionDocument
 
@@ -23,7 +23,7 @@ class TransactionDocumentResource(BaseDocumentResource):
 
     @json_view(
         validators=(
-            unless_bots(unless_admins(validate_item_owner("contract"))),
+            unless_bots(unless_admins(validate_contract_owner)),
             validate_input_data(PostTransactionDocument, allow_bulk=True),
         ),
         permission="edit_contract_transactions",
