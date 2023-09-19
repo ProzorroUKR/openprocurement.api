@@ -648,6 +648,7 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "title": "футляри до державних нагород",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -676,7 +677,6 @@ Content-Type: application/json
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
-    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -777,7 +777,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 2
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false
   }
 }
 

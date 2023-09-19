@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "procurementMethod": "open",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -160,6 +159,7 @@ Content-Type: application/json
     ],
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
+    "procurementMethod": "open",
     "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
@@ -180,7 +180,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": true,
-    "minBidsNumber": 3
+    "minBidsNumber": 3,
+    "hasPreSelectionAgreement": false
   }
 }
 

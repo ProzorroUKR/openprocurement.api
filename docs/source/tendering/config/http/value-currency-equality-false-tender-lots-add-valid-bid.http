@@ -822,7 +822,8 @@ Content-Type: application/json
     "hasValueRestriction": false,
     "valueCurrencyEquality": false,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 

@@ -26,8 +26,8 @@ Content-Type: application/json
     "owner": "broker",
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
-    "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
+    "procurementMethodType": "priceQuotation",
     "awardCriteria": "lowestCost",
     "status": "draft",
     "agreement": {
@@ -180,7 +180,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   }
 }
 

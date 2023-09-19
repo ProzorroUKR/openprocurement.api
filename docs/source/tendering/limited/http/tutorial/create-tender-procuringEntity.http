@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3662
+Content-Length: 3697
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -109,7 +109,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 
@@ -125,6 +126,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
     "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "title": "Послуги шкільних їдалень",
     "procurementMethodType": "reporting",
     "procuringEntity": {
@@ -192,7 +194,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "procurementMethod": "limited",
     "status": "draft",
     "milestones": [
       {
@@ -233,7 +234,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   },
   "access": {
     "token": "b1e5d31cae12404789b524b2c946715f",

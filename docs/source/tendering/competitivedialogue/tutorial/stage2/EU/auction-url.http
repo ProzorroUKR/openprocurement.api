@@ -913,6 +913,7 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
@@ -996,7 +997,6 @@ Content-Type: application/json
       "endDate": "2023-01-05T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
-    "procurementMethod": "selective",
     "items": [
       {
         "id": "f250ed0f0e9b44c1ab6dfdd028054631",
@@ -1078,7 +1078,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": true,
-    "minBidsNumber": 2
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false
   }
 }
 
