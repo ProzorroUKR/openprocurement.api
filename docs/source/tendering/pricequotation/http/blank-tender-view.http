@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "goods",
+    "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
-    "procurementMethod": "selective",
     "awardCriteria": "lowestCost",
     "status": "draft",
     "agreement": {
@@ -169,7 +169,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   }
 }
 

@@ -60,6 +60,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
+    "procurementMethod": "limited",
     "procurementMethodType": "reporting",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -121,7 +122,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "procurementMethod": "limited",
     "status": "active",
     "milestones": [
       {
@@ -157,7 +157,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 

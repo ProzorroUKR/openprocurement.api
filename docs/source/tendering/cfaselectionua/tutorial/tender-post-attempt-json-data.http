@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3005
+Content-Length: 3039
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -94,7 +94,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   }
 }
 
@@ -108,7 +109,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45ef
     "title": "футляри до державних нагород",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "awardCriteria": "lowestCost",
-    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -195,6 +195,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45ef
     ],
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
+    "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
@@ -207,7 +208,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45ef
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   },
   "access": {
     "token": "1e9ca1a6b2574ae38056c8eac4729d40",

@@ -650,8 +650,8 @@ Content-Type: application/json
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
     "value": {
       "amount": 501.0,
       "currency": "UAH",
@@ -1351,7 +1351,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": true,
-    "minBidsNumber": 2
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false
   }
 }
 

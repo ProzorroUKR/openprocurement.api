@@ -1273,7 +1273,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": true,
-    "minBidsNumber": 3
+    "minBidsNumber": 3,
+    "hasPreSelectionAgreement": false
   }
 }
 
