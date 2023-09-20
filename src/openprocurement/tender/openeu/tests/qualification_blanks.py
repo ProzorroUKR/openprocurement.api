@@ -1466,7 +1466,6 @@ def patch_tender_qualification_complaint(self):
     )
 
 
-@patch("openprocurement.tender.core.views.complaint.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_qualification_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(

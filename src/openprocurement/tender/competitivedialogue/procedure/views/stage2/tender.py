@@ -3,8 +3,8 @@ from openprocurement.api.auth import ACCR_5, ACCR_COMPETITIVE
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUTenderDetailsState,
-    CDUATenderDetailsState,
+    CDEUStage2TenderDetailsState,
+    CDUAStage2TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
     PostEUTender,
@@ -82,7 +82,7 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
 class TenderStage2UEResource(TendersResource):
 
     serializer_class = TenderBaseSerializer
-    state_class = CDEUTenderDetailsState
+    state_class = CDEUStage2TenderDetailsState
 
     def __acl__(self):
         return stage2_acl()
@@ -144,7 +144,7 @@ class TenderStage2UEResource(TendersResource):
 class TenderStage2UAResource(TendersResource):
 
     serializer_class = TenderBaseSerializer
-    state_class = CDUATenderDetailsState
+    state_class = CDUAStage2TenderDetailsState
 
     def __acl__(self):
         return stage2_acl()

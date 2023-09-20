@@ -8,7 +8,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     now,
 )
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 
 
 def create_tender_bidder_firm(self):
@@ -61,16 +60,11 @@ def delete_tender_bidder_eu(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    if now < TWO_PHASE_COMMIT_FROM:
-        self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-        self.assertTrue(
-            any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-        )
-    else:
-        self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-        self.assertTrue(
-            any([i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-        )
+
+    self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
+    self.assertTrue(
+        any([i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
+    )
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -239,21 +233,7 @@ def bids_invalidation_on_tender_change_eu(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_bid["value"] = {"amount": 3000}
-    if now < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["value of bid should be less than value of tender"],
-                    "location": "body",
-                    "name": "value",
-                }
-            ],
-        )
+
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
@@ -371,17 +351,6 @@ def ukrainian_author_id(self):
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], self.test_bids_data[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
-
-    if now < TWO_PHASE_COMMIT_FROM:
-        for status in ("active", "unsuccessful", "deleted", "invalid"):
-            bid_data["status"] = status
-            response = self.app.post_json(
-                "/tenders/{}/bids".format(self.tender_id),
-                {"data": bid_data},
-                status=403,
-            )
-            self.assertEqual(response.status, "403 Forbidden")
-        del bid_data["status"]
 
     self.set_status("complete")
     response = self.app.post_json(
@@ -548,7 +517,6 @@ def create_tender_bidder_document_nopending_eu(self):
 # TenderStage2UABidResourceTest
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", now + timedelta(days=1))
 def create_tender_biddder_invalid_ua(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
@@ -858,21 +826,7 @@ def bids_invalidation_on_tender_change_ua(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_bid["value"]["amount"] = 3000
-    if now < TWO_PHASE_COMMIT_FROM:
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": test_bid}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["value of bid should be less than value of tender"],
-                    "location": "body",
-                    "name": "value",
-                }
-            ],
-        )
+
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
@@ -1047,7 +1001,6 @@ def deleted_bid_is_not_restorable(self):
 # TenderStage2BidFeaturesResourceTest
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", now + timedelta(days=1))
 def features_bidder_invalid(self):
     tender_data = self.initial_data.copy()
     item = tender_data["items"][0].copy()

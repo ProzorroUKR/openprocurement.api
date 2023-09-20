@@ -21,7 +21,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_items_related_buyer_id,
     create_tender_config_test,
 )
-from openprocurement.tender.limited.models import ReportingTender
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
@@ -69,7 +68,6 @@ class AccreditationTenderTest(BaseTenderWebTest):
 
 
 class TenderTest(BaseTenderWebTest):
-    tender_model = ReportingTender
     initial_data = test_tender_reporting_data
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)

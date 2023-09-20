@@ -5,7 +5,7 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import SCALE_CODES
-from openprocurement.api.models import Period, BaseContract as CommonBaseContract
+from openprocurement.api.models import Period, BaseContract as CommonBaseContract, ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
 from openprocurement.api.models import CPVClassification as BaseCPVClassification
@@ -14,7 +14,6 @@ from openprocurement.api.models import Address as BaseAddress
 from openprocurement.api.models import AdditionalClassification as BaseAdditionalClassification
 from openprocurement.api.models import Model, ListType, IsoDateTimeType
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.models import ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import Unit as BaseUnit
 
 from openprocurement.contracting.core.procedure.models.change import Change

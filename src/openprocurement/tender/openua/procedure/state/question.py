@@ -43,4 +43,4 @@ class UATenderQuestionStateMixin(TenderQuestionStateMixin):
 
 
 class UATenderQuestionState(UATenderQuestionStateMixin, OpenUATenderState):
-    create_accreditations = (ACCR_4,)
+    question_create_accreditations = (ACCR_4,)

@@ -2,7 +2,6 @@
 
 import json
 import os
-from copy import deepcopy
 from uuid import uuid4
 from urllib.parse import urlencode
 from nacl.encoding import HexEncoder
@@ -12,9 +11,9 @@ from requests.models import Response
 from webtest import AppError
 
 from openprocurement.api.constants import TZ
-from openprocurement.tender.core.models import QualificationMilestone
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import SESSION, apply_data_patch, get_now
+from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_date
 
@@ -249,7 +248,7 @@ class BaseCoreWebTest(BaseWebTest):
             "milestones": [
                 {
                     "id": "0" * 32,
-                    "code": QualificationMilestone.CODE_24_HOURS,
+                    "code": QualificationMilestoneCodes.CODE_24_HOURS.value,
                     "date": now.isoformat(),
                     "dueDate": (now + timedelta(hours=24)).isoformat(),
                 }
@@ -268,4 +267,3 @@ class BaseCoreWebTest(BaseWebTest):
         else:
             tender["qualifications"] = [qualification]
         self.mongodb.tenders.save(tender)
-

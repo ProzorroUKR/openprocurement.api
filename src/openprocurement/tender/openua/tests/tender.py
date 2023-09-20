@@ -46,7 +46,6 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     lost_contract_for_active_award,
     create_tender_with_criteria_lcc,
 )
-from openprocurement.tender.openua.models import Tender
 
 
 class TenderUAResourceTestMixin(object):
@@ -64,7 +63,6 @@ class TenderUaProcessTestMixin(object):
 
 class TenderUATest(BaseApiWebTest):
     docservice = True
-    tender_model = Tender
     initial_data = test_tender_openua_data
 
 

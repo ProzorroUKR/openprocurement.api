@@ -15,7 +15,7 @@ from openprocurement.api.models import (
     PeriodEndRequired as BasePeriodEndRequired,
     Organization as BaseOrganization,
     schematics_embedded_role,
-    schematics_default_role,
+    schematics_default_role, PROCURING_ENTITY_KINDS,
 )
 from openprocurement.framework.core.models import (
     Framework as BaseFramework,
@@ -33,7 +33,6 @@ from openprocurement.framework.core.utils import (
     get_framework_unsuccessful_status_check_date,
 )
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.core.models import PROCURING_ENTITY_KINDS
 
 
 class ContactPoint(BaseContactPoint):

@@ -11,7 +11,7 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender i
     UATender,
     BotPatchTender,
 )
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import TenderDetailsState
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import CDStage1TenderDetailsState
 from openprocurement.tender.competitivedialogue.procedure.serializers.stage1.tender import CD1StageTenderSerializer
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
@@ -61,7 +61,7 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
 class CDEUTenderResource(TendersResource):
 
     serializer_class = CD1StageTenderSerializer
-    state_class = TenderDetailsState
+    state_class = CDStage1TenderDetailsState
 
     def __acl__(self):
         acl = super().__acl__()
@@ -129,7 +129,7 @@ class CDEUTenderResource(TendersResource):
 class CDUATenderResource(TendersResource):
 
     serializer_class = CD1StageTenderSerializer
-    state_class = TenderDetailsState
+    state_class = CDStage1TenderDetailsState
 
     def __acl__(self):
         acl = super().__acl__()

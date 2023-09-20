@@ -12,6 +12,7 @@ class LotStateMixin:
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender)
 
     def lot_on_post(self, data: dict) -> None:
@@ -22,6 +23,7 @@ class LotStateMixin:
 
     def validate_lot_patch(self, before: dict, after: dict) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender, lot_id=before["id"])
 
     def lot_on_patch(self, before: dict, after: dict) -> None:
@@ -34,6 +36,7 @@ class LotStateMixin:
 
     def validate_lot_delete(self, lot) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender, lot_id=lot["id"])
 
     def lot_on_delete(self, data: dict) -> None:

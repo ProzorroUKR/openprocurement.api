@@ -1,27 +1,43 @@
+import math
 from copy import deepcopy
 from typing import Optional
+
+from barbecue import vnmax
+from pyramid.compat import decode_path_info
+from pyramid.exceptions import URLDecodeError
+from schematics.exceptions import ValidationError
 
 from openprocurement.api.context import (
     get_json_data,
     get_now,
 )
+from openprocurement.api.mask import mask_object_data
+from openprocurement.api.traversal import get_child_items
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
     raise_operation_error,
     get_first_revision_date,
+    parse_date,
+    get_now,
+    error_handler,
 )
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     TZ,
     RELEASE_2020_04_19,
 )
+from openprocurement.api.validation import validate_json_data
+from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.context import (
     get_bid,
     get_request,
     get_tender,
 )
-from openprocurement.tender.core.utils import QUICK
+from openprocurement.tender.core.utils import (
+    QUICK,
+    calculate_tender_date,
+)
 from dateorro import calc_normalized_datetime
 from jsonpatch import (
     make_patch,
@@ -38,6 +54,7 @@ from uuid import uuid4
 from logging import getLogger
 from datetime import datetime
 
+from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 LOGGER = getLogger(__name__)
 
@@ -411,3 +428,157 @@ def activate_bids(bids):
         if bid["status"] == "pending":
             bid["status"] = "active"
     return bids
+
+
+def find_lot(tender, lot_id):
+    for lot in tender.get("lots", ""):
+        if lot and lot["id"] == lot_id:
+            return lot
+
+
+def validate_features_custom_weight(data, features, max_sum):
+    if features:
+        if data["lots"]:
+            if any([
+                round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
+                for lot in data["lots"]
+            ]):
+                raise ValidationError(
+                    "Sum of max value of all features for lot should be "
+                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                )
+        else:
+            if round(vnmax(features), 15) > max_sum:
+                raise ValidationError(
+                    "Sum of max value of all features should be "
+                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                )
+
+
+def round_up_to_ten(value):
+    return int(math.ceil(value / 10.) * 10)
+
+
+def restrict_value_to_bounds(value, min_value, max_value):
+    if value < min_value:
+        return min_value
+    if value > max_value:
+        return max_value
+    return value
+
+
+def check_auction_period(period, tender):
+    if period and period.get("startDate") and period.get("shouldStartAfter"):
+        start = parse_date(period["shouldStartAfter"])
+        should_start = calculate_tender_date(start, AUCTION_PERIOD_TIME, tender, True)
+        start = period["startDate"]
+        if isinstance(start, str):
+            start = parse_date(period["startDate"])
+        return start > should_start
+    return False
+
+
+def calc_auction_end_time(bids, start):
+    return start + bids * BIDDER_TIME + SERVICE_TIME + AUCTION_STAND_STILL_TIME
+
+
+def generate_tender_id(request):
+    now = get_now()
+    uid = f"tender_{now.date().isoformat()}"
+    index = request.registry.mongodb.get_next_sequence_value(uid)
+    return "UA-{:04}-{:02}-{:02}-{:06}-a".format(now.year, now.month, now.day, index)
+
+
+def extract_complaint_type(request):
+    """
+        request method
+        determines which type of complaint is processed
+        returns complaint_type
+        used in isComplaint route predicate factory
+        to match complaintType predicate
+        to route to Claim or Complaint view
+    """
+
+    path = extract_path(request)
+    matchdict = matchdict_from_path(path)
+
+    complaint_id = matchdict.get("complaint_id")
+    # extract complaint type from POST request
+    if not complaint_id:
+        data = validate_json_data(request)
+        complaint_type = data.get("type", None)
+        # before RELEASE_2020_04_19 claim type is default if no value provided
+        if not complaint_type:
+            complaint_type = "claim"
+        return complaint_type
+
+    # extract complaint type from tender for PATCH request
+    complaint_resource_names = ["award", "qualification"]
+    for complaint_resource_name in complaint_resource_names:
+        complaint_resource = _extract_resource(request, matchdict, request.tender_doc, complaint_resource_name)
+        if complaint_resource:
+            break
+
+    if not complaint_resource:
+        complaint_resource = request.tender_doc
+
+    complaint = _extract_resource(request, matchdict, complaint_resource, "complaint")
+    return complaint.get("type")
+
+
+def extract_path(request):
+    try:
+        # empty if mounted under a path in mod_wsgi, for example
+        path = decode_path_info(request.environ["PATH_INFO"] or "/")
+    except KeyError:
+        path = "/"
+    except UnicodeDecodeError as e:
+        raise URLDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
+    return path
+
+
+def extract_tender_id(request):
+    if request.matchdict and "tender_id" in request.matchdict:
+        return request.matchdict.get("tender_id")
+
+    path = extract_path(request)
+    # extract tender id
+    parts = path.split("/")
+    if len(parts) < 5 or parts[3] != "tenders":
+        return
+    tender_id = parts[4]
+    return tender_id
+
+
+def extract_tender_doc(request):
+    tender_id = extract_tender_id(request)
+    if tender_id:
+        doc = request.registry.mongodb.tenders.get(tender_id)
+        if doc is None:
+            request.errors.add("url", "tender_id", "Not Found")
+            request.errors.status = 404
+            raise error_handler(request)
+
+        # wartime measures
+        mask_object_data(request, doc)
+
+        return doc
+
+
+def matchdict_from_path(path, root_resource="tenders"):
+    path_parts = path.split("/")
+    start_index = path_parts.index(root_resource)
+    resource_path = path_parts[start_index:]
+    return {"{}_id".format(k[:-1]): v for k, v in zip(resource_path[::2], resource_path[1::2])}
+
+
+def _extract_resource(request, matchdict, parent_resource, resource_name):
+    resource_id = matchdict.get(f'{resource_name}_id')
+    if resource_id:
+        resources = get_child_items(parent_resource, f'{resource_name}s', resource_id)
+        if not resources:
+            request.errors.add("url", f'{resource_name}_id', "Not Found")
+            request.errors.status = 404
+            raise error_handler(request)
+        return resources[-1]
+    return None

@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.cfaselectionua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.cfaselectionua.procedure.models.parameter import PatchParameter, Parameter
 from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.tender.core.models import validate_parameters_uniq
+from openprocurement.tender.core.procedure.validation import validate_parameters_uniq
 
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):

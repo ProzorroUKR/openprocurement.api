@@ -9,7 +9,6 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
 )
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.esco.models import TenderESCO
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     # TenderProcessTest
@@ -69,7 +68,6 @@ class TenderESCOTest(BaseESCOWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_esco_data
     test_bids_data = test_tender_esco_bids
-    tender_model = TenderESCO
 
     test_tender_value = snitch(tender_value)
     test_tender_min_value = snitch(tender_min_value)

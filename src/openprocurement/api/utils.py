@@ -788,6 +788,11 @@ def required_field_from_date(date):
     return decorator
 
 
+def requested_fields_changes(request, fieldnames):
+    changed_fields = request.validated["json_data"].keys()
+    return set(fieldnames) & set(changed_fields)
+
+
 def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):
     collection = getattr(request.registry.mongodb, collection_name)
     tender = collection.get(obj_id)

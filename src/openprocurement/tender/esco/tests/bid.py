@@ -73,8 +73,7 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     create_tender_bid_with_scale_not_required,
     create_tender_bid_no_scale,
 )
-from openprocurement.tender.esco.utils import to_decimal
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 bid_amount_performance = round(
     float(

@@ -10,8 +10,10 @@ from openprocurement.tender.openuadefense.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     TENDERING_DURATION,
 )
-from openprocurement.tender.openua.validation import _validate_tender_period_start_date
-from openprocurement.tender.core.validation import validate_tender_period_duration
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_period_start_date,
+    validate_tender_period_duration,
+)
 
 
 class PostTender(BasePostTender):
@@ -20,7 +22,7 @@ class PostTender(BasePostTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            _validate_tender_period_start_date(data, period)
+            validate_tender_period_start_date(data, period)
             validate_tender_period_duration(data, period, TENDERING_DURATION, working_days=True)
 
 

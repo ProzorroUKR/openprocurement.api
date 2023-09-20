@@ -1,5 +1,7 @@
-from openprocurement.tender.core.validation import check_requirements_active
-from openprocurement.tender.core.procedure.validation import base_validate_operation_ecriteria_objects
+from openprocurement.tender.core.procedure.validation import (
+    base_validate_operation_ecriteria_objects,
+    check_requirements_active,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_tender

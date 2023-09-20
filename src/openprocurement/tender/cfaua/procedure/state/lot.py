@@ -1,7 +1,7 @@
 from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
-from openprocurement.tender.cfaua.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.cfaua.procedure.state.tender_details import CFAUATenderDetailsState
 
 
-class TenderLotState(LotInvalidationBidStateMixin, TenderDetailsState):
+class TenderLotState(LotInvalidationBidStateMixin, CFAUATenderDetailsState):
     pass
 

@@ -1,3 +1,4 @@
+from openprocurement.api.auth import ACCR_5, ACCR_1, ACCR_2
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import (
     get_request,
@@ -31,6 +32,9 @@ from copy import deepcopy
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+    tender_create_accreditations = (ACCR_1, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_2,)
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -198,8 +202,11 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         }
         validate_field(data, "minimalStep", required=False, **kwargs)
 
+    def validate_tender_period_extension(self, tender):
+        pass
 
-class TenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
+
+class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
     pass
 
 

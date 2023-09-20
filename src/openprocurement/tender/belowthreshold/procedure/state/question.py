@@ -36,4 +36,4 @@ class BelowThresholdTenderQuestionStateMixin(TenderQuestionStateMixin):
 
 
 class BelowThresholdTenderQuestionState(BelowThresholdTenderQuestionStateMixin, BelowThresholdTenderState):
-    create_accreditations = (ACCR_2,)
+    question_create_accreditations = (ACCR_2,)

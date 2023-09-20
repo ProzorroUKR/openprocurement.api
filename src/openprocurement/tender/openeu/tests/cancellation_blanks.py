@@ -776,10 +776,7 @@ def cancellation_unsuccessful_award(self):
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
 
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19",
-            get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_in_qualification_complaint_period(self):
     self.set_status("active.pre-qualification.stand-still")
 

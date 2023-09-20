@@ -1,6 +1,4 @@
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.api.context import get_request
-from openprocurement.tender.core.procedure.context import get_tender
 
 
 class TenderDocumentState(BaseDocumentState):

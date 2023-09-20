@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
@@ -15,12 +16,16 @@ from openprocurement.tender.openua.procedure.state.tender_details import OpenUAT
 
 
 if TYPE_CHECKING:
-    baseclass = OpenEUTenderState
+    baseclass = BaseOpenEUTenderState
 else:
     baseclass = object
 
 
 class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+    tender_create_accreditations = (ACCR_3, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_4,)
+
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
@@ -59,5 +64,5 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
             tender["complaintPeriod"] = dict(startDate=tender["tenderPeriod"]["startDate"], endDate=end_date)
 
 
-class TenderDetailsState(OpenEUTenderDetailsMixing, BaseOpenEUTenderState):
+class OpenEUTenderDetailsState(OpenEUTenderDetailsMixing, BaseOpenEUTenderState):
     pass

@@ -6,8 +6,8 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_ENHANCED_MIN_AMOUNT,
     COMPLAINT_ENHANCED_MAX_AMOUNT,
 )
-from openprocurement.tender.core.utils import restrict_value_to_bounds
-from openprocurement.tender.esco.utils import get_bid_identifier, all_bids_values
+from openprocurement.tender.core.procedure.utils import restrict_value_to_bounds
+from openprocurement.tender.esco.procedure.utils import get_bid_identifier, all_bids_values
 from openprocurement.api.utils import (
     get_uah_amount_from_value,
     raise_operation_error,

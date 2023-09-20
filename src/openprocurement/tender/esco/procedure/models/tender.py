@@ -25,7 +25,12 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.esco.procedure.models.lot import PostTenderLot, PatchTenderLot, Lot
-from openprocurement.tender.core.procedure.models.tender import validate_milestones, validate_items_related_lot
+from openprocurement.tender.core.procedure.models.tender import validate_items_related_lot
+from openprocurement.tender.core.procedure.validation import (
+    validate_milestones,
+    validate_tender_period_start_date,
+    validate_tender_period_duration, validate_features_uniq,
+)
 from openprocurement.tender.core.procedure.models.tender_base import (
     PostBaseTender,
     PatchBaseTender,
@@ -37,13 +42,8 @@ from openprocurement.tender.esco.constants import (
     TENDERING_DURATION,
 )
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
-from openprocurement.tender.core.models import validate_features_uniq
-from openprocurement.tender.core.validation import validate_tender_period_duration
-from openprocurement.tender.core.utils import (
-    validate_features_custom_weight,
-)
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.openua.validation import _validate_tender_period_start_date
 
 
 def validate_yearly_payments_percentage_range(data, value):
@@ -124,7 +124,7 @@ class PostTender(PostBaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            _validate_tender_period_start_date(data, period)
+            validate_tender_period_start_date(data, period)
             validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):

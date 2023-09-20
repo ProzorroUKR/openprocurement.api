@@ -1,6 +1,11 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after_2020_rules,
+    dt_from_iso,
+    round_up_to_ten,
+    restrict_value_to_bounds,
+)
 from openprocurement.tender.core.procedure.models.complaint import (
     DraftPatchComplaint,
     CancellationPatchComplaint,
@@ -14,7 +19,6 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT,
     COMPLAINT_ENHANCED_AMOUNT_RATE, COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT,
 )
-from openprocurement.tender.core.utils import restrict_value_to_bounds, round_up_to_ten
 from openprocurement.api.utils import get_uah_amount_from_value
 from logging import getLogger
 from openprocurement.api.utils import raise_operation_error

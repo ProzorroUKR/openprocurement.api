@@ -1,4 +1,4 @@
-from openprocurement.tender.core.models import validate_values_uniq
+from openprocurement.tender.core.procedure.validation import validate_values_uniq
 from openprocurement.api.models import Model, ListType
 from schematics.types import StringType, FloatType
 from schematics.types.compound import ModelType

@@ -5,9 +5,8 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType
 from openprocurement.api.models import IsoDateTimeType, ListType, Model
-from openprocurement.tender.core.utils import generate_tender_id
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.utils import tender_created_after, generate_tender_id
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.document import (
     PostDocument,
@@ -17,7 +16,7 @@ from openprocurement.tender.core.procedure.models.document import (
 from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_id_uniq
 from openprocurement.tender.core.procedure.models.organization import Organization, BaseOrganization
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
-from openprocurement.tender.core.models import (
+from openprocurement.tender.core.procedure.validation import (
     validate_funders_unique,
     validate_funders_ids,
 )
@@ -29,6 +28,14 @@ from openprocurement.api.constants import (
 
 class PlanRelation(Model):
     id = MD5Type(required=True)
+
+
+def validate_plans(data, value):
+    if value:
+        if len(set(i["id"] for i in value)) < len(value):
+            raise ValidationError("The list should not contain duplicates")
+        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
+            raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
 
 
 class CommonBaseTender(Model):
@@ -70,11 +77,7 @@ class CommonBaseTender(Model):
         procurementMethodDetails = StringType()
 
     def validate_plans(self, data, value):
-        if value:
-            if len(set(i["id"] for i in value)) < len(value):
-                raise ValidationError("The list should not contain duplicates")
-            if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
-                raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
+        validate_plans(data, value)
 
 
 class PatchBaseTender(CommonBaseTender):

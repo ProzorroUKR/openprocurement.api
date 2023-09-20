@@ -3,7 +3,7 @@
 from datetime import timedelta
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
-from openprocurement.tender.esco.utils import to_decimal
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 
 def get_tender_auction(self):

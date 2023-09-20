@@ -28,7 +28,7 @@ from openprocurement.tender.pricequotation.procedure.models.item import TenderIt
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
 from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
-from openprocurement.tender.openua.validation import _validate_tender_period_start_date
+from openprocurement.tender.core.procedure.validation import validate_tender_period_start_date
 from openprocurement.api.models import ModelType, Model, IsoDateTimeType, Value
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import get_first_revision_date
@@ -114,7 +114,7 @@ class PostTender(PostBaseTender):
 
     def validate_tenderPeriod(self, data, period):
         if period.startDate:
-            _validate_tender_period_start_date(data, period)
+            validate_tender_period_start_date(data, period)
         validate_tender_period_duration(data, period)
 
     def validate_awardPeriod(self, data, period):

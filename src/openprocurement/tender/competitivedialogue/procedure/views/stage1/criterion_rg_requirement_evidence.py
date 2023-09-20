@@ -5,7 +5,7 @@ from pyramid.security import Allow
 
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import BaseEligibleEvidenceResource
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
-    Stage1EligibleEvidenceState,
+    CDEligibleEvidenceState,
 )
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 
@@ -30,7 +30,7 @@ class BaseCDEligibleEvidenceResource(BaseEligibleEvidenceResource):
     description="Competitive Dialogue EU requirement evidence",
 )
 class CDEUEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
-    state_class = Stage1EligibleEvidenceState
+    state_class = CDEligibleEvidenceState
 
 
 @resource(
@@ -43,4 +43,4 @@ class CDEUEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     description="Competitive Dialogue UA requirement evidence",
 )
 class CDUAEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
-    state_class = Stage1EligibleEvidenceState
+    state_class = CDEligibleEvidenceState

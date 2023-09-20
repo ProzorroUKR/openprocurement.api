@@ -9,7 +9,6 @@ from openprocurement.tender.core.tests.cancellation import activate_cancellation
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_bidder_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.pop("lotValues", None)
@@ -121,7 +120,6 @@ def patch_tender_bidder(self):
 
 # CompetitiveDialogueEULotFeatureBidderResourceTest
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_with_features_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])

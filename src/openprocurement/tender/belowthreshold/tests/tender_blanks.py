@@ -2182,8 +2182,6 @@ def patch_tender(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't update tender in current (complete) status")
 
 
-@mock.patch("openprocurement.tender.core.procedure.models.period.CANT_DELETE_PERIOD_START_DATE_FROM",
-            get_now() - timedelta(days=1))
 def required_field_deletion(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -3027,15 +3025,13 @@ def tender_minimalstep_validation(self):
     data = deepcopy(self.initial_data)
     data["minimalStep"]["amount"] = 35
     # invalid minimalStep validated on tender level
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(
-            response.json["errors"],
-            [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
-              "location": "body", "name": "minimalStep"}],
-        )
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+          "location": "body", "name": "minimalStep"}],
+    )
     with mock.patch("openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM",
                     get_now() + timedelta(days=1)):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
@@ -3053,17 +3049,15 @@ def tender_lot_minimalstep_validation(self):
         "minimalStep": {"amount": 35},
     })
     set_tender_lots(data, test_lots_data)
-    with mock.patch("openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{'description':
-                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              'location': 'body', 'name': 'lots'}
-             ]
-        )
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description':
+              [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+          'location': 'body', 'name': 'lots'}
+         ]
+    )
     with mock.patch("openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM",
                     get_now() + timedelta(days=1)):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
@@ -3072,12 +3066,11 @@ def tender_lot_minimalstep_validation(self):
     # valid minimalStep on lots level
     test_lots_data[1]["minimalStep"]["amount"] = 15
     set_tender_lots(data, test_lots_data)
-    with mock.patch("openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.json["data"]["value"]["amount"], 1000.0)
-        self.assertEqual(response.json["data"]["minimalStep"]["amount"], 15.0)
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["value"]["amount"], 1000.0)
+    self.assertEqual(response.json["data"]["minimalStep"]["amount"], 15.0)
 
 
 def patch_tender_minimalstep_validation(self):
@@ -3104,30 +3097,27 @@ def patch_tender_minimalstep_validation(self):
         "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=200)
         self.assertEqual(response.status, "200 OK")
 
-    # tender created after MINIMAL_STEP_VALIDATION_FROM
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.tender_id = response.json["data"]["id"]
-        self.token_token = response.json["access"]["token"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.token_token = response.json["access"]["token"]
 
-        lots[0]["minimalStep"]["amount"] = 123
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(
-            response.json["errors"],
-            [{'description':
-                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              'location': 'body', 'name': 'lots'}
-             ],
-        )
+    lots[0]["minimalStep"]["amount"] = 123
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description':
+              [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+          'location': 'body', 'name': 'lots'}
+         ],
+    )
 
-        lots[0]["minimalStep"]["amount"] = 15
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=200)
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
+    lots[0]["minimalStep"]["amount"] = 15
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.token_token), {"data": {"lots": lots}}, status=200)
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
 
 @mock.patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",

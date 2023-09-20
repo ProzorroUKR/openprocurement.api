@@ -8,7 +8,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_create_award_only_for_active_lot,
     validate_operation_with_lot_cancellation_in_pending,
-    validate_tender_period_extension,
     validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.models.lot import PostLot
@@ -47,7 +46,6 @@ class CFAUATenderLotResource(TenderLotResource):
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_delete_lot_related_object,
-            validate_tender_period_extension,
             validate_lot_count,
         ),
     )

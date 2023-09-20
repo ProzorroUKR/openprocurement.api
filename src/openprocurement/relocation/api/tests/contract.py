@@ -4,10 +4,10 @@ from copy import deepcopy
 from uuid import uuid4
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.relocation.api.models import Transfer
-from openprocurement.contracting.api.models import Contract
-from openprocurement.contracting.api.tests.data import test_tender_token as test_contract_tender_token, \
-    test_contract_data
+from openprocurement.contracting.api.tests.data import (
+    test_tender_token as test_contract_tender_token,
+    test_contract_data,
+)
 
 
 class BaseContractOwnershipChangeTest(BaseWebTest):
@@ -118,7 +118,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         # but contract is not stored with new credentials)
         transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/contracts/" + contract["id"]
-        self.mongodb.transfers.save(Transfer(transfer_doc))
+        self.mongodb.transfers.save(transfer_doc)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/contracts/{}/ownership".format(contract["id"]),

@@ -13,14 +13,13 @@ from openprocurement.api.utils import (
     apply_data_patch,
     generate_id,
     set_modetest_titles,
-    get_now,
     handle_store_exceptions,
     append_revision,
     check_document,
     update_document_url,
     update_logging_context,
 )
-from openprocurement.tender.core.utils import extract_path
+from openprocurement.tender.core.procedure.utils import extract_path
 
 from openprocurement.contracting.api.traversal import factory
 from openprocurement.api.validation import validate_json_data

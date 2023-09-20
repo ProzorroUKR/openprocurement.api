@@ -2,12 +2,9 @@
 import os
 from datetime import timedelta
 from copy import deepcopy
-from mock import patch
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import get_now
-from openprocurement.tender.openuadefense.models import Tender
 from openprocurement.tender.openuadefense.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
@@ -100,7 +97,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
 
     periods = PERIODS
-    tender_class = Tender
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")

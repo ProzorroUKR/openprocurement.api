@@ -10,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.openeu.models import Tender
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 from openprocurement.api.utils import get_now
@@ -237,7 +236,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     )  # status, in which adding document to tender auction is forbidden
 
     periods = PERIODS
-    tender_class = Tender
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")

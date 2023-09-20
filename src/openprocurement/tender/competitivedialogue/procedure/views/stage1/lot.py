@@ -3,7 +3,7 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.lot import TenderLotState
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.lot import CDStage1TenderLotState
 
 
 @resource(
@@ -14,7 +14,7 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.lot impor
     description="Competitive Dialogue EU lots",
 )
 class CompetitiveDialogueEULotResource(TenderLotResource):
-    state_class = TenderLotState
+    state_class = CDStage1TenderLotState
 
 
 @resource(
@@ -25,5 +25,5 @@ class CompetitiveDialogueEULotResource(TenderLotResource):
     description="Competitive Dialogue UA lots",
 )
 class CompetitiveDialogueUALotResource(TenderLotResource):
-    state_class = TenderLotState
+    state_class = CDStage1TenderLotState
 

@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     Tender as BaseTender,
 )
 from openprocurement.tender.belowthreshold.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.validation import validate_tender_period_duration
+from openprocurement.tender.core.procedure.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.api.models import ModelType

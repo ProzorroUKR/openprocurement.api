@@ -5,8 +5,8 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.question import (
-    CDEUTenderQuestionState,
-    CDUATenderQuestionState,
+    CDEUStage2TenderQuestionState,
+    CDUAStage2TenderQuestionState,
 )
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 
@@ -19,7 +19,7 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
     description="Tender questions",
 )
 class CDEUTenderQuestionResource(TenderQuestionResource):
-    state_class = CDEUTenderQuestionState
+    state_class = CDEUStage2TenderQuestionState
 
 
 @resource(
@@ -30,4 +30,4 @@ class CDEUTenderQuestionResource(TenderQuestionResource):
     description="Tender questions",
 )
 class CDUATenderQuestionResource(TenderQuestionResource):
-    state_class = CDUATenderQuestionState
+    state_class = CDUAStage2TenderQuestionState

@@ -54,7 +54,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(request_path, "data", status=403)
@@ -63,7 +63,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(request_path, {"not_data": {}}, status=403)
@@ -72,7 +72,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(request_path, {"data": {}}, status=403)
@@ -81,7 +81,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=403)
@@ -90,7 +90,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"value": "invalid_value"}}, status=403)
@@ -99,7 +99,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
     response = self.app.post_json(
@@ -119,7 +119,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
 
@@ -133,7 +133,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     lot2 = deepcopy(self.test_lots_data[0])
     lot2["guarantee"] = {"amount": 100500, "currency": "USD"}
@@ -142,7 +142,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertNotIn("guarantee", response.json["data"])
@@ -154,7 +154,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     lot3["guarantee"] = {"amount": 500}
     response = self.app.post_json(
@@ -162,7 +162,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     lot3["guarantee"] = {"amount": 20, "currency": "USD"}
     response = self.app.post_json(
@@ -170,7 +170,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertNotIn("guarantee", response.json["data"])
@@ -196,7 +196,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
     self.set_enquiry_period_end()
     response = self.app.post_json(
@@ -214,7 +214,7 @@ def create_tender_lot(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't create lot for tender stage2")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add lot for tender stage2")
 
 
 def patch_tender_lot(self):
@@ -634,7 +634,6 @@ def patch_tender_bidder(self):
     )
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
@@ -779,7 +778,6 @@ def create_tender_bidder_invalid(self):
 # TenderStage2EU(UA)LotFeatureBidderResourceTest
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_with_features_bidder_invalid(self):
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
@@ -1047,7 +1045,7 @@ def one_lot_0bid(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Can't create lot for tender stage2"}],
+        [{"location": "body", "name": "data", "description": "Can't add lot for tender stage2"}],
     )
 
 

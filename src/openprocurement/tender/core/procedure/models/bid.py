@@ -1,11 +1,12 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
+from schematics.transforms import whitelist
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Value, Model
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
-from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.tender.core.procedure.validation import validate_bid_value, validate_parameters_uniq
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
@@ -13,7 +14,6 @@ from openprocurement.tender.core.procedure.models.organization import PatchBusin
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
-from openprocurement.tender.core.models import validate_parameters_uniq, Administrator_bid_role
 
 
 # PATCH DATA ---
@@ -114,6 +114,9 @@ class Bid(MetaBid, CommonBid):
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))
     qualificationDocuments = ListType(ModelType(Document, required=True))
+
+
+Administrator_bid_role = whitelist("tenderers")
 
 
 def filter_administrator_bid_update(request, data):

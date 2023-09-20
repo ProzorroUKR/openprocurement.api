@@ -26,12 +26,10 @@ from openprocurement.planning.api.validation import (
     validate_plan_scheduled,
 )
 from openprocurement.tender.core.validation import (
-    validate_procurement_type_of_first_stage,
     validate_tender_matches_plan,
     validate_tender_plan_procurement_method_type,
     validate_plan_budget_breakdown,
 )
-from openprocurement.tender.core.procedure.validation import validate_input_data
 from dateorro import calc_working_datetime
 import simplejson
 

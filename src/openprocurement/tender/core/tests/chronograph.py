@@ -5,9 +5,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_cancellation,
 )
+from openprocurement.tender.core.procedure.models.cancellation import PostCancellation
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.openeu.models import Cancellation
 from freezegun import freeze_time
 from copy import deepcopy
 from mock import patch
@@ -60,20 +60,19 @@ def switch_tender_complaints_draft(self):
 def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.mongodb.tenders.get(self.tender_id)
-    cancellation = deepcopy(test_tender_below_cancellation)
-    cancellation["status"] = "pending"
-    cancellation["complaintPeriod"] = dict(
-        startDate=get_now(),
-        endDate=get_now() + timedelta(days=10),
+    test_cancellation = deepcopy(test_tender_below_cancellation)
+    cancellation_data = PostCancellation(test_cancellation).serialize()
+    cancellation_data["status"] = "pending"
+    cancellation_data["complaintPeriod"] = dict(
+        startDate=get_now().isoformat(),
+        endDate=(get_now() + timedelta(days=10)).isoformat(),
     )
-    cancellation = Cancellation(cancellation)
-    cancellation_data = cancellation.serialize("embedded")
     tender.update(cancellations=[cancellation_data])
     self.mongodb.tenders.save(tender)
 
     # let's post a draft complaint
     response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation.id),
+        "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_data["id"]),
         {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.json["data"]["status"], "draft")
@@ -98,7 +97,7 @@ def switch_tender_cancellation_complaints_draft(self):
     self.assertNotEqual(response.json["data"].get("next_check"), cancellation_data["complaintPeriod"]["endDate"])
 
     # check complaint status
-    response = self.app.get("/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation.id))
+    response = self.app.get("/tenders/{}/cancellations/{}/complaints".format(self.tender_id, cancellation_data["id"]))
     complaint = response.json["data"][0]
     self.assertEqual(complaint["status"], "mistaken")
     self.assertEqual(complaint["rejectReason"], "complaintPeriodEnded")

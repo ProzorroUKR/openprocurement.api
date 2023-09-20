@@ -243,8 +243,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest,
     ComplaintPostResourceMixin,
@@ -252,8 +251,7 @@ class TenderCancellationComplaintPostResourceTest(
 ):
     docservice = True
 
-    @patch("openprocurement.tender.core.models.RELEASE_2020_04_19", date_after_2020_04_19)
-    @patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super(TenderCancellationComplaintPostResourceTest, self).setUp()
         self.set_complaint_period_end()

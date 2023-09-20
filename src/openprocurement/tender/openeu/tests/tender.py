@@ -47,11 +47,9 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
 )
-from openprocurement.tender.openeu.models import Tender
 
 
 class TenderTest(BaseTenderWebTest):
-    tender_model = Tender
     initial_data = test_tender_openeu_data
 
 

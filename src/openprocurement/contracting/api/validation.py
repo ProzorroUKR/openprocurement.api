@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import (
     update_logging_context,
-    raise_operation_error,
+    raise_operation_error, requested_fields_changes,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -10,15 +10,13 @@ from openprocurement.api.validation import (
     OPERATIONS,
 )
 from openprocurement.contracting.api.models import Contract, Change
-from openprocurement.tender.core.models import ContractValue
-from openprocurement.tender.core.utils import requested_fields_changes
 from openprocurement.tender.core.validation import (
     validate_update_contract_value,
     validate_update_contract_value_amount,
     validate_update_contract_value_net_required,
     validate_contract_items_unit_value_amount,
 )
-from openprocurement.api.models import Model, IsoDateTimeType, Guarantee
+from openprocurement.api.models import Model, IsoDateTimeType, Guarantee, ContractValue
 from openprocurement.contracting.api.models import OrganizationReference
 from schematics.types import StringType
 from schematics.types.compound import ModelType

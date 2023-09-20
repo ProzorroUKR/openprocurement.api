@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import json
 
 from datetime import timedelta
 from copy import deepcopy
@@ -17,7 +16,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.models import Tender
 from openprocurement.tender.open.tests.periods import PERIODS
 
 now = get_now()
@@ -124,7 +122,6 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     )  # status, in which adding document to tender auction is forbidden
 
     periods = PERIODS
-    tender_class = Tender
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")

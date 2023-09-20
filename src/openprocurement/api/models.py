@@ -718,6 +718,13 @@ class Reference(Model):
     title = StringType()
 
 
+class ContractValue(Value):
+    amountNet = FloatType(min_value=0)
+
+
+PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
+
+
 # Validations
 def validate_telephone(value):
     if value and re.match("^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", value) is None:

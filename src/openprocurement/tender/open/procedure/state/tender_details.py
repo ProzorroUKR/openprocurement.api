@@ -1,7 +1,8 @@
+from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.utils import dt_from_iso, check_auction_period
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.tender.open.constants import (
     TENDERING_EXTRA_PERIOD,
@@ -11,12 +12,14 @@ from openprocurement.tender.open.constants import (
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calculate_clarif_business_date,
-    check_auction_period,
 )
 from openprocurement.api.utils import raise_operation_error
 
 
-class TenderDetailsState(TenderDetailsMixing, OpenTenderState):
+class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
+    tender_create_accreditations = (ACCR_3, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False

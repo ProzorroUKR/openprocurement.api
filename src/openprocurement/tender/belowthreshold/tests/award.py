@@ -6,7 +6,6 @@ from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch, change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.adapters import TenderBelowThersholdConfigurator
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
@@ -140,8 +139,8 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     initial_bids[1]["tenderers"][0]["identifier"]["id"] = "88837256"
     initial_bids[2]["tenderers"][0]["name"] = "Точно не Державне управління справами"
     initial_bids[2]["tenderers"][0]["identifier"]["id"] = "44437256"
-    reverse = TenderBelowThersholdConfigurator.reverse_awarding_criteria
-    awarding_key = TenderBelowThersholdConfigurator.awarding_criteria_key
+    reverse = False
+    awarding_key = "amount"
     docservice = True
 
     def setUp(self):

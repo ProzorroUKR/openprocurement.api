@@ -1,3 +1,4 @@
+from openprocurement.api.auth import ACCR_1, ACCR_5, ACCR_2
 from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
@@ -8,6 +9,10 @@ from openprocurement.tender.core.utils import calculate_clarif_business_date
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
+    tender_create_accreditations = (ACCR_1, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_2,)
+
     allow_tender_period_start_date_change = True
 
     def on_post(self, tender):
@@ -48,6 +53,10 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"]["clarificationsUntil"] = clarifications_until.isoformat()
 
+    def validate_tender_period_extension(self, tender):
+        pass
 
-class TenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
+
+class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+

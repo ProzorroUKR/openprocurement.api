@@ -6,9 +6,8 @@ from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    normalize_should_start_after,
+    normalize_should_start_after, calc_auction_end_time,
 )
-from openprocurement.tender.core.utils import calc_auction_end_time
 
 LOGGER = getLogger(__name__)
 

@@ -282,22 +282,20 @@ def create_tender_invalid(self):
             }
         ],
     )
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        data = deepcopy(self.initial_data["lots"])
-        self.initial_data["lots"][0]["minimalStep"] = {"amount": "1.0"}
-        response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-        self.initial_data["lots"] = data
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{'description':
-                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              'location': 'body', 'name': 'lots'}
-             ]
-        )
+    data = deepcopy(self.initial_data["lots"])
+    self.initial_data["lots"][0]["minimalStep"] = {"amount": "1.0"}
+    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    self.initial_data["lots"] = data
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description':
+              [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+          'location': 'body', 'name': 'lots'}
+         ]
+    )
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
     if get_now() > CPV_ITEMS_CLASS_FROM:
@@ -764,24 +762,22 @@ def patch_tender(self):
     # response = self.app.patch_json('/tenders/{}'.format(tender['id']), {'data': {'status': 'active.auction'}})
     # self.assertEqual(response.status, '200 OK')
 
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        lots = deepcopy(self.initial_lots)
-        lots[0]["minimalStep"]["amount"] = 123
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-            {"data": {"lots": lots}},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [{'description':
-                  [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              'location': 'body', 'name': 'lots'}
-             ],
-        )
+    lots = deepcopy(self.initial_lots)
+    lots[0]["minimalStep"]["amount"] = 123
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+        {"data": {"lots": lots}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description':
+              [{'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+          'location': 'body', 'name': 'lots'}
+         ],
+    )
 
     # response = self.app.get('/tenders/{}'.format(tender['id']))
     # self.assertEqual(response.status, '200 OK')

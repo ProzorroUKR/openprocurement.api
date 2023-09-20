@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.validation import validate_accreditat
 
 
 class TenderQuestionStateMixin:
-    create_accreditations: set = None  # formerly tender.edit_accreditations
+    question_create_accreditations: set = None  # formerly tender.edit_accreditations
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()
@@ -23,10 +23,10 @@ class TenderQuestionStateMixin:
         self.validate_question_operation(get_tender(), question)
 
     def validate_question_accreditation_level(self):
-        if not self.create_accreditations:
+        if not self.question_create_accreditations:
             raise AttributeError("Question create accreditations are not configured")
         validate_accreditation_level(
-            levels=self.create_accreditations,
+            levels=self.question_create_accreditations,
             item="question",
             operation="creation",
         )(get_request())

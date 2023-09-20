@@ -61,7 +61,7 @@ def test_get_tender_plans_empty(app, tender):
 
 
 def test_post_tender_plan_403(app, tender):
-    app.post_json("/tenders/{}/plans".format(tender["data"]["id"]), status=403)
+    app.post_json("/tenders/{}/plans".format(tender["data"]["id"]), {"data": {}}, status=403)
 
 
 def test_post_tender_plan_empty(app, tender):

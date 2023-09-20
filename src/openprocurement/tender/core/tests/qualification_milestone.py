@@ -183,17 +183,16 @@ class BaseTenderMilestone24HMixin:
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-            with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-                # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
+            # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
-                response = self.app.patch_json(
-                    "/tenders/{}/{}s/{}?acc_token={}".format(
-                        self.tender_id, self.context_name, self.context_id, self.tender_token
-                    ),
-                    {"data": activation_data},
-                    status=200
-                )
-                self.assertEqual(response.json["data"]["status"], "active")
+            response = self.app.patch_json(
+                "/tenders/{}/{}s/{}?acc_token={}".format(
+                    self.tender_id, self.context_name, self.context_id, self.tender_token
+                ),
+                {"data": activation_data},
+                status=200
+            )
+            self.assertEqual(response.json["data"]["status"], "active")
 
         # check appending milestone at active qualification status
         # remove milestone to skip "only one" validator
@@ -273,15 +272,14 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-            with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-                response = self.app.patch_json(
-                    "/tenders/{}/{}s/{}?acc_token={}".format(
-                        self.tender_id, self.context_name, self.context_id, self.tender_token
-                    ),
-                    {"data": {"status": "unsuccessful"}},
-                    status=200
-                )
-                self.assertEqual(response.json["data"]["status"], "unsuccessful")
+            response = self.app.patch_json(
+                "/tenders/{}/{}s/{}?acc_token={}".format(
+                    self.tender_id, self.context_name, self.context_id, self.tender_token
+                ),
+                {"data": {"status": "unsuccessful"}},
+                status=200
+            )
+            self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
         # check appending milestone at active qualification status
         # remove milestone to skip "only one" validator
@@ -332,21 +330,20 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-            with patch("openprocurement.tender.core.validation.get_now", lambda: get_now() + timedelta(hours=24)):
-                response = self.app.patch_json(
-                    "/tenders/{}/{}s/{}?acc_token={}".format(
-                        self.tender_id, self.context_name, self.context_id, self.tender_token
-                    ),
-                    {"data": activation_data},
-                    status=200
-                )
-                self.assertEqual(response.json["data"]["status"], "active")
-                response = self.app.patch_json(
-                    "/tenders/{}/{}s/{}?acc_token={}".format(
-                        self.tender_id, self.context_name, self.context_id, self.tender_token
-                    ),
-                    {"data": {"status": "cancelled"}},
-                )
+            response = self.app.patch_json(
+                "/tenders/{}/{}s/{}?acc_token={}".format(
+                    self.tender_id, self.context_name, self.context_id, self.tender_token
+                ),
+                {"data": activation_data},
+                status=200
+            )
+            self.assertEqual(response.json["data"]["status"], "active")
+            response = self.app.patch_json(
+                "/tenders/{}/{}s/{}?acc_token={}".format(
+                    self.tender_id, self.context_name, self.context_id, self.tender_token
+                ),
+                {"data": {"status": "cancelled"}},
+            )
 
         # check appending milestone at active qualification status
         # remove milestone to skip "only one" validator
@@ -643,39 +640,37 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         if procurement_method == "closeFrameworkAgreementUA":
             return
 
-        with patch("openprocurement.tender.core.validation.get_now", lambda: due_date + timedelta(seconds=1)):
-            with patch("openprocurement.tender.core.procedure.validation.get_now",
-                       lambda: due_date + timedelta(seconds=1)):
-                self.app.post_json(
-                    "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                        self.tender_id, bid_id, bid_token),
-                    {"data": {
-                        "title": "name.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                        "documentType": doc_type
-                    }},
-                    status=403
-                )
-                self.app.put_json(
-                    "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                        self.tender_id, bid_id, document["id"], bid_token),
-                    {"data": {
-                        "title": "lorem(5).doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                        "documentType": doc_type
-                    }},
-                    status=403
-                )
-                self.app.patch_json(
-                    "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
-                        self.tender_id, bid_id, document["id"], bid_token),
-                    {"data": {"title": "Spam(3).json"}},
-                    status=403
-                )
+        with patch("openprocurement.tender.core.procedure.validation.get_now", lambda: due_date + timedelta(seconds=1)):
+            self.app.post_json(
+                "/tenders/{}/bids/{}/documents?acc_token={}".format(
+                    self.tender_id, bid_id, bid_token),
+                {"data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": doc_type
+                }},
+                status=403
+            )
+            self.app.put_json(
+                "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+                    self.tender_id, bid_id, document["id"], bid_token),
+                {"data": {
+                    "title": "lorem(5).doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": doc_type
+                }},
+                status=403
+            )
+            self.app.patch_json(
+                "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
+                    self.tender_id, bid_id, document["id"], bid_token),
+                {"data": {"title": "Spam(3).json"}},
+                status=403
+            )
 
 
 class TenderAwardMilestoneNoALPMixin(BaseTenderAwardMilestoneALPMixin):

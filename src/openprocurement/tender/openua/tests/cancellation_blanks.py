@@ -1080,19 +1080,16 @@ def access_create_tender_cancellation_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    with patch(
-            "openprocurement.tender.core.views.cancellation_complaint.get_now",
-            return_value=get_now() + timedelta(days=5)):
-        response = self.app.patch_json(
-            "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-                self.tender_id, self.cancellation_id, complaint_id, self.tender_token),
-            {"data": {"tendererAction": "Tenderer action"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        data = response.json["data"]
-        self.assertEqual(data["tendererAction"], "Tenderer action")
-        self.assertEqual(data["status"], "resolved")
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.cancellation_id, complaint_id, self.tender_token),
+        {"data": {"tendererAction": "Tenderer action"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json["data"]
+    self.assertEqual(data["tendererAction"], "Tenderer action")
+    self.assertEqual(data["status"], "resolved")
 
     self.set_status("active.qualification")
 
@@ -1393,7 +1390,7 @@ def activate_cancellation(self):
     self.assertEqual(complaint["rejectReason"], "cancelledByComplainant")
 
     with patch(
-            "openprocurement.tender.core.utils.get_now",
+            "openprocurement.tender.core.procedure.utils.get_now",
             return_value=get_now() + timedelta(days=11)):
         response = self.check_chronograph()
 
@@ -1712,20 +1709,16 @@ def patch_tender_cancellation_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    with patch(
-            "openprocurement.tender.core.views.cancellation_complaint.get_now",
-            return_value=get_now() + timedelta(days=5)) as mocked:
-
-        response = self.app.patch_json(
-            "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
-                self.tender_id, self.cancellation_id, complaint_id, self.tender_token),
-            {"data": {"tendererAction": "Tenderer action"}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        data = response.json["data"]
-        self.assertEqual(data["tendererAction"], "Tenderer action")
-        self.assertEqual(data["status"], "resolved")
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}/complaints/{}?acc_token={}".format(
+            self.tender_id, self.cancellation_id, complaint_id, self.tender_token),
+        {"data": {"tendererAction": "Tenderer action"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json["data"]
+    self.assertEqual(data["tendererAction"], "Tenderer action")
+    self.assertEqual(data["status"], "resolved")
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))

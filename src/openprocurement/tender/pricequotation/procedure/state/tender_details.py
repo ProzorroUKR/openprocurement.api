@@ -1,3 +1,4 @@
+from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
@@ -9,6 +10,9 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
+    tender_create_accreditations = (ACCR_1, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_2,)
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
