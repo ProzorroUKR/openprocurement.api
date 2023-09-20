@@ -4,12 +4,15 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.models import (
     Model,
+    BaseType,
     ListType,
     IsoDateTimeType,
     Identifier,
     validate_telephone,
 )
+from openprocurement.api.validation import validate_items_uniq
 
+from openprocurement.contracting.core.procedure.models.contract_base import Item as BaseItem
 from openprocurement.contracting.core.procedure.models.contract_base import (
     Address,
     ContactPoint,
@@ -19,18 +22,28 @@ from openprocurement.contracting.core.procedure.models.contract_base import (
     BaseContract,
 )
 from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
-
+from openprocurement.tender.core.procedure.models.unit import Unit
 
 class SignerInfo(Model):
     name = StringType(required=True)
     email = EmailType(required=True)
     telephone = StringType(required=True)
     iban = StringType(min_length=15, max_length=33, required=True)
-    signerDocument = StringType(required=True)
-    organizationStatus = StringType(required=True)
+    basisOf = StringType(required=True)
+    position = StringType(required=True)
 
     def validate_telephone(self, data, value):
         validate_telephone(value)
+
+
+class Attribute(Model):
+    name = StringType(required=True)
+    unit = ModelType(Unit)
+    values = ListType(BaseType(required=True))
+
+
+class Item(BaseItem):
+    attributes = ListType(ModelType(Attribute, required=True))
 
 
 class Buyer(Model):
@@ -65,6 +78,7 @@ class PostContract(BasePostContract):
 
 class PatchContract(BasePatchContract):
     status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
+    items = ListType(ModelType(Item, required=True), min_size=1)
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
@@ -92,7 +106,7 @@ class Contract(BaseContract):
         Buyer, required=True
     )
     suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
-
+    items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateUri = StringType()
 
     bid_owner = StringType(required=True)

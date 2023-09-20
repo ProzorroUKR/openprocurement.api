@@ -58,45 +58,6 @@ Content-Type: application/json
     "contractID": "UA-2023-09-01-000001-a-1",
     "dateModified": "2023-09-01T01:00:00+03:00",
     "dateCreated": "2023-09-01T01:00:00+03:00",
-    "items": [
-      {
-        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
-        "description": "футляри до державних нагород",
-        "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2016-03-20T18:47:47.136678+02:00",
-          "endDate": "2016-03-23T18:47:47.136678+02:00"
-        },
-        "classification": {
-          "description": "Комп’ютерне обладнанн",
-          "scheme": "ДК021",
-          "id": "30230000-0"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "штук",
-          "value": {
-            "amount": 12.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "H87"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "value": {
@@ -134,6 +95,45 @@ Content-Type: application/json
           "locality": "м. Київ",
           "region": "м. Київ",
           "postalCode": "01220",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
+        "description": "футляри до державних нагород",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2016-03-20T18:47:47.136678+02:00",
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
+        },
+        "classification": {
+          "description": "Комп’ютерне обладнанн",
+          "scheme": "ДК021",
+          "id": "30230000-0"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "штук",
+          "value": {
+            "amount": 12.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "H87"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
           "countryName": "Україна"
         }
       }

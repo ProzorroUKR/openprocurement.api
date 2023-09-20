@@ -67,8 +67,8 @@ test_signer_info = {
     "telephone": "+380950000000",
     "email": "example@email.com",
     "iban": "1" * 15,
-    "signerDocument": "документ який дозволяє",
-    "organizationStatus": "статус",
+    "basisOf": "Статут компанії",
+    "position": "Генеральний директор",
 }
 
 test_contract_data_wo_value_amount_net = deepcopy(test_contract_data)

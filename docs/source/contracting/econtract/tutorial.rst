@@ -21,7 +21,7 @@ Contract is transferred from the tender system by an automated process.
 Creating contract
 -----------------
 
-Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender (with a limited set of fields) and in the contracting module with a full set of fields in `pending` statuses.
+Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender (with a limited set of fields) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 
@@ -153,17 +153,17 @@ There are two ways for cancelling contract:
 Cancelling from award
 ~~~~~~~~~~~~~~~~~~~~~
 
-All you need, it's just patch award status to `cancelled`
+All you need, it's just patch award status to ``cancelled``
 
 .. http:example:: http/award-cancelling.http
    :code:
 
-Tender contract **automatically** turned to `cancelled`
+Tender contract **automatically** turned to ``cancelled``
 
 .. http:example:: http/tender-contract-cancelled.http
    :code:
 
-Contract in contracting also **automatically** turned to `cancelled`
+Contract in contracting also **automatically** turned to ``cancelled``
 
 .. http:example:: http/contract-cancelled.http
    :code:
@@ -171,7 +171,7 @@ Contract in contracting also **automatically** turned to `cancelled`
 Cancelling from contract
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If  you try to patch last contract in `pending` to `cancelled` you'll get error:
+If  you try to patch last contract in ``pending`` to ``cancelled`` you'll get error:
 
 .. http:example:: http/contract-cancelling-error.http
    :code:
@@ -186,13 +186,13 @@ If you try activate contract without that information you'll get error:
 .. http:example:: http/contract-activating-error.http
    :code:
 
-Buyer fill signer information using `contract_token` or `tender_token`:
+Buyer fill signer information using ``contract_token`` or ``tender_token``:
 
 .. http:example:: http/contract-owner-add-signer-info.http
    :code:
 
 
-Supplier fill signer information using `bid_token`:
+Supplier fill signer information using ``bid_token``:
 
 .. http:example:: http/contract-supplier-add-signer-info.http
    :code:
