@@ -365,7 +365,12 @@ def patch_tender_award(self):
 
 
 def move_award_contract_to_contracting(self):
-    request_path = "/tenders/{}/awards".format(self.tender_id)
+    tender = self.mongodb.tenders.get(self.tender_id)
+    criterion = tender["criteria"][0]
+    criterion["relatesTo"] = "item"
+    criterion["relatedItem"] = tender["items"][0]["id"]
+    self.mongodb.tenders.save(tender)
+
     award_id = self.award_ids[-1]
 
     bid_token = self.initial_bids_tokens[0]
@@ -410,7 +415,9 @@ def move_award_contract_to_contracting(self):
     }
     if "contractTemplateUri" in self.initial_data:
         contract_fields.add("contractTemplateUri")
+
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
+    self.assertIn("attributes", response.json["data"]["items"][0])
 
     response = self.app.put_json(
         f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
@@ -420,8 +427,8 @@ def move_award_contract_to_contracting(self):
                 "telephone": "+380950000000",
                 "email": "example@email.com",
                 "iban": "1" * 15,
-                "signerDocument": "документ який дозволяє",
-                "organizationStatus": "статус",
+                "basisOf": "документ який дозволяє",
+                "position": "статус",
             }
         }
     )
@@ -436,8 +443,8 @@ def move_award_contract_to_contracting(self):
                 "telephone": "+380950000000",
                 "email": "example@email.com",
                 "iban": "1" * 15,
-                "signerDocument": "документ який дозволяє",
-                "organizationStatus": "статус",
+                "basisOf": "документ який дозволяє",
+                "position": "статус",
             }
         }
     )

@@ -163,6 +163,41 @@ def delete_buyers_attr(objs):
                 del obj[attr]
 
 
+def set_attributes_to_contract_items(tender, bid, contract):
+    req_responses = {
+        rr["requirement"]["id"]: rr["values"]
+        if rr.get("values") else [rr["value"]]
+        for rr in bid.get("requirementResponses", "")
+    }
+
+    items_attributes = {}
+    for c in tender.get("criteria", ""):
+        if c.get("relatesTo", "") != "item":
+            continue
+
+        item_id = c["relatedItem"]
+        if item_id not in items_attributes:
+            items_attributes[item_id] = []
+
+        for rg in c.get("requirementGroups", ""):
+            for req in rg.get("requirements", ""):
+                if req["id"] not in req_responses:
+                    continue
+
+                item_attr = {
+                    "name": req["title"],
+                    "values": req_responses[req["id"]],
+                }
+                if "unit" in req:
+                    item_attr["unit"] = req["unit"]
+
+                items_attributes[item_id].append(item_attr)
+
+    for item in contract["items"]:
+        if item["id"] in items_attributes:
+            item["attributes"] = items_attributes[item["id"]]
+
+
 def get_additional_contract_data(request, contract, tender, award):
     if "date" in contract:
         del contract["date"]
@@ -186,6 +221,8 @@ def get_additional_contract_data(request, contract, tender, award):
 
     delete_buyers_attr([buyer])
     delete_buyers_attr(contract["suppliers"])
+
+    set_attributes_to_contract_items(tender, bid, contract)
 
     return {
         "buyer": buyer,

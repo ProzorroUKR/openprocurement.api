@@ -69,6 +69,7 @@ class PostContract(BasePostContract):
 
     amountPaid = ModelType(AmountPaid)
     contractTemplateUri = StringType()
+    items = ListType(ModelType(Item, required=True))
     buyer = ModelType(
         Buyer, required=True
     )
