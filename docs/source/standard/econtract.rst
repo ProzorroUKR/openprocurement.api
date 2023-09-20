@@ -71,7 +71,7 @@ Schema
     The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.
 
 :suppliers:
-    List of :ref:`Buyer` objects, auto-generated, read-only
+    List of :ref:`EContractOrganization` objects, auto-generated, read-only
 
 :value:
     :ref:`ContractValue` object, auto-generated
@@ -96,7 +96,7 @@ Schema
 
 
 :buyer:
-   :ref:`Buyer`
+   :ref:`EContractOrganization`
 
    |ocdsDescription|
    The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.

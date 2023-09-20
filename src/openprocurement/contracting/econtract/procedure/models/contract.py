@@ -24,6 +24,7 @@ from openprocurement.contracting.core.procedure.models.contract_base import (
 from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
 from openprocurement.tender.core.procedure.models.unit import Unit
 
+
 class SignerInfo(Model):
     name = StringType(required=True)
     email = EmailType(required=True)
@@ -46,7 +47,7 @@ class Item(BaseItem):
     attributes = ListType(ModelType(Attribute, required=True))
 
 
-class Buyer(Model):
+class Organization(Model):
     """An organization."""
     name = StringType(required=True)
     name_en = StringType()
@@ -71,7 +72,7 @@ class PostContract(BasePostContract):
     contractTemplateUri = StringType()
     items = ListType(ModelType(Item, required=True))
     buyer = ModelType(
-        Buyer, required=True
+        Organization, required=True
     )
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)
@@ -96,17 +97,17 @@ class PatchContractPending(PatchContract):
 class AdministratorPatchContract(Model):
     contractNumber = StringType()
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
-    buyer = ModelType(Buyer)
+    suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
+    buyer = ModelType(Organization)
     mode = StringType(choices=["test"])
 
 
 class Contract(BaseContract):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
     buyer = ModelType(
-        Buyer, required=True
+        Organization, required=True
     )
-    suppliers = ListType(ModelType(Buyer, required=True), min_size=1, max_size=1)
+    suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateUri = StringType()
 

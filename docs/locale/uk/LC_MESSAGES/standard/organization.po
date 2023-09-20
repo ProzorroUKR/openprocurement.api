@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-05-26 15:46+0300\n"
+"POT-Creation-Date: 2023-09-21 00:02+0300\n"
 "PO-Revision-Date: 2019-10-02 21:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.12.1\n"
 
 msgid "Organization"
 msgstr "Organization"
@@ -100,6 +100,15 @@ msgid "Validation depends on:"
 msgstr ""
 
 msgid ":ref:`ORGANIZATION_SCALE_FROM` constant"
+msgstr ""
+
+msgid "EContractOrganization"
+msgstr ""
+
+msgid "signerInfo"
+msgstr ""
+
+msgid ":ref:`SignerInfo`"
 msgstr ""
 
 msgid "Identifier"

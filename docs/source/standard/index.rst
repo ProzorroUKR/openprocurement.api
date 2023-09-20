@@ -13,7 +13,6 @@ areas that were not covered by it.
    agreement
    award
    bid
-   buyer
    cancellation
    change
    complaint
