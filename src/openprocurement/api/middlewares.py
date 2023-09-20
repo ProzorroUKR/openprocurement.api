@@ -27,7 +27,7 @@ class DBSessionCookieMiddleware:
                     session.advance_cluster_time(values["cluster_time"])
                     session.advance_operation_time(values["operation_time"])
                 except Exception as exc:
-                    warning = f"Error on {self.cookie_name} cookie parsing: {exc} with {values}"
+                    warning = f"Error on {self.cookie_name} cookie parsing: {exc}"
                     LOGGER.debug(warning)
 
             set_db_session(session)
