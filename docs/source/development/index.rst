@@ -9,3 +9,4 @@ Contents:
    :maxdepth: 1
 
    collective_quantity_tender
+   awarding

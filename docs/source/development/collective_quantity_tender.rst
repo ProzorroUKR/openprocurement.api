@@ -258,7 +258,7 @@ Auction will use ``items.unit.value`` instead of ``bid.value`` or ``lotValues.va
 During the auction process bidders can decrease their ``items.unit.value`` amounts to compete.
 
 
-.. image:: img/item_price_auction.png
+.. image:: img/collective_quantity_tender/item_price_auction.png
 
 
 After the announcement stage if the bidder decreased the price,
@@ -338,7 +338,7 @@ Awarding
 --------
 Awarding process is changed for this procedure
 
-.. image:: img/item_price_awarding.png
+.. image:: img/collective_quantity_tender/item_price_awarding.png
 
 
 Contracting

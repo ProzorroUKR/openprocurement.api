@@ -47,7 +47,7 @@ def convert_documents(documents, lot_id=None):
         if doc_id not in latest_versions or latest_versions[doc_id]["dateModified"] < d["dateModified"]:
             latest_versions[doc_id] = {
                 "id": d["id"],
-                "title": d["title"],
+                "title": d.get("title"),
                 "title_en": d.get("title_en"),
                 "url": absolute_url(d["url"]),
                 "datePublished": d["datePublished"],
