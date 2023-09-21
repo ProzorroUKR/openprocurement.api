@@ -17,6 +17,7 @@ from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import SESSION, apply_data_patch, get_now
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_date
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING, ABOVE_THRESHOLD
 
 now = datetime.now()
 
@@ -256,8 +257,8 @@ class BaseCoreWebTest(BaseWebTest):
             ]
         }
         if tender["procurementMethodType"] in (
-            "aboveThreshold",
-            "dynamicPurchasingSystem",
+            ABOVE_THRESHOLD,
+            COMPETITIVE_ORDERING,
             "aboveThresholdUA",
             "aboveThresholdUA.defense",
             "simple.defense",

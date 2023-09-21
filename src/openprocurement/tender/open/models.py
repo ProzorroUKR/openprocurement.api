@@ -81,7 +81,7 @@ from openprocurement.tender.belowthreshold.models import (
 )
 from openprocurement.tender.open.constants import (
     COMPLAINT_SUBMIT_TIME,
-    PERIOD_END_REQUIRED_FROM, ABOVE_THRESHOLD,
+    PERIOD_END_REQUIRED_FROM, ABOVE_THRESHOLD, COMPETITIVE_ORDERING,
 )
 
 
@@ -858,5 +858,5 @@ class Tender(BaseTender):
 
 class DPSTender(Tender):
     # FIXME: temporary model to support DPS in old code
-    procurementMethodType = StringType(default="dynamicPurchasingSystem")
+    procurementMethodType = StringType(default=COMPETITIVE_ORDERING)
     agreements = ListType(ModelType(AgreementUUID), default=list())

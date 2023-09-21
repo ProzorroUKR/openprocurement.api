@@ -11,7 +11,7 @@ from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.open.constants import DPS_TYPE
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
@@ -23,7 +23,7 @@ def pre_selection_populator(tender):
     if pmt in (
         CFA_SELECTION,
         PQ,
-        DPS_TYPE,
+        COMPETITIVE_ORDERING,
     ):
         return True
     return False
