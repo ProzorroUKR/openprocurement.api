@@ -33,7 +33,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
     COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
-    DPS_TYPE,
+    COMPETITIVE_ORDERING,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_start_date,
@@ -45,7 +45,7 @@ from openprocurement.api.validation import validate_items_uniq
 class PostTender(BasePostTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, DPS_TYPE], default=ABOVE_THRESHOLD)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], default=ABOVE_THRESHOLD)
     awardCriteria = StringType(
         choices=[
             AWARD_CRITERIA_LOWEST_COST,
@@ -125,7 +125,7 @@ class Tender(BaseTender):
             "unsuccessful",
         ],
     )
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, DPS_TYPE], required=True)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], required=True)
     awardCriteria = StringType(
         choices=[
             AWARD_CRITERIA_LOWEST_COST,

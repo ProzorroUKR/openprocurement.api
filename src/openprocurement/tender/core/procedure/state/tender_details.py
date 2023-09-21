@@ -39,7 +39,7 @@ from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     calculate_tender_date,
 )
-from openprocurement.tender.open.constants import DPS_TYPE
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
@@ -228,7 +228,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         super().status_up(before, after, data)
 
     def validate_lots_count(self, tender):
-        if tender.get("procurementMethodType") == DPS_TYPE:
+        if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
             # TODO: consider using config
             max_lots_count = 1
             if len(tender.get("lots", "")) > max_lots_count:

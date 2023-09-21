@@ -21,10 +21,10 @@ POST_SUBMIT_TIME = timedelta(days=3)
 UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
 
 ABOVE_THRESHOLD = "aboveThreshold"
-DPS_TYPE = "dynamicPurchasingSystem"
+COMPETITIVE_ORDERING = "competitiveOrdering"
 
 ABOVE_THRESHOLD_GROUP_NAME = "aboveThresholdGroup"
 ABOVE_THRESHOLD_GROUP = [
     ABOVE_THRESHOLD,
-    DPS_TYPE,
+    COMPETITIVE_ORDERING,
 ]
