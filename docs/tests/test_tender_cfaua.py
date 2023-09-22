@@ -33,6 +33,7 @@ from tests.base.data import (
     test_docs_bid_document,
     test_docs_bid_document2,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 bid = deepcopy(test_docs_lot_bid)
 bid2 = deepcopy(test_docs_lot_bid2)
@@ -48,9 +49,10 @@ bid2.update(test_docs_qualified)
 bid3.update(test_docs_qualified)
 
 TARGET_DIR = 'docs/source/tendering/cfaua/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/cfaua/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -66,6 +68,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="closeFrameworkAgreementUA",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'

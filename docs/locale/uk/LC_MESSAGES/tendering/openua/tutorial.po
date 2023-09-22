@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 03:36+0300\n"
+"POT-Creation-Date: 2023-09-22 05:42+0300\n"
 "PO-Revision-Date: 2020-05-10 18:00+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -16,6 +16,57 @@ msgstr ""
 
 msgid "Tutorial"
 msgstr "Туторіал"
+
+msgid "Configuration"
+msgstr "Конфігурація"
+
+msgid "The set of possible configuration values:"
+msgstr "Набір можливих значень конфігурації:"
+
+msgid "name"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "You can look for more details in :ref:`config` section."
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender"
 msgstr "Створення закупівлі"

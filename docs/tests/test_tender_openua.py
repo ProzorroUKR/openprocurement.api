@@ -29,6 +29,7 @@ from tests.base.data import (
     test_docs_subcontracting,
     test_docs_qualified,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_ua_data = deepcopy(test_docs_tender_openua)
 bid = deepcopy(test_docs_bid_draft)
@@ -39,9 +40,10 @@ bid.update(test_docs_subcontracting)
 bid.update(test_docs_qualified)
 
 TARGET_DIR = 'docs/source/tendering/openua/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/openua/csv/'
 
 
-class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
+class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -57,6 +59,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderUAResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="aboveThresholdUA",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'

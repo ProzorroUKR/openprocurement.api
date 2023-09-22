@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 03:36+0300\n"
+"POT-Creation-Date: 2023-09-22 04:28+0300\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -15,6 +15,60 @@ msgstr ""
 
 msgid "Tutorial"
 msgstr "Туторіал"
+
+msgid "Configuration"
+msgstr "Конфігурація"
+
+msgid "The set of possible configuration values:"
+msgstr "Набір можливих значень конфігурації:"
+
+msgid "name"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "1 - 9"
+msgstr ""
+
+msgid "1"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "You can look for more details in :ref:`config` section."
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender"
 msgstr "Створення закупівлі"
@@ -199,9 +253,6 @@ msgstr ""
 msgid "`award`"
 msgstr ""
 
-msgid "true"
-msgstr ""
-
 msgid "true/false"
 msgstr ""
 
@@ -209,9 +260,6 @@ msgid "Amount should be greater than amountNet and differ by no more than 20%"
 msgstr ""
 
 msgid "Amount should be less or equal to awarded amount"
-msgstr ""
-
-msgid "false"
 msgstr ""
 
 msgid "AmountNet should be less or equal to awarded amount"
@@ -321,25 +369,4 @@ msgstr "Завантаження нової версії документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
-
-#~ msgid "Exploring basic rules"
-#~ msgstr "Розглянемо основні правила"
-
-#~ msgid "Let's try exploring the `/tenders` endpoint:"
-#~ msgstr "Подивимось як працює точка входу `/tenders`:"
-
-#~ msgid "Just invoking it reveals empty set."
-#~ msgstr "При виклику видає пустий набір."
-
-#~ msgid "Now let's attempt creating some tender:"
-#~ msgstr "Спробуймо створити нову закупівлю:"
-
-#~ msgid "Error states that the only accepted Content-Type is `application/json`."
-#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-#~ msgid "Let's satisfy the Content-type requirement:"
-#~ msgstr "Задовольнимо вимогу типу вмісту (Content-type):"
-
-#~ msgid "Error states that no `data` has been found in JSON body."
-#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 

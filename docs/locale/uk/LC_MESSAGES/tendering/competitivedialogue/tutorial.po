@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 03:36+0300\n"
+"POT-Creation-Date: 2023-09-22 05:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,57 @@ msgstr ""
 
 msgid "Tutorial"
 msgstr "Туторіал"
+
+msgid "Configuration"
+msgstr "Конфігурація"
+
+msgid "The set of possible configuration values for `competitiveDialogueEU`:"
+msgstr "Набір можливих значень конфігурації для :`competitiveDialogueEU`"
+
+msgid "name"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "The set of possible configuration values for `competitiveDialogueUA`:"
+msgstr "Набір можливих значень конфігурації для :`competitiveDialogueUA`"
+
+msgid "You can look for more details in :ref:`config` section."
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender on first stage"
 msgstr "Створення закупівлі"

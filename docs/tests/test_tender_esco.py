@@ -31,6 +31,7 @@ from tests.base.data import (
     test_docs_bid_document2,
     test_docs_lots,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)
@@ -88,10 +89,12 @@ test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage'
 test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
 
 TARGET_DIR = 'docs/source/tendering/esco/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/esco/csv/'
+
 TARGET_DIR_MULTIPLE = 'docs/source/tendering/esco/multiple_lots_tutorial/'
 
 
-class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -107,6 +110,12 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="esco",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'

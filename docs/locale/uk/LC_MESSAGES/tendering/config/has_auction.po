@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-05-02 02:16+0300\n"
+"POT-Creation-Date: 2023-09-22 04:15+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,6 +42,9 @@ msgid "true,false"
 msgstr ""
 
 msgid "true"
+msgstr ""
+
+msgid "competitiveordering"
 msgstr ""
 
 msgid "aboveThresholdEU"
@@ -145,3 +148,4 @@ msgstr "немає поля `auctionUrl`"
 
 msgid "has no `participationUrl` field"
 msgstr "немає поля `participationUrl`"
+

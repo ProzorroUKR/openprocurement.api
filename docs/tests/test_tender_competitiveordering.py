@@ -19,14 +19,17 @@ from tests.base.data import (
     test_docs_tender_dps,
 )
 from tests.base.test import MockWebTestMixin, DumpsWebTestApp
+from tests.test_tender_config import TenderConfigCSVMixin
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/')
+TARGET_CSV_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/csv/')
 
 
 class TenderResourceTest(
     BaseTenderUAWebTest,
     MockWebTestMixin,
+    TenderConfigCSVMixin,
 ):
     AppClass = DumpsWebTestApp
 
@@ -42,6 +45,13 @@ class TenderResourceTest(
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="competitiveOrdering",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
     def create_framework(self):
         response = self.app.post_json("/frameworks", {
             "data": test_framework_dps_data,

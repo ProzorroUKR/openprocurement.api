@@ -41,6 +41,9 @@ msgstr ""
 msgid "false"
 msgstr ""
 
+msgid "competitiveordering"
+msgstr ""
+
 msgid "aboveThresholdEU"
 msgstr ""
 

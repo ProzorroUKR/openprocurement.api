@@ -26,13 +26,15 @@ from tests.base.data import (
     test_docs_tender_below_maximum,
     test_docs_funder,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_below)
 
 TARGET_DIR = 'docs/source/tendering/belowthreshold/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/belowthreshold/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -49,6 +51,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="belowThreshold",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs_2pc(self):
         self.app.authorization = ('Basic', ('broker', ''))

@@ -1,0 +1,8 @@
+name,values,default
+hasAuction,true,true
+hasAwardingOrder,true,true
+hasValueRestriction,true,true
+valueCurrencyEquality,true,true
+hasPrequalification,false,false
+minBidsNumber,1,1
+hasPreSelectionAgreement,true,true
