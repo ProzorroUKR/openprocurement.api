@@ -3,31 +3,6 @@
 Tutorial
 ========
 
-Exploring basic rules
----------------------
-
-Let's try exploring the `/tenders` endpoint:
-
-.. http:example:: http/tutorial/tender-listing.http
-   :code:
-
-Just invoking it reveals empty set.
-
-Now let's attempt creating some tender:
-
-.. http:example:: http/tutorial/tender-post-attempt.http
-   :code:
-
-Error states that the only accepted Content-Type is `application/json`.
-
-Let's satisfy the Content-type requirement:
-
-.. http:example:: http/tutorial/tender-post-attempt-json.http
-   :code:
-
-Error states that no `data` has been found in JSON body.
-
-
 .. index:: Tender
 
 Creating tender

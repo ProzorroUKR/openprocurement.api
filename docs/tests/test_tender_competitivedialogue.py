@@ -120,26 +120,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
     def test_stage1(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        # Write empty listing
-        with open(TARGET_DIR + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        # Try send bad data
-        with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(request_path, 'data', content_type='application/json', status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
-
         #### Creating tender
 
         test_tender_data_stage1["tenderPeriod"] = {"endDate": (get_now() + timedelta(days=31)).isoformat()}
@@ -1275,13 +1255,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with open(TARGET_DIR_MULTIPLE + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
+        self.app.authorization = ('Basic', ('broker', ''))
 
         #### Creating tender
 

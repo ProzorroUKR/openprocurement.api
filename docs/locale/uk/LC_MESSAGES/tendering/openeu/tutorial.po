@@ -3,38 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-17 17:37+0200\n"
+"POT-Creation-Date: 2023-09-22 03:36+0300\n"
 "PO-Revision-Date: 2019-12-19 14:55+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.11.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
-
-msgid "Exploring basic rules"
-msgstr "Базові правила"
-
-msgid "Let's try exploring the `/tenders` endpoint:"
-msgstr "Подивимось як працює точка входу `/tenders`:"
-
-msgid "Just invoking it reveals empty set."
-msgstr "При виклику видає пустий набір."
-
-msgid "Now let's attempt creating some tender:"
-msgstr "Спробуймо створити нову закупівлю:"
-
-msgid "Error states that the only accepted Content-Type is `application/json`."
-msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-msgid "Let's satisfy the Content-type requirement:"
-msgstr "Задовільнимо вимогу типу вмісту:"
-
-msgid "Error states that no `data` has been found in JSON body."
-msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 
 msgid "Creating tender"
 msgstr "Створення закупівлі"
@@ -404,4 +383,25 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`"
+
+#~ msgid "Exploring basic rules"
+#~ msgstr "Базові правила"
+
+#~ msgid "Let's try exploring the `/tenders` endpoint:"
+#~ msgstr "Подивимось як працює точка входу `/tenders`:"
+
+#~ msgid "Just invoking it reveals empty set."
+#~ msgstr "При виклику видає пустий набір."
+
+#~ msgid "Now let's attempt creating some tender:"
+#~ msgstr "Спробуймо створити нову закупівлю:"
+
+#~ msgid "Error states that the only accepted Content-Type is `application/json`."
+#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
+
+#~ msgid "Let's satisfy the Content-type requirement:"
+#~ msgstr "Задовільнимо вимогу типу вмісту:"
+
+#~ msgid "Error states that no `data` has been found in JSON body."
+#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 

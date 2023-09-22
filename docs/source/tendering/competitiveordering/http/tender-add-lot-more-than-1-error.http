@@ -1,0 +1,36 @@
+POST /api/2.5/tenders/ee0e79223d4142f4a502bfb88d0668cf/lots?acc_token=1ee10a880660408880911586b84c4682 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 213
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Лот №2",
+    "description": "Опис Лот №2",
+    "value": {
+      "currency": "UAH",
+      "amount": 500
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 5
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "lots",
+      "description": "Can't create more than 1 lots"
+    }
+  ]
+}
+

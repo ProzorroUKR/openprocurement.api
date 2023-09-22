@@ -21,7 +21,7 @@ from tests.base.data import (
 from tests.base.test import MockWebTestMixin, DumpsWebTestApp
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/dps/http/')
+TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/')
 
 
 class TenderResourceTest(
@@ -132,7 +132,7 @@ class TenderResourceTest(
 
         data = deepcopy(test_docs_tender_dps)
         data["items"] = [data["items"][0]]
-        data["procurementMethodType"] = "dynamicPurchasingSystem"
+        data["procurementMethodType"] = "competitiveOrdering"
         data['procuringEntity']['identifier']['id'] = test_framework_dps_data['procuringEntity']['identifier']['id']
 
         data['agreements'] = [{'id': self.agreement_id}]

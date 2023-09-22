@@ -69,24 +69,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with  open(TARGET_DIR + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        with  open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
         self.app.authorization = ('Basic', ('broker', ''))
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
 
         #### Creating tender
 
@@ -744,16 +727,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with open(TARGET_DIR_MULTI + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
         #### Creating tender
+
         self.app.authorization = ('Basic', ('broker', ''))
+
         with open(TARGET_DIR_MULTI + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',

@@ -12,7 +12,7 @@ Contents:
    config/index
    belowthreshold/index
    open/index
-   dps/index
+   competitiveordering/index
    openua/index
    openeu/index
    competitivedialogue/index
