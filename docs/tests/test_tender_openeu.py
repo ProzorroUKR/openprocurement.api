@@ -29,6 +29,7 @@ from tests.base.data import (
     test_docs_qualified,
     test_docs_tender_openeu,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_openeu)
 test_lots = deepcopy(test_docs_lots)
@@ -47,9 +48,11 @@ test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
 TARGET_DIR = 'docs/source/tendering/openeu/http/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/openeu/csv/'
+
 TARGET_DIR_MULTI = 'docs/source/tendering/openeu/http/multiple_lots_tutorial/'
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -65,6 +68,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="aboveThresholdEU",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'

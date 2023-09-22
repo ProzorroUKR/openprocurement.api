@@ -1,0 +1,142 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-22 04:15+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "Field `hasPrequalification` is a boolean field that indicates whether the tender has an pre qualification stage or not."
+msgstr ""
+
+msgid "Possible values for `hasPrequalification` field depends on `procurementMethodType` field:"
+msgstr ""
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "competitiveordering"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "true,false"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "hasPrequalification is `true`"
+msgstr ""
+
+msgid "Example tutorials:"
+msgstr ""
+
+msgid ":ref:`openeu` → :ref:`openeu_tutorial`"
+msgstr ""
+
+msgid ":ref:`esco` → :ref:`esco_tutorial`"
+msgstr ""
+
+msgid ":ref:`competitivedialogue` → :ref:`competitivedialogue_tutorial`"
+msgstr ""
+
+msgid ":ref:`cfaua` → :ref:`cfaua_tutorial`"
+msgstr ""
+
+msgid "hasPrequalification is `false`"
+msgstr ""
+
+msgid ":ref:`belowthreshold` → :ref:`tutorial`"
+msgstr ""
+
+msgid ":ref:`open` → :ref:`open_tutorial`"
+msgstr ""
+
+msgid ":ref:`openua` → :ref:`openua_tutorial`"
+msgstr ""
+
+msgid ":ref:`defense` → :ref:`defense_tutorial`"
+msgstr ""
+
+msgid ":ref:`limited` → :ref:`limited_tutorial`"
+msgstr ""
+
+msgid ":ref:`cfaselectionua` → :ref:`cfaselection_tutorial`"
+msgstr ""
+
+msgid ":ref:`pricequotation` → :ref:`pricequotation_tutorial`"
+msgstr ""
+

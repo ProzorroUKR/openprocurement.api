@@ -29,15 +29,17 @@ from tests.base.constants import (
     DOCS_URL,
     AUCTIONS_URL,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])
 bid_draft["status"] = "draft"
 
 TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/pricequotation/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -54,6 +56,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="priceQuotation",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs_publish_tenders(self):
         tender_data = deepcopy(test_tender_data)

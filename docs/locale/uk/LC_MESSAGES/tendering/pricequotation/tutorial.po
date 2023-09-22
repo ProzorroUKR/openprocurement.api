@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 03:36+0300\n"
+"POT-Creation-Date: 2023-09-22 05:42+0300\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -18,6 +18,54 @@ msgstr ""
 
 msgid "Tutorial"
 msgstr "Туторіал"
+
+msgid "Configuration"
+msgstr "Конфігурація"
+
+msgid "The set of possible configuration values:"
+msgstr "Набір можливих значень конфігурації:"
+
+msgid "name"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "1"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "You can look for more details in :ref:`config` section."
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender"
 msgstr "Створення закупівлі"

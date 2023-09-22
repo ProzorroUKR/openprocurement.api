@@ -39,7 +39,100 @@ TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
 TARGET_CSV_DIR = 'docs/source/tendering/config/csv/'
 
 
-class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
+class TenderConfigCSVMixin:
+    def write_config_values_csv(self, config_name, file_path):
+        pmts = [
+            "aboveThreshold",
+            "competitiveOrdering",
+            "aboveThresholdEU",
+            "aboveThresholdUA.defense",
+            "aboveThresholdUA",
+            "belowThreshold",
+            "closeFrameworkAgreementSelectionUA",
+            "closeFrameworkAgreementUA",
+            "competitiveDialogueEU",
+            "competitiveDialogueEU.stage2",
+            "competitiveDialogueUA",
+            "competitiveDialogueUA.stage2",
+            "esco",
+            "negotiation",
+            "negotiation.quick",
+            "priceQuotation",
+            "reporting",
+            "simple.defense",
+        ]
+
+        headers = [
+            "procurementMethodType",
+            "values",
+            "default",
+        ]
+
+        rows = []
+
+        for pmt in pmts:
+            schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
+            config_schema = schema["properties"][config_name]
+            row = self.get_config_row(pmt, config_schema)
+            rows.append(row)
+
+        with open(file_path, "w") as file_csv:
+            writer = csv.writer(file_csv)
+            writer.writerow(headers)
+            writer.writerows(rows)
+    def write_config_pmt_csv(self, pmt, file_path):
+        headers = [
+            "name",
+            "values",
+            "default",
+        ]
+
+        rows = []
+
+        schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
+
+        for config_name, config_schema in schema["properties"].items():
+            row = self.get_config_row(config_name, config_schema)
+            rows.append(row)
+
+        with open(file_path, "w") as file_csv:
+            writer = csv.writer(file_csv)
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+    def get_config_row(self, name, config_schema):
+        row = []
+
+        # row name
+        row.append(name)
+
+        # possible values
+        row.append(self.get_config_possible_values(config_schema))
+
+        # default value
+        config_default = config_schema.get("default", "")
+        row.append(json.dumps(config_default))
+
+        return row
+
+    def get_config_possible_values(self, config_schema):
+        separator = ","
+        empty = ""
+        if "enum" in config_schema:
+            config_values_enum = config_schema.get("enum", "")
+            config_values = separator.join(map(json.dumps, config_values_enum))
+            return config_values
+        elif "minimum" in config_schema and "maximum" in config_schema:
+            config_values_min = config_schema.get("minimum", "")
+            config_values_max = config_schema.get("maximum", "")
+            if config_values_min == config_values_max:
+                return config_values_min
+            else:
+                return f'{config_values_min} - {config_values_max}'
+        else:
+            return empty
+
+class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -74,77 +167,14 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, '201 Created')
 
-    def write_values_csv(self, config_name, file_name):
-        pmts = [
-            "aboveThreshold",
-            "aboveThresholdEU",
-            "aboveThresholdUA.defense",
-            "aboveThresholdUA",
-            "belowThreshold",
-            "closeFrameworkAgreementSelectionUA",
-            "closeFrameworkAgreementUA",
-            "competitiveDialogueEU",
-            "competitiveDialogueEU.stage2",
-            "competitiveDialogueUA",
-            "competitiveDialogueUA.stage2",
-            "esco",
-            "negotiation",
-            "negotiation.quick",
-            "priceQuotation",
-            "reporting",
-            "simple.defense",
-        ]
-
-        headers = [
-            "procurementMethodType",
-            "values",
-            "default",
-        ]
-        
-        separator = ","
-        empty = ""
-
-        rows = []
-
-        for pmt in pmts:
-            row = []
-            schema = standards.load(f"data_model/schema/TenderConfig/{pmt}.json")
-            config_schema = schema["properties"][config_name]
-
-            # procurementMethodType
-            row.append(pmt)
-
-            # possible values
-            if "enum" in config_schema:
-                config_values_enum = config_schema.get("enum", "")
-                config_values = separator.join(map(json.dumps, config_values_enum))
-                row.append(config_values)
-            elif "minimum" in config_schema and "maximum" in config_schema:
-                config_values_min = config_schema.get("minimum", "")
-                config_values_max = config_schema.get("maximum", "")
-                if config_values_min == config_values_max:
-                    row.append(config_values_min)
-                else:
-                    row.append(f'{config_values_min} - {config_values_max}')
-            else:
-                row.append(empty)
-
-            # default value
-            config_default = config_schema.get("default", "")
-            row.append(json.dumps(config_default))
-
-            rows.append(row)
-
-        with open(TARGET_CSV_DIR + file_name, "w") as file_csv:
-            writer = csv.writer(file_csv)
-            writer.writerow(headers)
-            writer.writerows(rows)
-
 
 class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_auction_values_csv(self):
-        self.write_values_csv(config_name="hasAuction", file_name="has-auction-values.csv")
+        self.write_config_values_csv(
+            config_name="hasAuction",
+            file_path=TARGET_CSV_DIR + "has-auction-values.csv",
+        )
 
     def test_docs_has_auction_true(self):
         request_path = '/tenders?opt_pretty=1'
@@ -511,7 +541,10 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
 class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_value_restriction_values_csv(self):
-        self.write_values_csv(config_name="hasAwardingOrder", file_name="has-awarding-order-values.csv")
+        self.write_config_values_csv(
+            config_name="hasAwardingOrder",
+            file_path=TARGET_CSV_DIR + "has-awarding-order-values.csv",
+        )
 
     def register_bids(self, tender_id, lot_id1, lot_id2):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -1106,7 +1139,10 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_value_restriction_values_csv(self):
-        self.write_values_csv(config_name="hasValueRestriction", file_name="has-value-restriction-values.csv")
+        self.write_config_values_csv(
+            config_name="hasValueRestriction",
+            file_path=TARGET_CSV_DIR + "has-value-restriction-values.csv",
+        )
 
     def test_docs_lots_has_value_restriction_true(self):
         config = deepcopy(self.initial_config)
@@ -1376,7 +1412,10 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
 class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_value_currency_equality_values_csv(self):
-        self.write_values_csv(config_name="valueCurrencyEquality", file_name="value-currency-equality-values.csv")
+        self.write_config_values_csv(
+            config_name="valueCurrencyEquality",
+            file_path=TARGET_CSV_DIR + "value-currency-equality-values.csv",
+        )
 
     def test_docs_lots_value_currency_equality_true(self):
         config = deepcopy(self.initial_config)
@@ -1725,7 +1764,10 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
 class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_min_bids_number_values_csv(self):
-        self.write_values_csv(config_name="minBidsNumber", file_name="min-bids-number-values.csv")
+        self.write_config_values_csv(
+            config_name="minBidsNumber",
+            file_path=TARGET_CSV_DIR + "min-bids-number-values.csv",
+        )
 
     def activate_tender(self, tender_id, owner_token):
         response = self.app.patch_json(
@@ -2058,13 +2100,16 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_prequalification_values_csv(self):
-        self.write_values_csv(config_name="hasPrequalification", file_name="has-prequalification-values.csv")
+        self.write_config_values_csv(
+            config_name="hasPrequalification",
+            file_path=TARGET_CSV_DIR + "has-prequalification-values.csv",
+        )
 
 
 class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_pre_selection_agreement_values_csv(self):
-        self.write_values_csv(
+        self.write_config_values_csv(
             config_name="hasPreSelectionAgreement",
-            file_name="has-pre-selection-agreement-values.csv",
+            file_path=TARGET_CSV_DIR + "has-pre-selection-agreement-values.csv",
         )

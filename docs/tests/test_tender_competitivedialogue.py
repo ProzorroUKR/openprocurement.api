@@ -52,6 +52,7 @@ from tests.base.data import (
     test_docs_tender_stage2UA,
     test_docs_bad_author,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data_stage1 = deepcopy(test_docs_tender_stage1)
 test_tender_data_stage2_multiple_lots = deepcopy(test_docs_tender_stage2_multiple_lots)
@@ -100,10 +101,12 @@ test_lots[1]['value'] = test_tender_data_stage1['value']
 test_lots[1]['minimalStep'] = test_tender_data_stage1['minimalStep']
 
 TARGET_DIR = 'docs/source/tendering/competitivedialogue/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/competitivedialogue/csv/'
+
 TARGET_DIR_MULTIPLE = 'docs/source/tendering/competitivedialogue/multiple_lots_tutorial/'
 
 
-class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -120,6 +123,30 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_eu_stage1_csv(self):
+        self.write_config_pmt_csv(
+            pmt="competitiveDialogueEU",
+            file_path=TARGET_CSV_DIR + "config-eu-stage1.csv",
+        )
+
+    def test_docs_config_ua_stage1_csv(self):
+        self.write_config_pmt_csv(
+            pmt="competitiveDialogueUA",
+            file_path=TARGET_CSV_DIR + "config-ua-stage1.csv",
+        )
+
+    def test_docs_config_eu_stage2_csv(self):
+        self.write_config_pmt_csv(
+            pmt="competitiveDialogueEU.stage2",
+            file_path=TARGET_CSV_DIR + "config-eu-stage2.csv",
+        )
+
+    def test_docs_config_ua_stage2_csv(self):
+        self.write_config_pmt_csv(
+            pmt="competitiveDialogueUA.stage2",
+            file_path=TARGET_CSV_DIR + "config-ua-stage2.csv",
+        )
 
     def test_stage1(self):
         self.tender_class = CompetitiveDialogEU

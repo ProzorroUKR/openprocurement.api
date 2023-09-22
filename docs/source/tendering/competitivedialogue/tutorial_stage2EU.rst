@@ -1,5 +1,16 @@
 .. _tutorial_stage2EU:
 
+Configuration
+-------------
+
+The set of possible configuration values:
+
+.. csv-table::
+   :file: csv/config-eu-stage2.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
+
 Modifying tender
 ----------------
 

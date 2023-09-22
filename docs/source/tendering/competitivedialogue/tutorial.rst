@@ -5,6 +5,23 @@ Tutorial
 
 .. index:: Tender
 
+Configuration
+-------------
+
+The set of possible configuration values for `competitiveDialogueEU`:
+
+.. csv-table::
+   :file: csv/config-eu-stage1.csv
+   :header-rows: 1
+
+The set of possible configuration values for `competitiveDialogueUA`:
+
+.. csv-table::
+   :file: csv/config-ua-stage1.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
+
 Creating tender on first stage
 ------------------------------
 

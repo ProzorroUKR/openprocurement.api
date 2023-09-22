@@ -3,10 +3,21 @@
 Tutorial
 ========
 
-Tender `competitiveOrdering` has pre-selection procedure and has to be connected to agreement.
+Configuration
+-------------
+
+The set of possible configuration values:
+
+.. csv-table::
+   :file: csv/config.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
 
 Creating tender
 ---------------
+
+Tender `competitiveOrdering` has pre-selection procedure and has to be connected to agreement.
 
 Let's use next agreement for our example:
 

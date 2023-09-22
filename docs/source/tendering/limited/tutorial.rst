@@ -3,6 +3,29 @@
 Tutorial
 ========
 
+Configuration
+-------------
+
+The set of possible configuration values for `reporting`:
+
+.. csv-table::
+   :file: csv/config-reporting.csv
+   :header-rows: 1
+
+The set of possible configuration values for `negotiation`:
+
+.. csv-table::
+   :file: csv/config-negotiation.csv
+   :header-rows: 1
+
+The set of possible configuration values for `negotiation.quick`:
+
+.. csv-table::
+   :file: csv/config-negotiation-quick.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
+
 Tender creation
 ---------------
 
