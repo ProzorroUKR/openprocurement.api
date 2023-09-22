@@ -1,6 +1,6 @@
 .. _competitiveordering:
 
-CompetitiveOrdering procedure - ``competitiveOrdering``
+Competitive Ordering procedure - ``competitiveOrdering``
 ========================================================================================
 
 Contents:
