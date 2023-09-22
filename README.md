@@ -52,7 +52,7 @@ echo "127.0.0.1 mongo" >> /etc/hosts
 docker-compose up -d mongo
 ```
 
-### Update
+### Update documentation
 
 Running tests to update http files::
 
@@ -61,7 +61,7 @@ py.test docs/tests  # all
 py.test docs/tests/test_belowthreshold.py -k test_docs_milestones  # specific
 ```
 
-### Build
+### Build documentation
 
 Run
 
@@ -76,7 +76,7 @@ cd docs
 make html
 ```
 
-### Translation
+### Translation for documentation
 
 For translation into *uk* (2 letter ISO language code), you have to follow the scenario:
 

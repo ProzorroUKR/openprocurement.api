@@ -565,16 +565,10 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with open(TARGET_DIR + 'multiple_lots_tutorial/tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
         #### Creating tender
+
         self.app.authorization = ('Basic', ('broker', ''))
+
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',

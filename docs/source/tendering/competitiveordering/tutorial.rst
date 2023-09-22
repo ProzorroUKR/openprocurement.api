@@ -1,9 +1,9 @@
-.. _dps_tutorial:
+.. _competitiveordering_tutorial:
 
 Tutorial
 ========
 
-Tender `dynamicPurchasingSystem` has pre-selection procedure and has to be connected to agreement.
+Tender `competitiveOrdering` has pre-selection procedure and has to be connected to agreement.
 
 Creating tender
 ---------------
@@ -58,4 +58,4 @@ After adding more active contracts to our agreement let's make another attempt t
 You can see that tender was activated successfully.
 
 .. note::
-    Further steps for `dynamicPurchasingSystem` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.
+    Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.

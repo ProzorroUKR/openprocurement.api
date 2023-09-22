@@ -82,23 +82,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         request_path = '/tenders?opt_pretty=1'
 
-        # Exploring basic rules
-
-        with open(TARGET_DIR + 'tutorial/tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.get('/tenders')
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        with open(TARGET_DIR + 'tutorial/tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
-        self.app.authorization = ('Basic', ('broker', ''))
+        # Invalid request
 
         with open(TARGET_DIR + 'tutorial/tender-post-attempt-json.http', 'w') as self.app.file_obj:
             self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422
+            response = self.app.post_json(
+                request_path, {}, content_type='application/json', status=422
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
 

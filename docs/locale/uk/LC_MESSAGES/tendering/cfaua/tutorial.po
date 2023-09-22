@@ -8,38 +8,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-18 11:22+0200\n"
+"POT-Creation-Date: 2023-09-22 03:36+0300\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.11.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
-
-msgid "Exploring basic rules"
-msgstr "Розгляньмо основні правила"
-
-msgid "Let's try exploring the `/tenders` endpoint:"
-msgstr "Подивімось, як працює точка входу `/tenders`:"
-
-msgid "Just invoking it reveals empty set."
-msgstr "Командою виклику отримуємо пустий набір."
-
-msgid "Now let's attempt creating some tender:"
-msgstr "Спробуймо створити нову тендерну пропозицію:"
-
-msgid "Error states that the only accepted Content-Type is `application/json`."
-msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-msgid "Let's satisfy the Content-type requirement:"
-msgstr "Треба задовольнити вимоги щодо типу вмісту:"
-
-msgid "Error states that no `data` has been found in JSON body."
-msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 
 msgid "Creating tender"
 msgstr "Створення тендера"
@@ -493,4 +472,25 @@ msgstr "Переведення тендера в статус `unsuccessful`."
 
 #~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
 #~ msgstr ""
+
+#~ msgid "Exploring basic rules"
+#~ msgstr "Розгляньмо основні правила"
+
+#~ msgid "Let's try exploring the `/tenders` endpoint:"
+#~ msgstr "Подивімось, як працює точка входу `/tenders`:"
+
+#~ msgid "Just invoking it reveals empty set."
+#~ msgstr "Командою виклику отримуємо пустий набір."
+
+#~ msgid "Now let's attempt creating some tender:"
+#~ msgstr "Спробуймо створити нову тендерну пропозицію:"
+
+#~ msgid "Error states that the only accepted Content-Type is `application/json`."
+#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
+
+#~ msgid "Let's satisfy the Content-type requirement:"
+#~ msgstr "Треба задовольнити вимоги щодо типу вмісту:"
+
+#~ msgid "Error states that no `data` has been found in JSON body."
+#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
 

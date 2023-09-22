@@ -1,6 +1,6 @@
-.. _dps:
+.. _competitiveordering:
 
-Dynamic Purchasing System procedure - ``dynamicPurchasingSystem``
+CompetitiveOrdering procedure - ``competitiveOrdering``
 ========================================================================================
 
 Contents:

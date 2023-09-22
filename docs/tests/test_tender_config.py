@@ -6,18 +6,8 @@ import csv
 
 import os
 from copy import deepcopy
-from uuid import uuid4
 
 import standards
-
-from openprocurement.api.context import get_now
-from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
-    test_framework_dps_config,
-    test_submission_data,
-    test_submission_config,
-)
-from openprocurement.tender.open.tests.base import test_tender_dps_config
 
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (
@@ -168,6 +158,8 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
         test_lots[1]['value'] = test_tender_data['value']
         test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        self.app.authorization = ('Basic', ('broker', ''))
 
         #### Creating tender
 

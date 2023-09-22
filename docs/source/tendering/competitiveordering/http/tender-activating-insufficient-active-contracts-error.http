@@ -1,0 +1,27 @@
+PATCH /api/2.5/tenders/ee0e79223d4142f4a502bfb88d0668cf?acc_token=1ee10a880660408880911586b84c4682 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 40
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "agreements",
+      "description": "agreements[0] has less than 3 active contracts"
+    }
+  ]
+}
+

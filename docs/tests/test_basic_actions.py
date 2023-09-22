@@ -2624,6 +2624,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                     self.tender_id, qualification_id, rr_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
+    def test_docs_constants(self):
+        with open(TARGET_DIR + 'constants/constants.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/constants'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+
 
 
 class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebTestMixin):

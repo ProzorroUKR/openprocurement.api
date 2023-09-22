@@ -17,7 +17,7 @@ hasPreSelectionAgreement is `true`
 Example tutorials:
 
 Standard rules:
-    * :ref:`dps` → :ref:`dps_tutorial`
+    * :ref:`competitiveordering` → :ref:`competitiveordering_tutorial`
 
 Special rules:
     * :ref:`cfaselectionua` → :ref:`cfaselection_tutorial`
