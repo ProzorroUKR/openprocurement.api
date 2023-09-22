@@ -19,6 +19,7 @@ Contents:
    esco/index
    limited/index
    defense/index
+   simpledefense/index
    cfaua/index
    cfaselectionua/index
    pricequotation/index
