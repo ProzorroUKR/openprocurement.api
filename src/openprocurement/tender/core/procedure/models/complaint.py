@@ -9,6 +9,7 @@ from openprocurement.tender.core.procedure.models.complaint_objection import (
     CancellationComplaintObjection,
     Objection,
     QualificationComplaintObjection,
+    TenderComplaintObjection,
 )
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.identifier import Identifier
@@ -64,7 +65,7 @@ class PostComplaint(Model):
     status = StringType(choices=["draft", "pending"], default="draft")
     type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
     relatedLot = MD5Type()
-    objections = ListType(ModelType(Objection), min_size=1)
+    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
 
     def validate_status(self, data, value):
         if tender_created_after_2020_rules():
@@ -109,7 +110,7 @@ class DraftPatchComplaint(Model):
     author = ModelType(ComplaintOrganization)  # author of claim
     title = StringType()  # title of the claim
     description = StringType()  # description of the claim
-    objections = ListType(ModelType(Objection), min_size=1)
+    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
 
 
 class DraftPatchAwardComplaint(DraftPatchComplaint):
@@ -185,6 +186,7 @@ class AdministratorPatchComplaint(Model):
     value = ModelType(Guarantee)
 
 
+
 class Complaint(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     complaintID = StringType()
@@ -256,15 +258,3 @@ class Complaint(Model):
 
     # child structures
     posts = BaseType()
-
-
-class CancellationComplaint(Complaint):
-    objections = ListType(ModelType(CancellationComplaintObjection), min_size=1)
-
-
-class AwardComplaint(Complaint):
-    objections = ListType(ModelType(AwardComplaintObjection), min_size=1)
-
-
-class QualificationComplaint(Complaint):
-    objections = ListType(ModelType(QualificationComplaintObjection), min_size=1)

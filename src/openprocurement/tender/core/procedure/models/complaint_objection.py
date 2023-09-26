@@ -15,7 +15,6 @@ from openprocurement.tender.core.procedure.models.complaint_objection_requested_
 class ObjectionRelatesTo(Enum):
     tender = "tender"
     lot = "lot"
-    criteria = "criteria"
     award = "award"
     qualification = "qualification"
     cancellation = "cancellation"
@@ -28,13 +27,6 @@ OBJECTION_RELATES_REGEX_MAPPING = {
         r"\/tenders\/(?P<tender_id>[0-9a-fA-F]{32})"
         r"\/"
         r"lots\/(?P<lot_id>[0-9a-fA-F]{32})"
-        r"$"
-    ),
-    ObjectionRelatesTo.criteria: (
-        r"^"
-        r"\/tenders\/(?P<tender_id>[0-9a-fA-F]{32})"
-        r"\/"
-        r"criteria\/(?P<criterion_id>[0-9a-fA-F]{32})"
         r"$"
     ),
     ObjectionRelatesTo.award: (
@@ -71,10 +63,7 @@ class Objection(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
     description = StringType(required=True)
-    relatesTo = StringType(
-        choices=[obj.value for obj in (ObjectionRelatesTo.tender, ObjectionRelatesTo.lot, ObjectionRelatesTo.criteria)],
-        required=True,
-    )
+    relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)
     requestedRemedies = ListType(ModelType(RequestedRemedy), min_size=1, required=True)
@@ -92,15 +81,34 @@ class Objection(Model):
         if url_parts[2] != tender.get("_id"):  # tender id in url
             raise ValidationError("Invalid tender id")
         if relates_to != ObjectionRelatesTo.tender.value:
-            self.find_related_item(tender, url_parts[3], url_parts[4])
+            obj = self.find_related_item(tender, url_parts[3], url_parts[4])
+            if relates_to in ("award", "qualification") and obj.get("status") not in ("active", "unsuccessful"):
+                raise ValidationError(f"Relate objection to {relates_to} in {obj.get('status')} is forbidden")
         return related_match.groupdict()
 
     @staticmethod
     def find_related_item(parent_obj, obj_name, obj_id):
         for obj in parent_obj.get(obj_name, []):
             if obj["id"] == obj_id:
-                return
+                return obj
         raise ValidationError(f"Invalid {obj_name} path")
+
+
+class TenderComplaintObjection(Objection):
+    relatesTo = StringType(
+        choices=[obj.value for obj in (ObjectionRelatesTo.tender, ObjectionRelatesTo.lot)],
+        required=True,
+    )
+
+    def validate_relatedItem(self, data, value):
+        super().validate_relatedItem(self, data, value)
+        url_parts = value.split("/")
+        complaint = data.get("__parent__", {})
+        related_lot = complaint.get("relatedLot")
+        if data["relatesTo"] == ObjectionRelatesTo.lot.value and related_lot and url_parts[-1] != related_lot:
+            raise ValidationError(
+                "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+            )
 
 
 class AwardComplaintObjection(Objection):

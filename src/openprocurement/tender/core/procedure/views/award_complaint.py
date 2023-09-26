@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.complaint import (
     BaseComplaintGetResource,
     BaseComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint, AwardComplaint
+from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_any_bid_owner,
@@ -56,25 +56,3 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
     )
     def collection_post(self):
         return super().collection_post()
-
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-                unless_administrator(
-                    unless_bots(
-                        unless_reviewers(
-                            validate_any(
-                                validate_item_owner("tender"),
-                                validate_item_owner("complaint"),
-                            )
-                        )
-                    )
-                ),
-                validate_input_data_from_resolved_model(),
-                validate_patch_data(AwardComplaint, item_name="complaint"),
-        ),
-        permission="edit_complaint",
-    )
-    def patch(self):
-        return super().patch()

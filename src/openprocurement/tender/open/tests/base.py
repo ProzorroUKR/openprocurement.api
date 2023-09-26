@@ -84,10 +84,8 @@ test_tender_open_config = {
 
 
 test_tender_open_complaint_objection_argument = {
-    "relatedJustification": "test",
     "description": "test argument",
     "evidences": [{
-        "type": "external",
         "title": "test",
         "description": "test",
         "documents": [

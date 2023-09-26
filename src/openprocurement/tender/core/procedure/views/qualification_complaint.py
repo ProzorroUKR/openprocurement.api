@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.state.qualification_complaint import 
 )
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer
-from openprocurement.tender.core.procedure.models.complaint import PostQualificationComplaint, QualificationComplaint
+from openprocurement.tender.core.procedure.models.complaint import PostQualificationComplaint
 from openprocurement.tender.core.procedure.views.complaint import (
     resolve_complaint,
     BaseComplaintGetResource,
@@ -61,25 +61,3 @@ class QualificationComplaintWriteResource(BaseComplaintWriteResource):
     )
     def collection_post(self):
         return super().collection_post()
-
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-                unless_administrator(
-                    unless_bots(
-                        unless_reviewers(
-                            validate_any(
-                                validate_item_owner("tender"),
-                                validate_item_owner("complaint"),
-                            )
-                        )
-                    )
-                ),
-                validate_input_data_from_resolved_model(),
-                validate_patch_data(QualificationComplaint, item_name="complaint"),
-        ),
-        permission="edit_complaint",
-    )
-    def patch(self):
-        return super().patch()

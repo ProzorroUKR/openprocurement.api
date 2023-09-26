@@ -32,6 +32,9 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     create_tender_lot_complaint,
     create_complaint_objection_validation,
     patch_complaint_objection,
+    objection_related_item_equals_related_lot,
+    objection_related_item_equals_related_cancellation,
+    objection_related_award_statuses,
 )
 
 
@@ -125,12 +128,14 @@ class TenderCancellationComplaintObjectionMixin:
               f"acc_token={complaint_token}"
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
-    def create_cancellation(self):
+    def create_cancellation(self, related_lot=None):
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
         cancellation.update({
             "reasonType": "noDemand"
         })
+        if self.initial_data.get("lots"):
+            cancellation.update({"relatedLot": related_lot if related_lot else self.initial_data["lots"][0]["id"]})
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
             {"data": cancellation},
@@ -262,7 +267,9 @@ class TenderComplaintObjectionTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    pass
+    initial_lots = test_tender_below_lots * 2
+
+    test_objection_related_item_equals_related_lot = snitch(objection_related_item_equals_related_lot)
 
 
 class TenderCancellationComplaintObjectionTest(
@@ -271,7 +278,9 @@ class TenderCancellationComplaintObjectionTest(
     ComplaintObjectionMixin,
 ):
     docservice = True
-    initial_lots = test_tender_below_lots
+    initial_lots = test_tender_below_lots * 2
+
+    test_objection_related_item_equals_related_cancellation = snitch(objection_related_item_equals_related_cancellation)
 
     def setUp(self):
         super(TenderCancellationComplaintObjectionTest, self).setUp()
@@ -288,6 +297,8 @@ class TenderAwardComplaintObjectionTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots
+
+    test_objection_related_award_statuses = snitch(objection_related_award_statuses)
 
     def setUp(self):
         super(TenderAwardComplaintObjectionTest, self).setUp()

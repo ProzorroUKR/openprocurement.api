@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
 Authorization: Bearer token
-Content-Length: 1880
+Content-Length: 1848
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -50,7 +50,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "arguments": [
           {
-            "relatedJustification": "test",
             "description": "test argument",
             "evidences": []
           }
@@ -97,7 +96,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "id": "02b5b44a78844b8bb928152ddb6217f6",
         "title": "My objection",
         "description": "Test objection",
-        "relatesTo": "tender",
         "relatedItem": "/tenders/45b0bfa4f1fe43e9b299928fe7c3e788",
         "classification": {
           "scheme": "test",
@@ -114,10 +112,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "arguments": [
           {
             "id": "0fc275d7a2b04820a34fb4af54050296",
-            "description": "test argument",
-            "relatedJustification": "test"
+            "description": "test argument"
           }
-        ]
+        ],
+        "relatesTo": "tender"
       }
     ],
     "id": "48153ea17b8b4a46883221469016b183",

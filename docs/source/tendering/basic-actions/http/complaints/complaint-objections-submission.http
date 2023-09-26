@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
 Authorization: Bearer token
-Content-Length: 2034
+Content-Length: 1982
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -50,11 +50,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "arguments": [
           {
-            "relatedJustification": "test",
             "description": "test argument",
             "evidences": [
               {
-                "type": "external",
                 "title": "test",
                 "description": "test",
                 "documents": [
@@ -110,7 +108,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "id": "75de2126deb94cb69a35dc3e8b76e34a",
         "title": "My objection",
         "description": "Test objection",
-        "relatesTo": "tender",
         "relatedItem": "/tenders/45b0bfa4f1fe43e9b299928fe7c3e788",
         "classification": {
           "scheme": "test",
@@ -128,11 +125,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
           {
             "id": "e536c00043c74ebbbb4a4f6576c77d9f",
             "description": "test argument",
-            "relatedJustification": "test",
             "evidences": [
               {
                 "id": "32ecf6c77d284948b7cd932466437b34",
-                "type": "external",
                 "title": "test",
                 "description": "test",
                 "documents": [
@@ -143,14 +138,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
                     "documentOf": "tender",
                     "language": "uk",
                     "id": "e578814fffec467587198dec88b0dcba",
-                    "datePublished": "2023-01-01T00:00:00+02:00",
-                    "dateModified": "2023-01-01T00:00:00+02:00"
+                    "datePublished": "2023-01-01T00:00:00+02:00"
                   }
                 ]
               }
             ]
           }
-        ]
+        ],
+        "relatesTo": "tender"
       }
     ],
     "id": "ccdbdaa9ccca47d08761581587833bd8",

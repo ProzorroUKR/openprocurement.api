@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
 Authorization: Bearer token
-Content-Length: 1986
+Content-Length: 1934
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -45,11 +45,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "requestedRemedies": [],
         "arguments": [
           {
-            "relatedJustification": "test",
             "description": "test argument",
             "evidences": [
               {
-                "type": "external",
                 "title": "test",
                 "description": "test",
                 "documents": [
