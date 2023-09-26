@@ -429,6 +429,7 @@ def calculate_framework_periods(request, model):
     clarifications_until = calculate_framework_date(
         enquiryPeriod_endDate,
         timedelta(days=ENQUIRY_STAND_STILL_TIME),
+        framework,
         working_days=True,
     )
 
