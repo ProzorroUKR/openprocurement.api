@@ -290,12 +290,19 @@ def remove_nones(data):
     for k, v in list(data.items()):
         if v is None:
             del data[k]
+        elif isinstance(v, str):
+            if not v:
+                del data[k]
         elif isinstance(v, dict):
             remove_nones(v)
+            if not v:
+                del data[k]
         elif isinstance(v, list):
             for e in v:
                 if isinstance(e, dict):
                     remove_nones(e)
+            if not v:
+                del data[k]
 
 
 def ocds_format_tender(*_, tender, tender_url, plan=None):
