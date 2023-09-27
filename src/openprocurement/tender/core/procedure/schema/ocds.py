@@ -294,15 +294,15 @@ def remove_nones(data):
             if not v:
                 del data[k]
         elif isinstance(v, dict):
-            if not v:
-                del data[k]
             remove_nones(v)
-        elif isinstance(v, list):
             if not v:
                 del data[k]
+        elif isinstance(v, list):
             for e in v:
                 if isinstance(e, dict):
                     remove_nones(e)
+            if not v:
+                del data[k]
 
 
 def ocds_format_tender(*_, tender, tender_url, plan=None):
