@@ -290,9 +290,16 @@ def remove_nones(data):
     for k, v in list(data.items()):
         if v is None:
             del data[k]
+        elif isinstance(v, str):
+            if not v:
+                del data[k]
         elif isinstance(v, dict):
+            if not v:
+                del data[k]
             remove_nones(v)
         elif isinstance(v, list):
+            if not v:
+                del data[k]
             for e in v:
                 if isinstance(e, dict):
                     remove_nones(e)
