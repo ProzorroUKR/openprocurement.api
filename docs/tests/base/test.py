@@ -223,6 +223,8 @@ class MockWebTestMixin(object):
     freezer = None
     tick_delta = None
 
+    freezing_datetime = MOCK_DATETIME
+
     whitelist = ('/openprocurement/', '/openprocurement/.*/tests/', 'docs/tests')
     blacklist = ('/tests/base/test\.py',)
 
@@ -234,7 +236,7 @@ class MockWebTestMixin(object):
             lambda: get_now().timestamp()
         )
         self.db_now_path.start()
-        self.freezer = freeze_time(MOCK_DATETIME)
+        self.freezer = freeze_time(self.freezing_datetime)
         self.freezer.start()
 
     def tearDownMock(self):

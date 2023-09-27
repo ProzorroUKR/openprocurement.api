@@ -1,0 +1,58 @@
+PATCH /api/2.5/tenders/ced458f6982740de9423ca48326073a3/awards/623a18fbf2664912a11466b0146587a6?acc_token=236eb11f39c34208aa53fbe299ff84ee HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 33
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ced458f6982740de9423ca48326073a3/awards/407240fa803f43a8b72e58f2aae860e1
+
+{
+  "data": {
+    "id": "623a18fbf2664912a11466b0146587a6",
+    "status": "cancelled",
+    "date": "2023-01-01T00:00:01+02:00",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
+        },
+        "scale": "micro"
+      }
+    ],
+    "bid_id": "81cb227ea3624b9cbabe9a42cf8870b2",
+    "complaintPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-01T00:00:00+02:00"
+    }
+  }
+}
+

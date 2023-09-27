@@ -98,6 +98,38 @@ Additionally in :ref:`openeu`:
         * :ref:`ORGANIZATION_SCALE_FROM` constant
 
 
+.. index:: EContractOrganization, Company
+
+.. _EContractOrganization:
+
+EContractOrganization
+=====================
+
+Schema
+------
+
+:name:
+    string, multilingual
+
+    |ocdsDescription|
+    The common name of the organization.
+
+:identifier:
+    :ref:`Identifier`
+
+    |ocdsDescription|
+    The primary identifier for this organization.
+
+:additionalIdentifiers:
+    List of :ref:`identifier` objects
+
+:address:
+    :ref:`Address`, required
+
+:signerInfo:
+    :ref:`SignerInfo`
+
+
 .. index:: Company, id
 
 .. _Identifier:

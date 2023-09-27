@@ -786,3 +786,28 @@ def required_field_from_date(date):
             function(*args, **kwargs)
         return wrapper
     return decorator
+
+
+def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):
+    collection = getattr(request.registry.mongodb, collection_name)
+    tender = collection.get(obj_id)
+    obj_name = collection_name[:-1]
+    if tender is None and raise_error:
+        request.errors.add("url", f"{obj_name}_id", "Not Found")
+        request.errors.status = 404
+        raise error_handler(request)
+    else:
+        LOGGER.error(
+            f"{obj_name.capitalize()} {obj_id} not found",
+            extra=context_unpack(request, {"MESSAGE_ID": "get_tender_by_id"})
+        )
+
+    return tender
+
+
+def get_tender_by_id(request, tender_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "tenders", tender_id, raise_error)
+
+
+def get_contract_by_id(request, contract_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "contracts", contract_id, raise_error)

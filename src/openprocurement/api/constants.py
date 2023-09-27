@@ -306,3 +306,14 @@ TENDER_WEIGHTED_VALUE_PRE_CALCULATION = get_constant(
     "TENDER_WEIGHTED_VALUE_PRE_CALCULATION",
     parse_func=parse_bool,
 )
+
+PQ_NEW_CONTRACTING_FROM = get_constant(CONSTANTS_CONFIG, "PQ_NEW_CONTRACTING_FROM")
+ECONTRACT_SIGNER_INFO_REQUIRED = get_constant(
+    CONSTANTS_CONFIG,
+    "ECONTRACT_SIGNER_INFO_REQUIRED",
+    parse_func=parse_bool,
+)
+
+# Contract templates
+
+CONTRACT_TEMPLATES_KEYS = set(standards.load("templates/contract_templates_keys.json"))

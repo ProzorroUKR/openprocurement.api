@@ -23,7 +23,7 @@ from openprocurement.contracting.api.models import OrganizationReference
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from openprocurement.api.models import schematics_default_role
-from openprocurement.contracting.api.utils import get_transaction_by_id
+from openprocurement.contracting.core.utils import get_transaction_by_id
 
 
 def validate_contract_data(request, **kwargs):

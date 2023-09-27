@@ -182,6 +182,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.generate_awards(status, startend)
             self.activate_awards()
             self.generate_contract()
+        if extra:
+            self.tender_document_patch.update(extra)
         self.save_changes()
         return self.get_tender()
 

@@ -3,6 +3,7 @@ from hashlib import sha512
 from pyramid.request import Request
 
 from openprocurement.api.constants import (
+    PQ_NEW_CONTRACTING_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -13,6 +14,7 @@ from openprocurement.api.utils import (
     raise_operation_error,
     handle_data_exceptions,
     error_handler,
+    get_first_revision_date,
 )
 from openprocurement.api.validation import (
     validate_json_data,
@@ -1712,6 +1714,17 @@ def validate_lot_status_active(request, **_):
             request,
             "Can update auction urls only in active lot status",
         )
+
+
+def validate_forbid_action_after_date(obj_name):
+    def validation(request, **_):
+        tender = get_tender()
+        if tender_created_after(PQ_NEW_CONTRACTING_FROM):
+            raise_operation_error(
+                request,
+                f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}"
+            )
+    return validation
 
 
 # Complaints & claims

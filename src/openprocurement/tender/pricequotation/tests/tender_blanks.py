@@ -23,9 +23,10 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_item_before_multiprofile,
     test_tender_pq_item_after_multiprofile,
 )
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_milestones
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_milestones, PQ_NEW_CONTRACTING_RELEASED
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.pricequotation.tests.utils import activate_econtract
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
 
 
@@ -589,6 +590,7 @@ def create_tender_generated(self):
         tender_keys.append("profile")
     else:
         tender_keys.append("agreement")
+
     self.assertEqual(
         set(tender),
         set(tender_keys),
@@ -1652,19 +1654,22 @@ def tender_fields(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
+    tender_fields = {
+        "id",
+        "dateModified",
+        "dateCreated",
+        "tenderID",
+        "date",
+        "status",
+        "awardCriteria",
+        "owner",
+    }
+
     self.assertEqual(
         set(tender) - set(self.initial_data),
-        {
-            "id",
-            "dateModified",
-            "dateCreated",
-            "tenderID",
-            "date",
-            "status",
-            "awardCriteria",
-            "owner",
-        },
+        tender_fields,
     )
+
     self.assertIn(tender["id"], response.headers["Location"])
 
 
@@ -2175,20 +2180,24 @@ def one_valid_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    # after stand slill period
-    self.set_status("active.awarded", 'end')
-    # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    # check status
-    self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+
+    if not PQ_NEW_CONTRACTING_RELEASED:
+        contract_value = deepcopy(contract["value"])
+        # after stand slill period
+        self.set_status("active.awarded", 'end')
+        # sign contract
+        self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
+        self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {"status": "active", "value": contract_value}},
+        )
+        # check status
+        self.app.authorization = ("Basic", ("broker", ""))
+        response = self.app.get("/tenders/{}".format(tender_id))
+        self.assertEqual(response.json["data"]["status"], "complete")
+    else:
+        self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date"})
 
 
 def one_invalid_bid_tender(self):
@@ -2288,34 +2297,41 @@ def first_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    # create tender contract document for test
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=201,
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
 
-    # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    if not PQ_NEW_CONTRACTING_RELEASED:
+        contract_value = deepcopy(contract["value"])
+        # create tender contract document for test
+        response = self.app.post_json(
+            "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
+            status=201,
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        doc_id = response.json["data"]["id"]
+        self.assertIn(doc_id, response.headers["Location"])
+
+        # sign contract
+        self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
+        self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {"status": "active", "value": contract_value}},
+        )
+    else:
+        activate_econtract(self, contract_id, owner_token, bid_token1)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
+
+    if PQ_NEW_CONTRACTING_RELEASED:
+        return
 
     response = self.app.post_json(
         "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
@@ -2366,7 +2382,7 @@ def lost_contract_for_active_award(self):
     owner_token = self.tender_token
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(
+    bid, bid_token = self.create_bid(
         self.tender_id,
         {
             "tenderers": [test_tender_pq_organization],
@@ -2399,14 +2415,18 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    if not PQ_NEW_CONTRACTING_RELEASED:
+        contract_value = deepcopy(contract["value"])
+        # sign contract
+        self.app.authorization = ("Basic", ("broker", ""))
+        contract_value["valueAddedTaxIncluded"] = False
+        self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
+            {"data": {"status": "active", "value": contract_value}},
+        )
+    else:
+        activate_econtract(self, contract_id, owner_token, bid_token)
+
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

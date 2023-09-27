@@ -19,7 +19,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "ef1bede622fc44a08d3caa36ebd1de36",
-    "date": "2023-01-01T00:00:01+02:00",
+    "date": "2023-09-01T01:00:01+03:00",
     "tenderers": [
       {
         "name": "Державне управління справами",

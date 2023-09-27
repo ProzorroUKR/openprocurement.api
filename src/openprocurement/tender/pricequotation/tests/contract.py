@@ -37,6 +37,8 @@ multi_item_tender_data["items"] *= 3
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.contracting.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(TenderContentWebTest,
                                  TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -71,6 +73,8 @@ class TenderContractResourceTest(TenderContentWebTest,
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.contracting.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
                                                TenderContractResourceTestMixin):
     initial_status = "active.awarded"
@@ -86,6 +90,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest,
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.contracting.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(TenderContentWebTest,
                                          TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
@@ -97,18 +103,29 @@ class TenderContractDocumentResourceTest(TenderContentWebTest,
 
 
 @patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_data = test_tender_pq_multi_buyers_data
     initial_status = "active.qualification"
     initial_bids = test_tender_pq_bids
 
     def setUp(self):
+        self.contracting_date = patch(
+            "openprocurement.tender.core.procedure.contracting.PQ_NEW_CONTRACTING_FROM",
+            get_now() + timedelta(days=1),
+        )
+        self.contracting_date.start()
+
         super(TenderContractMultiBuyersResourceTest, self).setUp()
         TenderContractResourceTest.get_award(self)
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active"}},
         )
+
+    def tearDown(self):
+        self.contracting_date.stop()
+        super().tearDown()
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
     test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)

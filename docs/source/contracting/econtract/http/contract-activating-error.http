@@ -1,0 +1,27 @@
+PATCH /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 30
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "signerInfo field for buyer and suppliers is required for contract in `active` status"
+    }
+  ]
+}
+

@@ -43,6 +43,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_bids = test_tender_pq_bids
+    freezing_datetime = '2023-09-1T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -394,131 +395,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         ####  Set contract value
 
-        with open(TARGET_DIR + 'tender-contract-get-contract-value.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/contracts/{}'.format(
-                    self.tender_id, self.contract_id
-                )
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {
-                    "data": {
-                        "contractNumber": "contract #13111",
-                        "value": {"amount": 238, "amountNet": 230}
-                    }
-                }
-            )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amount'], 238)
-
-        #### Setting contract signature date
-
-        self.tick()
-
-        with open(TARGET_DIR + 'tender-contract-sign-date.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {"dateSigned": get_now().isoformat()}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        #### Setting contract period
-
-        period_dates = {
-            "period": {
-                "startDate": get_now().isoformat(),
-                "endDate": (get_now() + timedelta(days=365)).isoformat()
-            }
-        }
-        with open(TARGET_DIR + 'tender-contract-period.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'period': period_dates["period"]}}
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        #### Uploading contract documentation
-
-        with open(TARGET_DIR + 'tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {
-                    'data': {
-                        'title': 'contract_first_document.doc',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/msword',
-                    }
-                }
-            )
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'tender-contract-get-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/contracts/{}/documents'.format(
-                    self.tender_id, self.contract_id
-                )
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {
-                    'data': {
-                        'title': 'contract_second_document.doc',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
-                        'format': 'application/msword',
-                    }
-                }
-            )
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/contracts/{}/documents'.format(
-                    self.tender_id, self.contract_id
-                )
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        #### Setting contract signature date
-
-        with open(TARGET_DIR + 'tender-contract-sign-date.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {"dateSigned": get_now().isoformat()}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        #### Contract signing
-
-        with open(TARGET_DIR + 'tender-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
         # Preparing the cancellation request
 
         self.set_status('active.awarded')
@@ -598,3 +474,4 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
+
