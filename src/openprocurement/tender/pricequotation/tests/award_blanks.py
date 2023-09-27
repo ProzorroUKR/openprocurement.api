@@ -364,6 +364,106 @@ def patch_tender_award(self):
     )
 
 
+def move_award_contract_to_contracting(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    criterion = tender["criteria"][0]
+    criterion["relatesTo"] = "item"
+    criterion["relatedItem"] = tender["items"][0]["id"]
+    self.mongodb.tenders.save(tender)
+
+    award_id = self.award_ids[-1]
+
+    bid_token = self.initial_bids_tokens[0]
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"title": "title", "description": "description"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["title"], "title")
+    self.assertEqual(response.json["data"]["description"], "description")
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    # self.assertEqual(len(response.json["data"]), 2)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    contract_id = response.json["data"]["contracts"][0]["id"]
+
+    response = self.app.get(f"/contracts/{contract_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    contract_fields = {
+        "id",
+        "awardID",
+        "contractID",
+        "dateCreated",
+        "dateModified",
+        "items",
+        "tender_id",
+        "owner",
+        "bid_owner",
+        "status",
+        "suppliers",
+        "value",
+        "buyer",
+    }
+
+    self.assertEqual(contract_fields, set(response.json["data"].keys()))
+    self.assertIn("attributes", response.json["data"]["items"][0])
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "basisOf": "документ який дозволяє",
+                "position": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "basisOf": "документ який дозволяє",
+                "position": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["contracts"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["status"], "complete")
+
+
 def tender_award_transitions(self):
     award_id = self.award_ids[-1]
     tender_token = self.mongodb.tenders.get(self.tender_id)['owner_token']

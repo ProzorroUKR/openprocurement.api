@@ -1,6 +1,6 @@
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import BaseResource, MongodbResourceListing
-from openprocurement.contracting.api.utils import (
+from openprocurement.contracting.core.utils import (
     contractingresource,
     apply_patch,
     set_ownership,

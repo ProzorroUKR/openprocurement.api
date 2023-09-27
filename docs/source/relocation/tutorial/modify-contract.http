@@ -91,6 +91,12 @@ Content-Type: application/json
         }
       }
     ],
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 237.0
+    },
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -109,12 +115,6 @@ Content-Type: application/json
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       }
-    },
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 237.0
     },
     "id": "2b264b733b7546749561d03ffa5e7971"
   }

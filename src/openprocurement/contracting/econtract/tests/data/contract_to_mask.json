@@ -1,0 +1,181 @@
+{
+  "_id": "de579eadfab54a26b3be28b1232eea6a",
+  "awardID": "dcb6f78aa7f543c9af94d8c0de47faeb",
+  "contractID": "UA-2022-06-01-000002-a-1",
+  "title": "[ТЕСТУВАННЯ] ",
+  "title_en": "[TESTING] ",
+  "title_ru": "[ТЕСТИРОВАНИЕ] ",
+  "dateSigned": "2022-06-01T13:52:55.463116+03:00",
+  "revisions": [
+    {
+      "author": "contracting",
+      "date": "2022-06-01T13:56:09.304139+03:00",
+      "changes": [
+        {
+          "op": "remove",
+          "path": "/tender_token"
+        },
+        {
+          "op": "remove",
+          "path": "/id"
+        },
+        {
+          "op": "remove",
+          "path": "/dateSigned"
+        },
+        {
+          "op": "remove",
+          "path": "/contractID"
+        },
+        {
+          "op": "remove",
+          "path": "/items"
+        },
+        {
+          "op": "remove",
+          "path": "/awardID"
+        },
+        {
+          "op": "remove",
+          "path": "/suppliers"
+        },
+        {
+          "op": "remove",
+          "path": "/tender_id"
+        },
+        {
+          "op": "remove",
+          "path": "/title"
+        },
+        {
+          "op": "remove",
+          "path": "/value"
+        },
+        {
+          "op": "remove",
+          "path": "/owner_token"
+        },
+        {
+          "op": "remove",
+          "path": "/title_en"
+        },
+        {
+          "op": "remove",
+          "path": "/procuringEntity"
+        },
+        {
+          "op": "remove",
+          "path": "/title_ru"
+        },
+        {
+          "op": "remove",
+          "path": "/owner"
+        },
+        {
+          "op": "remove",
+          "path": "/transfer_token"
+        },
+        {
+          "op": "remove",
+          "path": "/status"
+        }
+      ]
+    }
+  ],
+  "dateModified": "2022-06-01T13:56:09.304342+03:00",
+  "items": [
+    {
+      "id": "2dc54675d6364e2baffbc0f8e74432ac",
+      "description": "Тестова назва предмета закупівлі",
+      "description_en": "Procurement item test name",
+      "description_ru": "Тестовое название предмета закупки",
+      "quantity": 1,
+      "deliveryDate": {
+        "startDate": "2017-09-16T19:39:39.580353+03:00",
+        "endDate": "2017-09-19T19:39:39.580353+03:00"
+      },
+      "deliveryAddress": {
+        "streetAddress": "вул. Тестова 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "79000",
+        "countryName": "Україна"
+      },
+      "classification": {
+        "description": "Промислова техніка",
+        "scheme": "ДК021",
+        "id": "42000000-6"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "ДКПП",
+          "id": "28.23.23",
+          "description": "Техніка конторська/офісна, інша"
+        }
+      ],
+      "unit": {
+        "name": "кг",
+        "code": "KGM"
+      }
+    }
+  ],
+  "tender_token": "671826dcb290507f54c8c401cade6479fbc2f2b39d265a341145c47be0db7cbd08bce2031a15c3654ae46d51ffca3cc130fa49f31242fc1cf73cab389eb32c2b",
+  "tender_id": "72ec18dd04de446a8cfcc2cfd3d6aed0",
+  "owner_token": "c9f88a3665d74d5f9065d154ec3cbc21",
+  "transfer_token": "4215a186c1f049a7ab7e78c990f0440c",
+  "owner": "broker",
+  "status": "active",
+  "suppliers": [
+    {
+      "name": "Тестове підприємство",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "13313462",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+        "uri": "https://example.com"
+      },
+      "address": {
+        "streetAddress": "вул. Тестова, 33",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "21100",
+        "countryName": "Україна"
+      },
+      "scale": "micro",
+      "contactPoint": {
+        "name": "Нейменко Нейм Неймович",
+        "email": "factory@example.com",
+        "telephone": "+380000000000"
+      }
+    }
+  ],
+  "procuringEntity": {
+    "name": "Тестовий заклад #1 м.Київ",
+    "identifier": {
+      "scheme": "UA-EDR",
+      "id": "00000000",
+      "legalName": "Тестовий заклад"
+    },
+    "address": {
+      "streetAddress": "вул. Тестова 22",
+      "locality": "м. Київ",
+      "region": "м. Київ",
+      "postalCode": "42000",
+      "countryName": "Україна"
+    },
+    "contactPoint": {
+      "name": "Тестовенко Тест Тестович",
+      "telephone": "+380424424242",
+      "url": "https://example.com"
+    },
+    "kind": "general"
+  },
+  "value": {
+    "amount": 475000,
+    "currency": "UAH",
+    "valueAddedTaxIncluded": false,
+    "amountNet": 475000
+  },
+  "_rev": "2-0646fd1022c645acb3fbf3634ebe3b5b",
+  "dateCreated": "2022-06-01T13:56:09.304342+03:00"
+}

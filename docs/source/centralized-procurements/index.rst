@@ -79,25 +79,25 @@ For each `buyer` object in tender system is creating separate `contract` respect
 
 Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :
 
-.. http:example:: ../contracting/http/create-multiple-buyers-tender.http
+.. http:example:: ../contracting/old_contract/http/create-multiple-buyers-tender.http
     :code:
 
 Move forward as usual, activate award:
 
-.. http:example:: ../contracting/http/set-active-award.http
+.. http:example:: ../contracting/old_contract/http/set-active-award.http
     :code:
 
 After activating award system is creating such amount of contracts that corresponds to the amount of buyers
 
-.. http:example:: ../contracting/http/get-multi-contracts.http
+.. http:example:: ../contracting/old_contract/http/get-multi-contracts.http
     :code:
 
 Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract.
 
-.. http:example:: ../contracting/http/patch-1st-contract-value.http
+.. http:example:: ../contracting/old_contract/http/patch-1st-contract-value.http
     :code:
 
-.. http:example:: ../contracting/http/patch-2nd-contract-value.http
+.. http:example:: ../contracting/old_contract/http/patch-2nd-contract-value.http
     :code:
 
 You can activate or terminate each contract as usual.
@@ -111,20 +111,20 @@ Cancellation of aggregate contracts
 
 Contracts can be cancelled:
 
-.. http:example:: ../contracting/http/patch-to-cancelled-1st-contract.http
+.. http:example:: ../contracting/old_contract/http/patch-to-cancelled-1st-contract.http
     :code:
 
 Except when contract is the last not cancelled contract:
 
-.. http:example:: ../contracting/http/patch-to-cancelled-2nd-contract-error.http
+.. http:example:: ../contracting/old_contract/http/patch-to-cancelled-2nd-contract-error.http
     :code:
 
 In that case related award should be cancelled:
 
-.. http:example:: ../contracting/http/set-active-award.http
+.. http:example:: ../contracting/old_contract/http/set-active-award.http
     :code:
 
 Let's check all contracts are cancelled:
 
-.. http:example:: ../contracting/http/get-multi-contracts-cancelled.http
+.. http:example:: ../contracting/old_contract/http/get-multi-contracts-cancelled.http
     :code:

@@ -38,7 +38,7 @@ Content-Type: application/json
         "currency": "UAH",
         "valueAddedTaxIncluded": true
       },
-      "date": "2023-01-01T00:00:01+02:00",
+      "date": "2023-09-01T01:00:01+03:00",
       "id": "dcf5db2bd67c47faaf0b9cc04f6539fe"
     }
   ]

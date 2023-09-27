@@ -218,7 +218,7 @@ class ContractStateMixing(baseclass):
         else:
             self.check_award_complaints(tender, now)
 
-    def contract_on_post(self, request):
+    def contract_on_post(self, data):
         pass
 
     def validate_activate_contract(self, contract):
@@ -408,9 +408,9 @@ class ContractStateMixing(baseclass):
         if (
             current_status != new_status
             and (
-            current_status not in cls.allowed_statuses_from
-            or new_status not in allowed_statuses_to
-        )
+                current_status not in cls.allowed_statuses_from
+                or new_status not in allowed_statuses_to
+            )
         ):
             raise_operation_error(request, "Can't update contract status")
 
@@ -497,10 +497,10 @@ class ContractStateMixing(baseclass):
                     )
 
     @staticmethod
-    def validate_update_contract_value_amount(request, before, after):
-        value = after.get("value")
+    def validate_update_contract_value_amount(request, before, after, name="value"):
+        value = after.get(name)
         if value and (
-            before.get("value") != after.get("value") or
+            before.get(name) != after.get(name) or
             before.get("status") != after.get("status")
         ):
             amount = to_decimal(value.get("amount") or 0)
@@ -510,7 +510,7 @@ class ContractStateMixing(baseclass):
             if not (amount == 0 and amount_net == 0):
                 if tax_included:
                     amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                    if (amount < amount_net or amount > amount_max):
+                    if amount < amount_net or amount > amount_max:
                         raise_operation_error(
                             request,
                             f"Amount should be equal or greater than amountNet and differ by "

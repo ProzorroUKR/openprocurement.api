@@ -6,8 +6,7 @@ Contracting API interface to OpenProcurement database
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   overview
-   tutorial
-
+   econtract/index
+   old_contract/index

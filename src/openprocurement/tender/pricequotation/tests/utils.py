@@ -20,3 +20,34 @@ def copy_criteria_req_id(criteria, responses):
     for r, resp in zip(requirements, responses):
         resp["requirement"]["id"] = r["id"]
     return responses
+
+
+def activate_econtract(self, contract_id, tender_token, bid_token):
+    test_signer_info = {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "1" * 15,
+        "basisOf": "статут",
+        "position": "Генеральний директор",
+    }
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={tender_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    return response.json["data"]

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-26 13:25+0300\n"
+"POT-Creation-Date: 2023-09-20 15:05+0300\n"
 "PO-Revision-Date: 2021-10-26 13:27+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,8 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
-"X-Generator: Poedit 2.4.2\n"
+"Generated-By: Babel 2.12.1\n"
 
 msgid "Item"
 msgstr "Item"
@@ -159,6 +158,15 @@ msgstr ""
 msgid "ID for related profile"
 msgstr "ID пов’язаного профілю"
 
+msgid "Additional fields for :ref:`econtracting`:"
+msgstr "Додатково у :ref:`econtracting`:"
+
+msgid "attributes"
+msgstr ""
+
+msgid "List of :ref:`ItemAttribute`"
+msgstr "Список з :ref:`ItemAttribute`"
+
 msgid "Classification"
 msgstr "Classification"
 
@@ -206,3 +214,4 @@ msgstr ""
 
 msgid "Price per unit."
 msgstr "Ціна за одиницю."
+

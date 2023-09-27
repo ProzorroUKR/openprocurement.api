@@ -18,10 +18,12 @@ from openprocurement.api.utils import (
     append_revision,
     check_document,
     update_document_url,
+    update_logging_context,
 )
+from openprocurement.tender.core.utils import extract_path
 
 from openprocurement.contracting.api.traversal import factory
-from openprocurement.contracting.api.models import Contract
+from openprocurement.api.validation import validate_json_data
 
 
 contractingresource = partial(resource, error_handler=error_handler, factory=factory)
@@ -29,18 +31,32 @@ contractingresource = partial(resource, error_handler=error_handler, factory=fac
 LOGGER = getLogger("openprocurement.contracting.api")
 
 
+def extract_contract_id(request):
+    if request.matchdict and "contract_id" in request.matchdict:
+        return request.matchdict.get("contract_id")
+
+    path = extract_path(request)
+    # extract tender id
+    parts = path.split("/")
+    if len(parts) < 5 or parts[3] != "contracts":
+        return
+    contract_id = parts[4]
+    return contract_id
+
+
 def extract_contract_doc(request):
     db = request.registry.mongodb.contracts
-    contract_id = request.matchdict["contract_id"]
-    doc = db.get(contract_id)
-    if doc is None:
-        request.errors.add("url", "contract_id", "Not Found")
-        request.errors.status = 404
-        raise error_handler(request)
+    contract_id = extract_contract_id(request)
+    if contract_id:
+        doc = db.get(contract_id)
+        if doc is None:
+            request.errors.add("url", "contract_id", "Not Found")
+            request.errors.status = 404
+            raise error_handler(request)
 
-    mask_object_data(request, doc)  # war time measures
+        mask_object_data(request, doc)  # war time measures
 
-    return doc
+        return doc
 
 
 def extract_contract(request):
@@ -49,10 +65,26 @@ def extract_contract(request):
         return request.contract_from_data(doc)
 
 
+def resolve_contract_model(request, data=None, raise_error=True):
+    if data is None:
+        data = request.contract_doc
+
+    contract_type = "econtract" if data.get("buyer") else "general"
+    # procurement_method_type = data.get("procurementMethodType", "belowThreshold")
+    model = request.registry.contract_types.get(contract_type)
+    if model is None and raise_error:
+        request.errors.add("body", "type", "Not implemented")
+        request.errors.status = 415
+        raise error_handler(request)
+    update_logging_context(request, {"contract_type": contract_type})
+    return model
+
+
 def contract_from_data(request, data, raise_error=True, create=True):
+    model = resolve_contract_model(request, data, raise_error)
     if create:
-        return Contract(data)
-    return Contract
+        return model(data)
+    return model
 
 
 def contract_serialize(request, contract_data, fields):
@@ -126,3 +158,39 @@ def get_transaction_by_id(request):
 
     _transaction = next((trans for trans in transactions if trans["id"] == transaction_id), None)
     return _transaction
+
+
+class isContract(object):
+    """ Route predicate factory for contractType route predicate. """
+
+    def __init__(self, val, config):
+        self.val = val
+
+    def text(self):
+        return "contractType = %s" % (self.val,)
+
+    phash = text
+
+    def __call__(self, context, request):
+        if request.contract_doc is not None:
+            contract_type = "econtract" if request.contract_doc.get("buyer") else "general"
+            return contract_type == self.val
+
+        # that's how we can have a "POST /tender" view for every tender type
+        if request.method == "POST" and request.path.endswith("/tenders"):
+            data = validate_json_data(request)
+            contract_type = "econtract" if data.get("buyer") else "general"
+            return contract_type == self.val
+
+        return False
+
+
+def register_contract_type(config, model):
+    """Register a contract type.
+    :param config:
+        The pyramid configuration object that will be populated.
+    :param model:
+        The tender model class
+    """
+    contract_type = "econtract" if hasattr(model, "buyer") else "general"
+    config.registry.contract_types[contract_type] = model

@@ -1,0 +1,212 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-21 00:02+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+msgid "EContract"
+msgstr ""
+
+msgid "Schema"
+msgstr "Схема"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, auto-generated"
+msgstr "uid, генерується автоматично"
+
+msgid "|ocdsDescription| The identifier for this contract."
+msgstr "|ocdsDescription| Ідентифікатор цього договору."
+
+msgid "awardID"
+msgstr ""
+
+msgid "string, required"
+msgstr "рядок, обов’язковий"
+
+msgid "|ocdsDescription| The `Award.id` against which this contract is being issued."
+msgstr "|ocdsDescription| `Award.id` вказує на рішення, згідно якого видається договір."
+
+msgid "contractID"
+msgstr ""
+
+msgid "string, auto-generated, read-only"
+msgstr "рядок, генерується автоматично, лише для читання"
+
+msgid "contractNumber"
+msgstr ""
+
+msgid "string"
+msgstr "рядок"
+
+msgid "title"
+msgstr ""
+
+msgid "|ocdsDescription| Contract title"
+msgstr "|ocdsDescription| Назва договору"
+
+msgid "description"
+msgstr ""
+
+msgid "|ocdsDescription| Contract description"
+msgstr "|ocdsDescription| Опис договору"
+
+msgid "status"
+msgstr ""
+
+msgid "|ocdsDescription| The current status of the contract."
+msgstr "|ocdsDescription| Поточний статус договору."
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
+
+msgid "`pending` - this contract has been proposed, but is not yet in force. It may be awaiting signature."
+msgstr "`pending` - цей договір запропоновано, але він ще не діє. Можливо очікується його підписання."
+
+msgid "`active` - this contract has been signed by all the parties, and is now legally in force."
+msgstr "`active` - цей договір підписаний всіма учасниками, і зараз діє на законних підставах."
+
+msgid "`cancelled` - this contract has been cancelled prior to being signed."
+msgstr "`cancelled` - цей договір було скасовано до підписання."
+
+msgid "`terminated` - this contract was signed and in force, and has now come to a close.  This may be due to a successful completion of the contract, or may be early termination due to some non-completion issue."
+msgstr "`terminated` - договір був підписаний та діяв, але вже завершився. Це може бути пов'язано з виконанням договору, або з достроковим припиненням через якусь незавершеність."
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "|ocdsDescription| The start and end date for the contract."
+msgstr "|ocdsDescription| Дата початку та завершення договору."
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`Item` objects, auto-generated, read-only"
+msgstr "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+
+msgid "|ocdsDescription| The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat."
+msgstr "|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати."
+
+msgid "suppliers"
+msgstr ""
+
+msgid "List of :ref:`EContractOrganization` objects, auto-generated, read-only"
+msgstr "Список об’єктів :ref:`EContractOrganization`, генерується автоматично, лише для читання"
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`ContractValue` object, auto-generated"
+msgstr "Об’єкт :ref:`ContractValue`, генерується автоматично, лише для читання"
+
+msgid "|ocdsDescription| The total value of this contract."
+msgstr "|ocdsDescription| Загальна вартість договору."
+
+msgid "Check \":ref:`SettingContractValue`\" tutorial section for more info"
+msgstr ""
+
+msgid "dateSigned"
+msgstr ""
+
+msgid "string, :ref:`date`"
+msgstr "рядок, :ref:`date`"
+
+msgid "|ocdsDescription| The date when the contract was signed. In the case of multiple signatures, the date of the last signature."
+msgstr "|ocdsDescription| Дата підписання договору. Якщо було декілька підписань, то береться дата останнього підписання."
+
+msgid "documents"
+msgstr ""
+
+msgid "List of :ref:`Document` objects"
+msgstr "Список об’єктів :ref:`Document`"
+
+msgid "|ocdsDescription| All documents and attachments related to the contract, including any notices."
+msgstr "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з будь-якими повідомленнями."
+
+msgid "buyer"
+msgstr ""
+
+msgid ":ref:`EContractOrganization`"
+msgstr ":ref:`EContractOrganization`"
+
+msgid "|ocdsDescription| The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured."
+msgstr "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи."
+
+msgid "changes"
+msgstr ""
+
+msgid "List of :ref:`Change` objects."
+msgstr "Список пов’язаних об’єктів :ref:`Change`."
+
+msgid "amountPaid"
+msgstr ""
+
+msgid "amount"
+msgstr ""
+
+msgid "float, required"
+msgstr "число з рухомою комою, обов’язкове"
+
+msgid "currency"
+msgstr ""
+
+msgid "string, required, auto-generated"
+msgstr "рядок, обов’язковий, генерується автоматично"
+
+msgid "valueAddedTaxIncluded"
+msgstr ""
+
+msgid "bool, required , auto-generated"
+msgstr "логічний (булевий) тип даних, обов’язковий, генерується автоматично"
+
+msgid "Amount of money actually paid."
+msgstr "Дійсно оплачена сума."
+
+msgid "implementation"
+msgstr ""
+
+msgid ":ref:`Implementation`"
+msgstr ""
+
+msgid "terminationDetails"
+msgstr ""
+
+msgid "string, required for unsuccessful contract"
+msgstr "рядок, обов’язковий для неуспішних договорів"
+
+msgid "Reasons for contract termination. Presence of this field indicates that contract is unsuccessful."
+msgstr "Причина припинення договору. Наявність цього поля вказує, що договір є неуспішним."
+
+msgid "contractTemplateUri"
+msgstr ""
+
+msgid "string, auto-generated"
+msgstr "рядок, генерується автоматично"
+
+msgid "template link on standards"
+msgstr "посилання на шаблон а стандртах"
+
+msgid "Workflow"
+msgstr "Робочий процес"
+
+msgid "\\* marks initial state"
+msgstr "\\* позначає початковий стан"

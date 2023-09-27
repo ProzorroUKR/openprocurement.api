@@ -5,6 +5,7 @@ from openprocurement.tender.core.procedure.utils import (
     save_tender,
     set_item,
 )
+from openprocurement.api.context import get_db_session
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.validation import (
@@ -106,6 +107,8 @@ class TenderAwardResource(TenderBaseResource):
             self.state.validate_award_patch(award, updated)
 
             set_item(self.request.validated["tender"], "awards", award["id"], updated)
+            # with get_db_session().start_transaction():
+
             self.state.award_on_patch(award, updated)
             self.state.always(self.request.validated["tender"])
             if save_tender(self.request):

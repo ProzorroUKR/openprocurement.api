@@ -9,6 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "title": "футляри до державних нагород",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "awardCriteria": "lowestCost",
     "procurementMethod": "selective",

@@ -1,3 +1,6 @@
+from os.path import split
+
+import standards
 from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
@@ -46,10 +49,14 @@ class ShortlistedFirm(BusinessOrganization):
     status = StringType()
 
 
-def validate_agreement(data, value):
-    multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-    if multi_profile_released and not value:
+def validate_required_from_date(data, value, release_date):
+    released = get_first_revision_date(data, default=get_now()) > release_date
+    if released and not value:
         raise ValidationError(BaseType.MESSAGES["required"])
+
+
+def validate_agreement(data, value):
+    validate_required_from_date(data, value, PQ_MULTI_PROFILE_FROM)
 
 
 def validate_profile(data, value):
@@ -227,6 +234,7 @@ class Tender(BaseTender):
         validators=[validate_criteria_id_uniq],
     )
 
+    contractTemplateName = StringType()
     next_check = BaseType()
 
     def validate_items(self, data, items):

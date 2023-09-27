@@ -143,15 +143,18 @@ class AwardStateMixing(baseclass):
     @classmethod
     def set_award_contracts_cancelled(cls, award):
         tender = get_tender()
+        cancelled_contracts_ids = []
         for contract in tender.get("contracts", tuple()):
             if contract["awardID"] == award["id"]:
                 if contract["status"] != "active":
                     cls.set_object_status(contract, "cancelled")
+                    cancelled_contracts_ids.append(contract["id"])
                 else:
                     raise_operation_error(
                         get_request(),
                         "Can't cancel award contract in active status"
                     )
+        return cancelled_contracts_ids
 
     @classmethod
     def set_award_complaints_cancelled(cls, award):

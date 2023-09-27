@@ -23,12 +23,14 @@ areas that were not covered by it.
    criterion
    dimension
    document
+   econtract
    eligibleevidence
    evidence
    feature
    firm
    qualificationmilestone
    item
+   item_attribute
    lot
    metric
    milestone
@@ -44,6 +46,7 @@ areas that were not covered by it.
    requirement
    requirementgroup
    requirementresponse
+   signer_info
    qualification
    question
    tender

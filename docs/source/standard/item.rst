@@ -108,6 +108,12 @@ Additionally in :ref:`pricequotation`:
     ID for related profile
 
 
+Additional fields for :ref:`econtracting`:
+
+:attributes:
+    List of :ref:`ItemAttribute`
+
+
 .. _Classification:
 
 Classification
