@@ -14,6 +14,7 @@ from openprocurement.api.constants import (
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
     NORMALIZED_TENDER_PERIOD_FROM,
     DST_AWARE_PERIODS_FROM,
+    TZ,
 )
 from openprocurement.api.utils import (
     get_now,

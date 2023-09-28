@@ -16,7 +16,7 @@ from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import WORKING_DAYS
+from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, TZ
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -449,9 +449,12 @@ def calculate_framework_date(
 ):
     date_obj = calc_normalized_datetime(date_obj, ceil=ceil)
     if working_days:
-        return calc_working_datetime(date_obj, timedelta_obj, calendar=calendar)
+        result_date_obj = calc_working_datetime(date_obj, timedelta_obj, calendar=calendar)
     else:
-        return calc_datetime(date_obj, timedelta_obj)
+        result_date_obj = calc_datetime(date_obj, timedelta_obj)
+    if date_obj > DST_AWARE_PERIODS_FROM:
+        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
+    return result_date_obj
 
 
 def calculate_framework_periods(request, model):

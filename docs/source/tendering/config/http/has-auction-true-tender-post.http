@@ -302,7 +302,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
     "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+02:00"
+      "endDate": "2023-10-22T00:00:00+03:00"
     },
     "owner": "broker",
     "procurementMethod": "open",
