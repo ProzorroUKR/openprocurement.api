@@ -1,5 +1,4 @@
 import standards
-from schematics.exceptions import ValidationError
 from schematics.types import StringType, EmailType
 
 from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM
@@ -9,13 +8,13 @@ from openprocurement.api.models import (
     ListType,
     Organization as BaseOrganization,
     Model,
+    PROCURING_ENTITY_KINDS,
 )
 from openprocurement.framework.core.procedure.models.address import Address
 from openprocurement.framework.core.procedure.models.organization import (
     ContactPoint as BaseContactPoint,
     Identifier,
 )
-from openprocurement.tender.core.models import PROCURING_ENTITY_KINDS
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 

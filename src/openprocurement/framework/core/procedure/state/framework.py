@@ -177,6 +177,7 @@ class FrameworkState(ChronographEventsMixing, BaseState):
         clarifications_until = calculate_framework_date(
             enquiry_period_end_date,
             timedelta(days=ENQUIRY_STAND_STILL_TIME),
+            data,
             working_days=True,
         )
 

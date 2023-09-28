@@ -19,6 +19,7 @@ from openprocurement.api.models import (
     PeriodEndRequired,
     BaseAddress,
     Organization,
+    PROCURING_ENTITY_KINDS,
 )
 from openprocurement.api.utils import get_change_class
 from openprocurement.framework.cfaua.models.agreement import ChangeItemPriceVariation
@@ -39,9 +40,6 @@ from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement as BasePatchAgreement,
     PostAgreement as BasePostAgreement,
 )
-
-
-PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 
 
 class FeatureValue(Model):
