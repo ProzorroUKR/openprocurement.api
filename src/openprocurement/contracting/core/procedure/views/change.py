@@ -12,7 +12,7 @@ from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
     validate_create_contract_change,
-    validate_contract_change_add_not_in_allowed_contract_status,
+    validate_contract_change_action_not_in_allowed_contract_status,
     validate_contract_change_update_not_in_allowed_change_status,
 )
 
@@ -53,7 +53,7 @@ class ContractsChangesResource(ContractBaseResource):
         validators=(
             unless_administrator(unless_admins(validate_contract_owner)),
             validate_input_data(PostChange),
-            validate_contract_change_add_not_in_allowed_contract_status,
+            validate_contract_change_action_not_in_allowed_contract_status,
             validate_create_contract_change,
         ),
     )
@@ -89,7 +89,8 @@ class ContractsChangesResource(ContractBaseResource):
             unless_administrator(unless_admins(validate_contract_owner)),
             validate_input_data(PatchChange, none_means_remove=True),
             validate_patch_data(Change, item_name="change"),
-            validate_contract_change_update_not_in_allowed_change_status
+            validate_contract_change_action_not_in_allowed_contract_status,
+            validate_contract_change_update_not_in_allowed_change_status,
         ),
     )
     def patch(self):

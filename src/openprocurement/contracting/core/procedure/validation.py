@@ -23,11 +23,12 @@ def _validate_contract_accreditation_level(request, model):
 
 
 # changes
-def validate_contract_change_add_not_in_allowed_contract_status(request, **kwargs):
+def validate_contract_change_action_not_in_allowed_contract_status(request, **kwargs):
     contract = request.validated["contract"]
     if contract["status"] != "active":
         raise_operation_error(
-            request, f"Can't add contract change in current ({contract['status']}) contract status"
+            request,
+            f"Can't {OPERATIONS.get(request.method)} contract change in current ({contract['status']}) contract status",
         )
 
 
