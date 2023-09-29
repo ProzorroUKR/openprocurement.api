@@ -105,9 +105,14 @@ class TenderComplaintObjection(Objection):
         url_parts = value.split("/")
         complaint = data.get("__parent__", {})
         related_lot = complaint.get("relatedLot")
-        if data["relatesTo"] == ObjectionRelatesTo.lot.value and related_lot and url_parts[-1] != related_lot:
+        if data["relatesTo"] == ObjectionRelatesTo.lot.value:
+            if not related_lot or url_parts[-1] != related_lot:
+                raise ValidationError(
+                    "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+                )
+        elif related_lot:
             raise ValidationError(
-                "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+                f"Complaint's objection must not relate to {data['relatesTo']} if relatedLot mentioned"
             )
 
 

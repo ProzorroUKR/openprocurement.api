@@ -1252,6 +1252,42 @@ def objection_related_item_equals_related_lot(self):
     response = self.create_complaint(complaint_data)
     self.assertEqual(response.status, "201 Created")
 
+    # relatesTo = tender and relatedLot is mentioned
+    invalid_objection_data["relatesTo"] = "tender"
+    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Complaint's objection must not relate to tender if relatedLot mentioned"
+            ]
+        }],
+    )
+
+    # relatesTo = tender and relatedLot is not mentioned
+    del complaint_data["relatedLot"]
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data)
+    self.assertEqual(response.status, "201 Created")
+
+    # relatesTo = lot and relatedLot is not mentioned
+    invalid_objection_data["relatesTo"] = "lot"
+    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/lots/{self.initial_data['lots'][1]['id']}"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+            ]
+        }],
+    )
+
 
 def objection_related_item_equals_related_cancellation(self):
     cancellation_id_1 = self.cancellation_id

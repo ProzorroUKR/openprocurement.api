@@ -186,7 +186,6 @@ class AdministratorPatchComplaint(Model):
     value = ModelType(Guarantee)
 
 
-
 class Complaint(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     complaintID = StringType()
