@@ -21,13 +21,13 @@ Content-Type: application/json
   "data": {
     "description": "Changed description",
     "id": "442c386215a04057bb30d1d1b24a7648",
-    "datePublished": "2023-09-01T01:00:01+03:00",
+    "datePublished": "2023-09-20T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04b19e98abbc481f944b5a4e1376e930?Signature=wonP7nxBLzgfRnPAAi4UlfqIzubU3uA9sSG4fWwckC9AK2Bh3G1LX7aeiqEq%2FuX5hCnBCY2b%2FIAjawi66cfiDA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-09-01T01:00:01+03:00",
+    "dateModified": "2023-09-20T01:00:01+03:00",
     "language": "uk"
   }
 }

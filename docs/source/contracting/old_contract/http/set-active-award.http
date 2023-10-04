@@ -50,7 +50,7 @@ Content-Type: application/json
     "bid_id": "64999c81408f4504aeb675f411f1f798",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-01T00:02:00+02:00"
+      "endDate": "2023-01-04T00:00:00+02:00"
     }
   }
 }

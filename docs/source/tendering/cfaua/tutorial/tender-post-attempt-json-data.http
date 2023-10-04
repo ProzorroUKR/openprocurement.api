@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4616
+Content-Length: 4561
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -130,7 +130,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 100
       }
     ],
-    "procurementMethodDetails": "quick, accelerator=1440",
     "lots": [
       {
         "title": "Лот №1",
@@ -168,7 +167,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
   "data": {
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -320,15 +318,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
     "tenderID": "UA-2023-01-01-000001-a",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T23:56:00+02:00"
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T23:50:00+02:00",
-      "clarificationsUntil": "2023-01-31T23:53:00+02:00"
+      "endDate": "2023-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",

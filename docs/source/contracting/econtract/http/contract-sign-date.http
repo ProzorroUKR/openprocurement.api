@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "dateSigned": "2023-09-01T01:00:00+03:00"
+    "dateSigned": "2023-09-20T01:00:00+03:00"
   }
 }
 
@@ -17,10 +17,10 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-01-000001-a-1",
-    "dateSigned": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
+    "contractID": "UA-2023-09-20-000001-a-1",
+    "dateSigned": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "value": {
@@ -68,8 +68,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -105,8 +105,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",

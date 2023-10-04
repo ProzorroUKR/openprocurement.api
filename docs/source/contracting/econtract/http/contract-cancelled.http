@@ -9,14 +9,14 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-01-000001-a-1",
+    "contractID": "UA-2023-09-20-000001-a-1",
     "period": {
-      "startDate": "2023-09-01T01:00:00+03:00",
-      "endDate": "2024-08-31T01:00:00+03:00"
+      "startDate": "2023-09-20T01:00:00+03:00",
+      "endDate": "2024-09-19T01:00:00+03:00"
     },
-    "dateSigned": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
+    "dateSigned": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "value": {
@@ -64,8 +64,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -101,8 +101,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -143,8 +143,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
         "id": "0042d18dfb254f4a8a0c166f1e980196",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -153,11 +153,11 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
         "id": "9202cd64da8f42a5942c68dc14bf534a",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       }
     ],
-    "date": "2023-09-01T01:00:00+03:00",
+    "date": "2023-09-20T01:00:00+03:00",
     "id": "0df8cf97d5cb4ba98a7355f981e0afd2"
   }
 }

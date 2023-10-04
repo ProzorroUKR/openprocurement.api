@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "goods",
     "title": "Комп’ютерне обладнання",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "awardCriteria": "lowestCost",
@@ -24,8 +23,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-09-01T00:59:00+03:00",
-      "startDate": "2023-09-01T00:50:00+03:00"
+      "endDate": "2023-09-19T01:00:00+03:00",
+      "startDate": "2023-09-10T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -58,8 +57,8 @@ Content-Type: application/json
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -96,8 +95,8 @@ Content-Type: application/json
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -195,11 +194,11 @@ Content-Type: application/json
         ]
       }
     ],
-    "tenderID": "UA-2023-09-01-000001-a",
+    "tenderID": "UA-2023-09-20-000001-a",
     "owner": "broker",
-    "date": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
+    "date": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
     "shortlistedFirms": [
       {
         "address": {
@@ -249,12 +248,12 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-09-11T01:00:00+03:00"
+      "startDate": "2023-09-30T01:00:00+03:00"
     },
     "bids": [
       {
         "id": "5324d8e7db1c4a3baf5456140f128229",
-        "date": "2023-09-01T01:00:00+03:00",
+        "date": "2023-09-20T01:00:00+03:00",
         "tenderers": [
           {
             "name": "Державне управління справами",
@@ -312,13 +311,13 @@ Content-Type: application/json
       }
     ],
     "awardPeriod": {
-      "startDate": "2023-09-01T01:00:00+03:00"
+      "startDate": "2023-09-20T01:00:00+03:00"
     },
     "awards": [
       {
         "id": "c220713cbd024586b6382ef97a852dc7",
         "status": "active",
-        "date": "2023-09-01T01:00:00+03:00",
+        "date": "2023-09-20T01:00:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -351,7 +350,7 @@ Content-Type: application/json
       {
         "id": "a3771b096c9644c5ba09fe6f9c9cb091",
         "status": "pending",
-        "date": "2023-09-01T01:00:00+03:00",
+        "date": "2023-09-20T01:00:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -387,7 +386,7 @@ Content-Type: application/json
         "id": "0df8cf97d5cb4ba98a7355f981e0afd2",
         "status": "active",
         "awardID": "c220713cbd024586b6382ef97a852dc7",
-        "date": "2023-09-01T01:00:00+03:00"
+        "date": "2023-09-20T01:00:00+03:00"
       }
     ],
     "id": "26fe592e6eb4454fb91865f39117fe4b"

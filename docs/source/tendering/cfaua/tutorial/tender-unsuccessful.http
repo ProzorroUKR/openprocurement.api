@@ -649,7 +649,6 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -682,8 +681,8 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2022-12-31T23:39:00+02:00",
-      "endDate": "2022-12-31T23:49:00+02:00"
+      "startDate": "2022-12-11T00:00:00+02:00",
+      "endDate": "2022-12-21T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -843,33 +842,33 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2022-12-31T23:49:00+02:00",
-          "endDate": "2022-12-31T23:50:00+02:00"
+          "startDate": "2022-12-21T00:00:00+02:00",
+          "endDate": "2022-12-22T00:00:00+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5a06577d0adb4c42907931f3b9b03b2c_9dea7e57fca24c0fa6c43f752611342d"
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2022-12-31T23:08:00+02:00",
-      "endDate": "2022-12-31T23:29:00+02:00",
-      "clarificationsUntil": "2023-01-08T23:53:00+02:00",
+      "startDate": "2022-11-10T00:00:00+02:00",
+      "endDate": "2022-12-01T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-04T00:00:00+02:00",
       "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2022-12-31T23:08:00+02:00",
-      "endDate": "2022-12-31T23:39:00+02:00"
+      "startDate": "2022-11-10T00:00:00+02:00",
+      "endDate": "2022-12-11T00:00:00+02:00"
     },
     "status": "unsuccessful",
     "complaintPeriod": {
-      "startDate": "2022-12-31T23:29:00+02:00",
-      "endDate": "2022-12-31T23:56:00+02:00"
+      "startDate": "2022-12-01T00:00:00+02:00",
+      "endDate": "2022-12-28T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2022-12-31T23:49:00+02:00",
-      "endDate": "2022-12-31T23:50:00+02:00"
+      "startDate": "2022-12-21T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "awardPeriod": {
-      "startDate": "2022-12-31T23:50:00+02:00",
+      "startDate": "2022-12-22T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "awards": [
@@ -1062,7 +1061,7 @@ Content-Type: application/json
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:50:00+02:00",
+          "startDate": "2022-12-22T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
         }
       },
@@ -1104,7 +1103,7 @@ Content-Type: application/json
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:50:00+02:00",
+          "startDate": "2022-12-22T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
         }
       },
@@ -1146,7 +1145,7 @@ Content-Type: application/json
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:50:00+02:00",
+          "startDate": "2022-12-22T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
         }
       }

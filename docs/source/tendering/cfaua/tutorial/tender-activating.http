@@ -587,7 +587,6 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -734,8 +733,8 @@ Content-Type: application/json
     ],
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T23:50:00+02:00",
-      "clarificationsUntil": "2023-01-31T23:53:00+02:00",
+      "endDate": "2023-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
       "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
@@ -745,7 +744,7 @@ Content-Type: application/json
     "status": "active.tendering",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T23:56:00+02:00"
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "next_check": "2023-02-01T00:00:00+02:00",
     "id": "5a06577d0adb4c42907931f3b9b03b2c"

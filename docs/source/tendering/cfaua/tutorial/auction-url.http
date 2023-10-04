@@ -1330,7 +1330,6 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -1363,7 +1362,7 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2022-12-31T23:50:00+02:00",
+      "startDate": "2022-12-22T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "qualifications": [
@@ -1531,19 +1530,19 @@ Content-Type: application/json
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2022-12-31T23:19:00+02:00",
-      "endDate": "2022-12-31T23:30:00+02:00",
-      "clarificationsUntil": "2023-01-08T23:53:00+02:00",
+      "startDate": "2022-11-21T00:00:00+02:00",
+      "endDate": "2022-12-02T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-04T00:00:00+02:00",
       "invalidationDate": "2023-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2022-12-31T23:19:00+02:00",
-      "endDate": "2022-12-31T23:50:00+02:00"
+      "startDate": "2022-11-21T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "status": "active.auction",
     "complaintPeriod": {
-      "startDate": "2022-12-31T23:29:00+02:00",
-      "endDate": "2022-12-31T23:56:00+02:00"
+      "startDate": "2022-12-01T00:00:00+02:00",
+      "endDate": "2022-12-28T00:00:00+02:00"
     },
     "next_check": "2023-01-01T00:42:00+02:00",
     "auctionPeriod": {
