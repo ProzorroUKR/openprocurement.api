@@ -13,6 +13,7 @@ class ComplaintDocumentState(BaseDocumentState):
     allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",
+        "active.pre-qualification",
         "active.auction",
         "active.qualification",
         "active.awarded",

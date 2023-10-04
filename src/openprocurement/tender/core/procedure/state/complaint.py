@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso, is_item_owner
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
 from openprocurement.tender.core.procedure.models.complaint import (
     DraftPatchComplaint,
     CancellationPatchComplaint,
@@ -25,7 +25,17 @@ from datetime import timedelta
 LOGGER = getLogger(__name__)
 
 
-class ComplaintState(TenderState):
+class BaseComplaintState(TenderState):
+    def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
+        if tender_created_after_2020_rules():
+            if any(
+                i.get("status") == "pending" and not i.get("relatedLot")
+                for i in tender.get("cancellations", "")
+            ):
+                raise_operation_error(self.request, "Can't add complaint if tender have cancellation in pending status")
+
+
+class ComplaintState(BaseComplaintState):
     tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
@@ -286,14 +296,6 @@ class ComplaintState(TenderState):
                 COMPLAINT_ENHANCED_MAX_AMOUNT
             )
         return amount
-
-    def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
-        if tender_created_after_2020_rules():
-            if any(
-                i.get("status") == "pending" and not i.get("relatedLot")
-                for i in tender.get("cancellations", "")
-            ):
-                raise_operation_error(self.request, "Can't add complaint if tender have cancellation in pending status")
 
     def validate_add_complaint_with_lot_cancellation_in_pending(self, tender, complaint):
         if tender_created_after_2020_rules():

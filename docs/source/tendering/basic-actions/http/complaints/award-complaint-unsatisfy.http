@@ -48,7 +48,8 @@ Content-Type: application/json
     "dateAnswered": "2023-01-01T00:00:03+02:00",
     "dateSubmitted": "2023-01-01T00:00:03+02:00",
     "satisfied": false,
-    "type": "claim"
+    "type": "claim",
+    "bid_id": "e1cb6a5520984996a0d99c83aa93cdf9"
   }
 }
 
