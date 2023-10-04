@@ -38,7 +38,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    freezing_datetime = '2023-09-1T00:00:00+02:00'
+    freezing_datetime = '2023-09-20T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
 

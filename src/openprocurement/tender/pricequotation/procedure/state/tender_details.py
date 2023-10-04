@@ -10,24 +10,6 @@ from openprocurement.api.utils import raise_operation_error
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
-    def on_post(self, tender):
-        EXCLUDED_TEMPLATE_CLASSIFICATION = ("09310000-5",)
-
-        super().on_post(tender)
-        if tender_created_after(PQ_NEW_CONTRACTING_FROM):
-            classification_id = tender.get("classification", dict()).get("id")
-            template_name = None
-            if classification_id and classification_id not in EXCLUDED_TEMPLATE_CLASSIFICATION:
-                for key in CONTRACT_TEMPLATES_KEYS:
-                    if key.startswith(classification_id):
-                        template_name = key
-                        break
-                    elif key.startswith(DEFAULT_TEMPLATE_KEY):
-                        template_name = key
-
-            if template_name:
-                tender["contractTemplateName"] = template_name
-
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
@@ -41,3 +23,33 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
                 get_request(),
                 f"Can't change status from {before} to {after}",
             )
+
+        if after == "active.tendering" and after != before:
+            self.set_contract_template_name(data)
+
+    def set_contract_template_name(self, data):
+        EXCLUDED_TEMPLATE_CLASSIFICATION = ("0931",)
+
+        if not tender_created_after(PQ_NEW_CONTRACTING_FROM):
+            return
+
+        items = data.get("items")
+        if not items or any(i.get("documentType", "") == "contractProforma" for i in data.get("documents", "")):
+            return
+
+        classification_id = items[0].get("classification", dict()).get("id")
+        template_name = None
+        if not classification_id:
+            return
+
+        classification_id = classification_id[:4] if classification_id[:3] != "336" else "336"
+        if classification_id not in EXCLUDED_TEMPLATE_CLASSIFICATION:
+            for key in CONTRACT_TEMPLATES_KEYS:
+                if key.startswith(classification_id):
+                    template_name = key
+                    break
+                elif key.startswith(DEFAULT_TEMPLATE_KEY):
+                    template_name = key
+
+        if template_name:
+            data["contractTemplateName"] = template_name

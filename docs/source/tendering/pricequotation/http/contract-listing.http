@@ -12,13 +12,13 @@ Content-Type: application/json
       "id": "6c1a97fc9d1341389b164b11009e8f03",
       "status": "cancelled",
       "awardID": "dcf5db2bd67c47faaf0b9cc04f6539fe",
-      "date": "2023-09-01T01:00:01+03:00"
+      "date": "2023-09-20T01:00:01+03:00"
     },
     {
       "id": "a734a2497c2142779961006b1509327f",
       "status": "pending",
       "awardID": "a731c12fe3644953b13a3fc0352d0949",
-      "date": "2023-09-01T01:00:01+03:00"
+      "date": "2023-09-20T01:00:01+03:00"
     }
   ]
 }

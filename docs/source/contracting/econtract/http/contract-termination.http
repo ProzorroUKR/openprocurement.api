@@ -22,15 +22,15 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-01-000001-a-1",
+    "contractID": "UA-2023-09-20-000001-a-1",
     "period": {
-      "startDate": "2023-09-01T01:00:00+03:00",
-      "endDate": "2023-10-01T01:00:00+03:00"
+      "startDate": "2023-09-20T01:00:00+03:00",
+      "endDate": "2023-10-20T01:00:00+03:00"
     },
-    "dateSigned": "2023-09-01T01:00:00+03:00",
-    "date": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
+    "dateSigned": "2023-09-20T01:00:00+03:00",
+    "date": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "changes": [
@@ -41,10 +41,10 @@ Content-Type: application/json
           "volumeCuts",
           "priceReduction"
         ],
-        "dateSigned": "2023-09-01T01:00:00+03:00",
+        "dateSigned": "2023-09-20T01:00:00+03:00",
         "id": "b9887678ba3c448b977467c0fe3ada31",
         "status": "active",
-        "date": "2023-08-31T22:00:00"
+        "date": "2023-09-19T22:00:00"
       }
     ],
     "documents": [
@@ -55,8 +55,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "id": "9202cd64da8f42a5942c68dc14bf534a",
@@ -65,8 +65,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "relatedItem": "b9887678ba3c448b977467c0fe3ada31",
@@ -76,8 +76,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/32ec55c6c6144f7a8fceea1ed68a5290?download=34862599de094db7a8c9c37996ea4847",
         "documentOf": "change",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "id": "93f808adc3a84ee9b750119a797ed776",
@@ -86,8 +86,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/93f808adc3a84ee9b750119a797ed776?download=cc4cd1ee0c1d481d806feb638548e63b",
         "documentOf": "contract",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "id": "e3a0c2f53a544b8f8f300200e400f460",
@@ -96,8 +96,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/e3a0c2f53a544b8f8f300200e400f460?download=277f219d159f45e1a11923c8b637d463",
         "documentOf": "contract",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       },
       {
         "id": "e3a0c2f53a544b8f8f300200e400f460",
@@ -106,8 +106,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/e3a0c2f53a544b8f8f300200e400f460?download=c2fbdf60afd54cf3acdc89af698f87d2",
         "documentOf": "contract",
-        "datePublished": "2023-09-01T01:00:00+03:00",
-        "dateModified": "2023-09-01T01:00:00+03:00"
+        "datePublished": "2023-09-20T01:00:00+03:00",
+        "dateModified": "2023-09-20T01:00:00+03:00"
       }
     ],
     "amountPaid": {
@@ -177,8 +177,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 2.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -214,8 +214,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",

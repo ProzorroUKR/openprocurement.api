@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "status": "complete",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
@@ -25,8 +24,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2022-12-31T23:42:00+02:00",
-      "endDate": "2022-12-31T23:49:00+02:00"
+      "startDate": "2022-12-14T00:00:00+02:00",
+      "endDate": "2022-12-21T00:00:00+02:00"
     },
     "items": [
       {
@@ -153,9 +152,9 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "endDate": "2022-12-31T23:42:00+02:00",
-      "startDate": "2022-12-31T23:34:00+02:00",
-      "clarificationsUntil": "2022-12-31T23:54:00+02:00"
+      "endDate": "2022-12-14T00:00:00+02:00",
+      "startDate": "2022-12-06T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-26T00:00:00+02:00"
     },
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
@@ -199,8 +198,8 @@ Content-Type: application/json
       }
     ],
     "awardPeriod": {
-      "startDate": "2022-12-31T23:50:00+02:00",
-      "endDate": "2022-12-31T23:50:00+02:00"
+      "startDate": "2022-12-22T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "awards": [
       {
@@ -358,8 +357,8 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {
-      "startDate": "2022-12-31T23:49:00+02:00",
-      "endDate": "2022-12-31T23:50:00+02:00"
+      "startDate": "2022-12-21T00:00:00+02:00",
+      "endDate": "2022-12-22T00:00:00+02:00"
     },
     "id": "08c193123f36498c8a6f8adaacdee277"
   },

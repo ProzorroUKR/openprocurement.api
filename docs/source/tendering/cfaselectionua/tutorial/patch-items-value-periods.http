@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:01:00+02:00",
+      "startDate": "2023-01-02T00:00:00+02:00",
       "endDate": "2023-01-16T00:00:10+02:00"
     },
     "items": [
@@ -66,7 +66,6 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000004-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
@@ -543,12 +542,12 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:01:00+02:00",
+      "startDate": "2023-01-02T00:00:00+02:00",
       "endDate": "2023-01-16T00:00:10+02:00"
     },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-01T00:01:00+02:00"
+      "endDate": "2023-01-02T00:00:00+02:00"
     },
     "minimalStep": {
       "amount": 2.5,
@@ -560,7 +559,7 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-01-01T00:01:00+02:00",
+    "next_check": "2023-01-02T00:00:00+02:00",
     "id": "e23dee5896254eb4ac3364a9a854c3fe"
   },
   "config": {

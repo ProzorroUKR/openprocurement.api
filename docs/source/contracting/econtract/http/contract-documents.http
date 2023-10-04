@@ -15,8 +15,8 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d351f09369034d459a5cd87583381c73?Signature=8p9mN2f1Dk06z3oLNH%2B1MUf0ZjBtPhTeaYQfDngeDioPs8%2FVYtElp3rMQf3U294OjDnOC1E1VOuG5dbqcydmAA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "datePublished": "2023-09-01T01:00:00+03:00",
-      "dateModified": "2023-09-01T01:00:00+03:00"
+      "datePublished": "2023-09-20T01:00:00+03:00",
+      "dateModified": "2023-09-20T01:00:00+03:00"
     },
     {
       "id": "9202cd64da8f42a5942c68dc14bf534a",
@@ -25,8 +25,8 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1ea9c5fa82c84b2a8206318bc86360df?Signature=x6tzZwzV4d5DGLeiqvD%2Bm0EdAUGgzUmYnoQ4AjImnxjQRU49JnE3aq50UHtPUVvIRfF5JSrLqmyF3tssHOT%2BCA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "datePublished": "2023-09-01T01:00:00+03:00",
-      "dateModified": "2023-09-01T01:00:00+03:00"
+      "datePublished": "2023-09-20T01:00:00+03:00",
+      "dateModified": "2023-09-20T01:00:00+03:00"
     },
     {
       "relatedItem": "b9887678ba3c448b977467c0fe3ada31",
@@ -36,8 +36,8 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/34862599de094db7a8c9c37996ea4847?Signature=cG1JU%2F1r%2B2jlQbXxJsq3HCYzzTi9mderkkqPwomMk34J6oAJ%2B7GRNC3kUgPO3zskbNjKkMkhiaJY2PmkUlOkBA%3D%3D&KeyID=a8968c46",
       "documentOf": "change",
-      "datePublished": "2023-09-01T01:00:00+03:00",
-      "dateModified": "2023-09-01T01:00:00+03:00"
+      "datePublished": "2023-09-20T01:00:00+03:00",
+      "dateModified": "2023-09-20T01:00:00+03:00"
     },
     {
       "hash": "md5:00000000000000000000000000000000",
@@ -46,8 +46,8 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc4cd1ee0c1d481d806feb638548e63b?Signature=C4ypZjunX6e74XGpYj6RLaNEEy%2BfU2mJomhLN9kphQzrRlcRhDIasEB3GcRqbctnAHP%2FjeTcdCVvVOzP2N4zCg%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
       "id": "93f808adc3a84ee9b750119a797ed776",
-      "datePublished": "2023-09-01T01:00:00+03:00",
-      "dateModified": "2023-09-01T01:00:00+03:00"
+      "datePublished": "2023-09-20T01:00:00+03:00",
+      "dateModified": "2023-09-20T01:00:00+03:00"
     }
   ]
 }

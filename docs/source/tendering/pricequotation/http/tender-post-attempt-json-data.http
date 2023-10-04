@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4563
+Content-Length: 4508
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -33,7 +33,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2023-09-15T01:00:00+03:00"
+      "endDate": "2023-10-04T01:00:00+03:00"
     },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
@@ -42,8 +42,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Комп’ютерне обладнання",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -77,7 +77,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
-    "procurementMethodDetails": "quick, accelerator=1440",
     "criteria": [
       {
         "description": "Форма випуску",
@@ -159,7 +158,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
   "data": {
     "mainProcurementCategory": "goods",
     "title": "Комп’ютерне обладнання",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "awardCriteria": "lowestCost",
@@ -173,8 +171,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-09-15T01:00:00+03:00",
-      "startDate": "2023-09-01T01:00:00+03:00"
+      "endDate": "2023-10-04T01:00:00+03:00",
+      "startDate": "2023-09-20T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -207,8 +205,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -306,11 +304,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         ]
       }
     ],
-    "tenderID": "UA-2023-09-01-000001-a",
+    "tenderID": "UA-2023-09-20-000001-a",
     "owner": "broker",
-    "date": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
+    "date": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
     "id": "bb8949e735294cbaa864bd3bc68a1e5f"
   },
   "config": {

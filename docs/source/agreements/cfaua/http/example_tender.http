@@ -10,7 +10,6 @@ Content-Type: application/json
   "data": {
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
@@ -119,46 +118,46 @@ Content-Type: application/json
         },
         "date": "2023-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "startDate": "2022-12-31T23:43:00+02:00",
-          "endDate": "2022-12-31T23:44:00+02:00"
+          "startDate": "2022-12-15T00:00:00+02:00",
+          "endDate": "2022-12-16T00:00:00+02:00"
         }
       }
     ],
     "tenderPeriod": {
-      "endDate": "2022-12-31T23:33:00+02:00",
-      "startDate": "2022-12-31T23:02:00+02:00"
+      "endDate": "2022-12-05T00:00:00+02:00",
+      "startDate": "2022-11-04T00:00:00+02:00"
     },
     "status": "complete",
     "tenderID": "UA-2023-01-01-000001-a",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T23:56:00+02:00"
+      "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
     "enquiryPeriod": {
-      "startDate": "2022-12-31T23:02:00+02:00",
-      "endDate": "2022-12-31T23:23:00+02:00",
-      "clarificationsUntil": "2023-01-31T23:53:00+02:00"
+      "startDate": "2022-11-04T00:00:00+02:00",
+      "endDate": "2022-11-25T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
     },
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "startDate": "2022-12-31T23:33:00+02:00",
-      "endDate": "2022-12-31T23:43:00+02:00"
+      "startDate": "2022-12-05T00:00:00+02:00",
+      "endDate": "2022-12-15T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2022-12-31T23:43:00+02:00",
-      "endDate": "2022-12-31T23:44:00+02:00"
+      "startDate": "2022-12-15T00:00:00+02:00",
+      "endDate": "2022-12-16T00:00:00+02:00"
     },
     "awardPeriod": {
-      "startDate": "2022-12-31T23:44:00+02:00",
-      "endDate": "2022-12-31T23:54:00+02:00"
+      "startDate": "2022-12-16T00:00:00+02:00",
+      "endDate": "2022-12-26T00:00:00+02:00"
     },
     "contractPeriod": {
-      "startDate": "2022-12-31T23:54:00+02:00",
-      "clarificationsUntil": "2022-12-31T23:59:00+02:00",
+      "startDate": "2022-12-26T00:00:00+02:00",
+      "clarificationsUntil": "2022-12-31T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "bids": [
@@ -359,8 +358,8 @@ Content-Type: application/json
         "date": "2022-12-16T00:00:00+02:00",
         "id": "f99be86681de4f368037738d6af12903",
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:44:00+02:00",
-          "endDate": "2022-12-31T23:54:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       },
       {
@@ -400,8 +399,8 @@ Content-Type: application/json
         "date": "2022-12-16T00:00:00+02:00",
         "id": "e5e6c374e9db46c2bf634056b03768db",
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:44:00+02:00",
-          "endDate": "2022-12-31T23:54:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       },
       {
@@ -441,8 +440,8 @@ Content-Type: application/json
         "date": "2022-12-16T00:00:00+02:00",
         "id": "ea7c848eefbb4037a273456dd333ce1a",
         "complaintPeriod": {
-          "startDate": "2022-12-31T23:44:00+02:00",
-          "endDate": "2022-12-31T23:54:00+02:00"
+          "startDate": "2022-12-16T00:00:00+02:00",
+          "endDate": "2022-12-26T00:00:00+02:00"
         }
       }
     ],

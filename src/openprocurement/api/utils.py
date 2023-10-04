@@ -796,7 +796,7 @@ def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool 
         request.errors.add("url", f"{obj_name}_id", "Not Found")
         request.errors.status = 404
         raise error_handler(request)
-    else:
+    elif tender is None:
         LOGGER.error(
             f"{obj_name.capitalize()} {obj_id} not found",
             extra=context_unpack(request, {"MESSAGE_ID": "get_tender_by_id"})

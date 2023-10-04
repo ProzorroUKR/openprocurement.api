@@ -16,14 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-09-01T01:00:00+03:00",
-    "dateModified": "2023-09-01T01:00:00+03:00",
-    "dateCreated": "2023-09-01T01:00:00+03:00",
-    "tenderID": "UA-2023-09-01-000001-a",
+    "date": "2023-09-20T01:00:00+03:00",
+    "dateModified": "2023-09-20T01:00:00+03:00",
+    "dateCreated": "2023-09-20T01:00:00+03:00",
+    "tenderID": "UA-2023-09-20-000001-a",
     "owner": "broker",
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "awardCriteria": "lowestCost",
@@ -37,8 +36,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-09-01T01:00:00+03:00",
-      "endDate": "2023-09-15T01:00:00+03:00"
+      "startDate": "2023-09-20T01:00:00+03:00",
+      "endDate": "2023-10-04T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -71,8 +70,8 @@ Content-Type: application/json
         },
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-03T01:00:00+03:00",
-          "endDate": "2023-09-06T01:00:00+03:00"
+          "startDate": "2023-09-22T01:00:00+03:00",
+          "endDate": "2023-09-25T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -170,7 +169,7 @@ Content-Type: application/json
         ]
       }
     ],
-    "noticePublicationDate": "2023-09-01T01:00:00+03:00",
+    "noticePublicationDate": "2023-09-20T01:00:00+03:00",
     "id": "511ad32c232540d693bcdda2dd603406"
   },
   "config": {

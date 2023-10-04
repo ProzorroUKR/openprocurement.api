@@ -86,14 +86,13 @@ class ContractResource(ContractBaseResource):
         updated = self.request.validated["data"]
         if updated:
             self.request.validated["contract"] = updated
-            with get_db_session().start_transaction():
-                self.state.on_patch(self.request.validated["contract_src"], updated)
-                if save_contract(self.request):
-                    self.LOGGER.info(
-                        f"Updated contract {updated['_id']}",
-                        extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-                    )
-                    return {"data": self.serializer_class(self.request.validated["contract"]).data}
+            self.state.on_patch(self.request.validated["contract_src"], updated)
+            if save_contract(self.request):
+                self.LOGGER.info(
+                    f"Updated contract {updated['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+                )
+                return {"data": self.serializer_class(self.request.validated["contract"]).data}
 
 
 @resource(
