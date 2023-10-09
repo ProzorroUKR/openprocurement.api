@@ -9,9 +9,9 @@ from openprocurement.tender.core.procedure.models.identifier import Identifier
 from openprocurement.tender.core.procedure.models.organization import Organization, PostOrganization
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.validation import validate_related_lot
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, is_item_owner
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, get_request
 from schematics.types import StringType, MD5Type, BaseType, BooleanType
 from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
@@ -73,6 +73,16 @@ class PostComplaint(Model):
     def validate_relatedLot(self, data, related_lot):
         if related_lot:
             validate_related_lot(get_tender(), related_lot)
+
+
+class PostComplaintFromBid(PostComplaint):
+    @serializable
+    def bid_id(self):
+        request = get_request()
+        tender = get_tender()
+        for bid in tender.get("bids", ""):
+            if is_item_owner(request, bid):
+                return bid["id"]
 
 
 class DraftPatchComplaint(Model):
@@ -142,21 +152,6 @@ class ReviewPatchComplaint(Model):
 class AdministratorPatchComplaint(Model):
     value = ModelType(Guarantee)
 
-# roles = {
-#             "create": _base_roles["create"],  # TODO inherit the rest of the roles
-#             "draft": whitelist("author", "title", "description", "status"),
-#             "bot": whitelist("rejectReason", "status"),
-#             "cancellation": whitelist("cancellationReason", "status"),
-#             "resolve": whitelist("status", "tendererAction"),
-#             "action": whitelist("tendererAction"),
-#             "review": whitelist(
-#                 "decision", "status",
-#                 "rejectReason", "rejectReasonDescription",
-#                 "reviewDate", "reviewPlace"
-#             ),
-#             "embedded": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_embedded_role),
-#             "view": (blacklist("owner_token", "owner", "transfer_token", "bid_id") + schematics_default_role),
-#         }
 
 class Complaint(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)

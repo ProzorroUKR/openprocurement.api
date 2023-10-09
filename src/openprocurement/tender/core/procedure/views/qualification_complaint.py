@@ -1,10 +1,9 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.utils import get_items
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.state.qualification_complaint import QualificationComplaintState
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer
-from openprocurement.tender.core.procedure.models.complaint import PostComplaint
+from openprocurement.tender.core.procedure.models.complaint import PostComplaintFromBid
 from openprocurement.tender.core.procedure.views.complaint import (
     resolve_complaint,
     BaseComplaintGetResource,
@@ -38,17 +37,13 @@ class QualificationComplaintWriteResource(BaseComplaintWriteResource):
         TenderBaseResource.__init__(self, request, context)
         if context and request.matchdict:
             resolve_qualification(request)
-            # resolve bid related to qualification
-            bid_id = request.validated["qualification"]["bidID"]
-            bids = get_items(request, request.validated["tender"], "bids", bid_id)
-            request.validated["bid"] = bids[0]
             resolve_complaint(request, context="qualification")
 
     @json_view(
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            validate_input_data(PostComplaint),
+            validate_input_data(PostComplaintFromBid),
             unless_admins(
                 validate_any_bid_owner(statuses=("active", "unsuccessful"))
             ),

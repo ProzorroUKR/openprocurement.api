@@ -39,6 +39,7 @@ Content-Type: application/json
         }
       ],
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -80,6 +81,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "invalid",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -118,6 +120,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "declined",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -158,6 +161,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "accepted",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -197,6 +201,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "stopped",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -270,6 +275,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "pending",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -380,6 +386,7 @@ Content-Type: application/json
       "date": "2023-01-01T00:00:01+02:00",
       "status": "mistaken",
       "type": "complaint",
+      "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {

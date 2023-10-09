@@ -18,21 +18,7 @@ class QualificationComplaintState(ComplaintState):
         request = self.request
         if lot_id := request.validated["qualification"].get("lotID"):
             complaint["relatedLot"] = lot_id
-
-        if request.authenticated_role == "bid_owner":
-            complaint["bid_id"] = self.request.validated["bid"]["id"]
         super().complaint_on_post(complaint)
-        
-    def validate_complaint_on_post(self, complaint):
-        tender = get_tender()
-        if not any(  # should be an "active" or "unsuccessful" bidder
-            is_item_owner(self.request, bid)
-            for bid in tender.get("bids", "")
-            if bid.get("status") in ("active", "unsuccessful")
-        ):
-            raise_operation_error(self.request, "Can add complaint only on unsuccessful or active bid")
-
-        super().validate_complaint_on_post(complaint)
 
     def validate_tender_in_complaint_period(self, tender):
         period = tender.get("qualificationPeriod")

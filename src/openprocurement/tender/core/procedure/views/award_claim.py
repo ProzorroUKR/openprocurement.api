@@ -2,7 +2,7 @@ from openprocurement.tender.core.procedure.views.award import resolve_award
 from openprocurement.tender.core.procedure.views.claim import (
     resolve_claim,
 )
-from openprocurement.tender.core.procedure.models.claim import PostClaim
+from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
 from openprocurement.tender.core.procedure.views.claim import BaseClaimResource
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState
 from openprocurement.tender.core.procedure.validation import (
@@ -31,7 +31,7 @@ class AwardClaimResource(BaseClaimResource):
             unless_admins(
                 validate_any_bid_owner(statuses=("active",))
             ),
-            validate_input_data(PostClaim),
+            validate_input_data(PostClaimFromBid),
             validate_data_documents(route_key="claim", uid_key="id"),
         ),
     )

@@ -68,6 +68,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0f776099eb8344b4
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "id": "14237aa0cc354ccd869a51f7dad6971d",
     "date": "2023-01-01T00:00:03+02:00",
+    "bid_id": "e1cb6a5520984996a0d99c83aa93cdf9",
     "complaintID": "UA-2023-01-01-000001-a.6",
     "dateSubmitted": "2023-01-01T00:00:03+02:00"
   },

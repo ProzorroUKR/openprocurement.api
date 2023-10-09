@@ -20,8 +20,6 @@ class QualificationClaimState(ClaimState):
         if lot_id := request.validated["qualification"].get("lotID"):
             complaint["relatedLot"] = lot_id
 
-        if is_item_owner(self.request, self.request.validated["bid"]):
-            complaint["bid_id"] = self.request.validated["bid"]["id"]
         super().claim_on_post(complaint)
 
     def validate_tender_in_complaint_period(self, tender):
@@ -34,11 +32,10 @@ class QualificationClaimState(ClaimState):
 
     def validate_submit_claim(self, claim):
         qualification = self.request.validated["qualification"]
-        bid = self.request.validated["bid"]
         if (
             qualification.get("status") == "unsuccessful"
             and claim.get("status") == "claim"
-            and not is_item_owner(self.request, bid)
+            and claim.get("bid_id") != qualification.get("bidID")
         ):
             raise_operation_error(self.request, "Can add claim only on unsuccessful qualification of your bid")
 

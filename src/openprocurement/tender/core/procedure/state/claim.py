@@ -1,8 +1,7 @@
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.models.claim import TenderOwnerPatchClaim, ClaimOwnerPatchClaim
+from openprocurement.tender.core.procedure.state.complaint import BaseComplaintState
 from openprocurement.tender.core.procedure.models.claim import (
     ClaimOwnerClaimDraft,
     ClaimOwnerClaimCancellation,
@@ -18,7 +17,7 @@ from datetime import datetime, timedelta
 LOGGER = getLogger(__name__)
 
 
-class ClaimState(TenderState):
+class ClaimState(BaseComplaintState):
     tender_claim_submit_time = timedelta(days=3)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = (
@@ -65,6 +64,8 @@ class ClaimState(TenderState):
             )
         self.validate_lot_status()
         self.validate_tender_in_complaint_period(tender)
+        self.validate_add_complaint_with_tender_cancellation_in_pending(tender)
+
         if complaint.get("status") == "claim":
             self.validate_submit_claim(complaint)
 

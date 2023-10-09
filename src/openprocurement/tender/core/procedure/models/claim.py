@@ -1,5 +1,5 @@
 from openprocurement.api.models import ListType, Model, IsoDateTimeType
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import (
     RELEASE_2020_04_19,
@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.models.organization import PostOrgani
 from openprocurement.tender.core.procedure.models.agreement_contract import Contract
 from openprocurement.tender.core.procedure.models.document import PostDocument, Document
 from openprocurement.tender.core.procedure.validation import validate_related_lot
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, is_item_owner
 from schematics.types import StringType, MD5Type, BooleanType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
@@ -57,6 +57,16 @@ class PostClaim(Model):
     def validate_relatedLot(self, data, related_lot):
         if related_lot:
             validate_related_lot(get_tender(), related_lot)
+
+
+class PostClaimFromBid(PostClaim):
+    @serializable
+    def bid_id(self):
+        request = get_request()
+        tender = get_tender()
+        for bid in tender.get("bids", ""):
+            if is_item_owner(request, bid):
+                return bid["id"]
 
 
 class TenderOwnerPatchClaim(Model):
