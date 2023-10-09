@@ -16,6 +16,7 @@ from openprocurement.contracting.api.tests.change_blanks import (
     date_signed_on_change_creation,
     change_date_signed_very_old_contracts_data,
     date_signed_on_change_creation_for_very_old_contracts_data,
+    patch_change_after_contract_is_already_terminated,
 )
 
 
@@ -37,6 +38,7 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
     test_date_signed_on_change_creation_for_very_old_contracts_data = snitch(
         date_signed_on_change_creation_for_very_old_contracts_data
     )
+    test_patch_change_after_contract_is_already_terminated = snitch(patch_change_after_contract_is_already_terminated)
 
 
 def suite():

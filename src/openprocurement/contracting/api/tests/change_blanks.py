@@ -941,3 +941,35 @@ def date_signed_on_change_creation_for_very_old_contracts_data(self):
         },
     )
     self.assertEqual(response.json["data"]["dateSigned"], valid_date)
+
+
+def patch_change_after_contract_is_already_terminated(self):
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReduction"],
+                "contractNumber": "№ 146",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"status": "terminated", "amountPaid": {"amount": 15, "amountNet": 14}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"status": "active"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update contract in current (terminated) status",
+    )
