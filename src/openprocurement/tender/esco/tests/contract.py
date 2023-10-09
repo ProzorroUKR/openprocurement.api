@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
+from unittest.mock import patch
 from copy import deepcopy
 from decimal import Decimal
+from datetime import timedelta
 
 from esculator import npv, escp
 from openprocurement.api.tests.base import snitch
@@ -14,6 +16,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
+    # EContract
+    TenderEcontractResourceTestMixin,
+    TenderEContractMultiBuyersResourceTestMixin
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_status_by_owner,
@@ -46,6 +51,8 @@ from openprocurement.tender.openeu.tests.contract_blanks import (
 from openprocurement.tender.esco.tests.contract_blanks import (
     # TenderContractResourceTest
     patch_tender_contract,
+    # EContract
+    patch_econtract,
 )
 from openprocurement.tender.esco.procedure.utils import to_decimal
 
@@ -73,17 +80,8 @@ contract_amount = to_decimal(
 ).quantize(Decimal(f"1E-{amount_precision}"))
 
 
-class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_esco_bids
-    author_data = test_tender_below_author
-    initial_auth = ("Basic", ("broker", ""))
-    expected_contract_amountPerformance = contract_amount_performance
-    expected_contract_amount = contract_amount
-
-    def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
-        # Create award
+class CreateAwardMixin:
+    def create_award(self):
         self.supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
@@ -106,6 +104,25 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
+
+
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, TenderContractResourceTestMixin):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_esco_bids
+    author_data = test_tender_below_author
+    initial_auth = ("Basic", ("broker", ""))
+    expected_contract_amountPerformance = contract_amount_performance
+    expected_contract_amount = contract_amount
+
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+    def setUp(self):
+        super(TenderContractResourceTest, self).setUp()
+        self.create_award()
+
     test_contract_termination = snitch(contract_termination)
     test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
@@ -115,12 +132,14 @@ class TenderContractResourceTest(BaseESCOContentWebTest, TenderContractResourceT
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
@@ -152,10 +171,28 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+class TenderEContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, TenderEcontractResourceTestMixin):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_esco_bids
+    author_data = test_tender_below_author
+    initial_auth = ("Basic", ("broker", ""))
+    expected_contract_amountPerformance = contract_amount_performance
+    expected_contract_amount = contract_amount
+
+    test_patch_econtract = snitch(patch_econtract)
+
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+    def setUp(self):
+        super().setUp()
+        self.create_award()
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEContractResourceTest))
     return suite
 
 

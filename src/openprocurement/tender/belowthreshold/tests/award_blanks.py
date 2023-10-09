@@ -3600,3 +3600,4 @@ def check_tender_award(self):
         response.json["data"]["bid_id"],
         sorted_bids[1]["id"],
     )
+

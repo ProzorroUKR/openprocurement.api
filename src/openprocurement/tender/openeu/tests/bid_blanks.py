@@ -538,19 +538,7 @@ def get_tender_bidder(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     self.app.authorization = ("Basic", ("anon", ""))
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
@@ -708,19 +696,7 @@ def delete_tender_bidder(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     # finished tender does not show deleted bid info
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1787,19 +1763,7 @@ def get_tender_bidder_document(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     self.app.authorization = ("Basic", ("anon", ""))
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
@@ -2039,19 +2003,7 @@ def create_tender_bidder_document(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     self.app.authorization = ("Basic", ("broker", ""))
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -2266,19 +2218,7 @@ def put_tender_bidder_document(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     self.app.authorization = ("Basic", ("broker", ""))
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
@@ -2648,18 +2588,7 @@ def patch_tender_bidder_document(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.patch_json(
@@ -3764,19 +3693,7 @@ def get_tender_bidder_document_ds(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
-    self.app.authorization = ("Basic", ("token", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     self.app.authorization = ("Basic", ("anon", ""))
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))

@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_cancellation,
 )
-
+from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 # Tender Lot Resouce Test
 
@@ -1637,8 +1637,7 @@ def proc_1lot_1bid(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -1652,10 +1651,7 @@ def proc_1lot_1bid(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1765,8 +1761,7 @@ def proc_1lot_2bid(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -1780,10 +1775,7 @@ def proc_1lot_2bid(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2170,7 +2162,7 @@ def proc_2lot_1bid_2com_1win(self):
         "tenderers": [test_tender_below_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
     }
-    self.create_bid(self.tender_id, bid_data)
+    _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     response = self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
@@ -2188,8 +2180,7 @@ def proc_2lot_1bid_2com_1win(self):
             {"data": {"status": "active"}},
         )
         # get contract id
-        response = self.app.get("/tenders/{}".format(tender_id))
-        contract = response.json["data"]["contracts"][-1]
+        contract = get_contract_data(self, tender_id)
         contract_id = contract["id"]
         contract_value = deepcopy(contract["value"])
         # after stand slill period
@@ -2203,10 +2194,7 @@ def proc_2lot_1bid_2com_1win(self):
         # sign contract
         self.app.authorization = ("Basic", ("broker", ""))
         contract_value["valueAddedTaxIncluded"] = False
-        self.app.patch_json(
-            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": contract_value}},
-        )
+        activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2347,7 +2335,7 @@ def proc_2lot_1bid_1com_1win(self):
         "tenderers": [test_tender_below_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
     }
-    self.create_bid(self.tender_id, bid_data)
+    _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     response = self.set_status(
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
@@ -2365,8 +2353,7 @@ def proc_2lot_1bid_1com_1win(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2380,10 +2367,7 @@ def proc_2lot_1bid_1com_1win(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -2461,10 +2445,10 @@ def proc_2lot_2bid_2com_2win(self):
         "tenderers": [test_tender_below_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id} for lot_id in lots],
     }
-    self.create_bid(self.tender_id, bid_data)
+    _, bid1_token = self.create_bid(self.tender_id, bid_data)
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(self.tender_id, bid_data)
+    _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
     # get auction info
@@ -2521,8 +2505,7 @@ def proc_2lot_2bid_2com_2win(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2536,10 +2519,7 @@ def proc_2lot_2bid_2com_2win(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid1_token)
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -2562,8 +2542,7 @@ def proc_2lot_2bid_2com_2win(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2577,10 +2556,7 @@ def proc_2lot_2bid_2com_2win(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid2_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2655,11 +2631,11 @@ def proc_2lot_1feature_2bid_2com_2win(self):
         "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[0]}],
         "parameters": [{"code": "code_item", "value": 0.2}],
     }
-    self.create_bid(self.tender_id, bid_data)
+    _, bid1_token = self.create_bid(self.tender_id, bid_data)
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}]}
-    self.create_bid(self.tender_id, bid_data)
+    _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     response = self.set_status("active.auction", {"status": "active.tendering"})
     response = self.check_chronograph()
@@ -2675,8 +2651,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2690,10 +2665,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid1_token)
     # for second lot
     lot_id = lots[1]
     # get awards
@@ -2706,8 +2678,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2721,10 +2692,7 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid2_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

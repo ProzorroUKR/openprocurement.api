@@ -13,11 +13,13 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.validation import validate_input_data
 from openprocurement.contracting.econtract.procedure.models.contract import SignerInfo
+from openprocurement.contracting.econtract.procedure.state.signer_info import EContractSignerInfoState
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
 
 
 class BaseSignerInfoResource(ContractBaseResource):
+    state_class = EContractSignerInfoState
     serializer_class = BaseSerializer
     parent_obj_name: str
 
@@ -28,6 +30,8 @@ class BaseSignerInfoResource(ContractBaseResource):
         parent_obj = contract[self.parent_obj_name]
         if self.parent_obj_name == "suppliers":
             parent_obj = contract[self.parent_obj_name][0]
+
+        self.state.signer_info_on_put(signer_info)
 
         parent_obj["signerInfo"] = signer_info
 

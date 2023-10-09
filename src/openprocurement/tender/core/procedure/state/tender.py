@@ -1,7 +1,7 @@
 from logging import getLogger
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
-from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixin
+from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.chronograph import ChronographEventsMixing
@@ -12,7 +12,7 @@ LOGGER = getLogger(__name__)
 
 class TenderState(
     ShouldStartAfterMixing,
-    CancellationBlockMixin,
+    CancellationBlockMixing,
     TenderStateAwardingMixing,
     ChronographEventsMixing,
     BaseState,

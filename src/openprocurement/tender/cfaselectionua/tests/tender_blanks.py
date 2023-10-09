@@ -31,6 +31,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_features,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 
 def listing(self):
@@ -2056,7 +2057,7 @@ def one_valid_bid_tender(self):
         "tenderers": [test_tender_cfaselectionua_organization],
         "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_data["lots"][0]["id"]}],
     }
-    self.create_bid(tender_id, bid_data)
+    _, bid_token = self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.tendering", start_end="end")
     response = self.check_chronograph()
@@ -2076,7 +2077,6 @@ def one_valid_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("active.awarded", start_end="end")
@@ -2085,11 +2085,7 @@ def one_valid_bid_tender(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2162,6 +2158,7 @@ def one_invalid_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # empty tenders listing
@@ -2364,17 +2361,12 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

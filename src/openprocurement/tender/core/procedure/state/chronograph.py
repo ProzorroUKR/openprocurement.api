@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from logging import getLogger
 
 from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender_config, get_tender,
@@ -295,8 +295,9 @@ class ChronographEventsMixing(baseclass):
     def add_next_contract_handler(self, award):
         def handler(*_):
             request = get_request()
-            add_contracts(request, award, self.contract_model)
+            contracts = add_contracts(request, award)
             self.add_next_award()
+            save_contracts_to_contracting(contracts, award)
 
         return handler
 

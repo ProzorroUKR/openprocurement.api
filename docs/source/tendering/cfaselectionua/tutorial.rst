@@ -279,80 +279,14 @@ Qualification comission registers its decision via the following call:
 
 Procuring entity should fill the information about extension of the bidder's term in the `description` field.
 
-Setting  contract value
------------------------
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value. 
+.. index:: Setting Contract
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+Setting Contract
+----------------
 
-.. http:example:: tutorial/tender-contract-set-contract-value.http
-   :code:
+All operations with contract moved to :ref:`econtracting`
 
-`200 OK` response was returned. The value was modified successfully.
-
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. http:example:: tutorial/tender-contract-sign-date.http
-   :code:
-
-Setting contract validity period
---------------------------------
-
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
-
-.. http:example:: tutorial/tender-contract-period.http
-   :code:
-
-Uploading contract documentation
---------------------------------
-
-You can upload contract documents. Let's upload contract document:
-
-.. http:example:: tutorial/tender-contract-upload-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm document was added.
-
-Let's see the list of contract documents:
-
-.. http:example:: tutorial/tender-contract-get-documents.http
-   :code:
-
-We can add another contract document:
-
-.. http:example:: tutorial/tender-contract-upload-second-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm second document was uploaded.
-
-Let's see the list of all added contract documents:
-
-.. http:example:: tutorial/tender-contract-get-documents-again.http
-   :code:
-
-Set contract signature date
----------------------------
-
-There is a possibility to set custom contract signature date.
-If the date is not set it will be generated on contract registration.
-
-.. http:example:: tutorial/tender-contract-sign-date.http
-   :code:
-
-Contract registration
----------------------
-
-.. http:example:: tutorial/tender-contract-sign.http
-   :code:
-
-To see more information about contract look at the `Contracting API interface to OpenProcurement database
-<https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_.
 
 Cancelling tender
 -----------------

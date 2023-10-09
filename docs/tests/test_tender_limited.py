@@ -250,155 +250,6 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             )
             self.assertEqual(response.status, '200 OK')
 
-        #### Contracts
-
-        response = self.app.get(
-            '/tenders/{}/contracts?acc_token={}'.format(
-                self.tender_id, owner_token
-            )
-        )
-        contract = response.json['data'][0]
-        self.contract_id = contract['id']
-        contract["value"]["amount"] = 238
-        contract["value"]["amountNet"] = 230
-
-        ####  Set contract value
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {"data": {"value": contract["value"]}}
-            )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amount'], 238)
-
-        contract["items"][0]["unit"]["value"] = {
-            "amount": 12,
-            "currency": contract["value"]["currency"],
-            "valueAddedTaxIncluded": contract["value"]["valueAddedTaxIncluded"],
-        }
-
-        #### Set contact.item.unit value
-        with open(TARGET_DIR + 'tutorial/tender-contract-set-contract_items_unit-value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {"data": {"items": contract["items"]}}
-            )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['items'][0]['unit']['value']['amount'], 12)
-
-        # a better way to do same
-        item = contract["items"][0]
-        with open(TARGET_DIR + 'tutorial/tender-contract_items_unit_value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                f'/tenders/{self.tender_id}/contracts/{self.contract_id}/items/{item["id"]}/unit/value'
-                f'?acc_token={owner_token}',
-                {
-                    "data": {
-                        "amount": 13,
-                    }
-                }
-            )
-            self.assertEqual(response.status, '200 OK')
-            self.assertEqual(response.json['data']['amount'], 13)
-            self.assertEqual(response.json['data']["currency"], contract["value"]["currency"])
-            self.assertEqual(response.json['data']["valueAddedTaxIncluded"], contract["value"]["valueAddedTaxIncluded"])
-
-        #### Setting contract signature date
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-sign-date.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {"dateSigned": get_now().isoformat()}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        #### Setting contract period
-
-        period_dates = {
-            "period": {
-                "startDate": get_now().isoformat(),
-                "endDate": (get_now() + timedelta(days=365)).isoformat()
-            }
-        }
-        with open(TARGET_DIR + 'tutorial/tender-contract-period.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'period': period_dates["period"]}}
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        #### Uploading Contract documentation
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {
-                    "data": {
-                        "title": "contract_first_document.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                    }
-                }
-            )
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-get-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                )
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {
-                    "data": {
-                        "title": "contract_second_document.doc",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
-                    }
-                }
-            )
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                )
-            )
-        self.assertEqual(response.status, '200 OK')
-
-        #### Contract signing
-
-        self.tick()
-
-        with open(TARGET_DIR + 'tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
 
 class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     initial_data = test_tender_negotiation_data
@@ -448,13 +299,6 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             )
             self.assertEqual(response.status, '200 OK')
 
-        # get contract
-        response = self.app.get(
-            '/tenders/{}/contracts?acc_token={}'.format(
-                self.tender_id, owner_token
-            )
-        )
-        self.contract_id = response.json['data'][0]['id']
 
         with open(TARGET_DIR + 'tutorial/negotiation-prepare-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -473,24 +317,6 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                     self.tender_id, cancellation_id, owner_token
                 ),
                 {'data': {'reasonType': 'dateViolation'}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        #### Contract signing
-
-        self.tick()
-
-        tender = self.mongodb.tenders.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.mongodb.tenders.save(tender)
-
-        with open(TARGET_DIR + 'tutorial/tender-negotiation-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -666,43 +492,6 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             )
             self.assertEqual(response.status, '200 OK')
 
-        # get contract
-        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, owner_token))
-        self.contract_id = response.json['data'][0]['id']
-
-        ####  Set contract value
-
-        with open(
-            TARGET_DIR + 'multiple_lots_tutorial/tender-contract-set-contract-value.http',
-            'w'
-            ) as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {"data": {"value": {"amount": 238, "amountNet": 230}}}
-            )
-        self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amount'], 238)
-
-        #### Contract signing
-
-        self.tick()
-
-        tender = self.mongodb.tenders.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.mongodb.tenders.save(tender)
-
-        with open(TARGET_DIR + 'multiple_lots_tutorial/tender-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
 
 class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResourceTest):
     initial_data = test_tender_negotiation_quick_data
@@ -757,31 +546,5 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
                     self.tender_id, self.award_id, owner_token
                 ),
                 {'data': {'status': 'active', 'qualified': True}}
-            )
-            self.assertEqual(response.status, '200 OK')
-
-        # get contract
-        response = self.app.get(
-            '/tenders/{}/contracts?acc_token={}'.format(
-                self.tender_id, owner_token
-            )
-        )
-        self.contract_id = response.json['data'][0]['id']
-
-        #### Contract signing
-
-        self.tick()
-
-        tender = self.mongodb.tenders.get(self.tender_id)
-        for i in tender.get('awards', []):
-            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
-        self.mongodb.tenders.save(tender)
-
-        with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-contract-sign.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
             )
             self.assertEqual(response.status, '200 OK')

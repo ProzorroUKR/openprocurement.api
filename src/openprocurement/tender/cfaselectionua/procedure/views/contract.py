@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_contract_supplier,
     validate_contract_input_data,
+    validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractState
 from openprocurement.tender.cfaselectionua.procedure.models.contract import (
@@ -34,6 +35,7 @@ class CFASelectionContractResource(TenderContractResource):
         content_type="application/json",
         permission="create_contract",
         validators=(
+            validate_forbid_contract_action_after_date("contract"),
             validate_input_data(PostContract),
         ),
     )
@@ -44,6 +46,7 @@ class CFASelectionContractResource(TenderContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
+            validate_forbid_contract_action_after_date("contract"),
             unless_admins(validate_contract_supplier()),
             validate_contract_input_data(model=PatchContract, supplier_model=PatchContractSupplier),
             validate_patch_data_simple(Contract, item_name="contract"),

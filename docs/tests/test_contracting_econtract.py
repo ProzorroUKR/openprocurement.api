@@ -18,6 +18,7 @@ from openprocurement.tender.pricequotation.tests.utils import (
     criteria_drop_uuids,
     copy_criteria_req_id,
 )
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 from tests.base.test import (
     DumpsWebTestApp,
@@ -38,7 +39,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    freezing_datetime = '2023-09-20T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
 

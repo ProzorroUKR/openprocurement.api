@@ -6,23 +6,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 04:28+0300\n"
+"POT-Creation-Date: 2023-10-24 01:12+0300\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.13.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
 
-msgid "Configuration"
-msgstr "Конфігурація"
-
-msgid "The set of possible configuration values:"
-msgstr "Набір можливих значень конфігурації:"
+msgid "Exploring basic rules"
+msgstr "Розглянемо основні правила"
 
 msgid "name"
 msgstr ""
@@ -261,66 +258,11 @@ msgstr "Кваліфікаційна комісія реєструє своє р
 msgid "Procuring entity should fill the information about extension of the bidder's term in the `description` field."
 msgstr "Замовник має заповнити інформацію про продовження терміну дії Учасника в полі `description`."
 
-msgid "Setting  contract value"
-msgstr "Встановлення вартості контракту"
+msgid "Setting Contract"
+msgstr "Налаштування угоди"
 
-msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
-msgstr "За замовчуванням вартість контракту встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
-
-msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
-msgstr "Якщо ви хочете **знизити вартість контракту**, ви можете встановити нове значення для поля `amount`."
-
-msgid "`200 OK` response was returned. The value was modified successfully."
-msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
-
-msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання контракту"
-
-msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
-msgstr "Є можливість встановити дату підписання контракту. Для цього вставте відповідну дату в поле `dateSigned`."
-
-msgid "If this date is not set, it will be auto-generated on the date of contract registration."
-msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації контракту."
-
-msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії контракту"
-
-msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії контракту необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
-
-msgid "Uploading contract documentation"
-msgstr "Завантаження документів щодо укладання контракту"
-
-msgid "You can upload contract documents. Let's upload contract document:"
-msgstr "Спробуємо завантажити документ пов’язаний з контрактом:"
-
-msgid "`201 Created` response code and `Location` header confirm document was added."
-msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано."
-
-msgid "Let's see the list of contract documents:"
-msgstr "Переглянемо список завантажених документів:"
-
-msgid "We can add another contract document:"
-msgstr "Тепер спробуємо додати ще один документ щодо укладання контракту:"
-
-msgid "`201 Created` response code and `Location` header confirm second document was uploaded."
-msgstr "Код відповіді `201 Created`та заголовок `Location` підтверджують, що ще один документ було додано."
-
-msgid "Let's see the list of all added contract documents:"
-msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням контракту:"
-
-msgid "Set contract signature date"
-msgstr "Встановити дату підписання контракту"
-
-msgid "There is a possibility to set custom contract signature date. If the date is not set it will be generated on contract registration."
-msgstr "Є можливість встановити дату підписання договору. Якщо дата не встановлена, то вона буде згенерована під час реєстрації договору."
-
-msgid "Contract registration"
-msgstr "Реєстрація контракту"
-
-msgid "To see more information about contract look at the `Contracting API interface to OpenProcurement database <https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_."
-msgstr "Більше інформації про поведінку контрактів можна побачити тут: `Contracting API для реєстрації даних пов’язаних з договором <https://prozorro-api-docs.readthedocs.io/en/latest/contracting/index.html>`_."
-
+msgid "All operations with contract moved to :ref:`econtracting`"
+msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 

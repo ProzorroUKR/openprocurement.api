@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
+from unittest.mock import patch
+from datetime import timedelta
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
@@ -53,6 +56,10 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
 )
+from openprocurement.tender.belowthreshold.tests.contract import (
+    TenderEcontractResourceTestMixin,
+    TenderEContractMultiBuyersResourceTestMixin,
+)
 
 
 class TenderContractResourceTestMixin(object):
@@ -68,6 +75,36 @@ class TenderContractDocumentResourceTestMixin(object):
     test_patch_tender_contract_document = snitch(patch_tender_contract_document)
 
 
+class CreateActiveAwardMixin:
+    def create_award(self):
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/awards",
+            {
+                "data": {
+                    "suppliers": [test_tender_cfaselectionua_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }
+            },
+        )
+        award = response.json["data"]
+        self.award_id = award["id"]
+        self.app.authorization = auth
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active"}},
+        )
+
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.contracts_ids = [i["id"] for i in response.json["data"]["contracts"]]
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
+
+
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.awarded"
     initial_bids = test_tender_cfaselectionua_bids
@@ -84,6 +121,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.awarded"
     initial_bids = test_tender_cfaselectionua_bids
@@ -115,7 +153,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 
 
 @unittest.skip("Skip multi-lots tests")
-class Tender2LotContractResourceTest(TenderContentWebTest):
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
+class Tender2LotContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaselectionua_bids
     initial_lots = 2 * test_tender_cfaselectionua_lots
@@ -123,31 +162,12 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
     def setUp(self):
         super(Tender2LotContractResourceTest, self).setUp()
         # Create award
-
-        auth = self.app.authorization
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {
-                "data": {
-                    "suppliers": [test_tender_cfaselectionua_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"],
-                }
-            },
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.authorization = auth
-        self.app.patch_json(
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}},
-        )
+        self.create_award()
 
     test_lot2_patch_tender_contract = snitch(lot2_patch_tender_contract)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.awarded"
     initial_bids = test_tender_cfaselectionua_bids
@@ -160,7 +180,9 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
+
 @unittest.skip("Skip multi-lots tests")
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaselectionua_bids
@@ -211,6 +233,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
     test_lot2_patch_tender_contract_document_by_supplier = snitch(lot2_patch_tender_contract_document_by_supplier)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaselectionua_bids
@@ -246,6 +269,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
         for c in response.json["data"]["contracts"]:
             self.assertIn("buyerID", c)
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()
         self.create_award()
@@ -260,11 +284,46 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     )
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+class TenderEContractResourceTest(
+    TenderContentWebTest,
+    CreateActiveAwardMixin,
+    TenderEcontractResourceTestMixin
+):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
+
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+    def setUp(self):
+        super().setUp()
+        self.create_award()
+
+
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+class TenderEContractMultiBuyersResourceTest(
+    TenderContentWebTest,
+    CreateActiveAwardMixin,
+    TenderEContractMultiBuyersResourceTestMixin,
+):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_cfaselectionua_bids
+    initial_lots = test_tender_cfaselectionua_lots
+    initial_data = test_tender_cfaselectionua_multi_buyers_data
+
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
+    def setUp(self):
+        super().setUp()
+        self.create_award()
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderContractResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEContractResourceTest))
+    suite.addTest(unittest.makeSuite(TenderEContractMultiBuyersResourceTest))
     return suite
 
 

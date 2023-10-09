@@ -20,8 +20,8 @@ def includeme(config):
     config.registry.contract_types = {}
     config.add_route_predicate("contractType", isContract)
 
-    config.add_request_method(contract_from_data)
-    config.add_directive("add_contract_type", register_contract_type)
+    # config.add_request_method(contract_from_data)
+    # config.add_directive("add_contract_type", register_contract_type)
     config.scan("openprocurement.contracting.core.procedure.views")
 
     settings = config.get_settings()
