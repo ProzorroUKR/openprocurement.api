@@ -1,7 +1,11 @@
 import logging
-from openprocurement.api.utils import error_handler, context_unpack
+from decimal import Decimal
+
+from openprocurement.api.utils import error_handler, context_unpack, raise_operation_error
+from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
+from openprocurement.tender.core.procedure.utils import get_supplier_contract
 from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_request, get_tender_config
+from openprocurement.tender.core.procedure.context import get_request, get_tender_config, get_tender
 from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)
@@ -18,6 +22,7 @@ class BidState(BaseState):
         data["date"] = now
 
         self.validate_status(data)
+        self.validate_bid_vs_agreement(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -28,6 +33,7 @@ class BidState(BaseState):
 
     def on_patch(self, before, after):
         self.validate_status_change(before, after)
+        self.validate_bid_vs_agreement(after)
         self.update_date_on_value_amount_change(before, after)
         super().on_patch(before, after)
 
@@ -109,3 +115,39 @@ class BidState(BaseState):
             )
             self.request.errors.status = 403
             raise error_handler(self.request)
+
+    def validate_bid_vs_agreement(self, data):
+        config = get_tender_config()
+
+        if not config["hasPreSelectionAgreement"]:
+            return
+
+        tender = get_tender()
+        agreement = self.request.registry.mongodb.agreements.get(tender["agreements"][0]["id"])
+        supplier_contract = get_supplier_contract(
+            agreement["contracts"],
+            data["tenderers"],
+        )
+
+        self.validate_bid_with_contract(data, supplier_contract)
+
+    def validate_bid_with_contract(self, data, supplier_contract):
+        if not supplier_contract:
+            raise_operation_error(self.request, "Bid is not a member of agreement")
+
+        if (
+            data.get("lotValues")
+            and supplier_contract.get("value")
+            and Decimal(data["lotValues"][0]["value"]["amount"]) > Decimal(supplier_contract["value"]["amount"])
+        ):
+            raise_operation_error(self.request, "Bid value.amount can't be greater than contact value.amount.")
+
+        if data.get("parameters"):
+            contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}
+            for p in data["parameters"]:
+                code = p["code"]
+                if (
+                    code not in contract_parameters
+                    or not equals_decimal_and_corrupted(Decimal(p["value"]), contract_parameters[code])
+                ):
+                    raise_operation_error(self.request, "Can't post inconsistent bid")

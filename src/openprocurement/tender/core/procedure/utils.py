@@ -582,3 +582,13 @@ def _extract_resource(request, matchdict, parent_resource, resource_name):
             raise error_handler(request)
         return resources[-1]
     return None
+
+
+
+def get_supplier_contract(contracts, tenderers):
+    for contract in contracts:
+        if contract["status"] == "active":
+            for supplier in contract.get("suppliers", ""):
+                for tenderer in tenderers:
+                    if supplier["identifier"]["id"] == tenderer["identifier"]["id"]:
+                        return contract

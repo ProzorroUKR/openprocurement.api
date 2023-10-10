@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_SELECTIVE,
     LIMITED_PROCUREMENT_METHOD_TYPES,
@@ -168,7 +167,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if len(agreements) != 1:
                 raise_agreements_error("Exactly one agreement is expected.")
 
-            agreement = get_request().registry.mongodb.agreements.get(agreements[0]["id"])
+            agreement = self.request.registry.mongodb.agreements.get(agreements[0]["id"])
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 

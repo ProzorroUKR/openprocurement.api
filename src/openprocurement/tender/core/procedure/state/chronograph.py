@@ -493,7 +493,7 @@ class ChronographEventsMixing(baseclass):
 
         # set cancelled agreement status (cfaua)
         for agreement in tender.get("agreements", ""):
-            if agreement["status"] in ("pending", "active"):
+            if "status" in agreement and agreement["status"] in ("pending", "active"):
                 self.set_object_status(agreement, "cancelled")
 
     def cancel_lot(self, tender, cancellation):
