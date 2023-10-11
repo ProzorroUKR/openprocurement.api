@@ -15,7 +15,7 @@ from openprocurement.api.models import Model, Value
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.validation import TYPEMAP
+from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
 from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
 from uuid import uuid4

@@ -3,9 +3,9 @@ from uuid import uuid4
 
 from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award
 from openprocurement.api.context import get_now
+from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
 from openprocurement.api.utils import context_unpack, get_contract_by_id
 from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
-from openprocurement.tender.belowthreshold.utils import prepare_tender_item_for_contract
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.contracting.econtract.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.utils import save_contract

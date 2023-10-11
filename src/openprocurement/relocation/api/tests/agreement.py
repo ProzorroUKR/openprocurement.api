@@ -3,10 +3,11 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.relocation.api.models import Transfer
 from openprocurement.framework.cfaua.models.agreement import Agreement
-from openprocurement.framework.cfaua.tests.data import test_tender_token as test_agreement_tender_token, \
-    test_agreement_data
+from openprocurement.framework.cfaua.tests.data import (
+    test_tender_token as test_agreement_tender_token,
+    test_agreement_data,
+)
 
 
 class BaseAgreementOwnershipChangeTest(BaseWebTest):
@@ -115,7 +116,7 @@ class AgreementOwnershipChangeTest(BaseAgreementOwnershipChangeTest):
         # but agreement is not stored with new credentials)
         transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/agreements/" + agreement["id"]
-        self.mongodb.transfers.save(Transfer(transfer_doc))
+        self.mongodb.transfers.save(transfer_doc)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/agreements/{}/ownership".format(agreement["id"]),

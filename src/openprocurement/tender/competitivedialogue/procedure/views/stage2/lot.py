@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.procedure.validation import validate_lot_operation_for_stage2
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.competitivedialogue.validation import validate_lot_operation_for_stage2
 
 
 @resource(

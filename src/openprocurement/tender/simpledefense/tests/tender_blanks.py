@@ -2,9 +2,9 @@
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.api.constants import NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM, CPV_ITEMS_CLASS_FROM
-from openprocurement.tender.core.models import get_now
 
 
 def create_tender_invalid(self):

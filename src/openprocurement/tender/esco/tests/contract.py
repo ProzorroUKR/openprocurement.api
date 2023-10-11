@@ -47,8 +47,7 @@ from openprocurement.tender.esco.tests.contract_blanks import (
     # TenderContractResourceTest
     patch_tender_contract,
 )
-from openprocurement.tender.esco.utils import to_decimal
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 amount_precision = 2
 

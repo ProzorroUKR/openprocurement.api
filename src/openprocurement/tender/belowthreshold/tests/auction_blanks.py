@@ -200,7 +200,7 @@ def post_tender_auction(self):
 
 
 def post_tender_auction_weighted_value(self):
-    if self.tender_class.procurementMethodType.default not in ("openua", "openeu", "simple.defense"):
+    if self.initial_data["procurementMethodType"] not in ("openua", "openeu", "simple.defense"):
         self.skipTest("weightedValue is not implemented")
 
     self.app.authorization = ("Basic", ("auction", ""))
@@ -1015,7 +1015,7 @@ def get_tender_lot_auction(self):
 
 
 def post_tender_lot_auction_weighted_value(self):
-    if self.tender_class.procurementMethodType.default not in ("openua", "openeu", "simple.defense"):
+    if self.initial_data["procurementMethodType"] not in ("openua", "openeu", "simple.defense"):
         self.skipTest("weightedValue is not implemented")
 
     self.app.authorization = ("Basic", ("auction", ""))
@@ -1346,7 +1346,7 @@ def post_tender_lots_auction(self):
 
 
 def post_tender_lots_auction_weighted_value(self):
-    if self.tender_class.procurementMethodType.default not in ("openua", "openeu", "simple.defense"):
+    if self.initial_data["procurementMethodType"] not in ("openua", "openeu", "simple.defense"):
         self.skipTest("weightedValue is not implemented")
 
     self.app.authorization = ("Basic", ("auction", ""))

@@ -9,7 +9,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,
-    validate_tender_period_extension,
 )
 from openprocurement.tender.esco.procedure.state.lot import TenderLotState
 from openprocurement.tender.esco.procedure.models.lot import PostLot, PatchLot, Lot
@@ -31,7 +30,6 @@ class ESCOLotResource(TenderLotResource):
         validators=(
                 validate_lot_operation_in_disallowed_tender_statuses,
                 validate_input_data(PostLot),
-                validate_tender_period_extension,
         ),
     )
     def collection_post(self) -> Optional[dict]:
@@ -44,7 +42,6 @@ class ESCOLotResource(TenderLotResource):
                 validate_input_data(PatchLot),
                 validate_patch_data_simple(Lot, item_name="lot"),
                 validate_operation_with_lot_cancellation_in_pending("lot"),
-                validate_tender_period_extension,
         ),
         permission="edit_lot",
     )

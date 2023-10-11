@@ -8,12 +8,6 @@ from mock import patch
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.competitivedialogue.models import (
-    CompetitiveDialogUA,
-    CompetitiveDialogEU,
-    TenderStage2UA,
-    TenderStage2EU,
-)
 from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -214,7 +208,6 @@ class BaseCompetitiveDialogEUStage2WebTest(BaseCompetitiveDialogWebTest):
     test_bids_data = test_tender_cd_bids
 
     periods = PERIODS
-    tender_class = TenderStage2EU
 
 
 class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
@@ -223,7 +216,6 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
     test_bids_data = test_tender_cd_bids
 
     periods = PERIODS_UA_STAGE_2
-    tender_class = TenderStage2UA
 
 
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
@@ -241,7 +233,6 @@ class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     )  # status, in which adding document to tender auction is forbidden
 
     periods = PERIODS
-    tender_class = CompetitiveDialogEU
 
 
 class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
@@ -256,7 +247,6 @@ class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     )  # status, in which adding document to tender auction is forbidden
 
     periods = PERIODS
-    tender_class = CompetitiveDialogUA
 
 
 class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
@@ -270,7 +260,6 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
         self.create_tender()
 
     periods = PERIODS
-    tender_class = CompetitiveDialogUA
 
 
 class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
@@ -292,7 +281,6 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
     initial_lots = None
     initial_features = None
 
-    tender_class = TenderStage2EU
     periods = PERIODS
 
     def setUp(self):
@@ -318,7 +306,6 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
     initial_lots = None
     initial_features = None
 
-    tender_class = TenderStage2UA
     periods = PERIODS_UA_STAGE_2
 
     def create_tenderers(self, count=1):

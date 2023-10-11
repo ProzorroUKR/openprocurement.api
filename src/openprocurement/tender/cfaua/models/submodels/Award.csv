@@ -1,7 +1,0 @@
-rolename,status,lotID,description,complaintPeriod,title_en,bid_id,description_en,subcontractingDetails,date,qualified,complaints,id,__parent__,documents,title,items,suppliers,eligible,value,title_ru,description_ru
-Administrator,,,,1,,,,,,,,,,,,,,,,,
-embedded,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1
-default,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1
-create,,1,1,,1,1,1,1,,1,,,1,,1,1,1,1,1,1,1
-edit,1,,1,,1,,1,,,1,,,,,1,,,1,,1,1
-view,1,1,1,1,1,1,1,1,1,1,1,1,,1,1,1,1,1,1,1,1

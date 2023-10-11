@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.utils import tender_created_after, validate_features_custom_weight
 from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PostBaseTender, PatchBaseTender
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
@@ -36,11 +36,7 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.validation import validate_milestones
-from openprocurement.tender.core.models import validate_features_uniq
-from openprocurement.tender.core.utils import (
-    validate_features_custom_weight,
-)
+from openprocurement.tender.core.procedure.validation import validate_milestones, validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 
 

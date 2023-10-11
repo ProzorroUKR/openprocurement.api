@@ -11,13 +11,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
 
 def create_tender_complaint(self):
     # complaint
-    with patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1)):
-        response = self.app.post_json(
-            "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": test_tender_below_draft_complaint
-            },
-        )
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {
+            "data": test_tender_below_draft_complaint
+        },
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"], {"currency": "UAH", "amount": 2000})

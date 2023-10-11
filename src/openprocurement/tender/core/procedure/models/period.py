@@ -1,7 +1,6 @@
 from openprocurement.api.context import get_now
 from openprocurement.api.models import IsoDateTimeType, Model
 from schematics.validate import ValidationError
-from openprocurement.tender.core.constants import CANT_DELETE_PERIOD_START_DATE_FROM
 
 
 class Period(Model):
@@ -15,13 +14,6 @@ class Period(Model):
 
 class PeriodEndRequired(Period):
     endDate = IsoDateTimeType(required=True)
-
-    # def validate_startDate(self, data, period):
-    #     super().validate_startDate(self, data, period)
-    #
-    #     date = get_first_revision_date(get_tender(), default=None)
-    #     if date and date > CANT_DELETE_PERIOD_START_DATE_FROM and not period:
-    #         raise ValidationError(["This field cannot be deleted"])
 
 
 class PostPeriodStartEndRequired(Period):

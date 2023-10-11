@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.open.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.open.procedure.state.tender_details import OpenTenderDetailsState
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -31,7 +31,7 @@ from cornice.resource import resource
 )
 class AboveThresholdTenderResource(TendersResource):
 
-    state_class = TenderDetailsState
+    state_class = OpenTenderDetailsState
 
     @json_view(
         content_type="application/json",

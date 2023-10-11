@@ -173,19 +173,17 @@ def patch_tender_lot(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     lot = response.json["data"]["lots"][0]
 
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.patch_json(
-            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-            {"data": {"minimalStep": {**lot["minimalStep"], "amount": 35.0}}}, status=422
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
-              "location": "body", "name": "minimalStep"}]
-        )
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+        {"data": {"minimalStep": {**lot["minimalStep"], "amount": 35.0}}}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+          "location": "body", "name": "minimalStep"}]
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
@@ -1210,18 +1208,16 @@ def create_tender_lot(self):
     tender_data["lots"] = deepcopy(self.initial_lots)
     tender_data["lots"][0]["minimalStep"]["amount"] = 35
 
-    with mock.patch("openprocurement.tender.core.validation.MINIMAL_STEP_VALIDATION_FROM",
-                    get_now() - timedelta(days=1)):
-        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [{'description': [
-                {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-              'location': 'body', 'name': 'lots'}],
-        )
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': [
+            {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
+          'location': 'body', 'name': 'lots'}],
+    )
 
     tender_data = deepcopy(self.initial_data)
     tender_data["lots"] = deepcopy(self.initial_lots)
@@ -1816,7 +1812,6 @@ def create_tender_feature_bidder(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (unsuccessful) tender status")
 
 
-@mock.patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_feature_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
 

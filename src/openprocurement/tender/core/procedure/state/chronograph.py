@@ -11,9 +11,8 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    tender_created_after_2020_rules, activate_bids,
+    tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
 )
-from openprocurement.tender.core.utils import calc_auction_end_time
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 
 

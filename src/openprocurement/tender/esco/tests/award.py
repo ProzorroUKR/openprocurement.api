@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_lot_award_lots_none,
     create_tender_award_document_json_bulk,
 )
-from openprocurement.tender.esco.adapters import TenderESCOConfigurator
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
@@ -52,8 +51,7 @@ from openprocurement.tender.esco.tests.award_blanks import (
     patch_tender_award,
     patch_tender_lot_award,
 )
-from openprocurement.tender.esco.utils import to_decimal
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 award_amount_performance = round(
     float(
@@ -149,8 +147,9 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
         "annualCostsReduction": [100] * 21,
         "contractDuration": {"years": 2, "days": 10},
     }
-    reverse = TenderESCOConfigurator.reverse_awarding_criteria
-    awarding_key = TenderESCOConfigurator.awarding_criteria_key
+
+    reverse = True
+    awarding_key = "amountPerformance"
 
     initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))

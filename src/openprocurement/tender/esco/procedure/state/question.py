@@ -4,4 +4,4 @@ from openprocurement.tender.openua.procedure.state.question import UATenderQuest
 
 
 class ESCOTenderQuestionState(UATenderQuestionStateMixin, ESCOTenderTenderState):
-    create_accreditations = (ACCR_4,)
+    question_create_accreditations = (ACCR_4,)

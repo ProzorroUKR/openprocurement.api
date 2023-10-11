@@ -61,8 +61,7 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     patch_tender_bid,
     bids_invalidation_on_lot_change,
 )
-from openprocurement.tender.esco.utils import to_decimal
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 lot_bid_amountPerformance = round(
     float(

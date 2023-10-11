@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.openeu.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.openeu.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.openeu.procedure.state.tender_details import OpenEUTenderDetailsState
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -32,7 +32,7 @@ from cornice.resource import resource
 class AboveThresholdEUTenderResource(TendersResource):
 
     serializer_class = TenderBaseSerializer
-    state_class = TenderDetailsState
+    state_class = OpenEUTenderDetailsState
 
     @json_view(
         content_type="application/json",

@@ -19,7 +19,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
-from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_with_lots_data,
     BaseTenderWebTest,
@@ -56,7 +55,6 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
 
 class CFAUATenderTest(BaseTenderWebTest):
     docservice = True
-    tender_model = CloseFrameworkAgreementUA
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_cfaua_with_lots_data)
     initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)

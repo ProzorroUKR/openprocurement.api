@@ -3,7 +3,7 @@ from openprocurement.api.auth import ACCR_1, ACCR_5
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.belowthreshold.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.belowthreshold.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.belowthreshold.procedure.state.tender_details import BelowThresholdTenderDetailsState
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
@@ -29,7 +29,7 @@ from cornice.resource import resource
     accept="application/json",
 )
 class BelowThresholdTenderResource(TendersResource):
-    state_class = TenderDetailsState
+    state_class = BelowThresholdTenderDetailsState
 
     @json_view(
         content_type="application/json",

@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_before,
 )
-from openprocurement.tender.core.validation import validate_ua_road, validate_gmdn
+from openprocurement.tender.core.procedure.validation import validate_gmdn, validate_ua_road
 from schematics.types import (
     StringType,
     MD5Type,

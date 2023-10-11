@@ -6,10 +6,6 @@ from copy import deepcopy
 from mock import patch
 
 from openprocurement.api.models import get_now
-from openprocurement.tender.competitivedialogue.models import (
-    TenderStage2EU,
-    CompetitiveDialogEU,
-)
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
@@ -122,8 +118,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
         super(TenderResourceTest, self).tearDown()
 
     def test_stage1(self):
-        self.tender_class = CompetitiveDialogEU
-
         request_path = '/tenders?opt_pretty=1'
 
         #### Exploring basic rules
@@ -632,8 +626,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin):
                 self.assertEqual(response.json['data']['status'], 'active.tendering')
 
     def test_stage2_EU(self):
-        self.tender_class = TenderStage2EU
-
         request_path = '/tenders?opt_pretty=1'
 
         #### Creating tender

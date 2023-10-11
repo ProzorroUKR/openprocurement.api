@@ -23,10 +23,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LIFE_CYCLE_COST_IDS,
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
-from openprocurement.tender.core.validation import (
-    validate_value_type,
-    validate_requirement_values,
-)
+from openprocurement.tender.core.procedure.validation import validate_requirement_values, validate_value_type
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.identifier import LegislationIdentifier
 from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq

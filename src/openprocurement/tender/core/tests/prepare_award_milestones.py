@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.tender.openua.models import Tender
+from openprocurement.api.context import set_request, set_now
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.openua.tests.base import test_tender_openua_data
-from openprocurement.tender.core.utils import prepare_award_milestones
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from mock import Mock, patch
@@ -44,9 +44,9 @@ test_tender_data = deepcopy(test_tender_openua_data)
 ])
 def test_milestone_data_cases(test_data, tender_status):
     tendering_amounts, auction_amounts, expected_reason_indexes = test_data
-    root = Mock(__parent__=None)
-    root.request.content_configurator.reverse_awarding_criteria = False
-    root.request.content_configurator.awarding_criteria_key = "amount"
+    request = Mock(validated={})
+    set_request(request)
+    set_now()
     bids = [
         {"id": str(n) * 32, "value": {"amount": amount}, "status": "active"}
         for n, amount in enumerate(auction_amounts)
@@ -63,23 +63,21 @@ def test_milestone_data_cases(test_data, tender_status):
                 "date": get_now().isoformat()
             }
         ]
-    root.request.validated = {"tender_src": {"bids": [
+    request.validated["tender_src"] = {"bids": [
         {
             "id": str(n) * 32,
             "value": {"amount": amount},
-            "status": "active"
+            "status": "active",
+            "tenderers": [{"identifier": {"id": "00000000"}}],
+            "date": "2019-01-01T00:00:00.000000+02:00"
         }
         for n,  amount in enumerate(tendering_amounts)
-    ]}}
+    ]}
     test_tender_openua_data.update(tender_patch)
-    tender = Tender(test_tender_openua_data)
-    tender.__parent__ = root
+    request.validated["tender"] = test_tender_openua_data
 
-    with patch("openprocurement.tender.core.utils.RELEASE_2020_04_19", get_now() - timedelta(seconds=1)):
-        milestones = prepare_award_milestones(tender, bids[0], bids)
+    milestones = TenderStateAwardingMixing().prepare_award_milestones(test_tender_openua_data, bids[0], bids)
     if expected_reason_indexes:
         assert len(milestones) == 1
         assert milestones[0]["code"] == "alp"
         assert milestones[0]["description"] == " / ".join(ALP_MILESTONE_REASONS[i] for i in expected_reason_indexes)
-
-

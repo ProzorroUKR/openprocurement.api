@@ -13,7 +13,7 @@ from schematics.transforms import whitelist, blacklist
 from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.utils import get_now
-from openprocurement.api.models import BaseContract, RootModel
+from openprocurement.api.models import BaseContract, RootModel, ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Organization as BaseOrganization
 from openprocurement.api.models import ContactPoint as BaseContactPoint
@@ -25,7 +25,6 @@ from openprocurement.api.models import Model, ListType, IsoDateTimeType, Guarant
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import plain_role, schematics_default_role, schematics_embedded_role
 from openprocurement.api.interfaces import IOPContent
-from openprocurement.tender.core.models import Tender, ContractValue, PROCURING_ENTITY_KINDS
 from openprocurement.api.models import BankAccount
 from openprocurement.api.models import Unit as BaseUnit
 
@@ -107,7 +106,17 @@ contract_view_role = whitelist(
     "is_masked",
 )
 
-contract_administrator_role = Tender.Options.roles["Administrator"] + whitelist("suppliers")
+contract_administrator_role = whitelist(
+    # Those are from old tender model, DKW
+    "status",
+    "mode",
+    "procuringEntity",
+    "auctionPeriod",
+    "lots",
+    # Those added here
+    "suppliers",
+)
+
 
 item_edit_role = whitelist(
     "description",

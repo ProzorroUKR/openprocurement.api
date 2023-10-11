@@ -1,5 +1,5 @@
 from logging import getLogger
-from openprocurement.tender.core.utils import context_unpack
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing

@@ -1,4 +1,5 @@
-from openprocurement.tender.openua.procedure.state.tender_details import TenderDetailsState
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsState
 from openprocurement.tender.openuadefense.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
@@ -6,7 +7,11 @@ from openprocurement.tender.openuadefense.constants import (
 )
 
 
-class DefenseTenderDetailsState(TenderDetailsState):
+class DefenseTenderDetailsState(OpenUATenderDetailsState):
+    tender_create_accreditations = (ACCR_3, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_4,)
+
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = True
 

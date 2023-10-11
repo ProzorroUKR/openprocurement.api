@@ -2,7 +2,6 @@
 from copy import deepcopy
 from mock import patch
 from datetime import timedelta
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.utils import get_now
 
@@ -479,10 +478,9 @@ def lot_yppr_validation(self):
     bid["lotValues"][1]["relatedLot"] = lot_id2
     del bid["value"]
 
-    with patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1)):
-        response = self.app.post_json(
-            "/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid}, status=422
-        )
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid}, status=422
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -508,10 +506,9 @@ def lot_yppr_validation(self):
     bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"] = -0.1
     bid["lotValues"][1]["value"]["yearlyPaymentsPercentage"] = 1.1
 
-    with patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1)):
-        response = self.app.post_json(
-            "/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid}, status=422
-        )
+    response = self.app.post_json(
+        "/tenders/{}/bids?acc_token={}".format(tender_id, owner_token), {"data": bid}, status=422
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")

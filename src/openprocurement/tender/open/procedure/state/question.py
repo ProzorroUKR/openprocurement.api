@@ -44,4 +44,4 @@ class OpenTenderQuestionStateMixin(TenderQuestionStateMixin):
 
 
 class OpenTenderQuestionState(OpenTenderQuestionStateMixin, OpenTenderState):
-    create_accreditations = (ACCR_4,)
+    question_create_accreditations = (ACCR_4,)

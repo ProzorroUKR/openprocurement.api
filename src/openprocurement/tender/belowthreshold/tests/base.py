@@ -10,7 +10,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
@@ -261,7 +260,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     )  # status, in which adding document to tender auction is forbidden
 
     periods = PERIODS
-    tender_class = Tender
     guarantee_criterion = None
 
     def set_enquiry_period_end(self):

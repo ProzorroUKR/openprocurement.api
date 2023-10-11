@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -142,6 +143,10 @@ class CancellationStateMixing(baseclass):
 
     @staticmethod
     def validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation):
+        tender_creation_date = get_first_revision_date(tender, default=get_now())
+        if tender_creation_date < RELEASE_2020_04_19:
+            return
+
         cancellation_lot = cancellation.get("relatedLot")
 
         def validate_complaint(complaint, complaint_lot, item_name):

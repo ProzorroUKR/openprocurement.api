@@ -26,16 +26,19 @@ from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agr
 from openprocurement.tender.cfaselectionua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
-    validate_milestones,
     PostBaseTender,
     PatchBaseTender,
     BaseTender,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_milestones,
+    validate_tender_period_duration,
+    validate_features_uniq,
+)
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
-from openprocurement.tender.core.utils import calculate_complaint_business_date, validate_features_custom_weight
-from openprocurement.tender.core.models import validate_features_uniq
+from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
-from openprocurement.tender.core.validation import validate_tender_period_duration
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import IsoDurationType, Value
 

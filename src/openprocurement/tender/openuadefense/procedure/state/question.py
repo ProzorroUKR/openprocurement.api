@@ -4,4 +4,4 @@ from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADe
 
 
 class DefenseTenderQuestionState(UATenderQuestionStateMixin, OpenUADefenseTenderState):
-    create_accreditations = (ACCR_4,)
+    question_create_accreditations = (ACCR_4,)

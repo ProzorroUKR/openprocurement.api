@@ -1,12 +1,12 @@
 from decimal import Decimal
 
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.esco.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.esco.procedure.state.tender_details import ESCOTenderDetailsState
 from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
 from openprocurement.api.utils import raise_operation_error
 
 
-class TenderLotState(LotInvalidationBidStateMixin, TenderDetailsState):
+class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderDetailsState):
 
     def pre_save_validations(self, data: dict) -> None:
         super().pre_save_validations(data)

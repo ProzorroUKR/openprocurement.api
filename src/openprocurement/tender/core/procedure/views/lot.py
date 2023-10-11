@@ -17,7 +17,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,
-    validate_tender_period_extension,
     validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.models.lot import Lot, PostLot, PatchLot
@@ -64,7 +63,6 @@ class TenderLotResource(TenderBaseResource):
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_input_data(PostLot),
-            validate_tender_period_extension,
         ),
     )
     def collection_post(self) -> Optional[dict]:
@@ -130,7 +128,6 @@ class TenderLotResource(TenderBaseResource):
             validate_input_data(PatchLot),
             validate_patch_data_simple(Lot, item_name="lot"),
             validate_operation_with_lot_cancellation_in_pending("lot"),
-            validate_tender_period_extension,
         ),
         permission="edit_lot",
     )
@@ -164,7 +161,6 @@ class TenderLotResource(TenderBaseResource):
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_delete_lot_related_object,
-            validate_tender_period_extension,
         ),
     )
     def delete(self) -> Optional[dict]:

@@ -3,7 +3,7 @@ from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.openua.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.openua.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsState
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -30,7 +30,7 @@ from cornice.resource import resource
 )
 class AboveThresholdUATenderResource(TendersResource):
 
-    state_class = TenderDetailsState
+    state_class = OpenUATenderDetailsState
 
     @json_view(
         content_type="application/json",

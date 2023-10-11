@@ -1,8 +1,9 @@
 from typing import TYPE_CHECKING
 
+from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.utils import dt_from_iso, check_auction_period
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
 from openprocurement.tender.openua.constants import (
     TENDERING_EXTRA_PERIOD,
@@ -11,7 +12,6 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
-    check_auction_period,
     calculate_clarif_business_date,
 )
 
@@ -24,6 +24,10 @@ else:
 
 class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
     period_working_day = False
+
+    tender_create_accreditations = (ACCR_3, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_4,)
 
     def initialize_enquiry_period(self, tender):  # openeu, openua
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
@@ -47,7 +51,7 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
 
-class TenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
+class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False

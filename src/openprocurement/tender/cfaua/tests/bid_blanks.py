@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 
 
@@ -1808,7 +1808,6 @@ def bids_activation_on_tender_documents(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def create_tender_biddder_invalid(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)
@@ -2033,13 +2032,6 @@ def create_tender_bidder(self):
     self.assertEqual(bid["tenderers"][0]["name"], initial_bids[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
 
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        for status in ("active", "unsuccessful", "deleted", "invalid"):
-            bid_data["lotValues"][0]["value"]["amount"] = 500
-            bid_data["status"] = status
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
-            self.assertEqual(response.status, "403 Forbidden")
-
     bid_without_lotvalues_value = deepcopy(bid_data)
     del bid_without_lotvalues_value["lotValues"][0]["value"]
     bid_without_lotvalues_value["status"] = "pending"
@@ -2217,7 +2209,6 @@ def features_bidder(self):
         self.assertEqual(bid, i)
 
 
-@patch("openprocurement.tender.core.models.TWO_PHASE_COMMIT_FROM", get_now() + timedelta(days=1))
 def features_bidder_invalid(self):
     initial_bids = deepcopy(self.test_bids_data)
     self.convert_bids_for_tender_with_lots(initial_bids, self.initial_lots)

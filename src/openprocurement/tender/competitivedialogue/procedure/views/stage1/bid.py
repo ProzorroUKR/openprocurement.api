@@ -5,7 +5,7 @@ from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.competitivedialogue.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.competitivedialogue.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.competitivedialogue.procedure.state.bid import Stage1BidState
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.bid import CDStage1BidState
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -33,7 +33,7 @@ LOGGER = getLogger(__name__)
 class CompetitiveDialogueUABidResource(TenderBidResource):
 
     serializer_class = BidSerializer
-    state_class = Stage1BidState
+    state_class = CDStage1BidState
 
     @json_view(
         content_type="application/json",
@@ -81,7 +81,7 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
 class CompetitiveDialogueEUBidResource(TenderBidResource):
 
     serializer_class = BidSerializer
-    state_class = Stage1BidState
+    state_class = CDStage1BidState
 
     @json_view(
         content_type="application/json",

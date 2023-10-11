@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING, TypeVar
 
+from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_complaint_business_date
@@ -22,6 +23,10 @@ else:
 
 
 class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+    tender_create_accreditations = (ACCR_3, ACCR_5)
+    tender_central_accreditations = (ACCR_5,)
+    tender_edit_accreditations = (ACCR_4,)
+
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
@@ -124,5 +129,5 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         pass  # TODO: shouldn't it work here
 
 
-class TenderDetailsState(CFAUATenderDetailsMixing, CFAUATenderState):
+class CFAUATenderDetailsState(CFAUATenderDetailsMixing, CFAUATenderState):
     pass

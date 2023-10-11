@@ -47,6 +47,7 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
 
 class TenderLotResourceTest(BaseSimpleDefContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     test_lots_data = test_tender_below_lots
+
     test_tender_lot_milestones = snitch(tender_lot_milestones)
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)

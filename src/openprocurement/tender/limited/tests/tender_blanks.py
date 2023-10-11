@@ -16,7 +16,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
-from openprocurement.tender.limited.models import NegotiationTender, NegotiationQuickTender
+from openprocurement.tender.limited.procedure.models.tender import (
+    cause_choices,
+    cause_choices_new,
+    cause_choices_quick,
+    cause_choices_quick_new,
+)
 
 
 def create_tender_accreditation(self):
@@ -1503,22 +1508,22 @@ def tender_cause_choices(self):
 
     if get_now() > NEW_NEGOTIATION_CAUSES_FROM:
         cause_choices_map = {
-            "negotiation": NegotiationTender._cause_choices_new,
-            "negotiation.quick": NegotiationQuickTender._cause_choices_new,
+            "negotiation": cause_choices_new,
+            "negotiation.quick": cause_choices_quick_new,
         }
     else:
         cause_choices_map = {
-            "negotiation": NegotiationTender._cause_choices,
-            "negotiation.quick": NegotiationQuickTender._cause_choices,
+            "negotiation": cause_choices,
+            "negotiation.quick": cause_choices_quick,
         }
 
-    cause_choices = cause_choices_map.get(data["procurementMethodType"])
+    choices = cause_choices_map.get(data["procurementMethodType"])
 
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": ["Value must be one of ['{}'].".format("', '".join(cause_choices))],
+                "description": ["Value must be one of ['{}'].".format("', '".join(choices))],
                 "location": "body",
                 "name": "cause",
             }

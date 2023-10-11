@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.models.criterion import (
     PatchEligibleEvidence
 )
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
-    Stage1EligibleEvidenceState,
+    CDEligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
@@ -63,7 +63,7 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
-    state_class = Stage1EligibleEvidenceState
+    state_class = CDEligibleEvidenceState
 
 
 @resource(
@@ -76,4 +76,4 @@ class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2UAEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
-    state_class = Stage1EligibleEvidenceState
+    state_class = CDEligibleEvidenceState

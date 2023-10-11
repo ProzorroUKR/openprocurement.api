@@ -82,6 +82,10 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     config: dict
 
+    tender_create_accreditations = None
+    tender_central_accreditations = None
+    tender_edit_accreditations = None
+
     required_exclusion_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
@@ -375,7 +379,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
-            # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
             if calculate_tender_business_date(get_now(), self.tendering_period_extra, tender) > tendering_end:
                 raise_operation_error(

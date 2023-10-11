@@ -1,14 +1,14 @@
 from openprocurement.api.auth import ACCR_4
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUTenderDetailsState,
-    CDUATenderDetailsState,
+    CDEUStage2TenderDetailsState,
+    CDUAStage2TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import validate_author
 from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.tender.openua.procedure.state.question import UATenderQuestionStateMixin
 
 
-class CDTenderQuestionStateMixin(UATenderQuestionStateMixin):
+class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
     def validate_question_on_post(self, question):
         super().validate_question_on_post(question)
         self.validate_question_author(question)
@@ -21,9 +21,9 @@ class CDTenderQuestionStateMixin(UATenderQuestionStateMixin):
         validate_author(get_request(), get_tender(), question, "question")
 
 
-class CDEUTenderQuestionState(CDTenderQuestionStateMixin, CDEUTenderDetailsState):
-    create_accreditations = (ACCR_4,)
+class CDEUStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDEUStage2TenderDetailsState):
+    question_create_accreditations = (ACCR_4,)
 
 
-class CDUATenderQuestionState(CDTenderQuestionStateMixin, CDUATenderDetailsState):
-    create_accreditations = (ACCR_4,)
+class CDUAStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDUAStage2TenderDetailsState):
+    question_create_accreditations = (ACCR_4,)

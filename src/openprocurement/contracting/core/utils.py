@@ -20,7 +20,7 @@ from openprocurement.api.utils import (
     update_document_url,
     update_logging_context,
 )
-from openprocurement.tender.core.utils import extract_path
+from openprocurement.tender.core.procedure.utils import extract_path
 
 from openprocurement.contracting.api.traversal import factory
 from openprocurement.api.validation import validate_json_data

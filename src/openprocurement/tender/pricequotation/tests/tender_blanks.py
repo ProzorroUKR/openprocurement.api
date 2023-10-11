@@ -1816,7 +1816,6 @@ def patch_tender(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.models.CANT_DELETE_PERIOD_START_DATE_FROM", get_now() - timedelta(days=1))
 def required_field_deletion(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")

@@ -13,7 +13,7 @@ from openprocurement.api.models import (
 from openprocurement.tender.core.procedure.models.base import DecimalType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.esco.utils import to_decimal
+from openprocurement.tender.esco.procedure.utils import to_decimal
 
 
 class ContractDuration(Model):

@@ -17,7 +17,7 @@ transferresource = partial(resource, error_handler=error_handler, factory=factor
 LOGGER = getLogger("openprocurement.relocation.api")
 
 
-def extract_transfer(request, transfer_id=None):
+def extract_transfer_doc(request, transfer_id=None):
     if not transfer_id:
         transfer_id = request.matchdict["transfer_id"]
     doc = request.registry.mongodb.transfers.get(transfer_id)
@@ -26,6 +26,11 @@ def extract_transfer(request, transfer_id=None):
         request.errors.status = 404
         raise error_handler(request)
 
+    return doc
+
+
+def extract_transfer(request, transfer_id=None):
+    doc = extract_transfer_doc(request, transfer_id)
     return request.transfer_from_data(doc)
 
 
@@ -38,7 +43,7 @@ def save_transfer(request, insert=False):
     transfer.date = get_now()
 
     with handle_store_exceptions(request):
-        request.registry.mongodb.transfers.save(transfer, insert=insert)
+        request.registry.mongodb.transfers.save_deprecated(transfer, insert=insert)
         LOGGER.info(
             "Saved transfer {}: at {}".format(transfer.id, get_now().isoformat()),
             extra=context_unpack(request, {"MESSAGE_ID": "save_transfer"}),

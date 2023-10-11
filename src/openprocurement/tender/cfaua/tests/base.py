@@ -10,7 +10,6 @@ from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
     set_bid_lotvalues,
 )
-from openprocurement.tender.cfaua.models.tender import CloseFrameworkAgreementUA
 from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
@@ -112,7 +111,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     meta_initial_lots = deepcopy(test_tender_cfaua_lots)
 
     periods = PERIODS
-    tender_class = CloseFrameworkAgreementUA
 
     forbidden_agreement_document_modification_actions_status = (
         "unsuccessful"

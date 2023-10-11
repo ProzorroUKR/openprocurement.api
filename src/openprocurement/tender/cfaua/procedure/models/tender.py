@@ -1,3 +1,6 @@
+from datetime import datetime
+
+from isodate import duration_isoformat
 from schematics.validate import ValidationError
 from schematics.types import StringType, IntType, BaseType
 from schematics.types.serializable import serializable
@@ -16,12 +19,8 @@ from openprocurement.tender.core.procedure.models.period import (
 from openprocurement.tender.cfaua.constants import (
     CFA_UA,
     TENDERING_DURATION,
-    QUESTIONS_STAND_STILL,
-    ENQUIRY_STAND_STILL_TIME,
-)
-from openprocurement.tender.cfaua.validation import (
-    validate_max_agreement_duration_period,
-    validate_max_awards_number,
+    MIN_BIDS_NUMBER,
+    MAX_AGREEMENT_PERIOD,
 )
 from openprocurement.tender.core.procedure.models.lot import (
     PostTenderLot,
@@ -40,12 +39,13 @@ from openprocurement.tender.core.procedure.models.tender import (
 )
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
-    validate_features_custom_weight,
 )
-from openprocurement.tender.core.models import validate_features_uniq
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
-from openprocurement.tender.openua.validation import _validate_tender_period_start_date
-from openprocurement.tender.core.validation import validate_tender_period_duration
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_period_start_date,
+    validate_tender_period_duration, validate_features_uniq,
+)
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import IsoDurationType
 
@@ -61,6 +61,20 @@ def validate_features(data, features):
             if i.featureOf == "lot":
                 raise ValidationError("Features are not allowed for lots")
     validate_features_custom_weight(data, features, Decimal("0.3"))
+
+
+def validate_max_awards_number(number, *args):
+    if number < MIN_BIDS_NUMBER:
+        raise ValidationError("Maximal awards number can't be less then minimal bids number")
+
+
+def validate_max_agreement_duration_period(value):
+    date = datetime(1, 1, 1)
+    if (date + value) > (date + MAX_AGREEMENT_PERIOD):
+        raise ValidationError(
+            "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+        )
+
 
 
 class PostTender(BasePostTender):
@@ -93,7 +107,7 @@ class PostTender(BasePostTender):
 
     def validate_tenderPeriod(self, data, period):
         if period:
-            _validate_tender_period_start_date(data, period)
+            validate_tender_period_start_date(data, period)
             validate_tender_period_duration(data, period, TENDERING_DURATION)
 
     def validate_features(self, data, features):

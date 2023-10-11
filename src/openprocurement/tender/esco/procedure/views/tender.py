@@ -3,7 +3,7 @@ from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.esco.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.esco.procedure.state.tender_details import TenderDetailsState
+from openprocurement.tender.esco.procedure.state.tender_details import ESCOTenderDetailsState
 from openprocurement.tender.esco.procedure.serializers.tender import ESCOTenderSerializer
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
@@ -32,7 +32,7 @@ from cornice.resource import resource
 class ESCOTenderResource(TendersResource):
 
     serializer_class = ESCOTenderSerializer
-    state_class = TenderDetailsState
+    state_class = ESCOTenderDetailsState
 
     @json_view(
         content_type="application/json",

@@ -551,7 +551,6 @@ def cancellation_on_not_active_lot(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
 
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -612,8 +611,7 @@ def create_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "pending")
 
 
-@patch("openprocurement.tender.core.models.RELEASE_2020_04_19", get_now() - timedelta(days=1))
-@patch("openprocurement.tender.core.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
@@ -793,8 +791,9 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "pending")
 
     with patch(
-            "openprocurement.tender.core.validation.get_now",
-            return_value=get_now() + timedelta(days=20)) as mock_date:
+            "openprocurement.tender.core.procedure.validation.get_now",
+            return_value=get_now() + timedelta(days=20)
+    ) as mock_date:
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
             {"data": {"status": "active"}},

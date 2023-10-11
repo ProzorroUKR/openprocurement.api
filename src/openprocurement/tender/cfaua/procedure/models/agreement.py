@@ -10,7 +10,7 @@ from openprocurement.api.models import (
     Model,
     Period,
 )
-from openprocurement.tender.core.models import validate_features_uniq
+from openprocurement.tender.core.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items

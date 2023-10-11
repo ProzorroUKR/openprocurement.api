@@ -4,9 +4,9 @@ from unittest.mock import patch
 from copy import deepcopy
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, TWO_PHASE_COMMIT_FROM
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.esco.utils import to_decimal
+from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
     test_tender_esco_bids,
@@ -851,16 +851,11 @@ def delete_tender_bidder(self):
         self.assertEqual(response.json["errors"][0]["description"], "Can't add document at 'deleted' bid status")
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    if get_now() < TWO_PHASE_COMMIT_FROM:
-        self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-        self.assertTrue(
-            any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-        )
-    else:
-        self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-        self.assertTrue(
-            any([i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-        )
+
+    self.assertTrue(any([i for i in revisions[-3]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
+    self.assertTrue(
+        any([i for i in revisions[-2]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
+    )
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")

@@ -80,7 +80,7 @@ def create_complaint_post_review_date_forbidden(self):
     )
 
 
-@mock.patch("openprocurement.tender.openua.validation.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
+@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_claim_forbidden(self):
     # make complaint type claim
     response = self.post_claim()

@@ -7,7 +7,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_lots,
 )
-from openprocurement.tender.belowthreshold.models import Tender
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     one_valid_bid_tender,
     one_invalid_bid_tender,
@@ -86,7 +85,6 @@ class TenderResourceTestMixin(object):
 
 class TenderTest(BaseApiWebTest):
     docservice = True
-    tender_model = Tender
     initial_data = test_tender_below_data
 
 

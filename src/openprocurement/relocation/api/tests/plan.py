@@ -1,6 +1,5 @@
 import os
 from copy import deepcopy
-from openprocurement.relocation.api.models import Transfer
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.utils import change_auth
@@ -92,7 +91,7 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
         # but plan is not stored with new credentials)
         transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/plans/" + plan["id"]
-        self.mongodb.transfers.save(Transfer(transfer_doc))
+        self.mongodb.transfers.save(transfer_doc)
         response = self.app.post_json(
             "/plans/{}/ownership".format(plan["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},

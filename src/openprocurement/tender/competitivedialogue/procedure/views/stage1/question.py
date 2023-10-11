@@ -3,7 +3,7 @@ from cornice.resource import resource
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.question import (
-    Stage1TenderQuestionState,
+    CDStage1TenderQuestionState,
 )
 
 @resource(
@@ -14,7 +14,7 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.question 
     description="Tender questions",
 )
 class Stage1EUTenderQuestionResource(TenderQuestionResource):
-    state_class = Stage1TenderQuestionState
+    state_class = CDStage1TenderQuestionState
 
 @resource(
     name=f"{CD_UA_TYPE}:Tender Questions",
@@ -24,4 +24,4 @@ class Stage1EUTenderQuestionResource(TenderQuestionResource):
     description="Tender questions",
 )
 class Stage1UATenderQuestionResource(TenderQuestionResource):
-    state_class = Stage1TenderQuestionState
+    state_class = CDStage1TenderQuestionState

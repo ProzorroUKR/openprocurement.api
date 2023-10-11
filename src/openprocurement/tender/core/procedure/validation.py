@@ -1,4 +1,5 @@
-from iso8601 import parse_date
+from collections import defaultdict
+
 from hashlib import sha512
 from pyramid.request import Request
 
@@ -7,25 +8,35 @@ from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
-    RELEASE_ECRITERIA_ARTICLE_17, RELEASE_2020_04_19,
+    RELEASE_ECRITERIA_ARTICLE_17,
+    RELEASE_2020_04_19,
+    GMDN_2023_SCHEME,
+    GMDN_2019_SCHEME,
+    INN_SCHEME,
+    ATC_SCHEME,
+    GMDN_CPV_PREFIXES,
+    UA_ROAD_SCHEME,
+    UA_ROAD_CPV_PREFIXES,
+    WORKING_DAYS, FUNDERS,
 )
 from openprocurement.api.utils import (
     to_decimal,
     raise_operation_error,
     handle_data_exceptions,
     error_handler,
-    get_first_revision_date,
+    requested_fields_changes,
+    is_gmdn_classification,
+    is_ua_road_classification,
+    get_now,
 )
 from openprocurement.api.validation import (
     validate_json_data,
     _validate_accreditation_level,
     _validate_accreditation_level_mode,
     validate_tender_first_revision_date,
-    OPERATIONS,
 )
 from openprocurement.api.auth import extract_access_token
-from openprocurement.tender.core.validation import TYPEMAP
-from openprocurement.tender.core.constants import AMOUNT_NET_COEF
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.utils import (
     is_item_owner,
     apply_data_patch,
@@ -35,8 +46,9 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
     tender_created_after_2020_rules,
     tender_created_after,
+    find_lot,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date, find_lot, requested_fields_changes
+from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
@@ -44,7 +56,7 @@ from openprocurement.tender.core.procedure.utils import get_criterion_requiremen
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
-from schematics.types import BaseType
+from schematics.types import BaseType, StringType, IntType, DecimalType, BooleanType, DateTimeType
 from decimal import Decimal, ROUND_UP
 import logging
 from datetime import timedelta
@@ -441,28 +453,6 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
     return validate
 
 
-def validate_bid_accreditation_level(request, **kwargs):  # TODO: use validate_accreditation_level directly
-    validator = validate_accreditation_level(request.tender_model.edit_accreditations, "bid", "creation")
-    validator(request, **kwargs)
-
-
-def validate_operation_in_tender_statuses(obj_name, valid_statuses=None, not_valid_statuses=None):
-    if valid_statuses and not_valid_statuses:
-        raise ValueError("should be defined only one of two values(valid_statuses or not_valid_statuses)")
-
-    def wrapper(request, **__):
-        tender_status = request.validated["tender"]["status"]
-        if (
-            (valid_statuses and tender_status not in valid_statuses)
-            or (not_valid_statuses and tender_status in not_valid_statuses)
-        ):
-            raise_operation_error(
-                request,
-                f"Can't {OPERATIONS.get(request.method)} {obj_name.lower()} in current ({tender_status}) tender status",
-            )
-    return wrapper
-
-
 # bids
 def validate_bid_operation_period(request, **_):
     tender = request.validated["tender"]
@@ -554,20 +544,6 @@ def validate_bid_value(tender, value):
             raise ValidationError(
                 "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
             )
-
-
-def validate_value_type(value, datatype):
-    if not value:
-        return
-    type_ = TYPEMAP.get(datatype)
-    if not type_:
-        raise ValidationError(
-            'Type mismatch: value {} does not confront type {}'.format(
-                value, type_
-            )
-        )
-    # validate value
-    return type_.to_native(value)
 
 
 def validate_related_lot(tender, related_lot):
@@ -907,14 +883,17 @@ def validate_update_award_with_accepted_complaint(request, **_):
 
 
 def validate_update_award_status_before_milestone_due_date(request, **_):
-    from openprocurement.tender.core.models import QualificationMilestone
+    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
     award = request.validated["award"]
     sent_status = request.json.get("data", {}).get("status")
     if award.get("status") == "pending" and sent_status != "pending":
         now = get_now().isoformat()
         for milestone in award.get("milestones", ""):
             if (
-                milestone["code"] in (QualificationMilestone.CODE_24_HOURS, QualificationMilestone.CODE_LOW_PRICE)
+                milestone["code"] in (
+                    QualificationMilestoneCodes.CODE_24_HOURS.value,
+                    QualificationMilestoneCodes.CODE_LOW_PRICE.value,
+                )
                 and milestone["date"] <= now <= milestone["dueDate"]
             ):
                 raise_operation_error(
@@ -1418,14 +1397,6 @@ validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_i
 )
 
 
-def validate_tender_period_extension(request: Request, **_) -> None:
-    extra_period = request.content_configurator.tendering_period_extra
-    tender = request.validated["tender"]
-    end_date = parse_date(tender["tenderPeriod"]["endDate"])
-    if calculate_tender_business_date(get_now(), extra_period, tender) > end_date:
-        raise_operation_error(request, "tenderPeriod should be extended by {0.days} days".format(extra_period))
-
-
 def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> callable:
     def validation(request: Request, **_) -> None:
         if not tender_created_after_2020_rules():
@@ -1738,3 +1709,185 @@ def validate_input_data_from_resolved_model():
         return validate(request, **_)
     return validated
 
+
+# Plans
+def validate_procurement_kind_is_central(request, **kwargs):
+    kind = "central"
+    if request.validated["tender"]["procuringEntity"]["kind"] != kind:
+        raise raise_operation_error(request, "Only allowed for procurementEntity.kind = '{}'".format(kind))
+
+
+def validate_tender_in_draft(request, **kwargs):
+    if request.validated["tender"]["status"] != "draft":
+        raise raise_operation_error(request, "Only allowed in draft tender status")
+
+
+def validate_procurement_type_of_first_stage(request, **kwargs):
+    tender = request.validated["tender"]
+    if tender["procurementMethodType"] not in FIRST_STAGE_PROCUREMENT_TYPES:
+        request.errors.add(
+            "body",
+            "procurementMethodType",
+            "Should be one of the first stage values: {}".format(FIRST_STAGE_PROCUREMENT_TYPES),
+        )
+        request.errors.status = 422
+        raise error_handler(request)
+
+
+def check_requirements_active(criterion):
+    for rg in criterion.get("requirementGroups", []):
+        for requirement in rg.get("requirements", []):
+            if requirement.get("status", "") == "active":
+                return True
+    return False
+
+
+def validate_requirement_values(requirement):
+    expected = requirement.get('expectedValue')
+    min_value = requirement.get('minValue')
+    max_value = requirement.get('maxValue')
+
+    if any((expected and min_value, expected and max_value)):
+        raise ValidationError(
+            'expectedValue conflicts with ["minValue", "maxValue"]'
+        )
+
+
+
+# TODO: in future replace this types with strictTypes
+#  (StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType)
+TYPEMAP = {
+    'string': StringType(),
+    'integer': IntType(),
+    'number': DecimalType(),
+    'boolean': BooleanType(),
+    'date-time': DateTimeType(),
+}
+
+def validate_value_factory(type_map):
+    def validator(value, datatype):
+
+        if value is None:
+            return
+        type_ = type_map.get(datatype)
+        if not type_:
+            raise ValidationError(
+                'Type mismatch: value {} does not confront type {}'.format(
+                    value, type_
+                )
+            )
+        # validate value
+        return type_.to_native(value)
+    return validator
+
+validate_value_type = validate_value_factory(TYPEMAP)
+
+
+def validate_milestones(value):
+    if isinstance(value, list):
+        sums = defaultdict(Decimal)
+        for milestone in value:
+            if milestone["type"] == "financing":
+                percentage = milestone.get("percentage")
+                if percentage:
+                    sums[milestone.get("relatedLot")] += to_decimal(percentage)
+
+        for uid, sum_value in sums.items():
+            if sum_value != Decimal("100"):
+                raise ValidationError(
+                    "Sum of the financial milestone percentages {} is not equal 100{}.".format(
+                        sum_value, " for lot {}".format(uid) if uid else ""
+                    )
+                )
+
+
+def validate_gmdn(classification_id, additional_classifications):
+    gmdn_count = sum([1 for i in additional_classifications if i["scheme"] in (GMDN_2023_SCHEME, GMDN_2019_SCHEME)])
+    if is_gmdn_classification(classification_id):
+        inn_anc_count = sum([1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME]])
+        if 0 not in [inn_anc_count, gmdn_count]:
+            raise ValidationError(
+                "Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
+                    INN_SCHEME, ATC_SCHEME, GMDN_2019_SCHEME
+                )
+            )
+        if gmdn_count > 1:
+            raise ValidationError(
+                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(GMDN_2019_SCHEME)
+            )
+    elif gmdn_count != 0:
+        raise ValidationError(
+            "Item shouldn't have additionalClassification with scheme {} "
+            "for cpv not starts with {}".format(GMDN_2019_SCHEME, ", ".join(GMDN_CPV_PREFIXES))
+        )
+
+
+def validate_ua_road(classification_id, additional_classifications):
+    road_count = sum([1 for i in additional_classifications if i["scheme"] == UA_ROAD_SCHEME])
+    if is_ua_road_classification(classification_id):
+        if road_count > 1:
+            raise ValidationError(
+                "Item shouldn't have more than 1 additionalClassification with scheme {}".format(UA_ROAD_SCHEME)
+            )
+    elif road_count != 0:
+        raise ValidationError(
+            "Item shouldn't have additionalClassification with scheme {} "
+            "for cpv not starts with {}".format(UA_ROAD_SCHEME, ", ".join(UA_ROAD_CPV_PREFIXES))
+        )
+
+
+def validate_tender_period_start_date(data, period, working_days=False, calendar=WORKING_DAYS):
+    min_allowed_date = calculate_tender_date(
+        get_now(),
+        - timedelta(minutes=10),
+        tender=None,
+        working_days=working_days,
+        calendar=calendar
+    )
+    if min_allowed_date >= period.startDate:
+        raise ValidationError("tenderPeriod.startDate should be in greater than current date")
+
+
+def validate_tender_period_duration(data, period, duration, working_days=False, calendar=WORKING_DAYS):
+    tender_period_end_date = calculate_tender_business_date(
+        period.startDate, duration, data,
+        working_days=working_days,
+        calendar=calendar
+    )
+    if tender_period_end_date > period.endDate:
+        raise ValidationError("tenderPeriod must be at least {duration.days} full {type} days long".format(
+            duration=duration,
+            type="business" if working_days else "calendar"
+        ))
+
+def validate_funders_unique(funders, *args):
+    if funders:
+        ids = [(i.identifier.scheme, i.identifier.id) for i in funders if i.identifier]
+        if len(ids) > len(set(ids)):
+            raise ValidationError("Funders' identifier should be unique")
+
+
+def validate_funders_ids(funders, *args):
+    for funder in funders:
+        if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
+            raise ValidationError("Funder identifier should be one of the values allowed")
+
+
+def validate_parameters_uniq(parameters, *args):
+    if parameters:
+        codes = [i.code for i in parameters]
+        if [i for i in set(codes) if codes.count(i) > 1]:
+            raise ValidationError("Parameter code should be uniq for all parameters")
+
+
+def validate_values_uniq(values, *args):
+    codes = [i.value for i in values]
+    if any([codes.count(i) > 1 for i in set(codes)]):
+        raise ValidationError("Feature value should be uniq for feature")
+
+
+def validate_features_uniq(features, *args):
+    if features:
+        codes = [i.code for i in features]
+        if any([codes.count(i) > 1 for i in set(codes)]):
+            raise ValidationError("Feature code should be uniq for all features")

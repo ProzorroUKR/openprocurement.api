@@ -2,7 +2,6 @@ import uuid
 
 import os
 from copy import deepcopy
-from openprocurement.relocation.api.models import Transfer
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
 )
@@ -155,7 +154,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # but tender is not stored with new credentials)
         transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.mongodb.transfers.save(Transfer(transfer_doc))
+        self.mongodb.transfers.save(transfer_doc)
         response = self.app.post_json(
             "/tenders/{}/ownership".format(tender["id"]),
             {"data": {"id": transfer["id"], "transfer": access["transfer"]}},
@@ -556,7 +555,7 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         # but tender is not stored with new credentials)
         transfer_doc = self.mongodb.transfers.get(transfer["id"])
         transfer_doc["usedFor"] = "/tenders/" + tender["id"]
-        self.mongodb.transfers.save(Transfer(transfer_doc))
+        self.mongodb.transfers.save(transfer_doc)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.post_json(
                 "/tenders/{}/ownership".format(tender["id"]),

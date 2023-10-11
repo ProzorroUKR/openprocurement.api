@@ -1,7 +1,7 @@
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
-class Stage1TenderState(BaseOpenEUTenderState):
+class CDStage1TenderState(BaseOpenEUTenderState):
 
     def pre_qualification_stand_still_ends_handler(self, tender):
         handler = self.get_change_tender_status_handler("active.stage2.pending")

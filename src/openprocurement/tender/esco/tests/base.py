@@ -3,7 +3,6 @@ import os
 from copy import deepcopy
 
 from openprocurement.api.context import get_now
-from openprocurement.tender.esco.models import Tender
 from openprocurement.tender.esco.tests.utils import prepare_items
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
@@ -77,8 +76,6 @@ class BaseESCOWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
-
-    tender_class = Tender
 
     # def time_shift(self, *args, **kwargs):
     #     kwargs["extra"] = extra = kwargs.get("extra") or {}
