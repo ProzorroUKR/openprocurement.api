@@ -1,4 +1,4 @@
-GET /api/2.5/transfers/27046e8f81d84006abd75a9b7f88c37e HTTP/1.0
+GET /api/2.5/transfers/cba33be33a904a2c89f38d533ddc4bf6 HTTP/1.0
 Authorization: Bearer broker1
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "date": "2023-01-01T00:00:00+02:00",
     "usedFor": "/plans/c4fc1923c53a47079cb230ec4595043a",
-    "id": "27046e8f81d84006abd75a9b7f88c37e"
+    "id": "cba33be33a904a2c89f38d533ddc4bf6"
   }
 }
 

@@ -8,39 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "футляри до державних нагород",
-    "date": "2023-01-01T00:00:15+02:00",
-    "dateCreated": "2023-01-01T00:00:15+02:00",
-    "dateModified": "2023-01-01T00:00:21+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
-    "owner": "broker",
     "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "519152a1889240fd9cf9dd576c46265c",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 0
-      }
-    ],
     "buyers": [
       {
         "id": "3e32f23699ea4ac0b8e105e7babd2c86",
@@ -77,18 +45,44 @@ Content-Type: application/json
         "kind": "general"
       }
     ],
-    "plans": [
-      {
-        "id": "2c376a06cbf7476b8c229e6955bd8194"
-      }
-    ],
+    "title": "футляри до державних нагород",
     "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "519152a1889240fd9cf9dd576c46265c",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
     "procuringEntity": {
       "name": "ЦЗО №1",
       "identifier": {
@@ -104,31 +98,27 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Довідкова",
-        "telephone": "+0440000000"
+        "telephone": "+0440000000",
+        "name": "Довідкова"
       },
       "kind": "central"
     },
-    "minimalStep": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
+    "status": "draft",
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
-    "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:15+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
-    },
     "tenderPeriod": {
       "startDate": "2023-01-01T00:00:15+02:00",
       "endDate": "2023-02-01T00:00:00+02:00"
     },
-    "procurementMethodType": "aboveThresholdUA",
     "items": [
       {
         "id": "97735bdc93204bd7a1469064bb3e615b",
         "description": "Насіння гірчиці",
+        "classification": {
+          "description": "Mustard seeds",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -136,17 +126,12 @@ Content-Type: application/json
             "description": "Насіння гірчиці"
           }
         ],
-        "quantity": 1000.0,
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
-        "classification": {
-          "description": "Mustard seeds",
-          "scheme": "ДК021",
-          "id": "03111600-8"
-        },
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
+        "quantity": 1000.0,
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2023-01-16T00:00:00+02:00"
         },
@@ -161,6 +146,11 @@ Content-Type: application/json
       {
         "id": "258306a31f6a47758d528d907f4329fe",
         "description": "Насіння соняшнику",
+        "classification": {
+          "description": "Sunflower seeds",
+          "scheme": "ДК021",
+          "id": "03111300-5"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -168,17 +158,12 @@ Content-Type: application/json
             "description": "Насіння соняшнику"
           }
         ],
-        "quantity": 2000.0,
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
-        "classification": {
-          "description": "Sunflower seeds",
-          "scheme": "ДК021",
-          "id": "03111300-5"
-        },
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
+        "quantity": 2000.0,
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2023-01-17T00:00:00+02:00"
         },
@@ -193,6 +178,11 @@ Content-Type: application/json
       {
         "id": "650759050f6a43e4aa1ab880fa5f35fb",
         "description": "Насіння бавовнику",
+        "classification": {
+          "description": "Cotton seeds",
+          "scheme": "ДК021",
+          "id": "03111400-6"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -200,17 +190,12 @@ Content-Type: application/json
             "description": "Насіння бавовнику"
           }
         ],
-        "quantity": 3000.0,
-        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
-        "classification": {
-          "description": "Cotton seeds",
-          "scheme": "ДК021",
-          "id": "03111400-6"
-        },
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
+        "quantity": 3000.0,
+        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
         "deliveryDate": {
           "endDate": "2023-01-18T00:00:00+02:00"
         },
@@ -223,11 +208,26 @@ Content-Type: application/json
         }
       }
     ],
-    "status": "draft",
+    "tenderID": "UA-2023-01-01-000001-a",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:15+02:00",
       "endDate": "2023-01-28T00:00:00+02:00"
     },
+    "owner": "broker",
+    "submissionMethod": "electronicAuction",
+    "date": "2023-01-01T00:00:15+02:00",
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:15+02:00",
+      "endDate": "2023-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+    },
+    "dateCreated": "2023-01-01T00:00:15+02:00",
+    "dateModified": "2023-01-01T00:00:21+02:00",
+    "plans": [
+      {
+        "id": "2c376a06cbf7476b8c229e6955bd8194"
+      }
+    ],
     "id": "d1b73c4e72e244f1833086204faadff6"
   },
   "config": {
