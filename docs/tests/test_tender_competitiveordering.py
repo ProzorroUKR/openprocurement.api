@@ -3,7 +3,7 @@ import datetime
 from copy import deepcopy
 from uuid import uuid4
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, set_now
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
     test_framework_dps_config,
@@ -28,8 +28,8 @@ TARGET_CSV_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/cs
 
 class TenderResourceTest(
     BaseTenderUAWebTest,
-    MockWebTestMixin,
     TenderConfigCSVMixin,
+    MockWebTestMixin,
 ):
     AppClass = DumpsWebTestApp
 
@@ -41,6 +41,7 @@ class TenderResourceTest(
     def setUp(self):
         super(TenderResourceTest, self).setUp()
         self.setUpMock()
+        set_now()
 
     def tearDown(self):
         self.tearDownMock()
@@ -53,8 +54,12 @@ class TenderResourceTest(
         )
 
     def create_framework(self):
+        data = deepcopy(test_framework_dps_data)
+        data["qualificationPeriod"] = {
+            "endDate": (get_now() + datetime.timedelta(days=120)).isoformat()
+        }
         response = self.app.post_json("/frameworks", {
-            "data": test_framework_dps_data,
+            "data": data,
             "config": test_framework_dps_config,
         })
         self.framework_token = response.json["access"]["token"]

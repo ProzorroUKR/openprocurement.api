@@ -18,7 +18,7 @@ Content-Type: application/json
     "frameworkID": "26812d5b7375495c8ac3ae6c778e737c",
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2024-02-08T23:59:48.636763+03:00"
+      "endDate": "2023-05-01T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -91,7 +91,7 @@ Content-Type: application/json
             "id": "495fcf4174dc493c90a32ab34fc6ceea",
             "type": "activation",
             "status": "scheduled",
-            "dueDate": "2024-02-08T23:59:48.636763+03:00",
+            "dueDate": "2023-05-01T00:00:00+02:00",
             "dateModified": "2023-01-01T00:00:00+02:00"
           }
         ],
@@ -99,7 +99,7 @@ Content-Type: application/json
       }
     ],
     "id": "f5672877d14d468088531807b1fd5802",
-    "next_check": "2024-02-08T23:59:48.636763+03:00"
+    "next_check": "2023-05-01T00:00:00+02:00"
   }
 }
 
