@@ -107,7 +107,7 @@ class BaseComplaintWriteResource(BaseComplaintResource):
         context["complaints"].append(complaint)
         self.state.complaint_on_post(complaint)
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request):
             LOGGER.info(
                 f"Created {self.item_name} complaint {complaint['id']}",
                 extra=context_unpack(self.request,

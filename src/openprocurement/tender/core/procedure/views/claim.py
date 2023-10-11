@@ -82,7 +82,7 @@ class BaseClaimResource(TenderBaseResource):
         context["complaints"].append(claim)
         self.state.claim_on_post(claim)
 
-        if save_tender(self.request, modified=False):
+        if save_tender(self.request):
             LOGGER.info(
                 f"Created {self.context} claim {claim['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.context}_claim_create"},
