@@ -3,6 +3,10 @@ from datetime import timedelta
 from gevent import monkey
 
 from openprocurement.api.utils import parse_date
+from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
@@ -20,8 +24,10 @@ logger = logging.getLogger(__name__)
 
 
 def count_reporting_date_publication(tender):
+    pmt = tender.get("procurementMethodType")
+    qualification_types = (ABOVE_THRESHOLD_EU, CFA_UA, ESCO, CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE)
     period_end_date = parse_date(tender.get("qualificationPeriod", {}).get("endDate"))
-    reporting_date = period_end_date - timedelta(days=6)
+    reporting_date = period_end_date - timedelta(days=6) if pmt in qualification_types else period_end_date
     return reporting_date.isoformat()
 
 
@@ -42,7 +48,7 @@ def run(env, args):
             "qualificationPeriod.endDate": {"$exists": True},
             "qualificationPeriod.reportingDatePublication": {"$exists": False},
         },
-        {"qualificationPeriod": 1},
+        {"qualificationPeriod": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
