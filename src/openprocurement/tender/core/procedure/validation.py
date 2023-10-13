@@ -195,6 +195,7 @@ def validate_patch_data_simple(model, item_name):
                     if lot_data is None:
                         lot_data = patch  # new lot
                     else:
+                        patch.pop("status", None)  # do not change lot status by tender patch
                         lot_data.update(patch)
                     new_lots.append(lot_data)
                 data["lots"] = new_lots

@@ -1,5 +1,3 @@
-from enum import Enum
-
 from schematics.types.compound import ModelType
 from schematics.types import URLType, StringType
 from schematics.types.serializable import serializable
@@ -15,7 +13,8 @@ from openprocurement.tender.core.procedure.models.guarantee import (
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.lot import (
     PostBaseLot,
-    PatchBaseLot as BasePatchBaseLot,
+    PatchLot as BasePatchLot,
+    PatchTenderLot as BasePatchTenderLot,
     BaseLot,
     TenderLotMixin,
     LotGuaranteeSerializerMixin,
@@ -44,19 +43,6 @@ class LotSerializersMixin(LotGuaranteeSerializerMixin):
         )
 
 
-class PatchBaseLot(BasePatchBaseLot):
-    minimalStepPercentage = DecimalType(
-        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
-        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
-        precision=LotMinimalStepPercentageValues.PRECISION,
-    )
-    yearlyPaymentsPercentageRange = DecimalType(
-        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
-        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
-        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
-    )
-
-
 class PostLot(PostBaseLot, LotSerializersMixin):
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
@@ -72,9 +58,20 @@ class PostLot(PostBaseLot, LotSerializersMixin):
     )
 
 
-class PatchLot(PatchBaseLot):
+class PatchLot(BaseLot):
     title = StringType()
     guarantee = ModelType(Guarantee)
+    minimalStepPercentage = DecimalType(
+        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
+        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
+        precision=LotMinimalStepPercentageValues.PRECISION,
+    )
+    yearlyPaymentsPercentageRange = DecimalType(
+        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
+        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
+        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    )
+    status = StringType(choices=["active"])
 
 
 class PostTenderLot(PostLot, TenderLotMixin):
@@ -86,10 +83,20 @@ class PostTenderLot(PostLot, TenderLotMixin):
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
 
 
-class PatchTenderLot(PatchBaseLot, TenderLotMixin):
+class PatchTenderLot(BaseLot, TenderLotMixin):
     minValue = ModelType(Value)
     guarantee = ModelType(Guarantee)
     fundingKind = StringType(choices=["budget", "other"])
+    minimalStepPercentage = DecimalType(
+        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
+        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
+        precision=LotMinimalStepPercentageValues.PRECISION,
+    )
+    yearlyPaymentsPercentageRange = DecimalType(
+        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
+        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
+        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    )
 
 
 class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
