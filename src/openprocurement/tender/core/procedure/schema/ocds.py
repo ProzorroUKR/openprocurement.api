@@ -34,14 +34,19 @@ def absolute_url(url):
     return url
 
 
-def convert_documents(documents, lot_id=None):
+def convert_documents(documents, lot_id=None, tender=None):
     latest_versions = {}
     for d in documents:
         if d.get("confidentiality") == "buyerOnly":
             continue
 
-        if lot_id and d.get("documentOf") == "lot" and d.get("relatedItem") != lot_id:
-            continue
+        if lot_id:
+            if d.get("documentOf") == "lot" and d.get("relatedItem") != lot_id:
+                continue
+
+            item_lot_ids = {i["relatedLot"] for i in tender.get("items") if "relatedLot" in i}
+            if d.get("documentOf") == "item" and d.get("relatedItem") not in item_lot_ids:
+                continue
 
         doc_id = d["id"]
         if doc_id not in latest_versions or latest_versions[doc_id]["dateModified"] < d["dateModified"]:
@@ -149,18 +154,25 @@ def convert_awards(awards, tender, lot_id=None):
 
 
 def filter_bids_by_lot(bids, lot_id=None):
-    r = (
-        b
-        for b in bids
-        if (
-            b["status"] not in ("deleted", "invalid") and
-            (lot_id is None or lot_id in [lv["relatedLot"] for lv in b.get("lotValues", "")])
-        )
-    )
-    return r
+    if lot_id is None:
+        return bids
+    else:
+        # TODO: filter documents if documentOf = lot or item with relatedLot
+        result = []
+        for b in bids:
+            for lv in b.get("lotValues", ""):
+                if lot_id == lv["relatedLot"]:
+                    b_copy = dict(b)
+                    # value & date
+                    b_copy["date"] = lv["date"]
+                    value = lv.get("value")
+                    if value:
+                        b_copy["value"] = value
+                    result.append(b_copy)
+        return result
 
 
-def parties_from_bids(bids, lot_id=None):
+def parties_from_bids(tender, bids, lot_id=None):
     r = [
         {
             "id": b["id"],
@@ -170,6 +182,7 @@ def parties_from_bids(bids, lot_id=None):
             "contactPoint": b["tenderers"][0].get("contactPoint"),
         }
         for b in filter_bids_by_lot(bids, lot_id)
+        if b.get("status") != "deleted"
     ]
     return r
 
@@ -189,15 +202,12 @@ def prepare_release(plan, tender, lot=None):
         "contactPoint": tender["procuringEntity"].get("contactPoint"),
     }]
     parties.extend(
-        parties_from_bids(tender.get("bids", ""), lot_id=lot_id)
+        parties_from_bids(tender, tender.get("bids", ""), lot_id=lot_id)
     )
     tender_status = lot.get("status") or tender["status"]
-    documents = convert_documents(tender.get("documents", ""), lot_id=lot_id)
-    for b in filter_bids_by_lot(tender.get("bids", ""), lot_id):
-        documents.extend(
-            convert_documents(b.get("documents", ""), lot_id=lot_id)
-        )
+    documents = convert_documents(tender.get("documents", ""), lot_id=lot_id, tender=tender)
     awards = convert_awards(tender.get("awards", ""), tender, lot_id=lot_id)
+
     r = {
         "ocid": f"{OCID_PREFIX}-{release_id}",
         "id": release_id,
@@ -210,19 +220,6 @@ def prepare_release(plan, tender, lot=None):
             "id": identifier_str(tender["procuringEntity"]["identifier"]),
             "name": tender["procuringEntity"]["name"],
         },
-        "planning": {
-            # "rationale": "Not Implemented",
-            "budget": {
-                "id": plan["budget"]["id"],
-                "description": plan["budget"]["description"],
-                "amount": convert_value(plan["budget"]),
-                # "projectID": "The name of the project through which this contracting process is funded",
-                # "project": "An external identifier for the project",
-                # "uri": "A URI pointing directly to a machine-readable record about the budget..",
-            },
-            "documents": convert_documents(plan.get("documents", "")),
-            "milestones": convert_milestones(plan.get("milestones", "")),
-        } if plan else None,
         "tender": {
             "id": tender["id"],
             "title": lot.get("title") or tender["title"],
@@ -274,6 +271,7 @@ def prepare_release(plan, tender, lot=None):
                     "name": b["tenderers"][0]["name"],
                 }
                 for b in filter_bids_by_lot(tender.get("bids", ""), lot_id)
+                if "tenderers" in b
             ],
             "documents": documents,
             # TODO should include bid documents as well?
@@ -283,6 +281,99 @@ def prepare_release(plan, tender, lot=None):
         "awards": awards,
         "contracts": convert_contracts(tender.get("contracts", ""), award_ids=[a["id"] for a in awards]),
     }
+    if plan:
+        planning = {
+            # "rationale": "Not Implemented",
+            "documents": convert_documents(plan.get("documents", "")),
+            "milestones": convert_milestones(plan.get("milestones", "")),
+        }
+        budget = plan.get("budget")
+        if budget:
+            planning["budget"] = {
+                "id": plan["budget"]["id"],
+                "description": plan["budget"]["description"],
+                "amount": convert_value(plan["budget"]),
+                # "projectID": "The name of the project through which this contracting process is funded",
+                # "project": "An external identifier for the project",
+                # "uri": "A URI pointing directly to a machine-readable record about the budget..",
+            }
+            project = budget.get("project")
+            if project:
+                if project_id := project.get("id"):
+                    planning["budget"]["projectID"] = project_id
+
+                project_name = project.get("name") or project.get("name_en")
+                if project_name:
+                    planning["budget"]["project"] = project_name
+        r["planning"] = planning
+
+    bids = tender.get("bids")
+    if bids:
+        bids = list(filter_bids_by_lot(bids, lot_id))
+        if bids:
+            bid_dates = [b["date"] for b in bids if "date" in b]
+            r["bids"] = {
+                "statistics": [
+                    {
+                        "id": "1",
+                        "measure": "validBids",
+                        "value": len(bids),
+                        "date": max(bid_dates) if bid_dates else None,
+                        "notes": "This statistic covers the total number of unique bids received that were considered "
+                                 "valid against relevant criteria."
+                    },
+                ],
+                "details": [
+                    convert_bid(b, lot_id=lot_id, tender=tender)
+                    for b in bids
+                ]
+            }
+
+    return r
+
+
+def convert_bid(b, lot_id=None, tender=None):
+    bid_status = b.get("status")
+    # valid statuses are https://extensions.open-contracting.org/en/extensions/bids/master/codelists/#bidStatus.csv
+    #  invited, pending, valid, disqualified, withdrawn
+    # https://prozorro-api-docs.readthedocs.io/uk/master/standard/bid.html#schema
+    # draft active invalid invalid.pre-qualification deleted pending
+    if "invalid" in bid_status:
+        status = "disqualified"
+    elif bid_status == "active":
+        status = "valid"
+    elif bid_status == "deleted":  # we filter this out  earlier
+        status = "withdrawn"
+    else:
+        status = "pending"
+    r = {
+        "id": b["id"],
+        "date": b.get("date"),
+        "status": status,
+        "identifiers": [
+            {
+                "id": t["identifier"]["id"],
+                "scheme": t["identifier"]["scheme"],
+            }
+            for t in b.get("tenderers", "")
+        ],
+        "value": convert_value(b.get("value")),
+        "tenderers": [
+            {
+                "id": b["id"],
+                "name": t["name"],
+            }
+            for t in b.get("tenderers", "")
+        ],
+    }
+    # documents
+    documents = []
+    for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+        if key in b:
+            documents.extend(
+                convert_documents(b[key], lot_id=lot_id, tender=tender)
+            )
+    r["documents"] = documents
     return r
 
 
@@ -315,9 +406,11 @@ def ocds_format_tender(*_, tender, tender_url, plan=None):
         releases.append(prepare_release(plan, tender))
 
     result = {
-        "uri": f"{tender_url}?schema=OCDS-1.1",
+        "uri": f"{tender_url}?opt_schema=OCDS-1.1",
         "version": "1.1",
-        "extensions": [],
+        "extensions": [
+            "https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/master/extension.json",
+        ],
         "publisher": {
             "name": tender["procuringEntity"]["name"],
         },
