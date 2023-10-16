@@ -1208,7 +1208,12 @@ def patch_tender_bid(self):
     lot_id = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_below_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_below_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id, "subcontractingDetails": "test"}]
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1227,10 +1232,14 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_tender_below_organization]}},
+        {"data": {
+            "lotValues": [{"subcontractingDetails": "test1", "value": {"amount": 500}, "relatedLot": lot_id}],
+            "tenderers": [test_tender_below_organization]}
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    self.assertNotEqual(response.json["data"]["lotValues"][0]["subcontractingDetails"], lot["subcontractingDetails"])
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 

@@ -753,18 +753,6 @@ Content-Type: application/json
             "id": "bced20f27a6e43c89389f119e1e5907d"
           }
         ],
-        "lotValues": [
-          {
-            "value": {
-              "amount": 300.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
-            "status": "active",
-            "date": "2023-01-01T00:00:00+02:00"
-          }
-        ],
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -791,7 +779,19 @@ Content-Type: application/json
         ],
         "status": "active",
         "id": "7e95a6b839db44edb45dfdd6caa41a97",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-01-01T00:00:00+02:00",
+        "lotValues": [
+          {
+            "value": {
+              "amount": 300.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+            "status": "active",
+            "date": "2023-01-01T00:00:00+02:00"
+          }
+        ]
       }
     ],
     "awardPeriod": {

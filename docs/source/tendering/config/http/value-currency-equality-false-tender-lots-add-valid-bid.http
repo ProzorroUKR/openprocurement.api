@@ -81,6 +81,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
         "scale": "micro"
       }
     ],
+    "status": "draft",
     "lotValues": [
       {
         "status": "pending",
@@ -103,7 +104,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "status": "draft",
     "id": "7e95a6b839db44edb45dfdd6caa41a97",
     "date": "2023-01-01T00:00:00+02:00"
   },
@@ -1038,28 +1038,6 @@ Content-Type: application/json
         "id": "bced20f27a6e43c89389f119e1e5907d"
       }
     ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 600.0,
-          "currency": "USD",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
-        "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
-      },
-      {
-        "value": {
-          "amount": 700.0,
-          "currency": "EUR",
-          "valueAddedTaxIncluded": true
-        },
-        "relatedLot": "f21c5735a39e41538e386c454149f615",
-        "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
-      }
-    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -1086,7 +1064,29 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "7e95a6b839db44edb45dfdd6caa41a97",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-01-01T00:00:00+02:00",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 600.0,
+          "currency": "USD",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
+      },
+      {
+        "value": {
+          "amount": 700.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f21c5735a39e41538e386c454149f615",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ]
   }
 }
 

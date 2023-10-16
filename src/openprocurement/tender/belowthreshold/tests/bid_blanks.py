@@ -227,7 +227,7 @@ def create_tender_bid(self):
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500},
-                  "lotValues": None, "parameters": None, "documents": None}},
+                  "lotValues": None, "parameters": None, "documents": None, "subcontractingDetails": "test"}},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -306,11 +306,13 @@ def patch_tender_bid(self):
         {"data": {
             "value": {"amount": 450},
             "lotValues": None, "parameters": None,
+            "subcontractingDetails": "test",
         }},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"]["amount"], 450)
+    self.assertEqual(response.json["data"]["subcontractingDetails"], "test")
     self.assertNotEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
