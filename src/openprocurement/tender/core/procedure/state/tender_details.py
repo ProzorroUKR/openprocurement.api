@@ -11,6 +11,7 @@ from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_OPEN,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
     AGREEMENT_NOT_FOUND_MESSAGE,
+    AGREEMENT_CLASSIFICATION_MESSAGE,
 )
 from openprocurement.tender.core.procedure.context import (
     get_request,
@@ -179,6 +180,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
             if self.has_mismatched_procuring_entities(tender, agreement):
                 raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
+
+            if self.has_mismatched_classification(tender, agreement):
+                raise_agreements_error(AGREEMENT_CLASSIFICATION_MESSAGE)
 
     def set_mode_test(self, tender):
         config = get_tender_config()
@@ -521,6 +525,15 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         return (
             tender_identifier["id"] != agreement_identifier["id"]
             or tender_identifier["scheme"] != agreement_identifier["scheme"]
+        )
+
+    @classmethod
+    def has_mismatched_classification(cls, tender, agreement):
+        agreement_classification = agreement["classification"]
+        tender_classification = tender["classification"]
+        return (
+            tender_classification["id"] != agreement_classification["id"]
+            or tender_classification["scheme"] != agreement_classification["scheme"]
         )
 
 
