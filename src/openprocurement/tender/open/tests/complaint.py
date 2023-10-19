@@ -99,7 +99,7 @@ class TenderComplaintObjectionMixin:
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
-            complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}"
+            complaint_data["objections"][0]["relatedItem"] = self.tender_id
         url = f"/tenders/{self.tender_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
@@ -118,8 +118,7 @@ class TenderCancellationComplaintObjectionMixin:
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
-            complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/" \
-                                                             f"cancellations/{self.cancellation_id}"
+            complaint_data["objections"][0]["relatedItem"] = self.cancellation_id
         url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
@@ -203,8 +202,7 @@ class TenderQualificationComplaintObjectionMixin:
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
-            complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/" \
-                                                             f"qualifications/{self.qualification_id}"
+            complaint_data["objections"][0]["relatedItem"] = self.qualification_id
         url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/" \
               f"complaints?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
@@ -251,7 +249,7 @@ class TenderAwardComplaintObjectionMixin:
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
-            complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/awards/{self.award_id}"
+            complaint_data["objections"][0]["relatedItem"] = self.award_id
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
               f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)

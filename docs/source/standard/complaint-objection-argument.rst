@@ -21,10 +21,5 @@ Schema
 
     Description of the argument
 
-:relatedJustification:
-    string, required
-
-    Link to argument
-
 :evidences:
     List of :ref:`complaint-objection-argument-evidence` objects

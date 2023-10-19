@@ -1112,25 +1112,25 @@ def create_complaint_objection_validation(self):
         [f"Value must be one of {values}."]
     )
 
-    invalid_objection_data["relatesTo"] = self.complaint_on
-    invalid_objection_data["relatedItem"] = "test/test/121"
-    complaint_data["objections"] = [invalid_objection_data]
-    response = self.create_complaint(complaint_data, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0]["description"][0]["relatedItem"],
-        ["Invalid relatedItem pattern"],
-    )
-
     if self.complaint_on != "tender":
         invalid_objection_data["relatesTo"] = self.complaint_on
-        invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/{self.complaint_on}s/{self.tender_id}"
+        invalid_objection_data["relatedItem"] = self.tender_id
         complaint_data["objections"] = [invalid_objection_data]
         response = self.create_complaint(complaint_data, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"][0]["description"][0]["relatedItem"],
-            [f"Invalid {self.complaint_on}s path"],
+            [f"Invalid {self.complaint_on} id"],
+        )
+    else:
+        invalid_objection_data["relatesTo"] = self.complaint_on
+        invalid_objection_data["relatedItem"] = "121"
+        complaint_data["objections"] = [invalid_objection_data]
+        response = self.create_complaint(complaint_data, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"][0]["description"][0]["relatedItem"],
+            [f"Invalid tender id"],
         )
 
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -1209,10 +1209,10 @@ def patch_complaint_objection(self):
     objection_data["description"] = "Updated one"
     objection_data["arguments"][0]["evidences"] = []
     objection_data["relatesTo"] = self.complaint_on
-    objection_data["relatedItem"] = f"/tenders/{self.tender_id}"
+    objection_data["relatedItem"] = self.tender_id
     if self.complaint_on != "tender":
         obj_id = getattr(self, f"{self.complaint_on}_id")
-        objection_data["relatedItem"] += f"/{self.complaint_on}s/{obj_id}"
+        objection_data["relatedItem"] = obj_id
     complaint_data = {"objections": [objection_data]}
     response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
     self.assertEqual(response.status, "200 OK")
@@ -1236,7 +1236,7 @@ def objection_related_item_equals_related_lot(self):
     complaint_data["relatedLot"] = self.initial_data["lots"][0]["id"]
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
     invalid_objection_data["relatesTo"] = "lot"
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/lots/{self.initial_data['lots'][1]['id']}"
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1248,13 +1248,13 @@ def objection_related_item_equals_related_lot(self):
             ]
         }],
     )
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/lots/{self.initial_data['lots'][0]['id']}"
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][0]['id']
     response = self.create_complaint(complaint_data)
     self.assertEqual(response.status, "201 Created")
 
     # relatesTo = tender and relatedLot is mentioned
     invalid_objection_data["relatesTo"] = "tender"
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}"
+    invalid_objection_data["relatedItem"] = self.tender_id
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1275,7 +1275,7 @@ def objection_related_item_equals_related_lot(self):
 
     # relatesTo = lot and relatedLot is not mentioned
     invalid_objection_data["relatesTo"] = "lot"
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/lots/{self.initial_data['lots'][1]['id']}"
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1299,7 +1299,7 @@ def objection_related_item_equals_related_cancellation(self):
     invalid_objection_data["relatesTo"] = "cancellation"
 
     # create complaint for cancellation 2 with cancellation 1 related item
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/cancellations/{cancellation_id_1}"
+    invalid_objection_data["relatedItem"] = cancellation_id_1
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1308,7 +1308,7 @@ def objection_related_item_equals_related_cancellation(self):
         "Complaint's objection must relate to the same cancellation id as complaint relates to",
     )
     # create complaint for cancellation 2 with cancellation 2 related item
-    invalid_objection_data["relatedItem"] = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}"
+    invalid_objection_data["relatedItem"] = self.cancellation_id
     response = self.create_complaint(complaint_data)
     self.assertEqual(response.status, "201 Created")
 
@@ -1322,7 +1322,7 @@ def objection_related_award_statuses(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     objection_data = deepcopy(test_tender_open_complaint_objection)
     objection_data["relatesTo"] = "award"
-    objection_data["relatedItem"] = f"/tenders/{self.tender_id}/awards/{self.award_id}"
+    objection_data["relatedItem"] = self.award_id
     complaint_data["objections"] = [objection_data]
 
     url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
@@ -1340,7 +1340,7 @@ def objection_related_award_statuses(self):
 
     response = self.app.get(f"/tenders/{self.tender_id}/awards")
     pending_award_id = response.json["data"][-1]["id"]
-    objection_data["relatedItem"] = f"/tenders/{self.tender_id}/awards/{pending_award_id}"
+    objection_data["relatedItem"] = pending_award_id
     complaint_data["objections"] = [objection_data]
 
     url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \

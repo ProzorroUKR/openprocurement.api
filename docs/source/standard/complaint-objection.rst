@@ -34,8 +34,6 @@ Schema
 
     * `tender`
     * `lot`
-    * `requirement`
-    * `requirement_response`
     * `award`
     * `qualification`
     * `cancellation`
@@ -43,7 +41,7 @@ Schema
 :relatedItem:
     string, required
 
-    The path in the tender to this element.
+    The id of related element.
 
 :classification:
     :ref:`complaint-objection-classification`

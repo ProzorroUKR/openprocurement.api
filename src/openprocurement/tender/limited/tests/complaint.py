@@ -25,7 +25,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = "award"
-            complaint_data["objections"][0]["relatedItem"] = f"/tenders/{self.tender_id}/awards/{self.award_id}"
+            complaint_data["objections"][0]["relatedItem"] = self.award_id
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints?acc_token={self.tender_token}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 

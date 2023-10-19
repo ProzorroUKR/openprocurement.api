@@ -1,18 +1,16 @@
 from uuid import uuid4
 
 from schematics.types import StringType, MD5Type
-from schematics.types.serializable import serializable
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.models import Model
-from openprocurement.tender.core.procedure.models.document import PostDocument
+from openprocurement.api.context import get_now
+from openprocurement.api.models import Model, IsoDateTimeType
+from openprocurement.tender.core.procedure.models.document import BasePostDocument
 
 
-class EvidenceDocument(PostDocument):
-
-    @serializable
-    def dateModified(self):
-        pass
+class EvidenceDocument(BasePostDocument):
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    datePublished = IsoDateTimeType(required=True, default=lambda: get_now().isoformat())
 
 
 class Evidence(Model):

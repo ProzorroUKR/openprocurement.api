@@ -16,15 +16,6 @@ Schema
 
     Id of the evidence
 
-:type:
-    string, required
-
-    Type of the evidence.
-    Possible values are:
-
-    * `external`
-    * `internal`
-
 :title:
     string, required
 
