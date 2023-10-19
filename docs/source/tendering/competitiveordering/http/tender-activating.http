@@ -611,7 +611,7 @@ Content-Type: application/json
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {

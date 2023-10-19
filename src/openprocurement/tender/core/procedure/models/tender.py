@@ -20,7 +20,6 @@ from openprocurement.tender.core.procedure.models.item import (
     Item,
     validate_related_buyer_in_items,
     validate_classification_id,
-    validate_cpv_group,
 )
 from schematics.exceptions import ValidationError
 from schematics.types import (
@@ -106,7 +105,7 @@ class PostTender(PostBaseTender):
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -152,7 +151,7 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -179,7 +178,7 @@ class Tender(BaseTender):
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(TenderAuctionPeriod)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),

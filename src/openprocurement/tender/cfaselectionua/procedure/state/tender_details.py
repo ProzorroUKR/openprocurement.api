@@ -37,6 +37,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
 
+    should_validate_pre_selection_agreement = False
+
     def on_post(self, tender):
         super().on_post(tender)
         self.check_owner_forbidden_fields(tender)
@@ -134,10 +136,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     @staticmethod
     def watch_value_meta_changes(tender):
         pass  # TODO: shouldn't it work here
-
-    def validate_agreement(self, tender):
-        # skip main agreement validation logic
-        pass
 
     @classmethod
     def find_agreement_unsuccessful_reason(cls, tender, agreement):

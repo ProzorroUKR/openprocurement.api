@@ -109,7 +109,3 @@ AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
-AGREEMENT_CLASSIFICATION_MESSAGE = (
-    "tender.classification (scheme or id), "
-    "doesnt match tender.agreements[0].classification (scheme of id)"
-)

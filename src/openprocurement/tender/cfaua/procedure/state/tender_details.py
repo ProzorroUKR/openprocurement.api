@@ -39,7 +39,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
-        self.validate_fields_unchanged(before, after)
+        self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_qualification_status_change(before, after)
 
         # bid invalidation rules

@@ -18,7 +18,6 @@ from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_items_uniq,
     validate_classification_id,
     validate_related_buyer_in_items,
@@ -111,7 +110,7 @@ class PostTender(PostBaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+                     validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -175,7 +174,7 @@ class PatchTender(PatchBaseTender):
     procuringEntity = ModelType(ProcuringEntity)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+                     validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -212,7 +211,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])

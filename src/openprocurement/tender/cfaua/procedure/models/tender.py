@@ -8,7 +8,6 @@ from schematics.types.compound import ModelType, ListType
 from decimal import Decimal
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
-    validate_cpv_group,
 )
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
@@ -89,7 +88,7 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(ModelType(PostTenderLot, required=True), required=True,
                     min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])
@@ -124,7 +123,7 @@ class PatchTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(ModelType(PatchTenderLot, required=True),
                     min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])
@@ -155,7 +154,7 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     lots = ListType(ModelType(Lot, required=True), required=True,
                     min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])

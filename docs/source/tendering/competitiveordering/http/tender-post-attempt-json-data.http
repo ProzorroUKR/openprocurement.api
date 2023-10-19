@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "classification": {
           "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
+          "id": "03111600-8",
           "scheme": "ДК021"
         },
         "unit": {
@@ -239,7 +239,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {

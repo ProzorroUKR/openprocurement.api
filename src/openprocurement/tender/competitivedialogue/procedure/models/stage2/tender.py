@@ -9,7 +9,6 @@ from openprocurement.api.context import (
 from openprocurement.tender.core.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_items_uniq,
 )
 from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
@@ -62,7 +61,7 @@ class PostEUTender(BasePostTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
@@ -96,7 +95,7 @@ class PatchEUTender(BasePatchTender):
     items = ListType(
         ModelType(EUItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     status = StringType(choices=[
@@ -116,7 +115,7 @@ class EUTender(BaseTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
@@ -179,7 +178,7 @@ class PostUATender(UABasePostTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
@@ -221,7 +220,7 @@ class PatchUATender(UABasePatchTender):
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     status = StringType(choices=[
@@ -259,7 +258,7 @@ class UATender(UABaseTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 

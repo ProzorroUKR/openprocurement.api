@@ -4,7 +4,6 @@ from openprocurement.tender.openua.procedure.models.organization import Procurin
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_items_uniq,
 )
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostTenderLot, PatchTenderLot
@@ -37,7 +36,7 @@ class PostEUTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -61,7 +60,7 @@ class PatchEUTender(BasePatchTender):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -91,7 +90,7 @@ class EUTender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -112,7 +111,7 @@ class PostUATender(PostEUTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
 
 
@@ -122,7 +121,7 @@ class PatchUATender(PatchEUTender):
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
 
 
@@ -133,5 +132,5 @@ class UATender(EUTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )

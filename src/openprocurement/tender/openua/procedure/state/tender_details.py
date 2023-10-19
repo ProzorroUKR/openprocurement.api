@@ -69,7 +69,7 @@ class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
 
-        self.validate_fields_unchanged(before, after)
+        self.validate_items_classification_prefix_unchanged(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":
