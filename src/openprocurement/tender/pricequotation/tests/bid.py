@@ -45,6 +45,7 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
     patch_tender_bid_document,
     requirement_response_validation_multiple_criterias,
+    requirement_response_value_validation_for_expected_values,
     requirement_response_validation_multiple_groups,
     requirement_response_validation_multiple_groups_multiple_requirements,
     requirement_response_validation_one_group_multiple_requirements,
@@ -75,6 +76,9 @@ class TenderBidCriteriaTest(TenderContentWebTest):
 
     test_multiple_criterias = snitch(
         requirement_response_validation_multiple_criterias
+    )
+    test_expeted_values_format = snitch(
+        requirement_response_value_validation_for_expected_values
     )
 
 
