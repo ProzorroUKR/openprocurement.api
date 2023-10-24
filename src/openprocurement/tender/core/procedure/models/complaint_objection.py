@@ -6,7 +6,7 @@ from schematics.types import BaseType, StringType, MD5Type
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.models import Model
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_tender, get_complaint
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import Argument
 from openprocurement.tender.core.procedure.models.complaint_objection_requested_remedy import RequestedRemedy
 
@@ -36,15 +36,17 @@ class Objection(Model):
     arguments = ListType(ModelType(Argument), min_size=1, required=True)
 
     def validate_relatedItem(self, data, value):
-        tender = get_tender()
-        relates_to = data["relatesTo"]
-        if relates_to == ObjectionRelatesTo.tender.value:
-            if value != tender.get("_id"):
-                raise ValidationError("Invalid tender id")
-        else:
-            obj = self.find_related_item(tender, relates_to, value)
-            if relates_to in ("award", "qualification") and obj.get("status") not in ("active", "unsuccessful"):
-                raise ValidationError(f"Relate objection to {relates_to} in {obj.get('status')} is forbidden")
+        complaint = get_complaint() or data.get("__parent__", {})
+        if complaint.get("status", "draft") == "draft":
+            tender = get_tender()
+            relates_to = data["relatesTo"]
+            if relates_to == ObjectionRelatesTo.tender.value:
+                if value != tender.get("_id"):
+                    raise ValidationError("Invalid tender id")
+            else:
+                obj = self.find_related_item(tender, relates_to, value)
+                if relates_to in ("award", "qualification") and obj.get("status") not in ("active", "unsuccessful"):
+                    raise ValidationError(f"Relate objection to {relates_to} in {obj.get('status')} is forbidden")
         return value
 
     @staticmethod
@@ -63,7 +65,7 @@ class TenderComplaintObjection(Objection):
 
     def validate_relatedItem(self, data, value):
         super().validate_relatedItem(self, data, value)
-        complaint = data.get("__parent__", {})
+        complaint = get_complaint() or data.get("__parent__", {})
         related_lot = complaint.get("relatedLot")
         if data["relatesTo"] == ObjectionRelatesTo.lot.value:
             if not related_lot or value != related_lot:
@@ -74,6 +76,7 @@ class TenderComplaintObjection(Objection):
             raise ValidationError(
                 f"Complaint's objection must not relate to {data['relatesTo']} if relatedLot mentioned"
             )
+        return value
 
 
 class AwardComplaintObjection(Objection):

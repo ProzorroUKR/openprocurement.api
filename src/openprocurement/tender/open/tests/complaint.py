@@ -35,6 +35,7 @@ from openprocurement.tender.open.tests.complaint_blanks import (
     objection_related_item_equals_related_lot,
     objection_related_item_equals_related_cancellation,
     objection_related_award_statuses,
+    objection_related_document_of_evidence,
 )
 
 
@@ -102,6 +103,16 @@ class TenderComplaintObjectionMixin:
             complaint_data["objections"][0]["relatedItem"] = self.tender_id
         url = f"/tenders/{self.tender_id}/complaints"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
+
+    def add_complaint_document(self, complaint_id, complaint_token, status=201):
+        doc_data = {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }
+        url = f"/tenders/{self.tender_id}/complaints/{complaint_id}/documents?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": doc_data}, status=status)
 
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
         url = f"/tenders/{self.tender_id}/complaints/{complaint_id}?acc_token={complaint_token}"
@@ -207,6 +218,17 @@ class TenderQualificationComplaintObjectionMixin:
               f"complaints?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
+    def add_complaint_document(self, complaint_id, complaint_token, status=201):
+        doc_data = {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }
+        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/" \
+              f"complaints/{complaint_id}/documents?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": doc_data}, status=status)
+
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
         url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}?" \
               f"acc_token={complaint_token}"
@@ -254,6 +276,17 @@ class TenderAwardComplaintObjectionMixin:
               f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
+    def add_complaint_document(self, complaint_id, complaint_token, status=201):
+        doc_data = {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }
+        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/" \
+              f"{complaint_id}/documents?acc_token={complaint_token}"
+        return self.app.post_json(url, {"data": doc_data}, status=status)
+
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
         url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?" \
               f"acc_token={complaint_token}"
@@ -268,6 +301,7 @@ class TenderComplaintObjectionTest(
     initial_lots = test_tender_below_lots * 2
 
     test_objection_related_item_equals_related_lot = snitch(objection_related_item_equals_related_lot)
+    test_objection_related_document_of_evidence = snitch(objection_related_document_of_evidence)
 
 
 class TenderCancellationComplaintObjectionTest(
@@ -297,6 +331,7 @@ class TenderAwardComplaintObjectionTest(
     initial_lots = test_tender_below_lots
 
     test_objection_related_award_statuses = snitch(objection_related_award_statuses)
+    test_objection_related_document_of_evidence = snitch(objection_related_document_of_evidence)
 
     def setUp(self):
         super(TenderAwardComplaintObjectionTest, self).setUp()

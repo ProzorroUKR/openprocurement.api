@@ -1,23 +1,23 @@
 from uuid import uuid4
 
+from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.context import get_now
-from openprocurement.api.models import Model, IsoDateTimeType
-from openprocurement.tender.core.procedure.models.document import BasePostDocument
-
-
-class EvidenceDocument(BasePostDocument):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    datePublished = IsoDateTimeType(required=True, default=lambda: get_now().isoformat())
+from openprocurement.api.models import Model
+from openprocurement.tender.core.procedure.context import get_complaint
 
 
 class Evidence(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
     description = StringType(required=True)
-    documents = ListType(ModelType(EvidenceDocument), min_size=1, required=True)
+    relatedDocument = StringType(required=True)
+
+    def validate_relatedDocument(self, data, value):
+        complaint = get_complaint()
+        if not complaint or value not in [document["id"] for document in complaint.get("documents", [])]:
+            raise ValidationError("relatedDocument should be one of complaint documents")
 
 
 class Argument(Model):

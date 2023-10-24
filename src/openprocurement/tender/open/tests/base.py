@@ -82,22 +82,6 @@ test_tender_open_config = {
     "minBidsNumber": 1,
 }
 
-
-test_tender_open_complaint_objection_argument = {
-    "description": "test argument",
-    "evidences": [{
-        "title": "test",
-        "description": "test",
-        "documents": [
-            {
-                "title": "test.doc",
-                "format": "application/msword",
-                "url": "/test/doc/mls"
-            }
-        ]
-    }]
-}
-
 test_tender_open_complaint_objection = {
     "title": "My objection",
     "description": "Test objection",
@@ -114,7 +98,9 @@ test_tender_open_complaint_objection = {
             "type": "setAsideAward"
         }
     ],
-    "arguments": [test_tender_open_complaint_objection_argument]
+    "arguments": [{
+        "description": "test argument"
+    }]
 }
 
 

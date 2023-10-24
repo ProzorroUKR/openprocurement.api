@@ -1,36 +1,11 @@
-POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
+PATCH /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/48153ea17b8b4a46883221469016b183?acc_token=557d6b5ddd1e4e99874d4f594e43554f HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1822
+Content-Length: 536
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "title": "Недостатньо інформації",
-    "status": "draft",
-    "type": "complaint",
-    "author": {
-      "address": {
-        "countryName": "Україна",
-        "locality": "м. Вінниця",
-        "postalCode": "21100",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Островського, 33"
-      },
-      "contactPoint": {
-        "email": "soleksuk@gmail.com",
-        "name": "Сергій Олексюк",
-        "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "legalName": "ДКП «Школяр»",
-        "id": "00137256",
-        "uri": "http://www.sc.gov.ua/"
-      },
-      "name": "ДКП «Школяр»"
-    },
     "objections": [
       {
         "title": "My objection",
@@ -50,21 +25,47 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "arguments": [
           {
-            "description": "test argument"
+            "description": "test argument",
+            "evidences": [
+              {
+                "title": "Evidence",
+                "description": "Test evidence",
+                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+              }
+            ]
           }
-        ]
+        ],
+        "id": "02b5b44a78844b8bb928152ddb6217f6"
       }
     ]
   }
 }
 
 
-HTTP/1.0 201 Created
+HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/ccdbdaa9ccca47d08761581587833bd8
 
 {
   "data": {
+    "id": "48153ea17b8b4a46883221469016b183",
+    "complaintID": "UA-2023-01-01-000001-a.2",
+    "date": "2023-01-01T00:00:00+02:00",
+    "status": "draft",
+    "documents": [
+      {
+        "id": "e578814fffec467587198dec88b0dcba",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Evidence_Attachment.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31f24c650bf0450a9e351fcadad42d8f?Signature=Dn3KrTtqhhnkZg99w0%2B3e5lNXoGMTo0KYi1TMWQofS9n5JGPueLURYUn80rNe2L4bT7qY4PQX1q8VaLSbQk1DA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "author": "complaint_owner",
+        "language": "uk"
+      }
+    ],
+    "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -88,13 +89,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "status": "draft",
-    "type": "complaint",
     "objections": [
       {
-        "id": "75de2126deb94cb69a35dc3e8b76e34a",
+        "id": "02b5b44a78844b8bb928152ddb6217f6",
         "title": "My objection",
         "description": "Test objection",
+        "relatesTo": "tender",
         "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
         "classification": {
           "scheme": "test",
@@ -103,31 +103,31 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         },
         "requestedRemedies": [
           {
-            "id": "01752d7148754a7d9a2d093213fd1461",
+            "id": "298c8b57ff4340e2af9b4f276aa458c8",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "e536c00043c74ebbbb4a4f6576c77d9f",
-            "description": "test argument"
+            "id": "14cf6a8f0b5f4abdaf63ae7b53d9728b",
+            "description": "test argument",
+            "evidences": [
+              {
+                "id": "8c9ef2564c1b464eae9909618ffc5329",
+                "title": "Evidence",
+                "description": "Test evidence",
+                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+              }
+            ]
           }
-        ],
-        "relatesTo": "tender"
+        ]
       }
     ],
-    "id": "ccdbdaa9ccca47d08761581587833bd8",
-    "date": "2023-01-01T00:00:00+02:00",
-    "complaintID": "UA-2023-01-01-000001-a.1",
     "value": {
-      "amount": 2000,
+      "amount": 2000.0,
       "currency": "UAH"
     }
-  },
-  "access": {
-    "token": "2e72aea50e754761a1bd7e86a2922f70",
-    "transfer": "d19d73548f9f4906a32f915318342243"
   }
 }
 

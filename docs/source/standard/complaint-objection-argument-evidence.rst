@@ -26,5 +26,7 @@ Schema
 
     Description of the evidence
 
-:documents:
-   List of :ref:`document` objects
+:relatedDocument:
+    string, required
+
+    The reference for complaint document

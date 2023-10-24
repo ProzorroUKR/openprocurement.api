@@ -11,10 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_organization,
 )
-from openprocurement.tender.open.tests.base import (
-    test_tender_open_complaint_objection,
-    test_tender_open_complaint_objection_argument,
-)
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from mock import patch
 from copy import deepcopy
 from datetime import timedelta
@@ -1229,6 +1226,70 @@ def patch_complaint_objection(self):
     objection = response.json["data"]["objections"][0]
     self.assertNotEqual(objection["id"], objection_id)
     self.assertEqual(objection["description"], "New one")
+
+
+def objection_related_document_of_evidence(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["objections"] = [test_tender_open_complaint_objection]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+    objection_id = response.json["data"]["objections"][0]["id"]
+
+    # add document to complaint
+    response = self.add_complaint_document(complaint_id, complaint_token)
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+
+    # patch complaint
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["id"] = objection_id
+    objection_data["arguments"][0]["evidences"] = [{
+        "title": "test",
+        "description": "test",
+    }]
+    objection_data["relatesTo"] = self.complaint_on
+    objection_data["relatedItem"] = self.tender_id
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        objection_data["relatedItem"] = obj_id
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "arguments": [{
+                "evidences": [{
+                    "relatedDocument": ["This field is required."]
+                }]
+            }]
+        }],
+    )
+
+    objection_data["arguments"][0]["evidences"][0]["relatedDocument"] = "some_id"
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "arguments": [{
+                "evidences": [{
+                    "relatedDocument": ["relatedDocument should be one of complaint documents"]
+                }]
+            }]
+        }],
+    )
+
+    objection_data["arguments"][0]["evidences"][0]["relatedDocument"] = doc_id
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertEqual(objection["id"], objection_id)
 
 
 def objection_related_item_equals_related_lot(self):

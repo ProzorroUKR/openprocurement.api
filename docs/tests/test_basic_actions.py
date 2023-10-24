@@ -447,6 +447,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
     def test_complaints_objections(self):
+        self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
             {'data': test_tender_data, 'config': self.initial_config})
@@ -486,6 +487,35 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 {'data': complaint_data},
             )
             self.assertEqual(response.status, '201 Created')
+            complaint_token = response.json['access']['token']
+            complaint_id = response.json['data']['id']
+            objection_id = response.json['data']['objections'][0]['id']
+
+        with open(TARGET_DIR + 'complaints/complaint-document-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, complaint_id, complaint_token),
+                {"data": {
+                    "title": "Evidence_Attachment.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }})
+            self.assertEqual(response.status, '201 Created')
+            doc_id = response.json['data']['id']
+
+        objection["id"] = objection_id
+        objection["arguments"][0]["evidences"] = [{
+            "title": "Evidence",
+            "description": "Test evidence",
+            "relatedDocument": doc_id
+        }]
+        with open(TARGET_DIR + 'complaints/complaint-objections-evidences-with-document.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint_id, complaint_token),
+                {'data': {"objections": [objection]}},
+            )
+            self.assertEqual(response.status, '200 OK')
 
         objection = deepcopy(test_tender_open_complaint_objection)
         objection["requestedRemedies"] = []

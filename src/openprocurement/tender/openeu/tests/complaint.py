@@ -19,6 +19,7 @@ from openprocurement.tender.open.tests.complaint import (
     TenderComplaintObjectionMixin,
     TenderQualificationComplaintObjectionMixin,
 )
+from openprocurement.tender.open.tests.complaint_blanks import objection_related_document_of_evidence
 
 from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin, CreateAwardComplaintMixin
 from openprocurement.tender.openua.tests.complaint_blanks import (
@@ -91,6 +92,8 @@ class TenderQualificationComplaintObjectionResourceTest(
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
+
+    test_objection_related_document_of_evidence = snitch(objection_related_document_of_evidence)
 
     def setUp(self):
         super(TenderQualificationComplaintObjectionResourceTest, self).setUp()
