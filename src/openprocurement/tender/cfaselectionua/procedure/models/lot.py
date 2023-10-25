@@ -1,13 +1,11 @@
 from schematics.types.compound import ModelType
 from schematics.types import URLType, StringType, MD5Type, BaseType
-from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, Value
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.lot import (
     PostBaseLot,
-    PatchBaseLot,
     TenderLotMixin,
     LotGuaranteeSerializerMixin,
     BaseLot,
@@ -20,10 +18,11 @@ class PostLot(PostBaseLot, LotGuaranteeSerializerMixin):
     guarantee = ModelType(Guarantee)
 
 
-class PatchLot(PatchBaseLot):
+class PatchLot(BaseLot):
     title = StringType()
     guarantee = ModelType(Guarantee)
     minimalStep = ModelType(Value)
+    status = StringType(choices=["active"])
 
 # -- END models for view ---
 
@@ -32,7 +31,8 @@ class PostTenderLot(PostLot, TenderLotMixin):
     pass
 
 
-class PatchTenderLot(PatchBaseLot, TenderLotMixin):
+class PatchTenderLot(BaseLot, TenderLotMixin):
+    title = StringType()
     guarantee = ModelType(Guarantee)
     minimalStep = ModelType(Value)
 

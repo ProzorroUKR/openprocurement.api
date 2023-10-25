@@ -2431,25 +2431,6 @@ def edit_tender_in_active_enquiries(self):
             }]
         )
 
-    lots = deepcopy(tender_data["lots"])
-    lots[0]["status"] = "unsuccessful"
-    del lots[0]["value"]
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"lots": lots}},
-        status=422
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "location": "body",
-            "name": "lots",
-            "description": [
-                {"status": ["Value must be one of ['active']."]}
-            ]
-        }]
-    )
-
     item_updates = {
         "classification": {
             "scheme": "ДК021",

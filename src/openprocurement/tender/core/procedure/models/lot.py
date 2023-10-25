@@ -94,17 +94,15 @@ class PostBaseLot(BaseLot):
     status = StringType(choices=["active"], default="active")
 
 
-class PatchBaseLot(BaseLot):
-    status = StringType(choices=["active"])
-
 # --- For work from view ---
 
 
-class PatchLot(PatchBaseLot):
+class PatchLot(BaseLot):
     title = StringType()
     value = ModelType(Value)
     minimalStep = ModelType(Value)
     guarantee = ModelType(Guarantee)
+    status = StringType(choices=["active"])
 
 
 class PostLot(PostBaseLot, LotSerializersMixin):
@@ -119,7 +117,7 @@ class PostLot(PostBaseLot, LotSerializersMixin):
 # --- For work from tender ---
 
 
-class PatchTenderLot(PatchBaseLot, TenderLotMixin):
+class PatchTenderLot(BaseLot, TenderLotMixin):
     value = ModelType(Value, required=True)
     minimalStep = ModelType(Value)
     guarantee = ModelType(Guarantee)
