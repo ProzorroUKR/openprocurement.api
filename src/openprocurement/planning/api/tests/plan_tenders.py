@@ -533,12 +533,21 @@ def test_validations_before_and_after_tender(app):
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
         {"data": {"procurementMethodType": "another"}},
-        status=422,
     )
-    assert response.json == {
-        "status": "error",
-        "errors": [{"location": "body", "name": "status", "description": "Can't update plan in 'complete' status"}],
-    }
+    assert response.status == "200 OK"
+
+    # but procurementMethodType is the same
+    assert response.json["data"]["procurementMethodType"] != "another"
+    assert response.json["data"]["procurementMethodType"] == "whatever"
+
+    #  only "rationale" allowed
+    rationale = "my magic mall said so"
+    response = app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
+        {"data": {"rationale": rationale}},
+    )
+    assert response.status == "200 OK"
+    assert response.json["data"]["rationale"] == rationale
 
 
 def test_tender_creation_modified_date(app):

@@ -40,6 +40,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "rationale": "Недостатньо змістовне обгрунтування",
     "procuringEntity": {
       "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
       "name": "ДУС",

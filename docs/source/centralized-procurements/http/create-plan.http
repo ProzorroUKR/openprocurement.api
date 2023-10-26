@@ -1,11 +1,12 @@
 POST /api/2.5/plans?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2815
+Content-Length: 3032
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
+    "rationale": "Недостатньо змістовне обгрунтування",
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
@@ -127,6 +128,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c
 
 {
   "data": {
+    "rationale": "Недостатньо змістовне обгрунтування",
     "procuringEntity": {
       "id": "83f062b81bae47f8ab0961261aa07c76",
       "name": "ЦЗО №1",

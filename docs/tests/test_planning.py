@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-
+from datetime import timedelta
 from openprocurement.planning.api.tests.base import BasePlanWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from tests.base.data import (
@@ -176,6 +176,24 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'get-complete-plan.http', 'w') as self.app.file_obj:
             response = self.app.get('/plans/{}'.format(plan['id']))
         self.assertEqual(response.json["data"]["status"], "complete")
+
+        # update complete plan
+        self.tick(delta=timedelta(days=1, hours=1, seconds=33))
+        rationale = 'Змістовне пояснення необхідності закупівлі'
+        with open(TARGET_DIR + 'complete-plan-rationale.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/plans/{}?acc_token={}'.format(plan["id"], owner_token),
+                {
+                    'data': {
+                        'rationale': rationale
+                    }
+                },
+            )
+        self.assertEqual(response.json["data"]["rationale"], rationale)
+
+        # rationale history
+        with open(TARGET_DIR + 'plan-rationale-history.http', 'w') as self.app.file_obj:
+            self.app.get(f"/history/plans/{plan['id']}?opt_fields=rationale")
 
         # tender manually completion
         response = self.app.post_json('/plans', {'data': test_docs_plan_data})

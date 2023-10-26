@@ -283,7 +283,7 @@ def prepare_release(plan, tender, lot=None):
     }
     if plan:
         planning = {
-            # "rationale": "Not Implemented",
+            "rationale": plan.get("rationale"),
             "documents": convert_documents(plan.get("documents", "")),
             "milestones": convert_milestones(plan.get("milestones", "")),
         }

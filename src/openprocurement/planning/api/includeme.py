@@ -18,3 +18,4 @@ def includeme(config):
     config.add_request_method(extract_plan)
     config.add_request_method(plan_from_data)
     config.scan("openprocurement.planning.api.views")
+    config.scan("openprocurement.planning.api.procedure.views")

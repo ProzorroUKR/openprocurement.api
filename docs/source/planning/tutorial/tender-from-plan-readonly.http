@@ -26,8 +26,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "status",
-      "description": "Can't update plan in 'complete' status"
+      "name": "procuringEntity",
+      "description": "Changing this field is not allowed after tender creation"
     }
   ]
 }
