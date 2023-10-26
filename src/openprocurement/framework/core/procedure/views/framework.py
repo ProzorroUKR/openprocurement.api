@@ -104,6 +104,7 @@ class FrameworksResource(FrameworkBaseResource):
         if self.request.authenticated_role == "chronograph":
             framework = self.request.validated["framework"]
             self.state.check_status(framework)
+            self.state.update_next_check(framework)
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     "Updated framework by chronograph",

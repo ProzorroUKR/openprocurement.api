@@ -31,6 +31,7 @@ class ChronographEventsMixing:
                     unsuccessful_status_check = calculate_framework_date(
                         dt_from_iso(start_date),
                         timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+                        framework,
                         working_days=True,
                         ceil=True,
                     )

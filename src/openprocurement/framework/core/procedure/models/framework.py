@@ -73,12 +73,10 @@ class PostFramework(Model):
 class PatchFramework(Model):
     status = StringType(
         choices=[
-            "draft",
             "active",
             "complete",
             "unsuccessful",
-        ],
-        default="draft",
+        ]
     )
     title = StringType()
     title_en = StringType()
@@ -86,7 +84,6 @@ class PatchFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    frameworkType = StringType()
     qualificationPeriod = ModelType(BasePeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
@@ -150,7 +147,6 @@ class FrameworkChronographData(Model):
 class PatchActiveFramework(Model):
     status = StringType(
         choices=[
-            "draft",
             "active",
             "complete",
             "unsuccessful",
@@ -160,7 +156,6 @@ class PatchActiveFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    frameworkType = StringType()
     qualificationPeriod = ModelType(BasePeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     documents = ListType(ModelType(Document), default=list())
