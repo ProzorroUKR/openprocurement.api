@@ -1,6 +1,6 @@
 from openprocurement.api.constants import ORA_CODES
-from openprocurement.api.models import Model
-from schematics.types import StringType, URLType, BaseType
+from openprocurement.api.models import Model, URLType
+from schematics.types import StringType, BaseType
 
 
 class PatchIdentifier(Model):

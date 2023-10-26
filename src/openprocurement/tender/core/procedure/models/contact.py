@@ -1,9 +1,9 @@
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.context import get_now
-from openprocurement.api.models import Model
+from openprocurement.api.models import Model, URLType
 from openprocurement.api.constants import VALIDATE_TELEPHONE_FROM
 from openprocurement.api.utils import get_first_revision_date
-from schematics.types import StringType, EmailType, URLType
+from schematics.types import StringType, EmailType
 from schematics.validate import ValidationError
 import re
 

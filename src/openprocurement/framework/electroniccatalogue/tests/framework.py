@@ -32,6 +32,7 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     framework_fields,
     unsuccessful_status,
     complete_status,
+    create_framework_draft_url_validation,
 )
 
 
@@ -53,6 +54,7 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_accreditation_level = snitch(accreditation_level)
     test_create_framework_draft_invalid = snitch(create_framework_draft_invalid)
     test_create_framework_draft_invalid_kind = snitch(create_framework_draft_invalid_kind)
+    test_create_framework_draft_url_validation = snitch(create_framework_draft_url_validation)
     test_patch_framework_draft = snitch(patch_framework_draft)
     test_patch_framework_draft_to_active = snitch(patch_framework_draft_to_active)
     test_patch_framework_draft_to_active_invalid = snitch(patch_framework_draft_to_active_invalid)

@@ -559,6 +559,38 @@ def create_framework_draft_invalid_kind(self):
     )
 
 
+def create_framework_draft_url_validation(self):
+    request_path = "/frameworks"
+
+    data = deepcopy(self.initial_data)
+    data["procuringEntity"]["contactPoint"]["url"] = "https://xn--80abnquv.xn--j1amh"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+    data["procuringEntity"]["contactPoint"]["url"] = "https://en.wikipedia.org/wiki/ф"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+    data["procuringEntity"]["contactPoint"]["url"] = "http://басейни.укр"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+    data["procuringEntity"]["contactPoint"]["url"] = "http://foobar.12"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': {'contactPoint': {'url': ["Not a well formed URL."]}},
+                'location': 'body', 'name': 'procuringEntity'
+            }
+        ],
+    )
+
+
 def create_framework_draft(self):
     response = self.app.post_json(
         "/frameworks", {
