@@ -298,20 +298,9 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):
-    freezer = None
-
     def setUp(self):
         super(SubmissionContentWebTest, self).setUp()
-        freeze = get_now() + timedelta(days=15)
-        self.freezer = freeze_time(freeze.isoformat())
-        self.freezer.start()
         self.create_submission()
-
-    def tearDown(self):
-        if self.freezer:
-            self.freezer.stop()
-        super(SubmissionContentWebTest, self).tearDown()
-
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):

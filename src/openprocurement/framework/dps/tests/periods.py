@@ -12,7 +12,7 @@ PERIODS = {
                 "endDate": timedelta(days=30)
             },
             "qualificationPeriod": {
-                "startDate": timedelta(days=10),
+                "startDate": timedelta(),
                 "endDate": timedelta(days=61)
             },
         }
@@ -28,7 +28,7 @@ PERIODS = {
                 "endDate": -timedelta(days=30)
             },
             "qualificationPeriod": {
-                "startDate": -timedelta(days=51),
+                "startDate": -timedelta(days=61),
                 "endDate": timedelta()
             }
         }

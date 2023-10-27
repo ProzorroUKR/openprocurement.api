@@ -117,28 +117,26 @@ def validate_patch_submission_data(request, **kwargs):
 
 def validate_operation_submission_in_not_allowed_period(request, **kwargs):
     framework = request.validated["framework"]
-    enquiryPeriod = framework.get("enquiryPeriod")
     operation = OPERATIONS.get(request.method)
     period = framework.get("period")
     if (
-        not enquiryPeriod
-        or "endDate" not in enquiryPeriod
-        or not period
+        not period
+        or "startDate" not in period
         or "endDate" not in period
     ):
         raise_operation_error(
             request,
-            "Submission cannot be {} without framework enquiryPeriod or period".format(operation)
+            "Submission cannot be {} without framework period".format(operation)
         )
-    enquiryPeriod_endDate = enquiryPeriod["endDate"]
+    period_startDate = period["startDate"]
     period_endDate = period["endDate"]
     now = get_now()
 
-    if now < enquiryPeriod_endDate or now > period_endDate:
+    if now < period_startDate or now > period_endDate:
         raise_operation_error(
             request,
             "Submission can be {} only during the period: from ({}) to ({}).".format(
-                operation, enquiryPeriod_endDate, period_endDate),
+                operation, period_startDate, period_endDate),
         )
 
 

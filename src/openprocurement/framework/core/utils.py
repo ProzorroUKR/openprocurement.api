@@ -413,8 +413,9 @@ def calculate_framework_date(
 def calculate_framework_periods(request, model):
     framework = request.context
     data = request.validated["data"]
+    now = get_now()
 
-    enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or get_now()
+    enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or now
     enquiryPeriod_endDate = (
         framework.enquiryPeriod
         and framework.enquiryPeriod.endDate
@@ -440,7 +441,7 @@ def calculate_framework_periods(request, model):
     }
 
     qualification_endDate = model(data["qualificationPeriod"]).endDate
-    period_startDate = framework.period and framework.period.startDate or get_now()
+    period_startDate = framework.period and framework.period.startDate or now
     period_endDate = calculate_framework_date(
         qualification_endDate,
         timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
@@ -451,7 +452,7 @@ def calculate_framework_periods(request, model):
         "endDate": period_endDate,
     }
 
-    data["qualificationPeriod"]["startDate"] = enquiryPeriod_endDate
+    data["qualificationPeriod"]["startDate"] = enquiryPeriod_startDate
 
 
 def get_framework_unsuccessful_status_check_date(framework):

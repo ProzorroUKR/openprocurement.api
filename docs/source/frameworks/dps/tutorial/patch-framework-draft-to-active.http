@@ -29,7 +29,7 @@ Content-Type: application/json
       "endDate": "2023-01-31T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-01-14T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-03-02T00:00:00+02:00"
     },
     "enquiryPeriod": {

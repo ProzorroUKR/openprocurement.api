@@ -13,7 +13,6 @@ from openprocurement.api.utils import (
     apply_data_patch,
 )
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
-from openprocurement.framework.core.utils import ENQUIRY_PERIOD_DURATION, calculate_framework_date
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.models import (
     Framework,
@@ -308,22 +307,9 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):
-    freezer = None
-
     def setUp(self):
         super(SubmissionContentWebTest, self).setUp()
-        enquiry_end_date = calculate_framework_date(
-            get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
-        )
-        self.freezer = freeze_time(enquiry_end_date.isoformat())
-        self.freezer.start()
         self.create_submission()
-
-    def tearDown(self):
-        if self.freezer:
-            self.freezer.stop()
-        super(SubmissionContentWebTest, self).tearDown()
-
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
