@@ -144,6 +144,7 @@ class BaseContract(CommonBaseContract):
     """ Contract """
     _id = StringType(deserialize_from=['id', 'doc_id'])
     _rev = StringType()
+    doc_type = StringType()
     public_modified = BaseType()
 
     revisions = BaseType()
