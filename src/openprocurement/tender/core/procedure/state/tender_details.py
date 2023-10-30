@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_SELECTIVE,
     LIMITED_PROCUREMENT_METHOD_TYPES,
@@ -220,6 +221,14 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 raise_agreements_error("Exactly one agreement is expected.")
 
             agreement = self.get_agreement(tender)
+
+            tender_agreement_type_mapping = {
+                COMPETITIVE_ORDERING: DPS_TYPE
+            }
+
+            if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
+                raise_agreements_error("Agreement type mismatch.")
+
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
