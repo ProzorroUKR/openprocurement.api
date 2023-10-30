@@ -1,12 +1,12 @@
 PATCH /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4?acc_token=ef8e82ab09a448dfab7d3d4766ac13d2 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 33
+Content-Length: 264
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "status": "scheduled"
+    "rationale": "Змістовне пояснення необхідності закупівлі"
   }
 }
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": "Недостатньо змістовне обгрунтування",
+    "rationale": "Змістовне пояснення необхідності закупівлі",
     "procuringEntity": {
       "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
       "name": "ДУС",
@@ -54,7 +54,18 @@ Content-Type: application/json
       "period": {
         "startDate": "2023-01-01T00:00:00+02:00",
         "endDate": "2023-12-31T00:00:00+02:00"
-      }
+      },
+      "breakdown": [
+        {
+          "id": "73e21bf40ee949c08d404f9470a5649a",
+          "title": "other",
+          "description": "Breakdown other description.",
+          "value": {
+            "amount": 1500.0,
+            "currency": "UAH"
+          }
+        }
+      ]
     },
     "classification": {
       "description": "Seeds",
@@ -68,27 +79,28 @@ Content-Type: application/json
         "description": "-"
       }
     ],
+    "tender_id": "faedbc9487564abc8ac82e0fe70308c3",
     "planID": "UA-P-2023-01-01-000001",
     "items": [
       {
         "id": "55aa3eaa98104cae9ddf1f95dc81ff13",
         "classification": {
-          "description": "Mustard seeds",
+          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111700-9"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "01.11.92",
-            "description": "Насіння гірчиці"
+            "id": "01.13.6",
+            "description": "Насіння овочевих культур"
           }
         ],
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
-        "quantity": 1000.0,
+        "quantity": 5000.0,
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
           "locality": "м. Київ",
@@ -97,71 +109,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-01-16T00:00:00+02:00"
+          "endDate": "2016-06-01T23:06:30.023018+03:00"
         },
-        "description": "Насіння гірчиці"
-      },
-      {
-        "id": "33585a8f9b424821a368c3c610eea7be",
-        "classification": {
-          "description": "Sunflower seeds",
-          "scheme": "ДК021",
-          "id": "03111300-5"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.95",
-            "description": "Насіння соняшнику"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 2000.0,
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "endDate": "2023-01-17T00:00:00+02:00"
-        },
-        "description": "Насіння соняшнику"
-      },
-      {
-        "id": "78de1ef6ea9f4eee8dd2501db2c92ea4",
-        "classification": {
-          "description": "Cotton seeds",
-          "scheme": "ДК021",
-          "id": "03111400-6"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.84",
-            "description": "Насіння бавовнику"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 3000.0,
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "deliveryDate": {
-          "endDate": "2023-01-18T00:00:00+02:00"
-        },
-        "description": "Насіння бавовнику"
+        "description": "Насіння овочевих культур"
       }
     ],
     "buyers": [
@@ -183,9 +133,9 @@ Content-Type: application/json
         "kind": "general"
       }
     ],
-    "status": "scheduled",
+    "status": "complete",
     "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-02T01:00:33+02:00",
     "datePublished": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
     "id": "249bf7a3e1ce48c9bba765eed435b2b4"

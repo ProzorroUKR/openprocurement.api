@@ -124,3 +124,27 @@ Making the cancellation object ``active`` cancels the plan:
 
 .. http:example:: tutorial/plan-cancellation-activation.http
    :code:
+
+
+Plan rationale update
+---------------------
+
+The ``rationale`` field can be updated at any plan status:
+
+
+.. http:example:: tutorial/complete-plan-rationale.http
+   :code:
+
+
+Plan fields history
+-------------------
+
+There is an endpoint that can show changes history of the certain fields.
+
+
+At the moment only ``rationale`` is supported:
+
+
+.. http:example:: tutorial/plan-rationale-history.http
+   :code:
+

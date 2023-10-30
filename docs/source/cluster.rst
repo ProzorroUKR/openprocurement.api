@@ -47,6 +47,7 @@ Every request returns a session cookie, that is continuously updated
 .. sourcecode:: http
 
   POST /tenders/64e93250be76435397e8c992ed4214d1/bids HTTP/1.1
+
   Content-Type: application/json
   {
       "data": {
@@ -72,6 +73,7 @@ Then the following request should use that cookies
 .. sourcecode:: http
 
   POST /tenders/64e93250be76435397e8c992ed4214d1/bids HTTP/1.1
+
   Content-Type: application/json
   Cookie: SESSION=0KjQvtCxINGI0L4/IA==
   {

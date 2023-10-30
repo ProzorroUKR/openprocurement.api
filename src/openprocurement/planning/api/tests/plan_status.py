@@ -287,18 +287,18 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     doc_id = response.json["data"]["documents"][0]["id"]
     acc_token = response.json["access"]["token"]
 
-    # patch
-    response = app.patch_json("/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {}}, status=422)
-    assert response.json == {
-        "status": "error",
-        "errors": [
-            {
-                "description": "Can't update plan in '{}' status".format(status),
-                "location": "body",
-                "name": "status",
-            }
-        ],
-    }
+    # patch is allowed, but only "rationale" is allowed
+    response = app.patch_json(
+        "/plans/{}?acc_token={}".format(plan_id, acc_token),
+        {"data": {
+            "classification": {
+                "description": "bla",
+            },
+            "rationale": "hello, 123#"
+        }},
+    )
+    assert response.json["data"]["classification"]["description"] != "bla"
+    assert response.json["data"]["rationale"] == "hello, 123#"
 
     #  docs
     response = app.post_json(

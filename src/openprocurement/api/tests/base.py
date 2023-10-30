@@ -95,7 +95,9 @@ class BaseWebTest(unittest.TestCase):
     @classmethod
     def clean_mongodb(cls):
         for collection in COLLECTION_CLASSES.keys():
-            getattr(cls.mongodb, collection).flush()
+            collection = getattr(cls.mongodb, collection, None)
+            if collection:  # plugins are optional
+                collection.flush()
         cls.mongodb.flush_sequences()
 
     def set_initial_status(self, tender, status=None):

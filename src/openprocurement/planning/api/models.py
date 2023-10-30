@@ -331,7 +331,7 @@ class Plan(RootModel):
     class Options:
         _edit_role = whitelist(
             "procuringEntity", "tender", "budget", "classification", "additionalClassifications", "documents",
-            "items", "buyers", "status", "cancellation", "procurementMethodType",
+            "items", "buyers", "status", "cancellation", "procurementMethodType", "rationale",
         )
         _create_role = _edit_role + whitelist("mode")
         _common_view = _create_role + whitelist(
@@ -342,16 +342,25 @@ class Plan(RootModel):
             "revision": whitelist("revisions"),
             "create": _create_role,
             "edit": _edit_role,
+            "edit_terminated": whitelist("rationale"),
             "view": _common_view + whitelist("dateModified", "is_masked"),
             "listing": whitelist("dateModified", "doc_id"),  # not used since MongodbResourceListing?
             "Administrator": whitelist("status", "mode", "procuringEntity"),
             "default": schematics_default_role,
         }
 
+    def get_role(self):
+        root = self.__parent__
+        request = root.request
+        if request.context.status in ("cancelled", "complete"):
+            return "edit_terminated"
+        return super().get_role()
+
     def __local_roles__(self):
         return dict([("{}_{}".format(self.owner, self.owner_token), "plan_owner")])
 
     # fields
+    rationale = StringType()
 
     # procuringEntity:identifier:scheme *
     # procuringEntity:identifier:id *

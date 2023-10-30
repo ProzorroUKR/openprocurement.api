@@ -19,6 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "rationale": "Недостатньо змістовне обгрунтування",
     "procuringEntity": {
       "id": "7e7afa9f45854968b06a08b254af126c",
       "name": "ДУС",
@@ -70,7 +71,7 @@ Content-Type: application/json
         "description": "-"
       }
     ],
-    "planID": "UA-P-2023-01-01-000003",
+    "planID": "UA-P-2023-01-02-000002",
     "items": [
       {
         "id": "49ffdd118a4245af931b03a25cca7c9b",
@@ -188,14 +189,14 @@ Content-Type: application/json
     "status": "scheduled",
     "cancellation": {
       "id": "b7e9d6ca56c943a0b5d32f9db0653ce7",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-01-02T01:00:33+02:00",
       "reason": "Підстава для скасування",
       "reason_en": "Reason of the cancellation",
       "status": "pending"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-02T01:00:33+02:00",
+    "dateModified": "2023-01-02T01:00:33+02:00",
+    "datePublished": "2023-01-02T01:00:33+02:00",
     "owner": "broker",
     "id": "a93d5d3f8c974702bdcd612e0e78486f"
   }
