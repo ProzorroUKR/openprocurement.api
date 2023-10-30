@@ -52,6 +52,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     get_tender_qualifications_collection,
     patch_tender_qualifications,
     get_tender_qualifications,
+    check_reporting_date_publication,
     patch_tender_qualifications_after_status_change,
     switch_bid_status_unsuccessul_to_active,
     lot_patch_tender_qualifications_lots_none,
@@ -162,6 +163,7 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
     test_get_tender_qualifications = snitch(get_tender_qualifications)
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
+    test_check_reporting_date_publication = snitch(check_reporting_date_publication)
 
 
 class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):

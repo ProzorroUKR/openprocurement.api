@@ -89,6 +89,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": -COMPLAINT_STAND_STILL,
                 "endDate": timedelta(),
+                "reportingDatePublication": -timedelta(days=6),
             },
         }
     },
@@ -105,6 +106,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": -COMPLAINT_STAND_STILL,
                 "endDate": timedelta(),
+                "reportingDatePublication": -timedelta(days=6),
             },
             "auctionPeriod": {"startDate": timedelta()},
         }

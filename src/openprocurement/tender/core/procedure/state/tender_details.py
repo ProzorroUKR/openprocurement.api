@@ -194,6 +194,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), self.pre_qualification_complaint_stand_still, after
                     ).isoformat()
+                    after["qualificationPeriod"]["reportingDatePublication"] = get_now().isoformat()
                 else:
                     raise_operation_error(
                         get_request(),

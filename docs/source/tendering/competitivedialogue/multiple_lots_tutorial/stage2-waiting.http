@@ -1075,7 +1075,8 @@ Content-Type: application/json
     ],
     "qualificationPeriod": {
       "startDate": "2022-12-22T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
+      "endDate": "2023-01-01T00:00:00+02:00",
+      "reportingDatePublication": "2022-12-26T00:00:00+02:00"
     },
     "qualifications": [
       {

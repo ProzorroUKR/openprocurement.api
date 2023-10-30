@@ -66,7 +66,11 @@ PERIODS = {
                 "endDate": (-QUESTIONS_STAND_STILL),
             },
             "tenderPeriod": {"startDate": (-TENDERING_DURATION - timedelta(days=1)), "endDate": timedelta()},
-            "qualificationPeriod": {"startDate": timedelta(), "endDate": timedelta(days=1)},
+            "qualificationPeriod": {
+                "startDate": timedelta(),
+                "endDate": timedelta(days=1),
+                "reportingDatePublication": -timedelta(days=5),
+            },
             "auctionPeriod": {"startDate": (+COMPLAINT_STAND_STILL)},
         },
         "end": {
@@ -78,7 +82,11 @@ PERIODS = {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-COMPLAINT_STAND_STILL),
             },
-            "qualificationPeriod": {"startDate": (-COMPLAINT_STAND_STILL), "endDate": timedelta()},
+            "qualificationPeriod": {
+                "startDate": (-COMPLAINT_STAND_STILL),
+                "endDate": timedelta(),
+                "reportingDatePublication": -timedelta(days=6),
+            },
             "auctionPeriod": {"startDate": timedelta()},
         },
     },
@@ -92,7 +100,11 @@ PERIODS = {
                 "startDate": (-TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-COMPLAINT_STAND_STILL),
             },
-            "qualificationPeriod": {"startDate": (-COMPLAINT_STAND_STILL), "endDate": timedelta()},
+            "qualificationPeriod": {
+                "startDate": (-COMPLAINT_STAND_STILL),
+                "endDate": timedelta(),
+                "reportingDatePublication": -timedelta(days=6),
+            },
             "auctionPeriod": {"startDate": timedelta()},
         },
         "end": {
@@ -107,6 +119,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-timedelta(days=1)),
+                "reportingDatePublication": -timedelta(days=7),
             },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
         },
@@ -124,6 +137,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-timedelta(days=1)),
+                "reportingDatePublication": -timedelta(days=7),
             },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta()},
@@ -140,6 +154,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-timedelta(days=1)),
+                "reportingDatePublication": -timedelta(days=7),
             },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta()},
@@ -158,6 +173,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-timedelta(days=1)),
+                "reportingDatePublication": -timedelta(days=7),
             },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta(), "endDate": QUALIFICATION_COMPLAINT_STAND_STILL},
@@ -189,6 +205,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "reportingDatePublication": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=7)),
             },
             "auctionPeriod": {
                 "startDate": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
@@ -225,6 +242,7 @@ PERIODS = {
             "qualificationPeriod": {
                 "startDate": (-COMPLAINT_STAND_STILL - QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
                 "endDate": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
+                "reportingDatePublication": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=7)),
             },
             "auctionPeriod": {
                 "startDate": (-QUALIFICATION_COMPLAINT_STAND_STILL - timedelta(days=1)),
@@ -263,6 +281,9 @@ PERIODS = {
                 - CLARIFICATIONS_UNTIL_PERIOD
                 - timedelta(days=2),
                 "endDate": -QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
+                "reportingDatePublication": (
+                    -QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=8)
+                ),
             },
             "auctionPeriod": {
                 "startDate": -QUALIFICATION_COMPLAINT_STAND_STILL - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=2),
@@ -321,6 +342,11 @@ PERIODS = {
                 "endDate": (
                     -QUALIFICATION_COMPLAINT_STAND_STILL
                     - timedelta(days=1)
+                    - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))
+                ),
+                "reportingDatePublication": (
+                    -QUALIFICATION_COMPLAINT_STAND_STILL
+                    - timedelta(days=7)
                     - (CLARIFICATIONS_UNTIL_PERIOD + timedelta(days=1))
                 ),
             },

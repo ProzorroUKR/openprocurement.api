@@ -12,6 +12,10 @@ class Period(Model):
             raise ValidationError("period should begin before its end")
 
 
+class QualificationPeriod(Period):
+    reportingDatePublication = IsoDateTimeType()
+
+
 class PeriodEndRequired(Period):
     endDate = IsoDateTimeType(required=True)
 
