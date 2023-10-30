@@ -563,11 +563,15 @@ def create_framework_draft_url_validation(self):
     request_path = "/frameworks"
 
     data = deepcopy(self.initial_data)
-    data["procuringEntity"]["contactPoint"]["url"] = "https://xn--80abnquv.xn--j1amh"
+    data["procuringEntity"]["contactPoint"]["url"] = "https://xn--80abnquv.xn--j1amh/"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
     data["procuringEntity"]["contactPoint"]["url"] = "https://en.wikipedia.org/wiki/ф"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+    data["procuringEntity"]["contactPoint"]["url"] = "http://www.example.com/düsseldorf?neighbourhood=Lörick"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
