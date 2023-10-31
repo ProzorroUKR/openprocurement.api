@@ -83,17 +83,14 @@ class DecimalType(BaseDecimalType):
         return self._apply_precision(value)
 
 
+# TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
 class URLType(StringType):
     MESSAGES = {
         'invalid_url': u"Not a well formed URL.",
         'not_found': u"URL does not exist.",
     }
 
-    URL_REGEX = re.compile(
-        r'^https?://(?:(?:[A-ZА-Я0-9](?:[A-ZА-Я0-9-]{0,2000}[A-ZА-Я0-9])?\.)+[A-ZА-Я0-9-]{1,62}[A-ZА-Я]\.?|localhost|'
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?(?:/?|[/?]\S+)$',
-        re.IGNORECASE
-    )
+    URL_REGEX = re.compile(r'^https?://\S+$')
 
     def __init__(self, verify_exists=False, **kwargs):
         self.verify_exists = verify_exists

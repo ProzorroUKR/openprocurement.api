@@ -571,7 +571,7 @@ def create_framework_draft_url_validation(self):
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
-    data["procuringEntity"]["contactPoint"]["url"] = "http://www.example.com/düsseldorf?neighbourhood=Lörick"
+    data["procuringEntity"]["contactPoint"]["url"] = "http://www.düsseldorf.com/düsseldorf?neighbourhood=Lörick"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
@@ -579,7 +579,7 @@ def create_framework_draft_url_validation(self):
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
-    data["procuringEntity"]["contactPoint"]["url"] = "http://foobar.12"
+    data["procuringEntity"]["contactPoint"]["url"] = "foobar.12"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
