@@ -4,6 +4,7 @@ from schematics.types import StringType, EmailType
 from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM
 from openprocurement.api.utils import required_field_from_date
 from openprocurement.api.models import (
+    ContactPoint as BaseContactPoint,
     ModelType,
     ListType,
     Organization as BaseOrganization,
@@ -11,10 +12,7 @@ from openprocurement.api.models import (
     PROCURING_ENTITY_KINDS,
 )
 from openprocurement.framework.core.procedure.models.address import Address
-from openprocurement.framework.core.procedure.models.organization import (
-    ContactPoint as BaseContactPoint,
-    Identifier,
-)
+from openprocurement.framework.core.procedure.models.organization import Identifier
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 

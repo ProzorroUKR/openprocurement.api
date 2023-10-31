@@ -489,6 +489,23 @@ def create_framework_draft_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
+    data["procuringEntity"]["contactPoint"]["telephone"] = "foobar"
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': {
+                    'contactPoint': {
+                        'telephone': ['wrong telephone format (could be missed +)'],
+                    }
+                },
+                'location': 'body', 'name': 'procuringEntity'
+            }
+        ],
+    )
+
     del data["procuringEntity"]["contactPoint"]["telephone"]
     del data["procuringEntity"]["contactPoint"]["email"]
     response = self.app.post_json(request_path, {"data": data}, status=422)

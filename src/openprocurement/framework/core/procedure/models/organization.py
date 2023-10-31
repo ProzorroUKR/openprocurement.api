@@ -13,13 +13,8 @@ from openprocurement.framework.core.procedure.models.address import SubmissionAd
 from openprocurement.framework.core.procedure.utils import required_field_from_date
 
 
-class ContactPoint(BaseContactPoint):
-    def validate_telephone(self, data, value):
-        pass
-
-
 class Organization(BaseOrganization):
-    contactPoint = ModelType(ContactPoint, required=True)
+    contactPoint = ModelType(BaseContactPoint, required=True)
     address = ModelType(Address, required=True)
 
 
