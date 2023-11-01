@@ -112,11 +112,12 @@ def mask_object_data(request, data):
         # Masking is not required for these roles
         return
 
-    revisions = data.pop("revisions", [])
+    revisions = data.pop("revisions") if "revisions" in data else None
     # data["transfer_token"] = uuid4().hex
     # data["owner_token"] = uuid4().hex
     mask_process_compound(data)
-    data["revisions"] = revisions
+    if revisions is not None:
+        data["revisions"] = revisions
     if "title" in data:
         data["title"] = "Тимчасово замасковано, щоб русня не підглядала"
     if "title_en" in data:
