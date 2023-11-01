@@ -3,7 +3,10 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
 )
-
+from openprocurement.tender.simpledefense.procedure.state.cancellation_complaint import (
+    SimpleDefenseCancellationComplaintState,
+)
+    
 
 @resource(
     name="simple.defense:Tender Cancellation Complaints Get",
@@ -27,5 +30,5 @@ class SimpleDefenseCancellationClaimAndComplaintGetResource(CancellationComplain
     # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
 )
 class SimpleDefenseCancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    pass
+    state_class = SimpleDefenseCancellationComplaintState
 

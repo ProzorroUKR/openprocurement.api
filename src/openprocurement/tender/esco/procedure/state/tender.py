@@ -12,5 +12,5 @@ class ESCOTenderStateMixin:
     generate_award_milestones = False
 
 
-class ESCOTenderTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
+class ESCOTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
     pass

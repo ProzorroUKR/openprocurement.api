@@ -1,5 +1,6 @@
-from openprocurement.tender.core.procedure.state.complaint import ComplaintState
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso, is_item_owner
 from openprocurement.tender.core.procedure.models.complaint import (
     DraftPatchComplaint,
@@ -20,7 +21,7 @@ from datetime import timedelta
 LOGGER = getLogger(__name__)
 
 
-class CancellationComplaintState(ComplaintState):
+class CancellationComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     update_allowed_tender_statuses = None
 
@@ -309,3 +310,7 @@ class CancellationComplaintState(ComplaintState):
             for lot in tender.get("lots"):
                 if lot["id"] == related_lot:
                     return lot
+
+
+class CancellationComplaintState(CancellationComplaintStateMixin, TenderState):
+    pass

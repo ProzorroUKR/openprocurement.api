@@ -1,5 +1,7 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.cancellation_complaint import CancellationComplaintState
+from openprocurement.tender.core.procedure.state.cancellation_complaint import (
+    CancellationComplaintState,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.cancellation import resolve_cancellation
 from openprocurement.tender.core.procedure.models.complaint import PostComplaint

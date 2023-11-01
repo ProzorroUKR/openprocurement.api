@@ -1,6 +1,6 @@
-from openprocurement.tender.esco.procedure.state.claim import ESCOClaimStateMixin
-from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState
+from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 
 
-class ESCOAwardClaimState(ESCOClaimStateMixin, AwardClaimState):
+class ESCOAwardClaimState(AwardClaimStateMixin, ESCOTenderState):
     pass

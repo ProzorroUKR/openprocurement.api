@@ -1,10 +1,10 @@
 from openprocurement.tender.openua.procedure.state.contract import OpenUAContractStateMixing
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderTenderState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from openprocurement.api.utils import raise_operation_error, to_decimal
 from decimal import Decimal
 
 
-class ESCOContractState(OpenUAContractStateMixing, ESCOTenderTenderState):
+class ESCOContractState(OpenUAContractStateMixing, ESCOTenderState):
     value_attrs = (
         "amount",
         "amount_escp",

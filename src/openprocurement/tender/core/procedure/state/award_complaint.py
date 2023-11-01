@@ -1,5 +1,6 @@
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
-from openprocurement.tender.core.procedure.state.complaint import ComplaintState
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.context import get_award, get_tender
 from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
@@ -11,7 +12,7 @@ from datetime import timedelta
 LOGGER = getLogger(__name__)
 
 
-class AwardComplaintState(ComplaintState):
+class AwardComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
@@ -65,3 +66,7 @@ class AwardComplaintState(ComplaintState):
             for lot in tender.get("lots"):
                 if lot["id"] == related_lot:
                     return lot
+
+
+class AwardComplaintState(AwardComplaintStateMixin, TenderState):
+    pass

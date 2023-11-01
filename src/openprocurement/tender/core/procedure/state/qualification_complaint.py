@@ -1,5 +1,6 @@
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import is_item_owner, dt_from_iso
-from openprocurement.tender.core.procedure.state.complaint import ComplaintState
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
@@ -10,7 +11,7 @@ from openprocurement.api.utils import raise_operation_error
 LOGGER = getLogger(__name__)
 
 
-class QualificationComplaintState(ComplaintState):
+class QualificationComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
     update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
 
@@ -52,3 +53,7 @@ class QualificationComplaintState(ComplaintState):
         tender = get_tender()
         del tender["qualificationPeriod"]["endDate"]
         self.get_change_tender_status_handler("active.pre-qualification")(tender)
+
+
+class QualificationComplaintState(QualificationComplaintStateMixin, TenderState):
+    pass

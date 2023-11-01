@@ -1,10 +1,12 @@
-from openprocurement.tender.core.procedure.state.cancellation_complaint import CancellationComplaintState
+from openprocurement.tender.core.procedure.state.cancellation_complaint import CancellationComplaintStateMixin
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from datetime import timedelta
 
+from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
-class NegotiationCancellationComplaintState(CancellationComplaintState):
+
+class NegotiationCancellationComplaintState(CancellationComplaintStateMixin, NegotiationTenderState):
 
     def validate_post_cancellation_complaint_permission(self):
         pass

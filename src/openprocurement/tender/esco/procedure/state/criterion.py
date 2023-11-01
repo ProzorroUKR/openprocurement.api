@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderTenderState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 
 
-class ESCOCriterionState(CriterionStateMixin, ESCOTenderTenderState):
+class ESCOCriterionState(CriterionStateMixin, ESCOTenderState):
     pass

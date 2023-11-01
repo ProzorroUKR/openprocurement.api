@@ -1,10 +1,6 @@
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderStateMixin
-from openprocurement.tender.core.procedure.state.claim import ClaimState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
+from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 
 
-class ESCOClaimStateMixin(ESCOTenderStateMixin):
-    pass
-
-
-class ESCOClaimState(ESCOClaimStateMixin, ClaimState):
+class ESCOClaimState(ClaimStateMixin, ESCOTenderState):
     pass

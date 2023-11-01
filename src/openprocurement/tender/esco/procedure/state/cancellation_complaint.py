@@ -1,6 +1,7 @@
-from openprocurement.tender.core.procedure.state.cancellation_complaint import CancellationComplaintState
-from openprocurement.tender.esco.procedure.state.complaint import ESCOComplaintMixin
+from openprocurement.tender.core.procedure.state.cancellation_complaint import CancellationComplaintStateMixin
+from openprocurement.tender.esco.procedure.state.complaint import ESCOComplaintStateMixin
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 
 
-class ESCOCancellationComplaintState(ESCOComplaintMixin, CancellationComplaintState):
+class ESCOCancellationComplaintState(ESCOComplaintStateMixin, CancellationComplaintStateMixin, ESCOTenderState):
     pass

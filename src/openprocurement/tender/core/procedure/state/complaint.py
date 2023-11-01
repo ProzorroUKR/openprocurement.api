@@ -29,7 +29,7 @@ from datetime import timedelta
 LOGGER = getLogger(__name__)
 
 
-class BaseComplaintState(TenderState):
+class BaseComplaintStateMixin:
     def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
         if tender_created_after_2020_rules():
             if any(
@@ -39,7 +39,7 @@ class BaseComplaintState(TenderState):
                 raise_operation_error(self.request, "Can't add complaint if tender have cancellation in pending status")
 
 
-class ComplaintState(BaseComplaintState):
+class ComplaintStateMixin(BaseComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
@@ -313,3 +313,7 @@ class ComplaintState(BaseComplaintState):
                         self.request,
                         "Can't add complaint with 'pending' lot cancellation",
                     )
+
+
+class TenderComplaintState(ComplaintStateMixin, TenderState):
+    pass

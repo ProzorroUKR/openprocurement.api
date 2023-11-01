@@ -1,6 +1,6 @@
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.api.utils import json_view, update_logging_context, LOGGER
-from openprocurement.tender.core.procedure.state.claim import ClaimState
+from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin, TenderClaimState
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.claim import (
     PostClaim,
@@ -44,7 +44,6 @@ def calculate_total_complaints(tender):
 
 class BaseClaimResource(TenderBaseResource):
     item_name = "tender"   # tender or award
-    state_class = ClaimState
     serializer_class = ComplaintSerializer
 
     def __acl__(self):
@@ -135,6 +134,8 @@ class BaseClaimResource(TenderBaseResource):
 
 
 class TenderClaimResource(BaseClaimResource):
+    state_class = TenderClaimState
+
     @property
     def serializer_class(self):
         if self.request.method == "POST":
