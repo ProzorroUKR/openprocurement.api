@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
+from openprocurement.api.mask import mask_object_data
 from pyramid.security import (
     Allow,
     Everyone,
@@ -32,6 +33,7 @@ LOGGER = logging.getLogger(__name__)
     request_method=("GET",),  # all "GET /tenders" requests go here
 )
 class TendersListResource(MongodbResourceListing):
+    mask_required_fields = {"is_masked", "procuringEntity"}
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
@@ -62,6 +64,18 @@ class TendersListResource(MongodbResourceListing):
             (Allow, Everyone, "view_listing"),
         ]
         return acl
+
+    def db_fields(self, fields):
+        return fields | self.mask_required_fields
+
+    def filter_results_fields(self, results, fields):
+        all_fields = fields | {"id"}
+        for r in results:
+            mask_object_data(self.request, r)
+            for k in list(r.keys()):
+                if k not in all_fields:
+                    del r[k]
+        return results
 
 
 class TendersResource(TenderBaseResource):

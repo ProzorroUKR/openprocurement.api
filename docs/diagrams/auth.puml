@@ -1,0 +1,10 @@
+@startuml
+
+title belowThreshold check_status
+
+Customer --> Broker: автентифікація/авторизація користувача
+
+Broker --> "CDB API": автентифікація/авторизація майданчика
+
+
+@enduml

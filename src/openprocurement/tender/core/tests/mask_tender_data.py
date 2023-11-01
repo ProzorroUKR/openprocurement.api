@@ -41,6 +41,13 @@ def test_mask_tender_by_identifier(app):
     data = response.json["data"]
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
 
+    # feed tender is masked
+    response = app.get(f"/tenders?mode=_all_&opt_fields=contracts,lots")
+    assert response.status_code == 200
+    data = response.json["data"][0]
+    assert data["contracts"][0]["suppliers"][0]["name"] == "00000000000000"
+
+
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_by_is_masked(app):
     set_now()
@@ -73,6 +80,12 @@ def test_mask_tender_by_is_masked(app):
     # Check field
     assert "is_masked" in data
 
+    # feed tender is masked
+    response = app.get(f"/tenders?mode=_all_&opt_fields=contracts,lots")
+    assert response.status_code == 200
+    data = response.json["data"][0]
+    assert data["contracts"][0]["suppliers"][0]["name"] == "00000000000000"
+
     # Patch tender as excluded from masking role
     with change_auth(app, ("Basic", ("administrator", ""))):
         response = app.patch_json(f"/tenders/{id}", {"data": {"description": "test"}})
@@ -98,6 +111,7 @@ def test_mask_tender_by_is_masked(app):
 
     # Check is_masked field was removed
     assert "is_masked" not in app.app.registry.mongodb.tenders.get(id)
+
 
 @patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
 @patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
