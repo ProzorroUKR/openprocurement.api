@@ -7,7 +7,7 @@ from freezegun import freeze_time
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.core.utils import calculate_framework_date, ENQUIRY_PERIOD_DURATION
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 def listing(self):
@@ -276,6 +276,26 @@ def listing_draft(self):
     )
 
 
+def create_submission_after_period_ends(self):
+    response = self.app.get(f"/frameworks/{self.framework_id}")
+    self.assertEqual(response.status, "200 OK")
+    period_end_date = dt_from_iso(response.json["data"]["period"]["endDate"])
+    data = deepcopy(self.initial_submission_data)
+    data["frameworkID"] = self.framework_id
+    with freeze_time((period_end_date + timedelta(days=1)).isoformat()):
+        response = self.app.post_json("/submissions", {
+            "data": data,
+            "config": self.initial_submission_config,
+        }, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertIn(
+            "Submission can be add only during the period:",
+            response.json["errors"][0]["description"],
+        )
+
+
 def create_submission_draft_invalid(self):
     request_path = "/submissions"
     response = self.app.post(request_path, "data", status=415)
@@ -497,18 +517,14 @@ def create_submission_config_test(self):
     expected_config = deepcopy(self.initial_submission_config)
     expected_config["test"] = True
 
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
-    )
-    with freeze_time(enquiry_end_date.isoformat()):
-        response = self.create_submission()
+    response = self.create_submission()
 
-        submission = response.json["data"]
-        self.assertNotIn("config", submission)
-        self.assertEqual(submission["mode"], "test")
-        self.assertEqual(response.json["config"], expected_config)
+    submission = response.json["data"]
+    self.assertNotIn("config", submission)
+    self.assertEqual(submission["mode"], "test")
+    self.assertEqual(response.json["config"], expected_config)
 
-        response = self.activate_submission()
+    response = self.activate_submission()
 
     submission = response.json["data"]
     self.assertNotIn("config", submission)
@@ -543,10 +559,7 @@ def create_submission_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
-    )
-    with change_auth(self.app, ("Basic", ("broker2", ""))), freeze_time(enquiry_end_date.isoformat()):
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
         # Change authorization so framework and submission have different owners
 
         expected_config = {

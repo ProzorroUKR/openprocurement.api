@@ -10,11 +10,7 @@ from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.models import Framework
-from openprocurement.framework.core.utils import ENQUIRY_PERIOD_DURATION
-from openprocurement.framework.core.utils import (
-    calculate_framework_date,
-    get_framework_unsuccessful_status_check_date,
-)
+from openprocurement.framework.core.utils import get_framework_unsuccessful_status_check_date
 
 
 def simple_add_framework(self):
@@ -821,10 +817,7 @@ def patch_framework_draft_to_active(self):
     self.assertNotEqual(response.json["data"]["date"], framework["date"])
 
     data = deepcopy(self.initial_data)
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True
-    )
-    data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=30)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=30)).isoformat()
     response = self.app.post_json(
         "/frameworks", {
             "data": data,
@@ -845,6 +838,11 @@ def patch_framework_draft_to_active(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertNotEqual(response.json["data"]["date"], framework["date"])
+    self.assertEqual(response.json["data"]["enquiryPeriod"]["startDate"], response.json["data"]["period"]["startDate"])
+    self.assertEqual(
+        response.json["data"]["qualificationPeriod"]["startDate"],
+        response.json["data"]["period"]["startDate"]
+    )
 
     data = deepcopy(self.initial_data)
     data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1095)).isoformat()
@@ -872,10 +870,7 @@ def patch_framework_draft_to_active(self):
 
 def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True
-    )
-    data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=29)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=29)).isoformat()
     response = self.app.post_json(
         "/frameworks", {
             "data": data,
@@ -906,7 +901,7 @@ def patch_framework_draft_to_active_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (enquiry_end_date + timedelta(days=1096)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1096)).isoformat()
     response = self.app.post_json(
         "/frameworks", {
             "data": data,

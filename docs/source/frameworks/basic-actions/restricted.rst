@@ -90,7 +90,7 @@ It is forbidden to ask or answer question outside the enquiry period:
 Create and activate Submissions with restricted access
 ------------------------------------------------------
 
-After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`.
+After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`.
 
 Let's register submission by `Broker 1`:
 

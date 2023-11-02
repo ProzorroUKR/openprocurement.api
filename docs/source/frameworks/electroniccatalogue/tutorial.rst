@@ -68,7 +68,7 @@ After framework activation frameworks periods was calculated:
 
 `enquiryPeriod` - first 10 full working days after activation.
 
-`period` - period when suppliers can add submissions (except `enquiryPeriod`).
+`period` - period when suppliers can add submissions.
 
 `qualificationPeriod` - last 30 full calendar days of framework when suppliers cannot add submissions but still can be qualified based on previous submissions.
 
@@ -102,7 +102,7 @@ Checking the listing again reflects the new modification date:
 Registering submission
 ----------------------
 
-After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`:
+After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`:
 
 .. http:example:: tutorial/register-submission.http
    :code:

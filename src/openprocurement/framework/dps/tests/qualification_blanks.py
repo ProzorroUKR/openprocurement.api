@@ -8,8 +8,6 @@ from openprocurement.api.constants import (
 )
 from datetime import timedelta
 
-from openprocurement.framework.core.utils import calculate_framework_date, ENQUIRY_PERIOD_DURATION
-
 
 def listing(self):
     response = self.app.get("/qualifications")
@@ -312,12 +310,8 @@ def patch_submission_pending_config_test(self):
     self.assertTrue(response.json["config"]["test"])
 
     # Create and activate submission
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
-    )
-    with freeze_time(enquiry_end_date.isoformat()):
-        self.create_submission()
-        response = self.activate_submission()
+    self.create_submission()
+    response = self.activate_submission()
 
     qualification_id = response.json["data"]["qualificationID"]
 
@@ -360,10 +354,7 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    enquiry_end_date = calculate_framework_date(
-        get_now(), timedelta(days=ENQUIRY_PERIOD_DURATION), working_days=True, ceil=True
-    )
-    with change_auth(self.app, ("Basic", ("broker2", ""))), freeze_time(enquiry_end_date.isoformat()):
+    with change_auth(self.app, ("Basic", ("broker2", ""))):
         # Change authorization so framework and submission have different owners
 
         config = deepcopy(self.initial_submission_config)
