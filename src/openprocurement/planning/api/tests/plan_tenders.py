@@ -544,10 +544,10 @@ def test_validations_before_and_after_tender(app):
     rationale = "my magic mall said so"
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
-        {"data": {"rationale": rationale}},
+        {"data": {"rationale": {"description": rationale}}},
     )
     assert response.status == "200 OK"
-    assert response.json["data"]["rationale"] == rationale
+    assert response.json["data"]["rationale"]["description"] == rationale
 
 
 def test_tender_creation_modified_date(app):

@@ -185,11 +185,11 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 '/plans/{}?acc_token={}'.format(plan["id"], owner_token),
                 {
                     'data': {
-                        'rationale': rationale
+                        'rationale': {"description": rationale}
                     }
                 },
             )
-        self.assertEqual(response.json["data"]["rationale"], rationale)
+        self.assertEqual(response.json["data"]["rationale"]["description"], rationale)
 
         # rationale history
         with open(TARGET_DIR + 'plan-rationale-history.http', 'w') as self.app.file_obj:

@@ -130,6 +130,11 @@ class PlanResource(BaseResource):
                     if m.status in Milestone.ACTIVE_STATUSES:
                         m.status = Milestone.STATUS_INVALID
                         m.dateModified = plan.dateModified
+
+        # rationale
+        rationale = plan.get("rationale")
+        if rationale and rationale.get("description") != src_data.get("rationale", {}).get("description"):
+            rationale["date"] = get_now()
                         
 
 @opresource(name="Plan Tenders", path="/plans/{plan_id}/tenders", description="Tender creation based on a plan")

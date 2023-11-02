@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 import mock
 import uuid
 from copy import deepcopy
@@ -293,7 +295,7 @@ def listing_moves_from_dts(self):
     See example why sorting isoformat strings wouldn't work here
     2021-10-31T03:58:00+03:00
     2021-10-31T03:59:00+03:00
-    2021-10-31T03:00:00+02:00 -> this time is actually bigger than previous, but the string doesn't
+    2021-10-31T03:00:00+02:00 -> this time is actually bigger than previous, but the string repr isn't
     2021-10-31T03:01:00+02:00
     :param self:
     :return:
@@ -2211,3 +2213,86 @@ def plan_token_invalid(self):
             }
         ]
     )
+
+
+def plan_rationale(self):
+    fake_date = "2022-02-24T05:00:00+02:00"
+    data = dict(self.initial_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/plans", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    plan_data = response.json["data"]
+    plan_id = plan_data["id"]
+    plan_token = response.json["access"]["token"]
+
+    # add rationale
+    dt = datetime.fromisoformat(response.json["data"]["dateModified"])
+    dt += timedelta(seconds=60 * 30)
+    with freeze_time(dt):
+        response = self.app.patch_json(
+            f"/plans/{plan_id}?acc_token={plan_token}",
+            {"data": {
+                "rationale": {
+                    "description": "test 1",
+                    "date": fake_date  # try to change it
+                }
+            }},
+        )
+    self.assertEqual(response.status, "200 OK")
+    rationale = response.json["data"]["rationale"]
+    self.assertEqual("test 1", rationale["description"])
+    rationale_date_added = rationale["date"]
+    self.assertNotEqual(fake_date, rationale["date"])
+    self.assertGreater(rationale_date_added, plan_data["dateModified"])
+
+    # update plan
+    dt = datetime.fromisoformat(response.json["data"]["dateModified"])
+    dt += timedelta(seconds=60 * 60 * 30)
+    with freeze_time(dt):
+        response = self.app.patch_json(
+            f"/plans/{plan_id}?acc_token={plan_token}",
+            {"data": {
+                "status": "scheduled",
+                "rationale": {
+                    "description": "test 1",  # the same
+                    "date": fake_date  # try to change it
+                }
+            }},
+        )
+    self.assertEqual(response.status, "200 OK")
+    result = response.json["data"]
+    self.assertEqual("scheduled", result["status"])
+    self.assertEqual("test 1", result["rationale"]["description"])
+    self.assertEqual(rationale_date_added, result["rationale"]["date"])
+
+    # update rationale
+    dt = datetime.fromisoformat(response.json["data"]["dateModified"])
+    dt += timedelta(seconds=60 * 60 * 30)
+    with freeze_time(dt):
+        response = self.app.patch_json(
+            f"/plans/{plan_id}?acc_token={plan_token}",
+            {"data": {
+                "rationale": {
+                    "description": "test 2",  # new
+                    "date": fake_date  # try to change it
+                }
+            }},
+        )
+    self.assertEqual(response.status, "200 OK")
+    result = response.json["data"]
+    self.assertEqual("test 2", result["rationale"]["description"])
+    rationale_date_changed = result["rationale"]["date"]
+    self.assertGreater(rationale_date_changed, rationale_date_added)
+
+    # get history
+    response = self.app.get(f"/history/plans/{plan_id}?opt_fields=rationale")
+    changes = response.json["data"]["changes"]
+    self.assertEqual(2, len(changes))
+
+    self.assertEqual(rationale_date_added, changes[0]["date"])
+    self.assertEqual(rationale_date_added, changes[0]["data"]["rationale"]["date"])
+    self.assertEqual("test 1", changes[0]["data"]["rationale"]["description"])
+
+    self.assertEqual(rationale_date_changed, changes[1]["date"])
+    self.assertEqual(rationale_date_changed, changes[1]["data"]["rationale"]["date"])
+    self.assertEqual("test 2", changes[1]["data"]["rationale"]["description"])
