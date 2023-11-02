@@ -2198,6 +2198,43 @@ def one_valid_bid_tender(self):
     else:
         self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date"})
 
+        cancellation = dict(**test_tender_pq_cancellation)
+        cancellation.update({
+            "reason": "invalid conditions",
+            "reasonType": "noDemand",
+        })
+
+        response = self.app.post_json(
+            "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
+            {"data": cancellation},
+        )
+        cancellation_id = response.json["data"]["id"]
+        response = self.app.post_json(
+            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+                self.tender_id, cancellation_id, self.tender_token
+            ),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
+        )
+
+        response = self.app.patch_json(
+            "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, owner_token),
+            {"data": {"status": "active"}},
+        )
+
+        response = self.app.get("/tenders/{}".format(self.tender_id))
+        self.assertEqual(response.json["data"]["status"], "cancelled")
+
+        response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract_id))
+        self.assertEqual(response.json["data"]["status"], "cancelled")
+
+        response = self.app.get("/contracts/{}".format(contract_id))
+        self.assertEqual(response.json["data"]["status"], "cancelled")
+
 
 def one_invalid_bid_tender(self):
     tender_id = self.tender_id

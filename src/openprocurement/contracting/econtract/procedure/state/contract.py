@@ -155,4 +155,4 @@ class EContractState(BaseContractState):
             return
 
         contract = contracts[0]
-        contract["status"] = data["status"]
+        self.set_object_status(contract, data["status"])

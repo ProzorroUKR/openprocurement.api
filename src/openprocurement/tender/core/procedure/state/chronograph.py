@@ -14,6 +14,9 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
 )
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
+from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
+from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
 
 
 def copy_class(cls, exclude_parent_class_names=None):
@@ -793,6 +796,23 @@ class ChronographEventsMixing(baseclass):
         self.remove_auction_period(tender)
         for lot in tender.get("lots", ""):
             self.remove_auction_period(lot)
+
+    def set_contracts_cancelled(self, tender, lot_id=None):
+        # TODO: later change for all contracting
+        if not tender_created_after(PQ_NEW_CONTRACTING_FROM):
+            return
+
+        contracts = tender.get("contracts", tuple())
+        if lot_id:
+            awards_ids = [i["id"] for i in tender["awards"] if i["lotID"] == lot_id]
+            contracts = [i for i in contracts if i["awardID"] in awards_ids]
+
+        cancelled_contracts_ids = []
+        for contract in contracts:
+            if contract["status"] not in ("active", "cancelled"):
+                cancelled_contracts_ids.append(contract["id"])
+                self.set_object_status(contract, "cancelled")
+        update_econtracts_statuses(cancelled_contracts_ids, "cancelled")
 
     @staticmethod
     def remove_auction_period(obj):
