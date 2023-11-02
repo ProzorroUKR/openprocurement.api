@@ -31,6 +31,9 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         if after == "active.tendering" and after != before:
             self.set_contract_template_name(data)
 
+        if after in self.unsuccessful_statuses:
+            self.set_contracts_cancelled(after)
+
     def set_contract_template_name(self, data):
         EXCLUDED_TEMPLATE_CLASSIFICATION = ("0931",)
 
