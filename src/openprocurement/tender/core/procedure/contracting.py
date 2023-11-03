@@ -132,13 +132,13 @@ def pq_add_contract_to_tender(tender, contract_items, contract_value, buyer_id, 
         "id": uuid4().hex,
         "status": "pending",
         "awardID": award["id"],
+        "value": contract_value,
         "date": get_now().isoformat(),
     }
 
     contract_data = {
         # "awardID": award["id"],
         "suppliers": award["suppliers"],
-        "value": contract_value,
         "items": contract_items,
         "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }

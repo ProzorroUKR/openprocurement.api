@@ -24,9 +24,12 @@ class EContractState(BaseContractState):
         after["id"] = after["_id"]
         self.validate_contract_patch(self.request, before, after)
         super().on_patch(before, after)
+        contract_changed = False
+        if before["status"] == "pending":
+            contract_changed = self.synchronize_contracts_data(after)
         self.contract_on_patch(before, after)
 
-        if before["status"] != after["status"]:
+        if contract_changed:
             if save_tender(self.request):
                 LOGGER.info(
                     f"Updated tender {self.request.validated['tender']['_id']} contract {after['id']}",
@@ -65,8 +68,6 @@ class EContractState(BaseContractState):
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
-        if before != after and after in ["active", "cancelled"]:
-            self.synchronize_contracts_data(data)
 
     def validate_required_signed_info(self, data):
         if not ECONTRACT_SIGNER_INFO_REQUIRED:
@@ -144,7 +145,8 @@ class EContractState(BaseContractState):
                 f"for last not cancelled contract. Cancel award instead."
             )
 
-    def synchronize_contracts_data(self, data):
+    def synchronize_contracts_data(self, data: dict) -> bool:
+        fields_for_sync = ("status", "value")
         tender = self.request.validated["tender"]
         contracts = get_items(self.request, tender, "contracts", data["_id"], raise_404=False)
         if not contracts:
@@ -152,7 +154,19 @@ class EContractState(BaseContractState):
                 f"Contract {data['_id']} not found in tender {tender['_id']}",
                 context_unpack(self.request, {"MESSAGE_ID": "synchronize_contracts"}),
             )
-            return
+            return False
 
         contract = contracts[0]
-        self.set_object_status(contract, data["status"])
+        contract_changed = False
+        for field in fields_for_sync:
+            old_value = contract.get(field)
+            new_value = data.get(field)
+            if (not old_value and new_value) or (old_value != new_value):
+                if field == "status":
+                    self.set_object_status(contract, data[field])
+                else:
+                    contract[field] = data[field]
+                contract_changed = True
+
+        return contract_changed
+

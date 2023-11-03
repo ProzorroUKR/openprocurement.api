@@ -721,10 +721,29 @@ def contract_status_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {
-            "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}
-        },
+            "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 2},
+            "title": "Changed title",
+        }},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 2)
+    self.assertEqual(response.json["data"]["title"], "Changed title")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 2)
+    self.assertNotIn("title", response.json["data"])
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"description": "Changed description"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["description"], "Changed description")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("description", response.json["data"])
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
@@ -757,6 +776,19 @@ def contract_status_change(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "complete")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {
+            "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 3}}
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 3)
+
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 2)
 
     # active > cancelled not allowed
     # response = self.app.patch_json(
