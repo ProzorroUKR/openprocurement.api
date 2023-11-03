@@ -138,7 +138,9 @@ Content-Type: application/json
                 "id": "e6f9be7a505143948d92a687c03d24b5",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ]
               }
             ]
           }
@@ -287,14 +289,18 @@ Content-Type: application/json
             "requirement": {
               "id": "e6f9be7a505143948d92a687c03d24b5"
             },
-            "value": "Розчин для інфузій"
+            "values": [
+              "Розчин для інфузій"
+            ]
           },
           {
             "id": "3a792c49a8cd4188aee2e87af1b8f25d",
             "requirement": {
               "id": "d8cce89c0dcb4748828ccf2a141554bb"
             },
-            "value": 5
+            "values": [
+              5
+            ]
           },
           {
             "id": "315577b4a97c46b5836595e9dafb424a",

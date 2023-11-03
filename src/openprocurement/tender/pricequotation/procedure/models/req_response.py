@@ -16,8 +16,12 @@ class RequirementReference(Model):
     title = StringType()
 
 
-class RequirementResponse(Model):
+# TODO Leave after migration only one class without value
+class RequirementResponsePost(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     requirement = ModelType(RequirementReference, required=True)
-    value = BaseType()  # Maybe there better way to use BaseType(in Requirement too)
     values = ListType(BaseType(required=True))
+
+
+class RequirementResponse(RequirementResponsePost):
+    value = BaseType()  # Maybe there better way to use BaseType(in Requirement too)
