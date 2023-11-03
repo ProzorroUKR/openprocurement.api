@@ -31,6 +31,7 @@ from openprocurement.planning.api.tests.plan_blanks import (
     plan_not_found,
     esco_plan,
     cfaua_plan,
+    plan_rationale,
     # PlanBudgetBreakdownTest
     create_plan_with_breakdown,
     patch_plan_with_breakdown,
@@ -103,6 +104,7 @@ class PlanResourceTest(BasePlanTest):
     test_plan_not_found = snitch(plan_not_found)
     test_esco_plan = snitch(esco_plan)
     test_cfaua_plan = snitch(cfaua_plan)
+    test_plan_rationale = snitch(plan_rationale)
 
 
 class PlanBudgetBreakdownTest(BasePlanTest):

@@ -1,12 +1,14 @@
 PATCH /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4?acc_token=ef8e82ab09a448dfab7d3d4766ac13d2 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 264
+Content-Length: 281
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "rationale": "Змістовне пояснення необхідності закупівлі"
+    "rationale": {
+      "description": "Змістовне пояснення необхідності закупівлі"
+    }
   }
 }
 
@@ -16,7 +18,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": "Змістовне пояснення необхідності закупівлі",
+    "rationale": {
+      "description": "Змістовне пояснення необхідності закупівлі",
+      "date": "2023-01-02T01:00:33+02:00"
+    },
     "procuringEntity": {
       "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
       "name": "ДУС",

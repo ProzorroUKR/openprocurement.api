@@ -951,7 +951,7 @@ test_docs_tender_defense = {
 }
 
 test_docs_plan_data = {
-    "rationale": "Недостатньо змістовне обгрунтування",
+    "rationale": {"description": "Недостатньо змістовне обгрунтування"},
     "tender": {
         "procurementMethod": "open",
         "procurementMethodType": "belowThreshold",

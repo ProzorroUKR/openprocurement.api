@@ -294,11 +294,11 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
             "classification": {
                 "description": "bla",
             },
-            "rationale": "hello, 123#"
+            "rationale": {"description": "hello, 123#"}
         }},
     )
     assert response.json["data"]["classification"]["description"] != "bla"
-    assert response.json["data"]["rationale"] == "hello, 123#"
+    assert response.json["data"]["rationale"]["description"] == "hello, 123#"
 
     #  docs
     response = app.post_json(

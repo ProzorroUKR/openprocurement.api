@@ -324,6 +324,19 @@ class Milestone(Model):
     owner_token = StringType()
 
 
+class RationaleObject(Model):
+    description = StringType(max_length=2048)
+    date = IsoDateTimeType(default=get_now)
+
+    class Options:
+        roles = {
+            "create": whitelist("description"),
+            "edit": whitelist("description"),
+            "edit_terminated": whitelist("description"),
+            "view": whitelist("description", "date"),
+        }
+
+
 @implementer(IPlan)
 class Plan(RootModel):
     """Plan model"""
@@ -360,7 +373,7 @@ class Plan(RootModel):
         return dict([("{}_{}".format(self.owner, self.owner_token), "plan_owner")])
 
     # fields
-    rationale = StringType()
+    rationale = ModelType(RationaleObject)
 
     # procuringEntity:identifier:scheme *
     # procuringEntity:identifier:id *

@@ -16,7 +16,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": "Недостатньо змістовне обгрунтування",
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-01-01T00:00:00+02:00"
+    },
     "procuringEntity": {
       "id": "83f062b81bae47f8ab0961261aa07c76",
       "name": "ЦЗО №1",
