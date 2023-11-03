@@ -1,4 +1,4 @@
-from openprocurement.api.models import ValidationError, Period
+from openprocurement.api.models import ValidationError, Period, URLType
 from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.base import ModelType, ListType, Model
 from openprocurement.tender.core.procedure.models.unit import Unit
@@ -13,7 +13,6 @@ from schematics.types import (
     MD5Type,
     FloatType,
     BaseType,
-    URLType,
 )
 from openprocurement.api.constants import (
     CPV_CODES,

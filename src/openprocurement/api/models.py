@@ -8,14 +8,13 @@ from uuid import uuid4
 from urllib.parse import urlparse, parse_qs
 from string import hexdigits
 from hashlib import algorithms_guaranteed, new as hash_new
-from schematics.exceptions import ConversionError, ValidationError
+from schematics.exceptions import ConversionError, ValidationError, StopValidation
 from schematics.models import Model as SchematicsModel
 from schematics.transforms import whitelist, blacklist, export_loop, convert
 from schematics.types import (
     StringType,
     IntType,
     FloatType,
-    URLType,
     BooleanType,
     BaseType,
     EmailType,
@@ -82,6 +81,31 @@ class DecimalType(BaseDecimalType):
 
     def to_native(self, value, context=None):
         return self._apply_precision(value)
+
+
+# TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
+class URLType(StringType):
+    MESSAGES = {
+        'invalid_url': u"Not a well formed URL.",
+        'not_found': u"URL does not exist.",
+    }
+
+    URL_REGEX = re.compile(r'^https?://\S+$')
+
+    def __init__(self, verify_exists=False, **kwargs):
+        self.verify_exists = verify_exists
+        super(URLType, self).__init__(**kwargs)
+
+    def validate_url(self, value):
+        if not URLType.URL_REGEX.match(value):
+            raise StopValidation(self.messages['invalid_url'])
+        if self.verify_exists:
+            from six.moves import urllib
+            try:
+                request = urllib.Request(value)
+                urllib.urlopen(request)
+            except Exception:
+                raise StopValidation(self.messages['not_found'])
 
 
 class StrictStringType(StringType):
