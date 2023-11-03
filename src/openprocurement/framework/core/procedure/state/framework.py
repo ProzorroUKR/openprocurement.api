@@ -158,10 +158,11 @@ class FrameworkState(ChronographEventsMixing, BaseState):
             )
 
     def calculate_framework_periods(self, data):
+        now = get_now()
         if enquiry_start := data.get("enquiryPeriod", {}).get("startDate"):
             enquiry_period_start_date = dt_from_iso(enquiry_start)
         else:
-            enquiry_period_start_date = get_now()
+            enquiry_period_start_date = now
 
         if enquiry_end := data.get("enquiryPeriod", {}).get("endDate"):
             enquiry_period_end_date = dt_from_iso(enquiry_end)
@@ -191,7 +192,7 @@ class FrameworkState(ChronographEventsMixing, BaseState):
         if period_start := data.get("period", {}).get("startDate"):
             period_start_date = dt_from_iso(period_start)
         else:
-            period_start_date = get_now()
+            period_start_date = now
         period_end_date = calculate_framework_date(
             qualification_end_date,
             timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
@@ -202,4 +203,4 @@ class FrameworkState(ChronographEventsMixing, BaseState):
             "endDate": period_end_date.isoformat(),
         }
 
-        data["qualificationPeriod"]["startDate"] = enquiry_period_end_date.isoformat()
+        data["qualificationPeriod"]["startDate"] = enquiry_period_start_date.isoformat()

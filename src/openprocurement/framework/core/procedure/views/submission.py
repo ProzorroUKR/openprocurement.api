@@ -128,9 +128,8 @@ class SubmissionsResource(FrameworkBaseResource):
                     f"Updated submission {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "submission_patch"})
                 )
-            data = self.serializer_class(get_object("submission")).data
             self.state.after_patch(before, updated)
         return {
-            "data": data,
+            "data": self.serializer_class(get_object("submission")).data,
             "config": get_object_config("submission"),
         }
