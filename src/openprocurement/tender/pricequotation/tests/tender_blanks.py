@@ -2196,7 +2196,7 @@ def one_valid_bid_tender(self):
         response = self.app.get("/tenders/{}".format(tender_id))
         self.assertEqual(response.json["data"]["status"], "complete")
     else:
-        self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date"})
+        self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date", "value"})
 
         cancellation = dict(**test_tender_pq_cancellation)
         cancellation.update({

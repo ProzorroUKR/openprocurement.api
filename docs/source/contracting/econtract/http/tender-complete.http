@@ -386,6 +386,12 @@ Content-Type: application/json
         "id": "0df8cf97d5cb4ba98a7355f981e0afd2",
         "status": "active",
         "awardID": "c220713cbd024586b6382ef97a852dc7",
+        "value": {
+          "amount": 238.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amountNet": 230.0
+        },
         "date": "2023-09-20T01:00:00+03:00"
       }
     ],
