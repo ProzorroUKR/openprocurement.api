@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 12:45+0200\n"
+"POT-Creation-Date: 2023-11-06 15:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -31,14 +31,26 @@ msgstr ""
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
-msgid "Scheme of the classification of the essence of the objection"
-msgstr "Схема класифікації суті заперечення"
+msgid "Scheme of the classification of the essence of the objection. Possible values are:"
+msgstr "Схема класифікації суті заперечення. Можливі значення:"
+
+msgid "`article_16`"
+msgstr ""
+
+msgid "`article_17`"
+msgstr ""
+
+msgid "`other`"
+msgstr ""
+
+msgid "`violeation_amcu`"
+msgstr ""
 
 msgid "id"
 msgstr ""
 
-msgid "Id of the classification of the essence of the objection"
-msgstr "Ідентифікатор класифікації суті заперечення"
+msgid "Id of the classification of the essence of the objection. Should be from particular standards dictionary due to scheme."
+msgstr "Ідентифікатор класифікації суті заперечення. Має бути обраний з відповідного довідника, вказаного в scheme."
 
 msgid "description"
 msgstr ""

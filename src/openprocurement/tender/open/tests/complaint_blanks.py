@@ -1192,6 +1192,28 @@ def create_complaint_objection_validation(self):
     required_fields = response.json["errors"][0]["description"][0]["arguments"][0].keys()
     self.assertIn("description", required_fields)
 
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["classification"]["scheme"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"]["scheme"],
+        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu']."],
+    )
+
+    invalid_objection_data["classification"]["scheme"] = "article_16"
+    invalid_objection_data["classification"]["id"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"]["id"],
+        ["Value must be one of article_16 reasons"],
+    )
+
+
+
 
 def patch_complaint_objection(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)

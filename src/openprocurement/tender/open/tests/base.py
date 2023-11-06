@@ -88,8 +88,8 @@ test_tender_open_complaint_objection = {
     "relatesTo": "tender",
     "relatedItem": "fc390e460c41460b9bde484d6caefc62",
     "classification": {
-        "scheme": "test",
-        "id": "3",
+        "scheme": "violation_amcu",
+        "id": "corruptionDescription",
         "description": "test classification"
     },
     "requestedRemedies": [

@@ -5,6 +5,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType, MD5Type
 from schematics.types.compound import ListType, ModelType
 
+from openprocurement.api.constants import ARTICLE_16, ARTICLE_17, OTHER_CRITERIA, VIOLATION_AMCU
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_tender, get_complaint
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import Argument
@@ -19,10 +20,23 @@ class ObjectionRelatesTo(Enum):
     cancellation = "cancellation"
 
 
+OBJECTION_CRITERIA_CLASSIFICATIONS = {
+    "article_16": ARTICLE_16,
+    "article_17": ARTICLE_17,
+    "other": OTHER_CRITERIA,
+    "violation_amcu": VIOLATION_AMCU,
+}
+
+
 class Classification(Model):
-    scheme = StringType(required=True)
+    scheme = StringType(required=True, choices=["article_16", "article_17", "other", "violation_amcu"])
     id = StringType(required=True)
     description = StringType(required=True)
+
+    def validate_id(self, data, code):
+        scheme = data.get("scheme")
+        if code not in OBJECTION_CRITERIA_CLASSIFICATIONS.get(scheme, []):
+            raise ValidationError(f"Value must be one of {scheme} reasons")
 
 
 class Objection(Model):
