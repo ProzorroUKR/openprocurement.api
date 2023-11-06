@@ -1,7 +1,8 @@
-from openprocurement.tender.core.procedure.state.claim import ClaimState
+from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
+from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 
 
-class BelowThresholdTenderClaimState(ClaimState):
+class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState):
     create_allowed_tender_statuses = ("active.enquiries",)
     update_allowed_tender_statuses = (
         "active.enquiries",

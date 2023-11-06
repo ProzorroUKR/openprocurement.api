@@ -1,4 +1,13 @@
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_claim import (
+    CDEUStage2AwardClaimState,
+    CDUAStage2AwardClaimState,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_complaint import \
+    (
+    CDEUStage2AwardComplaintState, CDUAStage2AwardComplaintState,
+)
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
     AwardComplaintWriteResource,
@@ -29,7 +38,7 @@ class CD2EUAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     description="Competitive Dialogue Stage 2 EU award claims",
 )
 class CD2EUTenderAwardClaimResource(AwardClaimResource):
-    pass
+    state_class = CDEUStage2AwardClaimState
 
 
 @resource(
@@ -42,7 +51,7 @@ class CD2EUTenderAwardClaimResource(AwardClaimResource):
     description="Competitive Dialogue Stage 2 EU award complaints",
 )
 class CD2EUAwardComplaintWriteResource(AwardComplaintWriteResource):
-    pass
+    state_class = CDEUStage2AwardComplaintState
 
 
 @resource(
@@ -67,7 +76,7 @@ class CD2UAAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     description="Competitive Dialogue Stage 2 UA award claims",
 )
 class CD2UATenderAwardClaimResource(AwardClaimResource):
-    pass
+    state_class = CDUAStage2AwardClaimState
 
 
 @resource(
@@ -80,4 +89,4 @@ class CD2UATenderAwardClaimResource(AwardClaimResource):
     description="Competitive Dialogue Stage 2 UA award complaints",
 )
 class CD2UAAwardComplaintWriteResource(AwardComplaintWriteResource):
-    pass
+    state_class = CDUAStage2AwardComplaintState

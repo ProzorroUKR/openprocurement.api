@@ -1,5 +1,5 @@
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderStateMixin
-from openprocurement.tender.core.procedure.state.complaint import ComplaintState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.constants import (
     COMPLAINT_MIN_AMOUNT,
     COMPLAINT_ENHANCED_AMOUNT_RATE,
@@ -18,7 +18,7 @@ from logging import getLogger
 LOGGER = getLogger(__name__)
 
 
-class ESCOComplaintMixin(ESCOTenderStateMixin):
+class ESCOComplaintStateMixin:
     request: object
     get_related_lot_obj: callable  # from tender.core.state.complaint.ComplaintState
 
@@ -70,5 +70,5 @@ class ESCOComplaintMixin(ESCOTenderStateMixin):
             return bid["value"]
 
 
-class ESCOComplaintState(ESCOComplaintMixin, ComplaintState):
+class ESCOComplaintState(ESCOComplaintStateMixin, ComplaintStateMixin, ESCOTenderState):
     pass

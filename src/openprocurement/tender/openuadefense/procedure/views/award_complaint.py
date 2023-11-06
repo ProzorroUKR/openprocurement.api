@@ -5,6 +5,7 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
 )
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.openuadefense.procedure.state.award_claim import OpenUADefenseAwardClaimState
+from openprocurement.tender.openuadefense.procedure.state.award_complaint import OpenUADefenseAwardComplaintState
 
 
 @resource(
@@ -42,5 +43,5 @@ class OpenUADefenseTenderAwardClaimResource(AwardClaimResource):
     description="Tender award complaints",
 )
 class OpenUADefenseAwardComplaintWriteResource(AwardComplaintWriteResource):
-    pass
+    state_class = OpenUADefenseAwardComplaintState
 

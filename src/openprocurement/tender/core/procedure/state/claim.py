@@ -1,7 +1,8 @@
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.complaint import BaseComplaintState
+from openprocurement.tender.core.procedure.state.complaint import BaseComplaintStateMixin
 from openprocurement.tender.core.procedure.models.claim import (
     ClaimOwnerClaimDraft,
     ClaimOwnerClaimCancellation,
@@ -17,7 +18,7 @@ from datetime import datetime, timedelta
 LOGGER = getLogger(__name__)
 
 
-class ClaimState(BaseComplaintState):
+class ClaimStateMixin(BaseComplaintStateMixin):
     tender_claim_submit_time = timedelta(days=3)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = (
@@ -207,3 +208,7 @@ class ClaimState(BaseComplaintState):
     @staticmethod
     def validate_satisfied(satisfied):
         return satisfied is True
+
+
+class TenderClaimState(ClaimStateMixin, TenderState):
+    pass

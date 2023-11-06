@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderTenderState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from cornice.resource import resource
 
 
@@ -10,5 +10,5 @@ from cornice.resource import resource
     description="Tender chronograph",
 )
 class ESCOChronographResource(TenderChronographResource):
-    state_class = ESCOTenderTenderState
+    state_class = ESCOTenderState
 

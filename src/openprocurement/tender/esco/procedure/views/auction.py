@@ -1,5 +1,5 @@
 from openprocurement.tender.openua.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderTenderState
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.esco.procedure.models.value import ESCOValue
 from openprocurement.tender.esco.procedure.models.auction import AuctionResults, AuctionLotResults
@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.validation import (
     description="Tender ESCO Auction data",
 )
 class ESCOTenderAuctionResource(TenderAuctionResource):
-    state_class = ESCOTenderTenderState
+    state_class = ESCOTenderState
     serializer_class = AuctionSerializer
 
     @json_view(

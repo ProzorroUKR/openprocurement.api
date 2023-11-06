@@ -1,5 +1,5 @@
 from openprocurement.api.utils import json_view, update_logging_context, LOGGER
-from openprocurement.tender.core.procedure.state.complaint import ComplaintState
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin, TenderComplaintState
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer, TenderComplaintSerializer
@@ -33,9 +33,6 @@ def resolve_complaint(request, context="tender"):
 
 
 class BaseComplaintResource(TenderBaseResource):
-    state_class = ComplaintState
-    serializer_class = ComplaintSerializer
-
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
@@ -50,7 +47,7 @@ class BaseComplaintResource(TenderBaseResource):
 
 
 class BaseComplaintGetResource(BaseComplaintResource):
-
+    serializer_class = ComplaintSerializer
     item_name = "tender"
 
     @json_view(permission="view_tender")
@@ -169,6 +166,7 @@ class BaseComplaintWriteResource(BaseComplaintResource):
 
 class TenderComplaintResource(BaseComplaintWriteResource):
     serializer_class = ComplaintSerializer
+    state_class = TenderComplaintState
 
     def __init__(self, request, context=None):
         super().__init__(request, context)

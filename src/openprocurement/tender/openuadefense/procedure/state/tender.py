@@ -5,10 +5,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import (
-    get_first_revision_date,
-    tender_created_in,
-)
+from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing
 from logging import getLogger

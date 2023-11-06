@@ -1,10 +1,12 @@
 from cornice.resource import resource
+
+from openprocurement.tender.cfaua.procedure.state.claim import CFAUATenderClaimState
+from openprocurement.tender.cfaua.procedure.state.complaint import CFAUATenderComplaintState
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.openua.procedure.state.claim import OpenUAClaimState
 
 
 @resource(
@@ -29,7 +31,7 @@ class CFAUATenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     description="Tender EU claims",
 )
 class CFAUATenderClaimResource(TenderClaimResource):
-    state_class = OpenUAClaimState
+    state_class = CFAUATenderClaimState
 
 
 @resource(
@@ -42,5 +44,5 @@ class CFAUATenderClaimResource(TenderClaimResource):
     description="Tender EU complaints",
 )
 class CFAUATenderComplaintResource(TenderComplaintResource):
-    pass
+    state_class = CFAUATenderComplaintState
 

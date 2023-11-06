@@ -4,6 +4,7 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintWriteResource,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.procedure.state.cancellation_complaint import OpenCancellationComplaintState
 
 
 @resource(
@@ -28,5 +29,5 @@ class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResou
     # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
 )
 class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    pass
+    state_class = OpenCancellationComplaintState
 

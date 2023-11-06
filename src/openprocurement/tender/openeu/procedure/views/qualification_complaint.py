@@ -4,6 +4,8 @@ from openprocurement.tender.core.procedure.views.qualification_complaint import 
     QualificationComplaintWriteResource,
 )
 from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
+from openprocurement.tender.openeu.procedure.state.qualification_claim import OpenEUQualificationClaimState
+from openprocurement.tender.openeu.procedure.state.qualification_complaint import OpenEUQualificationComplaintState
 
 
 @resource(
@@ -28,7 +30,7 @@ class OpenEUQualificationClaimAndComplaintGetResource(QualificationComplaintGetR
     description="Tender EU qualification claims",
 )
 class OpenEUTenderQualificationClaimResource(QualificationClaimResource):
-    pass
+    state_class = OpenEUQualificationClaimState
 
 
 @resource(
@@ -41,5 +43,5 @@ class OpenEUTenderQualificationClaimResource(QualificationClaimResource):
     description="Tender EU qualification complaints",
 )
 class OpenEUQualificationComplaintWriteResource(QualificationComplaintWriteResource):
-    pass
+    state_class = OpenEUQualificationComplaintState
 

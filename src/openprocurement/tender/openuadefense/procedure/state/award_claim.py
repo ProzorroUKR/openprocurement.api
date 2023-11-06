@@ -1,11 +1,12 @@
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState
+from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
 from openprocurement.api.context import get_now
 from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
+from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
 
 
-class OpenUADefenseAwardClaimState(AwardClaimState):
+class DefenseAwardClaimStateMixin:
     def validate_claim_on_post(self, complaint):
         tender = get_tender()
         tender_created = get_first_revision_date(tender, default=get_now())
@@ -15,3 +16,8 @@ class OpenUADefenseAwardClaimState(AwardClaimState):
                 "Can't add complaint of 'claim' type"
             )
         super().validate_claim_on_post(complaint)
+
+
+
+class OpenUADefenseAwardClaimState(DefenseAwardClaimStateMixin, AwardClaimStateMixin, OpenUADefenseTenderState):
+    pass

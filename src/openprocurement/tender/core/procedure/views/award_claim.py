@@ -1,7 +1,5 @@
 from openprocurement.tender.core.procedure.views.award import resolve_award
-from openprocurement.tender.core.procedure.views.claim import (
-    resolve_claim,
-)
+from openprocurement.tender.core.procedure.views.claim import resolve_claim
 from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
 from openprocurement.tender.core.procedure.views.claim import BaseClaimResource
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState

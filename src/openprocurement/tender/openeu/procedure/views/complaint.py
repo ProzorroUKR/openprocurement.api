@@ -4,7 +4,8 @@ from openprocurement.tender.core.procedure.views.complaint import (
     TenderComplaintResource,
 )
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.openua.procedure.state.claim import OpenUAClaimState
+from openprocurement.tender.openeu.procedure.state.claim import OpenEUTenderClaimState
+from openprocurement.tender.openeu.procedure.state.complaint import OpenEUTenderComplaintState
 
 
 @resource(
@@ -29,7 +30,7 @@ class OpenEUTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     description="Tender EU claims",
 )
 class OpenEUTenderClaimResource(TenderClaimResource):
-    state_class = OpenUAClaimState
+    state_class = OpenEUTenderClaimState
 
 
 @resource(
@@ -42,5 +43,5 @@ class OpenEUTenderClaimResource(TenderClaimResource):
     description="Tender EU complaints",
 )
 class OpenEUTenderComplaintResource(TenderComplaintResource):
-    pass
+    state_class = OpenEUTenderComplaintState
 

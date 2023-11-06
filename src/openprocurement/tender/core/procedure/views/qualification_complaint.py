@@ -1,6 +1,8 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.state.qualification_complaint import QualificationComplaintState
+from openprocurement.tender.core.procedure.state.qualification_complaint import (
+    QualificationComplaintState,
+)
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer
 from openprocurement.tender.core.procedure.models.complaint import PostComplaintFromBid

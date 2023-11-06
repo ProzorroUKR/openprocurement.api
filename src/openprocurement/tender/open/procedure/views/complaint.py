@@ -5,6 +5,8 @@ from openprocurement.tender.core.procedure.views.complaint import (
 )
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.procedure.state.claim import OpenTenderClaimState
+from openprocurement.tender.open.procedure.state.complaint import OpenTenderComplaintState
 
 
 @resource(
@@ -29,7 +31,7 @@ class OpenTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     description="Tender claims",
 )
 class OpenTenderClaimResource(TenderClaimResource):
-    pass
+    state_class = OpenTenderClaimState
 
 
 @resource(
@@ -42,5 +44,5 @@ class OpenTenderClaimResource(TenderClaimResource):
     description="Tender complaints",
 )
 class OpenTenderComplaintResource(TenderComplaintResource):
-    pass
+    state_class = OpenTenderComplaintState
 

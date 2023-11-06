@@ -6,7 +6,9 @@ from openprocurement.tender.core.procedure.views.claim import (
 )
 from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
 from openprocurement.tender.core.procedure.views.claim import BaseClaimResource
-from openprocurement.tender.core.procedure.state.qualification_claim import QualificationClaimState
+from openprocurement.tender.core.procedure.state.qualification_claim import (
+    QualificationClaimState,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_any_bid_owner,

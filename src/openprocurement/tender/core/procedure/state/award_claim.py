@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.context import get_tender, get_award, get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.state.claim import ClaimState
+from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from logging import getLogger
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import raise_operation_error
@@ -10,7 +11,7 @@ from openprocurement.api.context import get_now
 LOGGER = getLogger(__name__)
 
 
-class AwardClaimState(ClaimState):
+class AwardClaimStateMixin(ClaimStateMixin):
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     patch_as_complaint_owner_tender_statuses = ("active.qualification", "active.awarded")
@@ -45,3 +46,7 @@ class AwardClaimState(ClaimState):
         ):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")
+
+
+class AwardClaimState(AwardClaimStateMixin, TenderState):
+    pass
