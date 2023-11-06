@@ -10,16 +10,6 @@ class PriceQuotationTenderState(TenderState):
     award_class = Award
     generate_award_milestones = False
 
-    def cancel_tender(self, tender):
-        # TODO: move to super method when all contracting will be available for all tenders
-        super().cancel_tender(tender)
-        self.set_contracts_cancelled(tender)
-
-    def cancel_lot(self, tender, cancellation):
-        # TODO: move to super method when all contracting will be available for all tenders
-        super().cancel_lot(tender, cancellation)
-        self.set_contracts_cancelled(tender, lot_id=cancellation["relatedLot"])
-
     def get_events(self, tender):
         status = tender["status"]
 

@@ -12,6 +12,7 @@ from openprocurement.tender.core.procedure.models.qualification import Qualifica
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
+    is_new_contracting,
 )
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
@@ -497,6 +498,8 @@ class ChronographEventsMixing(baseclass):
             if "status" in agreement and agreement["status"] in ("pending", "active"):
                 self.set_object_status(agreement, "cancelled")
 
+        self.set_contracts_cancelled(tender)
+
     def cancel_lot(self, tender, cancellation):
         config = get_tender_config()
         # set cancelled lot status
@@ -556,6 +559,9 @@ class ChronographEventsMixing(baseclass):
             self.get_change_tender_status_handler("unsuccessful")(tender)
         elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
             self.get_change_tender_status_handler("complete")(tender)
+
+        self.set_contracts_cancelled(tender, lot_id=cancellation["relatedLot"])
+
         # need to add next award ?
         if tender["status"] == "active.auction" and all(
             i.get("auctionPeriod", {}).get("endDate")
@@ -799,8 +805,7 @@ class ChronographEventsMixing(baseclass):
             self.remove_auction_period(lot)
 
     def set_contracts_cancelled(self, tender, lot_id=None):
-        # TODO: later change for all contracting
-        if not tender_created_after(PQ_NEW_CONTRACTING_FROM):
+        if not is_new_contracting():
             return
 
         contracts = tender.get("contracts", tuple())
