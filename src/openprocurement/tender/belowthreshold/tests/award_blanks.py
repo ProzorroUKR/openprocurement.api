@@ -1531,6 +1531,8 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual(complaint["author"]["name"], test_tender_below_organization["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+    self.assertIn("relatedLot", complaint)
+    self.assertEqual(complaint["relatedLot"], self.initial_bids[0]["lotValues"][0]["relatedLot"])
 
     self.set_status("active.awarded")
 

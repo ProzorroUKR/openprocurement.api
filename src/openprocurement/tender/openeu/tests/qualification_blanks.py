@@ -2158,6 +2158,7 @@ def get_tender_lot_qualification_complaint(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["relatedLot"], self.initial_bids[0]["lotValues"][0]["relatedLot"])
     self.assertEqual(response.json["data"], complaint)
 
     response = self.app.get(
