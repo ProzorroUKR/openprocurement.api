@@ -560,8 +560,6 @@ class ChronographEventsMixing(baseclass):
         elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
             self.get_change_tender_status_handler("complete")(tender)
 
-        self.set_contracts_cancelled(tender, lot_id=cancellation["relatedLot"])
-
         # need to add next award ?
         if tender["status"] == "active.auction" and all(
             i.get("auctionPeriod", {}).get("endDate")
@@ -570,6 +568,8 @@ class ChronographEventsMixing(baseclass):
             and i["status"] == "active"
         ):
             self.add_next_award()
+
+        self.set_contracts_cancelled(tender, lot_id=cancellation["relatedLot"])
 
     @staticmethod
     def remove_draft_bids(tender):
@@ -805,12 +805,12 @@ class ChronographEventsMixing(baseclass):
             self.remove_auction_period(lot)
 
     def set_contracts_cancelled(self, tender, lot_id=None):
-        if not is_new_contracting():
+        if not is_new_contracting() or not tender.get("contracts"):
             return
 
         contracts = tender.get("contracts", tuple())
         if lot_id:
-            awards_ids = [i["id"] for i in tender["awards"] if i["lotID"] == lot_id]
+            awards_ids = [i["id"] for i in tender.get("awards", "") if i["lotID"] == lot_id]
             contracts = [i for i in contracts if i["awardID"] in awards_ids]
 
         cancelled_contracts_ids = []

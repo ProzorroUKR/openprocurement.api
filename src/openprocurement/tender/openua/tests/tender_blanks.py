@@ -1298,6 +1298,8 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)
+    for i in tender["contracts"]:
+        self.mongodb.contracts.delete(i["id"])
     del tender["contracts"]
     self.mongodb.tenders.save(tender)
     # we no longer calculate next_check in get methods
