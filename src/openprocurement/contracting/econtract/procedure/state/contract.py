@@ -77,7 +77,7 @@ class EContractState(
         self.validate_update_contract_value_net_required(request, before, after)
         self.validate_update_contract_value_amount(request, before, after)
 
-        if after["status"] == "pending" or (before["status"] == "pending" and after["status"] == "active"):
+        if before["status"] == "pending":
             self.validate_contract_pending_patch(request, before, after)
         if after["status"] != "pending":
             self.validate_contract_active_patch(request, before, after)
