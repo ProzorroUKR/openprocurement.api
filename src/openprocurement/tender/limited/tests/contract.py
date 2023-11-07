@@ -547,13 +547,16 @@ class TenderReportingEContractResourceTest(
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTest):
-    test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
     initial_data = test_tender_negotiation_data
+    stand_still_period_days = 10
+
+    test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderNegotiationQuickEContractResourceTest(TenderNegotiationEContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    stand_still_period_days = 5
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
