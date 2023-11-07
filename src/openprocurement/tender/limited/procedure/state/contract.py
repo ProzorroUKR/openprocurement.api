@@ -58,12 +58,11 @@ class LimitedContractStateMixing:
         elif not statuses - {"complete", "unsuccessful", "cancelled"}:
             self.set_object_status(tender, "complete")
 
-    def validate_contract_with_cancellations_and_contract_signing(self) -> None:
-        data = self.request.validated["data"]
-        tender = self.request.validated["tender"]
+    def validate_contract_with_cancellations_and_contract_signing(self, before: dict, after: dict) -> None:
+        tender = get_tender()
         new_rules = get_first_revision_date(tender, default=get_now()) > RELEASE_2020_04_19
 
-        if self.request.validated["contract"]["status"] != "active" and "status" in data and data["status"] == "active":
+        if before.get("status") != "active" and after.get("status") == "active":
             award_id = self.request.validated["contract"].get("awardID")
             award = [a for a in tender.get("awards")
                      if a["id"] == award_id][0]
@@ -167,6 +166,6 @@ class LimitedNegotiationContractState(LimitedReportingContractState):
     def contract_on_patch(self, before: dict, after: dict):
         tender = get_tender()
 
-        self.validate_contract_with_cancellations_and_contract_signing()
+        self.validate_contract_with_cancellations_and_contract_signing(before, after)
         self.validate_update_contract_only_for_active_lots(self.request, tender, before)
         super().contract_on_patch(before, after)

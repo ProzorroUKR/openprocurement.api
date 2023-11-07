@@ -45,6 +45,8 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     create_tender_contract_document,
     patch_tender_contract_document,
     put_tender_contract_document,
+    # EContract
+    patch_tender_negotiation_econtract
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
@@ -545,11 +547,12 @@ class TenderReportingEContractResourceTest(
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTest):
+    test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
     initial_data = test_tender_negotiation_data
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-class TenderNegotiationQuickEContractResourceTest(TenderReportingEContractResourceTest):
+class TenderNegotiationQuickEContractResourceTest(TenderNegotiationEContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
 
 

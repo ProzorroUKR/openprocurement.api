@@ -26,6 +26,8 @@ from openprocurement.tender.open.tests.contract_blanks import (
     patch_tender_contract,
     create_tender_contract,
     patch_tender_contract_datesigned,
+    # EContract
+    patch_tender_econtract,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
@@ -225,6 +227,8 @@ class TenderEContractResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots
+
+    test_patch_tender_econtract = snitch(patch_tender_econtract)
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
     def setUp(self):

@@ -197,3 +197,93 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
+
+
+def patch_tender_econtract(self):
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts")
+    contract = response.json["data"][0]
+
+    contract_id = self.contracts_ids[0]
+
+    test_signer_info = {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "1" * 15,
+        "basisOf": "статут",
+        "position": "Генеральний директор",
+    }
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Can't sign contract before stand-still period end (", response.json["errors"][0]["description"])
+
+    self.set_status("complete", {"status": "active.awarded"})
+
+    tender = self.mongodb.tenders.get(self.tender_id)
+
+    for i in tender.get("awards", []):
+        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(tender)
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"dateSigned": i["complaintPeriod"]["endDate"]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [
+                    "Contract signature date should be after award complaint period end date ({})".format(
+                        i["complaintPeriod"]["endDate"]
+                    )
+                ],
+                "location": "body",
+                "name": "dateSigned",
+            }
+        ],
+    )
+
+    one_hour_in_furure = (get_now() + timedelta(hours=1)).isoformat()
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"dateSigned": one_hour_in_furure}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["Contract signature date can't be in the future"],
+                "location": "body",
+                "name": "dateSigned",
+            }
+        ],
+    )
+
+    custom_signature_date = get_now().isoformat()
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"dateSigned": custom_signature_date}},
+    )
+    self.assertEqual(response.status, "200 OK")

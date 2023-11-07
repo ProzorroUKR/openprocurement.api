@@ -124,8 +124,6 @@ class EContractState(
             self.validate_threshold_contract(request, before, after)
         elif tender_type == "esco":
             self.validate_esco_contract(request, before, after)
-        elif tender_type == "reporting":
-            self.validate_limited_reporting_contract(request, before, after)
         elif tender_type in ("negotiation", "negotiation.quick"):
             self.validate_limited_negotiation_contract(request, before, after)
 
@@ -143,7 +141,7 @@ class EContractState(
         self.validate_update_contract_value_esco(request, before, after, False)
 
     def validate_limited_negotiation_contract(self, request, before: dict, after: dict) -> None:
-        self.validate_contract_with_cancellations_and_contract_signing()
+        self.validate_contract_with_cancellations_and_contract_signing(before, after)
 
     def validate_contract_active_patch(self, request, before: dict, after: dict) -> None:
         self.validate_update_contracting_value_identical(request, before, after)
