@@ -95,9 +95,10 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "id": uuid4().hex,
         "status": "pending",
         "awardID": award["id"],
-        "value": contract_value,
         "date": get_now().isoformat(),
     }
+    if contract_value:
+        base_contract_data["value"] = contract_value
 
     contract_data = {
         # "awardID": award["id"],
