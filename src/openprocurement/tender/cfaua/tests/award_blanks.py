@@ -1883,6 +1883,8 @@ def create_tender_lot_award_complaint(self):
     self.assertEqual(complaint["author"]["name"], test_tender_below_organization["name"])
     self.assertIn("id", complaint)
     self.assertIn(complaint["id"], response.headers["Location"])
+    self.assertIn("relatedLot", complaint)
+    self.assertEqual(complaint["relatedLot"], self.initial_bids[0]["lotValues"][0]["relatedLot"])
 
     if RELEASE_2020_04_19 < get_now():
         self.assertEqual(response.json["data"]["status"], "draft")

@@ -1842,6 +1842,51 @@ def create_tender_cancellation_with_cancellation_lots(self):
     )
 
 
+def create_tender_lots_cancellation_complaint(self):
+    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data["reasonType"] = "noDemand"
+
+    cancellation_lot_data = dict(**cancellation_data)
+    lot = self.initial_lots[0]
+
+    cancellation_lot_data["relatedLot"] = lot["id"]
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation_lot_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation_id = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+            self.tender_id, cancellation_id, self.tender_token
+        ),
+        {"data": {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(
+            self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints?acc_token={self.tender_token}",
+        {"data": test_tender_below_complaint},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["relatedLot"], lot["id"])
+
+
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_lot_cancellation_with_tender_cancellation(self):
 

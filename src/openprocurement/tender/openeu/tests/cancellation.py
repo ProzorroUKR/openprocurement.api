@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
     patch_tender_lot_cancellation,
 )
+from openprocurement.tender.open.tests.cancellation_blanks import create_tender_lots_cancellation_complaint
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
@@ -302,6 +303,7 @@ class TenderLotsCancellationResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
+    test_create_tender_lots_cancellation_complaint = snitch(create_tender_lots_cancellation_complaint)
     # test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)
 
 

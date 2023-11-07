@@ -17,6 +17,12 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
 
+    def complaint_on_post(self, complaint):
+        request = self.request
+        if lot_id := request.validated["award"].get("lotID"):
+            complaint["relatedLot"] = lot_id
+        super().complaint_on_post(complaint)
+
     def validate_complaint_on_post(self, complaint):
         super().validate_complaint_on_post(complaint)
         self.validate_submission_allowed()

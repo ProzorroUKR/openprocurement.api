@@ -25,6 +25,12 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     update_allowed_tender_statuses = None
 
+    def complaint_on_post(self, complaint):
+        request = self.request
+        if lot_id := request.validated["cancellation"].get("relatedLot"):
+            complaint["relatedLot"] = lot_id
+        super().complaint_on_post(complaint)
+
     def validate_complaint_on_post(self, complaint):
         tender = get_tender()
 
