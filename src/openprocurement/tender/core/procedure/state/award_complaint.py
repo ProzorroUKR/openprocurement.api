@@ -1,3 +1,4 @@
+from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwardComplaint
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
@@ -16,6 +17,7 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    draft_patch_model = DraftPatchAwardComplaint
 
     def validate_complaint_on_post(self, complaint):
         super().validate_complaint_on_post(complaint)

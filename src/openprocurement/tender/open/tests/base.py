@@ -82,6 +82,27 @@ test_tender_open_config = {
     "minBidsNumber": 1,
 }
 
+test_tender_open_complaint_objection = {
+    "title": "My objection",
+    "description": "Test objection",
+    "relatesTo": "tender",
+    "relatedItem": "fc390e460c41460b9bde484d6caefc62",
+    "classification": {
+        "scheme": "violation_amcu",
+        "id": "corruptionDescription",
+        "description": "test classification"
+    },
+    "requestedRemedies": [
+        {
+            "description": "test",
+            "type": "setAsideAward"
+        }
+    ],
+    "arguments": [{
+        "description": "test argument"
+    }]
+}
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)

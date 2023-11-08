@@ -82,7 +82,19 @@ def validate_tender_document_relations(data, documents):
                     raise ValidationError([{'relatedItem': ['relatedItem should be one of items']}])
 
 
-class PostDocument(BaseDocument):
+class BasePostDocument(BaseDocument):
+    hash = HashType()
+    title = StringType(required=True)  # A title of the document.
+    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    url = StringType(required=True)  # Link to the document or attachment.
+    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+
+    def validate_relatedItem(self, data, related_item):
+        validate_relatedItem(related_item, data.get("documentOf"))
+
+
+class PostDocument(BasePostDocument):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     @serializable
     def id(self):
@@ -95,16 +107,6 @@ class PostDocument(BaseDocument):
     @serializable
     def dateModified(self):
         return get_now().isoformat()
-
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
-
-    def validate_relatedItem(self, data, related_item):
-        validate_relatedItem(related_item, data.get("documentOf"))
 
 
 class Document(BaseDocument):

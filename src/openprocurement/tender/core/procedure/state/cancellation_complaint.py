@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso, is_item_owner
 from openprocurement.tender.core.procedure.models.complaint import (
-    DraftPatchComplaint,
+    DraftPatchCancellationComplaint,
     CancellationPatchComplaint,
     BotPatchComplaint,
     TendererActionPatchComplaint,
@@ -31,6 +31,19 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         self.validate_post_cancellation_complaint_permission()
         self.validate_cancellation_complaint_resolved(complaint)
         self.validate_tender_in_complaint_period(tender)
+        self.validate_objection_related_item(complaint)
+
+    def validate_objection_related_item(self, complaint):
+        if objections := complaint.get("objections", []):
+            cancellation = self.request.validated["cancellation"]
+            for objection in objections:
+                url_parts = objection.get("relatedItem", "").split("/")
+                if url_parts[-1] != cancellation["id"]:
+                    raise_operation_error(
+                        self.request,
+                        "Complaint's objection must relate to the same cancellation id as complaint relates to",
+                        status=422,
+                    )
 
     def validate_post_cancellation_complaint_permission(self):
         request = self.request
@@ -48,9 +61,10 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                         name="permission"
                     )
 
-    # def validate_complaint_on_patch(self, before, complaint):
-    #     self.validate_cancellation_complaint_resolved(complaint)
-    #     return super().validate_complaint_on_patch(before, complaint)
+    def validate_complaint_on_patch(self, before, complaint):
+        # self.validate_cancellation_complaint_resolved(complaint)
+        self.validate_objection_related_item(complaint)
+        return super().validate_complaint_on_patch(before, complaint)
 
     def validate_cancellation_complaint_resolved(self, complaint):
         request = self.request
@@ -131,7 +145,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 status == "draft"
                 and new_status == status
             ):
-                return DraftPatchComplaint, empty_handler
+                return DraftPatchCancellationComplaint, empty_handler
             elif(
                 status == "draft"
                 and new_status == "mistaken"
@@ -139,7 +153,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
 
-                return DraftPatchComplaint, handler
+                return DraftPatchCancellationComplaint, handler
 
             elif (
                 status == "draft"
@@ -148,7 +162,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             ):
                 def handler(complaint):
                     complaint["dateSubmitted"] = get_now().isoformat()
-                return DraftPatchComplaint, handler
+                return DraftPatchCancellationComplaint, handler
 
             else:
                 raise_operation_error(

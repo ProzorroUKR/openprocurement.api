@@ -32,6 +32,10 @@ At first create a draft:
 .. http:example:: http/complaints/cancellation-complaint-submission.http
    :code:
 
+When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint.
+Objections can be added or edited while complaint is in the status `draft`.
+For more details, see :ref:`tender complaint objections <complaint-objections>`.
+
 Then upload necessary documents:
 
 .. http:example:: http/complaints/cancellation-complaint-submission-upload.http

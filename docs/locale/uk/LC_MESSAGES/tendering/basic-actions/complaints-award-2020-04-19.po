@@ -38,6 +38,9 @@ msgstr "Подання скарги на визначення переможця
 msgid "At first create a complaint. Send POST request with bidder's access token."
 msgstr "Спочатку створимо скаргу. В запиті потрібно передати токен доступу одного з учасників."
 
+msgid "When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint. Objections can be added or edited while complaint is in the status `draft`. For more details, see :ref:`tender complaint objections <complaint-objections>`."
+msgstr "При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections). Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`. Детальніше дивитися: :ref:`Заперечення до скарг <complaint-objections>`"
+
 msgid "This step is optional. Upload documents:"
 msgstr "Цей крок не обов'язковий.Завантажте документи:"
 

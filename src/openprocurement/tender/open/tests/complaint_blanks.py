@@ -8,7 +8,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_complaint,
     test_tender_below_author,
     test_tender_below_draft_complaint,
+    test_tender_below_cancellation,
+    test_tender_below_organization,
 )
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from mock import patch
 from copy import deepcopy
 from datetime import timedelta
@@ -1059,4 +1062,379 @@ def patch_tender_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
+    )
+
+
+def create_complaint_objection_validation(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["objections"] = []
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        ["Please provide at least 1 item."],
+    )
+
+    complaint_data["objections"] = [{}]
+    response = self.create_complaint(complaint_data, status=422)
+    required_fields = response.json["errors"][0]["description"][0].keys()
+    self.assertIn("title", required_fields)
+    self.assertIn("description", required_fields)
+    self.assertIn("relatesTo", required_fields)
+    self.assertIn("relatedItem", required_fields)
+    self.assertIn("classification", required_fields)
+    self.assertIn("requestedRemedies", required_fields)
+    self.assertIn("arguments", required_fields)
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["relatesTo"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    values = "['tender', 'lot']" if self.complaint_on == "tender" else f"['{self.complaint_on}']"
+
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["relatesTo"],
+        [f"Value must be one of {values}."]
+    )
+
+    invalid_objection_data["relatesTo"] = "cancellation" if self.complaint_on != "cancellation" else "award"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    values = "['tender', 'lot']" if self.complaint_on == "tender" else f"['{self.complaint_on}']"
+
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["relatesTo"],
+        [f"Value must be one of {values}."]
+    )
+
+    if self.complaint_on != "tender":
+        invalid_objection_data["relatesTo"] = self.complaint_on
+        invalid_objection_data["relatedItem"] = self.tender_id
+        complaint_data["objections"] = [invalid_objection_data]
+        response = self.create_complaint(complaint_data, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"][0]["description"][0]["relatedItem"],
+            [f"Invalid {self.complaint_on} id"],
+        )
+    else:
+        invalid_objection_data["relatesTo"] = self.complaint_on
+        invalid_objection_data["relatedItem"] = "121"
+        complaint_data["objections"] = [invalid_objection_data]
+        response = self.create_complaint(complaint_data, status=422)
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"][0]["description"][0]["relatedItem"],
+            [f"Invalid tender id"],
+        )
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["classification"] = {}
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"],
+        {
+            "scheme": [
+                "This field is required."
+            ],
+            "id": [
+                "This field is required."
+            ],
+            "description": [
+                "This field is required."
+            ]
+        }
+    )
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["requestedRemedies"] = []
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["requestedRemedies"],
+        ["Please provide at least 1 item."],
+    )
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["requestedRemedies"][0]["type"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["requestedRemedies"],
+        [{
+            "type": [
+                "Value must be one of ['setAside', 'changeTenderDocumentation', 'provideClarification', "
+                "'tenderCancellation', 'setAsideReject', 'setAsideQualification', 'setAsideAward', 'setAsideOthers']."
+            ]
+        }],
+    )
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["arguments"] = []
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["arguments"],
+        ["Please provide at least 1 item."],
+    )
+
+    invalid_objection_data["arguments"] = [{}]
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    required_fields = response.json["errors"][0]["description"][0]["arguments"][0].keys()
+    self.assertIn("description", required_fields)
+
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["classification"]["scheme"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"]["scheme"],
+        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu']."],
+    )
+
+    invalid_objection_data["classification"]["scheme"] = "article_16"
+    invalid_objection_data["classification"]["id"] = "test"
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0]["classification"]["id"],
+        ["Value must be one of article_16 reasons"],
+    )
+
+
+
+
+def patch_complaint_objection(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["objections"] = [test_tender_open_complaint_objection]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+    objection_id = response.json["data"]["objections"][0]["id"]
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["id"] = objection_id
+    objection_data["description"] = "Updated one"
+    objection_data["arguments"][0]["evidences"] = []
+    objection_data["relatesTo"] = self.complaint_on
+    objection_data["relatedItem"] = self.tender_id
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        objection_data["relatedItem"] = obj_id
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertEqual(objection["id"], objection_id)
+    self.assertEqual(objection["description"], "Updated one")
+    self.assertNotIn("evidences", objection["arguments"][0])
+
+    del objection_data["id"]
+    objection_data["description"] = "New one"
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertNotEqual(objection["id"], objection_id)
+    self.assertEqual(objection["description"], "New one")
+
+
+def objection_related_document_of_evidence(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["objections"] = [test_tender_open_complaint_objection]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    complaint_token = response.json["access"]["token"]
+    objection_id = response.json["data"]["objections"][0]["id"]
+
+    # add document to complaint
+    response = self.add_complaint_document(complaint_id, complaint_token)
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    doc_id = response.json["data"]["id"]
+
+    # patch complaint
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["id"] = objection_id
+    objection_data["arguments"][0]["evidences"] = [{
+        "title": "test",
+        "description": "test",
+    }]
+    objection_data["relatesTo"] = self.complaint_on
+    objection_data["relatedItem"] = self.tender_id
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        objection_data["relatedItem"] = obj_id
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "arguments": [{
+                "evidences": [{
+                    "relatedDocument": ["This field is required."]
+                }]
+            }]
+        }],
+    )
+
+    objection_data["arguments"][0]["evidences"][0]["relatedDocument"] = "some_id"
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "arguments": [{
+                "evidences": [{
+                    "relatedDocument": ["relatedDocument should be one of complaint documents"]
+                }]
+            }]
+        }],
+    )
+
+    objection_data["arguments"][0]["evidences"][0]["relatedDocument"] = doc_id
+    complaint_data = {"objections": [objection_data]}
+    response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
+    self.assertEqual(response.status, "200 OK")
+    objection = response.json["data"]["objections"][0]
+    self.assertEqual(objection["id"], objection_id)
+
+
+def objection_related_item_equals_related_lot(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["relatedLot"] = self.initial_data["lots"][0]["id"]
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["relatesTo"] = "lot"
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+            ]
+        }],
+    )
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][0]['id']
+    response = self.create_complaint(complaint_data)
+    self.assertEqual(response.status, "201 Created")
+
+    # relatesTo = tender and relatedLot is mentioned
+    invalid_objection_data["relatesTo"] = "tender"
+    invalid_objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Complaint's objection must not relate to tender if relatedLot mentioned"
+            ]
+        }],
+    )
+
+    # relatesTo = tender and relatedLot is not mentioned
+    del complaint_data["relatedLot"]
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data)
+    self.assertEqual(response.status, "201 Created")
+
+    # relatesTo = lot and relatedLot is not mentioned
+    invalid_objection_data["relatesTo"] = "lot"
+    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot"
+            ]
+        }],
+    )
+
+
+def objection_related_item_equals_related_cancellation(self):
+    cancellation_id_1 = self.cancellation_id
+
+    # create second cancellation
+    self.create_cancellation(related_lot=self.initial_data["lots"][1]["id"])
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data["relatesTo"] = "cancellation"
+
+    # create complaint for cancellation 2 with cancellation 1 related item
+    invalid_objection_data["relatedItem"] = cancellation_id_1
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Complaint's objection must relate to the same cancellation id as complaint relates to",
+    )
+    # create complaint for cancellation 2 with cancellation 2 related item
+    invalid_objection_data["relatedItem"] = self.cancellation_id
+    response = self.create_complaint(complaint_data)
+    self.assertEqual(response.status, "201 Created")
+
+
+def objection_related_award_statuses(self):
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{self.award_id}",
+            {"data": {"status": "cancelled"}}
+        )
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "award"
+    objection_data["relatedItem"] = self.award_id
+    complaint_data["objections"] = [objection_data]
+
+    url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
+          f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
+    response = self.app.post_json(url, {"data": complaint_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Relate objection to award in cancelled is forbidden"
+            ]
+        }]
+    )
+
+    response = self.app.get(f"/tenders/{self.tender_id}/awards")
+    pending_award_id = response.json["data"][-1]["id"]
+    objection_data["relatedItem"] = pending_award_id
+    complaint_data["objections"] = [objection_data]
+
+    url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
+          f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
+    response = self.app.post_json(url, {"data": complaint_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{
+            "relatedItem": [
+                "Relate objection to award in pending is forbidden"
+            ]
+        }]
     )

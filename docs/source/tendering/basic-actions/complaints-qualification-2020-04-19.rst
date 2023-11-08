@@ -29,6 +29,10 @@ At first create a complaint. Send POST request with bidder's access token.
 .. http:example:: http/complaints/qualification-complaint-submission.http
    :code:
 
+When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint.
+Objections can be added or edited while complaint is in the status `draft`.
+For more details, see :ref:`tender complaint objections <complaint-objections>`.
+
 This step is optional. Upload documents:
 
 .. http:example:: http/complaints/qualification-complaint-submission-upload.http

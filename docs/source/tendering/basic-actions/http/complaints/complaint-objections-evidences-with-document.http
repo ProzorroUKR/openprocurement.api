@@ -1,0 +1,133 @@
+PATCH /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/48153ea17b8b4a46883221469016b183?acc_token=557d6b5ddd1e4e99874d4f594e43554f HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 566
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "objections": [
+      {
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "tender",
+        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "description": "test",
+            "type": "setAsideAward"
+          }
+        ],
+        "arguments": [
+          {
+            "description": "test argument",
+            "evidences": [
+              {
+                "title": "Evidence",
+                "description": "Test evidence",
+                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+              }
+            ]
+          }
+        ],
+        "id": "02b5b44a78844b8bb928152ddb6217f6"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "48153ea17b8b4a46883221469016b183",
+    "complaintID": "UA-2023-01-01-000001-a.2",
+    "date": "2023-01-01T00:00:00+02:00",
+    "status": "draft",
+    "documents": [
+      {
+        "id": "e578814fffec467587198dec88b0dcba",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Evidence_Attachment.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31f24c650bf0450a9e351fcadad42d8f?Signature=Dn3KrTtqhhnkZg99w0%2B3e5lNXoGMTo0KYi1TMWQofS9n5JGPueLURYUn80rNe2L4bT7qY4PQX1q8VaLSbQk1DA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "author": "complaint_owner",
+        "language": "uk"
+      }
+    ],
+    "type": "complaint",
+    "author": {
+      "name": "ДКП «Школяр»",
+      "address": {
+        "streetAddress": "вул. Островського, 33",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21100",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "email": "soleksuk@gmail.com",
+        "telephone": "+380432216930",
+        "name": "Сергій Олексюк"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "uri": "http://www.sc.gov.ua/",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»"
+      }
+    },
+    "title": "Недостатньо інформації",
+    "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
+    "objections": [
+      {
+        "id": "02b5b44a78844b8bb928152ddb6217f6",
+        "title": "My objection",
+        "description": "Test objection",
+        "relatesTo": "tender",
+        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "classification": {
+          "scheme": "violation_amcu",
+          "id": "corruptionDescription",
+          "description": "test classification"
+        },
+        "requestedRemedies": [
+          {
+            "id": "298c8b57ff4340e2af9b4f276aa458c8",
+            "type": "setAsideAward",
+            "description": "test"
+          }
+        ],
+        "arguments": [
+          {
+            "id": "14cf6a8f0b5f4abdaf63ae7b53d9728b",
+            "description": "test argument",
+            "evidences": [
+              {
+                "id": "8c9ef2564c1b464eae9909618ffc5329",
+                "title": "Evidence",
+                "description": "Test evidence",
+                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "value": {
+      "amount": 2000.0,
+      "currency": "UAH"
+    }
+  }
+}
+

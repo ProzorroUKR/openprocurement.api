@@ -107,6 +107,10 @@ Schema
 :posts:
     List of :ref:`ComplaintPost` objects
 
+
+:objections:
+    List of :ref:`complaint-objection` objects
+
 :value:
     :ref:`Guarantee`, auto-generated
 

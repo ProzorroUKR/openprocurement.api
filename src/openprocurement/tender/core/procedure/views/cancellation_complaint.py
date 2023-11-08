@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.state.cancellation_complaint import (
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.cancellation import resolve_cancellation
-from openprocurement.tender.core.procedure.models.complaint import PostComplaint
+from openprocurement.tender.core.procedure.models.complaint import PostCancellationComplaint
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_data_documents,
@@ -40,7 +40,7 @@ class CancellationComplaintWriteResource(BaseComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            validate_input_data(PostComplaint),
+            validate_input_data(PostCancellationComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )

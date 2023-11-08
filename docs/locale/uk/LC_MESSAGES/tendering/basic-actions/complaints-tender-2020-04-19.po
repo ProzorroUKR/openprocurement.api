@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-19 18:43+0300\n"
+"POT-Creation-Date: 2023-10-24 13:48+0200\n"
 "PO-Revision-Date: 2020-05-20 22:51+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Claim/Complaint Retrieval"
 msgstr "Отримання інформації про вимоги/скарги"
@@ -43,6 +43,30 @@ msgstr "Цей крок не обов'язковий.Завантажте док
 
 msgid "Submit tender conditions complaint:"
 msgstr "Подайте скаргу на умови закупівлі:"
+
+msgid "Complaint Objections"
+msgstr "Заперечення до скарги"
+
+msgid "When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint:"
+msgstr "При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections):"
+
+msgid "Objections can be added or edited while complaint is in the status `draft`."
+msgstr "Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`."
+
+msgid "For each Objection, the Complainant must indicate one or more arguments. In other case there error will be raised:"
+msgstr "Для кожного Заперечення Скаржник обов'язково вказує одне або декілька Обгрунтуваннь (arguments). В іншому випадку буде помилка:"
+
+msgid "For each Arguments, the Complainant can indicate one or more evidences. Evidences can be empty:"
+msgstr "Для кожного Обгрунтування Скаржник може вказати один або декілька Доказів (evidences). Докази можуть бути пустими:"
+
+msgid "During adding evidence, the User must indicate related document id. This document should be uploaded to complaint. Let's upload document to complaint:"
+msgstr "Під час додавання Доказу, Користувач має вказати id відносного документу. Цей документ має попередньо бути завантаженим до скарги. Додамо документ до скарги:"
+
+msgid "After that User can indicate relatedDocument in evidence:"
+msgstr "Після цього Користувач може вказати relatedDocument в Доказі:"
+
+msgid "For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:"
+msgstr "Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:"
 
 msgid "Complaint Posts"
 msgstr "Запит до скарги"
@@ -100,7 +124,4 @@ msgstr "Відміна чернетки скарги скаржником"
 
 msgid "Cancelling accepted complaint by Reviewer"
 msgstr "Відміна прийнятої скарги рецензентом"
-
-#~ msgid "Cancelling accepted complaint by Complainant"
-#~ msgstr "Відміна прийнятої скарги скаржником"
 

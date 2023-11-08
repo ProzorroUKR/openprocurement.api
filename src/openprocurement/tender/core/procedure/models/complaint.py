@@ -4,6 +4,13 @@ from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.base import (
     ModelType, ListType,
 )
+from openprocurement.tender.core.procedure.models.complaint_objection import (
+    AwardComplaintObjection,
+    CancellationComplaintObjection,
+    Objection,
+    QualificationComplaintObjection,
+    TenderComplaintObjection,
+)
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.identifier import Identifier
 from openprocurement.tender.core.procedure.models.organization import Organization, PostOrganization
@@ -58,6 +65,7 @@ class PostComplaint(Model):
     status = StringType(choices=["draft", "pending"], default="draft")
     type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
     relatedLot = MD5Type()
+    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
 
     def validate_status(self, data, value):
         if tender_created_after_2020_rules():
@@ -85,11 +93,36 @@ class PostComplaintFromBid(PostComplaint):
                 return bid["id"]
 
 
+class PostAwardComplaint(PostComplaintFromBid):
+    objections = ListType(ModelType(AwardComplaintObjection), min_size=1)
+
+
+class PostCancellationComplaint(PostComplaint):
+    objections = ListType(ModelType(CancellationComplaintObjection), min_size=1)
+
+
+class PostQualificationComplaint(PostComplaintFromBid):
+    objections = ListType(ModelType(QualificationComplaintObjection), min_size=1)
+
+
 class DraftPatchComplaint(Model):
     status = StringType(choices=["draft", "pending", "mistaken"])  # pending is for old rules
     author = ModelType(ComplaintOrganization)  # author of claim
     title = StringType()  # title of the claim
     description = StringType()  # description of the claim
+    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
+
+
+class DraftPatchAwardComplaint(DraftPatchComplaint):
+    objections = ListType(ModelType(AwardComplaintObjection), min_size=1)
+
+
+class DraftPatchCancellationComplaint(DraftPatchComplaint):
+    objections = ListType(ModelType(CancellationComplaintObjection), min_size=1)
+
+
+class DraftPatchQualificationComplaint(DraftPatchComplaint):
+    objections = ListType(ModelType(QualificationComplaintObjection), min_size=1)
 
 
 class CancellationPatchComplaint(Model):
@@ -188,6 +221,7 @@ class Complaint(Model):
     title = StringType(required=True)  # title of the claim
     description = StringType()  # description of the claim
     dateSubmitted = IsoDateTimeType()
+    objections = ListType(ModelType(Objection), min_size=1)
     # tender owner
     resolution = StringType()
     resolutionType = StringType(choices=["invalid", "resolved", "declined"])

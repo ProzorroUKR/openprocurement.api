@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.state.qualification_complaint import 
 )
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer
-from openprocurement.tender.core.procedure.models.complaint import PostComplaintFromBid
+from openprocurement.tender.core.procedure.models.complaint import PostQualificationComplaint
 from openprocurement.tender.core.procedure.views.complaint import (
     resolve_complaint,
     BaseComplaintGetResource,
@@ -45,7 +45,7 @@ class QualificationComplaintWriteResource(BaseComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            validate_input_data(PostComplaintFromBid),
+            validate_input_data(PostQualificationComplaint),
             unless_admins(
                 validate_any_bid_owner(statuses=("active", "unsuccessful"))
             ),

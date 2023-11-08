@@ -42,6 +42,45 @@ Submit tender conditions complaint:
    :code:
 
 
+.. _complaint-objections:
+
+Complaint Objections
+====================
+
+When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint:
+
+.. http:example:: http/complaints/complaint-objections-submission.http
+   :code:
+
+Objections can be added or edited while complaint is in the status `draft`.
+
+For each Objection, the Complainant must indicate one or more arguments. In other case there error will be raised:
+
+.. http:example:: http/complaints/complaint-objections-invalid-arguments.http
+   :code:
+
+For each Arguments, the Complainant can indicate one or more evidences. Evidences can be empty:
+
+.. http:example:: http/complaints/complaint-objections-empty-evidences.http
+   :code:
+
+During adding evidence, the User must indicate related document id. This document should be uploaded to complaint.
+Let's upload document to complaint:
+
+.. http:example:: http/complaints/complaint-document-upload.http
+   :code:
+
+After that User can indicate relatedDocument in evidence:
+
+.. http:example:: http/complaints/complaint-objections-evidences-with-document.http
+   :code:
+
+For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:
+
+.. http:example:: http/complaints/complaint-objections-invalid-requested-remedies.http
+   :code:
+
+
 Complaint Posts
 ===============
 

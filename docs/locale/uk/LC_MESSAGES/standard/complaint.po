@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-03 21:14+0200\n"
+"POT-Creation-Date: 2023-07-25 12:45+0200\n"
 "PO-Revision-Date: 2021-03-03 22:32+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,8 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
-"X-Generator: Poedit 2.4.2\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Complaint"
 msgstr "Complaint"
@@ -177,6 +176,12 @@ msgstr ""
 msgid "List of :ref:`ComplaintPost` objects"
 msgstr "Список об’єктів :ref:`ComplaintPost`"
 
+msgid "objections"
+msgstr ""
+
+msgid "List of :ref:`complaint-objection` objects"
+msgstr "Список об’єктів :ref:`complaint-objection`"
+
 msgid "value"
 msgstr ""
 
@@ -260,3 +265,4 @@ msgstr "Місце розгляду."
 
 #~ msgid "Additionally in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:"
 #~ msgstr "Можливі значення у :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
+

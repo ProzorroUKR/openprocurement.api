@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.complaint import (
     BaseComplaintGetResource,
     BaseComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.models.complaint import PostComplaintFromBid
+from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     validate_any_bid_owner,
@@ -43,7 +43,7 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
             unless_admins(
                 validate_any_bid_owner(statuses=("active",))
             ),
-            validate_input_data(PostComplaintFromBid),
+            validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )
