@@ -20,7 +20,7 @@ Schema
     * `article_16`
     * `article_17`
     * `other`
-    * `violeation_amcu`
+    * `violation_amcu`
 
 :id:
     string, required
