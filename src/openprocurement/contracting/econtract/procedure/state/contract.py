@@ -129,9 +129,7 @@ class EContractState(
 
         award = request.validated["award"]
         self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
-        self.validate_contract_update_with_accepted_complaint(request, tender, before)
         self.validate_update_contract_value_with_award(request, before, after)
-        # self.validate_update_contract_only_for_active_lots(request, tender, before)
 
     def validate_threshold_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_signing(before, after)
