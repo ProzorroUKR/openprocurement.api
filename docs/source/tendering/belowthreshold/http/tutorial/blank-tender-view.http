@@ -11,7 +11,6 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "title": "футляри до державних нагород",
     "status": "draft",
-    "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
       "amount": 500.0,
@@ -111,6 +110,7 @@ Content-Type: application/json
     },
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
+    "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
@@ -123,7 +123,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 

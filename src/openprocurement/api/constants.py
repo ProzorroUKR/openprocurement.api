@@ -32,6 +32,7 @@ DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 GUARANTEE_ALLOWED_TENDER_TYPES = (
     "belowThreshold",
     "aboveThreshold",
+    "competitiveOrdering",
     "aboveThresholdUA",
     "aboveThresholdEU",
     "esco",
@@ -92,6 +93,7 @@ CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
 TENDER_CONFIG_JSONSCHEMAS = {
     "aboveThreshold": standards.load(f"data_model/schema/TenderConfig/aboveThreshold.json"),
+    "competitiveOrdering": standards.load(f"data_model/schema/TenderConfig/competitiveOrdering.json"),
     "aboveThresholdEU": standards.load(f"data_model/schema/TenderConfig/aboveThresholdEU.json"),
     "aboveThresholdUA.defense": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
     "aboveThresholdUA": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.json"),
@@ -302,6 +304,11 @@ TENDER_CONFIG_OPTIONALITY = {
     "minBidsNumber": get_constant(
         CONSTANTS_CONFIG,
         "TENDER_CONFIG_MIN_BIDS_NUMBER_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "hasPreSelectionAgreement": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_PRE_SELECTION_AGREEMENT_OPTIONAL",
         parse_func=parse_bool,
     ),
 }

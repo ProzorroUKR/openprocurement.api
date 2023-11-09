@@ -19,6 +19,7 @@ from tests.base.data import (
     test_docs_tender_limited,
     test_docs_lots,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_limited)
 test_lots = deepcopy(test_docs_lots)
@@ -41,9 +42,10 @@ test_tender_negotiation_quick_data['causeDescription_ru'] = "оригиналь�
 test_lots[0]['value'] = test_tender_negotiation_data['value']
 
 TARGET_DIR = 'docs/source/tendering/limited/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/limited/csv/'
 
 
-class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -59,6 +61,24 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderLimitedResourceTest, self).tearDown()
+
+    def test_docs_config_reporting_csv(self):
+        self.write_config_pmt_csv(
+            pmt="reporting",
+            file_path=TARGET_CSV_DIR + "config-reporting.csv",
+        )
+
+    def test_docs_config_negotiation_csv(self):
+        self.write_config_pmt_csv(
+            pmt="negotiation",
+            file_path=TARGET_CSV_DIR + "config-negotiation.csv",
+        )
+
+    def test_docs_config_negotiation_quick_csv(self):
+        self.write_config_pmt_csv(
+            pmt="negotiation.quick",
+            file_path=TARGET_CSV_DIR + "config-negotiation-quick.csv",
+        )
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
@@ -565,16 +585,10 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with open(TARGET_DIR + 'multiple_lots_tutorial/tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
         #### Creating tender
+
         self.app.authorization = ('Basic', ('broker', ''))
+
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',

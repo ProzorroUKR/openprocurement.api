@@ -64,6 +64,7 @@ test_tender_esco_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": True,
     "minBidsNumber": 2,
+    "hasPreSelectionAgreement": False,
 }
 
 

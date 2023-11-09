@@ -14,6 +14,9 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
+    should_validate_pre_selection_agreement = False
+    items_classification_prefix_length_default = None
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 

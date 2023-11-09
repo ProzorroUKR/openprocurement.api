@@ -736,8 +736,8 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
     "value": {
       "amount": 501.0,
       "currency": "UAH",
@@ -868,7 +868,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 2
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false
   }
 }
 

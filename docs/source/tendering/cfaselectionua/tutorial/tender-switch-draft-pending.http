@@ -22,10 +22,10 @@ Content-Type: application/json
     "tenderID": "UA-2023-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
+    "procurementMethod": "selective",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
-    "procurementMethod": "selective",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -126,7 +126,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   }
 }
 

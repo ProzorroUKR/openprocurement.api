@@ -1,13 +1,13 @@
 from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso, check_auction_period
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.tender.open.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
+    ENQUIRY_STAND_STILL_TIME, COMPETITIVE_ORDERING,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -38,6 +38,12 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
     }
 
+    @classmethod
+    def get_items_classification_prefix_length(cls, tender):
+        if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
+            return 3
+        return super().get_items_classification_prefix_length(tender)
+
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
@@ -59,8 +65,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
                         name="item.relatedLot"
                     )
 
-
-        self.validate_fields_unchanged(before, after)
+        self.validate_items_classification_prefix_unchanged(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":

@@ -24,7 +24,6 @@ from openprocurement.tender.core.procedure.models.milestone import Milestone, va
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.tender import validate_items_related_lot
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_classification_id,
     validate_items_uniq,
     validate_related_buyer_in_items,
@@ -48,10 +47,9 @@ class PostReportingTender(PostBaseTender):
         ModelType(ReportingItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"], default="limited")
     status = StringType(choices=["draft"], default="draft")
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -71,10 +69,9 @@ class PatchReportingTender(PatchBaseTender):
     items = ListType(
         ModelType(ReportingItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"])
     status = StringType(choices=["draft", "active"])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -92,10 +89,9 @@ class ReportingTender(BaseTender):
         ModelType(ReportingItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    procurementMethod = StringType(choices=["limited"], required=True)
     status = StringType(
         choices=[
             "draft",
@@ -153,7 +149,6 @@ def validate_cause(value):
 
 class PostNegotiationTender(PostBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], default=NEGOTIATION)
-    procurementMethod = StringType(choices=["limited"], default="limited")
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
@@ -161,7 +156,7 @@ class PostNegotiationTender(PostBaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
     causeDescription = StringType(required=True, min_length=1)
@@ -189,14 +184,13 @@ class PostNegotiationTender(PostBaseTender):
 
 class PatchNegotiationTender(PatchBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION])
-    procurementMethod = StringType(choices=["limited"])
     procuringEntity = ModelType(NegotiationProcuringEntity)
     status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType()
     causeDescription = StringType(min_length=1)
@@ -210,7 +204,6 @@ class PatchNegotiationTender(PatchBaseTender):
 
 class NegotiationTender(BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
-    procurementMethod = StringType(choices=["limited"], required=True)
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
     status = StringType(
         choices=[
@@ -226,7 +219,7 @@ class NegotiationTender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
     causeDescription = StringType(required=True, min_length=1)

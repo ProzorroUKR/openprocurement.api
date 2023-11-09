@@ -1,8 +1,11 @@
 from openprocurement.api.utils import json_view
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
+from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP_NAME,
+    ABOVE_THRESHOLD_GROUP,
+)
 from openprocurement.tender.open.procedure.models.tender import PostTender, PatchTender, Tender
 from openprocurement.tender.open.procedure.state.tender_details import OpenTenderDetailsState
 from openprocurement.tender.core.procedure.validation import (
@@ -22,11 +25,11 @@ from cornice.resource import resource
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tenders",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
-    description=f"{ABOVE_THRESHOLD} tenders",
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
+    description="Tenders",
     accept="application/json",
 )
 class AboveThresholdTenderResource(TendersResource):

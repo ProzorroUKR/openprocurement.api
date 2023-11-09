@@ -22,6 +22,10 @@ from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.constants import (
     NORMALIZED_COMPLAINT_PERIOD_FROM,
 )
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP_NAME,
+    ABOVE_THRESHOLD_GROUP,
+)
 
 LOGGER = getLogger("openprocurement.tender.core")
 
@@ -34,7 +38,7 @@ QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
 QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
 
 
-class isTender(object):
+class ProcurementMethodTypePredicate(object):
     """ Route predicate factory for procurementMethodType route predicate. """
 
     def __init__(self, val, config):
@@ -46,18 +50,37 @@ class isTender(object):
     phash = text
 
     def __call__(self, context, request):
+        procurement_method_type = self.procurement_method_type(request)
+        if isinstance(self.val, list):
+            return procurement_method_type in self.val
+        return procurement_method_type == self.val
+
+    @staticmethod
+    def tender_data(request):
         if request.tender_doc is not None:
-            return request.tender_doc.get("procurementMethodType", "belowThreshold") == self.val
+            return request.tender_doc
+        elif request.method == "POST" and request.path.endswith("/tenders"):
+            # that's how we can have a "POST /tender" view for every tender type
+            return validate_json_data(request)
+        else:
+            return None
 
-        # that's how we can have a "POST /tender" view for every tender type
-        if request.method == "POST" and request.path.endswith("/tenders"):  # very specific, isn't it
-            data = validate_json_data(request)
-            return data.get("procurementMethodType", "belowThreshold") == self.val
+    @classmethod
+    def procurement_method_type(cls, request):
+        data = cls.tender_data(request)
+        if data is None:
+            return None
+        return data.get("procurementMethodType", "belowThreshold")
 
-        return False
+    @classmethod
+    def route_prefix(cls, request):
+        procurement_method_type = cls.procurement_method_type(request)
+        if procurement_method_type in ABOVE_THRESHOLD_GROUP:
+            return ABOVE_THRESHOLD_GROUP_NAME
+        return procurement_method_type
 
 
-class isComplaint(object):
+class ComplaintTypePredicate(object):
     """ Route predicate factory for complaintType route predicate. """
 
     def __init__(self, val, config):

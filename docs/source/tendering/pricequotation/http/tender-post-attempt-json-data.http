@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4508
+Content-Length: 4542
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -145,7 +145,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   }
 }
 
@@ -157,9 +158,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
 {
   "data": {
     "mainProcurementCategory": "goods",
+    "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
     "procurementMethodType": "priceQuotation",
-    "procurementMethod": "selective",
     "awardCriteria": "lowestCost",
     "status": "draft",
     "agreement": {
@@ -317,7 +318,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true
   },
   "access": {
     "token": "d3c6750ff65148df856b59e65feba396",

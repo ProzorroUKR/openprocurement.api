@@ -18,7 +18,6 @@ from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_items_uniq,
     validate_classification_id,
     validate_related_buyer_in_items,
@@ -92,7 +91,6 @@ def validate_lots_yearly_payments_percentage_range(data, lots):
 
 
 class PostTender(PostBaseTender):
-    procurementMethod = StringType(choices=["open"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -112,7 +110,7 @@ class PostTender(PostBaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+                     validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -154,7 +152,6 @@ class PostTender(PostBaseTender):
 
 
 class PatchTender(PatchBaseTender):
-    procurementMethod = StringType(choices=["open"])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA])
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -177,7 +174,7 @@ class PatchTender(PatchBaseTender):
     procuringEntity = ModelType(ProcuringEntity)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq])
+                     validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])
@@ -186,7 +183,6 @@ class PatchTender(PatchBaseTender):
 
 
 class Tender(BaseTender):
-    procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -215,7 +211,7 @@ class Tender(BaseTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
                           validators=[validate_items_uniq, validate_milestones])

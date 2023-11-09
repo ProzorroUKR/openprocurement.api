@@ -31,6 +31,7 @@ from tests.base.data import (
     test_docs_bid_document2,
     test_docs_lots,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)
@@ -88,10 +89,12 @@ test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage'
 test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
 
 TARGET_DIR = 'docs/source/tendering/esco/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/esco/csv/'
+
 TARGET_DIR_MULTIPLE = 'docs/source/tendering/esco/multiple_lots_tutorial/'
 
 
-class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -108,27 +111,16 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
 
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="esco",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with  open(TARGET_DIR + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        with  open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
         self.app.authorization = ('Basic', ('broker', ''))
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
 
         #### Creating tender
 
@@ -825,13 +817,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin):
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with  open(TARGET_DIR_MULTIPLE + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
+        self.app.authorization = ('Basic', ('broker', ''))
 
         #### Creating tender
         self.app.authorization = ('Basic', ('broker', ''))

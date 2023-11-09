@@ -29,6 +29,7 @@ from tests.base.data import (
     test_docs_qualified,
     test_docs_lots,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_open)
 test_lots = deepcopy(test_docs_lots)
@@ -45,9 +46,10 @@ test_lots[1]['value'] = test_tender_data['value']
 test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
 
 TARGET_DIR = 'docs/source/tendering/open/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/open/csv/'
 
 
-class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -64,28 +66,16 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
 
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="aboveThreshold",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
-        #### Exploring basic rules
-
-        with open(TARGET_DIR + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
         self.app.authorization = ('Basic', ('broker', ''))
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422
-            )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
 
         #### Creating tender
 

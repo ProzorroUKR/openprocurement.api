@@ -23,9 +23,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     ENQUIRY_PERIOD,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
-    AGREEMENT_IDENTIFIER,
     TENDERING_DURATION,
 )
+from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_organization,
     test_tender_cfaselectionua_features,
@@ -315,7 +315,24 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         {
-            "description": ["Value must be one of ['selective']."],
+            "description": ["Value must be one of ['open', 'selective', 'limited']."],
+            "location": "body",
+            "name": "procurementMethod",
+        },
+        response.json["errors"],
+    )
+
+    data = deepcopy(self.initial_data)
+    data["procurementMethod"] = "open"
+    response = self.app.post_json(
+        request_path, {"data": data, "config": self.initial_config}, status=422
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertIn(
+        {
+            "description": "procurementMethod should be selective",
             "location": "body",
             "name": "procurementMethod",
         },
@@ -412,7 +429,7 @@ def create_tender_invalid(self):
     classification["id"] = "19212310-1"
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -1769,7 +1786,7 @@ def patch_tender_bot(self):
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "active.enquiries"}})
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER])
+    self.assertEqual(response.json["data"]["unsuccessfulReason"], [AGREEMENT_IDENTIFIER_MESSAGE])
 
     # patch tender with agreement -> with documents
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()

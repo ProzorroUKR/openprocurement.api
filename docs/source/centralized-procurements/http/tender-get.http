@@ -46,7 +46,6 @@ Content-Type: application/json
       }
     ],
     "title": "футляри до державних нагород",
-    "procurementMethod": "open",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -214,6 +213,7 @@ Content-Type: application/json
       "endDate": "2023-01-28T00:00:00+02:00"
     },
     "owner": "broker",
+    "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:15+02:00",
     "enquiryPeriod": {
@@ -236,7 +236,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 2
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false
   }
 }
 

@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4813
+Content-Length: 4848
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -147,7 +147,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 
@@ -164,7 +165,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "status": "draft",
-    "procurementMethod": "open",
     "awardCriteria": "lowestCost",
     "value": {
       "amount": 500.0,
@@ -305,6 +305,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     },
     "tenderID": "UA-2023-01-01-000002-a",
     "owner": "broker",
+    "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
@@ -317,7 +318,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   },
   "access": {
     "token": "5489a4b46edc47b1b63c2aa866e367ea",

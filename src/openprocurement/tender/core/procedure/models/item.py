@@ -182,15 +182,6 @@ def validate_classification_id(items, *args):
                     "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME))
 
 
-def validate_cpv_group(items, *args):
-    if items:
-        if (
-            items[0].classification.id[:3] != "336"
-            and len({i.classification.id[:4] for i in items}) != 1
-        ):
-            raise ValidationError("CPV class of items should be identical")
-
-
 def validate_items_uniq(items, *args):
     if items:
         ids = [i.id for i in items]

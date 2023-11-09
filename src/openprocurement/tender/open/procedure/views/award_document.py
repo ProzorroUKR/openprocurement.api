@@ -12,17 +12,17 @@ from openprocurement.tender.core.procedure.validation import (
     validate_award_document_lot_not_in_allowed_status,
     validate_award_document_author,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from openprocurement.tender.open.procedure.validation import validate_accepted_complaints
 from openprocurement.api.utils import json_view
 from cornice.resource import resource
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Award Documents",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Award Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender award documents",
 )
 class UATenderAwardDocumentResource(BaseAwardDocumentResource):

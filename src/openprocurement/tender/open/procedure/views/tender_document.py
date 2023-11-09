@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 
 from openprocurement.tender.open.procedure.state.tender_document import UATenderDocumentState
 from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
@@ -20,10 +20,10 @@ from cornice.resource import resource
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Documents",
+    name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
+    procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender related binary files (PDFs, etc.)",
 )
 class UATenderDocumentResource(TenderDocumentResource):

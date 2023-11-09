@@ -38,7 +38,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.update_complaint_period(tender)
 
     def on_patch(self, before, after):
-        self.validate_fields_unchanged(before, after)
+        self.validate_items_classification_prefix_unchanged(before, after)
 
         # bid invalidation rules
         if before["status"] == "active.tendering":

@@ -29,15 +29,17 @@ from tests.base.constants import (
     DOCS_URL,
     AUCTIONS_URL,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])
 bid_draft["status"] = "draft"
 
 TARGET_DIR = 'docs/source/tendering/pricequotation/http/'
+TARGET_CSV_DIR = 'docs/source/tendering/pricequotation/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -55,6 +57,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def tearDown(self):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
+
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="priceQuotation",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
 
     def test_docs_publish_tenders(self):
         tender_data = deepcopy(test_tender_data)
@@ -159,19 +167,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         request_path = '/tenders?opt_pretty=1'
 
-        # Exploring basic rules
-
-        with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
         self.app.authorization = ('Basic', ('broker', ''))
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(
-                request_path, 'data', content_type='application/json', status=422
-            )
-            self.assertEqual(response.status, '422 Unprocessable Entity')
 
         # Creating tender
 

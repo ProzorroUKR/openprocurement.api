@@ -3,32 +3,24 @@
 Tutorial
 ========
 
-Exploring basic rules
----------------------
-
-Let's try exploring the `/tenders` endpoint:
-
-.. http:example:: tutorial/tender-listing.http
-   :code:
-
-Just invoking it reveals empty set.
-
-Now let's attempt creating some tender:
-
-.. http:example:: tutorial/tender-post-attempt.http
-   :code:
-
-Error states that the only accepted Content-Type is `application/json`.
-
-Let's satisfy the Content-type requirement:
-
-.. http:example:: tutorial/tender-post-attempt-json.http
-   :code:
-
-Error states that no `data` has been found in JSON body.
-
-
 .. index:: Tender
+
+Configuration
+-------------
+
+The set of possible configuration values for `competitiveDialogueEU`:
+
+.. csv-table::
+   :file: csv/config-eu-stage1.csv
+   :header-rows: 1
+
+The set of possible configuration values for `competitiveDialogueUA`:
+
+.. csv-table::
+   :file: csv/config-ua-stage1.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
 
 Creating tender on first stage
 ------------------------------

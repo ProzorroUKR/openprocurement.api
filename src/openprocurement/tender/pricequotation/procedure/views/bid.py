@@ -19,6 +19,8 @@ from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
 from logging import getLogger
 
+from openprocurement.tender.pricequotation.procedure.state.bid import BidState
+
 LOGGER = getLogger(__name__)
 
 
@@ -30,6 +32,7 @@ LOGGER = getLogger(__name__)
     description="Tender bids",
 )
 class TenderBidResource(TenderBidResource):
+    state_class = BidState
 
     @json_view(
         content_type="application/json",

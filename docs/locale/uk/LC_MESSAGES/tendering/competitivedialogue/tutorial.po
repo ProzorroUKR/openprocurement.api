@@ -3,38 +3,68 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-14 12:33+0300\n"
+"POT-Creation-Date: 2023-09-22 05:42+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.11.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
 
-msgid "Exploring basic rules"
-msgstr "Базові правила"
+msgid "Configuration"
+msgstr "Конфігурація"
 
-msgid "Let's try exploring the `/tenders` endpoint:"
-msgstr "Подивимось як працює точка входу `/tenders`:"
+msgid "The set of possible configuration values for `competitiveDialogueEU`:"
+msgstr "Набір можливих значень конфігурації для :`competitiveDialogueEU`"
 
-msgid "Just invoking it reveals empty set."
-msgstr "При виклику видає пустий набір."
+msgid "name"
+msgstr ""
 
-msgid "Now let's attempt creating some tender:"
-msgstr "Спробуймо створити нову закупівлю:"
+msgid "values"
+msgstr ""
 
-msgid "Error states that the only accepted Content-Type is `application/json`."
-msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
+msgid "default"
+msgstr ""
 
-msgid "Let's satisfy the Content-type requirement:"
-msgstr "Задовільнимо вимогу типу вмісту:"
+msgid "hasAuction"
+msgstr ""
 
-msgid "Error states that no `data` has been found in JSON body."
-msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
+msgid "false"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "The set of possible configuration values for `competitiveDialogueUA`:"
+msgstr "Набір можливих значень конфігурації для :`competitiveDialogueUA`"
+
+msgid "You can look for more details in :ref:`config` section."
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender on first stage"
 msgstr "Створення закупівлі"
@@ -293,3 +323,25 @@ msgstr "Другий етап EU"
 
 msgid "Stage2 UA"
 msgstr "Другий етап UA"
+
+#~ msgid "Exploring basic rules"
+#~ msgstr "Базові правила"
+
+#~ msgid "Let's try exploring the `/tenders` endpoint:"
+#~ msgstr "Подивимось як працює точка входу `/tenders`:"
+
+#~ msgid "Just invoking it reveals empty set."
+#~ msgstr "При виклику видає пустий набір."
+
+#~ msgid "Now let's attempt creating some tender:"
+#~ msgstr "Спробуймо створити нову закупівлю:"
+
+#~ msgid "Error states that the only accepted Content-Type is `application/json`."
+#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
+
+#~ msgid "Let's satisfy the Content-type requirement:"
+#~ msgstr "Задовільнимо вимогу типу вмісту:"
+
+#~ msgid "Error states that no `data` has been found in JSON body."
+#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
+

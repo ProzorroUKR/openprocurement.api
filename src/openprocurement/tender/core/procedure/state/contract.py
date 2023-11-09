@@ -111,9 +111,6 @@ class ContractStateMixing(baseclass):
             return False
         return True
 
-    def check_agreements(self, tender: dict) -> bool:
-        return "agreements" in tender
-
     def check_lots_complaints(self, tender: dict, now: datetime) -> None:
         config = get_tender_config()
         awarding_order_enabled = config.get("hasAwardingOrder")
@@ -142,9 +139,14 @@ class ContractStateMixing(baseclass):
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
-            elif (awarding_order_enabled and last_award["status"] == "active") or \
-                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})):
-                if self.check_agreements(tender):
+            elif (
+                (awarding_order_enabled and last_award["status"] == "active") or
+                (awarding_order_enabled is False and awards_statuses.intersection({"active"}))
+            ):
+                if (
+                    "agreements" in tender and
+                    config["hasPreSelectionAgreement"] is False  # tender produces agreements
+                ):
                     allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
                 else:
                     if awarding_order_enabled is False:

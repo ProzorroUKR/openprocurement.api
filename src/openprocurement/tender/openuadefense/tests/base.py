@@ -78,6 +78,7 @@ test_tender_openuadefense_config = {
     "valueCurrencyEquality": True,
     "hasPrequalification": False,
     "minBidsNumber": 1,
+    "hasPreSelectionAgreement": False,
 }
 
 

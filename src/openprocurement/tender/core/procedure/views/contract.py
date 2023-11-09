@@ -10,6 +10,8 @@ from openprocurement.tender.core.procedure.state.contract import ContractState
 from pyramid.security import Allow, Everyone
 from logging import getLogger
 
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
+
 LOGGER = getLogger(__name__)
 
 
@@ -81,8 +83,9 @@ class TenderContractResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             self.request.response.headers["Location"] = self.request.route_url(
-                "{}:Tender Contracts".format(tender["procurementMethodType"]),
+                "{}:Tender Contracts".format(route_prefix),
                 tender_id=tender["_id"],
                 contract_id=contract["id"],
             )

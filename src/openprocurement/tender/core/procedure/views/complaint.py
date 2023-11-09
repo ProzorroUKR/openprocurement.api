@@ -23,6 +23,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_data_documents,
 )
 from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 def resolve_complaint(request, context="tender"):
@@ -117,11 +118,12 @@ class BaseComplaintWriteResource(BaseComplaintResource):
                 tender_id=tender["_id"],
                 complaint_id=complaint["id"],
             )
+            route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             if self.item_name != "tender":
                 route_params[f"{self.item_name}_id"] = context["id"]
-                route_name = f"{tender['procurementMethodType']}:Tender {self.item_name.capitalize()} Complaints Get"
+                route_name = f"{route_prefix}:Tender {self.item_name.capitalize()} Complaints Get"
             else:
-                route_name = f"{tender['procurementMethodType']}:Tender Complaints Get"
+                route_name = f"{route_prefix}:Tender Complaints Get"
             self.request.response.headers["Location"] = self.request.route_url(route_name, **route_params)
 
             return {"data": self.serializer_class(complaint).data, "access": access}

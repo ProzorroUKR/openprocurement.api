@@ -20,7 +20,6 @@ from openprocurement.tender.core.procedure.models.item import (
     Item,
     validate_related_buyer_in_items,
     validate_classification_id,
-    validate_cpv_group,
 )
 from schematics.exceptions import ValidationError
 from schematics.types import (
@@ -95,7 +94,6 @@ class PostTender(PostBaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open", "selective", "limited"], default="open")
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -107,7 +105,7 @@ class PostTender(PostBaseTender):
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -144,7 +142,6 @@ class PatchTender(PatchBaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open"])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
     procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(Value)
@@ -154,7 +151,7 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
     items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -170,7 +167,6 @@ class Tender(BaseTender):
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
-    procurementMethod = StringType(choices=["open"], required=True)
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value, required=True)
@@ -182,7 +178,7 @@ class Tender(BaseTender):
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(TenderAuctionPeriod)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     milestones = ListType(ModelType(Milestone, required=True),
@@ -221,6 +217,7 @@ class TenderConfig(Model):
     valueCurrencyEquality = BooleanType()
     hasPrequalification = BooleanType()
     minBidsNumber = IntType(min_value=0)
+    hasPreSelectionAgreement = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
         if value is False and any([

@@ -6,7 +6,6 @@ from decimal import Decimal
 from openprocurement.tender.core.procedure.models.item import (
     validate_related_buyer_in_items,
     validate_classification_id,
-    validate_cpv_group,
 )
 from openprocurement.tender.core.procedure.models.period import PeriodEndRequired
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
@@ -22,7 +21,8 @@ from openprocurement.tender.cfaselectionua.procedure.models.lot import (
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.cfaselectionua.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement, AgreementUUID
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.cfaselectionua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
@@ -66,13 +66,12 @@ class PostTender(PostBaseTender):
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
-    procurementMethod = StringType(choices=["selective"], default="selective")
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
 
     agreements = ListType(ModelType(AgreementUUID, required=True), required=True, min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True,
                     validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -107,7 +106,6 @@ class PatchTender(PatchBaseTender):
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST])
-    procurementMethod = StringType(choices=["selective"])
     procuringEntity = ModelType(ProcuringEntity)
     status = StringType(
         choices=[
@@ -129,7 +127,7 @@ class PatchTender(PatchBaseTender):
 
     # agreements = ListType(ModelType(Agreement, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1,
                     validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
@@ -154,7 +152,6 @@ class Tender(BaseTender):
     submissionMethodDetails_en = StringType()
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], required=True)
-    procurementMethod = StringType(choices=["selective"], required=True, default="selective")
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(
         choices=[
@@ -171,7 +168,7 @@ class Tender(BaseTender):
 
     agreements = ListType(ModelType(Agreement, required=True), required=True, min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_cpv_group, validate_items_uniq, validate_classification_id])
+                     validators=[validate_items_uniq, validate_classification_id])
     lots = ListType(ModelType(Lot, required=True), min_size=1, max_size=1, required=True,
                     validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])

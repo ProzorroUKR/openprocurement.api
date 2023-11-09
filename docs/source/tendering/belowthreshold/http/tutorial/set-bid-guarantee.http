@@ -51,8 +51,8 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
-    "submissionMethod": "electronicAuction",
     "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
       "amount": 500.0,
@@ -163,7 +163,8 @@ Content-Type: application/json
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false
   }
 }
 

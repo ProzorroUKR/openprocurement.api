@@ -4,7 +4,6 @@ from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
-    validate_cpv_group,
 )
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.metric import (
@@ -33,6 +32,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
     COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
+    COMPETITIVE_ORDERING,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_start_date,
@@ -44,7 +44,7 @@ from openprocurement.api.validation import validate_items_uniq
 class PostTender(BasePostTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], default=ABOVE_THRESHOLD)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], default=ABOVE_THRESHOLD)
     awardCriteria = StringType(
         choices=[
             AWARD_CRITERIA_LOWEST_COST,
@@ -58,7 +58,7 @@ class PostTender(BasePostTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     targets = ListType(
         ModelType(PostMetric),
@@ -100,7 +100,7 @@ class PatchTender(BasePatchTender):
     tenderPeriod = ModelType(PeriodStartEndRequired)
     items = ListType(
         ModelType(Item, required=True),
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     targets = ListType(
         ModelType(Metric),
@@ -124,7 +124,7 @@ class Tender(BaseTender):
             "unsuccessful",
         ],
     )
-    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD], required=True)
+    procurementMethodType = StringType(choices=[ABOVE_THRESHOLD, COMPETITIVE_ORDERING], required=True)
     awardCriteria = StringType(
         choices=[
             AWARD_CRITERIA_LOWEST_COST,
@@ -138,7 +138,7 @@ class Tender(BaseTender):
         ModelType(Item, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     targets = ListType(
         ModelType(Metric),

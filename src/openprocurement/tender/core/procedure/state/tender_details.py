@@ -4,6 +4,15 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.tender.core.constants import (
+    PROCUREMENT_METHOD_SELECTIVE,
+    LIMITED_PROCUREMENT_METHOD_TYPES,
+    PROCUREMENT_METHOD_LIMITED,
+    PROCUREMENT_METHOD_OPEN,
+    SELECTIVE_PROCUREMENT_METHOD_TYPES,
+    AGREEMENT_NOT_FOUND_MESSAGE,
+)
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender_config,
@@ -25,7 +34,16 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_complaint_business_date
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    calculate_complaint_business_date,
+)
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
+from openprocurement.tender.core.constants import (
+    AGREEMENT_STATUS_MESSAGE,
+    AGREEMENT_CONTRACTS_MESSAGE,
+    AGREEMENT_IDENTIFIER_MESSAGE,
+)
 
 if TYPE_CHECKING:
     baseclass = TenderState
@@ -41,6 +59,7 @@ class TenderConfigMixin(baseclass):
         "valueCurrencyEquality",
         "hasPrequalification",
         "minBidsNumber",
+        "hasPreSelectionAgreement",
     )
 
     def validate_config(self, data):
@@ -103,6 +122,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     allow_tender_period_start_date_change = False
     pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
+    agreement_min_active_contracts = 3
+    items_classification_prefix_length_default = 4
+    should_validate_pre_selection_agreement = True
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -111,8 +133,11 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     def on_post(self, tender):
         self.validate_config(tender)
+        self.validate_procurement_method(tender)
+        self.validate_lots_count(tender)
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
+        self.validate_items_classification_prefix(tender)
         self.watch_value_meta_changes(tender)
         self.update_date(tender)
         super().on_post(tender)
@@ -121,20 +146,16 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         for doc in tender.get("documents", ""):
             doc["author"] = "tender_owner"
 
-    def set_mode_test(self, tender):
-        config = get_tender_config()
-        if config.get("test"):
-            tender["mode"] = "test"
-        if tender.get("mode") == "test":
-            set_mode_test_titles(tender)
-
     def on_patch(self, before, after):
+        self.validate_procurement_method(after, before=before)
+        self.validate_lots_count(after)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
         self.validate_submission_method(after, before=before)
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
+        self.validate_items_classification_prefix(after)
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
 
@@ -151,6 +172,8 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 location="body",
                 name="status"
             )
+        if after != "draft" and before == "draft":
+            self.validate_pre_selection_agreement(data)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
@@ -162,6 +185,81 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     name="tenderPeriod.startDate"
                 )
         super().status_up(before, after, data)
+
+
+    _agreement = None
+
+    def get_agreement(self, tender):
+        agreements = tender.get("agreements")
+        if not agreements:
+            return None
+        if not self._agreement:
+            self._agreement = self.request.registry.mongodb.agreements.get(agreements[0]["id"])
+        return self._agreement
+
+
+    def validate_pre_selection_agreement(self, tender):
+        if self.should_validate_pre_selection_agreement is False:
+            return
+
+        def raise_agreements_error(message):
+            raise_operation_error(
+                self.request,
+                message,
+                status=422,
+                location="body",
+                name="agreements",
+            )
+
+        config = get_tender_config()
+        if config["hasPreSelectionAgreement"] is True:
+            agreements = tender.get("agreements")
+            if not agreements:
+                raise_agreements_error("This field is required.")
+
+            if len(agreements) != 1:
+                raise_agreements_error("Exactly one agreement is expected.")
+
+            agreement = self.get_agreement(tender)
+
+            tender_agreement_type_mapping = {
+                COMPETITIVE_ORDERING: DPS_TYPE
+            }
+
+            if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
+                raise_agreements_error("Agreement type mismatch.")
+
+            if not agreement:
+                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
+
+            if self.is_agreement_not_active(agreement):
+                raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
+
+            if self.has_insufficient_active_contracts(agreement):
+                raise_agreements_error(AGREEMENT_CONTRACTS_MESSAGE.format(self.agreement_min_active_contracts))
+
+            if self.has_mismatched_procuring_entities(tender, agreement):
+                raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
+
+    def set_mode_test(self, tender):
+        config = get_tender_config()
+        if config.get("test"):
+            tender["mode"] = "test"
+        if tender.get("mode") == "test":
+            set_mode_test_titles(tender)
+
+    def validate_lots_count(self, tender):
+        if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
+            # TODO: consider using config
+            max_lots_count = 1
+            if len(tender.get("lots", "")) > max_lots_count:
+                raise_operation_error(
+                    get_request(),
+                    "Can't create more than {} lots".format(max_lots_count),
+                    status=422,
+                    location="body",
+                    name="lots"
+                )
 
     def validate_pre_qualification_status_change(self, before, after):
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
@@ -366,16 +464,89 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         validate_field(data, "submissionMethodDetails_ru", required=False, **kwargs)
 
     @staticmethod
-    def validate_fields_unchanged(before, after):
-        # validate items cpv group
-        cpv_group_lists = {i["classification"]["id"][:3] for i in before.get("items")}
-        for item in after.get("items", ""):
-            cpv_group_lists.add(item["classification"]["id"][:3])
-        if len(cpv_group_lists) != 1:
+    def default_procurement_method(data):
+        config = get_tender_config()
+        if config["hasPreSelectionAgreement"] is True:
+            return PROCUREMENT_METHOD_SELECTIVE
+        if data["procurementMethodType"] in SELECTIVE_PROCUREMENT_METHOD_TYPES:
+            return PROCUREMENT_METHOD_SELECTIVE
+        if data["procurementMethodType"] in LIMITED_PROCUREMENT_METHOD_TYPES:
+            return PROCUREMENT_METHOD_LIMITED
+        return PROCUREMENT_METHOD_OPEN
+
+    def validate_procurement_method(self, data, before=None):
+        default_procurement_method = self.default_procurement_method(data)
+        if before is None and data.get("procurementMethod") is None:
+            # default on post only
+            data["procurementMethod"] = default_procurement_method
+        if data.get("procurementMethod") != default_procurement_method:
+            raise_operation_error(
+                self.request,
+                "procurementMethod should be {}".format(default_procurement_method),
+                status=422,
+                location="body",
+                name="procurementMethod",
+            )
+
+    @classmethod
+    def get_items_classification_prefix_length(cls, tender):
+        if any(i.get("classification")['id'][:3] == "336" for i in tender.get("items", "")):
+            # medicine
+            return 3
+        else:
+            return cls.items_classification_prefix_length_default
+
+    @staticmethod
+    def get_items_classification_prefix_name(length):
+        LENGTH_TO_NAME = {
+            3: "group",
+            4: "class",
+            5: "category",
+            6: "subcategory",
+        }
+        return LENGTH_TO_NAME[length]
+
+    def validate_items_classification_prefix(self, tender):
+        if not self.items_classification_prefix_length_default:
+            return
+
+        classification_prefix_list = set()
+        classification_prefix_length = self.get_items_classification_prefix_length(tender)
+        classification_prefix_name = self.get_items_classification_prefix_name(classification_prefix_length)
+        error_message = f"CPV {classification_prefix_name} of items should be identical"
+
+        for item in tender.get("items", ""):
+            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
+
+        if self.should_validate_pre_selection_agreement:
+            agreement = self.get_agreement(tender)
+            if agreement:
+                classification_prefix_list.add(agreement["classification"]["id"][:classification_prefix_length])
+                error_message = f"CPV {classification_prefix_name} of items should be identical to agreement"
+
+        if len(classification_prefix_list) != 1:
             raise_operation_error(
                 get_request(),
-                "Can't change classification",
-                name="item"
+                [error_message],
+                status=422,
+                name="items"
+            )
+
+    @classmethod
+    def validate_items_classification_prefix_unchanged(cls, before, after):
+        classification_prefix_list = set()
+        classification_prefix_length = 3  # group
+        for item in before.get("items", ""):
+            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
+        for item in after.get("items", ""):
+            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
+        if len(classification_prefix_list) != 1:
+            name = cls.get_items_classification_prefix_name(classification_prefix_length)
+            raise_operation_error(
+                get_request(),
+                [f"Can't change classification {name} of items"],
+                status=422,
+                name="items"
             )
 
     def validate_tender_period_extension(self, tender):
@@ -389,6 +560,38 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                         "working days" if self.tendering_period_extra_working_days else "days",
                     )
                 )
+
+    @staticmethod
+    def calculate_item_identification_tuple(item):
+        result = (
+            item["id"],
+            item["classification"]["id"],
+            item["classification"]["scheme"],
+            item["unit"]["code"] if item.get("unit") else None,
+            tuple((c["id"], c["scheme"]) for c in item.get("additionalClassifications", ""))
+        )
+        return result
+
+    @classmethod
+    def is_agreement_not_active(cls, agreement):
+        return agreement.get("status") != "active"
+
+    @classmethod
+    def has_insufficient_active_contracts(cls, agreement):
+        active_contracts_count = sum(
+            c["status"] == "active"
+            for c in agreement.get("contracts", "")
+        )
+        return active_contracts_count < cls.agreement_min_active_contracts
+
+    @classmethod
+    def has_mismatched_procuring_entities(cls, tender, agreement):
+        agreement_identifier = agreement["procuringEntity"]["identifier"]
+        tender_identifier = tender["procuringEntity"]["identifier"]
+        return (
+            tender_identifier["id"] != agreement_identifier["id"]
+            or tender_identifier["scheme"] != agreement_identifier["scheme"]
+        )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

@@ -33,6 +33,7 @@ from tests.base.data import (
     test_docs_bid_document,
     test_docs_bid_document2,
 )
+from tests.test_tender_config import TenderConfigCSVMixin
 
 bid = deepcopy(test_docs_lot_bid)
 bid2 = deepcopy(test_docs_lot_bid2)
@@ -48,9 +49,10 @@ bid2.update(test_docs_qualified)
 bid3.update(test_docs_qualified)
 
 TARGET_DIR = 'docs/source/tendering/cfaua/tutorial/'
+TARGET_CSV_DIR = 'docs/source/tendering/cfaua/csv/'
 
 
-class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
+class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -67,24 +69,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tearDownMock()
         super(TenderResourceTest, self).tearDown()
 
+    def test_docs_config_csv(self):
+        self.write_config_pmt_csv(
+            pmt="closeFrameworkAgreementUA",
+            file_path=TARGET_CSV_DIR + "config.csv",
+        )
+
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
 
-        # Exploring basic rules
-
-        with open(TARGET_DIR + 'tender-listing.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
-
-        with open(TARGET_DIR + 'tender-post-attempt.http', 'w') as self.app.file_obj:
-            response = self.app.post(request_path, 'data', status=422)
-
-        with open(TARGET_DIR + 'tender-post-attempt-json.http', 'w') as self.app.file_obj:
-            self.app.authorization = ('Basic', ('broker', ''))
-            response = self.app.post(request_path, 'data', content_type='application/json', status=422)
-            self.assertEqual(response.status, '422 Unprocessable Entity')
+        self.app.authorization = ('Basic', ('broker', ''))
 
         # Creating tender
 

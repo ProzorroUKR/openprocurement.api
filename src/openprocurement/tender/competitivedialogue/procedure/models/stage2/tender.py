@@ -9,7 +9,6 @@ from openprocurement.api.context import (
 from openprocurement.tender.core.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import (
-    validate_cpv_group,
     validate_items_uniq,
 )
 from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
@@ -51,7 +50,6 @@ class BotPatchTender(Model):  # TODO: move to a distinct endpoint
 # === EU
 class PostEUTender(BasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], default=STAGE_2_EU_TYPE)
-    procurementMethod = StringType(choices=["selective"], default="selective")
 
     owner = StringType(required=True)
     tenderID = StringType()  # in tests it's not passed
@@ -63,7 +61,7 @@ class PostEUTender(BasePostTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
@@ -93,12 +91,11 @@ class PostEUTender(BasePostTender):
 
 class PatchEUTender(BasePatchTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE])
-    procurementMethod = StringType(choices=["selective"])
 
     items = ListType(
         ModelType(EUItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     status = StringType(choices=[
@@ -110,7 +107,6 @@ class PatchEUTender(BasePatchTender):
 
 class EUTender(BaseTender):
     procurementMethodType = StringType(choices=[STAGE_2_EU_TYPE], required=True)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
 
     dialogue_token = StringType(required=True)
     dialogueID = StringType()
@@ -119,7 +115,7 @@ class EUTender(BaseTender):
         ModelType(EUItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     shortlistedFirms = ListType(ModelType(Firms, required=True), min_size=3, required=True)
@@ -170,7 +166,6 @@ def get_tendering_end():
 
 class PostUATender(UABasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     owner = StringType(required=True)
@@ -183,7 +178,7 @@ class PostUATender(UABasePostTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     tenderPeriod = ModelType(Period)
@@ -220,13 +215,12 @@ class PostUATender(UABasePostTender):
 
 class PatchUATender(UABasePatchTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE])
-    procurementMethod = StringType(choices=["selective"])
     procuringEntity = ModelType(UAProcuringEntity)
 
     items = ListType(
         ModelType(UAItem, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     status = StringType(choices=[
@@ -238,7 +232,6 @@ class PatchUATender(UABasePatchTender):
 
 class UATender(UABaseTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], required=True)
-    procurementMethod = StringType(choices=["selective"], default="selective", required=True)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
 
     dialogue_token = StringType(required=True)
@@ -265,7 +258,7 @@ class UATender(UABaseTender):
         ModelType(UAItem, required=True),
         required=True,
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq],
+        validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 

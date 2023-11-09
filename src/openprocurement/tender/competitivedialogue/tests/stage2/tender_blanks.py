@@ -847,9 +847,7 @@ def invalid_procurementMethod(self):
         [{
             "location": "body",
             "name": "procurementMethod",
-            "description": [
-                "Value must be one of ['selective']."
-            ]
+            "description": "procurementMethod should be selective"
         }]
     )
 
@@ -862,9 +860,7 @@ def invalid_procurementMethod(self):
         [{
             "location": "body",
             "name": "procurementMethod",
-            "description": [
-                "Value must be one of ['selective']."
-            ]
+            "description": "procurementMethod should be selective"
         }]
     )
 

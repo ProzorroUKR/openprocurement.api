@@ -1,12 +1,21 @@
 .. _tutorial_stage2UA:
 
+Configuration
+-------------
 
-If on first stage you set ``procurementMethodType`` to ``CompetitiveDialogueUA``
-then on second stage you have tender witch similar to Open UA procedure
+The set of possible configuration values:
+
+.. csv-table::
+   :file: csv/config-ua-stage2.csv
+   :header-rows: 1
+
+You can look for more details in :ref:`config` section.
 
 Modifying tender
 ----------------
 
+If on first stage you set ``procurementMethodType`` to ``CompetitiveDialogueUA``
+then on second stage you have tender witch similar to Open UA procedure
 
 You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for ``items``. Another changes will not be saved.
 Let's update tender by supplementing it with all other essential properties:

@@ -257,7 +257,7 @@ def create_tender_invalid_eu(self):
     classification["id"] = "19212310-1"
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -270,7 +270,7 @@ def create_tender_invalid_eu(self):
 
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryDate"]
-    response = self.app.post_json(request_path, {"data": data}, status=422)
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -465,10 +465,15 @@ def patch_tender(self):
                 "items": [item]
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"description": ["Can't change classification group of items"],
+         "location": "body", "name": "items"},
+    )
 
     item = deepcopy(item0)
     item["additionalClassifications"] = [
@@ -986,7 +991,8 @@ def create_tender_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["CPV class of items should be identical"], "location": "body", "name": "items"}],
+        [{"description": ["CPV class of items should be identical"],
+          "location": "body", "name": "items"}],
     )
 
     data = deepcopy(self.initial_data)
@@ -1017,7 +1023,8 @@ def create_tender_invalid_config_ua(self):
                 "hasAuction": False,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
-                "minBidsNumber": 2
+                "minBidsNumber": 2,
+                "hasPreSelectionAgreement": False,
             }
         },
         status=422,
@@ -1036,7 +1043,8 @@ def create_tender_invalid_config_ua(self):
                 "hasAuction": False,
                 "hasValueRestriction": True,
                 "hasAwardingOrder": True,
-                "minBidsNumber": 4
+                "minBidsNumber": 4,
+                "hasPreSelectionAgreement": False,
             }
         },
         status=422,
@@ -1230,11 +1238,15 @@ def patch_tender_1(self):
                 "items": [data]
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't change classification")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"description": ["Can't change classification group of items"],
+         "location": "body", "name": "items"},
+    )
 
     data = deepcopy(item0)
     data["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]

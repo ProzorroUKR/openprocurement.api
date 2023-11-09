@@ -18,5 +18,13 @@ STATUS4ROLE = {
     "tender_owner": ["claim", "pending", "accepted", "satisfied"],
 }
 POST_SUBMIT_TIME = timedelta(days=3)
-ABOVE_THRESHOLD = "aboveThreshold"
 UA_KINDS = ("authority", "central", "defense", "general", "social", "special")
+
+ABOVE_THRESHOLD = "aboveThreshold"
+COMPETITIVE_ORDERING = "competitiveOrdering"
+
+ABOVE_THRESHOLD_GROUP_NAME = "aboveThresholdGroup"
+ABOVE_THRESHOLD_GROUP = [
+    ABOVE_THRESHOLD,
+    COMPETITIVE_ORDERING,
+]

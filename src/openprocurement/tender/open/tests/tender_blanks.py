@@ -794,11 +794,15 @@ def patch_tender(self):
                 "items": [item]
             }
         },
-        status=403,
+        status=422,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't change classification")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"description": ["Can't change classification group of items"],
+         "location": "body", "name": "items"},
+    )
 
     item = deepcopy(self.initial_data["items"][0])
     item["additionalClassifications"] = [tender["items"][0]["additionalClassifications"][0] for i in range(3)]

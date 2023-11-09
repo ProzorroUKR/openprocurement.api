@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.views.qualification_milestone import 
     resolve_milestone,
 )
 from openprocurement.tender.core.procedure.views.award import resolve_award
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 class BaseAwardMilestoneResource(BaseMilestoneResource):
@@ -32,11 +33,9 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
 
     def set_location(self, tender, milestone):
         parent_obj = self.request.validated[self.context_name]
+        route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
         self.request.response.headers["Location"] = self.request.route_url(
-            "{}:Tender {} Milestones".format(
-                tender["procurementMethodType"],
-                self.context_name.capitalize()
-            ),
+            "{}:Tender {} Milestones".format(route_prefix, self.context_name.capitalize()),
             **{
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],
