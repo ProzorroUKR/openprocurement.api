@@ -1,6 +1,13 @@
 from schematics.types import StringType
 from schematics.validate import ValidationError
 from openprocurement.api.context import get_now
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.validation import validate_milestones
+from openprocurement.tender.core.procedure.models.guarantee import Guarantee
+from openprocurement.tender.core.procedure.models.item import Item, validate_cpv_group, validate_classification_id
+from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
     StartedEnquiryPeriodEndRequired,
@@ -10,11 +17,12 @@ from openprocurement.tender.core.procedure.models.tender import (
     PatchTender as BasePatchTender,
     Tender as BaseTender,
 )
+from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.belowthreshold.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.api.models import ModelType
+from openprocurement.api.models import ListType, Model, ModelType, Value, IsoDateTimeType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from datetime import timedelta
@@ -62,6 +70,38 @@ class PostTender(BasePostTender):
 class PatchTender(BasePatchTender):
     enquiryPeriod = ModelType(EnquiryPeriodEndRequired)
     procuringEntity = ModelType(ProcuringEntity)
+
+
+class TenderPeriodEnd(Model):
+    endDate = IsoDateTimeType(required=True)
+
+    def validate_endDate(self, data, value):
+        tender = get_tender()
+        if tender and value < dt_from_iso(tender["tenderPeriod"]["endDate"]):
+            raise ValidationError("tenderPeriod.endDate couldn't be less than previous endDate")
+
+
+class PatchActiveTender(Model):
+    tenderPeriod = ModelType(TenderPeriodEnd)
+    guarantee = ModelType(Guarantee)
+    value = ModelType(Value)
+    milestones = ListType(
+        ModelType(Milestone, required=True),
+        validators=[validate_items_uniq, validate_milestones],
+    )
+    items = ListType(
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+    )
+    title = StringType()
+    title_en = StringType()
+    title_ru = StringType()
+    documents = ListType(ModelType(PostDocument, required=True))
+    description = StringType()
+    description_en = StringType()
+    description_ru = StringType()
+    mainProcurementCategory = StringType(choices=["goods", "services", "works"])
 
 
 class Tender(BaseTender):

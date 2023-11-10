@@ -1,6 +1,7 @@
 from openprocurement.api.auth import ACCR_1, ACCR_5, ACCR_2
 from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.belowthreshold.procedure.models.tender import PatchActiveTender, PatchTender
+from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.api.utils import raise_operation_error
@@ -55,6 +56,12 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     def validate_tender_period_extension(self, tender):
         pass
+
+    def get_patch_data_model(self):
+        tender = get_tender()
+        if tender.get("status") == "active.tendering":
+            return PatchActiveTender
+        return PatchTender
 
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
