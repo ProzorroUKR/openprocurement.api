@@ -79,14 +79,18 @@ class PostContract(BasePostContract):
 
 
 class PatchContract(BasePatchContract):
-    status = StringType(choices=["pending", "pending.winner-signing",  "terminated", "active", "cancelled"])
+    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
     items = ListType(ModelType(Item, required=True), min_size=1)
+    terminationDetails = StringType()
+    amountPaid = ModelType(AmountPaid)
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
 
 
-class PatchContractPending(PatchContract):
+class PatchContractPending(BasePatchContract):
+    status = StringType(choices=["pending", "terminated", "active", "cancelled"])
+    items = ListType(ModelType(Item, required=True), min_size=1)
     dateSigned = IsoDateTimeType()
     contractNumber = StringType()
 
