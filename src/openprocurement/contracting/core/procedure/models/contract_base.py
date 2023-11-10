@@ -131,13 +131,11 @@ class BasePatchContract(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    terminationDetails = StringType()
     implementation = ModelType(Implementation)
     status = StringType(choices=["terminated", "active"])
     period = ModelType(Period)
     value = ModelType(ContractValue)
     items = ListType(ModelType(Item, required=True), min_size=1)
-    amountPaid = ModelType(AmountPaid)
 
 
 class BaseContract(CommonBaseContract):

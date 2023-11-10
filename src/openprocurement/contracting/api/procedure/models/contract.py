@@ -6,6 +6,7 @@ from openprocurement.api.models import Model, ListType, IsoDateTimeType
 from openprocurement.contracting.core.procedure.models.contract_base import (
     ProcuringEntity,
     BusinessOrganization,
+    AmountPaid,
     BaseContract,
     BasePatchContract,
     BasePostContract,
@@ -21,7 +22,8 @@ class PostContract(BasePostContract):
 
 
 class PatchContract(BasePatchContract):
-    pass
+    terminationDetails = StringType()
+    amountPaid = ModelType(AmountPaid)
 
 
 class AdministratorPatchContract(Model):
