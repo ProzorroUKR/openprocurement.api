@@ -16,6 +16,12 @@ class AwardClaimStateMixin(ClaimStateMixin):
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     patch_as_complaint_owner_tender_statuses = ("active.qualification", "active.awarded")
 
+    def claim_on_post(self, complaint):
+        request = self.request
+        if lot_id := request.validated["award"].get("lotID"):
+            complaint["relatedLot"] = lot_id
+        super().claim_on_post(complaint)
+
     def validate_tender_in_complaint_period(self, tender):
         award = get_award()
         period = award.get("complaintPeriod")

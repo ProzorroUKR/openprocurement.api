@@ -19,6 +19,12 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint
 
+    def complaint_on_post(self, complaint):
+        request = self.request
+        if lot_id := request.validated["award"].get("lotID"):
+            complaint["relatedLot"] = lot_id
+        super().complaint_on_post(complaint)
+
     def validate_complaint_on_post(self, complaint):
         super().validate_complaint_on_post(complaint)
         self.validate_submission_allowed()
