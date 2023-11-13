@@ -13,5 +13,8 @@ class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState)
     )
     patch_as_complaint_owner_tender_statuses = ("active.enquiries", "active.tendering",)
 
+    def validate_submit_claim(self, claim):
+        pass
+
     def validate_satisfied(self, satisfied):
         return isinstance(satisfied, bool)
