@@ -20,16 +20,7 @@ Schema
     string, required
 
     Type of requested remedy.
-    Possible values are:
-
-    * `set_aside`
-    * `change_tender_documentation`
-    * `provide_clarification`
-    * `tender_cancellation`
-    * `set_aside_reject`
-    * `set_aside_qualification`
-    * `set_aside_award`
-    * `set_aside_others`
+    Should be from `requested remedies type <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_ dictionary.
 
 :description:
     string, required

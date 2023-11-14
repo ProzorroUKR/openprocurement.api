@@ -1,23 +1,17 @@
-from enum import Enum
 from uuid import uuid4
 
+from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type
 
+from openprocurement.api.constants import REQUESTED_REMEDIES_TYPES
 from openprocurement.api.models import Model
-
-
-class RequestedRemedyType(Enum):
-    set_aside = "setAside"
-    change_tender_documentation = "changeTenderDocumentation"
-    provide_clarification = "provideClarification"
-    tender_cancellation = "tenderCancellation"
-    set_aside_reject = "setAsideReject"
-    set_aside_qualification = "setAsideQualification"
-    set_aside_award = "setAsideAward"
-    set_aside_others = "setAsideOthers"
 
 
 class RequestedRemedy(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    type = StringType(choices=[choice.value for choice in RequestedRemedyType], required=True)
+    type = StringType(required=True)
     description = StringType(required=True)
+
+    def validate_type(self, data, value):
+        if value not in REQUESTED_REMEDIES_TYPES:
+            raise ValidationError(f"Value must be one of {REQUESTED_REMEDIES_TYPES}")

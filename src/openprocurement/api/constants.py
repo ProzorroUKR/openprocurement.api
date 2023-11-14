@@ -72,6 +72,7 @@ ARTICLE_16 = set(criterion["classification"]["id"] for criterion in standards.lo
 ARTICLE_17 = set(criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json"))
 OTHER_CRITERIA = set(criterion["classification"]["id"] for criterion in standards.load("criteria/other.json"))
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
+REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДКПП", "NONE", "ДК003", "ДК015", "ДК018"]
 ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = ["ДК003", "ДК015", "ДК018", "specialNorms"]
