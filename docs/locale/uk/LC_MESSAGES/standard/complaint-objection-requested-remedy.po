@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-25 13:05+0200\n"
+"POT-Creation-Date: 2023-11-14 11:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -40,36 +40,11 @@ msgstr ""
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
-msgid "Type of requested remedy. Possible values are:"
-msgstr "Тип вимоги. Можливі значення:"
-
-msgid "`set_aside`"
-msgstr ""
-
-msgid "`change_tender_documentation`"
-msgstr ""
-
-msgid "`provide_clarification`"
-msgstr ""
-
-msgid "`tender_cancellation`"
-msgstr ""
-
-msgid "`set_aside_reject`"
-msgstr ""
-
-msgid "`set_aside_qualification`"
-msgstr ""
-
-msgid "`set_aside_award`"
-msgstr ""
-
-msgid "`set_aside_others`"
-msgstr ""
+msgid "Type of requested remedy. Should be from `requested remedies type <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_ dictionary."
+msgstr "Тип вимоги. Має бути одне зі значень з довідника `типи вимог <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_."
 
 msgid "description"
 msgstr ""
 
 msgid "Description of the requested remedy"
 msgstr "Опис вимоги"
-

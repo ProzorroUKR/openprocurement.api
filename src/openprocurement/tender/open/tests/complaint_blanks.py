@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
@@ -1169,8 +1169,7 @@ def create_complaint_objection_validation(self):
         response.json["errors"][0]["description"][0]["requestedRemedies"],
         [{
             "type": [
-                "Value must be one of ['setAside', 'changeTenderDocumentation', 'provideClarification', "
-                "'tenderCancellation', 'setAsideReject', 'setAsideQualification', 'setAsideAward', 'setAsideOthers']."
+                f"Value must be one of {REQUESTED_REMEDIES_TYPES}"
             ]
         }],
     )
@@ -1211,7 +1210,6 @@ def create_complaint_objection_validation(self):
         response.json["errors"][0]["description"][0]["classification"]["id"],
         ["Value must be one of article_16 reasons"],
     )
-
 
 
 
