@@ -564,6 +564,8 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "milestones",
     ]
+    if "lots" in self.initial_data:
+        fields.append("lots")
     if "procurementMethodDetails" in self.initial_data:
         fields.append("procurementMethodDetails")
     if "negotiation" == self.initial_data["procurementMethodType"]:
@@ -830,11 +832,16 @@ def patch_tender(self):
 
     # The following operations are performed for a proper transition to the "Complete" tender status
 
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}
+    }
+    if tender.get("lots"):
+        award_data["lotID"] = tender["lots"][0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"suppliers": [test_tender_below_organization],
-                  "status": "pending",
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
+        {"data": award_data},
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -953,9 +960,8 @@ def changing_tender_after_award(self):
 
 def initial_lot_date(self):
     # create tender were initial data has lots
-    lots = deepcopy(self.test_lots_data) * 2
     data = deepcopy(self.initial_data)
-    data["lots"] = lots
+    data["lots"] = [self.initial_lots[0], self.test_lots_data[0]]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1061,6 +1067,7 @@ def single_award_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    tender_lots = response.json["data"].get("lots")
     self.set_initial_status(response.json)
 
     # get awards
@@ -1068,15 +1075,22 @@ def single_award_tender(self):
     self.assertEqual(response.json["data"], [])
 
     # create award
+    award_data = dict()
+    if tender_lots:
+        award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
         {"data": {"suppliers": [test_tender_below_organization], "value": {"amount": 500}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1122,9 +1136,14 @@ def single_award_tender(self):
     self.set_initial_status(response.json)
 
     # create award
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1181,6 +1200,7 @@ def multiple_awards_tender(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
+    tender_lots = response.json["data"].get("lots")
     self.set_initial_status(response.json)
 
     # get awards
@@ -1188,6 +1208,9 @@ def multiple_awards_tender(self):
     self.assertEqual(response.json["data"], [])
 
     # create award
+    award_data = dict()
+    if tender_lots:
+        award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(tender_id),
         {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
@@ -1195,9 +1218,14 @@ def multiple_awards_tender(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
 
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     award = response.json["data"]
@@ -1208,14 +1236,16 @@ def multiple_awards_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 501}})
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 501}}},
+        {"data": award_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't create new award while any (active) award exists"
+        response.json["errors"][0]["description"],
+        f"Can't create new award{' on lot' if tender_lots else ''} while any (active) award exists"
     )
 
     response = self.app.patch_json(
@@ -1223,9 +1253,14 @@ def multiple_awards_tender(self):
         {"data": {"status": "cancelled"}},
     )
 
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 505}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 505}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1301,9 +1336,17 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create award
+    award_data = dict()
+    if tender.get("lots"):
+        award_data["lotID"] = tender["lots"][0]["id"]
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
 
@@ -1338,9 +1381,14 @@ def tender_cancellation(self):
     self.set_initial_status(response.json)
 
     # create award
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     # get awards
@@ -1395,9 +1443,14 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create award
+    award_data.update({
+        "suppliers": [test_tender_below_organization],
+        "qualified": True,
+        "value": {"amount": 500}
+    })
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, owner_token),
-        {"data": {"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     # get awards

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 import time
+from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now, parse_date
@@ -12,6 +13,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_cancellation,
 )
+from openprocurement.tender.limited.tests.base import test_lots
 
 
 # TenderContractResourceTest
@@ -60,6 +62,22 @@ def create_tender_contract(self):
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
+    if self.initial_data["procurementMethodType"] in ("negotiation", "negotiation.quick"):
+        # create lot
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+        )
+
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        lot1 = response.json["data"]
+
+        items = deepcopy(self.initial_data["items"])
+        items[0]["relatedLot"] = lot1["id"]
+        self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"items": items}},
+        )
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_token),
@@ -434,12 +452,32 @@ def patch_tender_negotiation_contract(self):
     old_tender_token = self.tender_token
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
-    self.set_initial_status(response.json)
+    tender_response = response.json
+    # create lot
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot1 = response.json["data"]
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot1["id"]
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": items}},
+    )
+    self.set_initial_status(tender_response)
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
+        {"data": {
+            "lotID": lot1["id"],
+            "suppliers": [test_tender_below_organization],
+            "status": "pending",
+            "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+        }},
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -867,7 +905,21 @@ def create_two_contract(self):
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
+    # create lot
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_lots[0]}
+    )
 
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot1 = response.json["data"]
+
+    items = deepcopy(self.initial_data["items"])
+    items[0]["relatedLot"] = lot1["id"]
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": items}},
+    )
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_token),

@@ -1469,6 +1469,9 @@ def lcc_criterion_valid(self):
 
     # post lcc criteria 1 item
     lcc_criteria = deepcopy(test_lcc_tender_criteria)
+    for criterion in lcc_criteria:
+        criterion["relatesTo"] = "lot"
+        criterion["relatedItem"] = tender["lots"][0]["id"]
     criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(criteria_request_path, {"data": [lcc_criteria[0]]}, status=201)
 
@@ -1562,6 +1565,8 @@ def lcc_criterion_invalid(self):
     data = dict(**self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
+    data.pop("lots", None)
+    data["items"][0].pop("relatedLot", None)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]

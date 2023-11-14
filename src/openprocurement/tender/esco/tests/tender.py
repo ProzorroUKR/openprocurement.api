@@ -68,6 +68,7 @@ class TenderESCOTest(BaseESCOWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_esco_data
     test_bids_data = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
 
     test_tender_value = snitch(tender_value)
     test_tender_min_value = snitch(tender_min_value)
@@ -86,8 +87,8 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
     initial_data = test_tender_esco_data
     # for passing test from TenderUAResourceTestMixin
     initial_data["minValue"] = {"amount": 0}
-    test_lots_data = test_tender_esco_lots
-    test_bids_data = test_tender_esco_bids
+    initial_lots = test_lots_data = test_tender_esco_lots
+    initial_bids = test_bids_data = test_tender_esco_bids
     tender_period_duration = TENDERING_DAYS
 
     test_tender_fields = snitch(tender_fields)
@@ -115,7 +116,8 @@ class TestTenderEUProcess(BaseESCOContentWebTest):
     docservice = True
     initialize_initial_data = False
     initial_data = test_tender_esco_data
-    test_bids_data = test_tender_esco_bids
+    initial_bids = test_bids_data = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)

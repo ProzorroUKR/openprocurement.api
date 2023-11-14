@@ -112,6 +112,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin(object):
 class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_openua_bids
+    initial_lots = test_tender_below_lots
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)

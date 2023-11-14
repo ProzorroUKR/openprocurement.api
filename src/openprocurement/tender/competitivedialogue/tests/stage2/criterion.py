@@ -23,7 +23,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks im
 
 class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_data = test_tender_cdeu_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
     test_activate_tender = snitch(activate_tender)
@@ -38,7 +38,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_data = test_tender_cdua_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
     test_activate_tender = snitch(activate_tender)
@@ -53,12 +53,12 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_data = test_tender_cdeu_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 class TenderCDUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_data = test_tender_cdua_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 class TenderCDEUCriteriaRGRequirementTest(
@@ -66,7 +66,7 @@ class TenderCDEUCriteriaRGRequirementTest(
     BaseCompetitiveDialogEUStage2ContentWebTest
 ):
     initial_data = test_tender_cdeu_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 class TenderCDUACriteriaRGRequirementTest(
@@ -74,7 +74,7 @@ class TenderCDUACriteriaRGRequirementTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
 ):
     initial_data = test_tender_cdua_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 class TenderCDEUCriteriaRGRequirementEvidenceTest(
@@ -82,7 +82,7 @@ class TenderCDEUCriteriaRGRequirementEvidenceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest,
 ):
     initial_data = test_tender_cdeu_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 class TenderCDUACriteriaRGRequirementEvidenceTest(
@@ -90,7 +90,7 @@ class TenderCDUACriteriaRGRequirementEvidenceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
 ):
     initial_data = test_tender_cdua_stage2_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
 
 def suite():

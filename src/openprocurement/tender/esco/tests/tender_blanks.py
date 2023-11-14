@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import CPV_ITEMS_CLASS_FROM, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM
 from openprocurement.api.utils import get_now, parse_date
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria, generate_responses
 
@@ -127,6 +128,8 @@ def tender_yearlyPaymentsPercentageRange_invalid(self):
 
 def tender_yearlyPaymentsPercentageRange(self):
     data = deepcopy(self.initial_data)
+    data.pop("lots", None)
+    data["items"][0].pop("relatedLot", None)
     del data["yearlyPaymentsPercentageRange"]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1072,7 +1075,8 @@ def patch_tender(self):
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"minimalStepPercentage": 0.02516}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["minimalStepPercentage"], 0.02516)
+    # ignore patch because if tender has lots then minimalStepPercentage equals minimum of lots minimalStepPercentage
+    self.assertEqual(response.json["data"]["minimalStepPercentage"], 0.02514)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"fundingKind": "budget"}}
@@ -1160,6 +1164,7 @@ def tender_with_nbu_discount_rate(self):
             "fundingKind",
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
+            "lots",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1317,7 +1322,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Sum of max value of all features should be less then or equal to 25%"],
+                "description": ["Sum of max value of all features for lot should be less then or equal to 25%"],
                 "location": "body",
                 "name": "features",
             }
@@ -1437,6 +1442,7 @@ def invalid_bid_tender_features(self):
         ],
     )
 
+    set_bid_lotvalues(bid_data, tender["lots"])
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
 
@@ -1536,6 +1542,7 @@ def create_tender_generated(self):
             "fundingKind",
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
+            "lots",
         }
     )
     self.assertNotEqual(data["id"], tender["id"])

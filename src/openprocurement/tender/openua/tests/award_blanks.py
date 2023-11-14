@@ -30,9 +30,16 @@ def create_tender_award(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
 
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "bid_id": self.initial_bids[0]["id"],
+    }
+    if getattr(self, "initial_lots"):
+        award_data["lotID"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -74,16 +81,17 @@ def create_tender_award(self):
 def patch_tender_award(self):
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("token", ""))
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "bid_id": self.initial_bids[0]["id"],
+        "value": {"amount": 500},
+    }
+    if getattr(self, "initial_lots"):
+        award_data["lotID"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {
-            "data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "bid_id": self.initial_bids[0]["id"],
-                "value": {"amount": 500},
-            }
-        },
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -222,6 +230,7 @@ def patch_tender_award_active(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )
@@ -333,6 +342,7 @@ def patch_tender_award_unsuccessful(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )
@@ -451,6 +461,7 @@ def last_award_unsuccessful_next_check(self):
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {"amount": 500},
+                    "lotID": self.initial_lots[0]["id"],
                 }
             },
         )
@@ -2482,6 +2493,7 @@ def tender_award_complaint_period(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )

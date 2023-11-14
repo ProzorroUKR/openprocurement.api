@@ -1316,6 +1316,7 @@ def create_tender_generated(self):
         "owner",
         "mainProcurementCategory",
         "milestones",
+        "lots",
     ]
     if "procurementMethodDetails" in tender:
         fields.append("procurementMethodDetails")
@@ -1448,7 +1449,7 @@ def patch_tender_active_tendering(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500)
-    self.assertEqual(response.json["data"]["value"]["amount"], 1000.0)
+    self.assertEqual(response.json["data"]["value"]["amount"], 500)  # as in lot
     self.assertEqual(response.json["data"]["title"], "New title")
     self.assertEqual(response.json["data"]["description"], "New description")
     self.assertEqual(len(response.json["data"]["documents"]), 1)
@@ -1550,8 +1551,11 @@ def patch_tender_active_tendering(self):
     # check bid invalidation
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500},
-                  "lotValues": None, "parameters": None, "documents": None, "subcontractingDetails": "test"}},
+        {"data": {
+            "tenderers": [test_tender_below_organization],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
+            "subcontractingDetails": "test"
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     bid = response.json["data"]
@@ -2190,6 +2194,8 @@ def patch_tender(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     owner_token = response.json["access"]["token"]
+    print(response.json)
+    print(self.initial_data)
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
     dateModified = tender.pop("dateModified")
@@ -3195,18 +3201,41 @@ def tender_token_invalid(self):
 def tender_minimalstep_validation(self):
     data = deepcopy(self.initial_data)
     data["minimalStep"]["amount"] = 35
+    del data["lots"]
     # invalid minimalStep validated on tender level
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"],
-        [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
-          "location": "body", "name": "minimalStep"}],
+        response.json["errors"][0],
+        {
+            "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+            "location": "body",
+            "name": "minimalStep",
+        },
     )
     with mock.patch("openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM",
                     get_now() + timedelta(days=1)):
+        data["lots"] = self.initial_lots
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
         self.assertEqual(response.status, "201 Created")
+
+
+def tender_item_related_lot_validation(self):
+    data = deepcopy(self.initial_data)
+    data["minimalStep"]["amount"] = 10
+    del data["lots"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "description": [{
+                "relatedLot": ["relatedLot should be one of lots"]
+            }],
+            "location": "body",
+            "name": "items",
+        },
+    )
 
 
 def tender_lot_minimalstep_validation(self):
@@ -3436,53 +3465,6 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.json["data"]["items"][1]["description"], "телевізори")
     self.assertEqual(response.json["data"]["items"][2]["description"], "ноутбуки")
     self.assertEqual(len(response.json["data"]["items"]), 3)
-
-
-def tender_with_guarantee(self):
-    data = deepcopy(self.initial_data)
-    data["status"] = "draft"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.tender_id = response.json["data"]["id"]
-    self.tender_token = response.json["access"]["token"]
-    self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_exclusion_criteria + test_language_criteria},
-        status=201
-    )
-
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"guarantee": {"amount": 0, "currency": "UAH"}}},
-        status=200)
-
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"guarantee": {"amount": 1, "currency": "UAH"}}},
-        status=200)
-
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
-        status=403)
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Should be specified CRITERION.OTHER.BID.GUARANTEE and 'guarantee.amount' more than 0"
-            }
-        ]
-    )
-
-    self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_tender_guarantee_criteria},
-        status=201
-    )
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}},
-        status=200)
 
 
 def tender_with_guarantee_multilot(self):

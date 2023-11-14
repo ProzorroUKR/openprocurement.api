@@ -72,7 +72,7 @@ class TenderLotProcessTestMixin(object):
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     docservice = True
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
     test_get_tender_lots = snitch(get_tender_lots)

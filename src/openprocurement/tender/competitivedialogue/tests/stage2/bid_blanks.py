@@ -8,12 +8,14 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     now,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 
 def create_tender_bidder_firm(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
+    set_bid_lotvalues(bid_data, self.initial_lots)
     bid_data["tenderers"] = [test_tender_below_organization]
     response = self.app.post_json(
         request_path,
@@ -30,7 +32,7 @@ def create_tender_bidder_firm(self):
 
 def delete_tender_bidder_eu(self):
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
@@ -39,7 +41,7 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.json["data"]["id"], bid["id"])
     self.assertEqual(response.json["data"]["status"], "deleted")
     # deleted bid does not contain bid information
-    self.assertFalse("value" in response.json["data"])
+    self.assertFalse("lotValues" in response.json["data"])
     self.assertFalse("tenderers" in response.json["data"])
     self.assertFalse("date" in response.json["data"])
 
@@ -89,10 +91,10 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.json["data"]["id"], bid["id"])
     self.assertEqual(response.json["data"]["status"], "deleted")
 
-    bid_data["value"] = {"amount": 100}
+    bid_data["lotValues"][0]["value"] = {"amount": 100}
     self.create_bid(self.tender_id, bid_data)
 
-    bid_data["value"] = {"amount": 101}
+    bid_data["lotValues"][0]["value"] = {"amount": 101}
     self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
@@ -128,7 +130,8 @@ def delete_tender_bidder_eu(self):
     auction_bids_data = response.json["data"]["bids"]
     for b in auction_bids_data:
         b.pop("status", None)
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
+                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -232,17 +235,17 @@ def bids_invalidation_on_tender_change_eu(self):
     # submit one more bid. check for invalid value first
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    test_bid["value"] = {"amount": 3000}
+    test_bid["lotValues"][0]["value"] = {"amount": 3000}
 
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    data["value"]["amount"] = 299
+    data["lotValues"][0]["value"]["amount"] = 299
     bid, valid_bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
-    test_bid["value"] = {"amount": 101}
+    test_bid["lotValues"][0]["value"] = {"amount": 101}
 
     self.create_bid(self.tender_id, test_bid)
 
@@ -280,7 +283,12 @@ def bids_invalidation_on_tender_change_eu(self):
     auction_bids_data = response.json["data"]["bids"]
     for b in auction_bids_data:
         b.pop("status", None)
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+            for b in auction_bids_data]}}
+    )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -291,7 +299,7 @@ def bids_invalidation_on_tender_change_eu(self):
     for bid in response.json["data"]["bids"]:
         if bid["status"] == "invalid":
             self.assertTrue("id" in bid)
-            self.assertFalse("value" in bid)
+            self.assertFalse("lotValues" in bid)
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
 
@@ -301,7 +309,7 @@ def bids_invalidation_on_tender_change_eu(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "invalid")
         # invalidated bids displays only 'id' and 'status' fields
-        self.assertFalse("value" in response.json["data"])
+        self.assertFalse("lotValues" in response.json["data"])
         self.assertFalse("tenderers" in response.json["data"])
         self.assertFalse("date" in response.json["data"])
 
@@ -310,7 +318,7 @@ def bids_invalidation_on_tender_change_eu(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
     # and displays all his data
-    self.assertTrue("value" in response.json["data"])
+    self.assertTrue("lotValues" in response.json["data"])
     self.assertTrue("tenderers" in response.json["data"])
     self.assertTrue("date" in response.json["data"])
 
@@ -322,12 +330,12 @@ def bids_invalidation_on_tender_change_eu(self):
     for bid in response.json["data"]["bids"]:
         if bid["id"] in bids_access:  # previously invalidated bids
             self.assertEqual(bid["status"], "invalid")
-            self.assertFalse("value" in bid)
+            self.assertFalse("lotValues" in bid)
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
         else:  # valid bid
             self.assertEqual(bid["status"], "active")
-            self.assertTrue("value" in bid)
+            self.assertTrue("lotValues" in bid)
             self.assertTrue("tenderers" in bid)
             self.assertTrue("date" in bid)
 
@@ -348,6 +356,7 @@ def ukrainian_author_id(self):
     }
     self.create_tender(initial_data=data)
 
+    set_bid_lotvalues(bid_data, self.initial_lots)
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["tenderers"][0]["name"], self.test_bids_data[0]["tenderers"][0]["name"])
     self.assertIn("id", bid)
@@ -399,10 +408,14 @@ def features_bidder_eu(self):
     test_features_bids[1]["status"] = "pending"
 
     for i in test_features_bids:
+        set_bid_lotvalues(i, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, i)
         i["status"] = "pending"
+        i["lotValues"][0]["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid["lotValues"][0].pop("date")
+        bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         self.assertEqual(bid, i)
 
 
@@ -412,6 +425,7 @@ def features_bidder_eu(self):
 def create_tender_bidder_document_nopending_eu(self):
     test_bid = deepcopy(self.test_bids_data[0])
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
+    set_bid_lotvalues(test_bid, self.initial_lots)
     bid, token = self.create_bid(self.tender_id, test_bid)
     bid_id = bid["id"]
 
@@ -461,7 +475,12 @@ def create_tender_bidder_document_nopending_eu(self):
     auction_bids_data = response.json["data"]["bids"]
     for b in auction_bids_data:
         b.pop("status", None)
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {"bids": auction_bids_data}})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
+        {"data": {"bids": [
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+            for b in auction_bids_data]}}
+    )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -662,7 +681,8 @@ def create_tender_biddder_invalid_ua(self):
     )
 
     bid_data = deepcopy(self.test_bids_data[0])
-    del bid_data["value"]
+    set_bid_lotvalues(bid_data, self.initial_lots)
+    del bid_data["lotValues"][0]["value"]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -673,10 +693,10 @@ def create_tender_biddder_invalid_ua(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "value"}],
+        [{"description": [{"value": ["This field is required."]}], "location": "body", "name": "lotValues"}],
     )
 
-    bid_data["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
+    bid_data["lotValues"][0]["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -690,15 +710,17 @@ def create_tender_biddder_invalid_ua(self):
         [
             {
                 "description": [
-                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
+                    {"value": [
+                        "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of lot"
+                    ]}
                 ],
                 "location": "body",
-                "name": "value",
+                "name": "lotValues",
             }
         ],
     )
 
-    bid_data["value"] = {"amount": 500, "currency": "USD"}
+    bid_data["lotValues"][0]["value"] = {"amount": 500, "currency": "USD"}
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -711,14 +733,14 @@ def create_tender_biddder_invalid_ua(self):
         response.json["errors"],
         [
             {
-                "description": ["currency of bid should be identical to currency of value of tender"],
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
                 "location": "body",
-                "name": "value",
+                "name": "lotValues",
             }
         ],
     )
 
-    bid_data["value"] = {"amount": 500}
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
     bid_data["tenderers"] = self.test_bids_data[0]["tenderers"][0]
     response = self.app.post_json(
         request_path,
@@ -747,6 +769,7 @@ def create_tender_biddder_invalid_ua(self):
 def create_tender_bidder_ua(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
+    set_bid_lotvalues(bid_data, self.initial_lots)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -793,8 +816,9 @@ def bids_invalidation_on_tender_change_ua(self):
     bids_access = {}
 
     # submit bids
-    for data in self.test_bids_data[:2]:
+    for data in deepcopy(self.test_bids_data[:2]):
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
+        set_bid_lotvalues(data, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, data)
         bids_access[bid["id"]] = bid_token
 
@@ -824,12 +848,14 @@ def bids_invalidation_on_tender_change_ua(self):
     # check that tender status change does not invalidate bids
     # submit one more bid. check for invalid value first
     test_bid = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(test_bid, self.initial_lots)
     test_bid["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    test_bid["value"]["amount"] = 3000
+    test_bid["lotValues"][0]["value"]["amount"] = 3000
 
     # and submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["value"]["amount"] = 299
+    set_bid_lotvalues(data, self.initial_lots)
     bid, bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
 
@@ -865,7 +891,7 @@ def bids_invalidation_on_tender_change_ua(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
     # and displays all his data
-    self.assertTrue("value" in response.json["data"])
+    self.assertTrue("value" in response.json["data"]["lotValues"][0])
     self.assertTrue("tenderers" in response.json["data"])
     self.assertTrue("date" in response.json["data"])
 
@@ -877,12 +903,12 @@ def bids_invalidation_on_tender_change_ua(self):
     for bid in response.json["data"]["bids"]:
         if bid["id"] in bids_access:  # previously invalidated bids
             self.assertEqual(bid["status"], "invalid")
-            self.assertFalse("value" in bid)
+            self.assertFalse("lotValues" in bid)
             self.assertFalse("tenderers" in bid)
             self.assertFalse("date" in bid)
         else:  # valid bid
             self.assertEqual(bid["status"], "active")
-            self.assertTrue("value" in bid)
+            self.assertTrue("lotValues" in bid)
             self.assertTrue("tenderers" in bid)
             self.assertTrue("date" in bid)
 
@@ -893,6 +919,7 @@ def bids_activation_on_tender_documents_ua(self):
     # submit bids
     for data in deepcopy(self.test_bids_data):
         data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
+        set_bid_lotvalues(data, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, data)
         bids_access[bid["id"]] = bid_token
     # check initial status
@@ -953,10 +980,14 @@ def features_bidder_ua(self):
     test_features_bids[1]["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
     test_features_bids[1]["status"] = "pending"
     for i in test_features_bids:
+        set_bid_lotvalues(i, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, i)
         i["status"] = "pending"
+        i["lotValues"][0]["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
+        bid["lotValues"][0].pop("date")
         self.assertEqual(bid, i)
 
 
@@ -967,6 +998,7 @@ def deleted_bid_is_not_restorable(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["value"] = {"amount": 500}
+    set_bid_lotvalues(bid_data, self.initial_lots)
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1027,13 +1059,14 @@ def features_bidder_invalid(self):
     ]
     self.create_tender(initial_data=tender_data)
     data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(data, self.initial_lots)
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "parameters"}],
+        [{"description": ["All features parameters is required."], "location": "body", "name": "parameters"}],
     )
     data["parameters"] = [{"code": tender_data["features"][0]["code"], "value": 0.05}]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)

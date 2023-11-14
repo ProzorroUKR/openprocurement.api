@@ -648,7 +648,7 @@ def one_valid_bid_tender_ua(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, self.test_bids_data[0])
+    self.create_bid(tender_id, self.initial_bids[0])
 
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
@@ -668,7 +668,7 @@ def one_invalid_bid_tender(self):
     self.set_initial_status(response.json)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, self.test_bids_data[0])
+    self.create_bid(tender_id, self.initial_bids[0])
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()

@@ -38,6 +38,7 @@ class TenderAuctionResourceTest(BaseSimpleDefContentWebTest, TenderAuctionResour
     docservice = True
     initial_status = "active.tendering"
     initial_bids = test_tender_simpledefense_bids
+    initial_lots = test_tender_below_lots
 
     test_status_that_denies_get_post_patch_auction = "active.tendering"
     test_status_that_denies_get_post_patch_auction_document = "active.tendering"
@@ -45,6 +46,7 @@ class TenderAuctionResourceTest(BaseSimpleDefContentWebTest, TenderAuctionResour
 
 class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
     initial_status = "active.auction"
+    initial_lots = test_tender_below_lots
     initial_bids = [
         {
             "tenderers": [test_tender_below_organization],

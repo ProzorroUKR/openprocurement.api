@@ -72,6 +72,7 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCance
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_esco_bids * 2
+    initial_lots = test_tender_esco_lots
     bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]
     doc_id_by_type = {}
     valid_bids = []

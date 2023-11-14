@@ -201,7 +201,8 @@ def create_tender_lot(self):
         del lot["auctionPeriod"]
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertNotIn("guarantee", response.json["data"])
+    tender = response.json["data"]
+    self.assertNotIn("guarantee", tender)
 
     lot2 = deepcopy(self.test_lots_data[0])
     lot2["guarantee"] = {"amount": 100500, "currency": "USD"}
@@ -277,9 +278,17 @@ def create_tender_lot(self):
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500 + 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "USD")
 
+    # add relatedLot to items
+    items = tender["items"]
+    items[0]["relatedLot"] = lot["id"]
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": items}}
+    )
+
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"guarantee": {"currency": "EUR", "amount": 20}}},
+        {"data": {"guarantee": {"currency": "EUR", "amount": 20}}, "items": items},
     )
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 100500 + 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "EUR")
@@ -674,7 +683,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"][0]),
+        set(response.json["data"][-1]),
         {"id", "date", "title", "description", "minimalStep", "value", "status"},
     )
 
@@ -683,7 +692,7 @@ def get_tender_lots(self):
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    api_lot = response.json["data"][0]
+    api_lot = response.json["data"][-1]
     if "auctionPeriod" in api_lot:
         api_lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
@@ -2815,6 +2824,13 @@ def tender_lot_milestones(self):
         )
         self.assertEqual(response.status, "201 Created")
         lot = response.json["data"]
+    # add relatedLot to items
+    items = self.initial_data["items"]
+    items[0]["relatedLot"] = lot["id"]
+    self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"items": items}}
+    )
     # add milestones
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),

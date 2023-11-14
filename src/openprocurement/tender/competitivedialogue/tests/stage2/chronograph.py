@@ -58,6 +58,7 @@ for test_bid in test_tender_bids:
 class TenderStage2EUSwitchPreQualificationResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_auction = snitch(switch_to_auction_pre_qual)
 
@@ -65,40 +66,37 @@ class TenderStage2EUSwitchPreQualificationResourceTest(BaseCompetitiveDialogEUSt
 class TenderStage2EUSwitchAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_auction = snitch(switch_to_auction_eu)
 
 
 class TenderStage2EUSwitchUnsuccessfulResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_eu)
-
-
-class TenderStage2EUAuctionPeriodResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"
-
-    test_set_auction_period = snitch(set_auction_period_0bid)
 
 
 class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
     author_data = test_tender_cd_author  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_complaint = snitch(switch_to_complaint_eu)
 
 
 class TenderStage2UASwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
-
-    test_set_auction_period = snitch(set_auction_period_0bid)
 
 
 class TenderStage2UASwitch1BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_bids[:1]
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
 
@@ -109,6 +107,7 @@ class TenderStage2UASwitchAuctionResourceTest(
     initial_status = "active.tendering"
     initial_bids = test_tender_bids
     author_data = test_tender_cd_author  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
 
     test_switch_to_auction = snitch(switch_to_auction_ua)
 
@@ -160,7 +159,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchPreQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUAuctionPeriodResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UASwitch0BidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UASwitch1BidResourceTest))

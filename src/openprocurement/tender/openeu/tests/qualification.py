@@ -140,6 +140,7 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_openeu_bids
     author_data = test_tender_below_author
+    initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 

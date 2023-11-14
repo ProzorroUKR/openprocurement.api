@@ -58,6 +58,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_enquiry_tender_periods,
     create_tender_config_test,
     create_tender_invalid_config,
+    tender_item_related_lot_validation,
 )
 
 
@@ -93,7 +94,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_below_data
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
     test_guarantee = snitch(guarantee)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -116,6 +117,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)
+    test_tender_item_related_lot_validation = snitch(tender_item_related_lot_validation)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)

@@ -214,22 +214,37 @@ class TenderCancellationBidsAvailabilityUtils:
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.get("/tenders/{}/auction".format(self.tender_id))
             auction_bids_data = response.json["data"]["bids"]
-            self.app.patch_json(
-                "/tenders/{}/auction".format(self.tender_id),
-                {
-                    "data": {
-                        "auctionUrl": "https://tender.auction.url",
-                        "bids": [
-                            {"id": i["id"], "participationUrl": "https://tender.auction.url/for_bid/{}".format(i["id"])}
-                            for i in auction_bids_data
-                        ],
-                    }
-                },
-            )
-            response = self.app.post_json(
-                "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
-            )
-            self.assertEqual(response.status, "200 OK")
+            for lot in self.initial_lots:
+                patch_data = {
+                    "lots": [
+                        {"auctionUrl": f"http://auction.prozorro.gov.ua/{l['id']}"} if l["id"] == lot["id"] else {}
+                        for l in self.initial_lots
+                    ],
+                    "bids": [
+                        {"lotValues": [
+                            {"participationUrl": f"http://auction.prozorro.gov.ua/{v['relatedLot']}"}
+                            if v["relatedLot"] == lot["id"] else {}
+                            for v in b.get("lotValues", [])
+                        ]}
+                        for b in auction_bids_data
+                    ]
+                }
+                response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
+                                               {"data": patch_data})
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
+            patch_data = {
+                "bids": [
+                    {"lotValues": [
+                        {"value": {"amount": 1 + n}}
+                        for n, l in enumerate(b.get("lotValues", []))
+                    ]}
+                    for b in auction_bids_data
+                ]
+            }
+            for lot in self.initial_lots:
+                self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
+                self.assertEqual(response.status, "200 OK")
 
         response = self.app.get("/tenders/{}".format(self.tender_id))
         self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -268,6 +283,7 @@ class TenderCancellationBidsAvailabilityTest(
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_openeu_bids * 2
+    initial_lots = test_tender_openeu_lots
     bid_visible_fields = ["status", "documents", "tenderers", "id", "eligibilityDocuments"]
     doc_id_by_type = {}
     valid_bids = []

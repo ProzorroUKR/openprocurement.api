@@ -53,8 +53,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_data
-    test_lots_data = test_tender_cd_lots
-    test_bids_data = test_tender_cd_stage1_bids
+    initial_lots = test_lots_data = test_tender_cd_lots
+    initial_bids = test_bids_data = test_tender_cd_stage1_bids
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_eu)
@@ -83,7 +83,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_cdua_data
-    test_lots_data = test_tender_cd_lots
+    initial_lots = test_lots_data = test_tender_cd_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid_ua)

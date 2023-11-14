@@ -32,10 +32,12 @@ def get_tender_auction(self):
     self.assertNotIn("procuringEntity", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
-        auction["bids"][0]["value"]["amountPerformance"], self.initial_bids[0]["value"]["amountPerformance"]
+        auction["bids"][0]["lotValues"][0]["value"]["amountPerformance"],
+        self.initial_bids[0]["lotValues"][0]["value"]["amountPerformance"]
     )
     self.assertEqual(
-        auction["bids"][1]["value"]["amountPerformance"], self.initial_bids[1]["value"]["amountPerformance"]
+        auction["bids"][1]["lotValues"][0]["value"]["amountPerformance"],
+        self.initial_bids[1]["lotValues"][0]["value"]["amountPerformance"]
     )
     self.assertEqual(auction["procurementMethodType"], "esco")
 
@@ -115,44 +117,50 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], ["Auction bids should be identical to the tender bids"])
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_lots = response.json["data"]["lots"]
+
     patch_data = {
         "bids": [{
-            "value": {
+            "lotValues": [{"value": {
                 "yearlyPaymentsPercentage": n,
                 "contractDuration": {"years": n + 2}
-            }
+            }}]
         } for n, b in enumerate(self.initial_bids)]
     }
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, tender_lots[0]["id"]),
+        {"data": patch_data},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
 
     self.assertEqual(
-        tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-        patch_data["bids"][0]["value"]["yearlyPaymentsPercentage"],
+        tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+        patch_data["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
     )
     self.assertEqual(
-        tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-        patch_data["bids"][0]["value"]["yearlyPaymentsPercentage"],
+        tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+        patch_data["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
     )
     self.assertEqual(
-        tender["bids"][1]["value"]["contractDuration"]["years"],
-        patch_data["bids"][1]["value"]["contractDuration"]["years"],
+        tender["bids"][1]["lotValues"][0]["value"]["contractDuration"]["years"],
+        patch_data["bids"][1]["lotValues"][0]["value"]["contractDuration"]["years"],
     )
     self.assertEqual(
-        tender["bids"][1]["value"]["contractDuration"]["years"],
-        patch_data["bids"][1]["value"]["contractDuration"]["years"],
+        tender["bids"][1]["lotValues"][0]["value"]["contractDuration"]["years"],
+        patch_data["bids"][1]["lotValues"][0]["value"]["contractDuration"]["years"],
     )
 
     expected_amountPerformance = round(
         float(
             to_decimal(
                 npv(
-                    tender["bids"][0]["value"]["contractDuration"]["years"],
-                    tender["bids"][0]["value"]["contractDuration"]["days"],
-                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
                     get_now(),
                     tender["NBUdiscountRate"],
                 )
@@ -165,18 +173,18 @@ def post_tender_auction(self):
         float(
             to_decimal(
                 escp(
-                    tender["bids"][0]["value"]["contractDuration"]["years"],
-                    tender["bids"][0]["value"]["contractDuration"]["days"],
-                    tender["bids"][0]["value"]["yearlyPaymentsPercentage"],
-                    tender["bids"][0]["value"]["annualCostsReduction"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
+                    tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
+                    tender["bids"][0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    tender["bids"][0]["lotValues"][0]["value"]["annualCostsReduction"],
                     get_now(),
                 )
             )
         ),
         2,
     )
-    self.assertEqual(tender["bids"][0]["value"]["amountPerformance"], expected_amountPerformance)
-    self.assertEqual(tender["bids"][0]["value"]["amount"], expected_amount)
+    self.assertEqual(tender["bids"][0]["lotValues"][0]["value"]["amountPerformance"], expected_amountPerformance)
+    self.assertEqual(tender["bids"][0]["lotValues"][0]["value"]["amount"], expected_amount)
 
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
@@ -185,8 +193,14 @@ def post_tender_auction(self):
 
     # bid with higher amountPerformance is awarded because of reversed awardCriteria for esco.EU
     self.assertEqual(tender["awards"][0]["bid_id"], tender["bids"][0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amountPerformance"], tender["bids"][0]["value"]["amountPerformance"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], tender["bids"][0]["value"]["amount"])
+    self.assertEqual(
+        tender["awards"][0]["value"]["amountPerformance"],
+        tender["bids"][0]["lotValues"][0]["value"]["amountPerformance"],
+    )
+    self.assertEqual(
+        tender["awards"][0]["value"]["amount"],
+        tender["bids"][0]["lotValues"][0]["value"]["amount"],
+    )
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
@@ -198,7 +212,70 @@ def post_tender_auction(self):
     )
 
 
-# TenderAuctionFieldsTest
+def patch_tender_auction(self):
+    self.app.authorization = ("Basic", ("auction", ""))
+    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": {}}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status),
+    )
+
+    self.set_status("active.auction")
+
+    lot_id = self.initial_bids[-1]['lotValues'][0]['relatedLot']
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/auction/{lot_id}",
+        {"data": {"bids": [{"invalid_field": "invalid_value"}]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
+    )
+
+    patch_data = {
+        "lots": [
+            {"auctionUrl": f"http://auction.prozorro.gov.ua/{lot_id}"}
+        ],
+        "bids": [
+            {"lotValues": [
+                {"participationUrl": f"http://auction.prozorro.gov.ua/{lot_id}"}
+            ]}
+        ]
+    }
+
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], ["Number of auction results did not match the number of tender bids"]
+    )
+
+    patch_data["bids"] = [
+        {"lotValues": [{"participationUrl": f"http://auction.prozorro.gov.ua/{lot_id}"}]}
+        for bid in self.initial_bids
+    ]
+    response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    for b in tender["bids"]:
+        self.assertEqual(b["lotValues"][0]["participationUrl"], f"http://auction.prozorro.gov.ua/{lot_id}")
+
+    self.set_status("complete")
+
+    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Can't update auction urls in current (complete) tender status"
+    )
+
+# TenderAuctionFieldsTest (Non lot tenders)
 
 
 def auction_check_NBUdiscountRate(self):
@@ -220,8 +297,11 @@ def auction_check_NBUdiscountRate(self):
     self.assertEqual(response.json["errors"][0]["name"], "permission")
     self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_lots = response.json["data"]["lots"]
+
     # try to patch NBUdiscountRate in auction data, but it should not change
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id),
+    response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, tender_lots[0]["id"]),
                                    {"data": {"NBUdiscountRate": 0.44}}, status=422)
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
@@ -249,9 +329,12 @@ def auction_check_noticePublicationDate(self):
     self.assertEqual(response.json["errors"][0]["name"], "permission")
     self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_lots = response.json["data"]["lots"]
+
     # try to patch noticePublicationDate in auction data, but it should not change
     response = self.app.patch_json(
-        "/tenders/{}/auction".format(self.tender_id),
+        "/tenders/{}/auction/{}".format(self.tender_id, tender_lots[0]["id"]),
         {"data": {"noticePublicationDate": get_now().isoformat()}},
         status=422
     )
@@ -267,53 +350,66 @@ def auction_check_noticePublicationDate(self):
 
 def post_tender_auction_not_changed(self):
     self.app.authorization = ("Basic", ("auction", ""))
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_lots = response.json["data"]["lots"]
     data = {"data": {"bids": [
         {
             "id": b["id"],
-            "value": {
-                "yearlyPaymentsPercentage": b["value"]["yearlyPaymentsPercentage"],
-                "contractDuration": b["value"]["contractDuration"],
-            }
+            "lotValues": [{
+                "value": {
+                    "yearlyPaymentsPercentage": b["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    "contractDuration": b["lotValues"][0]["value"]["contractDuration"],
+                }
+            }]
         } for b in self.initial_bids
     ]}}
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), data)
+    response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, tender_lots[0]["id"]), data)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
     self.assertEqual(
-        tender["awards"][0]["value"]["amountPerformance"], self.initial_bids[0]["value"]["amountPerformance"]
+        tender["awards"][0]["value"]["amountPerformance"],
+        self.initial_bids[0]["lotValues"][0]["value"]["amountPerformance"],
     )
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"])
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
 
 def post_tender_auction_reversed(self):
     self.app.authorization = ("Basic", ("auction", ""))
     now = get_now()
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_lots = response.json["data"]["lots"]
     patch_data = {
         "bids": [
             {"id": b["id"],
-             "date": (now - timedelta(seconds=i)).isoformat(),
-             "value": {
-                "yearlyPaymentsPercentage": b["value"]["yearlyPaymentsPercentage"],
-                "contractDuration": b["value"]["contractDuration"],
-            }}
+             "lotValues": [{
+                 "date": (now - timedelta(seconds=i)).isoformat(),
+                 "value": {
+                    "yearlyPaymentsPercentage": b["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
+                    "contractDuration": b["lotValues"][0]["value"]["contractDuration"],
+                 }
+            }]}
             for i, b in enumerate(self.initial_bids)
         ]
     }
 
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, tender_lots[0]["id"]),
+        {"data": patch_data},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[2]["id"])
     self.assertEqual(
-        tender["awards"][0]["value"]["amountPerformance"], self.initial_bids[2]["value"]["amountPerformance"]
+        tender["awards"][0]["value"]["amountPerformance"],
+        self.initial_bids[2]["lotValues"][0]["value"]["amountPerformance"],
     )
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[2]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[2]["lotValues"][0]["value"]["amount"])
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[2]["tenderers"])
 
 

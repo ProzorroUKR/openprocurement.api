@@ -15,10 +15,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderAuctionResourceTest
     get_tender_auction_not_found,
-    get_tender_auction,
     post_tender_auction,
-    post_tender_auction_weighted_value,
-    patch_tender_auction,
     post_tender_auction_document,
     # TenderAuctionResourceDisabledAwardingOrder
     post_tender_auction_with_disabled_awarding_order,
@@ -54,10 +51,7 @@ auction_test_tender_data["submissionMethodDetails"] = "test submissionMethodDeta
 
 class TenderAuctionResourceTestMixin(object):
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
-    test_get_tender_auction = snitch(get_tender_auction)
     test_post_tender_auction = snitch(post_tender_auction)
-    test_post_tender_auction_weighted_value = snitch(post_tender_auction_weighted_value)
-    test_patch_tender_auction = snitch(patch_tender_auction)
     test_post_tender_auction_document = snitch(post_tender_auction_document)
 
 
@@ -81,6 +75,7 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_below_lots
 
 
 class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
@@ -108,7 +103,9 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
     initial_bids = deepcopy(test_tender_below_bids)
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = [test_tender_below_lots[0], test_tender_below_lots[0]]
-    test_post_tender_lots_auction_with_disabled_awarding_order = snitch(post_tender_lots_auction_with_disabled_awarding_order)
+    test_post_tender_lots_auction_with_disabled_awarding_order = snitch(
+        post_tender_lots_auction_with_disabled_awarding_order
+    )
     test_post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award = snitch(
         post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsuccessful_with_active_award
     )
@@ -130,6 +127,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
         }
         for i in range(3)
     ]
+    initial_lots = test_tender_below_lots
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)

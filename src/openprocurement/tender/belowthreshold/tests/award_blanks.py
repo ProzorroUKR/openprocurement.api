@@ -181,9 +181,16 @@ def create_tender_award_invalid(self):
 
     self.set_status("complete")
 
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "bid_id": self.initial_bids[0]["id"],
+    }
+    if getattr(self, "initial_lots"):
+        award_data["lotID"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": award_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -198,7 +205,12 @@ def create_tender_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
     response = self.app.post_json(
         request_path,
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {
+            "suppliers": [test_tender_below_organization],
+            "status": "pending",
+            "bid_id": self.initial_bids[0]["id"],
+            "lotID": self.initial_lots[0]["id"],
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -243,6 +255,7 @@ def patch_tender_award(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )
@@ -375,6 +388,7 @@ def check_tender_award_complaint_period_dates(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )
@@ -406,6 +420,7 @@ def patch_tender_award_unsuccessful(self):
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
                 "value": {"amount": 500},
+                "lotID": self.initial_lots[0]["id"],
             }
         },
     )
@@ -484,9 +499,16 @@ def get_tender_award(self):
     auth = self.app.authorization
 
     self.app.authorization = ("Basic", ("token", ""))
+    award_data = {
+        "suppliers": [test_tender_below_organization],
+        "status": "pending",
+        "bid_id": self.initial_bids[0]["id"],
+    }
+    if getattr(self, "initial_lots"):
+        award_data["lotID"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": award_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

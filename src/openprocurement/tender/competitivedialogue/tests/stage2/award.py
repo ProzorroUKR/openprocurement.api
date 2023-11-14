@@ -400,6 +400,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUAwardComplaintDocumentResourceTest, self).setUp()
@@ -407,7 +408,12 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+                {"data": {
+                    "suppliers": [test_tender_cd_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
+                }},
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -488,6 +494,7 @@ class TenderStage2EUAwardDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUAwardDocumentResourceTest, self).setUp()
@@ -495,7 +502,12 @@ class TenderStage2EUAwardDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+                {"data": {
+                    "suppliers": [test_tender_cd_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
+                }},
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -535,6 +547,7 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
 class TenderStage2UAAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     test_create_tender_award = snitch(create_tender_award)
     test_patch_tender_award = snitch(patch_tender_award)
@@ -586,6 +599,7 @@ class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
 
 class BaseTenderUAAwardActiveTest(BaseTenderUAAwardPendingTest):
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(BaseTenderUAAwardActiveTest, self).setUp()
@@ -670,6 +684,7 @@ class TenderStage2UAAwardDocumentResourceTest(
     BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
 
 class TenderStage2UA2LotAwardDocumentResourceTest(

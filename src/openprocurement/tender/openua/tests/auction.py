@@ -37,6 +37,7 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourc
     docservice = True
     initial_status = "active.tendering"
     initial_bids = test_tender_openua_bids
+    initial_lots = test_tender_below_lots
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
@@ -46,6 +47,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
         test_tender_openua_bids[0]
         for i in range(3)
     ]
+    initial_lots = test_tender_below_lots
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)

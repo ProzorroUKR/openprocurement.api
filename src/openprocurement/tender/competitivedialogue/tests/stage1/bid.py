@@ -5,6 +5,7 @@ from copy import deepcopy
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 from openprocurement.tender.openeu.tests.bid import CreateBidMixin
 from openprocurement.tender.openeu.tests.bid_blanks import bids_activation_on_tender_documents
@@ -54,6 +55,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_cd_stage1_bids
+    initial_lots = test_tender_cd_lots
     docservice = True
 
     # overwriting TenderBidResourceTestMixin.test_create_tender_bidder
@@ -69,6 +71,15 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
+
+    def setUp(self):
+        super(CompetitiveDialogEUBidResourceTest, self).setUp()
+        # Create bid
+        self.test_bids_data = []
+        for bid in test_tender_cd_stage1_bids:
+            bidder_data = deepcopy(bid)
+            set_bid_lotvalues(bidder_data, self.initial_lots)
+            self.test_bids_data.append(bidder_data)
 
 
 class CompetitiveDialogEU2LotBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -95,23 +106,27 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_tender_cd_stage1_bids
+    initial_lots = test_tender_cd_lots
     docservice = True
 
     def setUp(self):
         super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
         # Create bid
         bidder_data = deepcopy(test_tender_cd_stage1_bids[0])
+        set_bid_lotvalues(bidder_data, self.initial_lots)
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037256"
         bid, bid_token = self.create_bid(self.tender_id, bidder_data)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
         # create second bid
         bidder_data = deepcopy(test_tender_cd_stage1_bids[1])
+        set_bid_lotvalues(bidder_data, self.initial_lots)
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037257"
         bid2, bid2_token = self.create_bid(self.tender_id, bidder_data)
         self.bid2_id = bid2["id"]
         self.bid2_token = bid2_token
         bidder_data = deepcopy(test_tender_cd_stage1_bids[1])
+        set_bid_lotvalues(bidder_data, self.initial_lots)
         bidder_data["tenderers"][0]["identifier"]["id"] = "00037258"
         bid3, bid3_token = self.create_bid(self.tender_id, bidder_data)
         self.bid3_id = bid3["id"]

@@ -18,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     post_tender_bid_with_exceeded_lot_values,
     patch_tender_bid_with_exceeded_lot_values,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
     TenderBidResourceTestMixin,
     TenderBidDocumentWithDSResourceTestMixin,
@@ -58,6 +59,17 @@ class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMi
     initial_status = "active.tendering"
     test_bids_data = test_tender_simpledefense_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author
+    initial_lots = test_tender_below_lots
+
+    def setUp(self):
+        super(TenderBidResourceTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.tender_lots = response.json["data"]["lots"]
+        self.test_bids_data = []
+        for bid in test_tender_simpledefense_bids:
+            bid_data = deepcopy(bid)
+            set_bid_lotvalues(bid_data, self.tender_lots)
+            self.test_bids_data.append(bid_data)
 
 
 class Tender2LotBidResourceTest(BaseSimpleDefContentWebTest):

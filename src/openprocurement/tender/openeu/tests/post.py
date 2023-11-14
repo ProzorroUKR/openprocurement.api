@@ -10,6 +10,7 @@ from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
+    test_tender_openeu_lots,
 )
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -54,6 +55,7 @@ class TenderQualificationComplaintPostResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
 

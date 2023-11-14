@@ -22,6 +22,7 @@ from openprocurement.tender.esco.tests.auction_blanks import (
     # TenderAuctionResourceTest
     get_tender_auction,
     post_tender_auction,
+    patch_tender_auction,
     # TenderMultipleLotAuctionResourceTest
     get_tender_lots_auction,
     post_tender_lots_auction,
@@ -72,6 +73,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
         "annualCostsReduction": [100] * 21,
         "contractDuration": {"years": 10, "days": 10},
     }
+    initial_lots = test_tender_esco_lots
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
@@ -79,12 +81,14 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 
     test_get_tender_auction = snitch(get_tender_auction)
     test_post_tender_auction = snitch(post_tender_auction)
+    test_patch_tender_auction = snitch(patch_tender_auction)
 
 
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_esco_bids[0]["tenderers"])
+    initial_lots = test_tender_esco_lots
 
     def setUp(self):
         bid_data = deepcopy(test_tender_esco_bids[0])
@@ -136,6 +140,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
 
     def setUp(self):
         super(TenderAuctionFieldsTest, self).setUp()

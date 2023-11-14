@@ -598,6 +598,18 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             or tender_identifier["scheme"] != agreement_identifier["scheme"]
         )
 
+    def validate_related_lot_in_items(self, after):
+        if after["status"] != "draft":
+            for item in after["items"]:
+                if not item.get("relatedLot"):
+                    raise_operation_error(
+                        get_request(),
+                        "This field is required",
+                        status=422,
+                        location="body",
+                        name="item.relatedLot"
+                    )
+
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):
     pass

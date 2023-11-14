@@ -104,6 +104,7 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
+    initial_lots = test_tender_below_lots
     docservice = True
 
     test_create_tender_award = snitch(create_tender_award)

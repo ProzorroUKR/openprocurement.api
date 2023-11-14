@@ -37,6 +37,7 @@ class TenderStage2QuestionResourceTestMixin:
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
     author_data = test_tender_cd_author  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
 
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_create_question_bad_author = snitch(create_question_bad_author)
