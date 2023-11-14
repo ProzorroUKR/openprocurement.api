@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.validation import validate_milestones
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
-from openprocurement.tender.core.procedure.models.item import Item, validate_cpv_group, validate_classification_id
+from openprocurement.tender.core.procedure.models.item import Item, validate_classification_id
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
@@ -92,7 +92,7 @@ class PatchActiveTender(Model):
     items = ListType(
         ModelType(Item, required=True),
         min_size=1,
-        validators=[validate_cpv_group, validate_items_uniq, validate_classification_id],
+        validators=[validate_items_uniq, validate_classification_id],
     )
     title = StringType()
     title_en = StringType()

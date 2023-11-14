@@ -1,3 +1,4 @@
+from openprocurement.tender.belowthreshold.procedure.state.tender_document import BelowThresholdTenderDocumentState
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.tender.belowthreshold.procedure.validation import validate_document_operation_in_not_allowed_period
 from openprocurement.tender.core.procedure.validation import (
@@ -23,6 +24,7 @@ from openprocurement.api.utils import json_view
     description="Tender related binary files (PDFs, etc.)",
 )
 class BelowThresholdTenderDocumentResource(TenderDocumentResource):
+    state_class = BelowThresholdTenderDocumentState
 
     @json_view(
         validators=(

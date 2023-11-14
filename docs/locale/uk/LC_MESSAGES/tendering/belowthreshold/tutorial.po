@@ -4,14 +4,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 04:28+0300\n"
+"POT-Creation-Date: 2023-11-14 16:00+0100\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -135,6 +135,12 @@ msgstr "Замовник може встановити забезпечення 
 
 msgid "Also we can modify tender by adding `funders` field data:"
 msgstr "Також можна оновлювати закупівлю шляхом додавання поля `funders`:"
+
+msgid "Procuring entity can not change `tenderPeriod.endDate` if there are less than 2 days before tenderPeriod ends. Changes will not be accepted by API."
+msgstr "Замовник не може редагувати `tenderPeriod.endDate`, якщо залишилось менше 2 днів до завершення періоду подання пропозицій. API таких змін не прийме."
+
+msgid "That is why tenderPeriod has to be extended by minimum 2 days."
+msgstr "Ось чому потрібно продовжити період подання пропозицій (`tenderPeriod`) на мінімум 2 дні."
 
 msgid "Uploading documentation"
 msgstr "Завантаження документації"

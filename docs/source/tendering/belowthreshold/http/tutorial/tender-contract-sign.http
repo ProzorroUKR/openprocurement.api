@@ -22,8 +22,8 @@ Content-Type: application/json
     "contractNumber": "contract #13111",
     "status": "active",
     "period": {
-      "startDate": "2023-01-01T00:00:03+02:00",
-      "endDate": "2024-01-01T00:00:03+02:00"
+      "startDate": "2023-01-11T00:00:04+02:00",
+      "endDate": "2024-01-11T00:00:04+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -85,32 +85,32 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "date": "2023-01-01T00:00:03+02:00",
+    "date": "2023-01-11T00:00:04+02:00",
     "documents": [
       {
         "id": "8df1b1464a774b09a31c7ff0b79a2907",
-        "datePublished": "2023-01-01T00:00:03+02:00",
+        "datePublished": "2023-01-11T00:00:04+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0a6ba4e927a4b37a419f00d99d0e1e2?Signature=FFuxQi4SZOran3sYI4B5RwlM7yntAVrvYMb9zm1GR%2FN1d9BMuK%2FTMdTj10USzad1sVWV11XuVnCjZ5DwmQvMBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00",
+        "dateModified": "2023-01-11T00:00:04+02:00",
         "language": "uk"
       },
       {
         "id": "cb8b9aba2e1d427286143f69cea5c62b",
-        "datePublished": "2023-01-01T00:00:03+02:00",
+        "datePublished": "2023-01-11T00:00:04+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=%2FYRZ%2B%2BRtFSyc1fRd7U3XC1JzzD8NRsKvmiPxbIxu3tC2RImeoRJr9W%2FiDeEO2nWheF2%2BuWjigqJR0CMp8ltlBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00",
+        "dateModified": "2023-01-11T00:00:04+02:00",
         "language": "uk"
       }
     ],
-    "dateSigned": "2023-01-01T00:00:03+02:00"
+    "dateSigned": "2023-01-11T00:00:04+02:00"
   }
 }
 
