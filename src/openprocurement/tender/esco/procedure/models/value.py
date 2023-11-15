@@ -6,11 +6,12 @@ from schematics.exceptions import ValidationError
 from datetime import datetime
 from esculator import npv, escp
 from openprocurement.api.models import (
+    DecimalType,
     Value,
     Model,
     ListType,
 )
-from openprocurement.tender.core.procedure.models.base import DecimalType
+from openprocurement.tender.core.procedure.models.base import DecimalType as StringDecimalType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.utils import to_decimal
@@ -36,7 +37,7 @@ class BaseESCOValue(Value):
     )  # Calculated energy service contract performance indicator
     yearlyPaymentsPercentage = DecimalType(precision=-5, min_value=Decimal("0"), max_value=Decimal("1"))
     # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ListType(DecimalType())  # Buyer's annual costs reduction
+    annualCostsReduction = ListType(StringDecimalType())  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration)
     denominator = DecimalType()
     addition = DecimalType()
@@ -59,7 +60,7 @@ class ESCOValue(BaseESCOValue):
     yearlyPaymentsPercentage = DecimalType(
         required=True, precision=-5, min_value=Decimal("0"), max_value=Decimal("1")
     )  # The percentage of annual payments in favor of Bidder
-    annualCostsReduction = ListType(DecimalType(), required=True)  # Buyer's annual costs reduction
+    annualCostsReduction = ListType(StringDecimalType(), required=True)  # Buyer's annual costs reduction
     contractDuration = ModelType(ContractDuration, required=True)
 
     @serializable(serialized_name="amountPerformance", type=DecimalType(precision=-2))
