@@ -11,6 +11,7 @@ from openprocurement.tender.esco.procedure.utils import get_bid_identifier, all_
 from openprocurement.api.utils import (
     get_uah_amount_from_value,
     raise_operation_error,
+    to_decimal,
 )
 from openprocurement.api.auth import extract_access_token
 from logging import getLogger
@@ -63,7 +64,7 @@ class ESCOComplaintStateMixin:
             sum_value = dict(amount=0, currency="UAH")
             for lot_value in all_bids_values(tender, identifier):
                 value = lot_value["value"]
-                sum_value["amount"] += value["amount"]
+                sum_value["amount"] += to_decimal(value["amount"])
                 sum_value["currency"] = value["currency"]
             return sum_value
         else:
