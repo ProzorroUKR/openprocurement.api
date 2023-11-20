@@ -33,6 +33,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_generated,
     create_tender_draft,
     patch_tender_draft,
+    patch_tender_active_tendering,
     tender_features,
     patch_tender_jsonpatch,
     patch_tender,
@@ -108,6 +109,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_items_negative_quantity = snitch(tender_items_negative_quantity)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
+    test_patch_tender_active_tendering = snitch(patch_tender_active_tendering)
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)

@@ -30,7 +30,11 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
 def validate_document_operation_in_not_allowed_period(request, **_):
     tender_status = request.validated["tender"]["status"]
     if (
-        request.authenticated_role != "auction" and tender_status not in ("draft", "active.enquiries")
+        request.authenticated_role != "auction" and tender_status not in (
+            "draft",
+            "active.enquiries",
+            "active.tendering",
+        )
         or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(

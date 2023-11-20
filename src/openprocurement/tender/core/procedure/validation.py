@@ -1700,13 +1700,13 @@ def validate_forbid_action_after_date(obj_name):
 
 
 # Complaints & claims
-def validate_input_data_from_resolved_model():
+def validate_input_data_from_resolved_model(none_means_remove=False):
     def validated(request, **_):
         state = request.root.state
         method = request.method.lower()
         model = getattr(state, f"get_{method}_data_model")()
         request.validated[f"{method}_data_model"] = model
-        validate = validate_input_data(model)
+        validate = validate_input_data(model, none_means_remove=none_means_remove)
         return validate(request, **_)
     return validated
 

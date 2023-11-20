@@ -591,15 +591,15 @@ def patch_tender_with_bids_lots_none(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"lots": None}},
-        status=403
+        status=422
     )
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "location": "body",
-                "name": "data",
-                "description": "Can't update tender in current (active.tendering) status"
+                "name": "lots",
+                "description": "Rogue field"
             }
         ]
     )

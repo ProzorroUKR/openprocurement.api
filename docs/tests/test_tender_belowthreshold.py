@@ -28,6 +28,8 @@ from tests.base.data import (
 )
 from tests.test_tender_config import TenderConfigCSVMixin
 
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+
 test_tender_data = deepcopy(test_docs_tender_below)
 
 TARGET_DIR = 'docs/source/tendering/belowthreshold/http/'
@@ -358,11 +360,38 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        # Registering bid
-
+        # Patch tenderPeriod in active.tendering status
         self.set_status('active.tendering')
 
         self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        tender = response.json["data"]
+        self.tick(delta=timedelta(days=5))
+        with open(TARGET_DIR + 'tutorial/update-tender-after-enquiry.http', 'w') as self.app.file_obj:
+            tender_period_end_date = dt_from_iso(tender["tenderPeriod"]["endDate"]) + timedelta(days=1)
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"value": {'amount': 501.0}, "tenderPeriod": {"endDate": tender_period_end_date.isoformat()}}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        with open(TARGET_DIR + 'tutorial/update-tender-after-enquiry-with-update-periods.http', 'w') as self.app.file_obj:
+            tender_period_end_date = dt_from_iso(tender["tenderPeriod"]["endDate"]) + timedelta(days=4)
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {
+                    "value": {
+                        "amount": 501,
+                        "currency": "UAH"
+                    },
+                    "tenderPeriod": {
+                        "endDate": tender_period_end_date.isoformat()
+                    }
+                }})
+            self.assertEqual(response.status, '200 OK')
+
+        # Registering bid
         bids_access = {}
         with open(TARGET_DIR + 'tutorial/register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

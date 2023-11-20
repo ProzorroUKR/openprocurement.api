@@ -93,24 +93,6 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
-    def validate_tender_period_extension(self, tender):
-        if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
-            # self.request.validated["tender"].tenderPeriod.import_data(data["tenderPeriod"])
-            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            if calculate_tender_business_date(
-                get_now(),
-                self.tendering_period_extra,
-                tender=tender,
-                working_days=self.tendering_period_extra_working_days
-            ) > tendering_end:
-                raise_operation_error(
-                    get_request(),
-                    "tenderPeriod should be extended by {0.days} {1}".format(
-                        self.tendering_period_extra,
-                        "working days" if self.tendering_period_extra_working_days else "days",
-                    )
-                )
-
     @classmethod
     def invalidate_bids_data(cls, tender):
         cls.check_auction_time(tender)

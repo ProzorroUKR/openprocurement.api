@@ -4,6 +4,7 @@ from email.header import Header
 # TenderDocumentResourceTest
 from mock import patch
 from openprocurement.tender.core.tests.base import bad_rs_request, srequest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 
 
 def not_found(self):
@@ -157,22 +158,44 @@ def create_tender_document(self):
 def create_document_active_tendering_status(self):
 
     self.set_status("active.tendering")
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500},
+                  "lotValues": None, "parameters": None, "documents": None, "subcontractingDetails": "test"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {"status": "pending"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    bid = response.json["data"]
+    self.assertEqual(bid["status"], "pending")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender_before = response.json["data"]
+    self.assertNotIn("invalidationDate", tender_before["enquiryPeriod"])
 
     response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
         {"data": {
             "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
         }},
-        status=403,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (active.tendering) tender status"
-    )
+
+    response = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}")
+    tender_after = response.json["data"]
+    self.assertIn("invalidationDate", tender_after["enquiryPeriod"])
+    response = self.app.get(f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}")
+    self.assertEqual(response.json["data"]["status"], "invalid")
 
 
 def put_tender_document(self):
@@ -279,26 +302,27 @@ def put_tender_document(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    self.set_status(self.forbidden_document_modification_actions_status)
+    if hasattr(self, "forbidden_document_modification_actions_status"):
+        self.set_status(self.forbidden_document_modification_actions_status)
 
-    response = self.app.put_json(
-        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update document in current ({}) tender status".format(
-            self.forbidden_document_modification_actions_status
-        ),
-    )
+        response = self.app.put_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+            {"data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update document in current ({}) tender status".format(
+                self.forbidden_document_modification_actions_status
+            ),
+        )
 
 
 def patch_tender_document(self):
@@ -358,21 +382,22 @@ def patch_tender_document(self):
     self.assertEqual("document description", response.json["data"]["description"])
     # self.assertTrue(dateModified < response.json["data"]["dateModified"])
 
-    self.set_status(self.forbidden_document_modification_actions_status)
+    if hasattr(self, "forbidden_document_modification_actions_status"):
+        self.set_status(self.forbidden_document_modification_actions_status)
 
-    response = self.app.patch_json(
-        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update document in current ({}) tender status".format(
-            self.forbidden_document_modification_actions_status
-        ),
-    )
+        response = self.app.patch_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+            {"data": {"description": "document description"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update document in current ({}) tender status".format(
+                self.forbidden_document_modification_actions_status
+            ),
+        )
 
 
 # TenderDocumentWithDSResourceTest
@@ -609,26 +634,27 @@ def create_tender_document_json(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("укр.doc", response.json["data"]["title"])
 
-    self.set_status(self.forbidden_document_modification_actions_status)
+    if hasattr(self, "forbidden_document_modification_actions_status"):
+        self.set_status(self.forbidden_document_modification_actions_status)
 
-    response = self.app.post_json(
-        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        {
-            "data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't add document in current ({}) tender status".format(self.forbidden_document_modification_actions_status),
-    )
+        response = self.app.post_json(
+            "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't add document in current ({}) tender status".format(self.forbidden_document_modification_actions_status),
+        )
 
 
 def create_tender_document_json_bulk(self):
@@ -785,28 +811,29 @@ def put_tender_document_json(self):
     self.assertIn("KeyID=", response.location)
     self.assertIn("Expires=", response.location)
 
-    self.set_status(self.forbidden_document_modification_actions_status)
+    if hasattr(self, "forbidden_document_modification_actions_status"):
+        self.set_status(self.forbidden_document_modification_actions_status)
 
-    response = self.app.put_json(
-        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        {
-            "data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update document in current ({}) tender status".format(
-            self.forbidden_document_modification_actions_status
-        ),
-    )
+        response = self.app.put_json(
+            "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update document in current ({}) tender status".format(
+                self.forbidden_document_modification_actions_status
+            ),
+        )
 
 
 def lot_patch_tender_document_json_lots_none(self):

@@ -7,8 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "period": {
-      "startDate": "2023-01-01T00:00:03+02:00",
-      "endDate": "2024-01-01T00:00:03+02:00"
+      "startDate": "2023-01-11T00:00:04+02:00",
+      "endDate": "2024-01-11T00:00:04+02:00"
     }
   }
 }
@@ -25,8 +25,8 @@ Content-Type: application/json
     "contractNumber": "contract #13111",
     "status": "pending",
     "period": {
-      "startDate": "2023-01-01T00:00:03+02:00",
-      "endDate": "2024-01-01T00:00:03+02:00"
+      "startDate": "2023-01-11T00:00:04+02:00",
+      "endDate": "2024-01-11T00:00:04+02:00"
     },
     "value": {
       "amount": 238.0,
@@ -88,8 +88,8 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "date": "2023-01-01T00:00:01+02:00",
-    "dateSigned": "2023-01-01T00:00:03+02:00"
+    "date": "2023-01-06T00:00:02+02:00",
+    "dateSigned": "2023-01-11T00:00:04+02:00"
   }
 }
 
