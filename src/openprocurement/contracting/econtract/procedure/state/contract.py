@@ -120,7 +120,8 @@ class EContractState(
         tender = request.validated["tender"]
         tender_type = tender["procurementMethodType"]
         if tender_type in ("belowThreshold", "aboveThresholdEU",
-                           "aboveThresholdUA", "aboveThreshold", "simple.defense"):
+                           "aboveThresholdUA", "aboveThreshold",
+                           "simple.defense", "competitiveDialogueEU.stage2"):
             self.validate_threshold_contract(request, before, after)
         elif tender_type == "esco":
             self.validate_esco_contract(request, before, after)
