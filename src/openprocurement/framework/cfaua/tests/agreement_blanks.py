@@ -9,35 +9,39 @@ from openprocurement.framework.cfaua.tests.data import TEST_DOCUMENTS
 
 def create_agreement(self):
     data = self.initial_data
-    data["id"] = uuid.uuid4().hex
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["agreementID"], data["agreementID"])
+    agreement_id = response.json["data"]["id"]
 
-    response = self.app.get("/agreements/{}".format(data["id"]))
+    response = self.app.get("/agreements/{}".format(agreement_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], data["id"])
+    self.assertEqual(response.json["data"]["id"], agreement_id)
 
 
 def create_agreement_with_documents(self):
     data = deepcopy(self.initial_data)
-    data["id"] = uuid.uuid4().hex
     data["documents"] = TEST_DOCUMENTS
+    data["documents"][0]["url"] = self.generate_docservice_url()
+    data["documents"][0]["hash"] = "md5:00000000000000000000000000000000"
+    data["documents"][1]["url"] = self.generate_docservice_url()
+    data["documents"][1]["hash"] = "md5:00000000000000000000000000000000"
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["agreementID"], data["agreementID"])
+    agreement_id = response.json["data"]["id"]
 
-    response = self.app.get("/agreements/{}".format(data["id"]))
+    response = self.app.get("/agreements/{}".format(agreement_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], data["id"])
+    self.assertEqual(response.json["data"]["id"], agreement_id)
 
-    response = self.app.get("/agreements/{}/documents".format(data["id"]))
+    response = self.app.get("/agreements/{}/documents".format(agreement_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), len(TEST_DOCUMENTS))
@@ -158,9 +162,13 @@ def agreement_patch_invalid(self):
             }
         },
     ]:
-        response = self.app.patch_json("/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": data})
-        self.assertEqual(response.status, "200 OK")
-        self.assertIsNone(response.json)
+        response = self.app.patch_json(
+            "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token),
+            {"data": data},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"][0]["description"], "Rogue field")
 
     agreement = self.app.get("/agreements/{}".format(self.agreement_id)).json["data"]
     self.assertNotIn("changes", agreement)
@@ -754,26 +762,28 @@ def agreement_changes_patch_from_agreements(self):
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token),
         {"data": {"changes": [change_data]}},
+        status=422,
     )
-    self.assertEqual(response.status_code, 200)
+    self.assertEqual(response.status_code, 422)
+    self.assertEqual(response.json["errors"], [{"location": "body", "name": "changes", "description": "Rogue field"}])
     agreement = self.app.get("/agreements/{}".format(self.agreement_id)).json["data"]
     self.assertNotIn("changes", agreement)
 
 
 def create_agreement_with_two_active_contracts(self):
     data = self.initial_data
-    data["id"] = uuid.uuid4().hex
     data["contracts"][0]["status"] = "unsuccessful"
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["agreementID"], data["agreementID"])
+    agreement_id = response.json["data"]["id"]
 
-    response = self.app.get("/agreements/{}".format(data["id"]))
+    response = self.app.get("/agreements/{}".format(agreement_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["id"], data["id"])
+    self.assertEqual(response.json["data"]["id"], agreement_id)
     self.assertEqual(
         response.json["data"]["numberOfContracts"], len([c["id"] for c in data["contracts"] if c["status"] == "active"])
     )

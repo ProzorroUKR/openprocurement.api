@@ -1,29 +1,31 @@
-POST /api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26/documents?acc_token=7b5fe43c1f3c4574982dcb841c9ef301 HTTP/1.0
+POST /api/2.5/qualifications/bc6f4b3647164e6286e78d8909d848c7/documents?acc_token=f8e6a2bdea5d45a086590324ce351932 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 152
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 330
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="qualification.doc"
-Content-Type: application/msword
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "qualification.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7150a692fd2b402d92a484375bfb60db?Signature=BHAhapA8GQgB5S4z2V%2FLFj2oxynHkeaZ1k1R1dzr7ai2QM7MXF8c2hn6sbzQmVl0nbvTKYzc02wYRktMZijSAg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword"
+  }
+}
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26/documents/06fc6adc81e34049bc0ef77f9346a055
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/bc6f4b3647164e6286e78d8909d848c7/documents/ff47cb123d934a4bb467e339b6e20776
 
 {
   "data": {
-    "id": "06fc6adc81e34049bc0ef77f9346a055",
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076a25851dd849ceb3060d7936d4dc66?Signature=IDYMyuQPlPaD1h3usGKxTKYZ3PK%2BsO8qkQO2dZE4YK1Z%2BefEVvDo7FIF00YosMF0y0LA01NZchEshl1RHOXuCQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7150a692fd2b402d92a484375bfb60db?Signature=UgEPCEpal%2BFRnsyybBE9MM%2F4WyYGaFxRHOiqivCYGdM6cou17uwuF9sF3m83LN9%2B4KUiM4plezab%2BpJRbTyPDw%3D%3D&KeyID=a8968c46",
+    "language": "uk",
+    "id": "ff47cb123d934a4bb467e339b6e20776",
     "datePublished": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00"
   }

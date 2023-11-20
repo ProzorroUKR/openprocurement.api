@@ -9,8 +9,8 @@ Content-Type: application/json
   "data": {
     "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
     "status": "active",
-    "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
+    "agreementType": "cfaua",
     "contracts": [
       {
         "id": "3f790a2fc7c647a7be968a10e669e9fa",
@@ -200,8 +200,9 @@ Content-Type: application/json
       }
     },
     "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",
-    "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
-    "numberOfContracts": 3
+    "numberOfContracts": 3,
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "id": "b7536ab0fbe34a1dafa73fe7943ff79c"
   }
 }
 

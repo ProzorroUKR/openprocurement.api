@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/9ef8a439d3f346dd9e86bb05c4f55f8b?acc_token=77e8aeb431c44efa97ff595190dc86ba HTTP/1.0
+PATCH /api/2.5/qualifications/7f54f20afbae46de95952e02da039fd8?acc_token=a2ff40fa3e7143baa0a0b38805036fe7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "2a997181ec504fcdbfaf4c759a02895e",
-    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
+    "submissionID": "e0fc16d4a32e49bbb327106221ee3afe",
+    "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
+    "status": "active",
     "date": "2023-01-20T00:00:00+02:00",
     "dateModified": "2023-01-20T00:00:00+02:00",
-    "status": "active",
     "qualificationType": "dynamicPurchasingSystem",
-    "id": "9ef8a439d3f346dd9e86bb05c4f55f8b"
+    "id": "7f54f20afbae46de95952e02da039fd8"
   },
   "config": {
     "restricted": true

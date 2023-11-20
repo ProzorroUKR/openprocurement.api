@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/866509257c6546a088e0363315140ee0 HTTP/1.0
+GET /api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,11 +11,55 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-01-01-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "documents": [
+      {
+        "id": "ecdce85901c748e3ba722d06c584a578",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "language": "uk"
+      },
+      {
+        "id": "f52dbfeff7274a58bf377da4cbc7cd26",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beda32f664fb459291d362e650147d5d?Signature=pcYNBP%2FAj04nzgykslGVmqMOd3wtV9PptoB5NuzsDBne78GS2HGn9hmq%2ByTIhaYOr%2Bdtv6mO63IBY8NkQ3jrAg%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "language": "uk"
+      },
+      {
+        "id": "f52dbfeff7274a58bf377da4cbc7cd26",
+        "datePublished": "2023-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d369fa8572584fffba4fe7fb70daffe2?Signature=%2B8G4s2LtJtEl9ij7xF17ayvO5H1BxrBWc7bAMhNt6pn9JkPAOCocA1BAkf3wIPgRzu8bKDe4qvayMpJcnL%2FlAQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-01-01T00:00:00+02:00",
+        "language": "uk"
+      }
+    ],
+    "owner": "broker",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
-    "owner": "broker",
-    "status": "active",
     "period": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-31T00:00:00+02:00"
@@ -29,6 +73,7 @@ Content-Type: application/json
       "endDate": "2023-01-14T00:00:00+02:00",
       "clarificationsUntil": "2023-01-19T00:00:00+02:00"
     },
+    "next_check": "2023-01-28T00:00:00+02:00",
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -51,50 +96,8 @@ Content-Type: application/json
       },
       "kind": "general"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "documents": [
-      {
-        "id": "6506c1853419472abd290579305a0e2e",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "framework.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/21845f55a6ee465d8eac46416eac4d04?Signature=%2ByHzPawbrLyMfpg8S7X%2Fy09nWyZjWba6dxKkRJa5K%2FY7w3U9nksK1dQbQD5K77Rhh%2FaFnsUGS8QeDuisls8xCA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
-      },
-      {
-        "id": "58b60c5a9fbf4147bcc80eefcedf9d2c",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "framework_additional_docs.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a4f3e2ef5f6b4d78934f91b1111336b5?Signature=n6xcmIiAoPC7w06h8DGUxDobhsTqkD6xxBU9PyGULVBH2hhH9SZ3oRekYg6O2MG2Pn4PHf7svoq2TKdjn2FADw%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
-      },
-      {
-        "id": "58b60c5a9fbf4147bcc80eefcedf9d2c",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "framework_additional_docs.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f02ae764e8c4eb389cd92c83294f1d4?Signature=msUCyNkYRv64%2BPgFgkZTmEMPEN7xNsSWRpATPCvqfx0mCokSuS%2Bo62e24xZ1OuYSFdNssVF9SfGbtiebc0niBA%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
-      }
-    ],
-    "agreementID": "07764e512cfd4004b74989fbab149644",
-    "id": "866509257c6546a088e0363315140ee0",
-    "next_check": "2023-01-28T00:00:00+02:00"
+    "agreementID": "a7900726fadb4012a73167666b9af707",
+    "id": "4178f66eebf04c4497d0fb223feeb0fe"
   },
   "config": {
     "restrictedDerivatives": false

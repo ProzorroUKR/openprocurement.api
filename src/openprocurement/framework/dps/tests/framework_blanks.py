@@ -16,25 +16,24 @@ from openprocurement.framework.core.utils import get_framework_unsuccessful_stat
 def simple_add_framework(self):
     set_now()
 
-    u = Framework(self.initial_data)
-    u.prettyID = "UA-F"
-    u.dateModified = get_now().isoformat()
+    u = deepcopy(self.initial_data)
+    u["prettyID"] = "UA-F"
+    u["dateModified"] = get_now().isoformat()
 
-    assert u.id is None
-    assert u.rev is None
+    assert "_id" not in u
+    assert "_rev" not in u
 
-    u.id = uuid4().hex
+    u["id"] = uuid4().hex
     self.mongodb.frameworks.save(u, insert=True)
 
-    assert u.id is not None
-    assert u.rev is not None
+    assert "_id" in u
+    assert "_rev" in u
 
-    fromdb = self.mongodb.frameworks.get(u.id)
+    fromdb = self.mongodb.frameworks.get(u["_id"])
 
-    assert u.prettyID == fromdb["prettyID"]
-    assert u.doc_type is None
+    assert u["prettyID"] == fromdb["prettyID"]
 
-    self.mongodb.frameworks.delete(u.id)
+    self.mongodb.frameworks.delete(u["_id"])
 
 
 def listing(self):
@@ -343,20 +342,6 @@ def listing_draft(self):
 
 def create_framework_draft_invalid(self):
     request_path = "/frameworks"
-    response = self.app.post(request_path, "data", status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Content-Type header should be one of ['application/json']",
-                "location": "header",
-                "name": "Content-Type",
-            }
-        ],
-    )
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -389,16 +374,6 @@ def create_framework_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
-    )
-
-    data = {"frameworkType": "invalid_value"}
-    response = self.app.post_json(request_path, {"data": data}, status=415)
-    self.assertEqual(response.status, "415 Unsupported Media Type")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": "Not implemented", "location": "body", "name": "frameworkType"}],
     )
 
     data = {
@@ -514,6 +489,23 @@ def create_framework_draft_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
+    data["procuringEntity"]["contactPoint"]["telephone"] = "foobar"
+    response = self.app.post_json(request_path, {"data": data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': {
+                    'contactPoint': {
+                        'telephone': ['wrong telephone format (could be missed +)'],
+                    }
+                },
+                'location': 'body', 'name': 'procuringEntity'
+            }
+        ],
+    )
+
     del data["procuringEntity"]["contactPoint"]["telephone"]
     del data["procuringEntity"]["contactPoint"]["email"]
     response = self.app.post_json(request_path, {"data": data}, status=422)
@@ -750,24 +742,14 @@ def patch_framework_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(framework["status"], "draft")
 
-    framework_ignore_patch_data = {
-        "date": (get_now() + timedelta(days=2)).isoformat(),
-        "dateModified": (get_now() + timedelta(days=1)).isoformat(),
-        "owner": "changed",
-        "period": {"endDate": (get_now() + timedelta(days=1)).isoformat()},
-        "enquiryPeriod": {"endDate": (get_now() + timedelta(days=1)).isoformat()},
-        "frameworkType": "changed",
-    }
-    response = self.app.patch_json(
-        "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": framework_ignore_patch_data}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    framework = self.app.get("/frameworks/{}".format(framework["id"], token)).json["data"]
-    for field in framework_ignore_patch_data:
-        self.assertNotEqual(framework.get(field, ""), framework_ignore_patch_data[field])
-
     qualification_endDate = (get_now() + timedelta(days=90)).isoformat()
+    procuring_entity = deepcopy(framework["procuringEntity"])
+    procuring_entity["identifier"]["legalName"] = "changed"
+    procuring_entity["address"].update({
+        "postalCode": "changed",
+        "streetAddress": "changed",
+        "locality": "changed"
+    })
     framework_patch_data = {
         "procuringEntity": {
             "contactPoint": {
@@ -775,14 +757,8 @@ def patch_framework_draft(self):
                 "name": "changed",
                 "email": "bb@bb.ua"
             },
-            "identifier": {
-                "legalName": "changed"
-            },
-            "address": {
-                "postalCode": "changed",
-                "streetAddress": "changed",
-                "locality": "changed"
-            },
+            "identifier": procuring_entity["identifier"],
+            "address": procuring_entity["address"],
             "name": "changed"
         },
         "additionalClassifications": [
@@ -794,7 +770,8 @@ def patch_framework_draft(self):
         ],
         "classification": {
             "description": "changed",
-            "id": "44115810-0"
+            "id": "44115810-0",
+            "scheme": framework["classification"]["scheme"],
         },
         "title": "changed",
         "description": "changed",
@@ -850,7 +827,7 @@ def patch_framework_draft_to_active(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertNotEqual(response.json["data"]["date"], framework["date"])
+    self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
 
     data = deepcopy(self.initial_data)
     data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=30)).isoformat()
@@ -873,7 +850,7 @@ def patch_framework_draft_to_active(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertNotEqual(response.json["data"]["date"], framework["date"])
+    self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
     self.assertEqual(response.json["data"]["enquiryPeriod"]["startDate"], response.json["data"]["period"]["startDate"])
     self.assertEqual(
         response.json["data"]["qualificationPeriod"]["startDate"],
@@ -901,7 +878,7 @@ def patch_framework_draft_to_active(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
-    self.assertNotEqual(response.json["data"]["date"], framework["date"])
+    self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
 
 
 def patch_framework_draft_to_active_invalid(self):
@@ -990,11 +967,23 @@ def patch_framework_active(self):
     framework = response.json["data"]
     self.assertEqual(framework["status"], "active")
 
+    framework_invalid_data_for_active = {
+        "classification": framework.get("classification"),
+        "title": framework.get("title"),
+    }
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": framework_invalid_data_for_active},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    error_fields = [field["name"] for field in response.json["errors"]]
+    self.assertListEqual(sorted(error_fields), list(framework_invalid_data_for_active.keys()))
+
     framework_ignore_patch_data = {
-        "classification": {},
-        "title": "",
-        "additionalClassifications": [],
-        "procuringEntity": {},
+        "description": framework.get("description"),
+        "procuringEntity": {"contactPoint": framework.get("procuringEntity", {}).get("contactPoint")},
     }
 
     response = self.app.patch_json(
@@ -1136,17 +1125,37 @@ def periods_deletion(self):
 
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": {"period": {"startDate": None}}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["period"], period)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "period",
+                "description": "Rogue field"
+            }
+        ],
+    )
 
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": {"enquiryPeriod": {"startDate": None}}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["enquiryPeriod"], enquiryPeriod)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "enquiryPeriod",
+                "description": "Rogue field"
+            }
+        ],
+    )
 
 
 def date_framework(self):
@@ -1406,7 +1415,7 @@ def unsuccessful_status(self):
     date = get_framework_unsuccessful_status_check_date(framework)
     with freeze_time((date + timedelta(hours=1)).isoformat()):
         with mock.patch(
-            "openprocurement.framework.core.utils.get_framework_number_of_submissions",
+            "openprocurement.framework.core.procedure.state.chronograph.get_framework_number_of_submissions",
             lambda x, y: 1
         ):
             self.check_chronograph()
@@ -1440,7 +1449,7 @@ def complete_status(self):
     date = framework["qualificationPeriod"]["endDate"]
     with freeze_time((date + timedelta(hours=1)).isoformat()):
         with mock.patch(
-            "openprocurement.framework.core.utils.get_framework_number_of_submissions",
+            "openprocurement.framework.core.procedure.state.chronograph.get_framework_number_of_submissions",
             lambda x, y: 1
         ):
             self.check_chronograph()

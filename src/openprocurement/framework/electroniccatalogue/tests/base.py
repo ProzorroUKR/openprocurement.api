@@ -15,8 +15,6 @@ from openprocurement.api.utils import (
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.electroniccatalogue.models import (
     Framework,
-    Submission,
-    Agreement,
     AUTHORIZED_CPB,
 )
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
@@ -104,7 +102,7 @@ test_electronicCatalogue_documents = [
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
-        "id": "3fe9486c38a1473ca201e42ebbf9b648",
+        "id": "3fe9486c38a1473ca201e42ebbf9b643",
         "dateModified": "2020-09-08T01:00:00+03:00"
     }
 ]
@@ -137,6 +135,7 @@ tenderer = {
 
 test_submission_data = {
     "tenderers": [tenderer],
+    "submissionType": "electronicCatalogue",
 }
 
 ban_milestone_data = {
@@ -202,7 +201,7 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
         if self.framework_document_patch:
             patch = apply_data_patch(self.framework_document, self.framework_document_patch)
             self.framework_document.update(patch)
-            self.mongodb.frameworks.save(Framework(self.framework_document))
+            self.mongodb.frameworks.save(self.framework_document)
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
 
@@ -245,7 +244,7 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         if self.submission_document_patch:
             patch = apply_data_patch(self.submission_document, self.submission_document_patch)
             self.submission_document.update(patch)
-            self.mongodb.submissions.save(Submission(self.submission_document))
+            self.mongodb.submissions.save(self.submission_document)
             self.submission_document = self.mongodb.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
@@ -275,9 +274,14 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         return response
 
     def activate_qualification(self):
-        response = self.app.post(
+        response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
+            {"data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         response = self.app.patch_json(
@@ -316,7 +320,7 @@ class BaseAgreementContentWebTest(SubmissionContentWebTest):
         if self.agreement_document_patch:
             patch = apply_data_patch(self.agreement_document, self.agreement_document_patch)
             self.agreement_document.update(patch)
-            self.mongodb.agreements.save(Agreement(self.agreement_document))
+            self.mongodb.agreements.save(self.agreement_document)
             self.agreement_document = self.mongodb.agreements.get(self.agreement_id)
             self.agreement_document_patch = {}
 

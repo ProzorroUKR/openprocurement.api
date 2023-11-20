@@ -159,11 +159,16 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # add agreement change document
         with open(TARGET_DIR + 'add-agreement-change-document.http', 'wb') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/agreements/{}/documents?acc_token={}'.format(
                     agreement_id, agreement_token
                 ),
-                upload_files=[('file', 'agreement_changes.doc', b'content')]
+                {"data": {
+                    "title": "agreement_changes.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
             self.assertEqual(response.status, '201 Created')
             doc_id = response.json["data"]['id']
@@ -227,11 +232,16 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Uploading documentation
         with open(TARGET_DIR + 'upload-agreement-document.http', 'wb') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/agreements/{}/documents?acc_token={}'.format(
                     agreement_id, agreement_token
                 ),
-                upload_files=[('file', 'agreement.doc', b'content')]
+                {"data": {
+                    "title": "agreement.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         with open(TARGET_DIR + 'agreement-documents.http', 'wb') as self.app.file_obj:
@@ -242,21 +252,31 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
 
         with open(TARGET_DIR + 'upload-agreement-document-2.http', 'wb') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/agreements/{}/documents?acc_token={}'.format(
                     agreement_id, agreement_token
                 ),
-                upload_files=[('file', 'agreement_additional_docs.doc', b'additional info')]
+                {"data": {
+                    "title": "agreement_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-agreement-document-3.http', 'wb') as self.app.file_obj:
-            response = self.app.put(
+            response = self.app.put_json(
                 '/agreements/{}/documents/{}?acc_token={}'.format(
                     agreement_id, doc_id, agreement_token
                 ),
-                upload_files=[('file', 'agreement_additional_docs.doc', b'extended additional info')]
+                {"data": {
+                    "title": "agreement_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         with open(TARGET_DIR + 'get-agreement-document-3.http', 'wb') as self.app.file_obj:

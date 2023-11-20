@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
 
-from openprocurement.framework.dps.models import (
-    Framework,
-    Submission,
-    Qualification,
-    Agreement,
-)
+from openprocurement.framework.dps.procedure.models.submission import Submission
+from openprocurement.framework.dps.procedure.models.agreement import Agreement
+from openprocurement.framework.dps.procedure.models.framework import Framework
+from openprocurement.framework.dps.procedure.models.qualification import Qualification
 
 LOGGER = getLogger("openprocurement.framework.dps")
 
@@ -17,4 +15,5 @@ def includeme(config):
     config.add_submission_submissionTypes(Submission)
     config.add_qualification_qualificationTypes(Qualification)
     config.add_agreement_agreementTypes(Agreement)
-    config.scan("openprocurement.framework.dps.views")
+    # config.scan("openprocurement.framework.dps.views")
+    config.scan("openprocurement.framework.dps.procedure.views")

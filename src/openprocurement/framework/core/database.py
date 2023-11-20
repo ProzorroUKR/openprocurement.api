@@ -5,9 +5,15 @@ from pymongo import ASCENDING, IndexModel
 class FrameworkCollection(BaseCollection):
     object_name = "framework"
 
+    def save(self, data, insert=False, modified=True):
+        self.store.save_data(self.collection, data, insert=insert, modified=modified)
+
 
 class SubmissionCollection(BaseCollection):
     object_name = "submission"
+
+    def save(self, data, insert=False, modified=True):
+        self.store.save_data(self.collection, data, insert=insert, modified=modified)
 
     def get_indexes(self):
         indexes = super().get_indexes()
@@ -48,6 +54,12 @@ class SubmissionCollection(BaseCollection):
 
 class AgreementCollection(BaseCollection):
     object_name = "agreement"
+
+    def save(self, data, insert=False, modified=True):
+        if isinstance(data, dict):
+            self.store.save_data(self.collection, data, insert=insert, modified=modified)
+        else:  # needed for relocation api as it is not refactored yet
+            super().save(data, insert=False, modified=True)
 
     def get_indexes(self):
         indexes = super().get_indexes()
@@ -111,4 +123,7 @@ class AgreementCollection(BaseCollection):
 
 class QualificationCollection(BaseCollection):
     object_name = "qualification"
+
+    def save(self, data, insert=False, modified=True):
+        self.store.save_data(self.collection, data, insert=insert, modified=modified)
 

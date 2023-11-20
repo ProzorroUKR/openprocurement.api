@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/9bd2fdb5579045be9cfff9fb1a397e32/questions/c0b3b9bc304945b59cccc96f522283aa?acc_token=77e8aeb431c44efa97ff595190dc86ba HTTP/1.0
+PATCH /api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333/questions/bfbf3b0718564cc1b1d4dab56c4d796f?acc_token=a2ff40fa3e7143baa0a0b38805036fe7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 141
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "c0b3b9bc304945b59cccc96f522283aa",
+    "id": "bfbf3b0718564cc1b1d4dab56c4d796f",
     "author": {
       "name": "ДКП «Книга»",
       "identifier": {
@@ -25,17 +25,17 @@ Content-Type: application/json
         "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
         "uri": "http://www.sc.gov.ua/"
       },
+      "contactPoint": {
+        "name": "Андрій Олексюк",
+        "email": "aagt@gmail.com",
+        "telephone": "+380322916930"
+      },
       "address": {
         "streetAddress": "вул. Островського, 34",
         "locality": "м. Львів",
         "region": "Львівська область",
         "postalCode": "79013",
         "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Андрій Олексюк",
-        "email": "aagt@gmail.com",
-        "telephone": "+380322916930"
       }
     },
     "title": "Калорійність",

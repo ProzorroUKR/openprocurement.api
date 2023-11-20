@@ -40,9 +40,14 @@ from openprocurement.framework.dps.tests.qualification import (
 class QualificationContentWebTest(BaseQualificationContentWebTest):
     def setUp(self):
         super().setUp()
-        response = self.app.post(
+        response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            upload_files=[("file", "name  name.doc", b"content")]
+            {"data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }},
         )
         self.assertEqual(response.status, "201 Created")
 

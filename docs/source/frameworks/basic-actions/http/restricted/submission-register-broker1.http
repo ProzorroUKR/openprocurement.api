@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32"
+    "frameworkID": "6f4f10deaaae4f8b9d117837474a9333"
   },
   "config": {
     "restricted": true
@@ -40,7 +40,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d96d76a4ef4f4d3eae4b099d0404e31f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/fd9a2e1f2e674531813756d4d0aaa351
 
 {
   "data": {
@@ -68,17 +68,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/d96d76a4ef4f
         }
       }
     ],
-    "frameworkID": "9bd2fdb5579045be9cfff9fb1a397e32",
-    "dateModified": "2023-01-20T00:00:00+02:00",
-    "date": "2023-01-20T00:00:00+02:00",
-    "owner": "broker1",
+    "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
     "status": "draft",
     "submissionType": "dynamicPurchasingSystem",
-    "id": "d96d76a4ef4f4d3eae4b099d0404e31f"
+    "owner": "broker1",
+    "date": "2023-01-20T00:00:00+02:00",
+    "dateModified": "2023-01-20T00:00:00+02:00",
+    "id": "fd9a2e1f2e674531813756d4d0aaa351"
   },
   "access": {
-    "token": "7048bca78fdf467eafe0dd61ec2b9436",
-    "transfer": "0a0710cb5c4a4dbb84a7d89a1c3b28f6"
+    "token": "25410576c6124986aa4e5dc47fa262bc",
+    "transfer": "b031ac75f72541439c08e6cfbb74ff10"
   },
   "config": {
     "restricted": true

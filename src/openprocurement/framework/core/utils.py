@@ -31,6 +31,7 @@ from openprocurement.api.utils import (
     generate_id,
     get_first_revision_date,
 )
+from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.core.traversal import (
     framework_factory,
     submission_factory,
@@ -70,6 +71,11 @@ class FrameworkTypePredicate(object):
     def __call__(self, context, request):
         if request.framework is not None:
             return getattr(request.framework, "frameworkType", None) == self.val
+
+        if request.method == "POST" and request.path.endswith("/frameworks"):
+            data = validate_json_data(request)
+            return data.get("frameworkType", "electronicCatalogue") == self.val
+
         return False
 
 
@@ -88,6 +94,10 @@ class SubmissionTypePredicate(object):
         if request.submission is not None:
             return getattr(request.submission, "submissionType", None) == self.val
 
+        if request.method == "POST" and request.path.endswith("/submissions"):
+            data = validate_json_data(request)
+            return data.get("submissionType", "electronicCatalogue") == self.val
+
         return False
 
 
@@ -105,6 +115,11 @@ class QualificationTypePredicate(object):
     def __call__(self, context, request):
         if request.qualification is not None:
             return getattr(request.qualification, "qualificationType", None) == self.val
+
+        if request.method == "POST" and request.path.endswith("/qualifications"):
+            data = validate_json_data(request)
+            return data.get("qualificationType", "electronicCatalogue") == self.val
+
         return False
 
 
@@ -122,6 +137,11 @@ class AgreementTypePredicate(object):
     def __call__(self, context, request):
         if request.agreement is not None:
             return getattr(request.agreement, "agreementType", None) == self.val
+
+        if request.method == "POST" and request.path.endswith("/agreements"):
+            data = validate_json_data(request)
+            return data.get("agreementType", "cfaua") == self.val
+
         return False
 
 
@@ -212,7 +232,7 @@ def extract_doc(request):
     # obj_id = ""
     # extract object id
     parts = path.split("/")
-    if len(parts) < 4 or parts[3] not in ("frameworks", "submissions", "qualifications", "agreements"):
+    if len(parts) < 5 or parts[3] not in ("frameworks", "submissions", "qualifications", "agreements"):
         return
 
     # obj_type = parts[3][0].upper() + parts[3][1:-1]

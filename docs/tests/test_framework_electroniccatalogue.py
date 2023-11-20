@@ -75,11 +75,16 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/frameworks/{}/documents?acc_token={}'.format(
                     framework['id'], owner_token
                 ),
-                upload_files=[('file', 'framework.doc', b'content')]
+                {"data": {
+                    "title": "framework.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
@@ -90,21 +95,31 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             )
 
         with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/frameworks/{}/documents?acc_token={}'.format(
                     framework['id'], owner_token
                 ),
-                upload_files=[('file', 'framework_additional_docs.doc', b'additional info')]
+                {"data": {
+                    "title": "framework_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-framework-document-3.http', 'w') as self.app.file_obj:
-            response = self.app.put(
+            response = self.app.put_json(
                 '/frameworks/{}/documents/{}?acc_token={}'.format(
                     framework['id'], doc_id, owner_token
                 ),
-                upload_files=[('file', 'framework_additional_docs.doc', b'extended additional info')]
+                {"data": {
+                    "title": "framework_additional_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
 
         with open(TARGET_DIR + 'get-framework-document-3.http', 'w') as self.app.file_obj:
@@ -136,9 +151,14 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         self.submission_token = response.json["access"]["token"]
 
         with open(TARGET_DIR + 'upload-submission-document.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/submissions/{}/documents?acc_token={}'.format(self.submission_id, self.submission_token),
-                upload_files=[('file', 'submission_docs.doc', b'additional info')]
+                {"data": {
+                    "title": "submission_docs.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -196,11 +216,16 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-qualification-document.http', 'w') as self.app.file_obj:
-            response = self.app.post(
+            response = self.app.post_json(
                 '/qualifications/{}/documents?acc_token={}'.format(
                     self.qualification_id, owner_token
                 ),
-                upload_files=[('file', 'qualification.doc', b'content')]
+                {"data": {
+                    "title": "qualification.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }},
             )
             self.assertEqual(response.status, '201 Created')
 
