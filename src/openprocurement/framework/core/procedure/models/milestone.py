@@ -3,13 +3,14 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType, BaseType, BooleanType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request
 from openprocurement.api.models import (
     IsoDateTimeType,
     Model,
     ModelType,
     ListType,
 )
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.utils import calculate_framework_date
 

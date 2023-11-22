@@ -2,12 +2,12 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType, BaseType, BooleanType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_now
 from openprocurement.api.models import (
     Model,
     ModelType,
     IsoDateTimeType,
 )
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.organization import Organization
 
 

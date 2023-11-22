@@ -7,9 +7,8 @@ from openprocurement.api.constants import (
     UA_REGIONS,
     REQUIRED_FIELDS_BY_SUBMISSION_FROM,
 )
-from openprocurement.api.context import get_now
 from openprocurement.api.models import BaseAddress
-from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.framework.core.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import required_field_from_date
 

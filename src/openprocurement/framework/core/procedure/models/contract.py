@@ -2,13 +2,13 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType, BaseType, BooleanType
 
-from openprocurement.api.context import get_now
 from openprocurement.api.models import (
     IsoDateTimeType,
     Model,
     ModelType,
     ListType,
 )
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.milestone import Milestone
 from openprocurement.framework.core.procedure.models.organization import (
     ContractBusinessOrganization,
