@@ -83,8 +83,8 @@ class MatchResponseValue:
             raise ValidationError(f"Count of items higher then maximum required {expected_max_items} "
                                   f"in requirement {requirement['id']}")
 
-        if not set(values).issubset(set(expected_values)):
-            raise ValidationError(f"Values isn't in requirement {requirement['id']}")
+        if expected_values and not set(values).issubset(set(expected_values)):
+            raise ValidationError(f"Values are not in requirement {requirement['id']}")
 
     @classmethod
     def match(cls, requirement, response):
@@ -97,21 +97,17 @@ class MatchResponseValue:
             raise ValidationError('response required at least one of field ["value", "values"]')
         if value is not None and values:
             raise ValidationError("field 'value' conflicts with 'values'")
+        values = [value] if value else values
 
-        if value is not None:
-            value = datatype.to_native(response['value'])
-            field_for_value = ('expectedValue', 'minValue', 'maxValue')
+        if values is not None:
+            field_for_value = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
             if all(i not in requirement for i in field_for_value):
-                raise ValidationError(f"field 'value' is rogue without one of fields: {field_for_value} "
-                                      f"in requirement({requirement['id']})")
-            cls._match_expected_value(datatype, requirement, value)
-            cls._match_min_max_value(datatype, requirement, value)
-
-        elif values is not None:
-            if 'expectedValues' not in requirement:
-                raise ValidationError(f"field 'values' is rogue without 'expectedValues' field "
+                raise ValidationError(f"field 'value/values' is rogue without one of fields: {field_for_value} "
                                       f"in requirement({requirement['id']})")
             values = [datatype.to_native(v) for v in values]
+            for value in values:
+                cls._match_expected_value(datatype, requirement, value)
+                cls._match_min_max_value(datatype, requirement, value)
             cls._match_expected_values(datatype, requirement, values)
 
 

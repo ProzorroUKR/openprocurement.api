@@ -8,6 +8,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_response_3,
     test_tender_pq_response_4,
 )
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_shortlisted_firms
 from openprocurement.tender.pricequotation.tests.utils import copy_criteria_req_id
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -515,7 +516,122 @@ def requirement_response_validation_multiple_criterias(self):
     self.assertEqual(data['status'], "error")
     self.assertEqual(
         data['errors'], [{
-            'description': [f'Values isn\'t in requirement {test_response[2]["requirement"]["id"]}'],
+            'description': [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
+            'location': 'body',
+            'name': 'requirementResponses'
+        }]
+    )
+
+
+def requirement_response_value_validation_for_expected_values(self):
+    data = self.initial_data.copy()
+    data.update({"status": "draft"})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    criteria_data = [
+        {
+            "description": "Форма випуску",
+            "requirementGroups": [
+                {
+                    "description": "Форма випуску",
+                    "requirements": [
+                        {
+                            "dataType": "string",
+                            "expectedValues": ["Розчин для інфузій"],
+                            "title": "Форма випуску"
+                        },
+
+                    ]
+                }
+            ],
+            "title": "Форма випуску"
+        },
+        {
+            "description": "Доза діючої речовини",
+            "requirementGroups": [
+                {
+                    "description": "Доза діючої речовини",
+                    "requirements": [
+                        {
+                            "dataType": "integer",
+                            "minValue": 5,
+                            "title": "Доза діючої речовини",
+                            "unit": {
+                                "code": "KGM",
+                                "name": "кілограми"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "title": "Доза діючої речовини"
+        },
+    ]
+    # switch to tendering and add criteria with expectedValues array
+    with change_auth(self.app, ("Basic", ("pricequotation", ""))):
+        response = self.app.patch_json(
+            f"/tenders/{tender['id']}",
+            {
+                "data": {
+                    "status": "active.tendering",
+                    "shortlistedFirms": test_tender_pq_shortlisted_firms,
+                    "criteria": criteria_data,
+                }
+            }
+        )
+    self.assertEqual(response.status, "200 OK")
+    tender = response.json["data"]
+
+    # try to response value on expectedValues
+    rr = [
+        {
+            "requirement": {
+                "id": "400496-0001-001-01"
+            },
+            "value": "Розчин для інфузій"
+        },
+        {
+            "requirement": {
+                "id": "400496-0002-001-01"
+            },
+            "values": [5, 7, 6]
+        },
+
+    ]
+    copy_criteria_req_id(tender["criteria"], rr)
+
+    response = self.app.post_json(
+        f"/tenders/{tender['id']}/bids",
+        {"data": {
+            "tenderers": [test_tender_pq_organization],
+            "value": {"amount": 500},
+            "requirementResponses": rr,
+        }},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+
+    # invalid value in response
+    test_response = deepcopy(rr)
+    copy_criteria_req_id(tender["criteria"], test_response)
+    test_response[0]['value'] = 'ivalid'
+    response = self.app.post_json(
+        f"/tenders/{tender['id']}/bids",
+        {"data": {
+            "tenderers": [test_tender_pq_organization],
+            "value": {"amount": 500},
+            "requirementResponses": test_response
+        }},
+        status=422
+    )
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'], [{
+            'description': [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
             'location': 'body',
             'name': 'requirementResponses'
         }]
