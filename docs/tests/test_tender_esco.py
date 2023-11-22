@@ -32,6 +32,7 @@ from tests.base.data import (
     test_docs_lots,
 )
 from tests.test_tender_config import TenderConfigCSVMixin
+from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)
@@ -639,6 +640,33 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
                 }})
             self.assertEqual(response.status, '200 OK')
 
+        ####  Set contract value
+        # Maybe if like that exclusion will be more that part should be moved to econtract
+
+        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
+            self.tender_id, owner_token))
+        self.contract_id = response.json['data'][0]['id']
+
+        self.tick()
+
+        tender = self.mongodb.tenders.get(self.tender_id)
+        for i in tender.get('awards', []):
+            i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.mongodb.tenders.save(tender)
+
+        value = dict(response.json["data"][0]["value"])
+        value["amountNet"] -= 1
+        with open(ECONTRACT_TARGET_DIR + 'esco-tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/contracts/{}?acc_token={}'.format(self.contract_id, owner_token),
+                {"data": {
+                    "contractNumber": "contract#1",
+                    "value": value
+                }})
+            self.assertEqual(response.status, '200 OK')
+        self.assertEqual(
+            response.json['data']['value']['amountNet'],
+            response.json['data']['value']['amount'] - 1)
 
         #### Preparing the cancellation request
 

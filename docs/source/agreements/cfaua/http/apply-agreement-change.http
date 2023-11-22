@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "active",
-    "dateSigned": "2023-01-01T00:00:00+02:00"
+    "dateSigned": "2023-10-10T01:00:00+03:00"
   }
 }
 
@@ -19,10 +19,10 @@ Content-Type: application/json
   "data": {
     "id": "30eb3b69a8174931a5bc64636ea3e4b2",
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "rationale": "Друга і третя поставка має бути розфасована",
     "rationale_en": "Agreement change cause",
-    "dateSigned": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
     "rationaleType": "taxRate",
     "modifications": [
       {

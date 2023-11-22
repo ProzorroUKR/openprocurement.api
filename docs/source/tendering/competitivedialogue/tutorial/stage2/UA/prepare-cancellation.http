@@ -21,7 +21,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32bf03368c4c4986
     "reasonType": "noDemand",
     "reason": "cancellation reason",
     "id": "3b82f9b14de340008c4507515129839e",
-    "date": "2023-01-01T00:00:03+02:00",
+    "date": "2023-10-10T01:00:01+03:00",
     "cancellationOf": "tender",
     "status": "draft"
   }

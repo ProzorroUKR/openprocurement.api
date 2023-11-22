@@ -77,10 +77,11 @@ class EContractState(
         self.validate_update_contract_value_net_required(request, before, after)
         self.validate_update_contract_value_amount(request, before, after)
 
-        if before["status"] == "pending":
-            self.validate_contract_pending_patch(request, before, after)
-        if after["status"] != "pending":
-            self.validate_contract_active_patch(request, before, after)
+        if after["status"] != "cancelled":
+            if before["status"] == "pending":
+                self.validate_contract_pending_patch(request, before, after)
+            if after["status"] != "pending":
+                self.validate_contract_active_patch(request, before, after)
 
     def check_agreements(self, tender: dict) -> bool:
         if tender["procurementMethodType"] == "closeFrameworkAgreementSelectionUA":

@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2 HTTP/1.0
+GET /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,15 +9,15 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-20-000001-a-1",
+    "contractID": "UA-2023-10-10-000001-a-1",
     "period": {
-      "startDate": "2023-09-20T01:00:00+03:00",
-      "endDate": "2023-10-20T01:00:00+03:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-09T01:00:00+03:00"
     },
-    "dateSigned": "2023-09-20T01:00:00+03:00",
-    "date": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "changes": [
@@ -28,10 +28,10 @@ Content-Type: application/json
           "volumeCuts",
           "priceReduction"
         ],
-        "dateSigned": "2023-09-20T01:00:00+03:00",
+        "dateSigned": "2023-10-10T01:00:00+03:00",
         "id": "b9887678ba3c448b977467c0fe3ada31",
         "status": "active",
-        "date": "2023-09-20T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
@@ -40,20 +40,20 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
-        "datePublished": "2023-09-20T01:00:00+03:00",
-        "dateModified": "2023-09-20T01:00:00+03:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "9202cd64da8f42a5942c68dc14bf534a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
-        "datePublished": "2023-09-20T01:00:00+03:00",
-        "dateModified": "2023-09-20T01:00:00+03:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "relatedItem": "b9887678ba3c448b977467c0fe3ada31",
@@ -61,18 +61,12 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/32ec55c6c6144f7a8fceea1ed68a5290?download=34862599de094db7a8c9c37996ea4847",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/32ec55c6c6144f7a8fceea1ed68a5290?download=34862599de094db7a8c9c37996ea4847",
         "documentOf": "change",
-        "datePublished": "2023-09-20T01:00:00+03:00",
-        "dateModified": "2023-09-20T01:00:00+03:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "value": {
-      "amount": 438.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 430.0
-    },
     "status": "active",
     "buyer": {
       "name": "Державне управління справами",
@@ -92,8 +86,8 @@ Content-Type: application/json
         "name": "Test Testovich",
         "email": "example@email.com",
         "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "authorizedBy": "Статут компанії",
+        "iban": "234234234234234",
+        "basisOf": "Статут компанії",
         "position": "Генеральний директор"
       }
     },
@@ -117,7 +111,7 @@ Content-Type: application/json
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
-          "authorizedBy": "Статут компанії",
+          "basisOf": "Статут компанії",
           "position": "Генеральний директор"
         }
       }
@@ -128,8 +122,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 2.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -143,13 +137,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "unit": {
           "name": "штук",
           "value": {
@@ -158,6 +145,13 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       },
       {
@@ -165,8 +159,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -180,13 +174,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "unit": {
           "name": "штук",
           "value": {
@@ -195,11 +182,24 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         }
       }
     ],
+    "value": {
+      "amount": 438.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 430.0
+    },
     "bid_owner": "broker",
-    "id": "0df8cf97d5cb4ba98a7355f981e0afd2"
+    "id": "eb4343b446004f47aa2ec7f6e542f196"
   }
 }
 

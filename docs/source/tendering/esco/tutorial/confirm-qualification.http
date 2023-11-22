@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "id": "fdea30bde1d34c4eb16d5f7aa03bf22a",
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -50,8 +50,8 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8734.93,
-      "amountPerformance": 801.01,
+      "amount": 9430.27,
+      "amountPerformance": 864.98,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500,
@@ -83,8 +83,8 @@ Content-Type: application/json
     },
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-11T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-21T00:00:00+03:00"
     }
   }
 }

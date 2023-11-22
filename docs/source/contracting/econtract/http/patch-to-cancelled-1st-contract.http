@@ -1,0 +1,105 @@
+PATCH /api/2.5/contracts/baaae20021a74befa8c02cc7142fc2b9?acc_token=a950d4fa594a427fb3522f4d2a04c760 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 33
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "buyerID": "11111111111111111111111111111111",
+    "awardID": "e6251e8157ce420e8d9efa7161cdf649",
+    "contractID": "UA-2023-10-10-000001-a-1",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tender_id": "aa38d9c00da04374aa49bfa7d8f5dfd3",
+    "owner": "broker",
+    "status": "cancelled",
+    "buyer": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Державне управління справами",
+        "uri": "http://www.dus.gov.ua/"
+      }
+    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "3829ed01fa9545e7b491f51dc52ca27d",
+        "description": "телевізори",
+        "quantity": 5.0,
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "relatedBuyer": "11111111111111111111111111111111",
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "value": {
+      "amount": 0.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 0.0
+    },
+    "bid_owner": "broker",
+    "date": "2023-10-10T01:00:01+03:00",
+    "id": "baaae20021a74befa8c02cc7142fc2b9"
+  }
+}
+

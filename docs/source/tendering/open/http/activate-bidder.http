@@ -144,7 +144,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "1fcbb7ab0a104c228baa39c0c89927fe",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "selfQualified": true,
     "lotValues": [
       {
@@ -155,7 +155,7 @@ Content-Type: application/json
         },
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "subcontractingDetails": "ДКП «Орфей», Україна"
       }
     ]

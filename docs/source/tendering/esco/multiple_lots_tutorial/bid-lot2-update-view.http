@@ -162,17 +162,17 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "08194921af9d4f4eb7bc00b0c15c97cf",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "lotValues": [
       {
         "relatedLot": "47aa65f0d5b944629ab6126141681de8",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 9273.95,
-          "amountPerformance": 1984.18,
+          "amount": 10386.49,
+          "amountPerformance": 2090.23,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             700,

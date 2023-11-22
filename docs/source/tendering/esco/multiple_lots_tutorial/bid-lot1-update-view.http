@@ -163,18 +163,18 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "0382e1a830c74d9ea44f2bbe4823a623",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "lotValues": [
       {
         "relatedLot": "47aa65f0d5b944629ab6126141681de8",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "subcontractingDetails": "ДКП «Орфей»",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amount": 5396.38,
-          "amountPerformance": 1301.18,
+          "amount": 6068.55,
+          "amountPerformance": 1382.96,
           "yearlyPaymentsPercentage": 0.87,
           "annualCostsReduction": [
             200,

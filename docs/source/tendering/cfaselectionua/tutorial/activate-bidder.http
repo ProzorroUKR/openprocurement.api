@@ -40,7 +40,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "ba9c4ed2a7794a2d8234ba4ce62d909e",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "parameters": [
       {
         "code": "OCDS-123454-AIR-INTAKE",
@@ -60,7 +60,7 @@ Content-Type: application/json
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

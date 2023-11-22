@@ -33,7 +33,7 @@ class ContractsResource(MongodbResourceListing, ContractBaseResource):
         super().__init__(request, context)
         self.listing_name = "Contracts"
         self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {"dateCreated", "contractID", "dateModified"}
+        self.listing_allowed_fields = {"dateCreated", "contractID", "dateModified", "status"}
         self.db_listing_method = request.registry.mongodb.contracts.list
 
     @json_view(

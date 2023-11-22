@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 01:12+0300\n"
+"POT-Creation-Date: 2023-11-22 12:34+0200\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,8 +18,11 @@ msgstr ""
 msgid "Tutorial"
 msgstr "Туторіал"
 
-msgid "Exploring basic rules"
-msgstr "Розглянемо основні правила"
+msgid "Configuration"
+msgstr ""
+
+msgid "The set of possible configuration values:"
+msgstr ""
 
 msgid "name"
 msgstr ""
@@ -263,6 +266,7 @@ msgstr "Налаштування угоди"
 
 msgid "All operations with contract moved to :ref:`econtracting`"
 msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
+
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"
 

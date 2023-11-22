@@ -135,7 +135,7 @@ Content-Type: application/json
       }
     ],
     "id": "a95f810cd7eb47739df6fcbe23cce246",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -165,7 +165,7 @@ Content-Type: application/json
         "relatedLot": "5042b6586cbb4a679380f561ba153121",
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,

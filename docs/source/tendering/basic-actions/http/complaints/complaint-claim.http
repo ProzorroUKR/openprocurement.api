@@ -17,18 +17,18 @@ Content-Type: application/json
 {
   "data": {
     "id": "f0c38fcaca5943158f084a8e0f922608",
-    "complaintID": "UA-2023-01-01-000001-a.1",
-    "date": "2023-01-01T00:00:00+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.1",
+    "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
         "id": "3edca6a6810b47ff891b4c2a528bb4cd",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9b269fcfd987408f9618d155948b8df6?Signature=PO5oOxGJEHeFtDgp4ZLH8oPAq6XhGq1ms%2B3c4g%2B2t0kGqZ7oGiiHwapUfmkoZ2U%2FhFkIwpZ6E1musRSgLxtTBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "complaint_owner",
         "language": "uk"
       }
@@ -37,7 +37,7 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "claim",
     "type": "claim",
-    "dateSubmitted": "2023-01-01T00:00:00+02:00"
+    "dateSubmitted": "2023-10-10T01:00:00+03:00"
   }
 }
 

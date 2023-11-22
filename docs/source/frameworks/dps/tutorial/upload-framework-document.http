@@ -1,33 +1,31 @@
-POST /api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe/documents?acc_token=f8e6a2bdea5d45a086590324ce351932 HTTP/1.0
+POST /api/2.5/frameworks/866509257c6546a088e0363315140ee0/documents?acc_token=7b5fe43c1f3c4574982dcb841c9ef301 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 326
-Content-Type: application/json
+Content-Length: 148
+Content-Type: multipart/form-data; boundary=---BOUNDARY
 Host: lb-api-sandbox.prozorro.gov.ua
 
-{
-  "data": {
-    "title": "framework.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=pHqDG1lqYutJy8U7HPCCyc8uax0f19KdoWORHwN5qVLAew5b0Hp96XPiixj3voULdWbi6yws6Dun%2BLrAjxL9CA%3D%3D&KeyID=a8968c46",
-    "hash": "md5:00000000000000000000000000000000",
-    "format": "application/msword"
-  }
-}
+-----BOUNDARY
+Content-Disposition: form-data; name="file"; filename="framework.doc"
+Content-Type: application/msword
+
+content
+-----BOUNDARY--
+
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe/documents/ecdce85901c748e3ba722d06c584a578
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/866509257c6546a088e0363315140ee0/documents/6506c1853419472abd290579305a0e2e
 
 {
   "data": {
+    "id": "6506c1853419472abd290579305a0e2e",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
-    "language": "uk",
-    "id": "ecdce85901c748e3ba722d06c584a578",
-    "datePublished": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00"
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/21845f55a6ee465d8eac46416eac4d04?Signature=%2ByHzPawbrLyMfpg8S7X%2Fy09nWyZjWba6dxKkRJa5K%2FY7w3U9nksK1dQbQD5K77Rhh%2FaFnsUGS8QeDuisls8xCA%3D%3D&KeyID=a8968c46",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/32ec55c6c6144f7a8fceea1ed68a5290?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
+PATCH /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/32ec55c6c6144f7a8fceea1ed68a5290?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 85
 Content-Type: application/json
@@ -24,8 +24,8 @@ Content-Type: application/json
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/34862599de094db7a8c9c37996ea4847?Signature=cG1JU%2F1r%2B2jlQbXxJsq3HCYzzTi9mderkkqPwomMk34J6oAJ%2B7GRNC3kUgPO3zskbNjKkMkhiaJY2PmkUlOkBA%3D%3D&KeyID=a8968c46",
     "documentOf": "change",
-    "datePublished": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00"
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00"
   }
 }
 

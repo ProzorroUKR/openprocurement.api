@@ -21,7 +21,7 @@ Content-Type: application/json
     "id": "9a52c0300f4f40d5905fbb0755a8d330",
     "bidID": "921e8a45579a41ffa2ecd164f0a5c248",
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "qualified": true,
     "eligible": true
   }

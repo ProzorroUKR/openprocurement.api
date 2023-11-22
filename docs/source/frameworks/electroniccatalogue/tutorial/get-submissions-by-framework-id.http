@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c/submissions HTTP/1.0
+GET /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,14 +33,14 @@ Content-Type: application/json
           }
         }
       ],
-      "qualificationID": "838474d50c0a49d79fe82febe17a3c1e",
-      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "qualificationID": "4bba1d35a1a3403cad249cfd0534b366",
+      "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2023-10-26T01:00:00+03:00",
       "status": "complete",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
-      "date": "2023-01-17T00:00:00+02:00",
-      "datePublished": "2023-01-17T00:00:00+02:00",
-      "id": "8b8465c39dc3471ba57b324f2ed988fa"
+      "id": "6fd0a56be1b540369988bd3cb725e6c7"
     },
     {
       "tenderers": [
@@ -67,20 +67,20 @@ Content-Type: application/json
           }
         }
       ],
-      "qualificationID": "520521800ae94c52b85de3898d2c1a84",
-      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "qualificationID": "7f9989cca2bd45d99a498754bd5aa6e4",
+      "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2023-10-26T01:00:00+03:00",
       "status": "complete",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
-      "date": "2023-01-17T00:00:00+02:00",
-      "datePublished": "2023-01-17T00:00:00+02:00",
-      "id": "c032bcbca6d942d88bfa243b8b266b15"
+      "id": "2424b8b0c5ba45688a777cdca4f1f698"
     }
   ],
   "next_page": {
-    "offset": 1673906400.0,
-    "path": "/api/2.5/submissions?offset=1673906400.0",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1673906400.0"
+    "offset": 1698271200.0,
+    "path": "/api/2.5/submissions?offset=1698271200.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0"
   }
 }
 

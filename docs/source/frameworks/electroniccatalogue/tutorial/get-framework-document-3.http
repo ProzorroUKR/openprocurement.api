@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c/documents/3a01f49d8fc64d7d8b8b42d9d70b000e?acc_token=a7c5e242dae046dcbf238ba184295e8c HTTP/1.0
+GET /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/documents/d220eb62f60a4ae88103b7369be80fdb?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,24 +8,22 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "id": "d220eb62f60a4ae88103b7369be80fdb",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f4300d9a1594cfc800f2ea11c9a38d1?Signature=%2FEIDl4zhMc%2FQIlBBsuAcBovf0l1hIzOWn0E%2BS7E45QoXJ0ZAOOPKXmO2jUWxMhgObJloZ9%2FVLIiar4eop2K7Dg%3D%3D&KeyID=a8968c46",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "language": "uk",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f0c1e419fc8f4a92b7a4d02d6bc44504?Signature=QwHlQqaj1YoV9Hj13rib4fRT3TA85dvzgEobHEOxSJ59%2FROoBNsLtX1wv91KhTzDuNWjbiWjfvopEEu1Cj5VAA%3D%3D&KeyID=a8968c46",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "previousVersions": [
       {
+        "id": "d220eb62f60a4ae88103b7369be80fdb",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc4a665229114a72993b89bb20d7874b?Signature=cdTNyz3oB7rPP2%2Fou8SnYPoxabwo%2BQcAzgKapCGy9PY%2Fo3NSfRnJlvm9jzPX3Maq8xi6wTSODTEEEXWyEhYpCg%3D%3D&KeyID=a8968c46",
-        "language": "uk",
-        "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9391730d81504cb1a89d902205585047?Signature=GckTmK4GCug67LIfPCU5zhGbAKD24V4ie%2BSNl6gGpSA6PRHJFj58oE%2F4pKEWp2r4%2FeKKYwu4Ir4lH3kk%2Bbv5CQ%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

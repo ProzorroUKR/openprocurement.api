@@ -1,0 +1,27 @@
+PATCH /api/2.5/contracts/3529ba7acee240c4b5e2df74a10d18f7?acc_token=a950d4fa594a427fb3522f4d2a04c760 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 33
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "cancelled"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't update contract status from pending to cancelled for last not cancelled contract. Cancel award instead."
+    }
+  ]
+}
+

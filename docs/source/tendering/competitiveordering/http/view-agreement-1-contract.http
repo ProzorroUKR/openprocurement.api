@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/c2de9b3006f0421185ea131a7cc48eab HTTP/1.0
+GET /api/2.5/agreements/f5672877d14d468088531807b1fd5802 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,62 +8,18 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-01-000001",
+    "agreementID": "UA-2023-10-10-000001",
     "status": "active",
-    "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
-    },
-    "contracts": [
-      {
-        "id": "98712d471fee42549b8c6f8dc36776a1",
-        "qualificationID": "fccc9123773d4ae78a3a89b608857ed7",
-        "status": "active",
-        "submissionID": "0ba8a372b4d54e02b05a340a9cf86c11",
-        "suppliers": [
-          {
-            "name": "Державне управління справами",
-            "name_en": "State administration",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
-              "legalName": "Державне управління справами",
-              "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/"
-            },
-            "scale": "micro",
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "email": "aa@aa.com",
-              "telephone": "+0440000000"
-            },
-            "address": {
-              "streetAddress": "вул. Банкова, 11, корпус 1",
-              "locality": "м. Київ",
-              "region": "м. Київ",
-              "postalCode": "01220",
-              "countryName": "Україна"
-            }
-          }
-        ],
-        "milestones": [
-          {
-            "id": "42f8bbf6cc4944c8ac809612a14446db",
-            "type": "activation",
-            "status": "scheduled",
-            "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-01-01T00:00:00+02:00"
-          }
-        ],
-        "date": "2023-01-01T00:00:00+02:00"
-      }
-    ],
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "owner": "broker",
     "agreementType": "dynamicPurchasingSystem",
+    "frameworkID": "26812d5b7375495c8ac3ae6c778e737c",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-02-07T01:00:00+03:00"
+    },
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -85,7 +41,6 @@ Content-Type: application/json
       },
       "kind": "general"
     },
-    "frameworkID": "aaee5d971c6d4f5dabb88efa004abce8",
     "classification": {
       "description": "Mustard seeds",
       "scheme": "ДК021",
@@ -98,9 +53,53 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "next_check": "2023-05-01T00:00:00+02:00",
-    "id": "c2de9b3006f0421185ea131a7cc48eab"
-  },
-  "config": {}
+    "contracts": [
+      {
+        "id": "323cab97d9a24326a6d321f5d4dbc6aa",
+        "qualificationID": "0a34fc58f29d443c829c6a2bc774d408",
+        "status": "active",
+        "submissionID": "64b2299df39c48a094d552850ab01adf",
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "name_en": "State administration",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
+              "legalName": "Державне управління справами",
+              "legalName_en": "dus.gov.ua",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "scale": "micro",
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "email": "aa@aa.com",
+              "telephone": "+0440000000"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "495fcf4174dc493c90a32ab34fc6ceea",
+            "type": "activation",
+            "status": "scheduled",
+            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "id": "f5672877d14d468088531807b1fd5802",
+    "next_check": "2024-02-07T01:00:00+03:00"
+  }
 }
 

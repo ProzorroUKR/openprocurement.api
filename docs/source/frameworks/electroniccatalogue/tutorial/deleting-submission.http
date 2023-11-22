@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/438590c36742473c9858b8b466e0dde5?acc_token=83f957759f394a5bbe3742699f503760 HTTP/1.0
+PATCH /api/2.5/submissions/84fede82657a4f8b803500d0174ad041?acc_token=0ef94fed717045cfa5ddcdda2d637d0e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -42,24 +42,22 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "e1a378fd7df247249af772576e1f1154",
-        "datePublished": "2023-01-17T00:00:00+02:00",
+        "id": "50c1703ec3cd450fa45c6e4fe2ec63f8",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-17T00:00:00+02:00",
-        "language": "uk"
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4d1beea6916647c2957e61e7da9663e7?Signature=lMoye8i4aQqe2y8llAEDo1gXSGIc7EgLHJEHui4DNJsZYxhdENtropziSvTs8omT50S4ui29ddJtYmiR09L6Dg%3D%3D&KeyID=a8968c46",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2023-10-26T01:00:00+03:00"
       }
     ],
-    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
-    "status": "deleted",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
+    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
+    "status": "deleted",
     "submissionType": "electronicCatalogue",
-    "id": "438590c36742473c9858b8b466e0dde5"
-  },
-  "config": {}
+    "id": "84fede82657a4f8b803500d0174ad041"
+  }
 }
 
