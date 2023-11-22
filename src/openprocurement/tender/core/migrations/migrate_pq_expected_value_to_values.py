@@ -77,10 +77,14 @@ def run(env, args):
     cursor.batch_size(args.b)
     try:
         for tender in cursor:
-            set_data = {"dateModified": get_now().isoformat()}
+            now = get_now()
+            set_data = {
+                "dateModified": now.isoformat(),  # TODO: discuss it
+                "public_modified": now.timestamp(),
+            }
             update_tender = False
             if updated_criteria := update_criteria(tender["criteria"]):
-                set_data["criteria"] = updated_criteria  # public_modified?
+                set_data["criteria"] = updated_criteria
                 update_tender = True
 
             if tender.get("bids"):
