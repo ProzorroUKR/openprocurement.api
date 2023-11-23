@@ -27,10 +27,12 @@ from openprocurement.tender.core.procedure.models.unit import Unit
 
 
 class SignerInfo(Model):
-    name = StringType(required=True)
-    email = EmailType(required=True)
-    telephone = StringType(required=True)
+    name = StringType(min_length=1, required=True)
+    email = EmailType(min_length=1, required=True)
+    telephone = StringType(min_length=1, required=True)
     iban = StringType(min_length=15, max_length=33, required=True)
+    basisOf = StringType(min_length=1, required=True)
+    position = StringType(min_length=1, required=True)
     authorizedBy = StringType(required=True)
     position = StringType(required=True)
 
