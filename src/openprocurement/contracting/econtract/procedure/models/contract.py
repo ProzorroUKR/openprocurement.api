@@ -31,10 +31,8 @@ class SignerInfo(Model):
     email = EmailType(min_length=1, required=True)
     telephone = StringType(min_length=1, required=True)
     iban = StringType(min_length=15, max_length=33, required=True)
-    basisOf = StringType(min_length=1, required=True)
     position = StringType(min_length=1, required=True)
-    authorizedBy = StringType(required=True)
-    position = StringType(required=True)
+    authorizedBy = StringType(min_length=1, required=True)
 
     def validate_telephone(self, data, value):
         validate_telephone(value)
