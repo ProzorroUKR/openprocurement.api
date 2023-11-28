@@ -83,8 +83,6 @@ class ContractResource4BrokersTest(BaseEContractWebTest):
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
-    test_patch_tender_contract_without_value = snitch(patch_tender_contract_without_value)
-    test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
     test_get_credentials = snitch(get_credentials)
     test_generate_credentials_invalid = snitch(generate_credentials_invalid)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
@@ -98,6 +96,8 @@ class ContractActiveResource4BrokersTest(BaseEContractWebTest):
     test_patch_tender_contract_value_vat_change = snitch(patch_tender_contract_value_vat_change)
     test_patch_tender_contract_single_request = snitch(patch_tender_contract_single_request)
     test_patch_tender_contract_value_amount = snitch(patch_tender_contract_value_amount)
+    test_patch_tender_contract_without_value = snitch(patch_tender_contract_without_value)
+    test_patch_tender_contract_amount_paid_zero = snitch(patch_tender_contract_amount_paid_zero)
 
 
 class ContractResource4BrokersTestMultipleItems(BaseEContractWebTestTwoItems):

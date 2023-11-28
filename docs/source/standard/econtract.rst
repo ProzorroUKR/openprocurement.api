@@ -121,7 +121,7 @@ Schema
 
     Reasons for contract termination. Presence of this field indicates that contract is unsuccessful.
 
-:contractTemplateUri:
+:contractTemplateName:
     string, auto-generated
 
     template link on standards

@@ -1139,12 +1139,13 @@ def patch_tender_contract(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {"data": {"amountPaid": {"amount": 100, "amountNet": 90}}},
+        status=422
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["amountPaid"]["amount"], 100)
-    self.assertEqual(response.json["data"]["amountPaid"]["amountNet"], 90)
-    self.assertEqual(response.json["data"]["amountPaid"]["currency"], "UAH")
-    self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], True)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'Rogue field', 'location': 'body', 'name': 'amountPaid'}],
+    )
 
     custom_period_start_date = get_now().isoformat()
     custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
@@ -1155,6 +1156,16 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     self.set_status("active")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={token}",
+        {"data": {"amountPaid": {"amount": 100, "amountNet": 90}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["amountPaid"]["amount"], 100)
+    self.assertEqual(response.json["data"]["amountPaid"]["amountNet"], 90)
+    self.assertEqual(response.json["data"]["amountPaid"]["currency"], "UAH")
+    self.assertEqual(response.json["data"]["amountPaid"]["valueAddedTaxIncluded"], True)
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
@@ -1230,24 +1241,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit.value.amount',) in item"
-            }
-        ]
-    )
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {"items": [{**item, "unit": {**item["unit"], "name": "тонни"}}]}},
-        status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "data",
-                "description": "Updated could be only ('unit.value.amount',) in item"
+                "description": "Updated could be only ('unit', 'quantity') in item"
             }
         ]
     )

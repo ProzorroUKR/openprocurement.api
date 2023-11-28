@@ -51,7 +51,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                 "quantity",
             )
         else:
-            item_patch_fields = ("unit.value.amount",)
+            item_patch_fields = ("unit", "quantity")
         items_before = before.get("items", [])
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):

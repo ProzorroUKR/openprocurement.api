@@ -67,7 +67,7 @@ test_signer_info = {
     "telephone": "+380950000000",
     "email": "example@email.com",
     "iban": "1" * 15,
-    "basisOf": "Статут компанії",
+    "authorizedBy": "Статут компанії",
     "position": "Генеральний директор",
 }
 

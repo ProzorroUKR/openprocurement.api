@@ -30,7 +30,7 @@ class SignerInfo(Model):
     email = EmailType(required=True)
     telephone = StringType(required=True)
     iban = StringType(min_length=15, max_length=33, required=True)
-    basisOf = StringType(required=True)
+    authorizedBy = StringType(required=True)
     position = StringType(required=True)
 
     def validate_telephone(self, data, value):
@@ -45,6 +45,7 @@ class Attribute(Model):
 
 class Item(BaseItem):
     attributes = ListType(ModelType(Attribute, required=True))
+    unit = ModelType(Unit)
 
 
 class Organization(Model):

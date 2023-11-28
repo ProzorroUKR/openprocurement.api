@@ -76,7 +76,7 @@ Content-Type: application/json
         "email": "example@email.com",
         "telephone": "+380950000000",
         "iban": "111111111111111",
-        "basisOf": "Статут компанії",
+        "authorizedBy": "Статут компанії",
         "position": "Генеральний директор"
       }
     },
@@ -100,7 +100,7 @@ Content-Type: application/json
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
-          "basisOf": "Статут компанії",
+          "authorizedBy": "Статут компанії",
           "position": "Генеральний директор"
         }
       }
