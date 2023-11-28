@@ -136,8 +136,9 @@ class BaseEContractTest(BaseContractTest):
     def create_agreement(self):
         if self.mongodb.agreements.get(self.agreement_id):
             self.delete_agreement()
-        agreement = Agreement(self.initial_agreement_data)
-        agreement.dateModified = get_now().isoformat()
+
+        agreement = deepcopy(self.initial_agreement_data)
+        agreement["dateModified"] = get_now().isoformat()
         set_now()
         self.mongodb.agreements.save(agreement, insert=True)
 

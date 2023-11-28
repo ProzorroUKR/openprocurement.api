@@ -438,8 +438,7 @@ class Unit(Model):
         root = get_root(data['__parent__'])
         validation_date = get_first_revision_date(root, default=get_now())
         if validation_date >= UNIT_CODE_REQUIRED_FROM:
-            if value not in UNIT_CODES:
-                raise ValidationError(u"Code should be one of valid unit codes.")
+            validate_unit_code(value)
 
 
 class BaseAddress(Model):
@@ -753,3 +752,8 @@ PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other",
 def validate_telephone(value):
     if value and re.match("^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", value) is None:
         raise ValidationError(u"wrong telephone format (could be missed +)")
+
+
+def validate_unit_code(value):
+    if value not in UNIT_CODES:
+        raise ValidationError(u"Code should be one of valid unit codes.")

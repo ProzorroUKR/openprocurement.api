@@ -196,7 +196,7 @@ msgstr "рядок, обов’язковий для неуспішних дог
 msgid "Reasons for contract termination. Presence of this field indicates that contract is unsuccessful."
 msgstr "Причина припинення договору. Наявність цього поля вказує, що договір є неуспішним."
 
-msgid "contractTemplateUri"
+msgid "contractTemplateName"
 msgstr ""
 
 msgid "string, auto-generated"

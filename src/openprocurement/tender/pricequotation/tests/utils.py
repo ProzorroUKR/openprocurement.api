@@ -28,7 +28,7 @@ def activate_econtract(self, contract_id, tender_token, bid_token):
         "telephone": "+380950000000",
         "email": "example@email.com",
         "iban": "1" * 15,
-        "basisOf": "статут",
+        "authorizedBy": "статут",
         "position": "Генеральний директор",
     }
     response = self.app.put_json(

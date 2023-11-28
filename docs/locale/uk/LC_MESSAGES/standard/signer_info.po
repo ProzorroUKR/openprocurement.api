@@ -52,7 +52,7 @@ msgstr ""
 msgid "|ocdsDescription| The bank account number of the signatory."
 msgstr "|ocdsDescription| Номер банкінвського рахунку підписанта."
 
-msgid "basisOf"
+msgid "authorizedBy"
 msgstr ""
 
 msgid "|ocdsDescription| name of the document on the basis of which the signatory acts"

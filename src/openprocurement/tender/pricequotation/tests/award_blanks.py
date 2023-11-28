@@ -425,7 +425,7 @@ def move_award_contract_to_contracting(self):
                 "telephone": "+380950000000",
                 "email": "example@email.com",
                 "iban": "1" * 15,
-                "basisOf": "документ який дозволяє",
+                "authorizedBy": "документ який дозволяє",
                 "position": "статус",
             }
         }
@@ -441,7 +441,7 @@ def move_award_contract_to_contracting(self):
                 "telephone": "+380950000000",
                 "email": "example@email.com",
                 "iban": "1" * 15,
-                "basisOf": "документ який дозволяє",
+                "authorizedBy": "документ який дозволяє",
                 "position": "статус",
             }
         }

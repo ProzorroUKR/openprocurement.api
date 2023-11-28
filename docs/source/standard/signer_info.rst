@@ -37,7 +37,7 @@ Schema
     The bank account number of the signatory.
 
 
-:basisOf:
+:authorizedBy:
     string, required
 
     |ocdsDescription|
