@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.esco 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 05:42+0300\n"
+"POT-Creation-Date: 2023-11-28 14:04+0100\n"
 "PO-Revision-Date: 2018-09-12 11:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -89,6 +89,12 @@ msgstr "Подивимось, що показує список закупіве�
 
 msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
 msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.tendering`"
+
+msgid "Tender can contain several different lots. We can add lot using the following way:"
+msgstr "Закупівля може складатись із декількох лотів. Можна створити лот таким чином:"
+
+msgid "Also you will need to update data about item's related lots:"
+msgstr "Потрібно оновити дані пов’язані із залежністю на лот:"
 
 msgid "Tender activating"
 msgstr "Активація закупівлі"
@@ -171,8 +177,8 @@ msgstr "Реєстрація пропозиції"
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє реєстрацію пропозицій."
 
-msgid "Bidder can register a bid with `draft` status:"
-msgstr "Учасник може зареєструвати ставку із статусом ``draft`` (чернетка):"
+msgid "Bidder can register a bid for lot №1 with `draft` status:"
+msgstr "Учасник може зареєструвати ставку для лоту №1 із статусом ``draft`` (чернетка):"
 
 msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"

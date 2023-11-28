@@ -9,6 +9,7 @@ from copy import deepcopy
 
 import standards
 
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -936,6 +937,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         test_lots = deepcopy(test_docs_lots[:1])
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        set_tender_lots(test_tender_data, test_lots)
 
         # Creating tender
         response = self.app.post_json(
@@ -947,6 +949,8 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
+        lots = response.json['data']["lots"]
+        lot_id = lots[0]["id"]
 
         self.app.authorization = ('Basic', ('broker', ''))
         self.add_criteria(tender_id, owner_token)
@@ -991,6 +995,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
                     "amount": 500 - idx
                 }
             }
+            set_bid_lotvalues(bid_data, lots)
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
                 {'data': bid_data}
@@ -1004,16 +1009,33 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.set_status('active.auction')
 
         self.app.authorization = ('Basic', ('auction', ''))
-        auction_url = '{}/tenders/{}'.format(self.auctions_url, self.tender_id)
+        auction_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id)
         patch_data = {
-            'auctionUrl': auction_url,
+            'lots': [
+                {
+                    'id': lot_id,
+                    'auctionUrl': auction_url,
+                },
+            ],
             'bids': [{
-                "id": bid_id,
-                "participationUrl": '{}?key_for_bid={}'.format(auction_url, bid_id)
-            } for bid_id in bids]
+                "id": bids[0],
+                "lotValues": [
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[0])}
+                ]
+            }, {
+                "id": bids[1],
+                "lotValues": [
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[1])},
+                ]
+            }, {
+                "id": bids[2],
+                "lotValues": [
+                    {"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[2])},
+                ]
+            }]
         }
         response = self.app.patch_json(
-            '/tenders/{}/auction?acc_token={}'.format(self.tender_id, owner_token),
+            '/tenders/{}/auction/{}?acc_token={}'.format(self.tender_id, lot_id, owner_token),
             {'data': patch_data}
         )
         self.assertEqual(response.status, '200 OK')
@@ -1025,8 +1047,21 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
         self.app.post_json(
-            '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': [{"id": b["id"], "value": b["value"]} for b in auction_bids_data]}}
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"],
+                            "lotValues": [
+                                {"value": lot["value"], "relatedLot": lot["relatedLot"]}
+                                for lot in b["lotValues"]
+                            ]
+                        }
+                        for b in auction_bids_data
+                    ]
+                }
+            }
         )
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -1762,6 +1797,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
+    initial_data = deepcopy(test_docs_tender_below)
 
     def test_docs_min_bids_number_values_csv(self):
         self.write_config_values_csv(
@@ -1821,12 +1857,10 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 0
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
-
         with open(TARGET_DIR + 'min-bids-number-invalid-value-1.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data, 'config': config},
+                {'data': self.initial_data, 'config': config},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1843,7 +1877,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         with open(TARGET_DIR + 'min-bids-number-invalid-value-2.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data, 'config': config},
+                {'data': self.initial_data, 'config': config},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1861,15 +1895,10 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 2
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-
         with open(TARGET_DIR + 'min-bids-number-tender-post-1.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data, 'config': config},
+                {'data': self.initial_data, 'config': config},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -1879,12 +1908,17 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot['value'] = self.initial_data['value']
+        test_lot['minimalStep'] = self.initial_data['minimalStep']
         response = self.app.post_json(
             '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-            {'data': test_lots[0]}
+            {'data': test_lot}
         )
         self.assertEqual(response.status, '201 Created')
-        lot_id = response.json['data']['id']
+        lot = response.json['data']
+        lot_id = lot['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -1898,7 +1932,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         self.activate_tender(tender_id, owner_token)
 
-        bid_id = self.register_bid(tender_id, [lot_id])
+        self.register_bid(tender_id, [lot_id])
 
         self.tick(datetime.timedelta(days=30))
         self.check_chronograph()
@@ -1912,15 +1946,10 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 1
         config["hasValueRestriction"] = True
 
-        test_tender_data = deepcopy(test_docs_tender_below)
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-
         with open(TARGET_DIR + 'min-bids-number-tender-post-2.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': test_tender_data, 'config': config},
+                {'data': self.initial_data, 'config': config},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -1930,12 +1959,17 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot['value'] = self.initial_data['value']
+        test_lot['minimalStep'] = self.initial_data['minimalStep']
         response = self.app.post_json(
             '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-            {'data': test_lots[0]}
+            {'data': test_lot}
         )
         self.assertEqual(response.status, '201 Created')
-        lot_id = response.json['data']['id']
+        lot = response.json['data']
+        lot_id = lot['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -1949,7 +1983,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         self.activate_tender(tender_id, owner_token)
 
-        bid_id = self.register_bid(tender_id, [lot_id])
+        self.register_bid(tender_id, [lot_id])
 
         self.tick(datetime.timedelta(days=30))
         self.check_chronograph()

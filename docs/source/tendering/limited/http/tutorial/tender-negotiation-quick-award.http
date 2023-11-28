@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/awards?acc_token=b1e5d31cae12404789b524b2c946715f HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1254
+Content-Length: 1299
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -35,7 +35,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 475000,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
-    }
+    },
+    "lotID": "9e84d29f3b604a73b10a26caf8f4830d"
   }
 }
 
@@ -76,6 +77,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
         "scale": "micro"
       }
     ],
+    "lotID": "9e84d29f3b604a73b10a26caf8f4830d",
     "id": "58b618d74671419ab1d4efc881a17538",
     "date": "2023-01-01T00:00:00+02:00"
   }

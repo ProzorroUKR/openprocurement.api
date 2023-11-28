@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/awards/a80621d2867247d08f016fe4474de8ea?acc_token=813f61b783fd4d148eb0e5f947d62dc4 HTTP/1.0
+PATCH /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/awards/094bc528b8114acabb63c27ab785abd3?acc_token=813f61b783fd4d148eb0e5f947d62dc4 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -18,39 +18,40 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a80621d2867247d08f016fe4474de8ea",
+    "id": "094bc528b8114acabb63c27ab785abd3",
     "status": "active",
     "date": "2023-01-01T00:00:01+02:00",
     "value": {
-      "amount": 500.0,
+      "amount": 499.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "suppliers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "ДКП «Книга»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
           "countryName": "Україна"
         },
         "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
-        "scale": "micro"
+        "scale": "sme"
       }
     ],
-    "bid_id": "926834ae76fa46ddbd3aaedea61b2c6c",
+    "bid_id": "70423b65b0a54c68a40828e93a066aff",
+    "lotID": "9d95d7c5f19f4d24b17d650fe94a42f5",
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {

@@ -42,6 +42,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdeu_config,
     test_tender_cdua_stage2_config,
     test_tender_cdeu_stage2_config,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_data,
@@ -428,6 +429,7 @@ class OpenEUCompetitiveTenderOwnershipChangeTest(TenderOwnershipChangeTest):
 class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipChangeTest):
     initial_data = test_tender_cdua_stage2_data
     initial_config = test_tender_cdua_stage2_config
+    initial_lots = test_tender_cd_lots
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"

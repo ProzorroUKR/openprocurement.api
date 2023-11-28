@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1355
+Content-Length: 1422
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,12 +30,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "value": {
-      "amount": 500
-    },
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "selfQualified": true
+    "selfQualified": true,
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918"
+      }
+    ]
   }
 }
 
@@ -46,11 +51,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
 
 {
   "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -78,6 +78,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
     "status": "draft",
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "id": "5cff484ac52046ce96d713e75a6af577",
     "date": "2023-01-01T00:00:00+02:00"
   },

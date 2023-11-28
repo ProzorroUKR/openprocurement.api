@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "3c9ddf2f3d4145f387ebfb2e77b17a64",
-    "awardID": "fdea30bde1d34c4eb16d5f7aa03bf22a",
+    "awardID": "25d1cdbfc28949be995a262cb1b235fd",
     "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -112,7 +112,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       },
       {
         "id": "f1e2dd652ddf4a4296acc94e78be41e0",
@@ -136,7 +137,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       }
     ]
   }

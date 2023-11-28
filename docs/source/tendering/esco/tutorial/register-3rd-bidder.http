@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 3223
+Content-Length: 3290
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,36 +30,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "sme"
       }
     ],
-    "value": {
-      "annualCostsReduction": [
-        200,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800
-      ],
-      "yearlyPaymentsPercentage": 0.86,
-      "contractDuration": {
-        "years": 13,
-        "days": 40
-      }
-    },
     "documents": [
       {
         "title": "Proposal_part1.pdf",
@@ -101,6 +71,41 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "selfQualified": true,
+    "lotValues": [
+      {
+        "value": {
+          "annualCostsReduction": [
+            200,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "yearlyPaymentsPercentage": 0.86,
+          "contractDuration": {
+            "years": 13,
+            "days": 40
+          }
+        },
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+      }
+    ],
     "status": "draft"
   }
 }
@@ -205,41 +210,48 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fce
         "dateModified": "2023-01-01T00:00:00+02:00"
       }
     ],
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "yearlyPaymentsPercentage": 0.86,
-      "annualCostsReduction": [
-        200,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800,
-        800
-      ],
-      "contractDuration": {
-        "years": 13,
-        "days": 40
-      },
-      "amountPerformance": 562.72,
-      "amount": 8505.28
-    },
     "selfQualified": true,
+    "lotValues": [
+      {
+        "status": "pending",
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "yearlyPaymentsPercentage": 0.86,
+          "annualCostsReduction": [
+            200,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800,
+            800
+          ],
+          "contractDuration": {
+            "years": 13,
+            "days": 40
+          },
+          "amountPerformance": 562.72,
+          "amount": 8505.28
+        },
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "id": "e56918aa665d46ae9a9061708a7a83a0",
     "date": "2023-01-01T00:00:00+02:00"
   },

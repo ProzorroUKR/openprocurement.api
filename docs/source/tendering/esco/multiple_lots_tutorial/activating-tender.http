@@ -627,6 +627,38 @@ Content-Type: application/json
       },
       "kind": "general"
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "47aa65f0d5b944629ab6126141681de8",
+        "date": "2023-01-01T00:00:00+02:00",
+        "minValue": {
+          "amount": 0.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStepPercentage": 0.006,
+        "fundingKind": "other",
+        "yearlyPaymentsPercentageRange": 0.8
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "id": "42032ff885e34954a4dd831b4a0e4059",
+        "date": "2023-01-01T00:00:00+02:00",
+        "minValue": {
+          "amount": 0.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStepPercentage": 0.006,
+        "fundingKind": "other",
+        "yearlyPaymentsPercentageRange": 0.8
+      }
+    ],
     "items": [
       {
         "id": "8723d1c9716f450b98fb6598e03c1bb5",
@@ -650,7 +682,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "47aa65f0d5b944629ab6126141681de8"
       },
       {
         "id": "54421234ef194d16ad1e184a4b8df06f",
@@ -674,7 +707,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "42032ff885e34954a4dd831b4a0e4059"
       }
     ],
     "milestones": [

@@ -50,6 +50,16 @@ Let's see what listing of tenders reveals us:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
 
+Tender can contain several different lots. We can add lot using the following way:
+
+.. http:example:: http/tender-add-lot.http
+   :code:
+
+Also you will need to update data about item's related lots:
+
+.. http:example:: http/tender-add-relatedLot-to-item.http
+   :code:
+
 Tender activating
 -----------------
 
@@ -182,7 +192,7 @@ Registering bid
 
 Tender status ``active.tendering`` allows registration of bids.
 
-Bidder can register a bid with ``draft`` status:
+Bidder can register a bid for lot №1 with ``draft`` status:
 
 .. http:example:: http/register-bidder.http
    :code:

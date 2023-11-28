@@ -148,40 +148,47 @@ Content-Type: application/json
     "id": "9f572f6770254b01b919e923bbbd86ab",
     "date": "2023-01-01T00:00:00+02:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 8734.93,
-      "amountPerformance": 801.01,
-      "yearlyPaymentsPercentage": 0.9,
-      "annualCostsReduction": [
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000
-      ],
-      "contractDuration": {
-        "years": 10,
-        "days": 74
+    "lotValues": [
+      {
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 8734.93,
+          "amountPerformance": 801.01,
+          "yearlyPaymentsPercentage": 0.9,
+          "annualCostsReduction": [
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "contractDuration": {
+            "years": 10,
+            "days": 74
+          }
+        }
       }
-    },
+    ],
     "selfQualified": true,
     "documents": [
       {

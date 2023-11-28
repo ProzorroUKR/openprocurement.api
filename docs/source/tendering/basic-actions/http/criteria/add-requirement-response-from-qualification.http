@@ -61,6 +61,7 @@ Content-Type: application/json
     ],
     "id": "07996f89c0ff478686c6b72ddaf73c80",
     "bidID": "1ec84994990544de87c86c6ff2c20ed5",
+    "lotID": "3390bd874e294cc4862ed84abf881c80",
     "status": "pending",
     "date": "2023-01-01T00:00:00+02:00",
     "documents": [

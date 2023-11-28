@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/3243b3e178b34c5f85fbf9e190f9f42d?acc_token=e04ba22921d64cdc8189464cbe18d160 HTTP/1.0
+PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/84f890ac1d8342a9997f42451880fb60?acc_token=e04ba22921d64cdc8189464cbe18d160 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 14525
 Content-Type: application/json
@@ -229,39 +229,45 @@ Content-Type: application/json
         "id": "55ad1f1983be41c18fd0529e9d6c21c5"
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "ДКП «Книга»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
           "countryName": "Україна"
         },
         "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
-        "scale": "micro"
+        "scale": "sme"
       }
     ],
     "status": "pending",
-    "id": "3243b3e178b34c5f85fbf9e190f9f42d",
+    "id": "84f890ac1d8342a9997f42451880fb60",
     "date": "2023-01-01T00:00:00+02:00",
-    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "selfQualified": true
   }
 }

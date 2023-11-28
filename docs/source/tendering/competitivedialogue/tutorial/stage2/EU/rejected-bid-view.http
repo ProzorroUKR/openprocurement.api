@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
+GET /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -144,7 +144,7 @@ Content-Type: application/json
       }
     ],
     "status": "unsuccessful",
-    "id": "cafec8a6e87645a2bf78d530d93c786c",
+    "id": "20bbd5548630438fb1306b5de18c0004",
     "documents": [
       {
         "id": "36c88d2c6b274c65883820cffe552a2b",
@@ -164,7 +164,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c/documents/7f10a54685ee4f44a0fed9c27346e262?download=42865ab1b0de4861a16a0b26900142e2",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004/documents/7f10a54685ee4f44a0fed9c27346e262?download=42865ab1b0de4861a16a0b26900142e2",
         "documentOf": "tender",
         "dateModified": "2023-01-01T00:00:00+02:00",
         "language": "uk",

@@ -70,6 +70,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253
     "date": "2023-01-01T00:00:01+02:00",
     "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
     "complaintID": "UA-2023-01-01-000001-a.1",
+    "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
     "value": {
       "amount": 3000,
       "currency": "UAH"

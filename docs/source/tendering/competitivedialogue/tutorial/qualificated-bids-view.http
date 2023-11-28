@@ -146,20 +146,19 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "status": "active",
       "documents": [
         {
+          "id": "0b4562622e904df4917d22707a752522",
+          "datePublished": "2023-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
+          "dateModified": "2023-01-01T00:00:00+02:00",
           "language": "uk",
           "confidentiality": "public",
-          "isDescriptionDecision": false,
-          "id": "0b4562622e904df4917d22707a752522",
-          "datePublished": "2023-01-01T00:00:00+02:00",
-          "dateModified": "2023-01-01T00:00:00+02:00"
+          "isDescriptionDecision": false
         },
         {
           "id": "928e0a2782234502b0aabe27a11953b7",
@@ -188,7 +187,8 @@ Content-Type: application/json
           "confidentialityRationale": "Only our company sells badgers with pink hair.",
           "isDescriptionDecision": false
         }
-      ]
+      ],
+      "status": "active"
     },
     {
       "requirementResponses": [

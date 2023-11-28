@@ -28,6 +28,7 @@ Content-Type: application/json
     "resolutionType": "resolved",
     "dateSubmitted": "2023-01-01T00:00:01+02:00",
     "type": "claim",
+    "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
     "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
     "dateAnswered": "2023-01-01T00:00:01+02:00"
   }

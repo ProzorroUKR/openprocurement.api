@@ -229,42 +229,49 @@ Content-Type: application/json
         "confidentiality": "public"
       }
     ],
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 8734.93,
-      "amountPerformance": 801.01,
-      "yearlyPaymentsPercentage": 0.9,
-      "annualCostsReduction": [
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000
-      ],
-      "contractDuration": {
-        "years": 10,
-        "days": 74
+    "lotValues": [
+      {
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "status": "active",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 8734.93,
+          "amountPerformance": 801.01,
+          "yearlyPaymentsPercentage": 0.9,
+          "annualCostsReduction": [
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "contractDuration": {
+            "years": 10,
+            "days": 74
+          }
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=9f572f6770254b01b919e923bbbd86ab"
       }
-    },
-    "selfQualified": true,
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb?key_for_bid=9f572f6770254b01b919e923bbbd86ab"
+    ],
+    "selfQualified": true
   }
 }
 

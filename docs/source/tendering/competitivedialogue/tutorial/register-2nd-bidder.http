@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1173
+Content-Length: 1240
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -31,7 +31,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+      }
+    ]
   }
 }
 
@@ -64,6 +69,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "name": "Андрій Олексюк"
         },
         "scale": "sme"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,

@@ -800,42 +800,49 @@ Content-Type: application/json
             "confidentiality": "public"
           }
         ],
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 8734.93,
-          "amountPerformance": 801.01,
-          "yearlyPaymentsPercentage": 0.9,
-          "annualCostsReduction": [
-            500,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000,
-            1000
-          ],
-          "contractDuration": {
-            "years": 10,
-            "days": 74
+        "lotValues": [
+          {
+            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+            "status": "active",
+            "date": "2023-01-01T00:00:00+02:00",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 8734.93,
+              "amountPerformance": 801.01,
+              "yearlyPaymentsPercentage": 0.9,
+              "annualCostsReduction": [
+                500,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000,
+                1000
+              ],
+              "contractDuration": {
+                "years": 10,
+                "days": 74
+              }
+            },
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=9f572f6770254b01b919e923bbbd86ab"
           }
-        },
-        "selfQualified": true,
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb?key_for_bid=9f572f6770254b01b919e923bbbd86ab"
+        ],
+        "selfQualified": true
       },
       {
         "requirementResponses": [
@@ -977,42 +984,49 @@ Content-Type: application/json
         "status": "active",
         "id": "921e8a45579a41ffa2ecd164f0a5c248",
         "date": "2023-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 9176.27,
-          "amountPerformance": 713.59,
-          "yearlyPaymentsPercentage": 0.85,
-          "annualCostsReduction": [
-            400,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900,
-            900
-          ],
-          "contractDuration": {
-            "years": 12,
-            "days": 200
+        "lotValues": [
+          {
+            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+            "status": "active",
+            "date": "2023-01-01T00:00:00+02:00",
+            "value": {
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true,
+              "amount": 9176.27,
+              "amountPerformance": 713.59,
+              "yearlyPaymentsPercentage": 0.85,
+              "annualCostsReduction": [
+                400,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900,
+                900
+              ],
+              "contractDuration": {
+                "years": 12,
+                "days": 200
+              }
+            },
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=921e8a45579a41ffa2ecd164f0a5c248"
           }
-        },
-        "selfQualified": true,
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb?key_for_bid=921e8a45579a41ffa2ecd164f0a5c248"
+        ],
+        "selfQualified": true
       },
       {
         "requirementResponses": [
@@ -1314,6 +1328,28 @@ Content-Type: application/json
       },
       "kind": "general"
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "date": "2023-01-01T00:00:00+02:00",
+        "minValue": {
+          "amount": 0.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStepPercentage": 0.006,
+        "fundingKind": "other",
+        "yearlyPaymentsPercentageRange": 0.8,
+        "auctionPeriod": {
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "endDate": "2023-01-01T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb_8b60d0525e2a40b9954d740b5b68c4ef"
+      }
+    ],
     "items": [
       {
         "id": "6109d472d8f34975a00dd5709cff36a1",
@@ -1337,7 +1373,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       },
       {
         "id": "f1e2dd652ddf4a4296acc94e78be41e0",
@@ -1361,7 +1398,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       }
     ],
     "milestones": [
@@ -1409,6 +1447,7 @@ Content-Type: application/json
       {
         "id": "f47839b389674e57bd1a69f0de41e383",
         "bidID": "9f572f6770254b01b919e923bbbd86ab",
+        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1417,6 +1456,7 @@ Content-Type: application/json
       {
         "id": "9a52c0300f4f40d5905fbb0755a8d330",
         "bidID": "921e8a45579a41ffa2ecd164f0a5c248",
+        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": true,
@@ -1425,6 +1465,7 @@ Content-Type: application/json
       {
         "id": "f03d09ee890f49878abd19d59e3a06c7",
         "bidID": "e56918aa665d46ae9a9061708a7a83a0",
+        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
         "status": "unsuccessful",
         "date": "2023-01-01T00:00:00+02:00",
         "qualified": false,
@@ -1435,18 +1476,13 @@ Content-Type: application/json
       "startDate": "2022-12-01T00:00:00+02:00",
       "endDate": "2022-12-28T00:00:00+02:00"
     },
-    "auctionPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
-    },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb",
     "awardPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-01T00:00:00+02:00"
     },
     "awards": [
       {
-        "id": "fdea30bde1d34c4eb16d5f7aa03bf22a",
+        "id": "25d1cdbfc28949be995a262cb1b235fd",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "suppliers": [
@@ -1474,6 +1510,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "9f572f6770254b01b919e923bbbd86ab",
+        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
         "qualified": true,
         "value": {
           "currency": "UAH",
@@ -1519,7 +1556,7 @@ Content-Type: application/json
     "contracts": [
       {
         "id": "3c9ddf2f3d4145f387ebfb2e77b17a64",
-        "awardID": "fdea30bde1d34c4eb16d5f7aa03bf22a",
+        "awardID": "25d1cdbfc28949be995a262cb1b235fd",
         "contractID": "UA-2023-01-01-000001-a-1",
         "contractNumber": "contract#1",
         "status": "pending",
@@ -1611,7 +1648,8 @@ Content-Type: application/json
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
-            }
+            },
+            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
           },
           {
             "id": "f1e2dd652ddf4a4296acc94e78be41e0",
@@ -1635,7 +1673,8 @@ Content-Type: application/json
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
-            }
+            },
+            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
           }
         ],
         "documents": [

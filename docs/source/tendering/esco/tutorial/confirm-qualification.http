@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/awards/fdea30bde1d34c4eb16d5f7aa03bf22a?acc_token=871fba7d0f2840d48ed2394d778a5004 HTTP/1.0
+PATCH /api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/awards/25d1cdbfc28949be995a262cb1b235fd?acc_token=871fba7d0f2840d48ed2394d778a5004 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "fdea30bde1d34c4eb16d5f7aa03bf22a",
+    "id": "25d1cdbfc28949be995a262cb1b235fd",
     "status": "active",
     "date": "2023-01-01T00:00:00+02:00",
     "suppliers": [
@@ -46,6 +46,7 @@ Content-Type: application/json
       }
     ],
     "bid_id": "9f572f6770254b01b919e923bbbd86ab",
+    "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
     "qualified": true,
     "value": {
       "currency": "UAH",
