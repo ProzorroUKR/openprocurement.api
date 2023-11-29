@@ -38,7 +38,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_data = test_tender_cdua_stage2_data
-    initial_lots = test_lots_data = test_tender_below_lots
+    initial_lots = test_tender_below_lots
     initial_status = "draft"
 
     test_activate_tender = snitch(activate_tender)

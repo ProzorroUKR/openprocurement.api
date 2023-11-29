@@ -268,7 +268,6 @@ def suite():
     suite.addTest(TenderBidFeaturesResourceTest)
     suite.addTest(TenderBidDocumentResourceTest)
     suite.addTest(TenderBidDocumentWithDSResourceTest)
-    suite.addTest(TenderBidDocumentWithoutDSResourceTest)
     suite.addTest(TenderBidBatchDocumentsWithDSResourceTest)
     suite.addTest(TenderBidRequirementResponseResourceTest)
     suite.addTest(TenderBidRequirementResponseEvidenceResourceTest)

@@ -34,8 +34,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 from openprocurement.tender.core.tests.utils import change_auth
 
 from openprocurement.tender.openua.tests.award_blanks import (
-    create_tender_award,
-    patch_tender_award,
     create_tender_lot_award,
     patch_tender_lot_award,
     create_tender_lots_award,
@@ -93,8 +91,6 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_tender_openuadefense_bids
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
     test_check_tender_award_complaint_period_dates_before_new = snitch(check_tender_award_complaint_period_dates_before_new)
     test_check_tender_award_complaint_period_dates_after_new = snitch(check_tender_award_complaint_period_dates_after_new)
     test_check_tender_award_complaint_period_dates_new = snitch(check_tender_award_complaint_period_dates_new)

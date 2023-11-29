@@ -80,8 +80,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender = response.json['data']
         self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-        tender = response.json["data"]
-        self.assertEqual(response.status, '201 Created')
         # add lots
         response = self.app.post_json(
             '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
@@ -165,7 +163,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        response = self.app.get(f'/tenders/{self.tender_id}?acc_token={owner_token}')
         tender_lots = response.json["data"]["lots"]
 
         # Tender activating

@@ -28,7 +28,6 @@ from openprocurement.tender.belowthreshold.tests.award import (
 )
 from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
 from openprocurement.tender.openeu.tests.award import (
-    TenderAwardResourceTestMixin,
     TenderLotAwardResourceTestMixin,
     Tender2LotAwardResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
@@ -48,7 +47,6 @@ from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
 )
 from openprocurement.tender.esco.tests.award_blanks import (
-    patch_tender_award,
     patch_tender_lot_award,
 )
 from openprocurement.tender.esco.procedure.utils import to_decimal
@@ -83,31 +81,6 @@ award_amount = round(
     ),
     2,
 )
-
-
-class TenderAwardResourceTest(BaseESCOContentWebTest, TenderAwardResourceTestMixin):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_esco_bids
-    initial_lots = test_tender_esco_lots
-    initial_auth = ("Basic", ("broker", ""))
-    expected_award_amountPerformance = award_amount_performance
-    expected_award_amount = award_amount
-    docservice = True
-
-    def setUp(self):
-        super(TenderAwardResourceTest, self).setUp()
-        # switch to active.pre-qualification
-
-        self.prepare_award()
-
-        # Get award
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        self.award_id = response.json["data"][0]["id"]
-        self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
-
-    test_patch_tender_award = snitch(patch_tender_award)
-    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
 class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
@@ -188,6 +161,7 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
         self.app.authorization = ("Basic", ("broker", ""))
 
     test_patch_tender_award = snitch(patch_tender_lot_award)
+    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
 class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourceTestMixin):
@@ -408,7 +382,6 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
