@@ -10,3 +10,4 @@ Contents:
 
    collective_quantity_tender
    awarding
+   pq_transfer_logic_from_bot

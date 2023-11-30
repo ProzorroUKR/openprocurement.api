@@ -1,0 +1,111 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-30 16:59+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "Transfer logic from PQ bot to CBD"
+msgstr "Переніс логіки PQ бота до ЦБД"
+
+msgid "This section describes the logic of refusal of the priceQuotationBot and transferring validations from the bot to the CBD during tender activation."
+msgstr "В цьому розділі описана логіка відмови від PQ бота і переносу валідацій з боту в ЦБД під час активації тендеру."
+
+msgid "Creating tender"
+msgstr "Створення тендеру"
+
+msgid "Tender creation remains unchanged for PQ. A tender is created in the same way as before in the status `draft`:"
+msgstr "Створення тендеру залишається незмінним для PQ. Створюється тендер так само як і раніше в статусі `draft`:"
+
+msgid "Modifying tender"
+msgstr "Редагування тендеру"
+
+msgid "Procuring Entity can modify tender before activating. In previous flow with PQ bot there was the same stage before publishing (before changing status to `draft.publishing`)."
+msgstr "Замовник може редагувати закупівлю перед активацією. В попередньому флоу з використанням PQ бота був такий самий етап перед публікацією (до зміни статусу на `draft.publishing`)."
+
+msgid "Activating tender"
+msgstr "Активація тендеру"
+
+msgid "In previous flow after creation Procuring Entity published procedure by changing status to `draft.publishing` where **priceQuotationBot** robot ran validation of the procedure and supplemented procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`."
+msgstr "В попередньому флоу після створення Замовник публікував процедуру, змінивши статус на `draft.publishing`, де робот **priceQuotationBot** запускав перевірку процедури та доповнював процедуру додатковими даними, отриманими з бази даних електронних каталогів ProZorro, включаючи `shortListedFirms`."
+
+msgid "After successful validation priceQuotationBot transmitted procedure to status: `active.tendering` or `draft.unsuccessful` in case if procedure did not pass validation due to invalid options."
+msgstr "Після успішної валідації priceQuotationBot переводив процедуру в статус: `active.tendering` чи `draft.unsuccessful` у разі, якщо процедура не проходила перевірку через недійсні параметри."
+
+msgid "Now we transfer all robot's validation logic to CBD and check it while Procuring Entity is changing status to `active.tendering` by patching tender."
+msgstr "Тепер ми переносимо всю логіку валідації до ЦБД і перевіряємо це на моменті, коли замовник змінює статус процедури на `active.tendering` через PATCH тендеру."
+
+msgid "PQ robot validations:"
+msgstr "Валідації бота PQ:"
+
+msgid "Existence of item profile in catalogue"
+msgstr "Наявність профілю товару в каталозі"
+
+msgid "Existence of related agreement"
+msgstr "Наявність відповідного договору"
+
+msgid "Equality of profile agreement and related agreement in tender"
+msgstr "Перевірка, що угода в профілі та пов’язана угода в тендері однакові"
+
+msgid "Agreement should not be in terminated status"
+msgstr "Угода не повинна бути розірвана (статус terminated)"
+
+msgid "Agreement has qualified suppliers"
+msgstr "Угода має кваліфікованих постачальників (suppliers)"
+
+msgid "Possible errors"
+msgstr "Можливі помилки"
+
+msgid "If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:"
+msgstr "Якщо Замовник спробує активувати процедуру PQ з неіснуючим профілем у каталозі, ми побачимо помилку:"
+
+msgid "If Procuring Entity will try to activate PQ procedure with non-existed agreement, the next error will be generated:"
+msgstr "Якщо Замовник спробує активувати процедуру PQ з неіснуючим договором, буде згенеровано наступну помилку:"
+
+msgid "In case profile agreement and related agreement in tender aren't equal, the next error will be generated:"
+msgstr "Якщо угода (agreement) в профілі та угода в тендері не однакові, буде згенеровано наступну помилку:"
+
+msgid "If agreement is in terminated status:"
+msgstr "Якщо угода розірвана:"
+
+msgid "In case agreement doesn't have qualified suppliers:"
+msgstr "У випадку, якщо угода не має кваліфікованих постачальників:"
+
+msgid "If there is problem with connection to ProZorro e-Catalogues, we will see error:"
+msgstr "Якщо є проблема з підключенням до електронних каталогів ProZorro, ми побачимо помилку:"
+
+msgid "Successful scenario"
+msgstr "Успішний сценарій"
+
+msgid "If PQ procedure matches all requirements, it will be switched to `active.tendering` status and `shortListedFirms` will be added to procedure from ProZorro e-Catalogues database:"
+msgstr "Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`, а `shortListedFirms` буде додано до процедури з бази електронних каталогів ProZorro:"
+
+msgid "Conclusion"
+msgstr "Висновки"
+
+msgid "PQ procedure will not have statuses `draft.publishing`, `draft.unsuccessful` anymore."
+msgstr "Процедура PQ більше не матиме статусів `draft.publishing`, `draft.unsuccessful`."
+
+msgid "If PQ procedure doesn't match all requirements, it won't be switched to `active.tendering` until all requirements is met."
+msgstr "Якщо процедура PQ не відповідає всім вимогам, її не буде переведено в `active.tendering`, доки не буде виконано всі вимоги."
+
+msgid "Logic of creation and modification of PQ procedure won't be changed."
+msgstr "Логіка створення та редагування процедури PQ не буде змінена."
+
+msgid "Next steps after `active.tendering` status stays the same."
+msgstr "Подальші дії після статусу `active.tendering` залишаються незмінними."
+
