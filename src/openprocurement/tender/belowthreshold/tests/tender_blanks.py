@@ -3752,3 +3752,67 @@ def patch_enquiry_tender_periods(self):
         }},
         status=200
     )
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
+def tender_created_before_related_lot_is_required(self):
+    data = deepcopy(test_tender_below_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    # successfully patch tender without lot
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}},
+        status=200
+    )
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
+    get_now() - timedelta(days=1),
+)
+def tender_created_after_related_lot_is_required(self):
+    data = deepcopy(test_tender_below_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    # forbid to patch tender without lot
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "item.relatedLot",
+            "description": "This field is required"
+        }],
+    )
+
+    lots = deepcopy(self.test_lots_data)
+    lots.append({
+        "title": "invalid lot title",
+        "description": "invalid lot description",
+        "value": {"amount": 500},
+        "minimalStep": {"amount": 15},
+    })
+    set_tender_lots(data, lots)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    # successfully patch tender with lot
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}},
+        status=200
+    )
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")

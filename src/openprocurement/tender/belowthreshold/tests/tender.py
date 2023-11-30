@@ -59,6 +59,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_config_test,
     create_tender_invalid_config,
     tender_item_related_lot_validation,
+    tender_created_before_related_lot_is_required,
+    tender_created_after_related_lot_is_required,
 )
 
 
@@ -123,6 +125,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_enquiry_tender_periods = snitch(patch_enquiry_tender_periods)
+    test_tender_created_before_related_lot_is_required = snitch(tender_created_before_related_lot_is_required)
+    test_tender_created_after_related_lot_is_required = snitch(tender_created_after_related_lot_is_required)
 
 
 class TenderProcessTest(BaseTenderWebTest):
