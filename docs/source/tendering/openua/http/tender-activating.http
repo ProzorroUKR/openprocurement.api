@@ -595,10 +595,32 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "f0651104a6f149b5b26cdb6dbe438918",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-02-01T00:00:00+02:00"
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -685,6 +707,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -703,9 +726,6 @@ Content-Type: application/json
       "endDate": "2023-01-28T00:00:00+02:00"
     },
     "next_check": "2023-02-01T00:00:00+02:00",
-    "auctionPeriod": {
-      "shouldStartAfter": "2023-02-01T00:00:00+02:00"
-    },
     "id": "2a5accd9090044dfba8773895b0bff51"
   },
   "config": {

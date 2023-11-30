@@ -666,7 +666,7 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
     "value": {
-      "amount": 501.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -775,6 +775,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -813,6 +814,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -825,6 +827,25 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "5a98760088b74d2194a86ab2546f20b4",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
       }
     ],
     "id": "00653c26796e413c89e22e65cd6da9cd"

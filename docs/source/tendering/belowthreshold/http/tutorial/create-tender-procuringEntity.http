@@ -1,6 +1,6 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 4848
+Content-Length: 5226
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -62,7 +62,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 6
           }
         },
-        "quantity": 5
+        "quantity": 5,
+        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
       }
     ],
     "enquiryPeriod": {
@@ -139,7 +140,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "mainProcurementCategory": "services"
+    "mainProcurementCategory": "services",
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "9217965f43384438ac7af4b14e4fc52a",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ]
   },
   "config": {
     "hasAuction": true,
@@ -172,7 +192,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
       "valueAddedTaxIncluded": true
     },
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -207,7 +227,27 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+      }
+    ],
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "date": "2023-01-01T00:00:00+02:00",
+        "id": "9217965f43384438ac7af4b14e4fc52a",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
       }
     ],
     "features": [

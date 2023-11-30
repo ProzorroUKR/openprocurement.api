@@ -116,7 +116,7 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 501.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -124,7 +124,7 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-01-06T00:36:02+02:00",
+    "next_check": "2023-01-06T00:30:02+02:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
@@ -161,7 +161,31 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
+      }
+    ],
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-01-06T00:00:02+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b_b670ed4c0ed845cab0b7eb532fe4fe3f"
       }
     ],
     "milestones": [
@@ -218,10 +242,8 @@ Content-Type: application/json
       "invalidationDate": "2023-01-06T00:00:02+02:00"
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-01-07T00:00:00+02:00",
       "startDate": "2023-01-06T00:00:02+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b",
     "id": "f2ffdfd3a21b4081841738915486b18b"
   },
   "config": {

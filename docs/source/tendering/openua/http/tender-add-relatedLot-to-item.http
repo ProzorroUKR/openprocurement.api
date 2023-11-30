@@ -10,6 +10,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "284a22d352be4b78a607c43401ab8432",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -22,16 +32,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -157,6 +157,16 @@ Content-Type: application/json
       {
         "id": "284a22d352be4b78a607c43401ab8432",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -169,16 +179,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",

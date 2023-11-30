@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1199
+Content-Length: 1266
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,11 +30,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "sme"
       }
     ],
-    "value": {
-      "amount": 499
-    },
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918"
+      }
+    ]
   }
 }
 
@@ -45,11 +50,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
 
 {
   "data": {
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -76,6 +76,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
     ],
     "status": "draft",
     "selfQualified": true,
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ],
     "id": "bb3b96a74c0d4a35bd1e449d19c0c251",
     "date": "2023-01-01T00:00:00+02:00"
   },
@@ -739,7 +751,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 501.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -749,14 +761,36 @@ Content-Type: application/json
     },
     "next_check": "2023-01-09T00:00:00+02:00",
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2023-01-03T00:00:00+02:00",
-      "shouldStartAfter": "2023-01-09T00:00:00+02:00"
+      "startDate": "2023-01-03T00:00:00+02:00"
     },
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "f0651104a6f149b5b26cdb6dbe438918",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "shouldStartAfter": "2023-01-09T00:00:00+02:00"
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -843,6 +877,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -1104,11 +1139,6 @@ Content-Type: application/json
         "id": "630f378424a445dba50e4ea92f32e1c4"
       }
     ],
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -1136,7 +1166,19 @@ Content-Type: application/json
     "status": "pending",
     "id": "bb3b96a74c0d4a35bd1e449d19c0c251",
     "date": "2023-01-01T00:00:00+02:00",
-    "selfQualified": true
+    "selfQualified": true,
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "status": "pending",
+        "date": "2023-01-01T00:00:00+02:00"
+      }
+    ]
   }
 }
 

@@ -652,7 +652,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 501.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -662,14 +662,37 @@ Content-Type: application/json
     },
     "next_check": "2023-01-01T00:36:00+02:00",
     "minimalStep": {
-      "amount": 5.0,
+      "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "shouldStartAfter": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00"
     },
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "f0651104a6f149b5b26cdb6dbe438918",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-01-01T00:00:00+02:00",
+          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2a5accd9090044dfba8773895b0bff51_f0651104a6f149b5b26cdb6dbe438918"
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -756,6 +779,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -773,7 +797,6 @@ Content-Type: application/json
       "startDate": "2022-12-17T00:00:00+02:00",
       "endDate": "2023-01-05T00:00:00+02:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2a5accd9090044dfba8773895b0bff51",
     "id": "2a5accd9090044dfba8773895b0bff51"
   },
   "config": {

@@ -599,6 +599,25 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "48bd8a7458e346f1beeb61941fa097f0",
+        "date": "2023-01-01T00:00:00+02:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -652,6 +671,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -690,6 +710,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -725,7 +746,12 @@ Content-Type: application/json
           "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Школяр»"
+        "name": "ДКП «Школяр»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       },
       {
         "identifier": {
@@ -733,7 +759,12 @@ Content-Type: application/json
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Книга»"
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       },
       {
         "identifier": {
@@ -741,7 +772,12 @@ Content-Type: application/json
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»"
+        "name": "«Кенгуру»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       }
     ],
     "status": "active.tendering",
