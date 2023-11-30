@@ -82,15 +82,19 @@ class AdditionalClassification(Classification):
             raise ValidationError("{} description invalid".format(UA_ROAD_SCHEME))
 
 
-class Item(Model):
+class BaseItem(Model):
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     description = StringType(required=True)  # A description of the goods, services to be provided.
     description_en = StringType()
     description_ru = StringType()
-    classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = FloatType(min_value=0)  # The number of units required
+    relatedLot = MD5Type()
+
+
+class Item(BaseItem):
+    classification = ModelType(CPVClassification, required=True)
+    additionalClassifications = ListType(ModelType(AdditionalClassification))
     deliveryDate = ModelType(Period)
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)

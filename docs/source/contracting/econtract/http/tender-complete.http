@@ -50,12 +50,12 @@ Content-Type: application/json
       {
         "id": "d7ba05ad129d4380b139d363df055ec0",
         "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
         "classification": {
           "description": "Комп’ютерне обладнанн",
           "scheme": "ДК021",
           "id": "30230000-0"
         },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-09-22T01:00:00+03:00",
           "endDate": "2023-09-25T01:00:00+03:00"
@@ -88,12 +88,12 @@ Content-Type: application/json
       {
         "id": "98b99c56dacf48728e1a069205bdf6c2",
         "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
         "classification": {
           "description": "Комп’ютерне обладнанн",
           "scheme": "ДК021",
           "id": "30230000-0"
         },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-09-22T01:00:00+03:00",
           "endDate": "2023-09-25T01:00:00+03:00"

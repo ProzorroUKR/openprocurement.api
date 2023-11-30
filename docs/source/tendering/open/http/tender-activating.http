@@ -623,6 +623,16 @@ Content-Type: application/json
       {
         "id": "43204fd932374740a40528f7712ca55e",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -635,16 +645,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
@@ -662,6 +662,16 @@ Content-Type: application/json
         "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -674,16 +684,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "03db38a8519e40fc9fc9377793126015",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",

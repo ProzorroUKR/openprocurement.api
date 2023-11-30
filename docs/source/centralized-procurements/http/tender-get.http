@@ -113,6 +113,11 @@ Content-Type: application/json
       {
         "id": "97735bdc93204bd7a1469064bb3e615b",
         "description": "Насіння гірчиці",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -125,11 +130,6 @@ Content-Type: application/json
             "description": "Насіння гірчиці"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 1000.0,
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2023-01-16T00:00:00+02:00"
@@ -145,6 +145,11 @@ Content-Type: application/json
       {
         "id": "258306a31f6a47758d528d907f4329fe",
         "description": "Насіння соняшнику",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 2000.0,
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -157,11 +162,6 @@ Content-Type: application/json
             "description": "Насіння соняшнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 2000.0,
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2023-01-17T00:00:00+02:00"
@@ -177,6 +177,11 @@ Content-Type: application/json
       {
         "id": "650759050f6a43e4aa1ab880fa5f35fb",
         "description": "Насіння бавовнику",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 3000.0,
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -189,11 +194,6 @@ Content-Type: application/json
             "description": "Насіння бавовнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 3000.0,
         "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
         "deliveryDate": {
           "endDate": "2023-01-18T00:00:00+02:00"

@@ -157,6 +157,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -169,7 +170,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 5.0,
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "кілограм",

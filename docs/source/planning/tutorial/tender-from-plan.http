@@ -202,6 +202,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
       {
         "id": "891cd1d74642419faf18d4a8d2ddd740",
         "description": "Насіння гірчиці",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1000.0,
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -214,11 +219,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
             "description": "Насіння гірчиці"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 1000.0,
         "deliveryDate": {
           "endDate": "2023-01-16T00:00:00+02:00"
         },
@@ -233,6 +233,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
       {
         "id": "1d5b24218fc14889b0a544f23b62bcc4",
         "description": "Насіння соняшнику",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 2000.0,
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -245,11 +250,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
             "description": "Насіння соняшнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 2000.0,
         "deliveryDate": {
           "endDate": "2023-01-17T00:00:00+02:00"
         },
@@ -264,6 +264,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
       {
         "id": "14bb3d84d5d84c9a9832d2060a1e5385",
         "description": "Насіння бавовнику",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 3000.0,
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -276,11 +281,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
             "description": "Насіння бавовнику"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 3000.0,
         "deliveryDate": {
           "endDate": "2023-01-18T00:00:00+02:00"
         },

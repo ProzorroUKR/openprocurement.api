@@ -51,6 +51,16 @@ Content-Type: application/json
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -62,17 +72,7 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0
+        ]
       }
     ],
     "milestones": [

@@ -226,6 +226,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
       {
         "id": "43204fd932374740a40528f7712ca55e",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -238,16 +248,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -264,6 +264,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
         "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -276,16 +286,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"

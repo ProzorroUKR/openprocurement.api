@@ -1,5 +1,6 @@
 from hashlib import sha512
 from uuid import uuid4
+from typing import List, Dict
 
 from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award
 from openprocurement.api.context import get_now
@@ -89,10 +90,17 @@ def pq_add_contracts(request, award):
     # TODO: copy of add_contracts func, now only for pq, later rename on add_contracts
 
     tender = request.validated["tender"]
+    bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
+    bid = bids[0] if bids else None
+
+    if bid and bid.get("items"):
+        items = merge_items(bid["items"], tender["items"])
+    else:
+        items = tender["items"]
 
     # split items by relatedBuyer
     items_by_buyer = defaultdict(list)
-    for item in tender["items"]:
+    for item in items:
         if item.get("relatedLot") == award.get("lotID"):  # None == None in case of non-lots
             buyer_id = item.get("relatedBuyer")  # can be None
             prepared_item = prepare_tender_item_for_contract(item)
@@ -119,6 +127,20 @@ def pq_add_contracts(request, award):
         contracts_added.append(contract)
 
     return contracts_added
+
+
+def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
+    tender_items = deepcopy(tender_items)
+    tender_item_by_id = {i["id"]: i for i in tender_items}
+    merged_items = []
+    for bid_item in bid_items:
+        item = tender_item_by_id.get(bid_item["id"])
+        if not item:
+            continue
+        item.update(bid_item)
+        merged_items.append(item)
+
+    return merged_items
 
 
 def pq_add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award):

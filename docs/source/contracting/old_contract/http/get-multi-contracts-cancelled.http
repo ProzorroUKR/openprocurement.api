@@ -24,6 +24,16 @@ Content-Type: application/json
         {
           "id": "c75c3fccfe9e4fdba3441c4096966812",
           "description": "телевізори",
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 5.0,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -36,16 +46,6 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "unit": {
-            "name": "кг",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "code": "KGM"
-          },
-          "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2023-01-03T00:00:00+02:00",
             "endDate": "2023-01-06T00:00:00+02:00"
@@ -101,6 +101,16 @@ Content-Type: application/json
         {
           "id": "8636be4c542e41a296c7d278ef5cb291",
           "description": "портфелі",
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 5.0,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -113,16 +123,6 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "unit": {
-            "name": "кг",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "code": "KGM"
-          },
-          "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2023-01-03T00:00:00+02:00",
             "endDate": "2023-01-06T00:00:00+02:00"
@@ -139,6 +139,16 @@ Content-Type: application/json
         {
           "id": "36ff47918da4483bafc3da251f66851c",
           "description": "портфелі",
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 5.0,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -151,16 +161,6 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
-          "unit": {
-            "name": "кг",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
-            "code": "KGM"
-          },
-          "quantity": 5.0,
           "deliveryDate": {
             "startDate": "2023-01-03T00:00:00+02:00",
             "endDate": "2023-01-06T00:00:00+02:00"

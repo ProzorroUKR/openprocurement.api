@@ -142,6 +142,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -154,16 +164,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"

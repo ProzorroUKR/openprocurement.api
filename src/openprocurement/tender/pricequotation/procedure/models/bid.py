@@ -1,4 +1,4 @@
-from schematics.types import StringType, MD5Type
+from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
@@ -14,8 +14,9 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.models import Model, Value
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
-from openprocurement.api.validation import OPERATIONS
+from openprocurement.api.validation import OPERATIONS, validate_items_uniq
 from openprocurement.tender.core.procedure.validation import TYPEMAP
+from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
 from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
 from uuid import uuid4
@@ -117,6 +118,7 @@ class PatchBid(Model):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
+    items = ListType(ModelType(BaseItem, required=True))
 
     def validate_value(self, data, value):
         if value is not None:
@@ -158,6 +160,11 @@ class PostBid(PatchBid):
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
         default="draft",
     )
+    items = ListType(
+        ModelType(BaseItem, required=True),
+        min_size=1,
+        validators=[validate_items_uniq],
+    )
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -195,6 +202,11 @@ class Bid(Model):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
         required=True,
+    )
+    items = ListType(
+        ModelType(BaseItem, required=True),
+        min_size=1,
+        validators=[validate_items_uniq],
     )
 
     def validate_requirementResponses(self, data, value):

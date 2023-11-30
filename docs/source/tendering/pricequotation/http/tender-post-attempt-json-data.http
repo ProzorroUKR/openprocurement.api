@@ -199,12 +199,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
       {
         "id": "6d463cf854bc4c0eb04915ba7c172bea",
         "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
           "id": "44617100-9"
         },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-09-22T01:00:00+03:00",
           "endDate": "2023-09-25T01:00:00+03:00"

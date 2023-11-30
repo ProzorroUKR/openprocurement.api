@@ -180,6 +180,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
       {
         "id": "58e7e07a6b6f4ba784c525f0dc76f195",
         "description": "футляри до державних нагород",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -192,16 +202,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
@@ -217,6 +217,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
       {
         "id": "e349a32ccde84b8186a9f58cf14aae60",
         "description": "футляри до державних нагород",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -229,16 +239,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"

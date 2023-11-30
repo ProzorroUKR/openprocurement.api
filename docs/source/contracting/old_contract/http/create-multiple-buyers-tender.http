@@ -261,6 +261,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
       {
         "id": "668afa623c194754bc91abf9306e49ec",
         "description": "телевізори",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -273,16 +283,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
@@ -299,6 +299,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
       {
         "id": "2c85e9fbc51945bfbe5dbc621ab50795",
         "description": "портфелі",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -311,16 +321,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
@@ -337,6 +337,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
       {
         "id": "318de977cb2747e6b39ab6311b9c83b2",
         "description": "портфелі",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -349,16 +359,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d0be7ef6d02e4564
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"

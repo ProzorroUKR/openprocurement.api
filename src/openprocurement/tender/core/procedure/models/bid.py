@@ -1,23 +1,29 @@
 from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import MD5Type, StringType
+from schematics.types import MD5Type, StringType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import Value, Model
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value, validate_parameters_uniq
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
-from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
+from openprocurement.tender.core.procedure.models.organization import (
+    PatchBusinessOrganization,
+    PostBusinessOrganization,
+)
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.item import BaseItem
 
 
 # PATCH DATA ---
 class PatchBid(BaseBid):
+    items = ListType(ModelType(BaseItem, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
@@ -40,6 +46,7 @@ def validate_lot_values(lot_values):
 
 # BASE ---
 class CommonBid(BaseBid):
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
@@ -86,6 +93,7 @@ class PostBid(CommonBid):
     def id(self):
         return uuid4().hex
 
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
@@ -97,6 +105,7 @@ class PostBid(CommonBid):
     financialDocuments = ListType(ModelType(PostDocument, required=True))
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+
 # -- POST
 
 

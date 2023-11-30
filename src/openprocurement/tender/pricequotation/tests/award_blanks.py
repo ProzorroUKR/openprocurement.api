@@ -383,6 +383,19 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.json["data"]["title"], "title")
     self.assertEqual(response.json["data"]["description"], "description")
 
+    tender_data = self.mongodb.tenders.get(self.tender_id)
+    tender_data["bids"][0]["items"] = [{
+        "id": tender_data["items"][0]["id"],
+        "description": "Комп’ютерне обладнання для біда",
+        "quantity": 10,
+        "unit": {
+            "name": "кг",
+            "code": "KGM",
+            "value": {"amount": 12},
+        }
+    }]
+    self.mongodb.tenders.save(tender_data)
+
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
         {"data": {"status": "active"}},
@@ -415,7 +428,11 @@ def move_award_contract_to_contracting(self):
     }
 
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
-    self.assertIn("attributes", response.json["data"]["items"][0])
+    item = response.json["data"]["items"][0]
+    self.assertIn("attributes", item)
+    self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
+    self.assertEqual(item["quantity"], 10)
+    self.assertEqual(item["unit"]["value"]["amount"], 12)
 
     response = self.app.put_json(
         f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
