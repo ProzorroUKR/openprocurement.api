@@ -56,6 +56,16 @@ Content-Type: application/json
       {
         "id": "43204fd932374740a40528f7712ca55e",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -68,16 +78,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",

@@ -15,6 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "quantity": 6,
         "classification": {
           "description": "New Cartons",
           "scheme": "ДК021",
@@ -27,7 +28,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 6,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"
@@ -149,6 +149,7 @@ Content-Type: application/json
             "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
             "description": "футляри до державних нагород",
             "description_en": "Cases for state awards",
+            "quantity": 5.0,
             "classification": {
               "description": "Cartons",
               "scheme": "ДК021",
@@ -161,7 +162,6 @@ Content-Type: application/json
                 "description": "папір і картон гофровані, паперова й картонна тара"
               }
             ],
-            "quantity": 5.0,
             "deliveryDate": {
               "startDate": "2018-06-27T13:39:09.362837+03:00",
               "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -445,6 +445,7 @@ Content-Type: application/json
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "quantity": 6.0,
         "classification": {
           "description": "New Cartons",
           "scheme": "ДК021",
@@ -457,7 +458,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 6.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"

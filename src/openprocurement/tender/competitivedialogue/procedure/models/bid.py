@@ -2,18 +2,20 @@ from uuid import uuid4
 from schematics.types.compound import ModelType
 from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
 from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
 from openprocurement.tender.core.procedure.models.bid import MetaBid, validate_lot_values
+from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.competitivedialogue.procedure.models.bid_document import PostDocument, Document
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
 
 
-
 class PatchBid(PatchObjResponsesMixin, BaseBid):
+    items = ListType(ModelType(BaseItem, required=True))
     tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     subcontractingDetails = StringType()
@@ -30,6 +32,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
     def id(self):
         return uuid4().hex
 
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
@@ -54,6 +57,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
 
 class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
+    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     lotValues = ListType(ModelType(LotValue, required=True))
     documents = ListType(ModelType(Document, required=True))

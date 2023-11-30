@@ -58,6 +58,7 @@ Content-Type: application/json
         "id": "f250ed0f0e9b44c1ab6dfdd028054631",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "quantity": 1.0,
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -65,7 +66,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-01T00:00:00+02:00"

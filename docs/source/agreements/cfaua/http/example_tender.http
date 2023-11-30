@@ -67,6 +67,11 @@ Content-Type: application/json
       {
         "id": "b0a774dcb2784648b6f81791b294a6be",
         "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -79,11 +84,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
         "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
@@ -453,6 +453,11 @@ Content-Type: application/json
           {
             "id": "b0a774dcb2784648b6f81791b294a6be",
             "description": "футляри до державних нагород",
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
             "classification": {
               "description": "Cartons",
               "scheme": "ДК021",
@@ -465,11 +470,6 @@ Content-Type: application/json
                 "description": "папір і картон гофровані, паперова й картонна тара"
               }
             ],
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
-            "quantity": 5.0,
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
             "deliveryDate": {
               "startDate": "2018-06-27T13:39:09.362837+03:00",

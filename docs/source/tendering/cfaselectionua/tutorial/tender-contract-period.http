@@ -41,6 +41,7 @@ Content-Type: application/json
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "quantity": 6.0,
         "classification": {
           "description": "New Cartons",
           "scheme": "ДК021",
@@ -53,7 +54,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "quantity": 6.0,
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",
           "endDate": "2023-01-06T00:00:00+02:00"

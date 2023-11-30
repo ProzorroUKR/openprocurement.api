@@ -80,6 +80,7 @@ Content-Type: application/json
       {
         "id": "a789515915fc431d9f9cde4188c621f2",
         "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -87,7 +88,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -118,6 +118,7 @@ Content-Type: application/json
       {
         "id": "2f425a1372a445cea9f10390e9709db1",
         "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
@@ -125,7 +126,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"

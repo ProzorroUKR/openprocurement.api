@@ -23,6 +23,7 @@ class BidState(BaseState):
 
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
+        self.validate_items_id(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -35,6 +36,7 @@ class BidState(BaseState):
         self.validate_status_change(before, after)
         self.validate_bid_vs_agreement(after)
         self.update_date_on_value_amount_change(before, after)
+        self.validate_items_id(after)
         super().on_patch(before, after)
 
     def update_date_on_value_amount_change(self, before, after):
@@ -151,3 +153,11 @@ class BidState(BaseState):
                     or not equals_decimal_and_corrupted(Decimal(p["value"]), contract_parameters[code])
                 ):
                     raise_operation_error(self.request, "Can't post inconsistent bid")
+
+    def validate_items_id(self, after: dict) -> None:
+        tender_items_id = {i["id"] for i in self.request.validated["tender"].get("items", "")}
+        bid_items_id = {i["id"] for i in after.get("items", "")}
+
+        if bid_items_id - tender_items_id:
+            raise_operation_error(self.request, "Bid items ids should be on tender items ids", status=422)
+

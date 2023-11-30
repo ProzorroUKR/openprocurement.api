@@ -513,6 +513,16 @@ Content-Type: application/json
       {
         "id": "499e09944ea347a994a8f14829146ff7",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -525,16 +535,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -552,6 +552,16 @@ Content-Type: application/json
         "id": "266d2b1e8e9c4498a20df4ad217faa41",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -564,16 +574,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"
@@ -957,6 +957,16 @@ Content-Type: application/json
           {
             "id": "499e09944ea347a994a8f14829146ff7",
             "description": "Послуги шкільних їдалень",
+            "unit": {
+              "name": "папір",
+              "value": {
+                "amount": 10.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
             "classification": {
               "description": "Послуги з харчування у школах",
               "scheme": "ДК021",
@@ -969,16 +979,6 @@ Content-Type: application/json
                 "description": "Послуги шкільних їдалень"
               }
             ],
-            "unit": {
-              "name": "папір",
-              "value": {
-                "amount": 10.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": true
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
             "deliveryDate": {
               "startDate": "2023-01-21T00:00:00+02:00",
               "endDate": "2023-02-20T00:00:00+02:00"
@@ -1036,6 +1036,16 @@ Content-Type: application/json
             "id": "266d2b1e8e9c4498a20df4ad217faa41",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 6.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
             "classification": {
               "description": "Послуги з харчування у школах",
               "scheme": "ДК021",
@@ -1048,16 +1058,6 @@ Content-Type: application/json
                 "description": "Послуги шкільних їдалень"
               }
             ],
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 6.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": true
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
             "deliveryDate": {
               "startDate": "2023-01-21T00:00:00+02:00",
               "endDate": "2023-02-20T00:00:00+02:00"

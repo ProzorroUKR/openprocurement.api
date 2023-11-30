@@ -104,12 +104,12 @@ Content-Type: application/json
       {
         "id": "1624a28ab11b43cabcaef9018c023a16",
         "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
           "id": "44617100-9"
         },
-        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2023-09-22T01:00:00+03:00",
           "endDate": "2023-09-25T01:00:00+03:00"

@@ -236,6 +236,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
       {
         "id": "acb16f5e01ff4dd3a68ea5700bb438f0",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -248,16 +258,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
         "deliveryDate": {
           "startDate": "2023-01-03T00:00:00+02:00",

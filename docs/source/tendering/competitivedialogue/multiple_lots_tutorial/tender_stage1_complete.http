@@ -1146,6 +1146,16 @@ Content-Type: application/json
       {
         "id": "b2ed7275e3614c6db118756ef8e20cfb",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -1158,16 +1168,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
         "relatedLot": "5042b6586cbb4a679380f561ba153121",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
@@ -1185,6 +1185,16 @@ Content-Type: application/json
       {
         "id": "0e92722d1ae84d4f845264885d7062dd",
         "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -1197,16 +1207,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "unit": {
-          "name": "упаковка",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "PK"
-        },
-        "quantity": 1.0,
         "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
