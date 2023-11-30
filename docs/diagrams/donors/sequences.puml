@@ -1,0 +1,34 @@
+@startuml
+
+Brokers -> API: updates tender
+Brokers <- API: 200 OK
+API <- "Donor Interface" as DI: read changes feed
+DI --> DI: schedules a notification
+
+Brokers -> API: updates tender
+Brokers <- API: 200 OK
+API <- "Donor Interface" as DI: read changes feed
+DI --> DI: reschedules the notification
+
+... wait for update requests to stop ...
+
+DI --> DI: init the notification task
+DI --> Donor: sends an Email: \n\n\
+Tender, you fund, been changed.\n\
+To you review or react please follow this link\n\
+https://prozorro.gov.ua/tender/UA-2025-02-28-001-a?acc_token=**token**
+
+DI <-- Donor: follows the link
+DI --> Donor: tender preview page and the "comment" form
+
+Donor --> DI: sends their review decisions/comments
+DI --> API: POST /tender/id/donor_reviews \n\
+Authorization: Bearer **donor_interface_auth**
+DI <-- API: 200 OK
+Donor <-- DI: OK
+
+
+Brokers -> API: read changes feed
+Brokers <- API: tender with "donor_reviews"
+
+@enduml

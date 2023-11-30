@@ -1,0 +1,61 @@
+@startuml
+allowmixing
+
+
+abstract ChronographEventProvider {
+    def get_events(self): ...
+    def run_events(self): ...
+}
+
+
+class BaseComplaining  implements  ChronographEventProvider
+class AwardComplaining   extends  BaseComplaining
+
+
+class BaseAwarding {
+    def validate_award_patch(self): ...
+    def award_on_patch(self): ...
+}
+class StandardAwarding  extends   BaseAwarding  implements  ChronographEventProvider
+StandardAwarding  *-- AwardComplaining
+
+
+
+class  BaseProcedure
+class  StandardProcedure   extends  BaseProcedure
+StandardProcedure  *--  StandardAwarding
+
+
+
+
+
+class ReportingAwarding   extends  BaseAwarding
+
+
+
+
+class BelowThreshold   extends   BaseProcedure
+BelowThreshold *-- StandardAwarding
+
+
+
+class AboveThreshold  extends  StandardProcedure
+
+
+class AboveThresholdUA  extends  StandardProcedure
+
+
+class AboveThresholdEU  extends  StandardProcedure
+
+
+class ReportingProcedure  extends  BaseProcedure
+ReportingProcedure *-- ReportingAwarding
+
+
+
+
+
+
+
+
+@enduml

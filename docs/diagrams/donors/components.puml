@@ -1,0 +1,24 @@
+@startuml
+
+actor "Buyer/Supplier" as User
+
+cloud Prozorro {
+    component API
+    component Portal
+    component "Donor Interface" as DI
+
+    Portal --> API: reads
+    DI --> API: reads/write
+}
+User --> Portal: use
+
+collections Brokers
+Brokers --> API: reads/write
+User --> Brokers: use
+
+
+actor Donor
+Donor --> Portal: use
+Donor --> DI: use
+
+@enduml

@@ -1,0 +1,75 @@
+@startuml
+allowmixing
+
+
+abstract ChronographEventProvider {
+    def get_events(self): ...
+    def run_events(self): ...
+}
+
+
+class BaseComplaining  implements  ChronographEventProvider
+class TenderComplaining   extends  BaseComplaining
+class AwardComplaining   extends  BaseComplaining
+class PreQualificationComplaining   extends  BaseComplaining
+class CancellationComplaining   extends  BaseComplaining
+
+
+class BaseTendering  implements  ChronographEventProvider
+class StandardTendering  extends  BaseTendering
+StandardTendering  *--  TenderComplaining
+
+class  BaseProcedure
+class  StandardProcedure   extends  BaseProcedure
+StandardProcedure  *--  StandardTendering
+
+
+
+class BaseAwarding
+class StandardAwarding  extends   BaseAwarding  implements  ChronographEventProvider
+StandardAwarding  *-- AwardComplaining
+
+class ReportingAwarding   extends  BaseAwarding
+
+
+
+
+class PreQualification
+PreQualification  *--  PreQualificationComplaining
+
+class Contracting
+
+class BaseCancellation  implements  ChronographEventProvider
+
+class StandardCancellation  extends  BaseCancellation
+StandardCancellation  *--  CancellationComplaining
+
+
+
+class BelowThreshold   extends   BaseProcedure
+BelowThreshold  *--  BaseTendering
+BelowThreshold *-- StandardAwarding
+BelowThreshold *-- Contracting
+BelowThreshold *-- BaseCancellation
+
+
+
+class AboveThreshold
+AboveThreshold --|> StandardProcedure
+AboveThreshold *-- StandardAwarding
+AboveThreshold *-- PreQualification
+AboveThreshold *-- Contracting
+AboveThreshold *-- StandardCancellation
+
+
+class ReportingProcedure
+ReportingProcedure --|> BaseProcedure
+ReportingProcedure *-- ReportingAwarding
+ReportingProcedure *-- Contracting
+ReportingProcedure *-- BaseCancellation
+
+
+
+
+
+@enduml
