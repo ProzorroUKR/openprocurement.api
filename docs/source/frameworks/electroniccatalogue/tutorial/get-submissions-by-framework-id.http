@@ -35,11 +35,11 @@ Content-Type: application/json
       ],
       "qualificationID": "838474d50c0a49d79fe82febe17a3c1e",
       "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "status": "complete",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
       "datePublished": "2023-01-17T00:00:00+02:00",
-      "status": "complete",
       "id": "8b8465c39dc3471ba57b324f2ed988fa"
     },
     {
@@ -69,11 +69,11 @@ Content-Type: application/json
       ],
       "qualificationID": "520521800ae94c52b85de3898d2c1a84",
       "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "status": "complete",
       "dateCreated": "2023-01-17T00:00:00+02:00",
       "dateModified": "2023-01-17T00:00:00+02:00",
       "date": "2023-01-17T00:00:00+02:00",
       "datePublished": "2023-01-17T00:00:00+02:00",
-      "status": "complete",
       "id": "c032bcbca6d942d88bfa243b8b266b15"
     }
   ],
