@@ -17,6 +17,7 @@ from openprocurement.framework.dps.tests.submission_blanks import (
     create_submission_draft,
     create_submission_after_period_ends,
     patch_submission_draft,
+    patch_submission_draft_to_active,
     patch_submission_draft_to_active_invalid,
     patch_submission_active,
     patch_submission_active_fast,
@@ -54,6 +55,7 @@ class SubmissionResourceTest(SubmissionContentWebTest):
     test_create_submission_config_restricted = snitch(create_submission_config_restricted)
     test_create_submission_after_period_ends = snitch(create_submission_after_period_ends)
     test_patch_submission_draft = snitch(patch_submission_draft)
+    test_patch_submission_draft_to_active = snitch(patch_submission_draft_to_active)
     test_patch_submission_draft_to_active_invalid = snitch(patch_submission_draft_to_active_invalid)
     test_patch_submission_active = snitch(patch_submission_active)
     test_patch_submission_active_fast = snitch(patch_submission_active_fast)
