@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
+POST /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes?acc_token=3abb3c33e785449ca322284f6ccfbeaf HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 244
 Content-Type: application/json
@@ -18,12 +18,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "021c093dc15d4e078ce3061ae63cd514",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
     "rationale": "Опис причини змін егріменту",
     "rationale_en": "Agreement change cause",
-    "rationaleType": "taxRate"
+    "date": "2023-10-10T01:00:00+03:00",
+    "rationaleType": "taxRate",
+    "id": "30eb3b69a8174931a5bc64636ea3e4b2"
   }
 }
 

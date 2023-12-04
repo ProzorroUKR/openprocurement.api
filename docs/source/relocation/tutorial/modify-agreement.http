@@ -198,8 +198,8 @@ Content-Type: application/json
     },
     "terminationDetails": "broker3 now can change the contract",
     "tender_id": "f394ae7a792e404c96103b00547a61d5",
-    "id": "5f2c362583984e0daed42cb21777cee3",
-    "numberOfContracts": 3
+    "numberOfContracts": 3,
+    "id": "5f2c362583984e0daed42cb21777cee3"
   }
 }
 

@@ -1,4 +1,4 @@
-GET /api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26/documents HTTP/1.0
+GET /api/2.5/qualifications/bc6f4b3647164e6286e78d8909d848c7/documents HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,11 +9,12 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "06fc6adc81e34049bc0ef77f9346a055",
       "hash": "md5:00000000000000000000000000000000",
       "title": "qualification.doc",
       "format": "application/msword",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076a25851dd849ceb3060d7936d4dc66?Signature=IDYMyuQPlPaD1h3usGKxTKYZ3PK%2BsO8qkQO2dZE4YK1Z%2BefEVvDo7FIF00YosMF0y0LA01NZchEshl1RHOXuCQ%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7150a692fd2b402d92a484375bfb60db?Signature=UgEPCEpal%2BFRnsyybBE9MM%2F4WyYGaFxRHOiqivCYGdM6cou17uwuF9sF3m83LN9%2B4KUiM4plezab%2BpJRbTyPDw%3D%3D&KeyID=a8968c46",
+      "language": "uk",
+      "id": "ff47cb123d934a4bb467e339b6e20776",
       "datePublished": "2023-10-26T01:00:00+03:00",
       "dateModified": "2023-10-26T01:00:00+03:00"
     }

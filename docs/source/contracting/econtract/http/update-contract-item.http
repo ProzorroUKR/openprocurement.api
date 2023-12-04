@@ -27,6 +27,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
           "name": "штук",
           "value": {
@@ -35,13 +42,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       },
       {
@@ -64,6 +64,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
           "name": "штук",
           "value": {
@@ -72,13 +79,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ]
@@ -169,8 +169,8 @@ Content-Type: application/json
         "email": "example@email.com",
         "telephone": "+380950000000",
         "iban": "234234234234234",
-        "basisOf": "Статут компанії",
-        "position": "Генеральний директор"
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
       }
     },
     "suppliers": [
@@ -193,8 +193,8 @@ Content-Type: application/json
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
-          "basisOf": "Статут компанії",
-          "position": "Генеральний директор"
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
         }
       }
     ],
@@ -219,6 +219,13 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
           "name": "штук",
           "value": {
@@ -227,13 +234,6 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       },
       {
@@ -256,6 +256,13 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
         "unit": {
           "name": "штук",
           "value": {
@@ -264,13 +271,6 @@ Content-Type: application/json
             "valueAddedTaxIncluded": true
           },
           "code": "H87"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ],

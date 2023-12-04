@@ -25,8 +25,8 @@ Content-Type: application/json
     "email": "example@email.com",
     "telephone": "+380950000000",
     "iban": "111111111111111",
-    "authorizedBy": "Статут компанії",
-    "position": "Генеральний директор"
+    "position": "Генеральний директор",
+    "authorizedBy": "Статут компанії"
   }
 }
 

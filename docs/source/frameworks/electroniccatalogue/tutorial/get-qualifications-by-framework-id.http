@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe/qualifications HTTP/1.0
+GET /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,33 +9,34 @@ Content-Type: application/json
 {
   "data": [
     {
-      "submissionID": "6fd0a56be1b540369988bd3cb725e6c7",
-      "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
-      "date": "2023-10-26T01:00:00+03:00",
-      "dateCreated": "2023-10-26T01:00:00+03:00",
-      "dateModified": "2023-10-26T01:00:00+03:00",
       "documents": [
         {
-          "id": "642ad11189114d48b938810bb7515869",
+          "id": "c03b20fc63b44ed99250c3b8fa3cd7f0",
+          "datePublished": "2023-10-26T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "qualification.doc",
           "format": "application/msword",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/24c87269d662445eb0d26fdf2409afab?Signature=%2F0ZD7Wx%2FXaHvZCfnBLrzD7vOeX2zwkI8BdSooyVvBJasmjDazWhEKiuJ7j8gMhfR1LBonbIHe0yEIOKs4tWoDA%3D%3D&KeyID=a8968c46",
-          "datePublished": "2023-10-26T01:00:00+03:00",
-          "dateModified": "2023-10-26T01:00:00+03:00"
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/838474d50c0a49d79fe82febe17a3c1e/documents/c03b20fc63b44ed99250c3b8fa3cd7f0?download=3cd211e97f284e79b39a6dbba518a484",
+          "dateModified": "2023-10-26T01:00:00+03:00",
+          "language": "uk"
         }
       ],
+      "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
+      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
       "status": "unsuccessful",
-      "id": "4bba1d35a1a3403cad249cfd0534b366"
-    },
-    {
-      "submissionID": "2424b8b0c5ba45688a777cdca4f1f698",
-      "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
       "date": "2023-10-26T01:00:00+03:00",
       "dateCreated": "2023-10-26T01:00:00+03:00",
       "dateModified": "2023-10-26T01:00:00+03:00",
+      "id": "838474d50c0a49d79fe82febe17a3c1e"
+    },
+    {
+      "submissionID": "c032bcbca6d942d88bfa243b8b266b15",
+      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
       "status": "active",
-      "id": "7f9989cca2bd45d99a498754bd5aa6e4"
+      "date": "2023-10-26T01:00:00+03:00",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "id": "520521800ae94c52b85de3898d2c1a84"
     }
   ],
   "next_page": {

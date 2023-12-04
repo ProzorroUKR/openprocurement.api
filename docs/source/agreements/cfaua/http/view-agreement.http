@@ -10,38 +10,7 @@ Content-Type: application/json
   "data": {
     "agreementID": "UA-2023-10-10-000001-a-e75ece1cddb64807825e058d729510f61",
     "status": "active",
-    "dateModified": "2023-10-10T01:00:00+03:00",
     "owner": "broker",
-    "changes": [
-      {
-        "id": "021c093dc15d4e078ce3061ae63cd514",
-        "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
-        "rationale": "Друга і третя поставка має бути розфасована",
-        "rationale_en": "Agreement change cause",
-        "dateSigned": "2023-10-10T01:00:00+03:00",
-        "rationaleType": "taxRate",
-        "modifications": [
-          {
-            "itemId": "b0a774dcb2784648b6f81791b294a6be",
-            "factor": 0.1605
-          }
-        ]
-      }
-    ],
-    "documents": [
-      {
-        "id": "dc3a00e2a21e45259890216f6c0e543b",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "agreement_changes.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d11ca4c1fd0b4a2f80bd5e74a6da52d2?Signature=kWWQwE4OnCp4g4ZgykRjc4TcDN87gzj7Uo6bqsdHa64HQJ9h%2FxubjfysczaJV9zLLsSE3u81A8ODWWhM3jNXAQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "relatedItem": "021c093dc15d4e078ce3061ae63cd514",
-        "documentOf": "change"
-      }
-    ],
     "contracts": [
       {
         "id": "3f790a2fc7c647a7be968a10e669e9fa",
@@ -231,8 +200,40 @@ Content-Type: application/json
       }
     },
     "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",
-    "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
-    "numberOfContracts": 3
+    "numberOfContracts": 3,
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "changes": [
+      {
+        "id": "30eb3b69a8174931a5bc64636ea3e4b2",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "rationale": "Друга і третя поставка має бути розфасована",
+        "rationale_en": "Agreement change cause",
+        "dateSigned": "2023-10-10T01:00:00+03:00",
+        "rationaleType": "taxRate",
+        "modifications": [
+          {
+            "itemId": "b0a774dcb2784648b6f81791b294a6be",
+            "factor": 0.1605
+          }
+        ]
+      }
+    ],
+    "documents": [
+      {
+        "relatedItem": "30eb3b69a8174931a5bc64636ea3e4b2",
+        "id": "2379d9c9a78f43c4a3cb72c9100c8784",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "agreement_changes.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk",
+        "documentOf": "change"
+      }
+    ],
+    "id": "b7536ab0fbe34a1dafa73fe7943ff79c"
   }
 }
 

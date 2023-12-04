@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes/021c093dc15d4e078ce3061ae63cd514 HTTP/1.0
+GET /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes/30eb3b69a8174931a5bc64636ea3e4b2 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,12 +8,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "021c093dc15d4e078ce3061ae63cd514",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
     "rationale": "Опис причини змін егріменту",
     "rationale_en": "Agreement change cause",
-    "rationaleType": "taxRate"
+    "date": "2023-10-10T01:00:00+03:00",
+    "rationaleType": "taxRate",
+    "id": "30eb3b69a8174931a5bc64636ea3e4b2"
   }
 }
 

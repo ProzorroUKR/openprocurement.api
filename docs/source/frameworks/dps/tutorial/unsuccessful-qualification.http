@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/e67e3cc511954bc5bdbf5e8d58e27d26?acc_token=7b5fe43c1f3c4574982dcb841c9ef301 HTTP/1.0
+PATCH /api/2.5/qualifications/bc6f4b3647164e6286e78d8909d848c7?acc_token=f8e6a2bdea5d45a086590324ce351932 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -16,24 +16,26 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "82ca7b9acf0c4f7585a682371d6a5b51",
-    "frameworkID": "866509257c6546a088e0363315140ee0",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
     "documents": [
       {
-        "id": "06fc6adc81e34049bc0ef77f9346a055",
+        "id": "ff47cb123d934a4bb467e339b6e20776",
+        "datePublished": "2023-10-26T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/076a25851dd849ceb3060d7936d4dc66?Signature=IDYMyuQPlPaD1h3usGKxTKYZ3PK%2BsO8qkQO2dZE4YK1Z%2BefEVvDo7FIF00YosMF0y0LA01NZchEshl1RHOXuCQ%3D%3D&KeyID=a8968c46",
-        "datePublished": "2023-10-26T01:00:00+03:00",
-        "dateModified": "2023-10-26T01:00:00+03:00"
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7150a692fd2b402d92a484375bfb60db?Signature=UgEPCEpal%2BFRnsyybBE9MM%2F4WyYGaFxRHOiqivCYGdM6cou17uwuF9sF3m83LN9%2B4KUiM4plezab%2BpJRbTyPDw%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-26T01:00:00+03:00",
+        "language": "uk"
       }
     ],
+    "submissionID": "2b442aa99f344298bdd76797307adfd7",
+    "frameworkID": "4178f66eebf04c4497d0fb223feeb0fe",
     "status": "unsuccessful",
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
     "qualificationType": "dynamicPurchasingSystem",
-    "id": "e67e3cc511954bc5bdbf5e8d58e27d26"
-  }
+    "id": "bc6f4b3647164e6286e78d8909d848c7"
+  },
+  "config": {}
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/19554516edc64b80ad4a2834f4505fbe?acc_token=5f94ccea4dfb4cdebd5de69ecd449013 HTTP/1.0
+PATCH /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c?acc_token=a7c5e242dae046dcbf238ba184295e8c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 113
 Content-Type: application/json
@@ -24,11 +24,23 @@ Content-Type: application/json
     "prettyID": "UA-F-2023-10-10-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
+    "status": "draft",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "broker",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "owner": "broker",
-    "status": "draft",
     "qualificationPeriod": {
       "endDate": "2023-12-09T01:00:00+03:00"
     },
@@ -54,19 +66,8 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "classification": {
-      "description": "Mustard seeds",
-      "scheme": "ДК021",
-      "id": "03111600-8"
-    },
-    "additionalClassifications": [
-      {
-        "scheme": "ДК003",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара"
-      }
-    ],
-    "id": "19554516edc64b80ad4a2834f4505fbe"
-  }
+    "id": "1b70e498d27e4c1dba8838d6807dac0c"
+  },
+  "config": {}
 }
 

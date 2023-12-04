@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/6fd0a56be1b540369988bd3cb725e6c7?acc_token=ba0f943b290e4929928a8e62be7a2108 HTTP/1.0
+PATCH /api/2.5/submissions/8b8465c39dc3471ba57b324f2ed988fa?acc_token=159eea746141421f80c576dda32161e2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -40,15 +40,16 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationID": "4bba1d35a1a3403cad249cfd0534b366",
-    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
+    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+    "status": "active",
     "dateModified": "2023-10-26T01:00:00+03:00",
     "date": "2023-10-26T01:00:00+03:00",
-    "datePublished": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
-    "status": "active",
     "submissionType": "electronicCatalogue",
-    "id": "6fd0a56be1b540369988bd3cb725e6c7"
-  }
+    "datePublished": "2023-10-26T01:00:00+03:00",
+    "qualificationID": "838474d50c0a49d79fe82febe17a3c1e",
+    "id": "8b8465c39dc3471ba57b324f2ed988fa"
+  },
+  "config": {}
 }
 

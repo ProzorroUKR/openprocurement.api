@@ -1,32 +1,34 @@
-POST /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents?acc_token=2308192c93e846339ff07b8a89dfaff0 HTTP/1.0
+POST /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents?acc_token=3abb3c33e785449ca322284f6ccfbeaf HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 148
-Content-Type: multipart/form-data; boundary=---BOUNDARY
+Content-Length: 330
+Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
------BOUNDARY
-Content-Disposition: form-data; name="file"; filename="agreement.doc"
-Content-Type: application/msword
-
-content
------BOUNDARY--
-
+{
+  "data": {
+    "title": "agreement.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=v%2FqOQ3a%2F1XjZ5CNeWW9svvq7xZB97hdeUhbVCLijO8pQrmyesxDtxrSGFlx2zFRx%2FOGSobWlAboCFcODDivODQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword"
+  }
+}
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents/72fdf9de6e2f4261afd2e1f0b78b5d9c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents/fbacaaf3d97b4c0cbf6b2c78aedec61b
 
 {
   "data": {
-    "id": "72fdf9de6e2f4261afd2e1f0b78b5d9c",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86c9d65b81ed4b6ca7b236b3cb537550?Signature=JWrmVhZvxw4C8JVy1%2B7j1azTXTvCtOM1bcT5YSq%2B5NPMuFGtPd5CxSw0P5YitMZBzGChzjsXIrcMYoMWXtbdDA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=aSUaH4aKyvvHHNyDgX%2BUS92rE%2Fpy8aEUBTNaribYkkc5XyYX4awtgUD8TuwG0XeiLc87akD36sgPaPE32NZnCg%3D%3D&KeyID=a8968c46",
+    "language": "uk",
+    "documentOf": "agreement",
+    "id": "fbacaaf3d97b4c0cbf6b2c78aedec61b",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "documentOf": "agreement"
+    "dateModified": "2023-10-10T01:00:00+03:00"
   }
 }
 

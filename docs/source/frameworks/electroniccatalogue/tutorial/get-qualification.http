@@ -1,4 +1,4 @@
-GET /api/2.5/qualifications/4bba1d35a1a3403cad249cfd0534b366 HTTP/1.0
+GET /api/2.5/qualifications/838474d50c0a49d79fe82febe17a3c1e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,13 +8,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "6fd0a56be1b540369988bd3cb725e6c7",
-    "frameworkID": "19554516edc64b80ad4a2834f4505fbe",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
+    "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
+    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
     "status": "pending",
+    "date": "2023-10-26T01:00:00+03:00",
     "qualificationType": "electronicCatalogue",
-    "id": "4bba1d35a1a3403cad249cfd0534b366"
-  }
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "id": "838474d50c0a49d79fe82febe17a3c1e"
+  },
+  "config": {}
 }
 
