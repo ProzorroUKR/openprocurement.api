@@ -28,6 +28,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (
     put_qualification_document,
     create_qualification_document_json_bulk,
     patch_submission_pending_config_test,
+    activate_qualification_for_submission_with_docs,
 )
 
 
@@ -49,6 +50,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_patch_submission_pending_config_test = snitch(patch_submission_pending_config_test)
     test_patch_qualification_active = snitch(patch_qualification_active)
     test_patch_qualification_unsuccessful = snitch(patch_qualification_unsuccessful)
+    test_activate_qualification_for_submission_with_docs = snitch(activate_qualification_for_submission_with_docs)
     test_get_qualification = snitch(get_qualification)
     test_qualification_fields = snitch(qualification_fields)
 

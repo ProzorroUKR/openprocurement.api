@@ -297,6 +297,58 @@ def patch_submission_pending(self):
     self.assertEqual(submission["status"], "complete")
 
 
+def activate_qualification_for_submission_with_docs(self):
+    data = deepcopy(self.initial_submission_data)
+    data["documents"] = [{
+        "id": "040cfd87cca140d98bcff5a40b2b067a",
+        "datePublished": get_now().isoformat(),
+        "title": "name1.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+    }]
+    response = self.app.post_json(
+        "/submissions", {
+            "data": data,
+            "config": self.initial_submission_config,
+        }
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(submission["status"], "draft")
+    self.assertNotIn("qualificationID", submission)
+
+    response = self.app.patch_json(
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("qualificationID", response.json["data"])
+    self.assertEqual(len(response.json["data"]["qualificationID"]), 32)
+    qualification_id = response.json["data"]["qualificationID"]
+
+    qualification_patch_data = {
+        "status": "active",
+        "documents": [{
+            "id": "040cfd87cca140d98bcff5a40b2b067a",
+            "datePublished": get_now().isoformat(),
+            "title": "name1.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        }],
+    }
+
+    response = self.app.patch_json(
+        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
+        {"data": qualification_patch_data}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+
 def patch_submission_pending_config_test(self):
     # Create framework
     config = deepcopy(self.initial_config)
