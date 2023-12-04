@@ -20,7 +20,6 @@ Content-Type: application/json
     "status": "terminated",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "broker",
-    "agreementType": "cfaua",
     "changes": [
       {
         "id": "30eb3b69a8174931a5bc64636ea3e4b2",
