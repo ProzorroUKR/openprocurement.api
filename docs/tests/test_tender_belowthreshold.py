@@ -366,7 +366,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
-        self.tick(delta=timedelta(days=5))
+        self.tick(delta=timedelta(days=6))
         with open(TARGET_DIR + 'tutorial/update-tender-after-enquiry.http', 'w') as self.app.file_obj:
             tender_period_end_date = dt_from_iso(tender["tenderPeriod"]["endDate"]) + timedelta(days=1)
             response = self.app.patch_json(

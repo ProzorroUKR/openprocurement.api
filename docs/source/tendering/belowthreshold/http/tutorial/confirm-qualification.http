@@ -18,7 +18,7 @@ Content-Type: application/json
   "data": {
     "id": "2571a2c89b5c48f1abd01306597b36bc",
     "status": "active",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2023-10-16T01:00:02+03:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -50,8 +50,8 @@ Content-Type: application/json
     ],
     "bid_id": "8d8c35d315ec458aa2bf51fdcef0717b",
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:01+03:00",
-      "endDate": "2023-10-13T00:00:00+03:00"
+      "startDate": "2023-10-16T01:00:02+03:00",
+      "endDate": "2023-10-19T00:00:00+03:00"
     }
   }
 }
