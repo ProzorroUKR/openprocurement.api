@@ -20,7 +20,6 @@ Content-Type: application/json
     "status": "active",
     "dateModified": "2023-01-01T00:00:00+02:00",
     "owner": "broker3",
-    "agreementType": "cfaua",
     "dateSigned": "2023-01-01T00:00:00+02:00",
     "contracts": [
       {

@@ -40,7 +40,6 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
         permission="create_agreement",
         validators=(
             validate_input_data(PostAgreement),
-            validate_data_documents(route_key="agreement_id", uid_key="id"),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="agreement",

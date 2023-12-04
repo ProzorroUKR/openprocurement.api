@@ -20,6 +20,7 @@ class AgreementSerializer(BaseUIDSerializer):
         "_attachments",
         "date",
         "dateCreated",
+        "agreementType",
     }
 
     serializers = {

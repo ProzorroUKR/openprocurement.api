@@ -837,7 +837,7 @@ def patch_submission_draft(self):
     self.assertEqual(address["locality"], submission_patch_data["tenderers"][0]["address"]["locality"])
 
 
-def patch_framework_draft_to_active(self):
+def patch_submission_draft_to_active(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
         "/submissions", {

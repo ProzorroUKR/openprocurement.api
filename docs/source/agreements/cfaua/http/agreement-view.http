@@ -10,7 +10,6 @@ Content-Type: application/json
     "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
     "status": "active",
     "owner": "broker",
-    "agreementType": "cfaua",
     "contracts": [
       {
         "id": "3f790a2fc7c647a7be968a10e669e9fa",
