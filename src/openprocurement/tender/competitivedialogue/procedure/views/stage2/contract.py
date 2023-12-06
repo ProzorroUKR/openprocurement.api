@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_patch_data_simple,
     validate_contract_supplier,
     validate_contract_input_data,
+    validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.contract import (
@@ -38,6 +39,7 @@ class CDStage2EUTenderContractResource(EUContractResource):
         content_type="application/json",
         permission="create_contract",
         validators=(
+            validate_forbid_contract_action_after_date("contract"),
             validate_input_data(EUPostContract),
         ),
     )
@@ -48,6 +50,7 @@ class CDStage2EUTenderContractResource(EUContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
+            validate_forbid_contract_action_after_date("contract"),
             unless_admins(validate_contract_supplier()),
             validate_contract_input_data(model=EUPatchContract, supplier_model=EUPatchContractSupplier),
             validate_patch_data_simple(EUContract, item_name="contract"),
@@ -71,6 +74,7 @@ class CDStage2UATenderContractResource(UAContractResource):
         content_type="application/json",
         permission="create_contract",
         validators=(
+            validate_forbid_contract_action_after_date("contract"),
             validate_input_data(UAPostContract),
         ),
     )
@@ -81,9 +85,10 @@ class CDStage2UATenderContractResource(UAContractResource):
         content_type="application/json",
         permission="edit_contract",
         validators=(
-                unless_admins(validate_contract_supplier()),
-                validate_contract_input_data(model=UAPatchContract, supplier_model=UAPatchContractSupplier),
-                validate_patch_data_simple(UAContract, item_name="contract"),
+            validate_forbid_contract_action_after_date("contract"),
+            unless_admins(validate_contract_supplier()),
+            validate_contract_input_data(model=UAPatchContract, supplier_model=UAPatchContractSupplier),
+            validate_patch_data_simple(UAContract, item_name="contract"),
         ),
     )
     def patch(self):

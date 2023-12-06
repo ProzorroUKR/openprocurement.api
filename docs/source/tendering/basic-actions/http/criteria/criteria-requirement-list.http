@@ -21,7 +21,7 @@ Content-Type: application/json
       ],
       "expectedValue": "true",
       "id": "fc4c7b31124044c691ba5f51c6520312",
-      "datePublished": "2023-01-01T00:00:00+02:00",
+      "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "active"
     },
     {
@@ -38,7 +38,7 @@ Content-Type: application/json
       "expectedValue": "true",
       "status": "active",
       "id": "5939752806064d71a87025348d2bcc43",
-      "datePublished": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00"
     }
   ]
 }

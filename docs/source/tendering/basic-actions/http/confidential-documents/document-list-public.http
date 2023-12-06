@@ -17,17 +17,17 @@ Content-Type: application/json
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "This document contains some secret data that shouldn't be public",
       "id": "792b94edcc1645558285a6e53a6566db",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
       "id": "09de207106af4254ae4b30471ffb7e21",
-      "datePublished": "2023-01-01T00:00:00+02:00",
+      "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "public-to-private.doc",
       "format": "application/msword",
       "documentOf": "tender",
-      "dateModified": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
       "language": "uk",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "Lol, this document contains some secret data that shouldn't be public, I'm changing it's confidentiality"
@@ -41,8 +41,8 @@ Content-Type: application/json
       "language": "uk",
       "confidentiality": "public",
       "id": "ee649ceb45ab4e82be7e294f047fde7f",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00"
     }
   ]
 }

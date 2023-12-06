@@ -20,7 +20,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Can't change status to 'unsuccessful' until milestone.dueDate: 2023-01-03T00:00:00+02:00"
+      "description": "Can't change status to 'unsuccessful' until milestone.dueDate: 2023-10-12T00:00:00+03:00"
     }
   ]
 }

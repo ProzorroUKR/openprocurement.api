@@ -77,12 +77,18 @@ Setting  contract value
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+If you want to **lower contract value**, you can insert new one into the `amount` field(for all procedures except esco).
 
 .. http:example:: http/contract-set-contract-value.http
    :code:
 
 `200 OK` response was returned. The value was modified successfully.
+
+
+For **esco contracts value** you can change `amountNet` and `valueAddedTaxIncluded`:
+
+.. http:example:: http/esco-tender-contract-set-contract-value.http
+   :code:
 
 Setting value per item's unit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -195,6 +201,12 @@ Buyer fill signer information using ``contract_token`` or ``tender_token``:
 Supplier fill signer information using ``bid_token``:
 
 .. http:example:: http/contract-supplier-add-signer-info.http
+   :code:
+
+
+You can update signer information using same method:
+
+.. http:example:: http/update-contract-owner-add-signer-info.http
    :code:
 
 
@@ -365,3 +377,66 @@ Note that you can set/change ``amountPaid.amount``, ``amountPaid.amountNet``, ``
 If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
 
 Any future modification to the contract are not allowed.
+
+
+.. index:: Aggregate contracts
+
+Aggregate contracts
+===================
+
+Creation of aggregate contracts
+-------------------------------
+
+For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active.
+
+Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :
+
+.. http:example:: http/create-multiple-buyers-tender.http
+    :code:
+
+Move forward as usual, activate award:
+
+.. http:example:: http/set-active-award.http
+    :code:
+
+After activating award system is creating such amount of contracts that corresponds to the amount of buyers
+
+.. http:example:: http/get-multi-contracts.http
+    :code:
+
+Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract.
+
+.. http:example:: http/patch-1st-contract-value.http
+    :code:
+
+.. http:example:: http/patch-2nd-contract-value.http
+    :code:
+
+You can activate or terminate each contract as usual.
+If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`
+
+If award was cancelled, all contracts related to this awardID become in cancelled status.
+
+
+Cancellation of aggregate contracts
+-----------------------------------
+
+Contracts can be cancelled:
+
+.. http:example:: http/patch-to-cancelled-1st-contract.http
+    :code:
+
+Except when contract is the last not cancelled contract:
+
+.. http:example:: http/patch-to-cancelled-2nd-contract-error.http
+    :code:
+
+In that case related award should be cancelled:
+
+.. http:example:: http/set-active-award.http
+    :code:
+
+Let's check all contracts are cancelled:
+
+.. http:example:: http/get-multi-contracts-cancelled.http
+    :code:

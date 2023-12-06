@@ -7,5 +7,5 @@ LOGGER = getLogger("openprocurement.contracting.econtract")
 
 def includeme(config):
     LOGGER.info("Init contracting.econtract plugin.")
-    config.add_contract_type(Contract)
+    # config.add_contract_type(Contract)
     config.scan("openprocurement.contracting.econtract.procedure.views")

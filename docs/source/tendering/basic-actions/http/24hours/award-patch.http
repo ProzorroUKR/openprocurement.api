@@ -22,7 +22,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Can't change status to 'active' until milestone.dueDate: 2023-01-02T00:00:00+02:00"
+      "description": "Can't change status to 'active' until milestone.dueDate: 2023-10-11T01:00:00+03:00"
     }
   ]
 }

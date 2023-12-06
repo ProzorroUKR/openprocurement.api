@@ -1,13 +1,13 @@
-PUT /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/89ac9d103b734029abf03372b8a7ba4d?acc_token=b8bbe7f96c0a4205be28146aec83c55b HTTP/1.0
+PUT /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/cancellations/6bc04feb960e4292a050ff0378f0d41f/documents/8df1b1464a774b09a31c7ff0b79a2907?acc_token=b8bbe7f96c0a4205be28146aec83c55b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 320
+Content-Length: 324
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "Notice-2.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1a9c4d3896294d95bd456516cafecfe4?Signature=zfmln9cLYkxxYp7DX7UULcBUVz9dFJxXDxyttEZlx6Q0067QnKmyZ6vI3xPwqW6EV8GFOLcoTKVjZEb2DvwABw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=Qzl9WJq8T8ceul6BsXjCyQlf2I%2F3wpM6tNBgij3fHh1H4tc33cIkSUyIWiQk7sv8pWJjlOF%2F7DLdnkbxRriCBw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -20,14 +20,14 @@ Content-Type: application/json
 {
   "data": {
     "description": "Changed description",
-    "id": "89ac9d103b734029abf03372b8a7ba4d",
-    "datePublished": "2023-01-11T00:00:04+02:00",
+    "id": "8df1b1464a774b09a31c7ff0b79a2907",
+    "datePublished": "2023-10-16T01:00:02+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1a9c4d3896294d95bd456516cafecfe4?Signature=6fEnad68ywk3yJnL30T%2F%2BVCbH9zCp0XK2puDCk3jZ7CUdmjfGVa6SlVZSnaaefFuCw9MoKNHkSnflBG%2FpM1AAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=%2FYRZ%2B%2BRtFSyc1fRd7U3XC1JzzD8NRsKvmiPxbIxu3tC2RImeoRJr9W%2FiDeEO2nWheF2%2BuWjigqJR0CMp8ltlBg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-11T00:00:04+02:00",
+    "dateModified": "2023-10-16T01:00:02+03:00",
     "language": "uk"
   }
 }

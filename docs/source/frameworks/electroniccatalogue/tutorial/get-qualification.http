@@ -11,9 +11,9 @@ Content-Type: application/json
     "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
     "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
     "status": "pending",
-    "date": "2023-01-17T00:00:00+02:00",
+    "date": "2023-10-26T01:00:00+03:00",
     "qualificationType": "electronicCatalogue",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
     "id": "838474d50c0a49d79fe82febe17a3c1e"
   },
   "config": {}

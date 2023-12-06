@@ -74,8 +74,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "streetAddress": "вул. Банкова 1"
         },
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42"
       }
@@ -162,8 +162,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45ef
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
@@ -190,16 +190,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bf399bcd03af45ef
         "description": "Опис Лот №1",
         "id": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "bf399bcd03af45efa76f2d266f03ccf6"
   },
   "config": {

@@ -14,6 +14,7 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 from tests.base.constants import (
     DOCS_URL,
     AUCTIONS_URL,
@@ -166,6 +167,25 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
             {'data': test_criteria_data}
         )
         self.assertEqual(response.status, '201 Created')
+
+    def activating_contract(self, contract_id, owner_token, bid_token):
+        response = self.app.put_json(
+            f'/contracts/{contract_id}/buyer/signer_info?acc_token={owner_token}',
+            {"data": test_signer_info}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.put_json(
+            f'/contracts/{contract_id}/suppliers/signer_info?acc_token={bid_token}',
+            {"data": test_signer_info}
+        )
+
+        self.assertEqual(response.status, '200 OK')
+        response = self.app.patch_json(
+            f'/contracts/{contract_id}?acc_token={owner_token}',
+            {'data': {'status': 'active'}}
+        )
+        self.assertEqual(response.status, '200 OK')
 
 
 class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
@@ -325,7 +345,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
 
-        self.complete_tender(tender_id, owner_token)
+        self.complete_tender(tender_id, owner_token, bid1_token)
 
         with open(TARGET_DIR + 'has-auction-true-tender-complete.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -394,11 +414,13 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             tender_id, owner_token, lot_id1, lot_id2
         )
 
+        self.bid_token = bid1_token
+
         #### Auction
         self.tick(datetime.timedelta(days=30))
         self.check_chronograph()
 
-        self.complete_tender(tender_id, owner_token)
+        self.complete_tender(tender_id, owner_token, bid1_token)
 
         with open(TARGET_DIR + 'has-auction-false-tender-complete.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}'.format(self.tender_id))
@@ -469,7 +491,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
 
         return bid1_id, bid1_token, bid2_id, bid2_token
 
-    def complete_tender(self, tender_id, owner_token):
+    def complete_tender(self, tender_id, owner_token, bid_token):
         self.app.authorization = ('Basic', ('broker', ''))
 
         # Get pending award
@@ -514,24 +536,9 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
                 self.tender_id, owner_token
             )
         )
-        self.contract_id = response.json['data'][0]['id']
-        self.contract2_id = response.json['data'][1]['id']
 
-        response = self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token
-            ),
-            {'data': {'status': 'active'}}
-        )
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract2_id, owner_token
-            ),
-            {'data': {'status': 'active'}}
-        )
-        self.assertEqual(response.status, '200 OK')
+        for contract in response.json["data"]:
+            self.activating_contract(contract["id"], owner_token, bid_token)
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')
@@ -1686,6 +1693,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
             )
             self.assertEqual(response.status, "201 Created")
             self.set_responses(tender_id, response.json, "pending")
+        bid_token = response.json["access"]["token"]
 
         # Auction
         self.tick(datetime.timedelta(days=30))
@@ -1736,21 +1744,8 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.contract_id = response.json['data'][0]['id']
         self.contract2_id = response.json['data'][1]['id']
 
-        response = self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token
-            ),
-            {'data': {'status': 'active'}}
-        )
-        self.assertEqual(response.status, '200 OK')
-
-        response = self.app.patch_json(
-            '/tenders/{}/contracts/{}?acc_token={}'.format(
-                self.tender_id, self.contract2_id, owner_token
-            ),
-            {'data': {'status': 'active'}}
-        )
-        self.assertEqual(response.status, '200 OK')
+        for contract_id in (self.contract_id, self.contract2_id):
+            self.activating_contract(contract_id, owner_token, bid_token)
 
         response = self.app.get('/tenders/{}'.format(self.tender_id))
         self.assertEqual(response.status, '200 OK')

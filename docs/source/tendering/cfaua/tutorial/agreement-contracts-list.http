@@ -35,7 +35,7 @@ Content-Type: application/json
       ],
       "awardID": "153edf0c78dd4fc98c3f46930956479c",
       "bidID": "c3e41a3a099a41ad864be3893e0711b5",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "unitPrices": [
         {
           "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
@@ -82,7 +82,7 @@ Content-Type: application/json
       ],
       "awardID": "f69080728fd34165b517341694df0475",
       "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "unitPrices": [
         {
           "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
@@ -129,7 +129,7 @@ Content-Type: application/json
       ],
       "awardID": "0de06b46cccd45c2896163bbabd6f4d3",
       "bidID": "381f5658b23a448ea820b823934eeb79",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "unitPrices": [
         {
           "relatedItem": "f7f221177ecc41369b255d9ba4620b02",

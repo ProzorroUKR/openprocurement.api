@@ -20,7 +20,7 @@ Content-Type: application/json
     "id": "6d66657aec2f41c29d1077f2a3cdceb8",
     "qualified": true,
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 475000.0,
       "valueAddedTaxIncluded": true,
@@ -52,8 +52,8 @@ Content-Type: application/json
     ],
     "lotID": "d049e59ecd494591ab40486ee8250cc7",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-06T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-16T00:00:00+03:00"
     }
   }
 }

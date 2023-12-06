@@ -1,13 +1,13 @@
-PUT /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/cancellations/ed1f4d6471da48e480fd5e6d917a26ee/documents/49f9b8af78c54011888604b5a1de0b8e?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
+PUT /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/cancellations/ed1f4d6471da48e480fd5e6d917a26ee/documents/4cba1f325b5b4f89a32dde45456b9ebf?acc_token=ba20733189d94f8eb1f42516be4fddf3 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 326
+Content-Length: 328
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "Notice-2.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e59577c636164dbf8959b734712395b5?Signature=XAhE%2FBy0nWmQtrHYFH7Mxp3jZhDbI7Q2U8fUfptOH7QEGjCJNPTypimq%2B%2FnIW8LUY09h5u8JDqiYBzb1pI6nAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a867f686670d458ea1da3a4c4d782eb7?Signature=W%2B6dK0q0Q9fBtVZnRNWst9R%2F%2FGcc9KuWhVGLqpmukpbdbnWg5jf88oQ4E39eBO2Yu%2Fh4ddhDhaVbAAY8FEtrCA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -20,14 +20,14 @@ Content-Type: application/json
 {
   "data": {
     "description": "Changed description",
-    "id": "49f9b8af78c54011888604b5a1de0b8e",
-    "datePublished": "2023-01-01T00:00:01+02:00",
+    "id": "4cba1f325b5b4f89a32dde45456b9ebf",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e59577c636164dbf8959b734712395b5?Signature=h3vBtEq%2Boxot43UgR1lIzK8SCJsKm7IhTBTjqax3%2Bg3j2tZB%2B7mLyReABdibvJR8ojfLwtH8DwfiQk9EH%2BArAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a867f686670d458ea1da3a4c4d782eb7?Signature=V6U31s8YfBaTiezVN4XA1%2Fm4RZ3GDunX%2FVdZUKPTG2zlK0RKWmT0tvFg2Pc4TfNzfA%2Ba%2Fbi0ayaOfsrYSqjMCw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk"
   }
 }

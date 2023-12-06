@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-07 13:12+0300\n"
+"POT-Creation-Date: 2023-11-22 15:03+0200\n"
 "PO-Revision-Date: 2020-02-12 14:32+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
 "Language-Team: \n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.1\n"
+"Generated-By: Babel 2.13.0\n"
 
 msgid "Centralized procurements"
 msgstr "Централізовані закупівлі"
@@ -66,41 +66,8 @@ msgstr "У результаті план переміщається у стат�
 msgid "The tender `plans` field contains all the plan ids"
 msgstr "Поле `plans` тендеру містить всі ідентифікатори планів"
 
-msgid "Creation of aggregate contracts"
-msgstr "Створення агрегованих контрактів"
+msgid "Aggregate contracts"
+msgstr "Агреговані контракти"
 
-msgid "For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active."
-msgstr "Для кожного об'єктку `buyer` в тендері система створює окремий `contract` відповідно, в той момент коли `award` стає активним. "
-
-msgid "Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :"
-msgstr "Створюємо тендер з декількома buyers, кожен `item` повинен бути прив'язаний до відповідного `buyer`, використовючи поле `relatedBuyer`:"
-
-msgid "Move forward as usual, activate award:"
-msgstr "Йдемо далі, як зазвичай, активуємо авард"
-
-msgid "After activating award system is creating such amount of contracts that corresponds to the amount of buyers"
-msgstr "Після активації аварду система створює таку кількість об'єктів contracts, що відповідає кількості buyers в тендері"
-
-msgid "Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract."
-msgstr "Оновлюємо Amount.Value для кожного контракту, враховуючи суму добутків Unit.Value на Quantity для кожного item в контракті:"
-
-msgid "You can activate or terminate each contract as usual. If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`"
-msgstr "Ви можете активувати або термінувати кожен контракт як зазвичай. Якщо відсутні контракти в стутусі `pending` та хоча б один котракт знаходиться в статусі `active`, тендер переходить в статус `complete`"
-
-msgid "If award was cancelled, all contracts related to this awardID become in cancelled status."
-msgstr "При скасуванні аварду всі контракти відповідного awardID переходять в статус cancelled."
-
-msgid "Cancellation of aggregate contracts"
-msgstr "Відміна агрегованих контрактів"
-
-msgid "Contracts can be cancelled:"
-msgstr "Контракт може бути відмінений:"
-
-msgid "Except when contract is the last not cancelled contract:"
-msgstr "За винятком коли котракт є останнім невідміненим контрактом:"
-
-msgid "In that case related award should be cancelled:"
-msgstr "В цьому випадку повинен бути відмінений відповідний авард:"
-
-msgid "Let's check all contracts are cancelled:"
-msgstr "Перевіримо що всі контракти відмінені:"
+msgid "All operations with aggregated contracts moved to :ref:`econtracting`"
+msgstr "Усі операції над агрегованими контрактами перенесені до :ref:`econtracting`"

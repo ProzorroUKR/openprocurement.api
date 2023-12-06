@@ -4,6 +4,7 @@ from openprocurement.contracting.core.procedure.views.contract_document import C
 from openprocurement.api.utils import json_view
 
 from openprocurement.contracting.econtract.procedure.models.document import Document, PostDocument, PatchDocument
+from openprocurement.contracting.econtract.procedure.state.document import EContractDocumentState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     validate_patch_data,
@@ -27,6 +28,8 @@ from openprocurement.contracting.core.procedure.validation import (
     description="EContract related binary files (PDFs, etc.)",
 )
 class EContractDocumentResource(ContractDocumentResource):
+    state_class = EContractDocumentState
+
     @json_view(
         validators=(
             unless_admins(validate_contract_owner),

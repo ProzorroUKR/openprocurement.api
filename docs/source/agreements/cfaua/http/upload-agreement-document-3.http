@@ -20,12 +20,12 @@ Content-Type: application/json
 {
   "data": {
     "id": "47ab85c3f0b341b58583c157dd99c085",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_additional_docs.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d41141b923574f31b55bb728076744c5?Signature=mka6smLvqizbQTfO5zttaBl0L1iNsnfonJHjBmAaWOqflP%2FdQtzy6LFcx6uujeC5rElua6Cf1pLu5BfrQkWWCA%3D%3D&KeyID=a8968c46",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",
     "documentOf": "agreement"
   }

@@ -21,17 +21,18 @@ from openprocurement.contracting.core.procedure.models.contract_base import (
     BasePatchContract,
     BaseContract,
 )
+from openprocurement.contracting.econtract.procedure.models.value import ContractValue
 from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
 from openprocurement.tender.core.procedure.models.unit import Unit
 
 
 class SignerInfo(Model):
-    name = StringType(required=True)
-    email = EmailType(required=True)
-    telephone = StringType(required=True)
+    name = StringType(min_length=1, required=True)
+    email = EmailType(min_length=1, required=True)
+    telephone = StringType(min_length=1, required=True)
     iban = StringType(min_length=15, max_length=33, required=True)
-    authorizedBy = StringType(required=True)
-    position = StringType(required=True)
+    position = StringType(min_length=1, required=True)
+    authorizedBy = StringType(min_length=1, required=True)
 
     def validate_telephone(self, data, value):
         validate_telephone(value)
@@ -56,7 +57,7 @@ class Organization(Model):
     identifier = ModelType(Identifier, required=True)
     additionalIdentifiers = ListType(ModelType(Identifier))
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
-    address = ModelType(Address, required=True)
+    address = ModelType(Address)
     signerInfo = ModelType(SignerInfo)
 
 
@@ -75,6 +76,7 @@ class PostContract(BasePostContract):
     buyer = ModelType(
         Organization, required=True
     )
+    value = ModelType(ContractValue)
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)
 
@@ -84,6 +86,7 @@ class PatchContract(BasePatchContract):
     items = ListType(ModelType(Item, required=True), min_size=1)
     terminationDetails = StringType()
     amountPaid = ModelType(AmountPaid)
+    value = ModelType(ContractValue)
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
@@ -94,6 +97,7 @@ class PatchContractPending(BasePatchContract):
     items = ListType(ModelType(Item, required=True), min_size=1)
     dateSigned = IsoDateTimeType()
     contractNumber = StringType()
+    value = ModelType(ContractValue)
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
@@ -115,6 +119,7 @@ class Contract(BaseContract):
     suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateName = StringType()
+    value = ModelType(ContractValue)
 
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)

@@ -70,7 +70,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "d17829b7e1774888aa4678087b41c55b",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "1ccbb8fe1d3c4c79a9691fc9587728aa"
@@ -84,7 +84,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "61ac408e2e1e49c386d2c119f99cd886",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "2498d1dfc061453ebaf8dc35a4ae8ead"
@@ -143,7 +143,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "f0291818215545e7a917f1720f699213",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "9071c715af264291a4eab75dddd6c29f"
@@ -192,7 +192,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "c6dd9492a0d4459bbebf02860996a58b",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
@@ -200,7 +200,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "e02f115815d04a6a979124d5330f19f6",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "91eb98052c45463c921aaecf18c44482"
@@ -239,7 +239,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "711533d3e9c0486caa2c82a08648e906",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "b9f9c02a0b1247558d8f8ec8d2a46978"
@@ -278,7 +278,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "b4d2fea0e66d40ff81b7ad24a2ff7fc4",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "cec73f6654c54bd68fd7c7ab8ca33a1a"
@@ -292,28 +292,28 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "27ba1577a301434fb222112011535fc6",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
                 "id": "e7974e8b8523465ca2f6c3cb09344ca0",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
                 "id": "4d45e6c2df29418ab37ea3bdd6e23751",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
                 "id": "f85286080e3143deba78dcbb472fba8e",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Учасник здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством країни реєстрації такого учасника",
@@ -321,7 +321,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "d0e9747cff8b4a6781e3a7576b184893",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "76cdc1462eed4b5f986308ec97d3ba32"
@@ -360,7 +360,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "178fcf7e4a944654a4930718c37a512a",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "65742131cbd042cbb1622bcebfca9b1b"
@@ -406,7 +406,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "id": "3bb9f54a3c904eb080a20aff5e0496d5",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "55dbf7a648494d7eaa23a066f1296e5d"
@@ -444,7 +444,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "id": "1c481c9f4d51471ea904a4b7495174c5",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "e37d9bbc35cf4e78ba7c94b64570b02c"
@@ -522,7 +522,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "bf33eed8ddda41879f730a9c8a7f9d2c",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)",
@@ -530,7 +530,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "c57741fffca74be7a2e105b8bdce230e",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
@@ -538,7 +538,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "5ad6fcaca04d40d490e577a55f6f076b",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "f510f51e695a471db10d578ad610451a"
@@ -575,7 +575,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "4f22020708de479fb7dba8c2ad40b3b9",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "5097a6550ee648d490110d8b16c766a2"
@@ -583,10 +583,10 @@ Content-Type: application/json
         ]
       }
     ],
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -601,14 +601,14 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-01-17T00:00:00+02:00",
+    "next_check": "2023-10-26T01:00:00+03:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-01-17T00:00:00+02:00"
+      "shouldStartAfter": "2023-10-27T00:00:00+03:00"
     },
     "milestones": [
       {
@@ -661,14 +661,14 @@ Content-Type: application/json
     "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-07T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-12T00:00:00+02:00",
-      "invalidationDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-16T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-17T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-26T01:00:00+03:00"
     },
     "items": [
       {
@@ -697,8 +697,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -710,8 +710,8 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-13T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00"
     },
     "id": "2a5accd9090044dfba8773895b0bff51"
   },

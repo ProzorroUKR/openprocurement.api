@@ -12,6 +12,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_data_model,
     validate_role_for_contract_document_operation,
     validate_contract_document_status,
+    validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.document import (
     ContractDocument,
@@ -31,6 +32,7 @@ from cornice.resource import resource
 class CFASelectionContractDocumentResource(TenderContractDocumentResource):
     @json_view(
         validators=(
+                validate_forbid_contract_action_after_date("contract document"),
                 unless_bots(unless_admins(validate_contract_supplier())),
                 validate_input_data(ContractPostDocument, allow_bulk=True),
                 validate_role_for_contract_document_operation,

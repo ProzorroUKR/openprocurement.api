@@ -9,12 +9,12 @@ Content-Type: application/json
 {
   "data": {
     "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f4300d9a1594cfc800f2ea11c9a38d1?Signature=%2FEIDl4zhMc%2FQIlBBsuAcBovf0l1hIzOWn0E%2BS7E45QoXJ0ZAOOPKXmO2jUWxMhgObJloZ9%2FVLIiar4eop2K7Dg%3D%3D&KeyID=a8968c46",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",
     "previousVersions": [
       {
@@ -24,8 +24,8 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc4a665229114a72993b89bb20d7874b?Signature=cdTNyz3oB7rPP2%2Fou8SnYPoxabwo%2BQcAzgKapCGy9PY%2Fo3NSfRnJlvm9jzPX3Maq8xi6wTSODTEEEXWyEhYpCg%3D%3D&KeyID=a8968c46",
         "language": "uk",
         "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

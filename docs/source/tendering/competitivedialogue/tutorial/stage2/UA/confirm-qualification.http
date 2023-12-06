@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "id": "a80621d2867247d08f016fe4474de8ea",
     "status": "active",
-    "date": "2023-01-01T00:00:01+02:00",
+    "date": "2023-10-10T01:00:01+03:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -54,8 +54,8 @@ Content-Type: application/json
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:01+02:00",
-      "endDate": "2023-01-12T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:01+03:00",
+      "endDate": "2023-10-21T00:00:00+03:00"
     }
   }
 }

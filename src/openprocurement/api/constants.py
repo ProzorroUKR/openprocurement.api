@@ -331,3 +331,5 @@ ECONTRACT_SIGNER_INFO_REQUIRED = get_constant(
 # Contract templates
 
 CONTRACT_TEMPLATES_KEYS = set(standards.load("templates/contract_templates_keys.json"))
+
+NEW_CONTRACTING_FROM = get_constant(CONSTANTS_CONFIG, "NEW_CONTRACTING_FROM")

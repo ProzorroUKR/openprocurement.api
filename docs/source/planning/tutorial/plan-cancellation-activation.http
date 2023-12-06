@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "rationale": {
       "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-01-02T01:00:33+02:00"
+      "date": "2023-10-11T02:00:33+03:00"
     },
     "procuringEntity": {
       "id": "7e7afa9f45854968b06a08b254af126c",
@@ -43,7 +43,7 @@ Content-Type: application/json
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-01-08T00:00:00+02:00"
+        "startDate": "2023-10-17T00:00:00+02:00"
       }
     },
     "budget": {
@@ -73,7 +73,7 @@ Content-Type: application/json
         "description": "-"
       }
     ],
-    "planID": "UA-P-2023-01-02-000002",
+    "planID": "UA-P-2023-10-11-000002",
     "items": [
       {
         "id": "49ffdd118a4245af931b03a25cca7c9b",
@@ -102,7 +102,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-01-16T00:00:00+02:00"
+          "endDate": "2023-10-25T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -133,7 +133,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-01-17T00:00:00+02:00"
+          "endDate": "2023-10-26T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -164,7 +164,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-01-18T00:00:00+02:00"
+          "endDate": "2023-10-27T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -191,14 +191,14 @@ Content-Type: application/json
     "status": "cancelled",
     "cancellation": {
       "id": "b7e9d6ca56c943a0b5d32f9db0653ce7",
-      "date": "2023-01-02T01:00:33+02:00",
+      "date": "2023-10-11T02:00:33+03:00",
       "reason": "Підстава для скасування",
       "reason_en": "Reason of the cancellation",
       "status": "active"
     },
-    "dateCreated": "2023-01-02T01:00:33+02:00",
-    "dateModified": "2023-01-02T01:00:33+02:00",
-    "datePublished": "2023-01-02T01:00:33+02:00",
+    "dateCreated": "2023-10-11T02:00:33+03:00",
+    "dateModified": "2023-10-11T02:00:33+03:00",
+    "datePublished": "2023-10-11T02:00:33+03:00",
     "owner": "broker",
     "id": "a93d5d3f8c974702bdcd612e0e78486f"
   }

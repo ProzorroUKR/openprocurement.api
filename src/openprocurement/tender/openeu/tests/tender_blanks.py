@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 # TenderResourceTest
 
@@ -1143,7 +1143,6 @@ def multiple_bidders_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
 
     # XXX rewrite following part with less of magic actions
     # after stand slill period
@@ -1156,11 +1155,7 @@ def multiple_bidders_tender(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, tender_owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, tender_owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1178,10 +1173,10 @@ def lost_contract_for_active_award(self):
     bid_data["tenderers"] = [test_tender_below_organization]
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, bid_data, "pending")
+    _, bid1_token = self.create_bid(tender_id, bid_data, "pending")
     # create bid #2
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, bid_data, "pending")
+    _, bid2_token = self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     response = self.check_chronograph()
@@ -1225,6 +1220,8 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)
+    for i in tender["contracts"]:
+        self.mongodb.contracts.delete(i["id"])
     del tender["contracts"]
     self.mongodb.tenders.save(tender)
     # create lost contract
@@ -1234,7 +1231,6 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
@@ -1242,11 +1238,7 @@ def lost_contract_for_active_award(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid1_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

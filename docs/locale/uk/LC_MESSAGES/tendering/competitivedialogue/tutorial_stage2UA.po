@@ -3,13 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 05:42+0300\n"
+"POT-Creation-Date: 2023-10-24 01:12+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.0\n"
 "Generated-By: Babel 2.11.0\n"
 
 msgid "Configuration"
@@ -183,47 +184,11 @@ msgstr "Підтвердження кваліфікації"
 msgid "Qualification commission registers its decision via the following call:"
 msgstr "Кваліфікаційна комісія реєструє своє рішення:"
 
-msgid "Setting contract value"
-msgstr "Скасування закупівлі"
+msgid "Setting Contract"
+msgstr "Налаштування угоди"
 
-msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
-msgstr "Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте наступні кроки:"
-
-msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
-msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
-
-msgid "`200 OK` response was returned. The value was modified successfully."
-msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
-
-msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання угоди"
-
-msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
-msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
-
-msgid "If this date is not set, it will be auto-generated on the date of contract registration."
-msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
-
-msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії угоди"
-
-msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
-
-msgid "Uploading contract documentation"
-msgstr "Завантаження документації по угоді"
-
-msgid "You can upload contract documents for the second stage Competitive Dialogue procedure."
-msgstr "Ви можете завантажити документи угоди для другого етапу конкрентного ділогу"
-
-msgid "Let's upload contract document:"
-msgstr "Завантажимо документ угоди:"
-
-msgid "`201 Created` response code and `Location` header confirm that this document was added."
-msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було додано."
-
-msgid "Let's view the uploaded contract document:"
-msgstr "Подивимось на список документів пов’язаних з угодою:"
+msgid "All operations with contract moved to :ref:`econtracting`"
+msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
 
 msgid "Cancelling tender"
 msgstr "Скасування закупівлі"

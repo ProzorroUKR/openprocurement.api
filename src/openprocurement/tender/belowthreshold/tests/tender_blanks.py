@@ -13,6 +13,7 @@ from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     CPV_ITEMS_CLASS_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    NEW_CONTRACTING_FROM,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
@@ -39,6 +40,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 
 def listing(self):
@@ -2669,7 +2671,7 @@ def one_valid_bid_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
-    self.create_bid(self.tender_id, bid_data)
+    _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"status": "active.tendering"})
     response = self.check_chronograph()
@@ -2687,8 +2689,7 @@ def one_valid_bid_tender(self):
     self.assertNotEqual(response.json["data"]["date"], award_date)
 
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # after stand slill period
@@ -2702,10 +2703,7 @@ def one_valid_bid_tender(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -2772,7 +2770,7 @@ def first_bid_tender(self):
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 475}}
-    self.create_bid(self.tender_id, bid_data)
+    _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
 
@@ -2855,25 +2853,9 @@ def first_bid_tender(self):
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token), {"data": {"status": "active"}}
     )
     # get contract id
-    response = self.app.get("/tenders/{}".format(tender_id))
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
-    # create tender contract document for test
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=201,
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    doc_id = response.json["data"]["id"]
-    self.assertIn(doc_id, response.headers["Location"])
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
@@ -2885,57 +2867,11 @@ def first_bid_tender(self):
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid2_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
-
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
-
-    response = self.app.put_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
 
 
 def lost_contract_for_active_award(self):
@@ -2949,7 +2885,7 @@ def lost_contract_for_active_award(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}
-    self.create_bid(self.tender_id, bid_data)
+    _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
@@ -2977,7 +2913,7 @@ def lost_contract_for_active_award(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertIn("contracts", response.json["data"])
     self.assertNotIn("next_check", response.json["data"])
-    contract = response.json["data"]["contracts"][-1]
+    contract = get_contract_data(self, tender_id)
     contract_id = contract["id"]
     contract_value = deepcopy(contract["value"])
     # time travel
@@ -2987,11 +2923,7 @@ def lost_contract_for_active_award(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

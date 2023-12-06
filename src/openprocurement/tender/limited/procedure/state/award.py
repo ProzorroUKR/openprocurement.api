@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.context import (
     get_tender,
 )
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
@@ -31,11 +31,13 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
         assert before != after, "Statuses must be different"
 
         if before == "pending" and after == "active":
-            add_contracts(get_request(), award, self.contract_model)
+            contracts = add_contracts(get_request(), award)
+            save_contracts_to_contracting(contracts, award)
         elif before == "pending" and after == "unsuccessful":
             pass
         elif before == "active" and after == "cancelled":
-            self.set_award_contracts_cancelled(award)
+            contracts_ids = self.set_award_contracts_cancelled(award)
+            update_econtracts_statuses(contracts_ids, after)
         else:  # any other state transitions are forbidden
             raise_operation_error(
                 get_request(),
@@ -57,7 +59,8 @@ class NegotiationAwardState(ReportingAwardState):
                 "startDate": now.isoformat(),
                 "endDate": calculate_complaint_business_date(now, self.award_stand_still_time, get_tender()).isoformat()
             }
-            add_contracts(get_request(), award, self.contract_model)
+            contracts = add_contracts(get_request(), award)
+            save_contracts_to_contracting(contracts, award)
         elif before == "pending" and after == "unsuccessful":
             award["complaintPeriod"] = {
                 "startDate": now.isoformat(),
@@ -72,11 +75,13 @@ class NegotiationAwardState(ReportingAwardState):
                             if not period.get("endDate") or period["endDate"] > now.isoformat():
                                 period["endDate"] = now.isoformat()
                         self.set_object_status(i, "cancelled")
-                        self.set_award_contracts_cancelled(i)
+                        contracts_ids = self.set_award_contracts_cancelled(i)
+                        update_econtracts_statuses(contracts_ids, after)
             else:
                 if award["complaintPeriod"]["endDate"] > now.isoformat():
                     award["complaintPeriod"]["endDate"] = now.isoformat()
-                self.set_award_contracts_cancelled(award)
+                contracts_ids = self.set_award_contracts_cancelled(award)
+                update_econtracts_statuses(contracts_ids, after)
         else:  # any other state transitions are forbidden
             raise_operation_error(
                 get_request(),

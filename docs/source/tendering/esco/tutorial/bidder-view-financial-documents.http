@@ -146,13 +146,13 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "9f572f6770254b01b919e923bbbd86ab",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amount": 8734.93,
-      "amountPerformance": 801.01,
+      "amount": 9430.27,
+      "amountPerformance": 864.98,
       "yearlyPaymentsPercentage": 0.9,
       "annualCostsReduction": [
         500,
@@ -193,18 +193,18 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "1ea7f816fd18448fbe63fa008349b298",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "dc0fd7def9184bbea336566b746dc500",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/9f572f6770254b01b919e923bbbd86ab/documents/dc0fd7def9184bbea336566b746dc500?download=4751b232227f4b73bc130f096dd47076",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair."
@@ -220,8 +220,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "847f4e9ea0024274be353232780b96a6",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -232,8 +232,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "54438de132ed4cc08bf8d84c8cbc69d1",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "eligibilityDocuments": [
@@ -246,8 +246,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "0a29861a88724c179673ee007a82c127",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "qualificationDocuments": [
@@ -260,8 +260,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "f10e4a73441342878b1d370d376a5ee6",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

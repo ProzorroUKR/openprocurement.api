@@ -170,10 +170,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
             "years": 7,
             "days": 0
           },
-          "amountPerformance": 1984.18,
-          "amount": 9273.95
+          "amountPerformance": 2090.23,
+          "amount": 10386.49
         },
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       },
       {
         "status": "pending",
@@ -210,14 +210,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
             "years": 9,
             "days": 0
           },
-          "amountPerformance": 884.68,
-          "amount": 9795.16
+          "amountPerformance": 917.27,
+          "amount": 10685.19
         },
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "id": "08194921af9d4f4eb7bc00b0c15c97cf",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "2dfb1d8a8b0745b1bf83faac1b450f05",
