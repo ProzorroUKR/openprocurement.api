@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from openprocurement.tender.core.procedure.context import get_request, get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
@@ -56,7 +56,8 @@ class AwardStateMixing(baseclass):
                 award["complaintPeriod"]["endDate"] = now
 
             self.set_award_complaints_cancelled(award)
-            self.set_award_contracts_cancelled(award)
+            contracts_ids = self.set_award_contracts_cancelled(award)
+            update_econtracts_statuses(contracts_ids, after)
             self.add_next_award()
 
         elif before == "pending" and after == "unsuccessful":
@@ -105,8 +106,9 @@ class AwardStateMixing(baseclass):
         award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
             get_now(), self.award_stand_still_time, tender, working_days
         ).isoformat()
-        add_contracts(get_request(), award, self.contract_model)
+        contracts = add_contracts(get_request(), award)
         self.add_next_award()
+        save_contracts_to_contracting(contracts, award)
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender, working_days=False):
         award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
@@ -137,7 +139,8 @@ class AwardStateMixing(baseclass):
             award["complaintPeriod"]["endDate"] = now
         self.set_object_status(award, "cancelled")
         self.set_award_complaints_cancelled(award)
-        self.set_award_contracts_cancelled(award)
+        contracts_ids = self.set_award_contracts_cancelled(award)
+        update_econtracts_statuses(contracts_ids, "cancelled")
 
     # helpers
     @classmethod

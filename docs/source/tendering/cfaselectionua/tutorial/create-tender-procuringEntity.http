@@ -188,7 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "description": "Опис Лот №1",
         "id": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "milestones": [
@@ -217,13 +217,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "sequenceNumber": 0
       }
     ],
-    "tenderID": "UA-2023-01-01-000002-a",
+    "tenderID": "UA-2023-10-10-000002-a",
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "dd5002cf75a64ce6bc9d60862b662d27"
   },
   "config": {

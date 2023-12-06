@@ -151,7 +151,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "926834ae76fa46ddbd3aaedea61b2c6c",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
@@ -164,8 +164,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "53763d8deb524683b9cc0fa3d50d2907",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

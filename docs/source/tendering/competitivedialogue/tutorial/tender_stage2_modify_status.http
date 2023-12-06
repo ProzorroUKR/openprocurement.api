@@ -17,10 +17,10 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000016-a.2",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000016-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
@@ -62,18 +62,18 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-21T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00",
-      "invalidationDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-30T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-02T00:00:00+02:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-31T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T00:00:00+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-27T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-05T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
@@ -89,8 +89,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -127,8 +127,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -181,7 +181,7 @@ Content-Type: application/json
       }
     ],
     "status": "active.tendering",
-    "next_check": "2023-01-31T00:00:00+02:00",
+    "next_check": "2023-11-10T00:00:00+03:00",
     "id": "c1ecbb7654494927b3713d6f2307973d"
   },
   "config": {

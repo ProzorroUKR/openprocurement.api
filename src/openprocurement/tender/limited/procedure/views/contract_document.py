@@ -10,6 +10,7 @@ from openprocurement.tender.core.procedure.validation import (
     update_doc_fields_on_put_document,
     validate_upload_document,
     validate_data_model,
+    validate_forbid_contract_action_after_date,
 )
 from openprocurement.tender.limited.procedure.validation import (
     validate_document_operation_not_in_active,
@@ -28,6 +29,7 @@ from cornice.resource import resource
 class ReportingContractDocumentResource(TenderContractDocumentResource):
     @json_view(
         validators=(
+            validate_forbid_contract_action_after_date("contract document"),
             unless_bots(unless_admins(validate_item_owner("tender"))),
             validate_input_data(PostDocument, allow_bulk=True),
             validate_document_operation_not_in_active,

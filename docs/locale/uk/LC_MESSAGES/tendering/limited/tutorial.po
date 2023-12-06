@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-22 05:42+0300\n"
+"POT-Creation-Date: 2023-10-24 01:12+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.13.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -215,59 +215,11 @@ msgstr "Підтвердження визначення переможця дл�
 msgid "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 5 days."
 msgstr "Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної процедури за нагальною потребою** становить 5 днів."
 
-msgid "Setting  contract value"
-msgstr "Встановлення вартості угоди"
+msgid "Setting Contract"
+msgstr "Налаштування угоди"
 
-msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
-msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
-
-msgid "If you want to **lower contract value**, you can insert new one into the `amount` field."
-msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
-
-msgid "`200 OK` response was returned. The value was modified successfully."
-msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
-
-msgid "Setting value per item's unit"
-msgstr "Встановлення ціни за одиницю"
-
-msgid "`200 OK` response was returned with successfully set item.unit.value structure."
-msgstr "`200 OK` відповіддь повертається з успішно створеною структурою item.unit.value."
-
-msgid "Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using contract.value(if exists), otherwise using tender.value data"
-msgstr "Item.unit.value.currency та Item.unit.value.valueAddedTaxIncluded створюються, використовуючи інформацію з contract.value(якщо існує), в іншому випадку з tender.value"
-
-msgid "Setting a single item unit value"
-msgstr "Встановлення ціни за одиницю для кожного предмету закупівлі"
-
-msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання угоди"
-
-msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
-msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
-
-msgid "If this date is not set, it will be auto-generated on the date of contract registration."
-msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
-
-msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії угоди"
-
-msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
-
-msgid "Uploading contract documentation"
-msgstr "Завантаження документів щодо укладання угоди"
-
-msgid "Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:"
-msgstr "Документи пов’язані з угодою можна завантажувати лише до укладання угоди. Спробуємо додати такий документ:"
-
-msgid "Let's see the list of contract documents:"
-msgstr "Переглянемо список завантажених документів:"
-
-msgid "We can add another contract document:"
-msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
-
-msgid "Let's see the list of all uploaded contract documents:"
-msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
+msgid "All operations with contract moved to :ref:`econtracting`"
+msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
 
 msgid "Contract registration"
 msgstr "Реєстрація угоди"

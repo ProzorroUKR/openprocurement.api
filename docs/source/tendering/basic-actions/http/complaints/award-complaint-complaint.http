@@ -17,19 +17,19 @@ Content-Type: application/json
 {
   "data": {
     "id": "5ee03229cced4dd987e148caddae4b97",
-    "complaintID": "UA-2023-01-01-000001-a.1",
-    "date": "2023-01-01T00:00:03+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.1",
+    "date": "2023-10-10T01:00:03+03:00",
     "status": "pending",
     "documents": [
       {
         "id": "57233638d6a9452d87f9a13f48e4152e",
-        "datePublished": "2023-01-01T00:00:03+02:00",
+        "datePublished": "2023-10-10T01:00:03+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4131fd62e1246fe984547bddecceb84?Signature=9QRUeKsj3r1nMsnB9SGcga8ybnoDsYvuADXSmHrtt%2BVG2vv05KN0XKKy4idM%2BSoounPI1UIjiIohfBWiQNdtAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:03+02:00",
+        "dateModified": "2023-10-10T01:00:03+03:00",
         "author": "complaint_owner",
         "language": "uk"
       }
@@ -63,7 +63,7 @@ Content-Type: application/json
       "amount": 3000.0,
       "currency": "UAH"
     },
-    "dateSubmitted": "2023-01-01T00:00:03+02:00"
+    "dateSubmitted": "2023-10-10T01:00:03+03:00"
   }
 }
 

@@ -19,7 +19,7 @@ Content-Type: application/json
     "id": "2c8e0f097743437984f0ff04e5634cb9",
     "bidID": "cafec8a6e87645a2bf78d530d93c786c",
     "status": "unsuccessful",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "qualified": false,
     "eligible": false
   }

@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_claim,
     test_tender_below_claim,
 )
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 def update_patch_data(self, patch_data, key=None, start=0, interval=None, with_weighted_value=False):
@@ -908,21 +909,15 @@ def post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsucce
     self.mongodb.tenders.save(doc)
 
     # in case any contract become active and there are no pending contracts -> tender should have complete status
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[0]["id"], self.tender_token),
-        {"data": {"status": "active"}}
-    )
-    self.assertEqual(response.status, "200 OK")
+    activate_contract(self, self.tender_id, contracts[0]["id"],
+                      self.tender_token, list(self.initial_bids_tokens.values())[0])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(response.json["data"]["status"], "complete")  # because second contract still in pending
 
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contracts[1]["id"], self.tender_token),
-        {"data": {"status": "active"}}
-    )
-    self.assertEqual(response.status, "200 OK")
+    activate_contract(self, self.tender_id, contracts[1]["id"],
+                      self.tender_token, list(self.initial_bids_tokens.values())[0])
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")

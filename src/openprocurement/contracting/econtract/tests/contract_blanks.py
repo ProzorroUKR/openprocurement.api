@@ -1125,10 +1125,15 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
-        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 1}}},
+        {"data": {
+            "value": {
+                **self.contract["value"],
+                "amount": self.contract["value"]["amount"] - 10,
+                "amountNet": self.contract["value"]["amount"] - 11
+            }
+        }},
     )
     self.assertEqual(response.status, "200 OK")
-    # self.assertEqual(response.json["data"]["title"], "New Title!!!")
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}", {"data": {"title": "New Title!!!"}}
@@ -1195,7 +1200,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "terminated")
-    self.assertEqual(response.json["data"]["value"]["amount"], self.contract["value"]["amount"])
+    self.assertEqual(response.json["data"]["value"]["amount"], self.contract["value"]["amount"] - 10)
     self.assertEqual(response.json["data"]["period"]["startDate"], custom_period_start_date)
     self.assertEqual(response.json["data"]["period"]["endDate"], custom_period_end_date)
     self.assertEqual(response.json["data"]["amountPaid"]["amount"], 90)

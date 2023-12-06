@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-01-16T00:00:00+02:00"
+      "endDate": "2023-10-25T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
     "procurementMethodType": "aboveThreshold",
@@ -47,8 +47,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -87,8 +87,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "scheme": "ДК021"
         },
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -210,8 +210,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
     "procurementMethodType": "aboveThreshold",
     "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-16T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+02:00"
     },
     "items": [
       {
@@ -240,8 +240,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -278,8 +278,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -290,21 +290,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
         }
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-13T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+02:00"
     },
     "owner": "broker",
     "procurementMethod": "open",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-16T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-25T00:00:00+03:00"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "62ce6859a3df45b692f7f78357d812c0"
   },
   "config": {

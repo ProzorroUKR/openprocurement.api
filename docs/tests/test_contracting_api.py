@@ -29,6 +29,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_contract_data
+    freezing_datetime = '2023-01-01T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
 
@@ -361,6 +362,7 @@ class MultiContractsTenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data_multi_buyers
+    freezing_datetime = '2023-01-01T00:00:00+02:00'
     docservice = False
     docservice_url = DOCS_URL
 

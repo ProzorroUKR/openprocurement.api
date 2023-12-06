@@ -25,7 +25,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       "kind": "central"
     },
-    "dueDate": "2023-01-01T00:00:04+02:00"
+    "dueDate": "2023-10-10T01:00:04+03:00"
   }
 }
 
@@ -40,7 +40,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c
     "title": "Підготовка до проведення процедури",
     "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників",
     "type": "approval",
-    "dueDate": "2023-01-01T00:00:04+02:00",
+    "dueDate": "2023-10-10T01:00:04+03:00",
     "status": "scheduled",
     "author": {
       "id": "223cf816f2d343d2ba8d7a038fafc659",
@@ -59,7 +59,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c
       },
       "kind": "central"
     },
-    "dateModified": "2023-01-01T00:00:03+02:00",
+    "dateModified": "2023-10-10T01:00:03+03:00",
     "owner": "broker"
   },
   "access": {

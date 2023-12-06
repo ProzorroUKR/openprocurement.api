@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 from logging import getLogger
 
 from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
 from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender_config, get_tender,
@@ -12,6 +12,7 @@ from openprocurement.tender.core.procedure.models.qualification import Qualifica
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
+    is_new_contracting,
 )
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
@@ -295,8 +296,9 @@ class ChronographEventsMixing(baseclass):
     def add_next_contract_handler(self, award):
         def handler(*_):
             request = get_request()
-            add_contracts(request, award, self.contract_model)
+            contracts = add_contracts(request, award)
             self.add_next_award()
+            save_contracts_to_contracting(contracts, award)
 
         return handler
 
@@ -496,6 +498,8 @@ class ChronographEventsMixing(baseclass):
             if "status" in agreement and agreement["status"] in ("pending", "active"):
                 self.set_object_status(agreement, "cancelled")
 
+        self.set_contracts_cancelled(tender)
+
     def cancel_lot(self, tender, cancellation):
         config = get_tender_config()
         # set cancelled lot status
@@ -555,6 +559,7 @@ class ChronographEventsMixing(baseclass):
             self.get_change_tender_status_handler("unsuccessful")(tender)
         elif not lot_statuses.difference({"complete", "unsuccessful", "cancelled"}):
             self.get_change_tender_status_handler("complete")(tender)
+
         # need to add next award ?
         if tender["status"] == "active.auction" and all(
             i.get("auctionPeriod", {}).get("endDate")
@@ -563,6 +568,8 @@ class ChronographEventsMixing(baseclass):
             and i["status"] == "active"
         ):
             self.add_next_award()
+
+        self.set_contracts_cancelled(tender, lot_id=cancellation["relatedLot"])
 
     @staticmethod
     def remove_draft_bids(tender):
@@ -798,13 +805,12 @@ class ChronographEventsMixing(baseclass):
             self.remove_auction_period(lot)
 
     def set_contracts_cancelled(self, tender, lot_id=None):
-        # TODO: later change for all contracting
-        if not tender_created_after(PQ_NEW_CONTRACTING_FROM):
+        if not is_new_contracting() or not tender.get("contracts"):
             return
 
         contracts = tender.get("contracts", tuple())
         if lot_id:
-            awards_ids = [i["id"] for i in tender["awards"] if i["lotID"] == lot_id]
+            awards_ids = [i["id"] for i in tender.get("awards", "") if i["lotID"] == lot_id]
             contracts = [i for i in contracts if i["awardID"] in awards_ids]
 
         cancelled_contracts_ids = []

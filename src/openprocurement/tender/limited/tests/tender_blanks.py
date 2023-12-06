@@ -22,6 +22,7 @@ from openprocurement.tender.limited.procedure.models.tender import (
     cause_choices_quick,
     cause_choices_quick_new,
 )
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 def create_tender_accreditation(self):
@@ -845,28 +846,13 @@ def patch_tender(self):
     response = self.app.get("/tenders/{}/contracts".format(tender["id"]))
     contract_id = response.json["data"][0]["id"]
 
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender["id"], contract_id, owner_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
-    )
-    self.assertEqual(response.status, "201 Created")
-
     save_tender = self.mongodb.tenders.get(tender["id"])
     for i in save_tender.get("awards", []):
         if i.get("complaintPeriod", {}):  # works for negotiation tender
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(save_tender)
 
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender["id"], contract_id, owner_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    activate_contract(self, self.tender_id, contract_id, owner_token, owner_token)
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -1096,7 +1082,6 @@ def single_award_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
 
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
@@ -1106,11 +1091,7 @@ def single_award_tender(self):
     self.mongodb.tenders.save(tender)
 
     # sign contract
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, owner_token)
     # check status
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
@@ -1158,15 +1139,6 @@ def single_award_tender(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "cancelled")
-
-    # try to sign contract
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract["id"], owner_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update contract in current (cancelled) status")
 
     # tender status remains the same
     response = self.app.get("/tenders/{}".format(tender_id))
@@ -1253,12 +1225,8 @@ def multiple_awards_tender(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    contract["value"]["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract["id"], owner_token),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
+    activate_contract(self, tender_id, contract["id"], owner_token, owner_token)
+
     # check status
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
@@ -1358,8 +1326,6 @@ def tender_cancellation(self):
     # get contract id
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
 
     self.set_all_awards_complaint_period_end()
 
@@ -1416,7 +1382,6 @@ def tender_cancellation(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
 
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
@@ -1425,16 +1390,7 @@ def tender_cancellation(self):
     self.mongodb.tenders.save(tender)
 
     # sign contract
-    self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
-    response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(response.status, "200 OK")
-    tender = response.json["data"]
-    self.assertEqual(tender["status"], "complete")
+    self.set_status("complete")
 
     self.set_all_awards_complaint_period_end()
 

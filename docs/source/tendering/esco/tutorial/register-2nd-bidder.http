@@ -128,12 +128,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fce
         "years": 12,
         "days": 200
       },
-      "amountPerformance": 713.59,
-      "amount": 9176.27
+      "amountPerformance": 801.83,
+      "amount": 9767.32
     },
     "selfQualified": true,
     "id": "921e8a45579a41ffa2ecd164f0a5c248",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "9c92e5c8439b46b1b7719e07011614d9",

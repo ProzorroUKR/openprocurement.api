@@ -16,19 +16,19 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "bc849d18b3314e91a4fc0514dc7d72a9",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
       "author": "tender_owner"
     },
     {
       "id": "eb95c0398dba46658d3b07edaa947188",
-      "datePublished": "2023-01-01T00:00:00+02:00",
+      "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/69070d50771a4daca7c07e2513280022?Signature=6bNBCmf80E3T7QRJqoZl6W1YU9gGYjZ2Fq3LE%2BgY8HZbTAvEMvvIAtaa%2Bx639b%2F%2B0SIPp8Its6EEmSRwllBYAw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
       "author": "tender_owner",
       "language": "uk"
     }

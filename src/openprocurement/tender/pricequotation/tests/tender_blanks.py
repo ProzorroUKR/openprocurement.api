@@ -2459,8 +2459,11 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)
+    if PQ_NEW_CONTRACTING_RELEASED:
+        self.mongodb.contracts.delete(tender["contracts"][0]["id"])
     del tender["contracts"]
     self.mongodb.tenders.save(tender)
+
     # create lost contract
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")

@@ -71,7 +71,23 @@ Content-Type: application/json
         ]
       }
     ],
-    "status": "pending"
+    "status": "pending",
+    "items": [
+      {
+        "id": "6d463cf854bc4c0eb04915ba7c172bea",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ]
   }
 }
 

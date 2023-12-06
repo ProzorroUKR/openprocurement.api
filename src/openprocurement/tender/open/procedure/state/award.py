@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_request, get_tender, get_tender_config
+from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
 from openprocurement.api.context import get_now
 from openprocurement.tender.open.constants import STAND_STILL_TIME
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
@@ -31,14 +32,16 @@ class AwardState(AwardStateMixing, OpenTenderState):
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
                         self.set_object_status(i, "cancelled")
-                        self.set_award_contracts_cancelled(i)
+                        contracts_ids = self.set_award_contracts_cancelled(i)
+                        update_econtracts_statuses(contracts_ids, after)
                 self.add_next_award()
 
             else:
                 if award["complaintPeriod"]["endDate"] > now:
                     award["complaintPeriod"]["endDate"] = now
-                self.set_award_contracts_cancelled(award)
+                contracts_ids = self.set_award_contracts_cancelled(award)
                 self.add_next_award()
+                update_econtracts_statuses(contracts_ids, after)
 
         elif (
             before == "unsuccessful" and after == "cancelled"

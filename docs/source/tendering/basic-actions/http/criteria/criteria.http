@@ -62,7 +62,7 @@ Content-Type: application/json
             ],
             "expectedValue": "true",
             "id": "fc4c7b31124044c691ba5f51c6520312",
-            "datePublished": "2023-01-01T00:00:00+02:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "status": "active"
           },
           {
@@ -79,7 +79,7 @@ Content-Type: application/json
             "expectedValue": "true",
             "status": "active",
             "id": "5939752806064d71a87025348d2bcc43",
-            "datePublished": "2023-01-01T00:00:00+02:00"
+            "datePublished": "2023-10-10T01:00:00+03:00"
           }
         ],
         "id": "8400e4decbe74b99af293a42e94c7671"
@@ -101,7 +101,7 @@ Content-Type: application/json
             "expectedValue": "true",
             "status": "active",
             "id": "72ee4ac40a9a4dbf942d112bf821d9a5",
-            "datePublished": "2023-01-01T00:00:00+02:00"
+            "datePublished": "2023-10-10T01:00:00+03:00"
           }
         ],
         "id": "702b4995c19f49d0ad08f9f2cc618f58"

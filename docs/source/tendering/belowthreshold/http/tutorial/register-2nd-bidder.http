@@ -97,8 +97,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
         "language": "uk",
         "confidentiality": "public",
         "id": "ffda9fbf5a744a8391c4ad2b8eb684a1",
-        "datePublished": "2023-01-06T00:00:02+02:00",
-        "dateModified": "2023-01-06T00:00:02+02:00"
+        "datePublished": "2023-10-16T01:00:02+03:00",
+        "dateModified": "2023-10-16T01:00:02+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -109,12 +109,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
         "language": "uk",
         "confidentiality": "public",
         "id": "82a3302fb2a84cbc840262e5f4ff86a7",
-        "datePublished": "2023-01-06T00:00:02+02:00",
-        "dateModified": "2023-01-06T00:00:02+02:00"
+        "datePublished": "2023-10-16T01:00:02+03:00",
+        "dateModified": "2023-10-16T01:00:02+03:00"
       }
     ],
     "id": "7c93f54de7f8485889496ff805689a3d",
-    "date": "2023-01-06T00:00:02+02:00"
+    "date": "2023-10-16T01:00:02+03:00"
   },
   "access": {
     "token": "2a5c2fa6ded64c1a87722d5939bcc7fd",

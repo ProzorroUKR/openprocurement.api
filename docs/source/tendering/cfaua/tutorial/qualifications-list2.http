@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "6c3f9c3c0f7243e5b59b0376be6a24b6",
       "status": "cancelled",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 485.0,
         "currency": "UAH",
@@ -48,7 +48,7 @@ Content-Type: application/json
     {
       "id": "aea17e160d324bad99b2233e4f08df66",
       "status": "active",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
@@ -86,7 +86,7 @@ Content-Type: application/json
     {
       "id": "338641fcf8204c2580aae5a310fa5fd5",
       "status": "active",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 500.0,
         "currency": "UAH",
@@ -124,7 +124,7 @@ Content-Type: application/json
     {
       "id": "492878ce49444795a5373c5b3c635bde",
       "status": "pending",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 485.0,
         "currency": "UAH",

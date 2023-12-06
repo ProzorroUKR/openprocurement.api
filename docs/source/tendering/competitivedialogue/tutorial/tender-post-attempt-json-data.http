@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "endDate": "2023-11-10T01:00:00+03:00"
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
@@ -62,8 +62,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "description": "Test"
         },
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -105,8 +105,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1,
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -227,8 +227,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
     },
     "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T01:00:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",
@@ -260,8 +260,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -298,8 +298,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -311,21 +311,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "description_en": "Services in school canteens"
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "00653c26796e413c89e22e65cd6da9cd"
   },
   "config": {

@@ -62,17 +62,17 @@ Content-Type: application/json
     "id": "07996f89c0ff478686c6b72ddaf73c80",
     "bidID": "1ec84994990544de87c86c6ff2c20ed5",
     "status": "pending",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
         "id": "96dc3b1f84d54785a15c72f6793a0b44",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/documents/96dc3b1f84d54785a15c72f6793a0b44?download=778be56a0b794ee1b0b568e8e2d03004",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       }

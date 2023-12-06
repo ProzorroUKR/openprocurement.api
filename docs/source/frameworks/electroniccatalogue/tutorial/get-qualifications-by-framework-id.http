@@ -12,37 +12,37 @@ Content-Type: application/json
       "documents": [
         {
           "id": "c03b20fc63b44ed99250c3b8fa3cd7f0",
-          "datePublished": "2023-01-17T00:00:00+02:00",
+          "datePublished": "2023-10-26T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "qualification.doc",
           "format": "application/msword",
           "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/838474d50c0a49d79fe82febe17a3c1e/documents/c03b20fc63b44ed99250c3b8fa3cd7f0?download=3cd211e97f284e79b39a6dbba518a484",
-          "dateModified": "2023-01-17T00:00:00+02:00",
+          "dateModified": "2023-10-26T01:00:00+03:00",
           "language": "uk"
         }
       ],
       "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
       "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
       "status": "unsuccessful",
-      "date": "2023-01-17T00:00:00+02:00",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
       "id": "838474d50c0a49d79fe82febe17a3c1e"
     },
     {
       "submissionID": "c032bcbca6d942d88bfa243b8b266b15",
       "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
       "status": "active",
-      "date": "2023-01-17T00:00:00+02:00",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
       "id": "520521800ae94c52b85de3898d2c1a84"
     }
   ],
   "next_page": {
-    "offset": 1673906400.0,
-    "path": "/api/2.5/qualifications?offset=1673906400.0",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=1673906400.0"
+    "offset": 1698271200.0,
+    "path": "/api/2.5/qualifications?offset=1698271200.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=1698271200.0"
   }
 }
 

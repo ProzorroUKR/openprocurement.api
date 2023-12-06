@@ -36,10 +36,10 @@ Content-Type: application/json
       "qualificationID": "bc6f4b3647164e6286e78d8909d848c7",
       "frameworkID": "4178f66eebf04c4497d0fb223feeb0fe",
       "status": "complete",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
-      "date": "2023-01-17T00:00:00+02:00",
-      "datePublished": "2023-01-17T00:00:00+02:00",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2023-10-26T01:00:00+03:00",
       "id": "2b442aa99f344298bdd76797307adfd7"
     },
     {
@@ -70,17 +70,17 @@ Content-Type: application/json
       "qualificationID": "eb806357c18c47699e716411551fd638",
       "frameworkID": "4178f66eebf04c4497d0fb223feeb0fe",
       "status": "complete",
-      "dateCreated": "2023-01-17T00:00:00+02:00",
-      "dateModified": "2023-01-17T00:00:00+02:00",
-      "date": "2023-01-17T00:00:00+02:00",
-      "datePublished": "2023-01-17T00:00:00+02:00",
+      "dateCreated": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2023-10-26T01:00:00+03:00",
       "id": "bf2ce393748f44d59d1843fe54e318e8"
     }
   ],
   "next_page": {
-    "offset": 1673906400.0,
-    "path": "/api/2.5/submissions?offset=1673906400.0",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1673906400.0"
+    "offset": 1698271200.0,
+    "path": "/api/2.5/submissions?offset=1698271200.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0"
   }
 }
 

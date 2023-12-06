@@ -17,15 +17,15 @@ Content-Type: application/json
 {
   "data": {
     "id": "a107da53b72c432e978fe20b65253c4b",
-    "complaintID": "UA-2023-01-01-000001-a.7",
-    "date": "2023-01-01T00:00:01+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.7",
+    "date": "2023-10-10T01:00:01+03:00",
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "answered",
     "resolution": "Вимога не відповідає предмету закупівлі",
     "resolutionType": "invalid",
-    "dateAnswered": "2023-01-01T00:00:01+02:00",
-    "dateSubmitted": "2023-01-01T00:00:01+02:00",
+    "dateAnswered": "2023-10-10T01:00:01+03:00",
+    "dateSubmitted": "2023-10-10T01:00:01+03:00",
     "satisfied": false,
     "type": "claim",
     "bid_id": "fa5ea5df9a1f477eae28fa67fd041361"

@@ -72,8 +72,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/1a3c672e7159
     "status": "draft",
     "submissionType": "dynamicPurchasingSystem",
     "owner": "broker",
-    "date": "2023-01-17T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
     "id": "1a3c672e71594a09a9009ac58c77b120"
   },
   "access": {
