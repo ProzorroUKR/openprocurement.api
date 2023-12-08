@@ -58,6 +58,9 @@ Framework
 (Хоче це все ще один procurementMethodType)
 
 
+.. image:: img/dps.png
+
+
 Якщо перший етап мав детальний опис ("highItemDetailing": true),
 то закупівля буде скороченою без оскарження.
 
