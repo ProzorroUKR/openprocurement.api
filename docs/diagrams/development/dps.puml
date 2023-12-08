@@ -17,9 +17,10 @@ partition "Другий етап" {
         :Беремо конфіг для "довгої" процедури;
 
     endif
+    :Створення тендера з "procurementMethodType": "competitiveOrdering";
 }
 
-:Створення тендера з "procurementMethodType": "competitiveOrdering";
+
 
 
 
