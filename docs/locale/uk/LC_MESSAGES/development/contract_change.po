@@ -101,10 +101,8 @@ msgstr "Після розʼяснення нової структури, дав�
 msgid "Activating change"
 msgstr "Активація зміни"
 
-msgid "In previous flow after creation contract change you need to set `dateSigned` to activate contract, "
-      "in new flow for activating change supplier and buyer should add signature document with extension `.p7s` and documentType `contractChangeSignature` to change object."
-msgstr "По минулій логіці, для активації контракту потрібно було вказати лише `dateSigned`, "
-       "за новими для активації змін замовнику та постачальнику потрібно додати документи підпису з розширенням `.p7s` і з типом документу `contractChangeSignature` до обʼєкту зміни."
+msgid "In previous flow after creation contract change you need to set `dateSigned` to activate contract, in new flow for activating change supplier and buyer should add signature document with extension `.p7s` and documentType `contractChangeSignature` to change object."
+msgstr "По минулій логіці, для активації контракту потрібно було вказати лише `dateSigned`, за новими для активації змін замовнику та постачальнику потрібно додати документи підпису з розширенням `.p7s` і з типом документу `contractChangeSignature` до обʼєкту зміни."
 
 msgid "Buyer add document to change:"
 msgstr "Замовник завантажує документ:"
