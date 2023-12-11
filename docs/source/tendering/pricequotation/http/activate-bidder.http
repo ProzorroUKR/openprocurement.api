@@ -51,14 +51,18 @@ Content-Type: application/json
         "requirement": {
           "id": "25ad302697704d249e9d653933f909ee"
         },
-        "value": "Розчин для інфузій"
+        "values": [
+          "Розчин для інфузій"
+        ]
       },
       {
         "id": "99a57e5b692745158ef966db7820b11e",
         "requirement": {
           "id": "d3cb95288b334796b1562a0c638e526b"
         },
-        "value": 5
+        "values": [
+          5
+        ]
       },
       {
         "id": "f2263583450b4e2ea0344291b52cf2fc",
