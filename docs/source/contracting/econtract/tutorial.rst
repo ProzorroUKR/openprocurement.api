@@ -14,6 +14,7 @@ Let's try exploring the `/contracts` endpoint:
 Just invoking it reveals an empty set.
 
 Contract is transferred from the tender system by an automated process.
+The circumstances under which this happens are described below.
 
 
 .. index:: Contracts
@@ -21,7 +22,7 @@ Contract is transferred from the tender system by an automated process.
 Creating contract
 -----------------
 
-Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender (with a limited set of fields) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
+Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 
@@ -77,7 +78,7 @@ Setting  contract value
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 
-If you want to **lower contract value**, you can insert new one into the `amount` field(for all procedures except esco).
+If you want to **lower contract value**, you can insert new one into the `amount` field if value without tax, else `amountNet` field(for all procedures except esco).
 
 .. http:example:: http/contract-set-contract-value.http
    :code:
@@ -123,7 +124,7 @@ Setting contract validity period is optional, but if it is needed, you can set a
 Uploading contract documentation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:
+Contract documents can be uploaded only to contract in `pending` and `active` statuses. Let's add contract document:
 
 .. http:example:: http/contract-upload-document.http
    :code:
@@ -177,7 +178,7 @@ Contract in contracting also **automatically** turned to ``cancelled``
 Cancelling from contract
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If  you try to patch last contract in ``pending`` to ``cancelled`` you'll get error:
+If  you try to patch contract in ``pending`` to ``cancelled`` you'll get error:
 
 .. http:example:: http/contract-cancelling-error.http
    :code:
@@ -198,7 +199,7 @@ Buyer fill signer information using ``contract_token`` or ``tender_token``:
    :code:
 
 
-Supplier fill signer information using ``bid_token``:
+Supplier fill signer information using ``bid_token``, for `limited` procedure that request, make buyer using ``contract_token`` or ``tender_token``:
 
 .. http:example:: http/contract-supplier-add-signer-info.http
    :code:
@@ -275,13 +276,18 @@ Now you can update contract properties which belong to the change.
 
 You can update value `amount` and `amountNet` following next rules:
 
-+-------------------------+------------------------------------------------------------------------+
-| `valueAddedTaxIncluded` |                              `Validation`                              |
-+-------------------------+------------------------------------------------------------------------+
-|          true           | Amount should be greater than amountNet and differ by no more than 20% |
-+-------------------------+------------------------------------------------------------------------+
-|          false          |                  Amount and amountNet should be equal                  |
-+-------------------------+------------------------------------------------------------------------+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - `valueAddedTaxIncluded`
+     - `Validation`
+   * - true
+     - Amount should be greater than amountNet and differ by no more than 20%
+
+       Amount and amountNet should be equal
+   * - false
+     - Amount and amountNet should be equal
 
 
 .. http:example:: http/contracts-patch.http
@@ -433,7 +439,7 @@ Except when contract is the last not cancelled contract:
 
 In that case related award should be cancelled:
 
-.. http:example:: http/set-active-award.http
+.. http:example:: http/award-cancelling.http
     :code:
 
 Let's check all contracts are cancelled:
