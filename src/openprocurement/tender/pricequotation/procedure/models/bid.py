@@ -98,7 +98,7 @@ class MatchResponseValue:
             raise ValidationError('response required at least one of field ["value", "values"]')
         if value is not None and values:
             raise ValidationError("field 'value' conflicts with 'values'")
-        values = [value] if value else values
+        values = [value] if value is not None else values
 
         if values is not None:
             field_for_value = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
