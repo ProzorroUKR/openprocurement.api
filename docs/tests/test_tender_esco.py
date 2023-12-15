@@ -33,6 +33,7 @@ from tests.base.data import (
     test_docs_lots,
 )
 from tests.test_tender_config import TenderConfigCSVMixin
+from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)
@@ -683,11 +684,12 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
                 }})
             self.assertEqual(response.status, '200 OK')
 
+        ####  Set contract value
+        # Maybe if like that exclusion will be more that part should be moved to econtract
+
         response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(
             self.tender_id, owner_token))
         self.contract_id = response.json['data'][0]['id']
-
-        ####  Set contract value
 
         self.tick()
 
@@ -698,10 +700,9 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
 
         value = dict(response.json["data"][0]["value"])
         value["amountNet"] -= 1
-        with open(TARGET_DIR + 'tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
+        with open(ECONTRACT_TARGET_DIR + 'esco-tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token),
+                '/contracts/{}?acc_token={}'.format(self.contract_id, owner_token),
                 {"data": {
                     "contractNumber": "contract#1",
                     "value": value
@@ -710,79 +711,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
         self.assertEqual(
             response.json['data']['value']['amountNet'],
             response.json['data']['value']['amount'] - 1)
-
-        with open(TARGET_DIR + 'tender-contract-sign-date.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token),
-                {'data': {"dateSigned": get_now().isoformat()}})
-            self.assertEqual(response.status, '200 OK')
-
-        #### Setting contract period
-
-        period_dates = {"period": {
-            "startDate": (get_now()).isoformat(),
-            "endDate": (get_now() + timedelta(days=365)).isoformat()
-        }}
-        with open(TARGET_DIR + 'tender-contract-period.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, owner_token),
-                {'data': {'period': period_dates["period"]}})
-        self.assertEqual(response.status, '200 OK')
-
-        #### Uploading contract documentation
-
-        with open(TARGET_DIR + 'tender-contract-upload-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token),
-                {"data": {
-                    "title": "contract_document.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }})
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'tender-contract-get-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id))
-        self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'tender-contract-upload-second-document.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/tenders/{}/contracts/{}/documents?acc_token={}'.format(
-                self.tender_id, self.contract_id, owner_token),
-                {"data": {
-                    "title": "contract_second_document.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }})
-            self.assertEqual(response.status, '201 Created')
-            self.document_id = response.json['data']['id']
-
-        with open(TARGET_DIR + 'tender-contract-patch-document.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
-                    self.tender_id, self.contract_id, self.document_id, owner_token),
-                {'data': {
-                    "language": 'en',
-                    'title_en': 'Title of Document',
-                    'description_en': 'Description of Document'
-                }})
-            self.assertEqual(response.status, '200 OK')
-
-        with open(TARGET_DIR + 'tender-contract-get-documents-again.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}/documents'.format(
-                self.tender_id, self.contract_id))
-        self.assertEqual(response.status, '200 OK')
-
-        tender_contract_separate_id = response.json['data'][0]['id']
-
-        with open(TARGET_DIR + 'tender-contract-get-separate.http', 'w') as self.app.file_obj:
-            response = self.app.get('/tenders/{}/contracts/{}/documents/{}?acc_token={}'.format(
-                self.tender_id, self.contract_id, tender_contract_separate_id, owner_token))
-            self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request
 

@@ -43,19 +43,19 @@ Content-Type: application/json
     "documents": [
       {
         "id": "e1a378fd7df247249af772576e1f1154",
-        "datePublished": "2023-01-17T00:00:00+02:00",
+        "datePublished": "2023-10-26T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-17T00:00:00+02:00",
+        "dateModified": "2023-10-26T01:00:00+03:00",
         "language": "uk"
       }
     ],
     "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
     "status": "deleted",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "electronicCatalogue",
     "id": "438590c36742473c9858b8b466e0dde5"

@@ -18,10 +18,9 @@ Content-Type: application/json
   "data": {
     "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
     "status": "active",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "owner": "broker3",
-    "agreementType": "cfaua",
-    "dateSigned": "2023-01-01T00:00:00+02:00",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
     "contracts": [
       {
         "id": "d6cd8c3188d74e1481a9cebb57fd9329",

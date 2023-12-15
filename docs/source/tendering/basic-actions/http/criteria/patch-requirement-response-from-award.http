@@ -101,7 +101,7 @@ Content-Type: application/json
     ],
     "id": "0d91018f36534468b3d78fa3751084e6",
     "status": "pending",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
@@ -136,13 +136,13 @@ Content-Type: application/json
     "documents": [
       {
         "id": "b4d384a0d475428ab85e4c3f419848c0",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cf57765098c49819ecff4f12286d56c?Signature=WqJnPucg6uXIzJnh5ontPpNqXoiHKwOUZj1EeVdoGYNJmFJJs%2FdUmA0R9p4n5M2hEAQjx1jXGMgWWWNWRjHsCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       }

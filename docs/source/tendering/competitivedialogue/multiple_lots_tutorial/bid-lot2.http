@@ -77,19 +77,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cf488f0e7db04145
       {
         "relatedLot": "5042b6586cbb4a679380f561ba153121",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       },
       {
         "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "2fc425bd1234426486aec58c4200b3ca",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "a7a73ca856be432799f8d8a164cbad94",

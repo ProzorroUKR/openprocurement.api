@@ -60,7 +60,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "9cd3462b92c74147956c65f3d4d24016",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "c8540e9a50af4eb78a3a390786d32a1d"
@@ -74,7 +74,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "bd79662eb3c9449d827d3f173c04b97f",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "a7db1a1541e54137ba54c1cef7cfa25e"
@@ -133,7 +133,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "2763d8d357324f6d90ca738555770dc9",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "347585eb6f5a4c2da9b64b567d66c8a4"
@@ -182,7 +182,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "7a0f327ba5cb40da9f8c2169b9be3712",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
@@ -190,7 +190,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "d3ad48cd02b049879d00179c354b33f9",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "a08d9e9da86744cabfed861518806214"
@@ -229,7 +229,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "edda9b5664ee4e2ea9e645b8f13d37b9",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "4acda9175f624d09abfd94c9c294959c"
@@ -268,7 +268,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "615370e65f3948f4ad4678a037527293",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "ebd0001b1d204d48b8e2ea98f958dd3c"
@@ -282,28 +282,28 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "300fd87c30f84cf7b717fca1592029a7",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
                 "id": "91786b61a3454d69a22347f065d72189",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
                 "id": "589ea38cb9a44e2b865c08109dd02c01",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
                 "id": "b0cc9e06c17f49d9b2b7f33c6368fe6c",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Учасник здійснив заходи щодо розстрочення і відстрочення такої заборгованості у порядку та на умовах, визначених законодавством країни реєстрації такого учасника",
@@ -311,7 +311,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "73c600d8f4594601b807c9afefde48fa",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "098dae561462498696b39c99024bac33"
@@ -350,7 +350,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "6174d4a642414e6f81c52f21cb752a85",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "67bcedb7822446a2987d9d589b6e4797"
@@ -396,7 +396,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "id": "591fb0df6ef7480bad4babf570708b50",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "d6e0e4513f854175ac6726b521e6e003"
@@ -434,7 +434,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "id": "afe8cba21c584c3990cbdd89296c3553",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "84237cc541a948f6a07f048fadd8f7a8"
@@ -512,7 +512,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "7bcca61f8c9f4d359e7ae9581dc15e88",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)",
@@ -520,7 +520,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "a6ec2f037ab4437f8e39c7befbdd9690",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
@@ -528,7 +528,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "2fed5c20a6684acd98ddc5d7c8f08692",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "7e933c793f014418ae84a0bcb69ed2a0"
@@ -565,7 +565,7 @@ Content-Type: application/json
                 "expectedValue": "true",
                 "status": "active",
                 "id": "52240a003dc64a29b508703675d5f8d8",
-                "datePublished": "2023-01-01T00:00:00+02:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
             "id": "ef57e299e46c41d0920b5faa0b083135"
@@ -573,10 +573,10 @@ Content-Type: application/json
         ]
       }
     ],
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
     "bids": [
       {
         "tenderers": [
@@ -607,25 +607,25 @@ Content-Type: application/json
         "id": "2096f1a2874b40e3bbf150c27e4824bf",
         "documents": [
           {
-            "id": "6445cc6ce08c497d8d68b4a048fda100",
-            "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbc72109233241b9aea96edfc20e8da1?Signature=mT5THG0rO0Mi%2BZoKAZKhRqN79D1tpTJXq4r4zPrxySqL7sIWcHk0Jeo8IbGaf0RMJfdDLjZ%2FKUTa93hfvotdAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
             "language": "uk",
-            "confidentiality": "public"
+            "confidentiality": "public",
+            "id": "6445cc6ce08c497d8d68b4a048fda100",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
           },
           {
             "id": "24d4842c57d14041b8a66acadbdc91bb",
-            "datePublished": "2023-01-01T00:00:00+02:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair."
@@ -633,16 +633,16 @@ Content-Type: application/json
         ],
         "eligibilityDocuments": [
           {
-            "id": "093a11c4b8554add927a5123991ff5d1",
-            "datePublished": "2023-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b3ec728698e1471aa09e389d77c8c59e?Signature=D0Zy%2FXOL5XTaIpKsv10eyigjjpJ1DGCvEy0%2FHHe0%2F6QWXzvtIaAuRl1WqCDa%2FsfULvUfsqTB79QBi0GrVQhZDA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
             "language": "uk",
-            "confidentiality": "public"
+            "confidentiality": "public",
+            "id": "093a11c4b8554add927a5123991ff5d1",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ]
       },
@@ -816,25 +816,25 @@ Content-Type: application/json
         "documents": [
           {
             "id": "461cadcec691428190b87fe4bd3e5627",
-            "datePublished": "2023-01-01T00:00:00+02:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e41aa3266f24b9980125cb78364eb93?Signature=mhxSI9BsuM3ZpxlDAJN0o%2BUlFmp5J0zw7iyAadRF73Syhi8FiNpZaR9%2B0K7PqesH1a%2BUgzzXXMWCx6yjI0DeAw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "public"
           },
           {
             "id": "749ebc13cabf4d9cbf5d08a156d185cb",
-            "datePublished": "2023-01-01T00:00:00+02:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ebbf9207d9d40238691d14be83d98ab?Signature=USenzreniFdmFIKZS0A8SrzWsk%2FNJAbLR%2FHbw9RRaurdjlzinVZeGruiYCn3itI8h3xPbrmhGzyd8t25uWRRDw%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "public"
           }
@@ -842,13 +842,13 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "id": "c2dd445ad6564c62aecdf990928c0a5f",
-            "datePublished": "2023-01-01T00:00:00+02:00",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4edcff934f64be5941b4dd15202a07f?Signature=hvXycTPfnORnYBe%2FLRrhQnYouVrHiVZM71uSXxB7UVyCDv2HaofKnRx8OK7NL%2FwApqwF0TkXqNbILgJ7D%2F5NAg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-01-01T00:00:00+02:00",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
             "confidentiality": "public"
           }
@@ -882,46 +882,46 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-01-01T00:00:00+02:00"
+        "dateAnswered": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
       {
         "id": "3686e5ecdbfe45d698529ed6118d8ffd",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/documents/3686e5ecdbfe45d698529ed6118d8ffd?download=3e763c96f1c6465498df8ca076c31e21",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "id": "6ecedfcd5b7b4f788963513d184a47ca",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/documents/6ecedfcd5b7b4f788963513d184a47ca?download=daa330ceb7aa49a4a06f67fc209072ea",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "id": "6ecedfcd5b7b4f788963513d184a47ca",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/documents/6ecedfcd5b7b4f788963513d184a47ca?download=6af5044b678d47ada3739a406bf91de1",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -932,7 +932,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
+      "amount": 501.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -945,30 +945,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "f593b0ce6a334393bfba269562fa3ac9",
-        "date": "2023-01-01T00:00:00+02:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 5.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "auctionPeriod": {
-          "startDate": "2023-01-01T00:00:00+02:00",
-          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/26dac5d9cddc43f1b4178ec68bd3f601_f593b0ce6a334393bfba269562fa3ac9"
-      }
-    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -996,35 +972,32 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2022-12-22T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00",
-      "reportingDatePublication": "2022-12-26T00:00:00+02:00"
+      "startDate": "2023-09-30T01:00:00+03:00",
+      "endDate": "2023-10-10T01:00:00+03:00",
+      "reportingDatePublication": "2023-10-04T01:00:00+03:00"
     },
     "qualifications": [
       {
         "id": "d75e87eef83e42eebec46e8d6d575ac4",
         "bidID": "2096f1a2874b40e3bbf150c27e4824bf",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
         "id": "e4c33acbe1044523bf5d7053941d801f",
         "bidID": "bf64c133e6e34cde85dac889a9fe274a",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
         "id": "49a9315c74714b8a89d014975aa1b3ba",
         "bidID": "0a7474f57f7f434aa03c3187d5861748",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "unsuccessful",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
         "eligible": false
       }
@@ -1058,14 +1031,14 @@ Content-Type: application/json
     "status": "active.auction",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2022-11-22T00:00:00+02:00",
-      "endDate": "2022-12-02T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-04T00:00:00+02:00",
-      "invalidationDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-08-31T01:00:00+03:00",
+      "endDate": "2023-09-10T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2022-11-21T00:00:00+02:00",
-      "endDate": "2022-12-22T00:00:00+02:00"
+      "startDate": "2023-08-30T01:00:00+03:00",
+      "endDate": "2023-09-30T01:00:00+03:00"
     },
     "items": [
       {
@@ -1093,10 +1066,9 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -1132,10 +1104,9 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -1148,13 +1119,15 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2022-12-03T00:00:00+02:00",
-      "endDate": "2023-01-05T00:00:00+02:00"
+      "startDate": "2023-09-11T01:00:00+03:00",
+      "endDate": "2023-10-14T00:00:00+03:00"
     },
-    "next_check": "2023-01-01T00:36:00+02:00",
+    "next_check": "2023-10-10T01:42:00+03:00",
     "auctionPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00"
+      "shouldStartAfter": "2023-10-11T00:00:00+03:00",
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/26dac5d9cddc43f1b4178ec68bd3f601",
     "id": "26dac5d9cddc43f1b4178ec68bd3f601"
   },
   "config": {

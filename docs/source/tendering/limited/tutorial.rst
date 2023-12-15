@@ -203,86 +203,13 @@ Award confirmation for **negotiation.quick** procedure:
 
 The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 5 days.
 
-Setting  contract value
------------------------
+.. index:: Setting Contract
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value. 
+Setting Contract
+----------------
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+All operations with contract moved to :ref:`econtracting`
 
-.. http:example:: http/tutorial/tender-contract-set-contract-value.http
-   :code:
-
-`200 OK` response was returned. The value was modified successfully.
-
-Setting value per item's unit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. http:example:: http/tutorial/tender-contract-set-contract_items_unit-value.http
-   :code:
-
-`200 OK` response was returned with successfully set item.unit.value structure.
-
-Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using
-contract.value(if exists), otherwise using tender.value data
-
-
-Setting a single item unit value
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. http:example:: http/tutorial/tender-contract_items_unit_value.http
-   :code:
-
-`200 OK` response was returned with successfully set item.unit.value structure.
-
-Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using
-contract.value(if exists), otherwise using tender.value data
-
-
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. http:example:: http/tutorial/tender-contract-sign-date.http
-   :code:
-
-Setting contract validity period
---------------------------------
-
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
-
-.. http:example:: http/tutorial/tender-contract-period.http
-   :code:
-
-Uploading contract documentation
---------------------------------
-
-Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:
-
-.. http:example:: http/tutorial/tender-contract-upload-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm that document has been added.
-
-Let's see the list of contract documents:
-
-.. http:example:: http/tutorial/tender-contract-get-documents.http
-   :code:
-
-We can add another contract document:
-
-.. http:example:: http/tutorial/tender-contract-upload-second-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm second document has been added.
-
-Let's see the list of all uploaded contract documents:
-
-.. http:example:: http/tutorial/tender-contract-get-documents-again.http
-   :code:
 
 Contract registration
 ---------------------

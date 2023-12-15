@@ -103,8 +103,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "confidentiality": "public",
         "isDescriptionDecision": false,
         "id": "4204424841514066aa280e4ea1fc1983",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -116,14 +116,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "isDescriptionDecision": false,
         "id": "bae2b712ea9141d3b5b53073b786a3cf",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "cc48b50d0f4445c7b01da298b7dccb8c",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "6bd826026f4543b9bc157cb70b2a2f55",

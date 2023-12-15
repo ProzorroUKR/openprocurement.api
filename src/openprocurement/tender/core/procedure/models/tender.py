@@ -186,6 +186,7 @@ class Tender(BaseTender):
 
     qualificationPeriod = ModelType(QualificationPeriod)
     qualifications = BaseType()
+    contractTemplateName = StringType()
 
     def validate_minimalStep(self, data, value):
         validate_minimalstep(data, value)

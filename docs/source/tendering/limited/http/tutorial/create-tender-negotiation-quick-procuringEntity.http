@@ -17,8 +17,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -200,8 +200,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
         ],
         "relatedLot": "9e84d29f3b604a73b10a26caf8f4830d",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -257,11 +257,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "f8573404c1ff4e8bac25fc817a2b68c0"
   },
   "config": {

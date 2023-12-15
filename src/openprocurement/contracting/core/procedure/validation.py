@@ -51,7 +51,6 @@ def validate_contract_update_not_in_allowed_status(request, **_):
         raise_operation_error(request, f"Can't update contract in current ({contract['status']}) status")
 
 
-
 def validate_credentials_generate(request, **_):
     contract = request.validated["contract"]
     if contract["status"] not in ["pending", "active"]:
@@ -111,7 +110,15 @@ def validate_contract_owner(request, **_):
 
 def validate_contract_supplier(request, **_):
     contract = request.validated["contract"]
-    if not is_bid_owner(request, contract):
+    tender = request.validated["tender"]
+    tender_type = tender["procurementMethodType"]
+    limited_procedures = ("reporting", "negotiation", "negotiation.quick")
+
+    if not (
+        is_bid_owner(request, contract)
+        or tender_type in limited_procedures
+        and is_contract_owner(request, contract)
+    ):
         raise_operation_error(
             request,
             "Forbidden",

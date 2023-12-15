@@ -115,51 +115,51 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "auctionPeriod": {
-          "startDate": "2022-12-15T00:00:00+02:00",
-          "endDate": "2022-12-16T00:00:00+02:00"
+          "startDate": "2023-09-23T01:00:00+03:00",
+          "endDate": "2023-09-24T01:00:00+03:00"
         }
       }
     ],
     "tenderPeriod": {
-      "endDate": "2022-12-05T00:00:00+02:00",
-      "startDate": "2022-11-04T00:00:00+02:00"
+      "endDate": "2023-09-13T01:00:00+03:00",
+      "startDate": "2023-08-13T01:00:00+03:00"
     },
     "status": "complete",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+03:00"
     },
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2022-11-04T00:00:00+02:00",
-      "endDate": "2022-11-25T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-08-13T01:00:00+03:00",
+      "endDate": "2023-09-03T01:00:00+03:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "qualificationPeriod": {
-      "startDate": "2022-12-05T00:00:00+02:00",
-      "endDate": "2022-12-15T00:00:00+02:00",
-      "reportingDatePublication": "2022-12-09T00:00:00+02:00"
+      "startDate": "2023-09-13T01:00:00+03:00",
+      "endDate": "2023-09-23T01:00:00+03:00",
+      "reportingDatePublication": "2023-09-17T01:00:00+03:00"
     },
     "auctionPeriod": {
-      "startDate": "2022-12-15T00:00:00+02:00",
-      "endDate": "2022-12-16T00:00:00+02:00"
+      "startDate": "2023-09-23T01:00:00+03:00",
+      "endDate": "2023-09-24T01:00:00+03:00"
     },
     "awardPeriod": {
-      "startDate": "2022-12-16T00:00:00+02:00",
-      "endDate": "2022-12-26T00:00:00+02:00"
+      "startDate": "2023-09-24T01:00:00+03:00",
+      "endDate": "2023-10-04T01:00:00+03:00"
     },
     "contractPeriod": {
-      "startDate": "2022-12-26T00:00:00+02:00",
-      "clarificationsUntil": "2022-12-31T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-10-04T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-09T01:00:00+03:00",
+      "endDate": "2023-10-10T01:00:00+03:00"
     },
     "bids": [
       {
@@ -198,11 +198,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2022-11-04T00:00:01+02:00"
+            "date": "2023-08-13T01:00:01+03:00"
           }
         ],
         "id": "78290ccc2a114830a97e8f2c510bacaf",
-        "date": "2022-11-04T00:00:01+02:00",
+        "date": "2023-08-13T01:00:01+03:00",
         "status": "active"
       },
       {
@@ -241,11 +241,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2022-11-04T00:00:02+02:00"
+            "date": "2023-08-13T01:00:02+03:00"
           }
         ],
         "id": "be6885d5a2ec4336a11ed73370239ed6",
-        "date": "2022-11-04T00:00:02+02:00",
+        "date": "2023-08-13T01:00:02+03:00",
         "status": "active"
       },
       {
@@ -284,11 +284,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2022-11-04T00:00:03+02:00"
+            "date": "2023-08-13T01:00:03+03:00"
           }
         ],
         "id": "593a5fc959d64463b40f460fe47f30cb",
-        "date": "2022-11-04T00:00:03+02:00",
+        "date": "2023-08-13T01:00:03+03:00",
         "status": "active"
       }
     ],
@@ -298,7 +298,7 @@ Content-Type: application/json
         "bidID": "78290ccc2a114830a97e8f2c510bacaf",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2022-12-05T00:00:00+02:00",
+        "date": "2023-09-13T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
@@ -307,7 +307,7 @@ Content-Type: application/json
         "bidID": "be6885d5a2ec4336a11ed73370239ed6",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2022-12-05T00:00:00+02:00",
+        "date": "2023-09-13T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
@@ -316,7 +316,7 @@ Content-Type: application/json
         "bidID": "593a5fc959d64463b40f460fe47f30cb",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2022-12-05T00:00:00+02:00",
+        "date": "2023-09-13T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       }
@@ -356,11 +356,11 @@ Content-Type: application/json
           "amount": 469,
           "valueAddedTaxIncluded": true
         },
-        "date": "2022-12-16T00:00:00+02:00",
+        "date": "2023-09-24T01:00:00+03:00",
         "id": "f99be86681de4f368037738d6af12903",
         "complaintPeriod": {
-          "startDate": "2022-12-16T00:00:00+02:00",
-          "endDate": "2022-12-26T00:00:00+02:00"
+          "startDate": "2023-09-24T01:00:00+03:00",
+          "endDate": "2023-10-04T01:00:00+03:00"
         }
       },
       {
@@ -397,11 +397,11 @@ Content-Type: application/json
           "amount": 470,
           "valueAddedTaxIncluded": true
         },
-        "date": "2022-12-16T00:00:00+02:00",
+        "date": "2023-09-24T01:00:00+03:00",
         "id": "e5e6c374e9db46c2bf634056b03768db",
         "complaintPeriod": {
-          "startDate": "2022-12-16T00:00:00+02:00",
-          "endDate": "2022-12-26T00:00:00+02:00"
+          "startDate": "2023-09-24T01:00:00+03:00",
+          "endDate": "2023-10-04T01:00:00+03:00"
         }
       },
       {
@@ -438,11 +438,11 @@ Content-Type: application/json
           "amount": 471,
           "valueAddedTaxIncluded": true
         },
-        "date": "2022-12-16T00:00:00+02:00",
+        "date": "2023-09-24T01:00:00+03:00",
         "id": "ea7c848eefbb4037a273456dd333ce1a",
         "complaintPeriod": {
-          "startDate": "2022-12-16T00:00:00+02:00",
-          "endDate": "2022-12-26T00:00:00+02:00"
+          "startDate": "2023-09-24T01:00:00+03:00",
+          "endDate": "2023-10-04T01:00:00+03:00"
         }
       }
     ],
@@ -485,8 +485,8 @@ Content-Type: application/json
             "description_en": "Cases for state awards"
           }
         ],
-        "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
-        "date": "2023-01-01T00:00:00+02:00",
+        "agreementID": "UA-2023-10-10-000001-a-e75ece1cddb64807825e058d729510f61",
+        "date": "2023-10-10T01:00:00+03:00",
         "contracts": [
           {
             "id": "3f790a2fc7c647a7be968a10e669e9fa",
@@ -517,7 +517,7 @@ Content-Type: application/json
             ],
             "awardID": "f99be86681de4f368037738d6af12903",
             "bidID": "78290ccc2a114830a97e8f2c510bacaf",
-            "date": "2023-01-01T00:00:00+02:00",
+            "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
                 "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
@@ -559,7 +559,7 @@ Content-Type: application/json
             ],
             "awardID": "e5e6c374e9db46c2bf634056b03768db",
             "bidID": "be6885d5a2ec4336a11ed73370239ed6",
-            "date": "2023-01-01T00:00:00+02:00",
+            "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
                 "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
@@ -601,7 +601,7 @@ Content-Type: application/json
             ],
             "awardID": "ea7c848eefbb4037a273456dd333ce1a",
             "bidID": "593a5fc959d64463b40f460fe47f30cb",
-            "date": "2023-01-01T00:00:00+02:00",
+            "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
                 "relatedItem": "b0a774dcb2784648b6f81791b294a6be",

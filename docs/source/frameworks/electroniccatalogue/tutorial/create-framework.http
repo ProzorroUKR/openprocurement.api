@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2023-03-02T00:00:00+02:00"
+      "endDate": "2023-12-09T01:00:00+03:00"
     }
   }
 }
@@ -59,7 +59,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/1b70e498d27e4
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2023-03-02T00:00:00+02:00"
+      "endDate": "2023-12-09T01:00:00+03:00"
     },
     "classification": {
       "description": "Mustard seeds",
@@ -95,11 +95,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/1b70e498d27e4
       },
       "kind": "central"
     },
-    "prettyID": "UA-F-2023-01-01-000001",
+    "prettyID": "UA-F-2023-10-10-000001",
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "1b70e498d27e4c1dba8838d6807dac0c"
   },
   "access": {

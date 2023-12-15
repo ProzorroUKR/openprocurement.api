@@ -55,7 +55,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
     create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
+    create_tender_award_no_scale
 )
 
 

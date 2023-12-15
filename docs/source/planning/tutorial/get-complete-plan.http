@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "rationale": {
       "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-01-01T00:00:00+02:00"
+      "date": "2023-10-10T01:00:00+03:00"
     },
     "procuringEntity": {
       "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
@@ -33,7 +33,7 @@ Content-Type: application/json
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-01-08T00:00:00+02:00"
+        "startDate": "2023-10-17T00:00:00+02:00"
       }
     },
     "budget": {
@@ -75,7 +75,7 @@ Content-Type: application/json
       }
     ],
     "tender_id": "faedbc9487564abc8ac82e0fe70308c3",
-    "planID": "UA-P-2023-01-01-000001",
+    "planID": "UA-P-2023-10-10-000001",
     "items": [
       {
         "id": "55aa3eaa98104cae9ddf1f95dc81ff13",
@@ -129,9 +129,9 @@ Content-Type: application/json
       }
     ],
     "status": "complete",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "owner": "broker",
     "id": "249bf7a3e1ce48c9bba765eed435b2b4"
   }

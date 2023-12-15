@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "60323d5749124f57a73c744743f3255a",
       "status": "unsuccessful",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -39,14 +39,14 @@ Content-Type: application/json
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
-        "startDate": "2023-01-02T00:00:00+02:00",
-        "endDate": "2023-01-06T00:00:00+02:00"
+        "startDate": "2023-10-11T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
       }
     },
     {
       "id": "023e6453276d4fa79d842b3e4e879460",
       "status": "cancelled",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -77,8 +77,8 @@ Content-Type: application/json
       ],
       "bid_id": "8561d89c2c564134a02e362e209fdc03",
       "complaintPeriod": {
-        "startDate": "2023-01-01T00:00:00+02:00",
-        "endDate": "2023-01-06T00:00:00+02:00"
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-17T00:00:00+03:00"
       },
       "qualified": true,
       "eligible": true
@@ -86,7 +86,7 @@ Content-Type: application/json
     {
       "id": "ee6b9d24342247f7922291496a6b265c",
       "status": "unsuccessful",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 479.0,
         "currency": "UAH",
@@ -119,14 +119,14 @@ Content-Type: application/json
       "qualified": false,
       "eligible": false,
       "complaintPeriod": {
-        "startDate": "2023-01-02T00:00:00+02:00",
-        "endDate": "2023-01-06T00:00:00+02:00"
+        "startDate": "2023-10-11T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
       }
     },
     {
       "id": "02b60fc150ee4ebcb878e81fd39aed25",
       "status": "active",
-      "date": "2023-01-02T00:00:00+02:00",
+      "date": "2023-10-11T01:00:00+03:00",
       "value": {
         "amount": 489.0,
         "currency": "UAH",
@@ -159,8 +159,8 @@ Content-Type: application/json
       "qualified": true,
       "eligible": true,
       "complaintPeriod": {
-        "startDate": "2023-01-02T00:00:00+02:00",
-        "endDate": "2023-01-06T00:00:00+02:00"
+        "startDate": "2023-10-11T01:00:00+03:00",
+        "endDate": "2023-10-18T00:00:00+03:00"
       }
     }
   ]

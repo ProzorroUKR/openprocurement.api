@@ -32,10 +32,10 @@ Content-Type: application/json
         }
       }
     ],
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-06T00:00:02+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-16T01:00:02+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
       {
         "id": "a03f134859d14cba948041dcbde4c80e",
@@ -62,10 +62,10 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-01-01T00:00:01+02:00",
+        "date": "2023-10-10T01:00:01+03:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-01-01T00:00:01+02:00"
+        "dateAnswered": "2023-10-10T01:00:01+03:00"
       }
     ],
     "documents": [
@@ -73,37 +73,37 @@ Content-Type: application/json
         "documentType": "technicalSpecifications",
         "description": "document description modified",
         "id": "ea74f145137e48f1a821c8b558884625",
-        "datePublished": "2023-01-01T00:00:01+02:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/ea74f145137e48f1a821c8b558884625?download=6d5acc9f6744445090ee6163719b792e",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "id": "31a5413231bb4a329febaf70768c953e",
-        "datePublished": "2023-01-01T00:00:01+02:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/31a5413231bb4a329febaf70768c953e?download=8b660719e71c4e3b80ac24648fac52c2",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "id": "31a5413231bb4a329febaf70768c953e",
-        "datePublished": "2023-01-01T00:00:01+02:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/documents/31a5413231bb4a329febaf70768c953e?download=cc7c2e1fbe6a49fea049b4173a46deb0",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -116,7 +116,7 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
+      "amount": 501.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -124,15 +124,15 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-01-06T00:30:02+02:00",
+    "next_check": "2023-10-16T01:36:02+03:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2022-12-30T00:00:02+02:00",
-      "endDate": "2023-01-06T00:00:02+02:00"
+      "startDate": "2023-10-09T01:00:02+03:00",
+      "endDate": "2023-10-16T01:00:02+03:00"
     },
     "items": [
       {
@@ -161,31 +161,7 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
-      }
-    ],
-    "lots": [
-      {
-        "title": "lot title",
-        "description": "lot description",
-        "status": "active",
-        "id": "b670ed4c0ed845cab0b7eb532fe4fe3f",
-        "date": "2023-01-01T00:00:00+02:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 15.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "auctionPeriod": {
-          "startDate": "2023-01-06T00:00:02+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b_b670ed4c0ed845cab0b7eb532fe4fe3f"
+        ]
       }
     ],
     "milestones": [
@@ -236,14 +212,16 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "startDate": "2022-12-22T00:00:02+02:00",
-      "clarificationsUntil": "2022-12-31T00:00:02+02:00",
-      "endDate": "2022-12-30T00:00:02+02:00",
-      "invalidationDate": "2023-01-06T00:00:02+02:00"
+      "startDate": "2023-10-01T01:00:02+03:00",
+      "clarificationsUntil": "2023-10-10T01:00:02+03:00",
+      "endDate": "2023-10-09T01:00:02+03:00",
+      "invalidationDate": "2023-10-16T01:00:02+03:00"
     },
     "auctionPeriod": {
-      "startDate": "2023-01-06T00:00:02+02:00"
+      "shouldStartAfter": "2023-10-17T00:00:00+03:00",
+      "startDate": "2023-10-16T01:00:02+03:00"
     },
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b",
     "id": "f2ffdfd3a21b4081841738915486b18b"
   },
   "config": {

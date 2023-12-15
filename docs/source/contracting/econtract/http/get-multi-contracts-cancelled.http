@@ -1,0 +1,28 @@
+GET /api/2.5/contracts?opt_fields=status HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2023-10-10T01:00:01+03:00",
+      "status": "cancelled",
+      "id": "baaae20021a74befa8c02cc7142fc2b9"
+    },
+    {
+      "status": "cancelled",
+      "dateModified": "2023-10-10T01:00:01+03:00",
+      "id": "3529ba7acee240c4b5e2df74a10d18f7"
+    }
+  ],
+  "next_page": {
+    "offset": 1696888801.0,
+    "path": "/api/2.5/contracts?opt_fields=status&offset=1696888801.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts?opt_fields=status&offset=1696888801.0"
+  }
+}
+

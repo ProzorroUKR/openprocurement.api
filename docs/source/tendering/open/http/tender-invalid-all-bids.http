@@ -24,7 +24,7 @@ Content-Type: application/json
     "description": "Опис Лот №2",
     "status": "active",
     "id": "03db38a8519e40fc9fc9377793126015",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 400.0,
       "currency": "UAH",
@@ -36,8 +36,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2023-01-03T00:00:00+02:00",
-      "shouldStartAfter": "2023-01-09T00:00:00+02:00"
+      "startDate": "2023-10-12T01:00:00+03:00",
+      "shouldStartAfter": "2023-10-19T00:00:00+03:00"
     }
   }
 }

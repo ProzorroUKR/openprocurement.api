@@ -393,74 +393,14 @@ Qualification commission registers its decision via the following call:
 .. http:example:: tutorial/confirm-qualification.http
    :code:
 
-Setting contract value
------------------------
 
-By default contract value `amountNet` is set based on the award value `amount`, but there is a possibility to set custom contract value.
+.. index:: Setting Contract
 
-Let's set contract contract value with next request:
+Setting Contract
+----------------
 
-.. http:example:: tutorial/tender-contract-set-contract-value.http
-   :code:
+All operations with contract moved to :ref:`econtracting`
 
-`200 OK` response was returned. The value was modified successfully.
-
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. http:example:: tutorial/tender-contract-sign-date.http
-   :code:
-
-Setting contract validity period
---------------------------------
-
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
-
-.. http:example:: tutorial/tender-contract-period.http
-   :code:
-
-Uploading contract documentation
---------------------------------
-
-You can upload contract documents for the ESCO procedure.
-
-Let's upload contract document:
-
-.. http:example:: tutorial/tender-contract-upload-document.http
-    :code:
-
-`201 Created` response code and `Location` header confirm that this document was added.
-
-Let's see the list of contract documents:
-
-.. http:example:: tutorial/tender-contract-get-documents.http
-    :code:
-
-We can upload another contract document:
-
-.. http:example:: tutorial/tender-contract-upload-second-document.http
-    :code:
-
-`201 Created` response code and `Location` header confirm that the second document was uploaded.
-
-By default, document language is Ukrainian. You can can change it and set another language for the document by assigning appropriate language code to the `language` field (available options: ``uk``, ``en``, ``ru``). You can also set document's title (e.g. `title_en`) and description (e.g. `description_en`) fields. See :ref:`Document` data structure for details.
-
-.. http:example:: tutorial/tender-contract-patch-document.http
-    :code:
-
-Let's see the list of all added contract documents:
-
-.. http:example:: tutorial/tender-contract-get-documents-again.http
-    :code:
-
-Let's view separate contract document:
-
-.. http:example:: tutorial/tender-contract-get-separate.http
-    :code:
 
 Cancelling tender
 -----------------

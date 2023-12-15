@@ -16,10 +16,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
     "status": "active.enquiries",
     "owner": "broker",
     "title": "футляри до державних нагород",
@@ -38,8 +38,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-01-08T00:00:00+02:00",
-      "endDate": "2023-01-15T00:00:00+02:00"
+      "startDate": "2023-10-17T00:00:00+02:00",
+      "endDate": "2023-10-24T00:00:00+02:00"
     },
     "items": [
       {
@@ -139,11 +139,11 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-09T00:00:00+02:00",
-      "endDate": "2023-01-08T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
+      "endDate": "2023-10-17T00:00:00+02:00"
     },
-    "next_check": "2023-01-08T00:00:00+02:00",
+    "next_check": "2023-10-17T00:00:00+02:00",
     "id": "f2ffdfd3a21b4081841738915486b18b"
   },
   "config": {

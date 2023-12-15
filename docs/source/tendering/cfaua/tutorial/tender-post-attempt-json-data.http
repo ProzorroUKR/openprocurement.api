@@ -112,7 +112,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "endDate": "2023-11-10T01:00:00+03:00"
     },
     "maxAwardsCount": 4,
     "agreementDuration": "P3Y3M3D",
@@ -307,30 +307,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "tenderPeriod": {
-      "endDate": "2023-02-01T00:00:00+02:00",
-      "startDate": "2023-01-01T00:00:00+02:00"
+      "endDate": "2023-11-10T01:00:00+03:00",
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
     "status": "draft",
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+03:00"
     },
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "5a06577d0adb4c42907931f3b9b03b2c"
   },
   "config": {

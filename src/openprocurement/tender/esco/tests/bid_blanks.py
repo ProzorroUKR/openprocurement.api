@@ -1063,18 +1063,7 @@ def delete_tender_bidder(self):
         i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
-    # sign contract
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    contract = response.json["data"]["contracts"][-1]
-    contract_id = contract["id"]
-    self.app.authorization = ("Basic", ("token", ""))
-    contract["value"]["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "complete")
+    self.set_status("complete")
 
     # finished tender does not show deleted bid info
     response = self.app.get("/tenders/{}".format(self.tender_id))

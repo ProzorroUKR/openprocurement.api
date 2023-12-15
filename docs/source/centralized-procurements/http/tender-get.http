@@ -106,8 +106,8 @@ Content-Type: application/json
     "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:15+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:15+03:00",
+      "endDate": "2023-11-10T00:00:00+02:00"
     },
     "items": [
       {
@@ -132,7 +132,7 @@ Content-Type: application/json
         ],
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
-          "endDate": "2023-01-16T00:00:00+02:00"
+          "endDate": "2023-10-25T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -164,7 +164,7 @@ Content-Type: application/json
         ],
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
-          "endDate": "2023-01-17T00:00:00+02:00"
+          "endDate": "2023-10-26T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -196,7 +196,7 @@ Content-Type: application/json
         ],
         "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
         "deliveryDate": {
-          "endDate": "2023-01-18T00:00:00+02:00"
+          "endDate": "2023-10-27T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -207,22 +207,22 @@ Content-Type: application/json
         }
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:15+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:15+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
     },
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:15+02:00",
+    "date": "2023-10-10T01:00:15+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:15+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:15+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
-    "dateCreated": "2023-01-01T00:00:15+02:00",
-    "dateModified": "2023-01-01T00:00:21+02:00",
+    "dateCreated": "2023-10-10T01:00:15+03:00",
+    "dateModified": "2023-10-10T01:00:21+03:00",
     "plans": [
       {
         "id": "2c376a06cbf7476b8c229e6955bd8194"

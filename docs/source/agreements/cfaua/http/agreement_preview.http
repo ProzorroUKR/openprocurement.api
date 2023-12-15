@@ -8,10 +8,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-01-000001-a-e75ece1cddb64807825e058d729510f61",
+    "agreementID": "UA-2023-10-10-000001-a-e75ece1cddb64807825e058d729510f61",
     "status": "active",
     "owner": "broker",
-    "agreementType": "cfaua",
     "contracts": [
       {
         "id": "3f790a2fc7c647a7be968a10e669e9fa",
@@ -53,7 +52,7 @@ Content-Type: application/json
         ],
         "awardID": "f99be86681de4f368037738d6af12903",
         "bidID": "78290ccc2a114830a97e8f2c510bacaf",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "142288b4ac5447c088ae5c55bed1f9fc",
@@ -95,7 +94,7 @@ Content-Type: application/json
         ],
         "awardID": "e5e6c374e9db46c2bf634056b03768db",
         "bidID": "be6885d5a2ec4336a11ed73370239ed6",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "bd325edc619c4f61b067e07529a08461",
@@ -137,7 +136,7 @@ Content-Type: application/json
         ],
         "awardID": "ea7c848eefbb4037a273456dd333ce1a",
         "bidID": "593a5fc959d64463b40f460fe47f30cb",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "items": [
@@ -202,12 +201,12 @@ Content-Type: application/json
     },
     "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",
     "numberOfContracts": 3,
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "changes": [
       {
         "id": "30eb3b69a8174931a5bc64636ea3e4b2",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "rationale": "Друга і третя поставка має бути розфасована",
         "rationale_en": "Agreement change cause",
         "rationaleType": "taxRate",
@@ -223,12 +222,12 @@ Content-Type: application/json
       {
         "relatedItem": "30eb3b69a8174931a5bc64636ea3e4b2",
         "id": "2379d9c9a78f43c4a3cb72c9100c8784",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6c343bcdd7d241068f88138036b4e52a?Signature=cU7WXirw65OUUhuS5lZDppSTLBBAEOZ6GMLIefKy1mqh5Qe9B9T8b%2B%2BfoucGKMRZRL2%2FSJeoZWpypUlbWdU5DA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
         "documentOf": "change"
       }

@@ -8,11 +8,11 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-01-000001",
+    "agreementID": "UA-2023-10-10-000001",
     "status": "active",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-02-07T01:00:00+03:00"
     },
     "contracts": [
       {
@@ -52,16 +52,16 @@ Content-Type: application/json
             "id": "42f8bbf6cc4944c8ac809612a14446db",
             "type": "activation",
             "status": "scheduled",
-            "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-01-01T00:00:00+02:00"
+            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "owner": "broker",
     "agreementType": "dynamicPurchasingSystem",
     "procuringEntity": {
@@ -98,7 +98,7 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "next_check": "2023-05-01T00:00:00+02:00",
+    "next_check": "2024-02-07T01:00:00+03:00",
     "id": "c2de9b3006f0421185ea131a7cc48eab"
   },
   "config": {}

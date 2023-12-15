@@ -1,13 +1,13 @@
 POST /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/cancellations/b857da1670b74f6fa6b68654701bc76e/documents?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 324
+Content-Length: 326
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/010758f9c0b24caeaca8dc1b6f158166?Signature=wt2nLjgNzXks0T7cgBmZjDz3aRLrMGsL5USsUnoT1Iczi42m9MouTQihQGRZ%2B%2BSRTYDM6uWevRVZUxR4Yt%2BQDQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f8d9c8005624716bf6567d90eddf47f?Signature=4UHxYzYMFcEHRBrdGJBhpt81HZUK3CgdbuTdxAv6zIXoZtLbqO8GwZv0VsHw6ZOKE%2FKk0yH%2FJF8N%2BzNCMd%2FIAA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -23,12 +23,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/010758f9c0b24caeaca8dc1b6f158166?Signature=jyfEhKm9RKAzkcrG5bvWLR22xaEJgssTmJSm3ON7rV0g4UNZeSZ5hc4FMpKbzIV9lhn%2Br%2BUXua1t7XaKxD82Dg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f8d9c8005624716bf6567d90eddf47f?Signature=1aR77xAiiGL6frUnUgicFp8qKBLSWaGfAsA7pSQovn4WztWpThhtT00dIzv9A1MRD9u9sdyhZsoavxXXhMspAA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "09dbc3892fed4114bacc9601829ec12b",
-    "datePublished": "2023-01-01T00:00:01+02:00",
-    "dateModified": "2023-01-01T00:00:01+02:00"
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00"
   }
 }
 

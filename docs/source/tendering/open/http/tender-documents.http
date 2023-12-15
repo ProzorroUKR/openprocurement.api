@@ -15,8 +15,8 @@ Content-Type: application/json
     "documentOf": "tender",
     "language": "uk",
     "id": "d50482dfdc8547268bd992ef5cc2ffe2",
-    "datePublished": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "tender_owner"
   }
 }

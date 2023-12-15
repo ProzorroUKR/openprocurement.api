@@ -154,7 +154,9 @@ Content-Type: application/json
                 "id": "eb40cc8ae615437cb0f97f4e4e584d14",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ]
               }
             ]
           }

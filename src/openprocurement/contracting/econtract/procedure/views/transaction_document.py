@@ -9,5 +9,5 @@ from openprocurement.contracting.core.procedure.views.transaction_document impor
     contractType="econtract",
     description="EContract transaction related binary files (PDFs, etc.)",
 )
-class GeneralTransactionDocumentResource(TransactionDocumentResource):
+class EContractTransactionDocumentResource(TransactionDocumentResource):
    pass

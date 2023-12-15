@@ -3,7 +3,11 @@ from openprocurement.tender.core.procedure.context import (
     get_tender,
 )
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.api.utils import (
     raise_operation_error,
@@ -38,12 +42,14 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
         tender = get_tender()
 
         if before == "pending" and after == "active":
-            add_contracts(get_request(), award, self.contract_model)
+            contracts = add_contracts(get_request(), award)
             self.add_next_award()
+            save_contracts_to_contracting(contracts, award)
 
         elif before == "active" and after == "cancelled":
-            self.set_award_contracts_cancelled(award)
+            contracts_ids = self.set_award_contracts_cancelled(award)
             self.add_next_award()
+            update_econtracts_statuses(contracts_ids, after)
 
         elif before == "pending" and after == "unsuccessful":
             if tender["status"] == "active.qualification":

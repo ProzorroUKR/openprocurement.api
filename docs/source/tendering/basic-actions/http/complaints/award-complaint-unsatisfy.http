@@ -17,8 +17,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "167f561e08274f6094a7699026613628",
-    "complaintID": "UA-2023-01-01-000001-a.7",
-    "date": "2023-01-01T00:00:03+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.7",
+    "date": "2023-10-10T01:00:03+03:00",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
@@ -45,8 +45,8 @@ Content-Type: application/json
     "status": "answered",
     "resolution": "Вимога не відповідає предмету закупівлі",
     "resolutionType": "invalid",
-    "dateAnswered": "2023-01-01T00:00:03+02:00",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "dateAnswered": "2023-10-10T01:00:03+03:00",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "satisfied": false,
     "type": "claim",
     "relatedLot": "14a2a2bf0b87485c86be3f95b3bbcbc3",

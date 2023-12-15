@@ -332,6 +332,8 @@ ECONTRACT_SIGNER_INFO_REQUIRED = get_constant(
 
 CONTRACT_TEMPLATES_KEYS = set(standards.load("templates/contract_templates_keys.json"))
 
+NEW_CONTRACTING_FROM = get_constant(CONSTANTS_CONFIG, "NEW_CONTRACTING_FROM")
+
 # Related lot is required
 
 RELATED_LOT_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "RELATED_LOT_REQUIRED_FROM")

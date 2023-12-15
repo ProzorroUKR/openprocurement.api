@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "1f619ca33c0c418680a6e9108c782381",
       "status": "cancelled",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 498.0,
         "currency": "UAH",
@@ -44,14 +44,14 @@ Content-Type: application/json
       "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
       "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
       "complaintPeriod": {
-        "startDate": "2023-01-01T00:00:00+02:00",
-        "endDate": "2023-01-01T00:00:00+02:00"
+        "startDate": "2023-10-10T01:00:00+03:00",
+        "endDate": "2023-10-10T01:00:00+03:00"
       }
     },
     {
       "id": "93e3afc7e7444428a688e88ce9655594",
       "status": "pending",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
@@ -87,7 +87,7 @@ Content-Type: application/json
     {
       "id": "1638bb9ae8544adca20905ab2e6cc2ef",
       "status": "pending",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 500.0,
         "currency": "UAH",
@@ -123,7 +123,7 @@ Content-Type: application/json
     {
       "id": "d45bf625a8e94c678b31c270e2a235f1",
       "status": "pending",
-      "date": "2023-01-01T00:00:00+02:00",
+      "date": "2023-10-10T01:00:00+03:00",
       "value": {
         "amount": 498.0,
         "currency": "UAH",

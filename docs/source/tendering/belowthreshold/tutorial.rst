@@ -283,103 +283,14 @@ Qualification comission registers its decision via the following call:
 .. http:example:: http/tutorial/confirm-qualification.http
    :code:
 
-.. _SettingContractValue:
 
-Setting contract value
-----------------------
+.. index:: Setting Contract
 
-Let's see the created contract with next request:
+Setting Contract
+----------------
 
-.. http:example:: http/tutorial/tender-contract-get-contract-value.http
-   :code:
+All operations with contract moved to :ref:`econtracting`
 
-
-By default contract value `amount` and `amountNet` is set based on the award value `amount`, but there is a possibility to set custom contract value.
-
-You can update value `amount` and `amountNet` following next rules:
-
-+-------------------------+------------------------------------------------------------------------+
-| `valueAddedTaxIncluded` |                                                                        |
-+------------+------------+                              `Validation`                              +
-| `contract` |   `award`  |                                                                        |
-+------------+------------+------------------------------------------------------------------------+
-|            | true/false | Amount should be greater than amountNet and differ by no more than 20% |
-+            +------------+------------------------------------------------------------------------+
-|    true    |    true    |            Amount should be less or equal to awarded amount            |
-+            +------------+------------------------------------------------------------------------+
-|            |    false   |           AmountNet should be less or equal to awarded amount          |
-+------------+------------+------------------------------------------------------------------------+
-|            | true/false |                  Amount and amountNet should be equal                  |
-+    false   +------------+------------------------------------------------------------------------+
-|            | true/false |            Amount should be less or equal to awarded amount            |
-+------------+------------+------------------------------------------------------------------------+
-
-Let's set contract contract value with next request:
-
-.. http:example:: http/tutorial/tender-contract-set-contract-value.http
-   :code:
-
-`200 OK` response was returned. The value was modified successfully.
-
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. http:example:: http/tutorial/tender-contract-sign-date.http
-   :code:
-
-Setting contract validity period
---------------------------------
-
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
-
-.. http:example:: http/tutorial/tender-contract-period.http
-   :code:
-
-Uploading contract documentation
---------------------------------
-
-You can upload contract documents. Let's upload contract document:
-
-.. http:example:: http/tutorial/tender-contract-upload-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm document was added.
-
-Let's see the list of contract documents:
-
-.. http:example:: http/tutorial/tender-contract-get-documents.http
-   :code:
-
-We can add another contract document:
-
-.. http:example:: http/tutorial/tender-contract-upload-second-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm second document was uploaded.
-
-Let's see the list of all added contract documents:
-
-.. http:example:: http/tutorial/tender-contract-get-documents-again.http
-   :code:
-
-Set contract signature date
----------------------------
-
-There is a possibility to set custom contract signature date.
-If the date is not set it will be generated on contract registration.
-
-.. http:example:: http/tutorial/tender-contract-sign-date.http
-   :code:
-
-Contract registration
----------------------
-
-.. http:example:: http/tutorial/tender-contract-sign.http
-   :code:
 
 Cancelling tender
 -----------------

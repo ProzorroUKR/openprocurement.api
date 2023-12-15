@@ -7,8 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T01:00:00+03:00"
     }
   }
 }
@@ -19,10 +19,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000016-a.2",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000016-a.2",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -58,13 +58,13 @@ Content-Type: application/json
     ],
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T01:00:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueUA.stage2",
     "procuringEntity": {
@@ -144,8 +144,8 @@ Content-Type: application/json
         ],
         "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -171,8 +171,8 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-28T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+03:00"
     },
     "id": "32bf03368c4c49869cf9b1103c9c69f8"
   },

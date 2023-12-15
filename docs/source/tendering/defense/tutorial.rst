@@ -249,52 +249,13 @@ Qualification commission registers its decision via the following call:
 .. http:example:: http/confirm-qualification.http
    :code:
 
-Setting  contract value
------------------------
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value. 
+.. index:: Setting Contract
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+Setting Contract
+----------------
 
-.. http:example:: http/tender-contract-set-contract-value.http
-   :code:
-
-`200 OK` response was returned. The value was modified successfully.
-
-Setting contract signature date
--------------------------------
-
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
-
-If this date is not set, it will be auto-generated on the date of contract registration.
-
-.. http:example:: http/tender-contract-sign-date.http
-   :code:
-
-Setting contract validity period
---------------------------------
-
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
-
-.. http:example:: http/tender-contract-period.http
-   :code:
-
-Uploading contract documentation
---------------------------------
-
-You can upload contract documents for the Defense open tender procedure.
-
-Let's upload contract document:
-
-.. http:example:: http/tender-contract-upload-document.http
-   :code:
-
-`201 Created` response code and `Location` header confirm that this document was added.
-
-Let's view the uploaded contract document:
-
-.. http:example:: http/tender-contract-get.http
-   :code:
+All operations with contract moved to :ref:`econtracting`
 
 
 Cancelling tender

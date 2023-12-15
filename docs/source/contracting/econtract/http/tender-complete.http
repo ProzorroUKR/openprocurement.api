@@ -23,8 +23,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-09-19T01:00:00+03:00",
-      "startDate": "2023-09-10T01:00:00+03:00"
+      "endDate": "2023-10-09T01:00:00+03:00",
+      "startDate": "2023-09-30T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -57,8 +57,8 @@ Content-Type: application/json
           "id": "30230000-0"
         },
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -95,8 +95,8 @@ Content-Type: application/json
           "id": "30230000-0"
         },
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -138,7 +138,9 @@ Content-Type: application/json
                 "id": "e6f9be7a505143948d92a687c03d24b5",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "expectedValues": [
+                  "Розчин для інфузій"
+                ]
               }
             ]
           }
@@ -194,11 +196,11 @@ Content-Type: application/json
         ]
       }
     ],
-    "tenderID": "UA-2023-09-20-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
-    "date": "2023-09-20T01:00:00+03:00",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "shortlistedFirms": [
       {
         "address": {
@@ -248,12 +250,12 @@ Content-Type: application/json
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-09-30T01:00:00+03:00"
+      "startDate": "2023-10-20T01:00:00+03:00"
     },
     "bids": [
       {
         "id": "5324d8e7db1c4a3baf5456140f128229",
-        "date": "2023-09-20T01:00:00+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
             "name": "Державне управління справами",
@@ -287,14 +289,18 @@ Content-Type: application/json
             "requirement": {
               "id": "e6f9be7a505143948d92a687c03d24b5"
             },
-            "value": "Розчин для інфузій"
+            "values": [
+              "Розчин для інфузій"
+            ]
           },
           {
             "id": "3a792c49a8cd4188aee2e87af1b8f25d",
             "requirement": {
               "id": "d8cce89c0dcb4748828ccf2a141554bb"
             },
-            "value": 5
+            "values": [
+              5
+            ]
           },
           {
             "id": "315577b4a97c46b5836595e9dafb424a",
@@ -311,13 +317,13 @@ Content-Type: application/json
       }
     ],
     "awardPeriod": {
-      "startDate": "2023-09-20T01:00:00+03:00"
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
     "awards": [
       {
         "id": "c220713cbd024586b6382ef97a852dc7",
         "status": "active",
-        "date": "2023-09-20T01:00:00+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -350,7 +356,7 @@ Content-Type: application/json
       {
         "id": "a3771b096c9644c5ba09fe6f9c9cb091",
         "status": "pending",
-        "date": "2023-09-20T01:00:00+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -383,16 +389,16 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "0df8cf97d5cb4ba98a7355f981e0afd2",
+        "id": "eb4343b446004f47aa2ec7f6e542f196",
         "status": "active",
         "awardID": "c220713cbd024586b6382ef97a852dc7",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 238.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
           "amountNet": 230.0
-        },
-        "date": "2023-09-20T01:00:00+03:00"
+        }
       }
     ],
     "id": "26fe592e6eb4454fb91865f39117fe4b"

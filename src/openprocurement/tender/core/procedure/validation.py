@@ -52,7 +52,7 @@ from openprocurement.tender.core.utils import calculate_tender_business_date, ca
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import get_criterion_requirement
+from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
@@ -1688,10 +1688,9 @@ def validate_lot_status_active(request, **_):
         )
 
 
-def validate_forbid_action_after_date(obj_name):
+def validate_forbid_contract_action_after_date(obj_name):
     def validation(request, **_):
-        tender = get_tender()
-        if tender_created_after(PQ_NEW_CONTRACTING_FROM):
+        if is_new_contracting():
             raise_operation_error(
                 request,
                 f"{OPERATIONS.get(request.method)} is forbidden for {obj_name}"

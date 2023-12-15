@@ -116,7 +116,7 @@ Content-Type: application/json
               "expectedValue": "true",
               "status": "active",
               "id": "1f1bc73db30e4c4da5a30da124af935e",
-              "datePublished": "2023-01-01T00:00:00+02:00"
+              "datePublished": "2023-10-10T01:00:00+03:00"
             }
           ],
           "id": "05b90eba26e14c66891211d4f8ef469c"

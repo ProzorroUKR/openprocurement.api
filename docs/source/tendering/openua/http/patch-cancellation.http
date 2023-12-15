@@ -18,13 +18,13 @@ Content-Type: application/json
   "data": {
     "description": "Changed description",
     "id": "a3ebd82e754b406fbbe10145097e920a",
-    "datePublished": "2023-01-01T00:00:01+02:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d35966037ca492a987834d0701eaf4b?Signature=PDZV1r3X1RtTIz%2FbPch2RW%2FmqOev5M4SPm28308qYQ%2FnCfZiv0zt3BmlsRPNQzKdJkfWMAsR4sEBzDXDjNrZBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/739e34000b5246919098c41f0f27f950?Signature=lJkAmMVYRXssgKc4mCfknsSZ8sPEZ6EaexOsHaNMYBlhTJaP797%2B006mJAaumheN5qIKMMeAKKFVz%2B%2FtSco8AQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-01T00:00:01+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk"
   }
 }

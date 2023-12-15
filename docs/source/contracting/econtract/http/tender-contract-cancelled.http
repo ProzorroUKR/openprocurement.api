@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/26fe592e6eb4454fb91865f39117fe4b/contracts/0df8cf97d5cb4ba98a7355f981e0afd2 HTTP/1.0
+GET /api/2.5/tenders/26fe592e6eb4454fb91865f39117fe4b/contracts/eb4343b446004f47aa2ec7f6e542f196 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,16 +8,16 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "0df8cf97d5cb4ba98a7355f981e0afd2",
+    "id": "eb4343b446004f47aa2ec7f6e542f196",
     "status": "cancelled",
     "awardID": "c220713cbd024586b6382ef97a852dc7",
+    "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
-    },
-    "date": "2023-09-20T01:00:00+03:00"
+    }
   }
 }
 

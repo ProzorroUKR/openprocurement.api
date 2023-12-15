@@ -18,6 +18,10 @@ from openprocurement.api.validation import OPERATIONS, validate_items_uniq
 from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
+from openprocurement.tender.pricequotation.procedure.models.req_response import (
+    RequirementResponse,
+    RequirementResponsePost,
+)
 from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
 from uuid import uuid4
 
@@ -98,7 +102,7 @@ class MatchResponseValue:
             raise ValidationError('response required at least one of field ["value", "values"]')
         if value is not None and values:
             raise ValidationError("field 'value' conflicts with 'values'")
-        values = [value] if value else values
+        values = [value] if value is not None else values
 
         if values is not None:
             field_for_value = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
@@ -152,7 +156,7 @@ class PostBid(PatchBid):
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
-        ModelType(RequirementResponse),
+        ModelType(RequirementResponsePost),
         required=True,
         min_size=1,
     )
