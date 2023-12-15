@@ -727,16 +727,16 @@ Content-Type: application/json
         "id": "2096f1a2874b40e3bbf150c27e4824bf",
         "documents": [
           {
+            "id": "6445cc6ce08c497d8d68b4a048fda100",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbc72109233241b9aea96edfc20e8da1?Signature=mT5THG0rO0Mi%2BZoKAZKhRqN79D1tpTJXq4r4zPrxySqL7sIWcHk0Jeo8IbGaf0RMJfdDLjZ%2FKUTa93hfvotdAA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
-            "id": "6445cc6ce08c497d8d68b4a048fda100",
-            "datePublished": "2023-10-10T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "confidentiality": "public"
           },
           {
             "id": "24d4842c57d14041b8a66acadbdc91bb",
@@ -754,16 +754,16 @@ Content-Type: application/json
         ],
         "eligibilityDocuments": [
           {
+            "id": "093a11c4b8554add927a5123991ff5d1",
+            "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
             "format": "application/pdf",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b3ec728698e1471aa09e389d77c8c59e?Signature=D0Zy%2FXOL5XTaIpKsv10eyigjjpJ1DGCvEy0%2FHHe0%2F6QWXzvtIaAuRl1WqCDa%2FsfULvUfsqTB79QBi0GrVQhZDA%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
-            "confidentiality": "public",
-            "id": "093a11c4b8554add927a5123991ff5d1",
-            "datePublished": "2023-10-10T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "confidentiality": "public"
           }
         ]
       },
@@ -1165,7 +1165,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 501.0,
+      "amount": 500.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -1178,6 +1178,28 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "f593b0ce6a334393bfba269562fa3ac9",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-16T00:00:00+03:00"
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -1213,6 +1235,7 @@ Content-Type: application/json
       {
         "id": "d75e87eef83e42eebec46e8d6d575ac4",
         "bidID": "2096f1a2874b40e3bbf150c27e4824bf",
+        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1221,6 +1244,7 @@ Content-Type: application/json
       {
         "id": "e4c33acbe1044523bf5d7053941d801f",
         "bidID": "bf64c133e6e34cde85dac889a9fe274a",
+        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1229,6 +1253,7 @@ Content-Type: application/json
       {
         "id": "49a9315c74714b8a89d014975aa1b3ba",
         "bidID": "0a7474f57f7f434aa03c3187d5861748",
+        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
@@ -1299,6 +1324,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -1337,6 +1363,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -1356,9 +1383,6 @@ Content-Type: application/json
       "endDate": "2023-10-14T00:00:00+03:00"
     },
     "next_check": "2023-10-16T00:00:00+03:00",
-    "auctionPeriod": {
-      "shouldStartAfter": "2023-10-16T00:00:00+03:00"
-    },
     "id": "26dac5d9cddc43f1b4178ec68bd3f601"
   },
   "config": {

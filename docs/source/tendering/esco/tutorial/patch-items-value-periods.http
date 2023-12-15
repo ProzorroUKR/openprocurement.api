@@ -637,7 +637,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "id": "8b60d0525e2a40b9954d740b5b68c4ef",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
           "currency": "UAH",

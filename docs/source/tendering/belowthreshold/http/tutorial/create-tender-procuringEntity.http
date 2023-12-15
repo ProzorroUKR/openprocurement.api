@@ -147,7 +147,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "lot description",
         "status": "active",
         "id": "9217965f43384438ac7af4b14e4fc52a",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -235,7 +235,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6f821eb52f1b4cfa
       {
         "title": "lot title",
         "description": "lot description",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "id": "9217965f43384438ac7af4b14e4fc52a",
         "status": "active",
         "value": {

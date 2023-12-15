@@ -594,7 +594,6 @@ Content-Type: application/json
     "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -744,6 +743,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "bids": [
       {
         "requirementResponses": [

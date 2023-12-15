@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/awards/58b618d74671419ab1d4efc881a17538?acc_token=b1e5d31cae12404789b524b2c946715f HTTP/1.0
+PATCH /api/2.5/tenders/7d08059488fd44c0a4df6167b2aa95de/awards/4d3e6fecff4044828e15eb6c2e4e926f?acc_token=c7d51c6984c94a00a64296338a4cbc1b HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 49
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "58b618d74671419ab1d4efc881a17538",
+    "id": "4d3e6fecff4044828e15eb6c2e4e926f",
     "qualified": true,
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
@@ -50,9 +50,10 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
+    "lotID": "79e5f434045c4d8698d3423133f65438",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-21T00:00:00+03:00"
+      "endDate": "2023-10-16T00:00:00+03:00"
     }
   }
 }

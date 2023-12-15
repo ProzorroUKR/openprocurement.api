@@ -335,6 +335,30 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         owner_token = response.json['access']['token']
         self.set_status('active')
 
+        award_negotiation["lotID"] = self.initial_lots[0]["id"]
+        with open(TARGET_DIR + 'tutorial/tender-negotiation-award.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': award_negotiation}
+            )
+            self.assertEqual(response.status, '201 Created')
+        self.award_id = response.json['data']['id']
+
+        #### Award confirmation
+        with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, self.award_id, owner_token
+                ),
+                {
+                    'data': {
+                        'status': 'active',
+                        'qualified': True
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
+
         #### Preparing the cancellation request
         with open(TARGET_DIR + 'tutorial/prepare-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
