@@ -18,6 +18,7 @@ Content-Type: application/json
   "data": {
     "id": "49a9315c74714b8a89d014975aa1b3ba",
     "bidID": "0a7474f57f7f434aa03c3187d5861748",
+    "lotID": "f593b0ce6a334393bfba269562fa3ac9",
     "status": "unsuccessful",
     "date": "2023-10-10T01:00:00+03:00",
     "qualified": false,

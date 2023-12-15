@@ -17,6 +17,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdeu_stage2_multi_buyers_data,
     test_tender_cdua_stage2_multi_buyers_data,
 )
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
@@ -64,6 +65,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_below_lots
     author_data = test_tender_cd_author
 
     def create_award(self):
@@ -78,6 +80,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
                     "bid_id": self.bids[0]["id"],
                     "value": self.initial_data["value"],
                     "items": self.initial_data["items"],
+                    "lotID": self.initial_lots[0]["id"],
                 }
             },
         )
@@ -114,6 +117,7 @@ class TenderStage2EUContractDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_below_lots
     docservice = True
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
@@ -124,7 +128,12 @@ class TenderStage2EUContractDocumentResourceTest(
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [supplier_info], "status": "pending", "bid_id": self.bids[0]["id"]}},
+            {"data": {
+                "suppliers": [supplier_info],
+                "status": "pending",
+                "bid_id": self.bids[0]["id"],
+                "lotID": self.initial_lots[0]["id"],
+            }},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -152,6 +161,7 @@ class TenderStage2EUContractDocumentResourceTest(
 class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def create_award(self):
@@ -166,6 +176,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
                     "bid_id": self.bids[0]["id"],
                     "value": self.initial_data["value"],
                     "items": self.initial_data["items"],
+                    "lotID": self.initial_lots[0]["id"],
                 }
             },
         )
@@ -202,6 +213,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
 class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_below_lots
 
     def create_award(self):
         auth = self.app.authorization
@@ -218,6 +230,7 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
                         "currency": self.initial_data["value"]["currency"],
                         "valueAddedTaxIncluded": False,
                     },
+                    "lotID": self.initial_lots[0]["id"],
                 }
             },
         )
@@ -245,6 +258,7 @@ class TenderStage2UAContractDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_below_lots
     docservice = True
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
@@ -255,7 +269,12 @@ class TenderStage2UAContractDocumentResourceTest(
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+            {"data": {
+                "suppliers": [test_tender_cd_tenderer],
+                "status": "pending",
+                "bid_id": self.bids[0]["id"],
+                "lotID": self.initial_lots[0]["id"],
+            }},
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -283,6 +302,7 @@ class TenderStage2UAContractDocumentResourceTest(
 class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
@@ -299,6 +319,7 @@ class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_data = test_tender_cdeu_stage2_multi_buyers_data
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
@@ -320,6 +341,7 @@ class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_data = test_tender_cdua_stage2_multi_buyers_data
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):

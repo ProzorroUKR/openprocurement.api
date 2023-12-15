@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_data,
     test_tender_below_organization,
+    test_tender_below_lots,
 )
 from openprocurement.historical.core.tests.tests import mock_doc
 
@@ -190,6 +191,8 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
 
 
 class TestGetHistoricalData(BaseTenderWebTest):
+    initial_data = test_tender_below_data
+    initial_lots = test_tender_below_lots
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
@@ -203,7 +206,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(len(response.json["data"]), 1)
 
-        response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
 
@@ -249,7 +252,10 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender["id"]),
-            {"data": {"value": {"amount": 499}, "tenderers": [test_tender_below_organization]}},
+            {"data": {
+                "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
+                "tenderers": [test_tender_below_organization]
+            }},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

@@ -51,7 +51,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "fdea30bde1d34c4eb16d5f7aa03bf22a",
+    "awardID": "25d1cdbfc28949be995a262cb1b235fd",
     "contractID": "UA-2023-10-10-000001-a-1",
     "contractNumber": "contract#1",
     "dateModified": "2023-10-10T01:00:01+03:00",
@@ -99,6 +99,7 @@ Content-Type: application/json
         "id": "6109d472d8f34975a00dd5709cff36a1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -123,6 +124,7 @@ Content-Type: application/json
         "id": "f1e2dd652ddf4a4296acc94e78be41e0",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

@@ -13,6 +13,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdeu_stage2_data,
     test_tender_cdua_stage2_data,
     test_tender_cd_tenderer,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
@@ -23,9 +24,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     # TenderStage2EU(UA)SameValueAuctionResourceTest
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    # TenderStage2EU(UA)FeaturesAuctionResourceTest
-    get_tender_auction_feature,
-    post_tender_auction_feature,
     # TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
@@ -33,6 +31,9 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
 from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks import (
     # # TenderStage2EU(UA)MultipleLotAuctionResourceTest
     patch_tender_with_lots_auction,
+    # TenderStage2EU(UA)FeaturesAuctionResourceTest
+    get_tender_auction_feature,
+    post_tender_auction_feature,
 )
 
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
@@ -44,6 +45,7 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = deepcopy(test_tender_bids)
+    initial_lots = test_tender_openeu_lots
 
     def setUp(self):
         super(TenderStage2EUAuctionResourceTest, self).setUp()
@@ -75,6 +77,7 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
     # initial_status = 'active.auction'
     docservice = True
     tenderer_info = deepcopy(test_tender_cd_tenderer)
+    initial_lots = test_tender_openeu_lots
 
     def setUp(self):
         """ Init tender and set status to active.auction """
@@ -155,6 +158,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
     ]
     tenderer_info = deepcopy(test_tender_cd_tenderer)
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
@@ -221,6 +225,7 @@ class TenderStage2UAAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebT
     docservice = True
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_bids)
+    initial_lots = test_tender_cd_lots
 
 
 class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -235,6 +240,7 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
         }
         for i in range(3)
     ]
+    initial_lots = test_tender_cd_lots
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
     test_post_tender_auction_reversed = snitch(post_tender_auction_reversed)
@@ -281,6 +287,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
     ]
     tenderer_info = deepcopy(test_tender_cd_tenderer)
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
@@ -297,14 +304,15 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
         data = test_tender_cdua_stage2_data.copy()
         item = data["items"][0].copy()
         item["id"] = "1"
+        item["relatedLot"] = self.initial_lots[0]["id"]
         data["items"] = [item]
         data["features"] = self.features
-        self.create_tender(initial_data=data, initial_bids=self.initial_bids)
+        self.create_tender(initial_data=data, initial_bids=self.initial_bids, initial_lots=self.initial_lots)
 
-    def create_tender(self, initial_data=None, initial_bids=None):
+    def create_tender(self, initial_data=None, initial_bids=None, initial_lots=None):
         if initial_data:
             super(TenderStage2UAFeaturesAuctionResourceTest, self).create_tender(
-                initial_data=initial_data, initial_bids=initial_bids
+                initial_data=initial_data, initial_bids=initial_bids, initial_lots=initial_lots
             )
 
     test_get_tender_auction = snitch(get_tender_auction_feature)

@@ -562,7 +562,12 @@ def create_tender_award_invalid(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+        {"data": {
+            "suppliers": [test_tender_below_organization],
+            "status": "pending",
+            "bid_id": self.initial_bids[0]["id"],
+            "lotID": self.initial_lots[0]["id"],
+        }},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -577,7 +582,12 @@ def get_tender_award(self):
     self.app.authorization = ("Basic", ("token", ""))
     response = self.app.post_json(
         "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+        {"data": {
+            "suppliers": [test_tender_cd_tenderer],
+            "status": "pending",
+            "bid_id": self.bids[0]["id"],
+            "lotID": self.initial_lots[0]["id"],
+        }},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

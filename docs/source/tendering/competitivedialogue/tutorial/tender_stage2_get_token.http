@@ -31,6 +31,25 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "4e1bf7ec2f044a43a96412e4204188e7",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -83,6 +102,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -121,6 +141,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "4e1bf7ec2f044a43a96412e4204188e7",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"

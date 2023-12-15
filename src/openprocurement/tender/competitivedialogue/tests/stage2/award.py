@@ -23,10 +23,7 @@ from openprocurement.tender.openua.tests.award import (
 )
 
 from openprocurement.tender.openua.tests.award_blanks import (
-    create_tender_award,
-    patch_tender_award,
     patch_tender_award_active,
-    patch_tender_award_unsuccessful,
     patch_tender_award_complaint_document as patch_tender_award_complaint_document_from_ua,
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -42,7 +39,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
 )
 
 from openprocurement.tender.openeu.tests.award import (
-    TenderAwardResourceTestMixin,
     TenderLotAwardResourceTestMixin,
     Tender2LotAwardResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
@@ -68,65 +64,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award_blanks import
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:
     test_bid["tenderers"] = [test_tender_cd_tenderer]
-
-
-class TenderStage2EUAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderAwardResourceTestMixin):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_bids
-    initial_lots = test_tender_cd_lots
-    initial_auth = ("Basic", ("broker", ""))
-    expected_award_amount = initial_bids[0]["value"]["amount"]
-    docservice = True
-
-    def setUp(self):
-        """ Create tender with lots add 2 bids, play auction and get award """
-        super(TenderStage2EUAwardResourceTest, self).setUp()
-        # switch to active.pre-qualification
-        self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-
-        # qualify bids
-        response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
-        for qualification in response.json["data"]:
-            response = self.app.patch_json(
-                "/tenders/{}/qualifications/{}?acc_token={}".format(
-                    self.tender_id, qualification["id"], self.tender_token
-                ),
-                {"data": {"status": "active", "qualified": True, "eligible": True}},
-            )
-            self.assertEqual(response.status, "200 OK")
-
-        # switch to active.pre-qualification.stand-still
-        response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"status": "active.pre-qualification.stand-still"}},
-        )
-        self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
-
-        # switch to active.auction time
-        self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
-        response = self.check_chronograph()
-        self.assertEqual(response.json["data"]["status"], "active.auction")
-
-        # switch to auction role
-        with change_auth(self.app, ("Basic", ("auction", ""))):
-            response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                                 for b in response.json["data"]["bids"]]
-            for lot_id in self.lots:
-                response = self.app.post_json(
-                    "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
-                )
-                self.assertEqual(response.status, "200 OK")
-                self.assertEqual(response.content_type, "application/json")
-        response = self.app.get("/tenders/{}".format(self.tender_id))
-        self.assertEqual(response.json["data"]["status"], "active.qualification")
-
-        # get award
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        self.award_id = response.json["data"][0]["id"]
-        self.bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
 
 
 class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderLotAwardResourceTestMixin):
@@ -400,6 +337,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUAwardComplaintDocumentResourceTest, self).setUp()
@@ -407,7 +345,12 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+                {"data": {
+                    "suppliers": [test_tender_cd_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
+                }},
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -488,6 +431,7 @@ class TenderStage2EUAwardDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUAwardDocumentResourceTest, self).setUp()
@@ -495,7 +439,12 @@ class TenderStage2EUAwardDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_cd_tenderer], "status": "pending", "bid_id": self.bids[0]["id"]}},
+                {"data": {
+                    "suppliers": [test_tender_cd_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
+                }},
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -535,11 +484,9 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
 class TenderStage2UAAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
     test_patch_tender_award_active = snitch(patch_tender_award_active)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_get_tender_award = snitch(get_tender_award)
 
@@ -586,6 +533,7 @@ class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
 
 class BaseTenderUAAwardActiveTest(BaseTenderUAAwardPendingTest):
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(BaseTenderUAAwardActiveTest, self).setUp()
@@ -670,6 +618,7 @@ class TenderStage2UAAwardDocumentResourceTest(
     BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
 
 class TenderStage2UA2LotAwardDocumentResourceTest(
@@ -688,7 +637,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EULotAwardResourceTest))
     return suite
 

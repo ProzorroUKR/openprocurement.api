@@ -8,11 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -40,6 +35,19 @@ Content-Type: application/json
     "status": "active",
     "id": "8d8c35d315ec458aa2bf51fdcef0717b",
     "date": "2023-10-16T01:00:02+03:00",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "status": "active",
+        "date": "2023-10-16T01:00:02+03:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b_b670ed4c0ed845cab0b7eb532fe4fe3f?key_for_bid=8d8c35d315ec458aa2bf51fdcef0717b"
+      }
+    ],
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -53,8 +61,7 @@ Content-Type: application/json
         "datePublished": "2023-10-16T01:00:02+03:00",
         "dateModified": "2023-10-16T01:00:02+03:00"
       }
-    ],
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b?key_for_bid=8d8c35d315ec458aa2bf51fdcef0717b"
+    ]
   }
 }
 

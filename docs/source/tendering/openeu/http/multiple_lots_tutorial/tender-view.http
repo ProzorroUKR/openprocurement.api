@@ -586,7 +586,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-11-10T00:00:00+02:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
@@ -776,6 +775,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
+    "next_check": "2023-11-10T00:00:00+02:00",
     "id": "c3028c9ca7a940518864792509ea9232"
   },
   "config": {

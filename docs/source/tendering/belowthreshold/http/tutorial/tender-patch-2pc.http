@@ -68,7 +68,27 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "906da102d4e546e3afbee07c612c2236"
+      }
+    ],
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "906da102d4e546e3afbee07c612c2236",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
       }
     ],
     "milestones": [

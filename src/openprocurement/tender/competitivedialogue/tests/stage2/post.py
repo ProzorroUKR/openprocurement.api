@@ -5,6 +5,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_author,
     test_tender_cd_tenderer,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
@@ -34,6 +35,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     docservice = True
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["author"] = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
@@ -60,6 +62,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     docservice = True
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["author"] = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
@@ -86,6 +89,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.qualification' status sets in setUp
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest, self).setUp()
@@ -121,7 +125,8 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
                 {"data": {
                     "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"]
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
                 }}
             )
 
@@ -164,6 +169,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest, self).setUp()
@@ -174,7 +180,8 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
                 {"data": {
                     "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"]
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"]
                 }}
             )
 
@@ -219,6 +226,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
@@ -282,6 +290,7 @@ class TenderCancellationComplaintPostResourceTest(
     TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):

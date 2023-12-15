@@ -88,7 +88,7 @@ Content-Type: application/json
       },
       "kind": "special"
     },
-    "status": "active",
+    "status": "draft",
     "value": {
       "amount": 500000.0,
       "currency": "UAH",

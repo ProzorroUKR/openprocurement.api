@@ -26,3 +26,8 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     @staticmethod
     def validate_tender_language_criteria(before, after):
         pass
+
+
+class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
+    def validate_related_lot_in_items(self, after):
+        pass

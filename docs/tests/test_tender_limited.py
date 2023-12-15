@@ -253,6 +253,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
 class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_lots = deepcopy(test_lots[:1])
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'
@@ -275,6 +276,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         #### Adding supplier information
 
+        award_negotiation["lotID"] = self.initial_lots[0]["id"]
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
@@ -320,93 +322,127 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             )
             self.assertEqual(response.status, '200 OK')
 
-            #### Preparing the cancellation request
 
-            self.set_status('active')
+    def test_tender_cancellation(self):
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': self.initial_data, 'config': self.initial_config}
+        )
+        self.assertEqual(response.status, '201 Created')
 
-            with open(TARGET_DIR + 'tutorial/prepare-cancellation.http', 'w') as self.app.file_obj:
-                response = self.app.post_json(
-                    '/tenders/{}/cancellations?acc_token={}'.format(
-                        self.tender_id, owner_token
-                    ),
-                    {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}}
-                )
-                self.assertEqual(response.status, '201 Created')
+        tender = response.json['data']
+        self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+        self.set_status('active')
 
-            cancellation_id = response.json['data']['id']
+        award_negotiation["lotID"] = self.initial_lots[0]["id"]
+        with open(TARGET_DIR + 'tutorial/tender-negotiation-award.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': award_negotiation}
+            )
+            self.assertEqual(response.status, '201 Created')
+        self.award_id = response.json['data']['id']
 
-            with open(TARGET_DIR + 'tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
-                response = self.app.patch_json(
-                    '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                        self.tender_id, cancellation_id, owner_token
-                    ),
-                    {'data': {'reasonType': 'unFixable'}}
-                )
-                self.assertEqual(response.status, '200 OK')
-
-            #### Filling cancellation with protocol and supplementary documentation
-
-            with open(TARGET_DIR + 'tutorial/upload-cancellation-doc.http', 'w') as self.app.file_obj:
-                response = self.app.post_json(
-                    '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
-                        self.tender_id, cancellation_id, owner_token
-                    ),
-                    {
-                        "data": {
-                            "title": "Notice.pdf",
-                            "url": self.generate_docservice_url(),
-                            "hash": "md5:" + "0" * 32,
-                            "format": "application/pdf",
-                        }
+        #### Award confirmation
+        with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(
+                    self.tender_id, self.award_id, owner_token
+                ),
+                {
+                    'data': {
+                        'status': 'active',
+                        'qualified': True
                     }
-                )
-                cancellation_doc_id = response.json['data']['id']
-                self.assertEqual(response.status, '201 Created')
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
 
-            with open(TARGET_DIR + 'tutorial/patch-cancellation.http', 'w') as self.app.file_obj:
-                response = self.app.patch_json(
-                    '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-                        self.tender_id, cancellation_id, cancellation_doc_id, owner_token
-                    ),
-                    {'data': {"description": 'Changed description'}}
-                )
-                self.assertEqual(response.status, '200 OK')
+        #### Preparing the cancellation request
+        with open(TARGET_DIR + 'tutorial/prepare-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations?acc_token={}'.format(
+                    self.tender_id, owner_token
+                ),
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}}
+            )
+            self.assertEqual(response.status, '201 Created')
 
-            with open(TARGET_DIR + 'tutorial/update-cancellation-doc.http', 'w') as self.app.file_obj:
-                response = self.app.put_json(
-                    '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
-                        self.tender_id, cancellation_id, cancellation_doc_id, owner_token
-                    ),
-                    {
-                        "data": {
-                            "title": "Notice-2.pdf",
-                            "url": self.generate_docservice_url(),
-                            "hash": "md5:" + "0" * 32,
-                            "format": "application/pdf",
-                        }
+        cancellation_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token
+                ),
+                {'data': {'reasonType': 'unFixable'}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        #### Filling cancellation with protocol and supplementary documentation
+
+        with open(TARGET_DIR + 'tutorial/upload-cancellation-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Notice.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
                     }
-                )
-                self.assertEqual(response.status, '200 OK')
+                }
+            )
+            cancellation_doc_id = response.json['data']['id']
+            self.assertEqual(response.status, '201 Created')
 
-            #### Activating the request and cancelling tender
-            with open(TARGET_DIR + 'tutorial/pending-cancellation.http', 'w') as self.app.file_obj:
-                response = self.app.patch_json(
-                    '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                        self.tender_id, cancellation_id, owner_token
-                    ),
-                    {'data': {"status": "pending"}}
-                )
-                self.assertEqual(response.status, '200 OK')
+        with open(TARGET_DIR + 'tutorial/patch-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, cancellation_doc_id, owner_token
+                ),
+                {'data': {"description": 'Changed description'}}
+            )
+            self.assertEqual(response.status, '200 OK')
 
-            self.tick(delta=timedelta(days=11))
+        with open(TARGET_DIR + 'tutorial/update-cancellation-doc.http', 'w') as self.app.file_obj:
+            response = self.app.put_json(
+                '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, cancellation_doc_id, owner_token
+                ),
+                {
+                    "data": {
+                        "title": "Notice-2.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                }
+            )
+            self.assertEqual(response.status, '200 OK')
 
-            with open(TARGET_DIR + 'tutorial/active-cancellation.http', 'w') as self.app.file_obj:
-                response = self.app.get(
-                    '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                        self.tender_id, cancellation_id, owner_token
-                    )
+        #### Activating the request and cancelling tender
+        with open(TARGET_DIR + 'tutorial/pending-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token
+                ),
+                {'data': {"status": "pending"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.tick(delta=timedelta(days=11))
+
+        with open(TARGET_DIR + 'tutorial/active-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(
+                    self.tender_id, cancellation_id, owner_token
                 )
-                self.assertEqual(response.status, '200 OK')
+            )
+            self.assertEqual(response.status, '200 OK')
 
     def test_multiple_lots(self):
         request_path = '/tenders?opt_pretty=1'
@@ -415,23 +451,19 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         self.app.authorization = ('Basic', ('broker', ''))
 
+        tender_data = deepcopy(self.initial_data)
+        tender_data.pop("lots", None)
+        tender_data["items"] = test_tender_negotiation_data["items"]
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': self.initial_data, 'config': self.initial_config}
+                {'data': tender_data, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        with open(TARGET_DIR + 'multiple_lots_tutorial/activating-tender.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                f'/tenders/{self.tender_id}?acc_token={owner_token}',
-                {'data': {"status": "active"}}
-            )
-            self.assertEqual(response.status, '200 OK')
 
         # add lots
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
@@ -449,6 +481,13 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                 {'data': {'items': items}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'multiple_lots_tutorial/activating-tender.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}?acc_token={owner_token}',
+                {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -528,6 +567,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         #### Adding supplier information
 
+        award_negotiation["lotID"] = self.initial_lots[0]["id"]
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards?acc_token={}'.format(

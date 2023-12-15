@@ -49,6 +49,15 @@ Let's see what listing of tenders reveals us:
 
 We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status.
 
+Tender can contain several different lots. We can add lot using the following way:
+
+.. http:example:: http/tutorial/tender-add-lot.http
+   :code:
+
+Also you will need to update data about item's related lots:
+
+.. http:example:: http/tutorial/tender-add-relatedLot-to-item.http
+   :code:
 
 Tender activating
 ~~~~~~~~~~~~~~~~~
@@ -217,7 +226,7 @@ Step-by-step registration
 
 When ``Tender.tenderingPeriod.startDate`` comes, Tender switches to `active.tendering` status that allows registration of bids.
 
-Bidder can register a bid in `draft` status:
+Bidder can register a bid for lot №1 in `draft` status:
 
 .. http:example:: http/tutorial/register-bidder.http
    :code:

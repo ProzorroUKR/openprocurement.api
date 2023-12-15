@@ -53,18 +53,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
-
-        if after["status"] != "draft":
-            for item in after["items"]:
-                if not item.get("relatedLot"):
-                    raise_operation_error(
-                        get_request(),
-                        "This field is required",
-                        status=422,
-                        location="body",
-                        name="item.relatedLot"
-                    )
-
+        self.validate_related_lot_in_items(after)
         self.validate_items_classification_prefix_unchanged(before, after)
 
         # bid invalidation rules

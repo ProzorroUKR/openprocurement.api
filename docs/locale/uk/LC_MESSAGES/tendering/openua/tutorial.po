@@ -92,6 +92,12 @@ msgstr "Подивимось, що показує список закупіве�
 msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
 msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.tendering`"
 
+msgid "Tender can contain several different lots. We can add lot using the following way:"
+msgstr "Закупівля може складатись із декількох лотів. Можна створити лот таким чином:"
+
+msgid "Also you will need to update data about item's related lots:"
+msgstr "Потрібно оновити дані пов’язані із залежністю на лот:"
+
 msgid "Tender activating"
 msgstr "Активація закупівлі"
 
@@ -170,8 +176,8 @@ msgstr "Реєстрація пропозиції"
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
 
-msgid "Bidder can register a bid with ``draft`` status:"
-msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"
+msgid "Bidder can register a bid for lot №1 with ``draft`` status:"
+msgstr "Учасник може зареєструвати пропозицію для лоту №1 зі статусом ``draft`` (чернетка):"
 
 msgid "And append responses for criteria requirements:"
 msgstr "Та додамо відповіді на вимоги критеріїв:"

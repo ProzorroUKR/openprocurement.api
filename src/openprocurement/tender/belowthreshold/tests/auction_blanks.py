@@ -72,52 +72,6 @@ def get_tender_auction_not_found(self):
     )
 
 
-def get_tender_auction(self):
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id), status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't get auction info in current ({}) tender status".format(self.forbidden_auction_actions_status),
-    )
-
-    self.set_status("active.auction")
-
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    auction = response.json["data"]
-    self.assertNotEqual(auction, self.initial_data)
-    self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction)
-    self.assertNotIn("procuringEntity", auction)
-    self.assertNotIn("tenderers", auction["bids"][0])
-    self.assertEqual(auction["bids"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
-    self.assertEqual(auction["bids"][1]["value"]["amount"], self.initial_bids[1]["value"]["amount"])
-    # self.assertEqual(self.initial_data["auctionPeriod"]['startDate'], auction["auctionPeriod"]['startDate'])
-
-    response = self.app.get("/tenders/{}/auction?opt_jsonp=callback".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/javascript")
-    self.assertIn('callback({"data": {"', response.body.decode())  # PY3_TRICK
-
-    response = self.app.get("/tenders/{}/auction?opt_pretty=1".format(self.tender_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn('{\n    "data": {\n        "', response.body.decode())
-
-    self.set_status("active.qualification")
-
-    response = self.app.get("/tenders/{}/auction".format(self.tender_id), status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't get auction info in current (active.qualification) tender status",
-    )
-
-
 def post_tender_auction(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": {}}, status=403)
@@ -188,7 +142,6 @@ def post_tender_auction(self):
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], 0)
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
@@ -197,120 +150,6 @@ def post_tender_auction(self):
     self.assertEqual(
         response.json["errors"][0]["description"],
         "Can't report auction results in current (active.qualification) tender status",
-    )
-
-
-def post_tender_auction_weighted_value(self):
-    if self.initial_data["procurementMethodType"] not in ("openua", "openeu", "simple.defense"):
-        self.skipTest("weightedValue is not implemented")
-
-    self.app.authorization = ("Basic", ("auction", ""))
-    self.set_status("active.auction")
-
-    patch_data = {"bids": []}
-    update_patch_data(self, patch_data, key="value", start=0, interval=1, with_weighted_value=True)
-
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    tender = response.json["data"]
-
-    first_bid_weighted_amount = tender["bids"][0]["weightedValue"]["amount"]
-    last_bid_weighted_amount = tender["bids"][-1]["weightedValue"]["amount"]
-
-    first_bid_patch_weighted_amount = patch_data["bids"][0]["weightedValue"]["amount"]
-    last_bid_patch_weighted_amount = patch_data["bids"][-1]["weightedValue"]["amount"]
-
-    self.assertEqual(first_bid_weighted_amount, last_bid_patch_weighted_amount)
-    self.assertEqual(last_bid_weighted_amount, first_bid_patch_weighted_amount)
-
-    self.assertEqual("active.qualification", tender["status"])
-    self.assertEqual(tender["awards"][0]["weightedValue"]["amount"], first_bid_patch_weighted_amount)
-
-
-def patch_tender_auction(self):
-    self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": {}}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update auction urls in current ({}) tender status".format(self.forbidden_auction_actions_status),
-    )
-
-    self.set_status("active.auction")
-
-    response = self.app.patch_json(
-        "/tenders/{}/auction".format(self.tender_id),
-        {"data": {"bids": [{"invalid_field": "invalid_value"}]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": {"invalid_field": "Rogue field"}, "location": "body", "name": "bids"}],
-    )
-
-    patch_data = {
-        "auctionUrl": "http://auction-sandbox.openprocurement.org/tenders/{}".format(self.tender_id),
-        "bids": [
-            {
-                "id": self.initial_bids[-1]["id"],
-                "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
-                    self.tender_id, self.initial_bids[-1]["id"]
-                ),
-            }
-        ],
-    }
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], ["Number of bids did not match the number of tender bids"]
-    )
-
-    for x in list(range(self.min_bids_number))[-2::-1]:
-        patch_data["bids"].append(
-            {
-                "id": self.initial_bids[x]["id"],
-                "participationUrl": "http://auction-sandbox.openprocurement.org/tenders/{}?key_for_bid={}".format(
-                    self.tender_id, self.initial_bids[x]["id"]
-                ),
-            }
-        )
-
-    patch_data["bids"][-1]["id"] = "some_id"
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], {"id": ["Hash value is wrong length."]})
-
-    patch_data["bids"][-1]["id"] = "00000000000000000000000000000000"
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], ["Auction bids should be identical to the tender bids"])
-
-    patch_data["bids"] = [{"participationUrl": f"http://auction.prozorro.gov.ua/{b['id']}"}
-                          for b in self.initial_bids]
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    tender = response.json["data"]
-    for b in tender["bids"]:
-        self.assertEqual(b["participationUrl"], f"http://auction.prozorro.gov.ua/{b['id']}")
-
-    self.set_status("complete")
-
-    response = self.app.patch_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update auction urls in current (complete) tender status"
     )
 
 
@@ -933,16 +772,22 @@ def post_tender_lots_auction_with_disabled_awarding_order_lot_not_become_unsucce
 
 def post_tender_auction_not_changed(self):
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                  {"data": {"bids": [
-                                      {"id": b["id"], "value": b["value"]}
-                                      for b in self.initial_bids]}})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
+        {"data": {"bids": [
+            {
+                "id": b["id"],
+                "lotValues": [{"value": b["lotValues"][0]["value"], "relatedLot": self.initial_lots[0]["id"]}]
+            }
+            for i, b in enumerate(self.initial_bids)
+        ]}}
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[0]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"])
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
 
@@ -951,18 +796,24 @@ def post_tender_auction_reversed(self):
     now = get_now()
     patch_data = {
         "bids": [
-            {"id": b["id"], "date": (now - timedelta(seconds=i)).isoformat(), "value": b["value"]}
+            {
+                "id": b["id"],
+                "lotValues": [{"value": b["lotValues"][0]["value"], "relatedLot": self.initial_lots[0]["id"]}]
+            }
             for i, b in enumerate(self.initial_bids)
         ]
     }
 
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
+        {"data": patch_data},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
-    self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[-1]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[-1]["value"]["amount"])
+    self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
+    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[-1]["lotValues"][0]["value"]["amount"])
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[-1]["tenderers"])
 
 

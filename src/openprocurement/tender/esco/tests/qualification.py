@@ -65,6 +65,7 @@ class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
+    initial_lots = test_tender_esco_lots
     docservice = True
 
     def setUp(self):

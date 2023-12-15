@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "244093b5108c41ad958d6630571ac57d",
-    "awardID": "fb83ea0bf3604b46a5e79547c865a969",
+    "awardID": "c512fc6706ae4946a2e87840ed0c9af5",
     "contractID": "UA-2023-01-01-000016-a.2-1",
     "contractNumber": "contract#1",
     "status": "pending",
@@ -73,6 +73,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

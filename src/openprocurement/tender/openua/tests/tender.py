@@ -69,7 +69,7 @@ class TenderUATest(BaseApiWebTest):
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     docservice = True
     initial_data = test_tender_openua_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
@@ -96,7 +96,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
     initial_data = test_tender_openua_data
-    test_bids_data = test_tender_openua_bids
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_openua_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

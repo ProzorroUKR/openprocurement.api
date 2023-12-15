@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "9fab4ed841a849d0acd3c4c47be157d0",
-    "awardID": "8e4c0fdd70d54001b1a125ebd1de3ee9",
+    "awardID": "5c4b5f2a004d425585eb410c1433aaa3",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "value": {
@@ -78,6 +78,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
         "deliveryDate": {
           "startDate": "2023-01-21T00:00:00+02:00",
           "endDate": "2023-02-20T00:00:00+02:00"

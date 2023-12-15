@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1576
+Content-Length: 1643
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -46,7 +46,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "confidentialityRationale": "Only our company sells badgers with pink hair."
       }
     ],
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+      }
+    ]
   }
 }
 
@@ -78,6 +83,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "name": "Іван Карпенко"
         },
         "scale": "large"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [

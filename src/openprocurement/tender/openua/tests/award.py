@@ -39,10 +39,7 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_bids,
 )
 from openprocurement.tender.openua.tests.award_blanks import (
-    create_tender_award,
-    patch_tender_award,
     patch_tender_award_active,
-    patch_tender_award_unsuccessful,
     create_tender_award_no_scale_invalid,
     create_tender_award_with_scale_not_required,
     create_tender_award_no_scale,
@@ -109,18 +106,6 @@ class TenderAwardRequirementResponseEvidenceTestMixin(object):
     test_get_award_requirement_response_evidence = snitch(get_award_requirement_response_evidence)
 
 
-class TenderAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_openua_bids
-
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
-    test_tender_award_complaint_period = snitch(tender_award_complaint_period)
-    test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
-
-
 class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
 
@@ -144,7 +129,7 @@ class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
     test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
-class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
+class TenderLotAwardResourceTest(BaseTenderUAContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_openua_bids
@@ -153,6 +138,9 @@ class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
+    test_patch_tender_award_active = snitch(patch_tender_award_active)
+    test_tender_award_complaint_period = snitch(tender_award_complaint_period)
+    test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
 
 
 class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
@@ -332,7 +320,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     return suite
 

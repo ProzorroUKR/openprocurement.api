@@ -591,7 +591,7 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
+      "amount": 1000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -600,6 +600,42 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "01598eb9c6d3489494777dc7d4fffb7b",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "id": "b04396e7a0df411991f9fdf58ee8961d",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -690,6 +726,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "01598eb9c6d3489494777dc7d4fffb7b",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -728,6 +765,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "b04396e7a0df411991f9fdf58ee8961d",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"

@@ -147,42 +147,49 @@ Content-Type: application/json
     "status": "active",
     "id": "921e8a45579a41ffa2ecd164f0a5c248",
     "date": "2023-10-10T01:00:00+03:00",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 9767.32,
-      "amountPerformance": 801.83,
-      "yearlyPaymentsPercentage": 0.85,
-      "annualCostsReduction": [
-        400,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900,
-        900
-      ],
-      "contractDuration": {
-        "years": 12,
-        "days": 200
+    "lotValues": [
+      {
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 9767.32,
+          "amountPerformance": 801.83,
+          "yearlyPaymentsPercentage": 0.85,
+          "annualCostsReduction": [
+            400,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900,
+            900
+          ],
+          "contractDuration": {
+            "years": 12,
+            "days": 200
+          }
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=921e8a45579a41ffa2ecd164f0a5c248"
       }
-    },
-    "selfQualified": true,
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/28db6af763c74fceaedc98e147fed6cb?key_for_bid=921e8a45579a41ffa2ecd164f0a5c248"
+    ],
+    "selfQualified": true
   }
 }
 

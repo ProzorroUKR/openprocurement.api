@@ -55,6 +55,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.validate_tender_exclusion_criteria(before, after)
         self.validate_tender_language_criteria(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
+        self.validate_related_lot_in_items(after)
 
     @staticmethod
     def update_complaint_period(tender):

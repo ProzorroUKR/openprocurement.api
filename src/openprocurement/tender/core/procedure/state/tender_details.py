@@ -23,6 +23,7 @@ from openprocurement.tender.core.procedure.utils import (
     set_mode_test_titles,
     tender_created_before,
     validate_field,
+    tender_created_after,
 )
 from openprocurement.api.utils import (
     raise_operation_error,
@@ -32,13 +33,14 @@ from openprocurement.api.constants import (
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_CONFIG_JSONSCHEMAS,
+    RELATED_LOT_REQUIRED_FROM,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
     calculate_complaint_business_date,
 )
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING, ABOVE_THRESHOLD
 from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
     AGREEMENT_CONTRACTS_MESSAGE,
@@ -597,6 +599,19 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             tender_identifier["id"] != agreement_identifier["id"]
             or tender_identifier["scheme"] != agreement_identifier["scheme"]
         )
+
+    def validate_related_lot_in_items(self, after):
+        if (tender_created_after(RELATED_LOT_REQUIRED_FROM) or after.get("procurementMethodType") == ABOVE_THRESHOLD)\
+                and after["status"] != "draft":
+            for item in after["items"]:
+                if not item.get("relatedLot"):
+                    raise_operation_error(
+                        get_request(),
+                        "This field is required",
+                        status=422,
+                        location="body",
+                        name="item.relatedLot"
+                    )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

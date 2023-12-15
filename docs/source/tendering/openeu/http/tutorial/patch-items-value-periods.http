@@ -604,6 +604,25 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "f593b0ce6a334393bfba269562fa3ac9",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -694,6 +713,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -732,6 +752,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"

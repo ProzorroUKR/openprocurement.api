@@ -1,3 +1,5 @@
+from unittest import mock
+
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from datetime import timedelta, datetime
 from copy import deepcopy
@@ -12,10 +14,15 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.tests.base import test_lcc_lot_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+    test_lcc_lot_criteria,
+)
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.tests.base import test_tender_open_data
 
 
 def empty_listing(self):
@@ -1558,3 +1565,43 @@ def get_ocds_schema(self):
     response = requests.get("https://standard.open-contracting.org/schema/1__1__5/release-package-schema.json")
     schema = response.json()
     validate(instance=resp.json, schema=schema)
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
+def tender_created_before_related_lot_constant(self):
+    data = deepcopy(test_tender_open_data)
+    data["status"] = "draft"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    test_criteria_data = deepcopy(test_exclusion_criteria)
+    for i in range(len(test_criteria_data)):
+        classification_id = test_criteria_data[i]['classification']['id']
+        if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
+            del test_criteria_data[i]
+            break
+    test_criteria_data.extend(test_language_criteria)
+
+    response = self.app.post_json(
+        '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, self.tender_token),
+        {'data': test_criteria_data}
+    )
+    self.assertEqual(response.status, '201 Created')
+
+    # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant for aboveThreshold
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.tendering"}},
+        status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{
+            "location": "body",
+            "name": "item.relatedLot",
+            "description": "This field is required"
+        }],
+    )

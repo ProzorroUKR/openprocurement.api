@@ -47,11 +47,8 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
     create_tender_award_invalid,
-    create_tender_award,
     get_tender_award,
-    patch_tender_award,
     patch_tender_award_active,
-    patch_tender_award_unsuccessful,
     check_tender_award_complaint_period_dates
 
 )
@@ -60,37 +57,6 @@ from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_bids,
     test_tender_openeu_lots,
 )
-
-
-class TenderAwardResourceTestMixin(object):
-    test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
-    test_get_tender_award = snitch(get_tender_award)
-    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
-
-
-class TenderAwardResourceTest(BaseTenderContentWebTest, TenderAwardResourceTestMixin):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_openeu_bids
-    initial_lots = test_tender_openeu_lots
-    initial_auth = ("Basic", ("broker", ""))
-    expected_award_amount = test_tender_openeu_bids[0]["value"]["amount"]
-
-    def setUp(self):
-        super(TenderAwardResourceTest, self).setUp()
-
-        self.prepare_award()
-
-        # Get award
-        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        self.award_id = response.json["data"][0]["id"]
-        self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
-        self.app.authorization = ("Basic", ("broker", ""))
-
-    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
 class TenderAwardResourceScaleTest(BaseTenderContentWebTest):
@@ -125,6 +91,10 @@ class TenderLotAwardResourceTestMixin(object):
     test_patch_tender_award = snitch(patch_tender_lot_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
+    test_create_tender_award_invalid = snitch(create_tender_award_invalid)
+    test_patch_tender_award_active = snitch(patch_tender_award_active)
+    test_get_tender_award = snitch(get_tender_award)
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
 class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourceTestMixin):
@@ -144,6 +114,8 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         self.award_id = response.json["data"][0]["id"]
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         self.app.authorization = ("Basic", ("broker", ""))
+
+    test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
 class Tender2LotAwardResourceTestMixin(object):
@@ -378,7 +350,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     return suite
 

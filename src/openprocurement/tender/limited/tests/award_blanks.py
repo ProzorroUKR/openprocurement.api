@@ -1340,11 +1340,6 @@ def get_tender_lot_award(self):
 
 
 def two_lot_two_awards(self):
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": self.test_tender_negotiation_data_local["items"] * 2}},
-    )
-
     # create lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
@@ -1361,9 +1356,7 @@ def two_lot_two_awards(self):
     self.assertEqual(response.content_type, "application/json")
     lot2 = response.json["data"]
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    items = deepcopy(tender["items"])
+    items = deepcopy(self.test_tender_negotiation_data_local["items"] * 2)
     items[0]["relatedLot"] = lot1["id"]
     items[1]["relatedLot"] = lot2["id"]
     self.app.patch_json(

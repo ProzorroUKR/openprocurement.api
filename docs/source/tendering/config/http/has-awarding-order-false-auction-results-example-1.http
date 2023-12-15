@@ -542,7 +542,32 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "milestones": [
@@ -733,11 +758,6 @@ Content-Type: application/json
             "id": "bced20f27a6e43c89389f119e1e5907d"
           }
         ],
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -765,7 +785,19 @@ Content-Type: application/json
         "status": "active",
         "id": "7e95a6b839db44edb45dfdd6caa41a97",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97"
+        "lotValues": [
+          {
+            "value": {
+              "amount": 500.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00",
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97"
+          }
+        ]
       },
       {
         "requirementResponses": [
@@ -870,11 +902,6 @@ Content-Type: application/json
             "id": "7b02a43b76af48bc98e1f3a0d3e47ab9"
           }
         ],
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -902,7 +929,19 @@ Content-Type: application/json
         "status": "active",
         "id": "9af619241d9042d39d0123e9463e052f",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0?key_for_bid=9af619241d9042d39d0123e9463e052f"
+        "lotValues": [
+          {
+            "value": {
+              "amount": 499.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00",
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=9af619241d9042d39d0123e9463e052f"
+          }
+        ]
       },
       {
         "requirementResponses": [
@@ -1007,11 +1046,6 @@ Content-Type: application/json
             "id": "4054ea26969e4833bf85833e64c5414e"
           }
         ],
-        "value": {
-          "amount": 498.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -1039,14 +1073,24 @@ Content-Type: application/json
         "status": "active",
         "id": "a25e8ec9aa144e9a86415849be36cf7e",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0?key_for_bid=a25e8ec9aa144e9a86415849be36cf7e"
+        "lotValues": [
+          {
+            "value": {
+              "amount": 498.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+            "status": "active",
+            "date": "2023-10-10T01:00:00+03:00",
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=a25e8ec9aa144e9a86415849be36cf7e"
+          }
+        ]
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0",
     "awardPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },
@@ -1084,7 +1128,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "a25e8ec9aa144e9a86415849be36cf7e"
+        "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "93e3afc7e7444428a688e88ce9655594",
@@ -1119,7 +1164,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "9af619241d9042d39d0123e9463e052f"
+        "bid_id": "9af619241d9042d39d0123e9463e052f",
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "1638bb9ae8544adca20905ab2e6cc2ef",
@@ -1154,7 +1200,8 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "7e95a6b839db44edb45dfdd6caa41a97"
+        "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "id": "62ce6859a3df45b692f7f78357d812c0"

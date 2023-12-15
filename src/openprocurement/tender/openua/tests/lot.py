@@ -74,7 +74,7 @@ class TenderUALotProcessTestMixin(object):
 
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
     initial_data = test_tender_openua_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
     initial_criteria = test_exclusion_criteria + test_language_criteria
 
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)

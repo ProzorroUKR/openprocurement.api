@@ -45,6 +45,7 @@ from openprocurement.tender.open.tests.tender_blanks import (
     lost_contract_for_active_award,
     create_tender_with_criteria_lcc,
     get_ocds_schema,
+    tender_created_before_related_lot_constant,
 )
 
 
@@ -90,6 +91,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
+    test_tender_created_before_related_lot_constant = snitch(tender_created_before_related_lot_constant)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

@@ -649,8 +649,8 @@ def listing(self):
     for i in range(3):
         offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {
-            "data": self.test_tender_data_eu,
-            "config": self.test_tender_config_eu,
+            "data": self.initial_data,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -734,12 +734,12 @@ def listing(self):
     self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 0)
 
-    test_tender_data_2 = self.test_tender_data_eu.copy()
+    test_tender_data_2 = self.initial_data.copy()
     test_tender_data_2["mode"] = "test"
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {
         "data": test_tender_data_2,
-        "config": self.test_tender_config_eu,
+        "config": self.initial_config,
     })
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "draft.stage2")
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "active.tendering")
@@ -763,13 +763,13 @@ def listing_draft(self):
     self.assertEqual(len(response.json["data"]), 0)
 
     tenders = []
-    data = self.test_tender_data_eu.copy()
+    data = self.initial_data.copy()
     data.update({"status": "draft"})
 
     for i in range(3):
         response = self.app.post_json("/tenders", {
-            "data": self.test_tender_data_eu,
-            "config": self.test_tender_config_eu,
+            "data": data,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -778,7 +778,7 @@ def listing_draft(self):
         tenders.append(response.json["data"])
         response = self.app.post_json("/tenders", {
             "data": data,
-            "config": self.test_tender_config_eu,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1232,7 +1232,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Sum of max value of all features should be less then or equal to 99%"],
+                "description": ["Sum of max value of all features for lot should be less then or equal to 99%"],
                 "location": "body",
                 "name": "features",
             }

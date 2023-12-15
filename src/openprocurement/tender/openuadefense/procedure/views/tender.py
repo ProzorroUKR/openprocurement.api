@@ -3,7 +3,9 @@ from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.openuadefense.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.openuadefense.procedure.state.tender_details import DefenseTenderDetailsState
+from openprocurement.tender.openuadefense.procedure.state.tender_details import (
+    AboveThresholdUADefenseTenderDetailsState,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     validate_item_owner,
@@ -28,7 +30,7 @@ from cornice.resource import resource
 )
 class AboveThresholdUADefenseTenderResource(TendersResource):
 
-    state_class = DefenseTenderDetailsState
+    state_class = AboveThresholdUADefenseTenderDetailsState
 
     @json_view(
         content_type="application/json",

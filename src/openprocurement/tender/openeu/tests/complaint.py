@@ -90,6 +90,7 @@ class TenderQualificationComplaintObjectionResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
 
@@ -110,6 +111,7 @@ class TenderAwardComplaintObjectionResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_openeu_lots
 
     def setUp(self):
         super(TenderAwardComplaintObjectionResourceTest, self).setUp()

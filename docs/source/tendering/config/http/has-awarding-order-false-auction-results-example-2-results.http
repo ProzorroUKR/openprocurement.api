@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/awards?acc_token=d7afc0eb4f6d42549557d7b3226417e6 HTTP/1.0
+GET /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/awards?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -42,6 +42,7 @@ Content-Type: application/json
         }
       ],
       "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
+      "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
         "endDate": "2023-10-10T01:00:00+03:00"
@@ -80,7 +81,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "9af619241d9042d39d0123e9463e052f"
+      "bid_id": "9af619241d9042d39d0123e9463e052f",
+      "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
     },
     {
       "id": "1638bb9ae8544adca20905ab2e6cc2ef",
@@ -115,7 +117,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "7e95a6b839db44edb45dfdd6caa41a97"
+      "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
+      "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
     },
     {
       "id": "d45bf625a8e94c678b31c270e2a235f1",
@@ -150,7 +153,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "a25e8ec9aa144e9a86415849be36cf7e"
+      "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
+      "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
     }
   ]
 }

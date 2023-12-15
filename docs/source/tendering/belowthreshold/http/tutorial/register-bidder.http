@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1198
+Content-Length: 1265
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,10 +30,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "value": {
-      "amount": 500
-    },
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
+      }
+    ]
   }
 }
 
@@ -44,11 +49,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
 
 {
   "data": {
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -74,6 +74,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
       }
     ],
     "status": "draft",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "date": "2023-10-16T01:00:02+03:00"
+      }
+    ],
     "id": "8d8c35d315ec458aa2bf51fdcef0717b",
     "date": "2023-10-16T01:00:02+03:00"
   },

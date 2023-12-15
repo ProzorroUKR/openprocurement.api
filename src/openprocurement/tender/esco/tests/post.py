@@ -10,6 +10,7 @@ from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_esco_bids,
+    test_tender_esco_lots,
 )
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -54,6 +55,7 @@ class TenderQualificationComplaintPostResourceTest(
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_esco_lots
     author_data = test_tender_below_author
 
     def setUp(self):

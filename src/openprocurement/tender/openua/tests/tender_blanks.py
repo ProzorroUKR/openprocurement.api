@@ -1,5 +1,8 @@
 from datetime import timedelta, datetime
 from copy import deepcopy
+from freezegun import freeze_time
+
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.api.models import get_now
@@ -12,6 +15,7 @@ from openprocurement.api.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids, test_tender_openua_data
 
 # TenderUAResourceTest
 
@@ -546,7 +550,7 @@ def create_tender_generated(self):
         "procurementMethod",
         "awardCriteria",
         "submissionMethod",
-        "auctionPeriod",
+        "lots",
         "title",
         "owner",
         "date",
@@ -949,9 +953,9 @@ def invalid_bid_tender_features(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data = deepcopy(self.initial_bids[0])
     bid_data["parameters"] = [{"code": "OCDS-123454-POSTPONEMENT", "value": 0.1}]
-    bid_data["value"] = {"amount": 500}
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
     bid, bid_token = self.create_bid(tender_id, bid_data)
     bid_id = bid["id"]
 
@@ -1030,7 +1034,7 @@ def invalid_bid_tender_lot(self):
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data = deepcopy(self.initial_bids[0])
     bid_data.update({
         "value": None,
         "status": "draft",
@@ -1066,8 +1070,8 @@ def one_valid_bid_tender_ua(self):
     )
     self.assertIn("auctionPeriod", response.json["data"])
 
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
 
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1098,8 +1102,8 @@ def invalid1_and_1draft_bids_tender(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
     bid, bid_token = self.create_bid(tender_id, bid_data, "draft")
 
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1114,8 +1118,8 @@ def invalid1_and_1draft_bids_tender(self):
 
 def activate_bid_after_adding_lot(self):
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"][0]["value"] = {"amount": 500}
     # empty tenders listing
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
@@ -1163,20 +1167,21 @@ def first_bid_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.json["data"], [])
     # create tender
-    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    data = deepcopy(self.initial_data)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status("active.tendering")
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 450}
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"][0]["value"] = {"amount": 450}
     bid, bid1_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data["value"] = {"amount": 475}
+    bid_data["lotValues"][0]["value"] = {"amount": 475}
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
@@ -1186,37 +1191,68 @@ def first_bid_tender(self):
     response = self.app.get("/tenders/{}/auction".format(tender_id))
     auction_bids_data = response.json["data"]["bids"]
     # posting auction urls
-    response = self.app.patch_json(
-        "/tenders/{}/auction".format(tender_id),
-        {
-            "data": {
-                "auctionUrl": "https://tender.auction.url",
-                "bids": [
-                    {"id": i["id"], "participationUrl": "https://tender.auction.url/for_bid/{}".format(i["id"])}
-                    for i in auction_bids_data
-                ],
-            }
-        },
-    )
+    for lot in self.initial_lots:
+        patch_data = {
+            "lots": [
+                {"auctionUrl": f"http://auction.prozorro.gov.ua/{l['id']}"} if l["id"] == lot["id"] else {}
+                for l in self.initial_lots
+            ],
+            "bids": [
+                {"lotValues": [
+                    {"participationUrl": f"http://auction.prozorro.gov.ua/{v['relatedLot']}"}
+                    if v["relatedLot"] == lot["id"] else {}
+                    for v in b.get("lotValues", [])
+                ]}
+                for b in auction_bids_data
+            ]
+        }
+        response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
+                                       {"data": patch_data})
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
     # view bid participationUrl
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid1_token))
-    self.assertEqual(response.json["data"]["participationUrl"], "https://tender.auction.url/for_bid/{}".format(bid_id))
+    self.assertEqual(
+        response.json["data"]["lotValues"][0]["participationUrl"],
+        f"http://auction.prozorro.gov.ua/{bid['lotValues'][0]['relatedLot']}",
+    )
 
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
-    response = self.app.post_json("/tenders/{}/auction".format(tender_id),
-                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+    patch_data = {
+        "bids": [
+            {"lotValues": [
+                {"value": {"amount": 30 + n}}
+                for n, l in enumerate(b.get("lotValues", []))
+            ]}
+            for b in auction_bids_data
+        ]
+    }
+    for lot in self.initial_lots:
+        self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
+        self.assertEqual(response.status, "200 OK")
+
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
     # get pending award
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     # set award as unsuccessful
-    response = self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
-        {"data": {"status": "unsuccessful"}},
-    )
+    if "milestones" in response.json["data"][0]:
+        milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
+        with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
+            self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+                {"data": {"status": "unsuccessful"}},
+            )
+    else:
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
+            {"data": {"status": "unsuccessful"}},
+        )
+
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1249,7 +1285,7 @@ def first_bid_tender(self):
     # time travel
     tender = self.mongodb.tenders.get(tender_id)
     for i in tender.get("awards", []):
-        i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        i["complaintPeriod"]["endDate"] = get_now().isoformat()
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
@@ -1261,8 +1297,8 @@ def first_bid_tender(self):
 
 
 def lost_contract_for_active_award(self):
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 450}
+    bid_data = deepcopy(self.initial_bids[0])
+    bid_data["lotValues"][0]["value"] = {"amount": 450}
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})

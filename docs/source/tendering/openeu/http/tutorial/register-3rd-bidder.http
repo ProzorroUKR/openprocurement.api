@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2920
+Content-Length: 2987
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -30,9 +30,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "sme"
       }
     ],
-    "value": {
-      "amount": 499
-    },
     "documents": [
       {
         "title": "Proposal_part1.pdf",
@@ -72,7 +69,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499
+        },
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9"
+      }
+    ]
   }
 }
 
@@ -83,11 +88,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
 
 {
   "data": {
-    "value": {
-      "amount": 499.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -113,6 +113,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
       }
     ],
     "status": "draft",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",

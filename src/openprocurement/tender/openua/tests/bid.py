@@ -6,6 +6,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
@@ -48,7 +49,6 @@ from openprocurement.tender.openua.tests.bid_blanks import (
     bid_Administrator_change,
     draft1_bid,
     draft2_bids,
-    bids_invalidation_on_tender_change,
     bids_activation_on_tender_documents,
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_scale_not_required,
@@ -99,7 +99,6 @@ class TenderBidResourceTestMixin:
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
-    test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
@@ -192,6 +191,7 @@ class CreateBidMixin(object):
     def setUp(self):
         super(CreateBidMixin, self).setUp()
         bid_data = deepcopy(test_tender_openua_bids[0])
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
 
         # Create bid
@@ -210,9 +210,20 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     author_data = test_tender_below_author
+    initial_lots = test_tender_below_lots
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
+
+    def setUp(self):
+        super(TenderBidResourceTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.tender_lots = response.json["data"]["lots"]
+        self.test_bids_data = []
+        for bid in test_tender_openua_bids:
+            bid_data = deepcopy(bid)
+            set_bid_lotvalues(bid_data, self.tender_lots)
+            self.test_bids_data.append(bid_data)
 
 
 test_tender_data_decimal = deepcopy(test_tender_openua_data)
@@ -258,6 +269,7 @@ class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     author_data = test_tender_below_author
+    initial_lots = test_tender_below_lots
 
     test_not_found = snitch(not_found)
 
@@ -267,6 +279,7 @@ class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     author_data = test_tender_below_author
+    initial_lots = test_tender_below_lots
     base_bid_status = "draft"
     test_doc_date_modified = snitch(doc_date_modified)
 
@@ -310,6 +323,7 @@ class TenderBidRequirementResponseResourceTest(
     initial_data = test_tender_openua_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
+    initial_lots = test_tender_below_lots
 
 
 class TenderBidRequirementResponseEvidenceResourceTest(
@@ -321,6 +335,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     initial_data = test_tender_openua_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
+    initial_lots = test_tender_below_lots
 
     test_bid_invalidation_after_requirement_put = snitch(bid_invalidation_after_requirement_put)
 

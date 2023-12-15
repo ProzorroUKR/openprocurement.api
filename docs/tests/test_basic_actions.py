@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.models import get_now
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -97,12 +98,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         with open(TARGET_DIR + 'complaints/claim-submission.http', 'w') as self.app.file_obj:
@@ -450,11 +471,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         test_tender_open_complaint_objection["relatesTo"] = "tender"
@@ -533,17 +575,39 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
+        bid_data = deepcopy(bid)
+        set_bid_lotvalues(bid_data, [lot])
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid})
+            {'data': bid_data})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -554,7 +618,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        self.create_bid(self.tender_id, bid2)
+        bid_data_2 = deepcopy(bid2)
+        set_bid_lotvalues(bid_data_2, [lot])
+        self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
         self.set_status('active.pre-qualification', {"id": self.tender_id, 'status': 'active.tendering'})
@@ -970,17 +1036,39 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
+        bid_data = deepcopy(bid)
+        set_bid_lotvalues(bid_data, [lot])
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid})
+            {'data': bid_data})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -991,7 +1079,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        self.create_bid(self.tender_id, bid2)
+        bid_data_2 = deepcopy(bid2)
+        set_bid_lotvalues(bid_data_2, [lot])
+        self.create_bid(self.tender_id, bid_data_2)
         # response = self.app.post_json(
         #     '/tenders/{}/bids'.format(self.tender_id),
         #     {'data': bid2})
@@ -1029,11 +1119,23 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
-        for b in auction_bids_data:
-            b.pop("status", None)
         self.app.post_json(
-            '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"],
+                            "lotValues": [
+                                {"value": lot["value"], "relatedLot": lot["relatedLot"]}
+                                for lot in b["lotValues"]
+                            ]
+                        }
+                        for b in auction_bids_data
+                    ]
+                }
+            }
+        )
 
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
@@ -1464,12 +1566,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         # Cancellation turn to complaint_period
@@ -2030,7 +2152,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
 
     def test_bid_requirement_response(self):
-        tender_data = deepcopy(test_tender_data)
+        tender_data = deepcopy(self.initial_data)
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
@@ -2040,6 +2162,26 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_exclusion_criteria[:2])
@@ -2059,11 +2201,10 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria = response.json["data"]
 
         bid_data = deepcopy(bid)
-        bid_data["status"] = "draft"
-
+        set_bid_lotvalues(bid_data, [lot])
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid})
+            {'data': bid_data})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
         self.assertEqual(response.status, '201 Created')
@@ -2276,12 +2417,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_exclusion_criteria[6:8])
@@ -2296,10 +2457,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         bid_data = deepcopy(bid)
         bid_data["status"] = "draft"
+        set_bid_lotvalues(bid_data, [lot])
 
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid})
+            {'data': bid_data})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -2309,7 +2471,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             {'data': {"status": "pending"}})
 
         # create second bid
-        self.create_bid(self.tender_id, bid2)
+        bid_data_2 = deepcopy(bid2)
+        set_bid_lotvalues(bid_data_2, [lot])
+        self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
         self.set_status(
@@ -2344,11 +2508,23 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('auction', ''))
         response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
         auction_bids_data = response.json['data']['bids']
-        for b in auction_bids_data:
-            b.pop("status", None)
         self.app.post_json(
-            '/tenders/{}/auction'.format(self.tender_id),
-            {'data': {'bids': auction_bids_data}})
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"],
+                            "lotValues": [
+                                {"value": lot["value"], "relatedLot": lot["relatedLot"]}
+                                for lot in b["lotValues"]
+                            ]
+                        }
+                        for b in auction_bids_data
+                    ]
+                }
+            }
+        )
 
         self.app.authorization = ('Basic', ('broker', ''))
         response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
@@ -2514,12 +2690,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
-            {'data': test_tender_data, 'config': self.initial_config})
+            {'data': self.initial_data, 'config': self.initial_config})
         self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         owner_token = response.json['access']['token']
         self.tender_id = tender['id']
+
+        # add lot
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender["id"], owner_token),
+            {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
         self.set_status("active.tendering")
 
         criteria_data = deepcopy(test_exclusion_criteria[6:8])
@@ -2534,10 +2730,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         bid_data = deepcopy(bid)
         bid_data["status"] = "draft"
+        set_bid_lotvalues(bid_data, [lot])
 
         response = self.app.post_json(
             '/tenders/{}/bids'.format(self.tender_id),
-            {'data': bid})
+            {'data': bid_data})
         bid_id = response.json['data']['id']
         bid_token = response.json['access']['token']
 
@@ -2548,7 +2745,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create second bid
         self.app.authorization = ('Basic', ('broker', ''))
-        self.create_bid(self.tender_id, bid2)
+        bid_data_2 = deepcopy(bid2)
+        set_bid_lotvalues(bid_data_2, [lot])
+        self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
         self.set_status(

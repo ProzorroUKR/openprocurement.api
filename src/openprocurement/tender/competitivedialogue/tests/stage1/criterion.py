@@ -18,13 +18,13 @@ from openprocurement.tender.openua.tests.criterion import (
 
 class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUContentWebTest):
     initial_data = test_tender_cdeu_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_tender_below_lots
     initial_status = "draft"
 
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_data = test_tender_cdua_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_tender_below_lots
     initial_status = "draft"
 
 

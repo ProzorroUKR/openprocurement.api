@@ -39,6 +39,7 @@ Content-Type: application/json
         }
       ],
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -81,6 +82,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "invalid",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -120,6 +122,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "declined",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -161,6 +164,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "accepted",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -201,6 +205,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "stopped",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -252,6 +257,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "satisfied": true,
       "type": "claim",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361"
     },
     {
@@ -267,6 +273,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:01+03:00",
       "satisfied": false,
       "type": "claim",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361"
     },
     {
@@ -275,6 +282,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "pending",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",
@@ -377,6 +385,7 @@ Content-Type: application/json
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
       "status": "claim",
       "type": "claim",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "dateSubmitted": "2023-10-10T01:00:01+03:00"
     },
@@ -386,6 +395,7 @@ Content-Type: application/json
       "date": "2023-10-10T01:00:01+03:00",
       "status": "mistaken",
       "type": "complaint",
+      "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
       "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
       "author": {
         "name": "ДКП «Школяр»",

@@ -4,6 +4,8 @@ from uuid import uuid4
 from copy import deepcopy
 from openprocurement.api.tests.base import singleton_app, app
 from openprocurement.planning.api.tests.base import test_plan_data
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.openua.tests.base import (
     test_tender_openua_config,
     test_tender_openua_data,
@@ -125,6 +127,8 @@ def test_fail_not_draft(app, plan):
 
     test_data = deepcopy(test_tender_openua_central_data)
     del test_data["status"]
+    lots_data = deepcopy(test_tender_below_lots)
+    set_tender_lots(test_data, lots_data)
     response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
     assert response.status == "201 Created"
     app.set_initial_status(response.json, "active.tendering")

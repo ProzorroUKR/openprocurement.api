@@ -655,16 +655,35 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-10-10T01:36:00+03:00",
+    "next_check": "2023-10-10T01:30:00+03:00",
     "minimalStep": {
       "amount": 5.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "auctionPeriod": {
-      "shouldStartAfter": "2023-10-11T00:00:00+03:00",
-      "startDate": "2023-10-10T01:00:00+03:00"
-    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "9d95d7c5f19f4d24b17d650fe94a42f5",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32bf03368c4c49869cf9b1103c9c69f8_9d95d7c5f19f4d24b17d650fe94a42f5"
+      }
+    ],
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-24T01:00:00+03:00",
@@ -705,7 +724,12 @@ Content-Type: application/json
           "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Школяр»"
+        "name": "ДКП «Школяр»",
+        "lots": [
+          {
+            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
+          }
+        ]
       },
       {
         "identifier": {
@@ -713,7 +737,12 @@ Content-Type: application/json
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Книга»"
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
+          }
+        ]
       },
       {
         "identifier": {
@@ -721,7 +750,12 @@ Content-Type: application/json
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»"
+        "name": "«Кенгуру»",
+        "lots": [
+          {
+            "id": "9d95d7c5f19f4d24b17d650fe94a42f5"
+          }
+        ]
       }
     ],
     "status": "active.auction",
@@ -737,6 +771,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-10T01:00:00+03:00"
@@ -768,7 +803,9 @@ Content-Type: application/json
       "startDate": "2023-09-12T01:00:00+03:00",
       "endDate": "2023-10-14T00:00:00+03:00"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32bf03368c4c49869cf9b1103c9c69f8",
+    "auctionPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00"
+    },
     "id": "32bf03368c4c49869cf9b1103c9c69f8"
   },
   "config": {

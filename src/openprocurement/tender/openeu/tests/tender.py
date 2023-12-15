@@ -14,7 +14,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_minimalstep_validation,
     tender_lot_minimalstep_validation,
     patch_tender_minimalstep_validation,
-    tender_with_guarantee,
     tender_with_guarantee_multilot,
     activate_bid_guarantee_multilot,
     create_tender_with_earlier_non_required_unit,
@@ -57,8 +56,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
-    test_lots_data = test_tender_openeu_lots
-    test_bids_data = test_tender_openeu_bids
+    initial_lots = test_lots_data = test_tender_openeu_lots
+    initial_bids = test_bids_data = test_tender_openeu_bids
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
@@ -88,7 +87,8 @@ class TenderProcessTest(BaseTenderWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
-    test_bids_data = test_tender_openeu_bids
+    initial_lots = test_tender_openeu_lots
+    initial_bids = test_bids_data = test_tender_openeu_bids
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_bid_tender = snitch(one_bid_tender)
@@ -101,10 +101,9 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderGuarantee(BaseTenderWebTest):
     docservice = True
     initial_status = "draft"
-    test_lots_data = test_tender_openeu_lots
-    test_bids_data = test_tender_openeu_bids
+    initial_lots = test_lots_data = test_tender_openeu_lots
+    initial_bids = test_bids_data = test_tender_openeu_bids
 
-    test_tender_with_guarantee = snitch(tender_with_guarantee)
     test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)
     test_activate_bid_guarantee_multilot = snitch(activate_bid_guarantee_multilot)
 

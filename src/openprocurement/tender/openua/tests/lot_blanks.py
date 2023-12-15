@@ -281,7 +281,7 @@ def get_tender_lots(self):
     response = self.app.get("/tenders/{}/lots".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    api_lot = response.json["data"][0]
+    api_lot = response.json["data"][-1]
     lot.pop("auctionPeriod", None)
     api_lot.pop("auctionPeriod")
     self.assertEqual(api_lot, lot)
@@ -1010,7 +1010,7 @@ def proc_1lot_1bid_patch(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
-    self.set_initial_status(response.json)
+    tender = response.json
     # add lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": self.test_lots_data[0]}
@@ -1025,6 +1025,7 @@ def proc_1lot_1bid_patch(self):
         "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
+    self.set_initial_status(tender)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1741,7 +1742,7 @@ def lots_features_delete(self):
     tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
-    self.set_initial_status(response.json)
+    tender_response = response.json
     self.assertEqual(tender["features"], self.test_features_tender_data["features"])
     # add lot
     lots = []
@@ -1750,12 +1751,15 @@ def lots_features_delete(self):
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         lots.append(response.json["data"]["id"])
+    item = tender["items"][0]
+    item["relatedLot"] = lots[0]
 
     # add features
     self.app.patch_json(
         "/tenders/{}?acc_token={}&opt_pretty=1".format(tender["id"], owner_token),
         {
             "data": {
+                "items": [item],
                 "features": [
                     {
                         "code": "code_item",
@@ -1781,6 +1785,7 @@ def lots_features_delete(self):
             }
         },
     )
+    self.set_initial_status(tender_response)
     # create bid
     bid_data = deepcopy(test_tender_openua_bids[0])
     del bid_data["value"]

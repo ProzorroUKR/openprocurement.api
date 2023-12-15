@@ -6,9 +6,12 @@ from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 
 
 # CompetitiveDialogEUBidResourceTest
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+
+
 def create_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update({"lotValues": None, "documents": None, "financialDocuments": None,
+    bid_data.update({"documents": None, "financialDocuments": None,
                      "eligibilityDocuments": None, "qualificationDocuments": None})
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -715,14 +718,13 @@ def bids_invalidation_on_tender_change(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "pending")
 
-    # update tender. we can set value that is less than a value in bids as
-    # they will be invalidated by this request
+    # update tender and bids will be invalidated by this request
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
+        {"data": {"description": "new description"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 300)
+    self.assertEqual(response.json["data"]["description"], "new description")
 
     # check bids status
     for bid_id, token in bids_access.items():
@@ -1346,14 +1348,13 @@ def patch_and_put_document_into_invalid_bid(self):
     key = self.get_doc_id_from_url(response.json["data"]["url"])
     doc_id_by_type[doc_resource] = {"id": doc_id, "key": key}
 
-    # update tender. we can set value that is less than a value in bids as
-    # they will be invalidated by this request
+    # update tender. Bids will be invalidated by this request
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"amount": 300.0}, "minimalStep": {"amount": 9.0}}}
+        {"data": {"description": "New"}}
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["value"]["amount"], 300)
+    self.assertEqual(response.json["data"]["description"], "New")
 
     doc_resource = "documents"
     doc_id = doc_id_by_type[doc_resource]["id"]
@@ -1555,7 +1556,9 @@ def download_tender_bidder_document(self):
 
 
 def create_tender_bidder_document_nopending(self):
-    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": self.test_bids_data[0]})
+    bid_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bid_data, self.initial_lots)
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     bid = response.json["data"]
     token = response.json["access"]["token"]
     bid_id = bid["id"]
@@ -1872,6 +1875,7 @@ def bids_view_j1446(self):
 
     # create bids
     bidder_data = deepcopy(self.test_bids_data[0])
+    set_bid_lotvalues(bidder_data, self.initial_lots)
     for i in range(4):
         bidder_data["tenderers"][0]["identifier"]["id"] = "0003725" + str(i)
         bid, token = self.create_bid(tender_id, bidder_data)
