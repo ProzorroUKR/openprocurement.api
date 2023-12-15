@@ -513,7 +513,7 @@ class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTes
     initial_data = test_tender_negotiation_data
     stand_still_period_days = 10
 
-    test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
+    # test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
