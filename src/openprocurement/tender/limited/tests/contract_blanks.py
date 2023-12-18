@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now, parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
@@ -1362,7 +1363,10 @@ def patch_tender_negotiation_econtract(self):
     self.assertIn("dateSigned", response.json["data"])
 
     # at next steps we test to patch contract in 'cancelled' tender status
-    response = self.app.post_json("/tenders?acc_token={}", {"data": self.initial_data, "config": self.initial_config})
+    tender_data = deepcopy(self.initial_data)
+    set_tender_lots(tender_data, test_lots)
+    lot_id = tender_data["lots"][0]["id"]
+    response = self.app.post_json("/tenders?acc_token={}", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_token = self.tender_token = response.json["access"]["token"]
@@ -1370,8 +1374,8 @@ def patch_tender_negotiation_econtract(self):
 
     response = self.app.post_json(
         f"/tenders/{tender_id}/awards?acc_token={tender_token}",
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
+        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "lotID": lot_id,
+                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
