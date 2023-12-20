@@ -9,7 +9,11 @@ from openprocurement.framework.cfaua.procedure.models.change import (
     PatchChangeItemPriceVariation,
     PatchChangeThirdParty,
     PatchChangePartyWithdrawal,
-    ChangeTaxRate, ChangeItemPriceVariation, ChangeThirdParty, ChangePartyWithdrawal)
+    ChangeTaxRate,
+    ChangeItemPriceVariation,
+    ChangeThirdParty,
+    ChangePartyWithdrawal,
+)
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
