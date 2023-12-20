@@ -19,6 +19,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (
     dateModified_qualification,
     qualification_not_found,
     qualification_token_invalid,
+    active_qualification_changes_atomic,
     # Documents
     get_documents_list,
     get_document_by_id,
@@ -53,6 +54,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_activate_qualification_for_submission_with_docs = snitch(activate_qualification_for_submission_with_docs)
     test_get_qualification = snitch(get_qualification)
     test_qualification_fields = snitch(qualification_fields)
+    test_active_qualification_changes_atomic = snitch(active_qualification_changes_atomic)
 
     test_date_qualification = snitch(date_qualification)
     test_dateModified_qualification = snitch(dateModified_qualification)

@@ -5,9 +5,14 @@ from openprocurement.framework.electroniccatalogue.procedure.models.framework im
     PatchActiveFramework,
     PatchFramework,
 )
+from .qualification import ElectronicDialogueQualificationState
+from .submission import ElectronicDialogueSubmissionState
 
 
 class ElectronicDialogueFrameworkState(FrameworkState):
+    qualification_class = ElectronicDialogueQualificationState
+    submission_class = ElectronicDialogueSubmissionState
+
     def get_patch_data_model(self):
         request = get_request()
         validated_framework = request.validated["framework"]

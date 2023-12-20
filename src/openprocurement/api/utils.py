@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from decimal import Decimal
 
 from jsonpointer import JsonPointerException
-from pymongo.errors import DuplicateKeyError
+from pymongo.errors import DuplicateKeyError, OperationFailure, ServerSelectionTimeoutError
 from six import b
 import pytz
 from datetime import datetime
@@ -654,22 +654,28 @@ def handle_data_exceptions(request):
 
 
 @contextmanager
-def handle_store_exceptions(request):
+def handle_store_exceptions(request, raise_error_handler=False):
     try:
         yield
     except ModelValidationError as e:
         for i in e.messages:
             request.errors.add("body", i, e.messages[i])
         request.errors.status = 422
-    except MongodbResourceConflict as e:  # pragma: no cover
+    except DuplicateKeyError:  # pragma: no cover
+        request.errors.add("body", "data", "Document already exists")
+        request.errors.status = 409
+    except (MongodbResourceConflict, ServerSelectionTimeoutError) as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
         request.errors.status = 409
-    except DuplicateKeyError as e:  # pragma: no cover
-        request.errors.add("body", "data", "Document already exists")
+    except OperationFailure as e:
+        LOGGER.warning(e.details)
+        request.errors.add("body", "data", "Conflict while writing document. Please, retry.")
         request.errors.status = 409
     except Exception as e:  # pragma: no cover
         LOGGER.exception(e)
         request.errors.add("body", "data", str(e))
+    if request.errors and raise_error_handler:
+        raise error_handler(request)
 
 
 def get_currency_rates(request):

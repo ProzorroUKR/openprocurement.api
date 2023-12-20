@@ -45,7 +45,8 @@ def append_obj_revision(request, obj, patch, date):
     return append_revision(request, changed_obj, patch)
 
 
-def save_object(request, obj_name, modified: bool = True, insert: bool = False, additional_obj_names="") -> bool:
+def save_object(request, obj_name, modified: bool = True, insert: bool = False,
+                additional_obj_names="", raise_error_handler=False) -> bool:
     obj = request.validated[obj_name]
     patch = get_revision_changes(obj, request.validated[f"{obj_name}_src"])
     if patch:
@@ -62,7 +63,7 @@ def save_object(request, obj_name, modified: bool = True, insert: bool = False, 
             if i in request.validated:
                 request.validated[i]["dateModified"] = now
 
-        with handle_store_exceptions(request):
+        with handle_store_exceptions(request, raise_error_handler=raise_error_handler):
             collection = getattr(request.registry.mongodb, f"{obj_name}s")
             collection.save(obj, insert=insert, modified=modified)
             LOGGER.info(

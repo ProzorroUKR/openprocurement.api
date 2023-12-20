@@ -1,0 +1,33 @@
+@startuml
+
+
+abstract ChronographEventProvider {
+    def get_events(self): ...
+    def run_events(self): ...
+}
+
+
+class Framework  implements  ChronographEventProvider {
+    agreement_class
+    submission_class
+    qualification_class
+}
+class Agreement  implements  ChronographEventProvider {
+    framework
+}
+class Submission {
+    framework
+}
+class Qualification {
+    framework
+}
+
+
+Framework *-- Agreement
+Framework *-- Submission
+Framework *-- Qualification
+
+
+
+
+@enduml

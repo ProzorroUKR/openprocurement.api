@@ -2,11 +2,10 @@ from copy import deepcopy
 from freezegun import freeze_time
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.constants import (
-    ROUTE_PREFIX,
-    TZ,
-)
+from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.database import MongodbResourceConflict
 from datetime import timedelta
+from mock import Mock, patch
 
 
 def listing(self):
@@ -1351,3 +1350,39 @@ def put_qualification_document(self):
             }
         ],
     )
+
+
+def active_qualification_changes_atomic(self):
+    response = self.app.patch_json(
+        "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    qualification_id = response.json["data"]["qualificationID"]
+
+    with patch("openprocurement.framework.core.database.SubmissionCollection.save") as agreement_save_mock:
+        agreement_save_mock.side_effect = MongodbResourceConflict("Conflict")
+        # submission is updated last, we make it fail
+        # and check that previous operations were not performed
+
+        self.app.patch_json(
+            "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
+            {"data": {"status": "active"}},
+            status=409
+        )
+
+    response = self.app.get(f"/qualifications/{qualification_id}")
+    qualification = response.json["data"]
+    self.assertEqual("pending", qualification["status"])  # not "active"
+
+    response = self.app.get(f"/submissions/{qualification['submissionID']}")
+    submission = response.json["data"]
+    self.assertEqual("active", submission["status"])  # not "complete"
+
+    response = self.app.get(f"/frameworks/{qualification['frameworkID']}")
+    framework = response.json["data"]
+    self.assertNotIn("agreementID", framework)
+
+    agreements = list(self.mongodb.agreements.collection.find({}))
+    self.assertEqual(0, len(agreements))

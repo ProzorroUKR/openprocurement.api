@@ -38,8 +38,8 @@ Content-Type: application/json
     "date": "2023-01-20T00:00:00+02:00",
     "owner": "broker2",
     "submissionType": "dynamicPurchasingSystem",
+    "qualificationID": "7996b273586044d7921da96e0d16de5a",
     "datePublished": "2023-01-20T00:00:00+02:00",
-    "qualificationID": "7f54f20afbae46de95952e02da039fd8",
     "id": "e0fc16d4a32e49bbb327106221ee3afe"
   },
   "config": {

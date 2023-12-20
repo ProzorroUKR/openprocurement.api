@@ -1,5 +1,5 @@
 from datetime import timedelta
-
+from copy import deepcopy
 from functools import (
     partial,
     wraps,
@@ -30,6 +30,7 @@ from openprocurement.api.utils import (
     ACCELERATOR_RE,
     generate_id,
     get_first_revision_date,
+    raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.core.traversal import (
@@ -69,8 +70,8 @@ class FrameworkTypePredicate(object):
     phash = text
 
     def __call__(self, context, request):
-        if request.framework is not None:
-            return getattr(request.framework, "frameworkType", None) == self.val
+        if request.framework_doc is not None:
+            return request.framework_doc.get("frameworkType", None) == self.val
 
         if request.method == "POST" and request.path.endswith("/frameworks"):
             data = validate_json_data(request)
@@ -91,8 +92,8 @@ class SubmissionTypePredicate(object):
     phash = text
 
     def __call__(self, context, request):
-        if request.submission is not None:
-            return getattr(request.submission, "submissionType", None) == self.val
+        if request.submission_doc is not None:
+            return request.submission_doc.get("submissionType", None) == self.val
 
         if request.method == "POST" and request.path.endswith("/submissions"):
             data = validate_json_data(request)
@@ -113,8 +114,8 @@ class QualificationTypePredicate(object):
     phash = text
 
     def __call__(self, context, request):
-        if request.qualification is not None:
-            return getattr(request.qualification, "qualificationType", None) == self.val
+        if request.qualification_doc is not None:
+            return request.qualification_doc.get("qualificationType", None) == self.val
 
         if request.method == "POST" and request.path.endswith("/qualifications"):
             data = validate_json_data(request)
@@ -135,8 +136,8 @@ class AgreementTypePredicate(object):
     phash = text
 
     def __call__(self, context, request):
-        if request.agreement is not None:
-            return getattr(request.agreement, "agreementType", None) == self.val
+        if request.agreement_doc is not None:
+            return request.agreement_doc.get("agreementType", None) == self.val
 
         if request.method == "POST" and request.path.endswith("/agreements"):
             data = validate_json_data(request)
@@ -408,6 +409,29 @@ def get_framework_by_id(request, framework_id):
 def get_agreement_by_id(request, agreement_id):
     if agreement_id:
         return request.registry.mongodb.agreements.get(agreement_id)
+
+
+def request_fetch_submission(request, submission_id):
+    submission = request.registry.mongodb.submissions.get(submission_id)
+    if not submission:
+        raise_operation_error(
+            request,
+            "submissionID must be one of existing submissions",
+        )
+    request.validated["submission"] = submission
+    request.validated["submission_src"] = deepcopy(submission)
+
+
+def request_fetch_agreement(request, agreement_id):
+    agreement = request.registry.mongodb.agreements.get(agreement_id)
+    if not agreement:
+        raise_operation_error(
+            request,
+            "agreementID must be one of existing agreemens",
+        )
+    request.validated["agreement"] = agreement
+    request.validated["agreement_src"] = deepcopy(agreement)
+
 
 
 def set_agreement_ownership(item, request):

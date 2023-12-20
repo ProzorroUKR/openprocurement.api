@@ -1017,7 +1017,7 @@ def patch_submission_active_fast(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
-    self.assertEqual(submission["status"], "active")
+    self.assertEqual(submission["status"], "complete")
 
     response = self.app.get("/submissions/{}".format(submission["id"]))
     self.assertEqual(response.status, "200 OK")

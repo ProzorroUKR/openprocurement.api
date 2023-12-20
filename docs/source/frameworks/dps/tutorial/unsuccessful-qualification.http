@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/bc6f4b3647164e6286e78d8909d848c7?acc_token=f8e6a2bdea5d45a086590324ce351932 HTTP/1.0
+PATCH /api/2.5/qualifications/7355d4d6d7be40e498047949f881afd3?acc_token=f8e6a2bdea5d45a086590324ce351932 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 36
 Content-Type: application/json
@@ -34,7 +34,7 @@ Content-Type: application/json
     "date": "2023-01-17T00:00:00+02:00",
     "dateModified": "2023-01-17T00:00:00+02:00",
     "qualificationType": "dynamicPurchasingSystem",
-    "id": "bc6f4b3647164e6286e78d8909d848c7"
+    "id": "7355d4d6d7be40e498047949f881afd3"
   },
   "config": {}
 }

@@ -31,7 +31,7 @@ class Contract(Model):
     submissionID = StringType()
     suppliers = ListType(ModelType(ContractBusinessOrganization, required=True), required=True, min_size=1)
     milestones = ListType(ModelType(Milestone, required=True), required=True, min_size=1, )
-    date = IsoDateTimeType(default=get_now)
+    date = IsoDateTimeType()
 
     def validate_suppliers(self, data, suppliers):
         if len(suppliers) != 1:
