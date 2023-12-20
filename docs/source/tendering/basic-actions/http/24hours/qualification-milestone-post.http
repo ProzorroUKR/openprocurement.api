@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/7414e1289a684a588f44f0c2d4293f0e/qualifications/12341234123412341234123412341234/milestones?acc_token=906c4a3449c54f00b54c17a5c57cd151 HTTP/1.0
+POST /api/2.5/tenders/7414e1289a684a588f44f0c2d4293f0e/qualifications/12341234123412341234123412341234/milestones?acc_token=7d4ea22f43fd4491a6966254069032a6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 100
 Content-Type: application/json

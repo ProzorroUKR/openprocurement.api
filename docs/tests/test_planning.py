@@ -141,10 +141,12 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 status=422
             )
 
+        budget = deepcopy(test_docs_plan_data['budget'])
+        budget['breakdown'] = test_breakdown
         with open(TARGET_DIR + 'patch-plan-breakdown.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": {'breakdown': test_breakdown}}}
+                {'data': {"budget": budget}}
             )
 
         with open(TARGET_DIR + 'tender-from-plan.http', 'w') as self.app.file_obj:
@@ -234,6 +236,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 {
                     'data': {
                         "cancellation": {
+                            "reason": "Підстава для скасування",
                             "status": "active",
                         }
                     }

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses/a99c0528a18b4d1a82128c1302cf01e0/evidences?acc_token=ae43448b946e4f49a99e064e0178c255 HTTP/1.0
+POST /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses/a99c0528a18b4d1a82128c1302cf01e0/evidences?acc_token=c6729983359f482788fb215676877c34 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 147
 Content-Type: application/json

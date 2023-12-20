@@ -1,12 +1,25 @@
-PATCH /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4?acc_token=ef8e82ab09a448dfab7d3d4766ac13d2 HTTP/1.0
+PATCH /api/2.5/plans/e034eb97f84745fcb35c4006cc778372?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 150
+Content-Length: 395
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
     "budget": {
+      "project": {
+        "name": "proj_name",
+        "id": "123"
+      },
+      "amount": 10000,
+      "amountNet": 12222,
+      "currency": "UAH",
+      "id": "12303111000-2",
+      "description": "budget_description",
+      "period": {
+        "startDate": "2023-01-01T00:00:00",
+        "endDate": "2023-12-31T00:00:00"
+      },
       "breakdown": [
         {
           "title": "other",
@@ -27,12 +40,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": {
-      "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-10T01:00:00+03:00"
-    },
+    "status": "scheduled",
     "procuringEntity": {
-      "id": "1bd99b9c2bb84667a1e0ea59f1d06569",
+      "id": "e87fd83c1a57450583d3aa0c3294d052",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -71,7 +81,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "73e21bf40ee949c08d404f9470a5649a",
+          "id": "8a872e2a84644be2b7754d5407819c0e",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -96,7 +106,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001",
     "items": [
       {
-        "id": "55aa3eaa98104cae9ddf1f95dc81ff13",
+        "id": "5697880f01454fda999239f110ad8753",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -114,13 +124,6 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5000.0,
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
         "deliveryDate": {
           "endDate": "2016-06-01T23:06:30.023018+03:00"
         },
@@ -129,7 +132,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "7bce9e1719ed48cc97494f9c9370229e",
+        "id": "4d6149e5a0b84713a5af02c1d7fe3342",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -146,12 +149,15 @@ Content-Type: application/json
         "kind": "general"
       }
     ],
-    "status": "scheduled",
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-10T01:00:00+03:00"
+    },
+    "owner": "broker",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "owner": "broker",
-    "id": "249bf7a3e1ce48c9bba765eed435b2b4"
+    "id": "e034eb97f84745fcb35c4006cc778372"
   }
 }
 

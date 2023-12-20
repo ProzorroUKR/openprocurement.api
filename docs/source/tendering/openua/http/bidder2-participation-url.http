@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/bb3b96a74c0d4a35bd1e449d19c0c251?acc_token=16a7ee8c4804467181f908c772939c24 HTTP/1.0
+GET /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/bb3b96a74c0d4a35bd1e449d19c0c251?acc_token=f74d514d0f3a4a77b01ac532c7a9b7a4 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 

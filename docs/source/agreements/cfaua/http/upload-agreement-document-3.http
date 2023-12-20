@@ -1,4 +1,4 @@
-PUT /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents/47ab85c3f0b341b58583c157dd99c085?acc_token=3abb3c33e785449ca322284f6ccfbeaf HTTP/1.0
+PUT /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/documents/47ab85c3f0b341b58583c157dd99c085?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 346
 Content-Type: application/json
