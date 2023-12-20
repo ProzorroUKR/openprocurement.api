@@ -3,10 +3,10 @@ from openprocurement.api.models import ModelType
 from openprocurement.tender.core.procedure.models.organization import (
     ProcuringEntity as BaseProcuringEntity,
     Organization,
-    Identifier,
     Address,
     ContactPoint,
 )
+from openprocurement.api.procedure.models.identifier import Identifier
 from schematics.types import StringType
 
 

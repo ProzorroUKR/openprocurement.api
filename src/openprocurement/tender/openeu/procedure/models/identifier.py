@@ -1,5 +1,5 @@
-from openprocurement.tender.core.procedure.models.identifier import Identifier as BaseIdentifier
-from schematics.types import StringType, BaseType
+from openprocurement.api.procedure.models.identifier import Identifier as BaseIdentifier
+from schematics.types import StringType
 
 
 class Identifier(BaseIdentifier):

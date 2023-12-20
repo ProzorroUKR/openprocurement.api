@@ -100,10 +100,12 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
         self.assertEqual(self.second_owner, response.json["data"]["owner"])
 
         # broker2 can change the plan (first plan which created in test setup)
+        budget = deepcopy(self.plan["budget"])
+        budget["description"] = "broker2 now can change the plan"
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/plans/{}?acc_token={}".format(self.plan_id, new_access_token),
-                {"data": {"budget": {"description": "broker2 now can change the plan"}}},
+                {"data": {"budget": budget}},
             )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("transfer", response.json["data"])
@@ -113,9 +115,11 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
         self.assertEqual(response.json["data"]["owner"], self.second_owner)
 
         # old owner now can`t change plan
+        budget = deepcopy(self.plan["budget"])
+        budget["description"] = "yummy donut"
         response = self.app.patch_json(
             "/plans/{}?acc_token={}".format(self.plan_id, new_access_token),
-            {"data": {"description": "yummy donut"}},
+            {"data": {"budget": budget}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")

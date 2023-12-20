@@ -5,6 +5,7 @@ from schematics.types.compound import ModelType, ListType
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
+from openprocurement.api.procedure.models.item import validate_cpv_group
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.metric import (
     PostMetric,
@@ -16,8 +17,8 @@ from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
     PostPeriodStartEndRequired,
     PeriodStartEndRequired,
-    Period,
 )
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
     PatchTender as BasePatchTender,

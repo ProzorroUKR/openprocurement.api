@@ -85,8 +85,14 @@ def test_fail_create_plan_with_milestone(app):
             "dueDate": "2001-10-30T11:15:26.641038+03:00"
         }
     ]
-    response = app.post_json("/plans", {"data": test_data})
-    assert "milestones" not in response.json["data"]
+    response = app.post_json("/plans", {"data": test_data}, status=422)
+    assert response.json["errors"] == [
+        {
+            "location": "body",
+            "name": "milestones",
+            "description": "Rogue field"
+        }
+    ]
 
 
 def test_fail_post_milestone_author(app, centralized_plan):
@@ -209,7 +215,7 @@ def test_fail_post_another_milestone(app, centralized_milestone, test_status):
     if test_status != milestone["status"]:
         plan_source = app.app.registry.mongodb.plans.get(plan["id"])
         plan_source["milestones"][0]["status"] = test_status
-        app.app.registry.mongodb.plans.save(Plan(plan_source))
+        app.app.registry.mongodb.plans.save(plan_source)
 
     response = app.post_json(
         "/plans/{}/milestones".format(plan["id"]),
@@ -234,7 +240,7 @@ def test_success_post_another_milestone(app, centralized_milestone, test_status)
     # set milestone status
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     response = app.post_json(
         "/plans/{}/milestones".format(plan["id"]),
@@ -280,7 +286,7 @@ def test_fail_patch_due_date(app, centralized_milestone, test_status):
     # set milestone status
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -302,30 +308,9 @@ def test_patch_milestone(app, centralized_milestone):
     app.authorization = ("Basic", ("broker", "broker"))
 
     request_data = {
-        "id": "a" * 32,
         "description": "What?",
         "dueDate": "2001-10-30T11:15:26.641038+03:00",
-        "documents": [
-            {
-                "title": "text.txt",
-                "url": generate_docservice_url(app),
-                "hash": "md5:" + "0" * 32,
-                "format": "text/plain",
-            }
-        ],
         "status": Milestone.STATUS_MET,
-        "author": {
-            "identifier": {
-                "scheme": "UA-EDR",
-                "id": "222222",
-                "legalName": "ЦЗО 2"
-            },
-            "name": "ЦЗО 2"
-        },
-        "dateModified": "2001-10-30T11:15:26.641038+03:00",
-        "dateMet": "1917-10-30T11:15:26.641038+03:00",
-        "owner": "wtf",
-        "owner_token": "b" * 4,
     }
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -335,9 +320,9 @@ def test_patch_milestone(app, centralized_milestone):
 
     result_plan = app.app.registry.mongodb.plans.get(plan["id"])
     result = result_plan.get("milestones")[0]
+
     # fields that haven"t been changed
     assert result["id"] == milestone["id"]
-    assert result["documents"] == milestone["documents"]
     assert result["author"] == milestone["author"]
     assert result["owner"] == milestone["owner"]
     assert result["owner_token"] == milestone_token
@@ -364,7 +349,7 @@ def test_fail_patch_description(app, centralized_milestone, test_status):
     # set milestone status
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}/milestones/{}?acc_token={}".format(plan["id"], milestone["id"], milestone_token),
@@ -389,7 +374,7 @@ def test_success_patch_description(app, centralized_milestone, test_status):
     # set milestone status
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     new_description = "Changes are coming"
     response = app.patch_json(
@@ -515,7 +500,6 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["title"] == request_data["title"]
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
-    assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
     assert result_plan["dateModified"] > plan_date_modified
     plan_date_modified = result_plan["dateModified"]
     assert result_plan["milestones"][0]["dateModified"] > milestone_date_modified
@@ -544,7 +528,6 @@ def test_update_milestone_documents(app, centralized_milestone):
     assert new_doc["title"] == request_data["title"]
     assert new_doc["hash"] == request_data["hash"]
     assert new_doc["format"] == request_data["format"]
-    assert new_doc["url"].split("Signature")[0] == request_data["url"].split("Signature")[0]
     assert result_plan["dateModified"] > plan_date_modified
     plan_date_modified = result_plan["dateModified"]
     assert result_plan["milestones"][0]["dateModified"] > milestone_date_modified
@@ -553,12 +536,10 @@ def test_update_milestone_documents(app, centralized_milestone):
     # patch
     request_data = {
         "title": "sign-3.p7s",
-        "url": generate_docservice_url(app),
-        "hash": "md5:" + "0" * 32,
         "format": "ms/sms",
         "documentOf": "my ma",
         "documentType": "notice",
-        "language": "c++",
+        "language": "en",
     }
     response = app.patch_json(
         "/plans/{}/milestones/{}/documents/{}?acc_token={}".format(
@@ -603,7 +584,7 @@ def test_success_patch_plan_procuring_entity_in_time(app, centralized_milestone,
     # set milestone status
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     new_procuring_entity = {
         "id": uuid4().hex,
@@ -646,15 +627,13 @@ def test_success_patch_plan_without_invalidating_milestone(app, centralized_mile
     app.authorization = ("Basic", ("broker", "broker"))
     assert milestone_data["data"]["status"] == "scheduled"
 
+
+    items = deepcopy(plan["items"])
+    items[0]["description"] = "smt"
+
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
-        {"data": {
-            "items": [
-                {
-                    "description": "smt"
-                }
-            ]
-        }}
+        {"data": {"items": items}}
     )
     assert response.status_code == 200
     assert response.json["data"]["items"][0]["description"] == "smt"
@@ -673,7 +652,7 @@ def test_fail_patch_plan_procuring_entity_not_in_time(app, centralized_milestone
     # set plan.tender.tenderPeriod.startDate
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], plan_token),
@@ -716,7 +695,7 @@ def test_success_patch_plan_procuring_entity_not_in_time(app, centralized_milest
     plan_source = app.app.registry.mongodb.plans.get(plan["id"])
     plan_source["tender"]["tenderPeriod"]["startDate"] = get_now().isoformat()
     plan_source["milestones"][0]["status"] = test_status
-    app.app.registry.mongodb.plans.save(Plan(plan_source))
+    app.app.registry.mongodb.plans.save(plan_source)
 
     request_entity = {
         "id": uuid4().hex,

@@ -24,12 +24,12 @@ from openprocurement.planning.api.validation import (
 LOGGER = getLogger(__name__)
 
 
-@opresource(
-    name='Plan Milestones',
-    collection_path="/plans/{plan_id}/milestones",
-    path='/plans/{plan_id}/milestones/{milestone_id}',
-    description="Plan milestone view",
-)
+# @opresource(
+#     name='Plan Milestones',
+#     collection_path="/plans/{plan_id}/milestones",
+#     path='/plans/{plan_id}/milestones/{milestone_id}',
+#     description="Plan milestone view",
+# )
 class PlanMilestoneResource(BaseResource):
 
     @json_view()

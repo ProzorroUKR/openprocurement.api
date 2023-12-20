@@ -36,11 +36,11 @@ import simplejson
 LOGGER = getLogger(__name__)
 
 
-@opresource(
-    name="Plans",
-    path="/plans",
-    description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
-)
+# @opresource(
+#     name="Plans",
+#     path="/plans",
+#     description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
+# )
 class PlansResource(MongodbResourceListing):
     def __init__(self, request, context):
         super(PlansResource, self).__init__(request, context)
@@ -77,11 +77,11 @@ class PlansResource(MongodbResourceListing):
             return {"data": plan.serialize("view"), "access": access}
 
 
-@opresource(
-    name="Plan",
-    path="/plans/{plan_id}",
-    description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
-)
+# @opresource(
+#     name="Plan",
+#     path="/plans/{plan_id}",
+#     description="Planing http://ocds.open-contracting.org/standard/r/1__0__0/en/schema/reference/#planning",
+# )
 class PlanResource(BaseResource):
     @json_view(permission="view_plan")
     def get(self):

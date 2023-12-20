@@ -24,12 +24,12 @@ class CoreDocumentResource(BaseDocumentResource):
 
 
 
-@opresource(
-    name="Plan Documents",
-    collection_path="/plans/{plan_id}/documents",
-    path="/plans/{plan_id}/documents/{document_id}",
-    description="Plan related binary files (PDFs, etc.)",
-)
+# @opresource(
+#     name="Plan Documents",
+#     collection_path="/plans/{plan_id}/documents",
+#     path="/plans/{plan_id}/documents/{document_id}",
+#     description="Plan related binary files (PDFs, etc.)",
+# )
 class PlansDocumentResource(CoreDocumentResource):
     @json_view(permission="view_plan")
     def collection_get(self):

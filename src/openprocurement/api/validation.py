@@ -18,7 +18,7 @@ from openprocurement.api.utils import (
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
 
 
-def validate_json_data(request, allow_bulk=False):
+def validate_json_data(request, allow_bulk=False, **kwargs):
     try:
         json = request.json
     except JSONDecodeError as e:

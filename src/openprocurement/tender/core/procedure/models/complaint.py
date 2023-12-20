@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.models.complaint_objection import (
     TenderComplaintObjection,
 )
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
-from openprocurement.tender.core.procedure.models.identifier import Identifier
+from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.tender.core.procedure.models.organization import Organization, PostOrganization
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.validation import validate_related_lot

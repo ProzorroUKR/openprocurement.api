@@ -13,39 +13,15 @@ from openprocurement.api.constants import (
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
+from openprocurement.api.context import set_now
 from openprocurement.api.utils import get_now, parse_date
 
 from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.api.database import MongodbResourceConflict
 
-
 # PlanTest
 from openprocurement.tender.core.tests.utils import change_auth
-
-
-def simple_add_plan(self):
-    u = Plan(self.initial_data)
-    u.dateModified = get_now().isoformat()
-    u.planID = "UA-P-X"
-
-    assert u.id is None
-    assert u.rev is None
-
-    uid = uuid.uuid4().hex
-    u.id = uid
-
-    self.mongodb.plans.save(u, insert=True)
-
-    assert u.id == uid
-    assert u.rev is not None
-
-    from_db = self.mongodb.plans.get(uid)
-
-    assert u.planID == from_db["planID"]
-    assert u.doc_type is None
-
-    self.mongodb.plans.flush()
 
 
 def concurrent_plan_update(self):
@@ -53,36 +29,39 @@ def concurrent_plan_update(self):
     Checking that only valid _id and _rev can update the document
     otherwise the whole request should be repeated to pass all validations again in case anything's been changed
     """
-    u = Plan(self.initial_data)
-    u.dateModified = get_now().isoformat()
-    u.planID = "UA-P-X"
-    u.id = uuid.uuid4().hex
+    set_now()
+
+    u = deepcopy(self.initial_data)
+    u["dateModified"] = get_now().isoformat()
+    u["planID"] = "UA-P-X"
+    u["_id"] = uuid.uuid4().hex
 
     self.mongodb.plans.save(u, insert=True)
-    first_rev = u.rev
+    first_rev = u["_rev"]
 
-    u.status = "scheduled"
+    u["status"] = "scheduled"
 
-    u._rev = None
+    u["_rev"] = None
     with self.assertRaises(MongodbResourceConflict):
         self.mongodb.plans.save(u)
 
-    u._rev = first_rev
+    u["_rev"] = first_rev
     self.mongodb.plans.save(u)
-    second_rev = u.rev
+    second_rev = u["_rev"]
 
-    u._rev = first_rev
+    u["_rev"] = first_rev
     with self.assertRaises(MongodbResourceConflict):
         self.mongodb.plans.save(u)
 
-    u._rev = second_rev
+    u["_rev"] = second_rev
     self.mongodb.plans.save(u)
-    self.assertGreater(u._rev, second_rev)
+    self.assertGreater(u["_rev"], second_rev)
 
-    from_db = self.mongodb.plans.get(u.id)
-    self.assertEqual(from_db["_rev"], u.rev)
+    from_db = self.mongodb.plans.get(u["_id"])
+    self.assertEqual(from_db["_rev"], u["_rev"])
 
     self.mongodb.plans.flush()
+
 
 # AccreditationPlanTest
 
@@ -148,9 +127,13 @@ def empty_listing(self):
     response = self.app.get(f"/plans?offset=latest&descending=1&limit=10", status=404)
     self.assertEqual(
         response.json,
-        {"status": "error", "errors": [
-            {"location": "querystring", "name": "offset",
-             "description": "Invalid offset provided: latest"}]}
+        {
+            "status": "error", "errors": [
+            {
+                "location": "querystring", "name": "offset",
+                "description": "Invalid offset provided: latest"
+            }]
+        }
     )
 
     response = self.app.get(
@@ -255,7 +238,8 @@ def listing(self):
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
     self.assertEqual(
-        [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans], reverse=True)
+        [i["dateModified"] for i in response.json["data"]],
+        sorted([i["dateModified"] for i in plans], reverse=True),
     )
 
     response = self.app.get("/plans?descending=1&limit=2")
@@ -649,7 +633,7 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    "description": [{"classification": ["CPV class of items should be identical to root cpv"]}],
+                    "description": ["CPV class of items should be identical to root cpv"],
                     "location": "body",
                     "name": "items",
                 }
@@ -660,7 +644,7 @@ def create_plan_invalid(self):
             response.json["errors"],
             [
                 {
-                    "description": [{"classification": ["CPV group of items be identical to root cpv"]}],
+                    "description": ["CPV group of items be identical to root cpv"],
                     "location": "body",
                     "name": "items",
                 }
@@ -678,7 +662,7 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [{"classification": ["CPV group of items be identical to root cpv"]}],
+                "description": ["CPV group of items be identical to root cpv"],
                 "location": "body",
                 "name": "items",
             }
@@ -713,16 +697,13 @@ def create_plan_invalid_procurement_method_type(self):
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
 
+    tender = deepcopy(initial_data["tender"])
+    tender["procurementMethod"] = ""
+    tender["procurementMethodType"] = ""
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {
-            "data": {
-                "tender": {
-                    "procurementMethod": "",
-                    "procurementMethodType": ""
-                }
-            }
-        },
+        {"data": {"tender": tender}},
         status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -741,9 +722,11 @@ def create_plan_invalid_procurement_method_type(self):
         ],
     )
 
-    initial_data["tender"]["procurementMethod"] = ""
-    initial_data["tender"]["procurementMethodType"] = ""
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+
+    data = deepcopy(initial_data)
+    data["tender"]["procurementMethod"] = ""
+    data["tender"]["procurementMethodType"] = ""
+    response = self.app.post_json(request_path, {"data": data}, status=422)
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -761,10 +744,14 @@ def create_plan_invalid_procurement_method_type(self):
         ],
     )
 
-    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM',
-                    get_now() + timedelta(seconds=1000)):
-        with mock.patch('openprocurement.planning.api.validation.PLAN_ADDRESS_KIND_REQUIRED_FROM',
-                        get_now() + timedelta(seconds=1000)):
+    with mock.patch(
+        'openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        get_now() + timedelta(seconds=1000)
+    ):
+        with mock.patch(
+            'openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+            get_now() + timedelta(seconds=1000)
+        ):
             response = self.app.post_json('/plans', {"data": initial_data})
             self.assertEqual(response.content_type, 'application/json')
             self.assertEqual(response.status, "201 Created")
@@ -777,31 +764,25 @@ def create_plan_invalid_procurement_method_type(self):
             plan = response.json["data"]
             acc_token = response.json["access"]["token"]
 
+            tender = deepcopy(initial_data["tender"])
+            tender["procurementMethod"] = ""
+            tender["procurementMethodType"] = ""
+
             response = self.app.patch_json(
                 "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-                {
-                    "data": {
-                        "tender": {
-                            "procurementMethod": "",
-                            "procurementMethodType": ""
-                        }
-                    }
-                },
+                {"data": {"tender": tender}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "")
 
+    tender = deepcopy(initial_data["tender"])
+    tender["procurementMethod"] = "open"
+    tender["procurementMethodType"] = "aboveThresholdUA"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {
-            "data": {
-                "tender": {
-                    "procurementMethod": "open",
-                    "procurementMethodType": "aboveThresholdUA"
-                }
-            }
-        },
+        {"data": {"tender": tender}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -897,9 +878,11 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                "description": {'kind': [
-                    "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
-                ]},
+                "description": {
+                    'kind': [
+                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                    ]
+                },
                 "location": "body",
                 "name": "procuringEntity",
             }
@@ -909,7 +892,10 @@ def create_plan_invalid_procuring_entity(self):
     initial_data["tender"]["procurementMethod"] = "open"
     initial_data["tender"]["procurementMethodType"] = "aboveThresholdUA.defense"
 
-    with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+        get_now() + timedelta(days=1)
+    ):
         response = self.app.post_json(request_path, {"data": initial_data}, status=403)
 
     self.assertEqual(response.status, "403 Forbidden")
@@ -932,7 +918,10 @@ def create_plan_invalid_procuring_entity(self):
     )
 
     initial_data["procuringEntity"]["kind"] = "defense"
-    with mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+        get_now() + timedelta(days=1)
+    ):
         response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -958,82 +947,112 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"], [
             {
                 'description': 'procuringEntity with other kind cannot publish this type of procedure. '
-                                'Procurement method types allowed for this kind: '
+                               'Procurement method types allowed for this kind: '
                                'belowThreshold, reporting, priceQuotation.',
-                                'location': 'body', 'name': 'kind'
+                'location': 'body', 'name': 'kind'
             }
         ]
     )
 
     # ignore address, kind validation for old plans
-    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM',
-                    get_now() + timedelta(seconds=1000)):
-        with mock.patch('openprocurement.planning.api.validation.PLAN_ADDRESS_KIND_REQUIRED_FROM',
-                        get_now() + timedelta(seconds=1000)):
-            response = self.app.post_json('/plans', {"data": initial_data})
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.status, "201 Created")
+    with mock.patch(
+        'openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        get_now() + timedelta(seconds=1000),
+    ):
+        with mock.patch(
+            'openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+            get_now() + timedelta(seconds=1000),
+        ):
+            with mock.patch(
+                'openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+                get_now() + timedelta(seconds=1000),
+            ):
+                response = self.app.post_json('/plans', {"data": initial_data})
+                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.status, "201 Created")
 
-            address = initial_data["procuringEntity"].pop("address")
-            response = self.app.post_json('/plans', {"data": initial_data})
-            initial_data["procuringEntity"]["address"] = address
+                address = initial_data["procuringEntity"].pop("address")
+                response = self.app.post_json('/plans', {"data": initial_data})
+                initial_data["procuringEntity"]["address"] = address
 
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.status, "201 Created")
+                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.status, "201 Created")
 
-            kind = initial_data["procuringEntity"].pop("kind")
-            response = self.app.post_json('/plans', {"data": initial_data})
-            initial_data["procuringEntity"]["kind"] = kind
+                kind = initial_data["procuringEntity"].pop("kind")
+                response = self.app.post_json('/plans', {"data": initial_data})
+                initial_data["procuringEntity"]["kind"] = kind
 
-            self.assertEqual(response.content_type, 'application/json')
-            self.assertEqual(response.status, "201 Created")
+                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.status, "201 Created")
 
-            address = initial_data["procuringEntity"].pop("address")
-            kind = initial_data["procuringEntity"].pop("kind")
-            response = self.app.post_json("/plans", {"data": initial_data})
-            initial_data["procuringEntity"]["address"] = address
-            initial_data["procuringEntity"]["kind"] = kind
+                address = initial_data["procuringEntity"].pop("address")
+                kind = initial_data["procuringEntity"].pop("kind")
+                response = self.app.post_json("/plans", {"data": initial_data})
+                initial_data["procuringEntity"]["address"] = address
+                initial_data["procuringEntity"]["kind"] = kind
 
-            self.assertEqual(response.status, "201 Created")
-            plan = response.json["data"]
-            acc_token = response.json["access"]["token"]
+                self.assertEqual(response.status, "201 Created")
+                plan = response.json["data"]
+                acc_token = response.json["access"]["token"]
 
-            response = self.app.patch_json(
-                "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-                {"data": {"procuringEntity": {"name": "new_name123"}}}
-            )
+                name = initial_data["procuringEntity"].pop("name")
+                address = initial_data["procuringEntity"].pop("address")
+                kind = initial_data["procuringEntity"].pop("kind")
+                initial_data["procuringEntity"]["name"] = "new_name123"
+                response = self.app.patch_json(
+                    "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+                    {"data": {"procuringEntity": initial_data["procuringEntity"]}},
+                )
+                initial_data["procuringEntity"]["name"] = name
+                initial_data["procuringEntity"]["address"] = address
+                initial_data["procuringEntity"]["kind"] = kind
 
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
-            procuring_entity = response.json['data']['procuringEntity']
-            procuring_entity.pop("id")
-            self.assertEqual(
-                procuring_entity,
-                {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-                 "name": "new_name123"}
-            )
-
-            response = self.app.patch_json(
-                "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-                {"data": {
-                    "procuringEntity": {
-                        "address": {"countryName": "Ірландія"},
-                        "kind": "defense"
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
+                procuring_entity = response.json['data']['procuringEntity']
+                procuring_entity.pop("id")
+                self.assertEqual(
+                    procuring_entity,
+                    {
+                        "identifier": {
+                            "scheme": "UA-EDR",
+                            "id": "111983",
+                            "legalName": "ДП Державне Управління Справами",
+                        },
+                        "name": "new_name123",
                     }
-                }}
-            )
-            self.assertEqual(response.status, "200 OK")
-            self.assertEqual(response.content_type, "application/json")
-            procuring_entity = response.json['data']['procuringEntity']
-            procuring_entity.pop("id")
-            self.assertEqual(
-                procuring_entity,
-                {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-                 "name": "new_name123",
-                 "address": {"countryName": "Ірландія"},
-                 "kind": "defense"
-                 }
-            )
+                )
+
+                name = initial_data["procuringEntity"].pop("name")
+                address = initial_data["procuringEntity"].pop("address")
+                kind = initial_data["procuringEntity"].pop("kind")
+                initial_data["procuringEntity"]["address"] = {"countryName": "Ірландія"}
+                initial_data["procuringEntity"]["kind"] = "defense"
+                initial_data["procuringEntity"]["name"] = "new_name123"
+                response = self.app.patch_json(
+                    "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+                    {"data": {"procuringEntity": initial_data["procuringEntity"]}},
+                )
+                initial_data["procuringEntity"]["name"] = name
+                initial_data["procuringEntity"]["address"] = address
+                initial_data["procuringEntity"]["kind"] = kind
+                self.assertEqual(response.status, "200 OK")
+                self.assertEqual(response.content_type, "application/json")
+                procuring_entity = response.json['data']['procuringEntity']
+                procuring_entity.pop("id")
+                self.assertEqual(
+                    procuring_entity,
+                    {
+                        "identifier": {
+                            "scheme": "UA-EDR",
+                            "id": "111983",
+                            "legalName": "ДП Державне Управління Справами",
+                        },
+                        "name": "new_name123",
+                        "address": {"countryName": "Ірландія"},
+                        "kind": "defense",
+                    }
+                )
 
     initial_data["procuringEntity"]["kind"] = "other"
     initial_data["tender"]["procurementMethod"] = "limited"
@@ -1136,17 +1155,21 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                "description": [{'kind': [
-                    "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
-                ]}],
+                "description": [{
+                    'kind': [
+                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                    ]
+                }],
                 "location": "body",
                 "name": "buyers",
             }
         ],
     )
 
-    with mock.patch('openprocurement.planning.api.models.PLAN_ADDRESS_KIND_REQUIRED_FROM',
-                    get_now() + timedelta(seconds=1000)):
+    with mock.patch(
+        'openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        get_now() + timedelta(seconds=1000),
+    ):
         response = self.app.post_json('/plans', {"data": initial_data})
         self.assertEqual(response.content_type, 'application/json')
         self.assertEqual(response.status, "201 Created")
@@ -1175,10 +1198,17 @@ def create_plan_invalid_buyers(self):
         plan = response.json["data"]
         acc_token = response.json["access"]["token"]
 
+        name = initial_data["buyers"][0].pop("name")
+        address = initial_data["buyers"][0].pop("address")
+        kind = initial_data["buyers"][0].pop("kind")
+        initial_data["buyers"][0]["name"] = "new_name123"
         response = self.app.patch_json(
             "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-            {"data": {"buyers": [{"name": "new_name123"}]}}
+            {"data": {"buyers": initial_data["buyers"]}},
         )
+        initial_data["buyers"][0]["name"] = name
+        initial_data["buyers"][0]["address"] = address
+        initial_data["buyers"][0]["kind"] = kind
 
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -1186,30 +1216,45 @@ def create_plan_invalid_buyers(self):
         buyers.pop("id")
         self.assertEqual(
             buyers,
-            {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-             "name": "new_name123"}
+            {
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "111983",
+                    "legalName": "ДП Державне Управління Справами",
+                },
+                "name": "new_name123",
+            }
         )
 
+        name = initial_data["buyers"][0].pop("name")
+        address = initial_data["buyers"][0].pop("address")
+        kind = initial_data["buyers"][0].pop("kind")
+        initial_data["buyers"][0]["address"] = {"countryName": "Ірландія"}
+        initial_data["buyers"][0]["kind"] = "defense"
+        initial_data["buyers"][0]["name"] = "new_name123"
         response = self.app.patch_json(
             "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-            {"data": {
-                "buyers": [{
-                    "address": {"countryName": "Ірландія"},
-                    "kind": "defense"
-                }]
-            }}
+            {"data": {"buyers": initial_data["buyers"]}},
         )
+        initial_data["buyers"][0]["name"] = name
+        initial_data["buyers"][0]["address"] = address
+        initial_data["buyers"][0]["kind"] = kind
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         buyers = response.json['data']['buyers'][0]
         buyers.pop("id")
         self.assertEqual(
             buyers,
-            {"identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-             "name": "new_name123",
-             "address": {"countryName": "Ірландія"},
-             "kind": "defense"
-             }
+            {
+                "identifier": {
+                    "scheme": "UA-EDR",
+                    "id": "111983",
+                    "legalName": "ДП Державне Управління Справами",
+                },
+                "name": "new_name123",
+                "address": {"countryName": "Ірландія"},
+                "kind": "defense"
+            }
         )
 
         self.assertEqual(response.status, "200 OK")
@@ -1222,6 +1267,20 @@ def create_plan_invalid_buyers(self):
 def create_plan_generated(self):
     data = self.initial_data.copy()
     data.update({"id": "hash", "doc_id": "hash2", "planID": "hash3"})
+    response = self.app.post_json("/plans", {"data": data}, status=422)
+    self.assertEqual(len(response.json["errors"]), 2)
+    self.assertIn(
+        {'description': 'Rogue field', 'location': 'body', 'name': 'doc_id'},
+        response.json["errors"],
+    )
+    self.assertIn(
+        {'description': 'Rogue field', 'location': 'body', 'name': 'planID'},
+        response.json["errors"],
+    )
+
+    data = self.initial_data.copy()
+    # FIXME: shouldn't be ignored
+    data.update({"id": "hash"})
     response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1245,14 +1304,12 @@ def create_plan_generated(self):
             "status",
         },
     )
-    self.assertNotEqual(data["id"], plan["id"])
-    self.assertNotEqual(data["doc_id"], plan["id"])
-    self.assertNotEqual(data["planID"], plan["planID"])
-    self.assertAlmostEqual(
+    self.assertEqual(
         datetime.fromisoformat(plan["dateCreated"]),
         datetime.fromisoformat(plan["dateModified"]),
-        delta=timedelta(seconds=1)
     )
+
+    self.assertNotEqual(data["id"], plan["id"])
 
     response = self.app.get(f"/plans/{plan['id']}")
     g_plan = response.json["data"]
@@ -1340,14 +1397,19 @@ def patch_plan(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
 
-    response = self.app.post_json("/plans", {"data": self.initial_data})
+    data = self.initial_data
+    response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
     dateModified = plan.pop("dateModified")
 
+    budget = deepcopy(plan["budget"])
+    budget["id"] = "12303111000-3"
+
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": "12303111000-3"}}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"budget": budget}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1356,16 +1418,6 @@ def patch_plan(self):
     plan["budget"]["id"] = "12303111000-3"
     self.assertEqual(plan, new_plan)
     self.assertNotEqual(dateModified, new_dateModified)
-
-    response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"dateModified": new_dateModified}}
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    new_plan2 = response.json["data"]
-    new_dateModified2 = new_plan2.pop("dateModified")
-    self.assertEqual(new_plan, new_plan2)
-    self.assertEqual(new_dateModified, new_dateModified2)
 
     revisions = self.mongodb.plans.get(plan["id"]).get("revisions")
     self.assertEqual(revisions[-1]["changes"][0]["op"], "replace")
@@ -1378,13 +1430,15 @@ def patch_plan(self):
         self.assertEqual(response.json["data"]["revisions"], revisions)
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"items": [self.initial_data["items"][0]]}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"items": [data["items"][0]]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"items": [{}, self.initial_data["items"][0]]}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"items": [data["items"][0], data["items"][0]]}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1393,66 +1447,74 @@ def patch_plan(self):
     self.assertNotEqual(item0.pop("id"), item1.pop("id"))
     self.assertEqual(item0, item1)
 
-    response = self.app.patch_json("/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"items": [{}]}})
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"items": [item0]}}
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
 
+    items = deepcopy(data["items"])
+    items[0]["classification"] = {
+        "scheme": "ДК021",
+        "id": "03117140-7",
+        "description": "Послуги з харчування у школах",
+    }
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {
-            "data": {
-                "items": [
-                    {
-                        "classification": {
-                            "scheme": "ДК021",
-                            "id": "03117140-7",
-                            "description": "Послуги з харчування у школах",
-                        }
-                    }
-                ]
-            }
-        },
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    items[0]["additionalClassifications"] = [
+        plan["items"][0]["additionalClassifications"][0]
+        for i in range(3)
+    ]
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {
-            "data": {
-                "items": [
-                    {"additionalClassifications": [plan["items"][0]["additionalClassifications"][0] for i in range(3)]}
-                ]
-            }
-        },
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    items[0]["additionalClassifications"] = plan["items"][0]["additionalClassifications"]
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"items": [{"additionalClassifications": plan["items"][0]["additionalClassifications"]}]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    tender = deepcopy(data["tender"])
+    tender["tenderPeriod"] = {"startDate": new_dateModified}
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"tender": {"tenderPeriod": {"startDate": new_dateModified2}}}},
+        {"data": {"tender": tender}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     new_plan = response.json["data"]
     self.assertIn("startDate", new_plan["tender"]["tenderPeriod"])
 
+    budget = deepcopy(data["budget"])
+    budget["period"] = {
+        "startDate": new_plan["tender"]["tenderPeriod"]["startDate"],
+        "endDate": datetime(
+            year=datetime.now().year + 2,
+            month=12,
+            day=31,
+        ).isoformat(),
+    }
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {
-            "data": {
-                "budget": {"period": {"endDate": datetime(year=datetime.now().year + 2, month=12, day=31).isoformat()}}
-            }
-        },
+        {"data": {"budget": budget}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1462,11 +1524,7 @@ def patch_plan(self):
         response.json["errors"],
         [
             {
-                "description": {
-                    "period": {
-                        "endDate": ["Period startDate and endDate must be within one year for belowThreshold."]
-                    }
-                },
+                "description": ["Period startDate and endDate must be within one year for belowThreshold."],
                 "location": "body",
                 "name": "budget",
             }
@@ -1482,14 +1540,18 @@ def patch_plan(self):
 
 @mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() - timedelta(days=1))
 def patch_plan_to_simpledefense(self):
-    response = self.app.post_json("/plans", {"data": self.initial_data})
+    data = self.initial_data
+    response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
 
+    tender = deepcopy(data["tender"])
+    tender["procurementMethodType"] = "aboveThresholdUA.defense"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"tender": {"procurementMethodType": "aboveThresholdUA.defense"}}},
+        {"data": {"tender": tender}},
         status=422,
     )
 
@@ -1497,31 +1559,40 @@ def patch_plan_to_simpledefense(self):
     self.assertEqual(
         response.json["errors"],
         [{
-             'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
-             'location': 'body',
-             'name': 'tender',
+            'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
+            'location': 'body',
+            'name': 'tender',
         }]
     )
 
+    tender["procurementMethodType"] = "simple.defense"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"tender": {"procurementMethodType": "simple.defense"}}},
+        {"data": {"tender": tender}},
     )
 
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "simple.defense")
 
 
-@mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+    get_now() + timedelta(days=1)
+)
 def patch_plan_to_openuadefense(self):
-    response = self.app.post_json("/plans", {"data": self.initial_data})
+    data = self.initial_data
+    response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
 
+    tender = deepcopy(data["tender"])
+    tender["procurementMethodType"] = "simple.defense"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"tender": {"procurementMethodType": "simple.defense"}}},
+        {"data": {"tender": tender}},
         status=422,
     )
 
@@ -1535,9 +1606,11 @@ def patch_plan_to_openuadefense(self):
         }]
     )
 
+    tender["procurementMethodType"] = "aboveThresholdUA.defense"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"tender": {"procurementMethodType": "aboveThresholdUA.defense"}}},
+        {"data": {"tender": tender}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -1549,22 +1622,31 @@ def patch_plan_with_token(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 0)
 
-    response = self.app.post_json("/plans", {"data": self.initial_data})
+    data = self.initial_data
+
+    response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     plan = response.json["data"]
     acc_token = response.json["access"]["token"]
     date_modified = plan.pop("dateModified")
 
-    self.app.patch_json("/plans/{}".format(plan["id"]), {"data": {"budget": {"id": "12303111000-3"}}}, status=403)
+    budget = deepcopy(plan["budget"])
+    budget["id"] = "12303111000-3"
+    self.app.patch_json(
+        "/plans/{}".format(plan["id"]),
+        {"data": {"budget": budget}},
+        status=403
+    )
 
     self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], uuid.uuid4().hex),
-        {"data": {"budget": {"id": "12303111000-3"}}},
+        {"data": {"budget": budget}},
         status=403,
     )
 
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": {"budget": {"id": "12303111000-3"}}}
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"budget": budget}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1576,14 +1658,19 @@ def patch_plan_with_token(self):
 
 
 def patch_plan_item_quantity(self):
-    response = self.app.post_json("/plans", {"data": self.initial_data})
+    data = self.initial_data
+    response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     acc_token = response.json["access"]["token"]
 
     quantities = [1, 1.999999, "9999.999999"]
+    items = deepcopy(data["items"])
+    for index, quantity in enumerate(quantities):
+        items[index]["quantity"] = quantity
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(response.json["data"]["id"], acc_token),
-        {"data": {"items": [{"quantity": q} for q in quantities]}},
+        {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1652,7 +1739,11 @@ def cfaua_plan(self):
 
     data = deepcopy(self.initial_data)
     data["tender"]["procurementMethodType"] = "closeFrameworkAgreementUA"
-    data["budget"]["period"]["endDate"] = datetime(year=datetime.now().year + 2, month=12, day=31).isoformat()
+    data["budget"]["period"]["endDate"] = datetime(
+        year=datetime.now().year + 2,
+        month=12,
+        day=31,
+    ).isoformat()
     response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1663,17 +1754,22 @@ def cfaua_plan(self):
     )
     self.assertIn("budget", plan)
     period = plan["budget"]["period"]
-    self.assertNotEqual(parse_date(period["startDate"]).year, parse_date(period["endDate"]).year)
+    self.assertNotEqual(
+        parse_date(period["startDate"]).year,
+        parse_date(period["endDate"]).year,
+    )
     self.assertIn(plan["id"], response.headers["Location"])
 
-    self.app.authorization = ("Basic", ("token", ""))
+    budget = deepcopy(data["budget"])
+    budget["period"]["endDate"] = datetime(
+        year=datetime.now().year + 5,
+        month=12,
+        day=31,
+    ).isoformat()
+
     response = self.app.patch_json(
-        "/plans/{}".format(plan["id"]),
-        {
-            "data": {
-                "budget": {"period": {"endDate": datetime(year=datetime.now().year + 5, month=12, day=31).isoformat()}}
-            }
-        },
+        "/plans/{}?acc_token={}".format(plan["id"], response.json["access"]["token"]),
+        {"data": {"budget": budget}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1683,13 +1779,9 @@ def cfaua_plan(self):
         response.json["errors"],
         [
             {
-                "description": {
-                    "period": {
-                        "endDate": [
-                            "Period startDate and endDate must be within 5 budget years for closeFrameworkAgreementUA."
-                        ]
-                    }
-                },
+                "description": [
+                    "Period startDate and endDate must be within 5 budget years for closeFrameworkAgreementUA."
+                ],
                 "location": "body",
                 "name": "budget",
             }
@@ -1735,9 +1827,14 @@ def patch_plan_budget_year(self):
     acc_token = response.json["access"]["token"]
     self.assertIn("year", plan["budget"])
 
-    with mock.patch("openprocurement.planning.api.models.BUDGET_PERIOD_FROM", get_now() - timedelta(days=1)):
+    with mock.patch(
+        "openprocurement.planning.api.procedure.models.budget.BUDGET_PERIOD_FROM",
+        get_now() - timedelta(days=1)
+    ):
+        data = deepcopy(self.initial_data)
+        data["budget"]["year"] = None
         response = self.app.patch_json(
-            "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": self.initial_data}
+            "/plans/{}?acc_token={}".format(plan["id"], acc_token), {"data": data}
         )
         plan = response.json["data"]
         self.assertEqual(response.status, "200 OK")
@@ -1751,7 +1848,10 @@ def create_plan_without_buyers(self):
 
 
 def fail_create_plan_without_buyers(self):
-    with mock.patch("openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM", get_now() - timedelta(seconds=1)):
+    with mock.patch(
+        "openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM",
+        get_now() - timedelta(seconds=1)
+    ):
         data = deepcopy(self.initial_data)
         del data["buyers"]
         response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -1795,7 +1895,7 @@ def create_plan_with_buyers(self):
             name="",
             name_en="",
             identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
-            address=dict(countryName="Україна", postalCode="01220", locality= "м. Київ"),
+            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
             kind="general"
         )
     ]
@@ -1808,7 +1908,18 @@ def create_plan_with_buyers(self):
     # edit
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], response.json["access"]["token"]),
-        {"data": {"buyers": [dict(name="Hello", identifier=dict(id="666"))]}},
+        {
+            "data": {
+                "buyers": [dict(
+                    id=plan["buyers"][0]["id"],
+                    name="Hello",
+                    name_en="",
+                    identifier=dict(scheme="UA-EDR", id="666", legalName="ДП Державне Управління Справами"),
+                    address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
+                    kind="general"
+                )]
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     data["buyers"][0]["name"] = "Hello"
@@ -1846,7 +1957,11 @@ def create_plan_with_two_buyers(self):
 
 def create_plan_with_breakdown(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = dict(id="f" * 32, title="state", value=dict(amount=1500, currency="UAH"))
+    breakdown_item = dict(
+        id="f" * 32,
+        title="state",
+        value=dict(amount=1500, currency="UAH")
+    )
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data})
@@ -1855,9 +1970,12 @@ def create_plan_with_breakdown(self):
     plan = response.json["data"]
     self.assertEqual(plan["budget"]["breakdown"], [breakdown_item])
 
+    budget = deepcopy(data["budget"])
+    budget["breakdown"][0]["description"] = "Get to the choppa"
+
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], response.json["access"]["token"]),
-        {"data": {"budget": {"breakdown": [dict(description="Get to the choppa")]}}},
+        {"data": {"budget": budget}},
     )
     self.assertEqual(response.status, "200 OK")
     breakdown_item["description"] = "Get to the choppa"
@@ -1873,11 +1991,18 @@ def create_plan_with_breakdown_required(self):
 
     self.assertEqual(
         response.json["errors"],
-        [{"description": {"breakdown": ["This field is required."]}, "location": "body", "name": "budget"}],
+        [{
+            "description": ["Breakdown field is required."],
+            "location": "body",
+            "name": "budget"
+        }],
     )
 
 
-@mock.patch("openprocurement.planning.api.models.BUDGET_BREAKDOWN_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.planning.api.procedure.models.plan.BUDGET_BREAKDOWN_REQUIRED_FROM",
+    get_now() + timedelta(days=1)
+)
 def create_plan_with_breakdown_not_required(self):
     data = deepcopy(self.initial_data)
     data["tender"]["procurementMethodType"] = "aboveThresholdUA"
@@ -1899,12 +2024,18 @@ def patch_plan_with_breakdown(self):
     plan = response.json["data"]
 
     breakdown_item = dict(
-        id="f" * 32, title="state", description="Breakdown state description.", value=dict(amount=1500, currency="UAH")
+        id="f" * 32,
+        title="state",
+        description="Breakdown state description.",
+        value=dict(amount=1500, currency="UAH"),
     )
+
+    budget = deepcopy(data["budget"])
+    budget["breakdown"] = [breakdown_item]
 
     response = self.app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], response.json["access"]["token"]),
-        {"data": {"budget": {"breakdown": [breakdown_item]}}},
+        {"data": {"budget": budget}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -2005,14 +2136,20 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
     plan_id = response.json["data"]["id"]
     plan_token = response.json["access"]["token"]
 
+    budget = deepcopy(data["budget"])
+    budget["currency"] = "USD"
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan_id, plan_token), {"data": {"budget": {"currency": "USD"}}}, status=422
+        "/plans/{}?acc_token={}".format(plan_id, plan_token),
+        {"data": {"budget": budget}},
+        status=422
     )
 
     self.assertEqual(response.json["errors"], expected_errors)
 
+    budget["currency"] = "UAH"
     response = self.app.patch_json(
-        "/plans/{}?acc_token={}".format(plan_id, plan_token), {"data": {"budget": {"currency": "UAH"}}}
+        "/plans/{}?acc_token={}".format(plan_id, plan_token),
+        {"data": {"budget": budget}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2023,16 +2160,18 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 def fail_create_plan_with_amounts_sum_greater(self):
     data = deepcopy(self.initial_data)
     data["budget"]["breakdown"] = [
-        dict(id="0" * 31 + str(i), title="state", value=dict(amount=1500, currency="UAH")) for i in range(10)
+        dict(
+            id="0" * 31 + str(i),
+            title="state",
+            value=dict(amount=1500, currency="UAH")
+        ) for i in range(10)
     ]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
 
     expected_errors = [
         {
-            "description": {
-                "breakdown": ["Sum of the breakdown values amounts can't be greater than budget amount"]
-            },
+            "description": ["Sum of the breakdown values amounts can't be greater than budget amount"],
             "location": "body",
             "name": "budget",
         }
@@ -2078,21 +2217,23 @@ def create_plan_with_delivery_address_required_fields(self):
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"], [
-        {
-            "location": "body",
-            "name": "items",
-            "description": [
-                {
-                    "deliveryAddress": {
-                        "countryName": [
-                            "This field is required."
-                        ]
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    {
+                        "deliveryAddress": {
+                            "countryName": [
+                                "This field is required."
+                            ]
+                        }
                     }
-                }
-            ]
-        }
-    ])
+                ]
+            }
+        ]
+    )
 
 
 def create_plan_with_delivery_address_validations(self):
@@ -2107,21 +2248,23 @@ def create_plan_with_delivery_address_validations(self):
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"], [
-        {
-            "location": "body",
-            "name": "items",
-            "description": [
-                {
-                    "deliveryAddress": {
-                        "countryName": [
-                            "field address:countryName not exist in countries catalog"
-                        ]
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    {
+                        "deliveryAddress": {
+                            "countryName": [
+                                "field address:countryName not exist in countries catalog"
+                            ]
+                        }
                     }
-                }
-            ]
-        }
-    ])
+                ]
+            }
+        ]
+    )
 
     data["items"][0]["deliveryAddress"]["countryName"] = "Україна"
 
@@ -2137,21 +2280,23 @@ def create_plan_with_delivery_address_validations(self):
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"], [
-        {
-            "location": "body",
-            "name": "items",
-            "description": [
-                {
-                    "deliveryAddress": {
-                        "region": [
-                            "field address:region not exist in ua_regions catalog"
-                        ]
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    {
+                        "deliveryAddress": {
+                            "region": [
+                                "field address:region not exist in ua_regions catalog"
+                            ]
+                        }
                     }
-                }
-            ]
-        }
-    ])
+                ]
+            }
+        ]
+    )
 
     data["items"][0]["deliveryAddress"]["countryName"] = "Сполучені Штати Америки"
     data["items"][0]["deliveryAddress"]["region"] = "State of New York"
@@ -2172,11 +2317,13 @@ def create_plan_with_profile(self):
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"], [{
-        'description': [{'profile': ["The profile value doesn't match id pattern"]}],
-        'location': 'body',
-        'name': 'items'
-    }])
+    self.assertEqual(
+        response.json["errors"], [{
+            'description': [{'profile': ["The profile value doesn't match id pattern"]}],
+            'location': 'body',
+            'name': 'items'
+        }]
+    )
 
     profile = "908221-15510000-980777-40996564"
     item["profile"] = profile
