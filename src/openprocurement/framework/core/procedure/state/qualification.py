@@ -1,12 +1,9 @@
 from copy import deepcopy
 from logging import getLogger
 
-from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.utils import context_unpack
 
-from openprocurement.framework.core.procedure.context import get_object, get_object_config
-from openprocurement.framework.core.procedure.models.qualification import CreateQualification
 from openprocurement.framework.core.procedure.models.submission import Submission
 from openprocurement.framework.core.procedure.state.agreement import AgreementStateMixin
 from openprocurement.framework.core.procedure.utils import save_object
