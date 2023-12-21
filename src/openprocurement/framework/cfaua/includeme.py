@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from openprocurement.framework.cfaua.models.agreement import Agreement
+from openprocurement.framework.cfaua.procedure.models.agreement import Agreement
 
 LOGGER = getLogger("openprocurement.framework.cfaua")
 

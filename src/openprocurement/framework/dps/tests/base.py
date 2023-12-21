@@ -14,11 +14,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.dps.models import (
-    Framework,
-    Submission,
-    Agreement,
-)
+from openprocurement.framework.dps.procedure.models.framework import Framework
 from openprocurement.framework.dps.tests.periods import PERIODS
 
 now = get_now()

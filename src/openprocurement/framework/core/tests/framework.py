@@ -1,16 +1,14 @@
 import os
 import unittest
-from copy import deepcopy
 from datetime import datetime
 from mock import MagicMock, patch
 from schematics.transforms import wholelist
 from schematics.types import StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.framework.core.models import Framework as BaseFramework
-from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
+from openprocurement.framework.core.procedure.models.framework import Framework as BaseFramework
+from openprocurement.framework.core.tests.base import BaseFrameworkTest
 from openprocurement.framework.core.utils import FrameworkTypePredicate
-from openprocurement.framework.core.views.framework import FrameworkResource
 
 
 class Framework(BaseFramework):
@@ -87,25 +85,6 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
 
-class ViewsFrameworkTest(BaseFrameworkTest):
-    relative_to = os.path.dirname(__file__)
-
-    @patch("openprocurement.framework.core.views.framework.save_framework")
-    def test_view(self, mocked_save_framework):
-        request = MagicMock()
-        context = MagicMock()
-        data = deepcopy(test_framework_data)
-        framework = MagicMock()
-        framework.id = data["id"]
-        framework.frameworkType = "electronicCatalogue"
-        framework.serialize.side_effect = [data]
-        request.validated = {"framework": framework, "framework_config": {}}
-        mocked_save_framework.side_effect = [True]
-        view = FrameworkResource(request=request, context=context)
-        res = view.post()
-        self.assertTrue(res["access"]["token"])
-        self.assertEqual(res["data"], data)
-
 
 class ResourcesFrameworkTest(BaseFrameworkTest):
     relative_to = os.path.dirname(__file__)
@@ -127,7 +106,6 @@ class ResourcesFrameworkTest(BaseFrameworkTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(FrameworksResourceTest))
-    suite.addTest(unittest.makeSuite(ViewsFrameworkTest))
     suite.addTest(unittest.makeSuite(ResourcesFrameworkTest))
     return suite
 

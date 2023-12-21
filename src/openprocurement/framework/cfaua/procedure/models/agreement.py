@@ -22,11 +22,11 @@ from openprocurement.api.models import (
     PROCURING_ENTITY_KINDS,
 )
 from openprocurement.api.utils import get_change_class
-from openprocurement.framework.cfaua.models.agreement import ChangeItemPriceVariation
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeTaxRate,
     ChangePartyWithdrawal,
     ChangeThirdParty,
+    ChangeItemPriceVariation,
     PostChangeTaxRate,
     PostChangeItemPriceVariation,
     PostChangePartyWithdrawal,

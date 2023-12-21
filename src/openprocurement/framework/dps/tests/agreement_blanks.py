@@ -7,7 +7,7 @@ from freezegun import freeze_time
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.models import CONTRACT_BAN_DURATION
+from openprocurement.framework.core.procedure.models.milestone import CONTRACT_BAN_DURATION
 from openprocurement.framework.dps.tests.base import (
     ban_milestone_data,
     ban_milestone_data_with_documents,

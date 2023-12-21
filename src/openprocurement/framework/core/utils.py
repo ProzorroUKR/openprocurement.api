@@ -1,12 +1,7 @@
 from datetime import timedelta
 from copy import deepcopy
-from functools import (
-    partial,
-    wraps,
-)
+from functools import wraps
 from logging import getLogger
-
-from cornice.resource import resource
 from dateorro import (
     calc_datetime,
     calc_normalized_datetime,
@@ -29,17 +24,9 @@ from openprocurement.api.utils import (
     append_revision,
     ACCELERATOR_RE,
     generate_id,
-    get_first_revision_date,
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.framework.core.traversal import (
-    framework_factory,
-    submission_factory,
-    qualification_factory,
-    agreement_factory,
-    contract_factory,
-)
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
@@ -50,12 +37,6 @@ MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
     "terminated": "terminated",
 }
-
-frameworksresource = partial(resource, error_handler=error_handler, factory=framework_factory)
-submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
-qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
-agreementsresource = partial(resource, error_handler=error_handler, factory=agreement_factory)
-contractresource = partial(resource, error_handler=error_handler, factory=contract_factory)
 
 
 class FrameworkTypePredicate(object):
