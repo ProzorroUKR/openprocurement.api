@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               {
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+                "relatedDocument": "73e6b546de024c969ae2151883cefadd"
               }
             ]
           }
@@ -53,7 +53,7 @@ Content-Type: application/json
     "status": "draft",
     "documents": [
       {
-        "id": "e578814fffec467587198dec88b0dcba",
+        "id": "73e6b546de024c969ae2151883cefadd",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Evidence_Attachment.pdf",
@@ -117,7 +117,7 @@ Content-Type: application/json
                 "id": "8c9ef2564c1b464eae9909618ffc5329",
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "e578814fffec467587198dec88b0dcba"
+                "relatedDocument": "73e6b546de024c969ae2151883cefadd"
               }
             ]
           }

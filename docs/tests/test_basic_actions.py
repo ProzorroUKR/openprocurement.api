@@ -3,6 +3,7 @@ import os
 
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
@@ -569,6 +570,30 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 status=422,
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        # add document to complaint via POST and set relatedDocument in objections in one action
+        doc_id = uuid4().hex
+        complaint_data["documents"] = [{
+            "id": doc_id,
+            "title": "Evidence_Attachment.pdf",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+        }]
+        objection = deepcopy(test_tender_open_complaint_objection)
+        objection["arguments"][0]["evidences"] = [{
+            "title": "Evidence",
+            "description": "Test evidence",
+            "relatedDocument": doc_id,
+        }]
+        complaint_data["objections"] = [objection]
+        with open(TARGET_DIR + 'complaints/complaint-objections-with-document-one-action.http',
+                  'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints'.format(self.tender_id),
+                {'data': complaint_data},
+            )
+            self.assertEqual(response.status, '201 Created')
 
     def test_qualification_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))

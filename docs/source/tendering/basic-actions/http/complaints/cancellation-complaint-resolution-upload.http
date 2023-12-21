@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/c1ae0eb958ca45f8835465e2539cc626/documents/3af89dacbd9d4f86aa59672c0dd0ae56
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/c1ae0eb958ca45f8835465e2539cc626/documents/51b943cdaa8d4a9a912f1fac835d6c33
 
 {
   "data": {
@@ -26,7 +26,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9056b6881e5c4acc
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f53bd08e9faf49038561b358c152af4a?Signature=jhQCBa2Y6Zd8wDcYgNFAS2FOELaTDVWfqYy0xmOMmcSZo3AE1X0YgCvot8yLeHluBC2rqWFHHhY1GnLtnhupCA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "3af89dacbd9d4f86aa59672c0dd0ae56",
+    "id": "51b943cdaa8d4a9a912f1fac835d6c33",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "aboveThresholdReviewers"

@@ -14,7 +14,7 @@ Content-Type: application/json
       "status": "resolved",
       "documents": [
         {
-          "id": "70d64715f0914d219f1c859d1ea462bd",
+          "id": "0f145031b183425289f4f96be729fdb8",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
@@ -26,7 +26,7 @@ Content-Type: application/json
           "language": "uk"
         },
         {
-          "id": "f1e342523f3d4ca7bf6f46c9a2b8afdd",
+          "id": "b2f449365e2447308e17774e07a19bb3",
           "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
@@ -332,7 +332,7 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3ade0fbc9f34687b3fb8649c13e1b75?Signature=%2BmS22rGZQy0KAc%2BkNTebwrpSCb5AnZRirVGHNVCUzppse9XMrUsZgzR5gOsCclTRkluh3Q%2F7UI56Jlk8S9ueAA%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "f74c6fb0064840a18a08ab7cd1d4b38e",
+              "id": "d01c3bf5a122469883b8ead2f62e0c67",
               "datePublished": "2023-10-10T01:00:01+03:00",
               "dateModified": "2023-10-10T01:00:01+03:00",
               "author": "complaint_owner"
@@ -363,7 +363,7 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/271caeb9055f49a79fb5650656ee0dfb?Signature=xXGOFtFsjG%2Bej%2B3MFLUaOdZgIejvTZqnYpM3z8iavA5MpRTXAyyQj42I16waL5mzwU1ygtqqMqrvwWUUWHuQCw%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "9d16372b8d66458a852f75162b7974a3",
+              "id": "6a322664f50f4376bbb0e2faf20ddb5f",
               "datePublished": "2023-10-10T01:00:01+03:00",
               "dateModified": "2023-10-10T01:00:01+03:00",
               "author": "tender_owner"

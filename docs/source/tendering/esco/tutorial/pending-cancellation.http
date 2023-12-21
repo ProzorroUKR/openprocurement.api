@@ -25,7 +25,7 @@ Content-Type: application/json
     "documents": [
       {
         "description": "Changed description",
-        "id": "b22bc9fa2afa4b62a0e5e99a300f93bf",
+        "id": "0b5ce45939684a718b563a50f6156d53",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -37,7 +37,7 @@ Content-Type: application/json
       },
       {
         "description": "Changed description",
-        "id": "b22bc9fa2afa4b62a0e5e99a300f93bf",
+        "id": "0b5ce45939684a718b563a50f6156d53",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice-2.pdf",

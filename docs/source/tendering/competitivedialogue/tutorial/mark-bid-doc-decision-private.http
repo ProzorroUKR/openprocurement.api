@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/928e0a2782234502b0aabe27a11953b7?acc_token=19e654e86b0e481d96eac5c38f8d74aa HTTP/1.0
+PATCH /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/1482e8679ad84526a7a38f8350d1f02e?acc_token=19e654e86b0e481d96eac5c38f8d74aa HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 42
 Content-Type: application/json
@@ -16,12 +16,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "928e0a2782234502b0aabe27a11953b7",
+    "id": "1482e8679ad84526a7a38f8350d1f02e",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "DescriptiveProposal.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/928e0a2782234502b0aabe27a11953b7?download=8b781eec9f744181a275c6919de639dc",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/1482e8679ad84526a7a38f8350d1f02e?download=8b781eec9f744181a275c6919de639dc",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",

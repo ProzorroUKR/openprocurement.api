@@ -96,9 +96,6 @@ class BasePostDocument(BaseDocument):
 
 class PostDocument(BasePostDocument):
     # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
-    @serializable
-    def id(self):
-        return uuid4().hex
 
     @serializable
     def datePublished(self):
@@ -107,6 +104,8 @@ class PostDocument(BasePostDocument):
     @serializable
     def dateModified(self):
         return get_now().isoformat()
+
+    id = MD5Type(required=True, default=lambda: uuid4().hex)
 
 
 class Document(BaseDocument):

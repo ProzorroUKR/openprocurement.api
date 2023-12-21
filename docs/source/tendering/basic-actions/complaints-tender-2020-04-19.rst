@@ -75,6 +75,11 @@ After that User can indicate relatedDocument in evidence:
 .. http:example:: http/complaints/complaint-objections-evidences-with-document.http
    :code:
 
+There is an opportunity to create complaint already with document which can be used as relatedDocument in evidences:
+
+.. http:example:: http/complaints/complaint-objections-with-document-one-action.http
+   :code:
+
 For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:
 
 .. http:example:: http/complaints/complaint-objections-invalid-requested-remedies.http

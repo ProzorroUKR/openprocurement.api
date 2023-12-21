@@ -21,7 +21,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "0722227979de4c81a08e7b4b5fe18699",
+        "id": "46937ce9f6b6468282192d22955aa57d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_first_document.doc",
@@ -33,7 +33,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "a043727d4e1e4c9aa879acb67486ff2e",
+        "id": "4e0f96c98dc6455bbafd4334abe8a67a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "award_second_document.doc",

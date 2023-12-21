@@ -20,7 +20,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "type": "document",
         "relatedDocument": {
-          "id": "96dc3b1f84d54785a15c72f6793a0b44",
+          "id": "bf8d8da7edae4c06ab61411b340ebb03",
           "title": "name.doc"
         },
         "id": "ab61001c6f3b420086fee03610d62f29"

@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/cancellations/dfe7a1f0003d45968ecff4c41e2f7f0c/documents/cefec5420d47423b87331af559495f3a?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
+PUT /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/cancellations/dfe7a1f0003d45968ecff4c41e2f7f0c/documents/5bab08ad932749968dbbfdc0f156048d?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 322
 Content-Type: application/json
@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "data": {
     "description": "Changed description",
-    "id": "cefec5420d47423b87331af559495f3a",
+    "id": "5bab08ad932749968dbbfdc0f156048d",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice-2.pdf",

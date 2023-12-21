@@ -155,18 +155,18 @@ Content-Type: application/json
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13b7a37e7fcb4e3c89c6012bb35fbe35?Signature=%2BVgDpYFt8ROko6jp3pcCiLuavdVU0ACe67dPgUWQn98xSPsF1jSvtjv0kZBtfwA7RzZ97Nv%2BW9RzSArbzTflBg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "language": "uk",
+          "id": "42960ce9a2954113a3b59023daee0258",
           "confidentiality": "public",
-          "id": "fbe7313daced46bdae2a406c311c4e41",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "dateModified": "2023-10-10T01:00:00+03:00"
         },
         {
-          "id": "de7a4d2d475147b6a458a96a6c3fb389",
+          "id": "3cf7e30f26154033a97c31c0155b30df",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/84f890ac1d8342a9997f42451880fb60/documents/de7a4d2d475147b6a458a96a6c3fb389?download=223e4b63a6f54e16bbbcccd903732318",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/84f890ac1d8342a9997f42451880fb60/documents/3cf7e30f26154033a97c31c0155b30df?download=223e4b63a6f54e16bbbcccd903732318",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "language": "uk",
@@ -455,7 +455,7 @@ Content-Type: application/json
       "id": "20bbd5548630438fb1306b5de18c0004",
       "documents": [
         {
-          "id": "36c88d2c6b274c65883820cffe552a2b",
+          "id": "b786280261c84f36b69b6a7ca1056520",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
@@ -467,12 +467,12 @@ Content-Type: application/json
           "confidentiality": "public"
         },
         {
-          "id": "7f10a54685ee4f44a0fed9c27346e262",
+          "id": "7f127ac76e7243ddbe18713eb1b9895d",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004/documents/7f10a54685ee4f44a0fed9c27346e262?download=42865ab1b0de4861a16a0b26900142e2",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004/documents/7f127ac76e7243ddbe18713eb1b9895d?download=42865ab1b0de4861a16a0b26900142e2",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "language": "uk",
@@ -482,7 +482,7 @@ Content-Type: application/json
       ],
       "eligibilityDocuments": [
         {
-          "id": "b1164ca7ed164020add2f8d1130d2b56",
+          "id": "6a9cf991358744c09a01dcb17238b32e",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "eligibility_doc.pdf",

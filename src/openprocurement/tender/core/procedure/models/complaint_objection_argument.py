@@ -4,6 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type
 from schematics.types.compound import ListType, ModelType
 
+from openprocurement.api.context import get_request
 from openprocurement.api.models import Model
 from openprocurement.tender.core.procedure.context import get_complaint
 
@@ -15,7 +16,7 @@ class Evidence(Model):
     relatedDocument = StringType(required=True)
 
     def validate_relatedDocument(self, data, value):
-        complaint = get_complaint()
+        complaint = get_complaint() or get_request().validated.get("json_data")
         if not complaint or value not in [document["id"] for document in complaint.get("documents", [])]:
             raise ValidationError("relatedDocument should be one of complaint documents")
 

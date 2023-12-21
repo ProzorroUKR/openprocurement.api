@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "96dc3b1f84d54785a15c72f6793a0b44",
+              "id": "bf8d8da7edae4c06ab61411b340ebb03",
               "title": "name.doc"
             },
             "type": "document"
@@ -49,7 +49,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "96dc3b1f84d54785a15c72f6793a0b44",
+              "id": "bf8d8da7edae4c06ab61411b340ebb03",
               "title": "name.doc"
             },
             "id": "13aa24cf3dbe46ed99e7144cce104b54"
@@ -66,12 +66,12 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "96dc3b1f84d54785a15c72f6793a0b44",
+        "id": "bf8d8da7edae4c06ab61411b340ebb03",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/documents/96dc3b1f84d54785a15c72f6793a0b44?download=778be56a0b794ee1b0b568e8e2d03004",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/documents/bf8d8da7edae4c06ab61411b340ebb03?download=778be56a0b794ee1b0b568e8e2d03004",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

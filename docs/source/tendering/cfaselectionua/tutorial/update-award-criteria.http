@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
+PUT /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/bb7fe0b3738b4219b174eebe4bc226bb?acc_token=5585cd490cac4cb68cd03d747b3c247c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 333
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "4fb26dfadede4a7f85699e8e626fc794",
+    "id": "bb7fe0b3738b4219b174eebe4bc226bb",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",

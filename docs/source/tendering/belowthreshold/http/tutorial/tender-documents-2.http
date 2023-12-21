@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "documentType": "technicalSpecifications",
       "description": "document description modified",
-      "id": "ea74f145137e48f1a821c8b558884625",
+      "id": "3a39dfc58d214122a60d658b10e41f1f",
       "datePublished": "2023-10-10T01:00:01+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
@@ -29,7 +29,7 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8b660719e71c4e3b80ac24648fac52c2?Signature=KztTkrH3lsmZaP%2BWO8J%2BbI7PYNNV%2FDEQjh%2BizLUhw8aULUu%2BxQgMmxFapPOUaK4nNViYOHS8wZXvQIukYB2EAg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
-      "id": "31a5413231bb4a329febaf70768c953e",
+      "id": "96d2d82838df409c95a4cf7a62d0a835",
       "datePublished": "2023-10-10T01:00:01+03:00",
       "dateModified": "2023-10-10T01:00:01+03:00",
       "author": "tender_owner"

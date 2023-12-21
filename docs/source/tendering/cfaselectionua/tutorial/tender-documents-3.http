@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "documentType": "technicalSpecifications",
       "description": "document description modified",
-      "id": "20aade7d4c9948b2b97308ac6e6c942d",
+      "id": "c5a46f0e5a86433893504196a5a48aae",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
@@ -23,7 +23,7 @@ Content-Type: application/json
       "language": "uk"
     },
     {
-      "id": "4fb26dfadede4a7f85699e8e626fc794",
+      "id": "bb7fe0b3738b4219b174eebe4bc226bb",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",

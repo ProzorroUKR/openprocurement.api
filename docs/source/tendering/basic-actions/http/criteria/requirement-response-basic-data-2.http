@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "type": "document"
@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "type": "document"
@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "type": "document"
@@ -87,7 +87,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "id": "07ec621e4ec2436c885dd57dd8afcd8f"
@@ -108,7 +108,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "id": "6d9cd32c7d954048bd678e103754f7ca"
@@ -129,7 +129,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "id": "14c64b7d92524892b9434a065947c39a"
@@ -181,7 +181,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "412b2323014741b7a6c50a0ca94e98e8",
+        "id": "f15755940c8c467e86b05b3ee64420a0",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
