@@ -10,7 +10,7 @@ from openprocurement.framework.core.procedure.validation import (
 from openprocurement.framework.core.procedure.views.qualification import QualificationsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.qualification import Qualification
-from openprocurement.framework.dps.procedure.state.qualification import DPSQualificationState
+from openprocurement.framework.dps.procedure.state.framework import DPSFrameworkState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     unless_administrator,
@@ -27,18 +27,18 @@ from openprocurement.tender.core.procedure.validation import (
     accept="application/json",
 )
 class DPSQualificationResource(QualificationsResource):
-    state_class = DPSQualificationState
+    state_class = DPSFrameworkState
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(
-                    validate_framework_owner("qualification"),
-                ),
-                validate_input_data(PatchQualification),
-                validate_update_qualification_in_not_allowed_status,
-                validate_action_in_not_allowed_framework_status("qualification"),
-                validate_patch_data(Qualification, item_name="qualification"),
+            unless_administrator(
+                validate_framework_owner("qualification"),
+            ),
+            validate_input_data(PatchQualification),
+            validate_update_qualification_in_not_allowed_status,
+            validate_action_in_not_allowed_framework_status("qualification"),
+            validate_patch_data(Qualification, item_name="qualification"),
         ),
         permission="edit_qualification",
     )

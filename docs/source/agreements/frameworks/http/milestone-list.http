@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/5802d80bdd4e4c9bbd5495240c9ebe6e/contracts/0ab687a72fe04fc082a29a8ae9790d75/milestones HTTP/1.0
+GET /api/2.5/agreements/617574663a03455d892ddd21b4a3d9c7/contracts/a55dba12087948e994bc6090c541f74f/milestones HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "b8bc7b1976f74faba4ae1a8d5133c035",
-      "type": "activation",
+      "id": "4c23475167c7436ca594b2010e9e0a4b",
       "status": "scheduled",
+      "type": "activation",
       "dueDate": "2023-05-01T00:00:00+02:00",
       "dateModified": "2023-01-16T00:00:00+02:00"
     }

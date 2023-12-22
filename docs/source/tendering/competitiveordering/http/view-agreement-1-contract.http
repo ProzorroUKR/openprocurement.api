@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/c2de9b3006f0421185ea131a7cc48eab HTTP/1.0
+GET /api/2.5/agreements/adc832d48d1343a08a9a9d62e45ceb28 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,61 +9,13 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-10-000001",
+    "frameworkID": "aaee5d971c6d4f5dabb88efa004abce8",
+    "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2024-02-07T01:00:00+03:00"
     },
-    "contracts": [
-      {
-        "id": "98712d471fee42549b8c6f8dc36776a1",
-        "qualificationID": "fccc9123773d4ae78a3a89b608857ed7",
-        "status": "active",
-        "submissionID": "0ba8a372b4d54e02b05a340a9cf86c11",
-        "suppliers": [
-          {
-            "name": "Державне управління справами",
-            "name_en": "State administration",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
-              "legalName": "Державне управління справами",
-              "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/"
-            },
-            "scale": "micro",
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "email": "aa@aa.com",
-              "telephone": "+0440000000"
-            },
-            "address": {
-              "streetAddress": "вул. Банкова, 11, корпус 1",
-              "locality": "м. Київ",
-              "region": "м. Київ",
-              "postalCode": "01220",
-              "countryName": "Україна"
-            }
-          }
-        ],
-        "milestones": [
-          {
-            "id": "42f8bbf6cc4944c8ac809612a14446db",
-            "type": "activation",
-            "status": "scheduled",
-            "dueDate": "2024-02-07T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
-          }
-        ],
-        "date": "2023-10-10T01:00:00+03:00"
-      }
-    ],
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
-    "owner": "broker",
-    "agreementType": "dynamicPurchasingSystem",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -85,7 +37,6 @@ Content-Type: application/json
       },
       "kind": "general"
     },
-    "frameworkID": "aaee5d971c6d4f5dabb88efa004abce8",
     "classification": {
       "description": "Mustard seeds",
       "scheme": "ДК021",
@@ -98,8 +49,57 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
+    "contracts": [
+      {
+        "id": "47d4f000eb0e4823969e06c9535d9ef3",
+        "qualificationID": "68de2a943cda42ffb3215bafd3349152",
+        "submissionID": "0ba8a372b4d54e02b05a340a9cf86c11",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "Державне управління справами",
+            "name_en": "State administration",
+            "scale": "micro",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
+              "legalName": "Державне управління справами",
+              "legalName_en": "dus.gov.ua",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "email": "aa@aa.com",
+              "telephone": "+0440000000"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "f9abf115ef834ab5b4c7467f38f4e2d7",
+            "status": "scheduled",
+            "type": "activation",
+            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
+          }
+        ],
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "owner": "broker",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "next_check": "2024-02-07T01:00:00+03:00",
-    "id": "c2de9b3006f0421185ea131a7cc48eab"
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "id": "adc832d48d1343a08a9a9d62e45ceb28"
   },
   "config": {}
 }

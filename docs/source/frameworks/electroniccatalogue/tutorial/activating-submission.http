@@ -46,8 +46,8 @@ Content-Type: application/json
     "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "electronicCatalogue",
+    "qualificationID": "2efa97090edf4a269865f3d2a1e88247",
     "datePublished": "2023-10-26T01:00:00+03:00",
-    "qualificationID": "838474d50c0a49d79fe82febe17a3c1e",
     "id": "8b8465c39dc3471ba57b324f2ed988fa"
   },
   "config": {}

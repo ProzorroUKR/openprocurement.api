@@ -1,23 +1,37 @@
-from copy import deepcopy
 from logging import getLogger
 from hashlib import sha512
-
 from openprocurement.api.context import get_request, get_now
-from openprocurement.api.utils import raise_operation_error, generate_id, context_unpack
+from openprocurement.api.utils import generate_id, context_unpack
 from openprocurement.framework.core.procedure.models.agreement import (
-    PostAgreement,
     PatchAgreement,
     AgreementChronographData,
 )
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.utils import get_agreement_by_id, get_submission_by_id
+from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.tender.core.procedure.state.base import BaseState
 
 LOGGER = getLogger(__name__)
 
 
-class AgreementState(ChronographEventsMixing, BaseState):
+def get_agreement_next_check(data):
+    checks = []
+    if data["status"] == "active":
+        milestone_due_dates = [
+            milestone["dueDate"]
+            for contract in data.get("contracts", []) for milestone in contract.get("milestones", [])
+            if milestone["dueDate"] and milestone["status"] == "scheduled"
+        ]
+        if milestone_due_dates:
+            checks.append(min(milestone_due_dates))
+        checks.append(data["period"]["endDate"])
+    return min(checks) if checks else None
+
+
+class AgreementState(BaseState, ChronographEventsMixing):
+
+    def __init__(self, request, framework=None):
+        super().__init__(request)
+        self.framework = framework
 
     def on_post(self, data):
         self.set_agreement_data(data)
@@ -41,42 +55,19 @@ class AgreementState(ChronographEventsMixing, BaseState):
         return PatchAgreement
 
     def get_next_check(self, data):
-        checks = []
-        if data["status"] == "active":
-            milestone_dueDates = [
-                milestone["dueDate"]
-                for contract in data.get("contracts", []) for milestone in contract.get("milestones", [])
-                if milestone["dueDate"] and milestone["status"] == "scheduled"
-            ]
-            if milestone_dueDates:
-                checks.append(min(milestone_dueDates))
-            checks.append(data["period"]["endDate"])
-        return min(checks) if checks else None
+        return get_agreement_next_check(data)
 
-
-class AgreementStateMixin:
-    agreement_model = PostAgreement
-
-    def get_or_create_agreement(self):
-        framework_config = get_request().validated["framework_config"]
-        framework_data = get_request().validated["framework_src"]
-        agreementID = framework_data.get("agreementID")
-        if agreementID:
-            agreement = get_agreement_by_id(get_request(), agreementID)
-            if not agreement:
-                raise_operation_error(
-                    get_request(),
-                    "agreementID must be one of exists agreement",
-                )
-            model = get_request().agreement_from_data(agreement, create=False)
-            agreement = model(agreement)
-            get_request().validated["agreement"] = agreement.serialize()
-            get_request().validated["agreement_src"] = deepcopy(get_request().validated["agreement"])
-        else:
+    def create_agreement_if_not_exist(self):
+        request = self.request
+        framework_config = request.validated["framework_config"]
+        framework_data = request.validated["framework"]
+        if "agreement" not in request.validated:
             now = get_now().isoformat()
             transfer = generate_id()
             transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
-            agreement_data = {
+            agreement = {
+                "id": generate_id(),
+                "agreementID": generate_agreement_id(request),
                 "frameworkID": framework_data["_id"],
                 "agreementType": framework_data["frameworkType"],
                 "status": "active",
@@ -101,79 +92,57 @@ class AgreementStateMixin:
                 agreement_config["test"] = framework_config["test"]
             if framework_config.get("restrictedDerivatives", False):
                 agreement_config["restricted"] = True
-            agreement = self.agreement_model(agreement_data).serialize()
 
-            get_request().validated["agreement_src"] = {}
-            get_request().validated["agreement"] = agreement
-            get_request().validated["agreement_config"] = agreement_config
-            if save_object(get_request(), "agreement", insert=True):
-                LOGGER.info(
-                    f"Created agreement {agreement['_id']}",
-                    extra=context_unpack(
-                        get_request(),
-                        {"MESSAGE_ID": "agreement_create"},
-                        {
-                            "agreement_id": agreement['_id'],
-                            "agreement_mode": agreement.get('mode')
-                        },
-                    ),
-                )
+            request.validated["agreement_src"] = {}
+            request.validated["agreement"] = agreement
+            request.validated["agreement_config"] = agreement_config
 
-                framework = deepcopy(framework_data)
-                framework["agreementID"] = agreement['_id']
-                get_request().validated["framework"] = framework
-                save_object(get_request(), "framework")
-                LOGGER.info(
-                    f"Updated framework {framework_data['_id']} with agreementID",
-                    extra=context_unpack(get_request(), {"MESSAGE_ID": "framework_patch"}),
-                )
+            # update framework
+            request.validated["framework"]["agreementID"] = agreement['id']
 
     def create_agreement_contract(self):
-        qualification = get_request().validated["qualification"]
-        framework = get_request().validated["framework"]
-        agreement_data = get_agreement_by_id(get_request(), framework["agreementID"])
-        if not agreement_data:
-            raise_operation_error(
-                get_request(),
-                "agreementID must be one of exists agreement",
-            )
-        submission_data = get_submission_by_id(get_request(), qualification["submissionID"])
-        if not agreement_data:
-            raise_operation_error(
-                get_request(),
-                "submissionID must be one of exists submission",
-            )
+        request = self.request
+        qualification = request.validated["qualification"]
+        framework = request.validated["framework"]
+        agreement_data = request.validated["agreement"]
+        submission = request.validated["submission"]
+
         if agreement_data["status"] != "active":
+            LOGGER.error(
+                f"Agreement {framework['agreementID']} is not active",
+                extra=context_unpack(
+                    request,
+                    {"MESSAGE_ID": "qualification_patch_error"},
+                ),
+            )
             return
 
         contract_id = generate_id()
         first_milestone_data = {
+            "id": generate_id(),
+            "status": "scheduled",
             "type": "activation",
-            "dueDate": framework.get("qualificationPeriod").get("endDate")
+            "dueDate": framework.get("qualificationPeriod").get("endDate"),
+            "dateModified": get_now().isoformat(),
         }
         contract_data = {
             "id": contract_id,
             "qualificationID": qualification["_id"],
-            "submissionID": submission_data["_id"],
+            "submissionID": submission["_id"],
             "status": "active",
-            "suppliers": submission_data["tenderers"],
+            "suppliers": submission["tenderers"],
             "milestones": [first_milestone_data],
+            "date": get_now().isoformat(),
         }
 
         if "contracts" not in agreement_data:
             agreement_data["contracts"] = []
         agreement_data["contracts"].append(contract_data)
 
-
-        model = get_request().agreement_from_data(agreement_data, create=False)
-        agreement = model(agreement_data)
-        get_request().validated["agreement"] = agreement.serialize()
-
-        if save_object(get_request(), "agreement"):
-            LOGGER.info(
-                f"Updated agreement {agreement_data['_id']} with contract {contract_id}",
-                extra=context_unpack(
-                    get_request(),
-                    {"MESSAGE_ID": "qualification_patch"},
-                ),
-            )
+        LOGGER.info(
+            f"Updated agreement {framework['agreementID']} with contract {contract_id}",
+            extra=context_unpack(
+                request,
+                {"MESSAGE_ID": "qualification_patch"},
+            ),
+        )

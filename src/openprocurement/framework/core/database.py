@@ -29,7 +29,7 @@ class SubmissionCollection(BaseCollection):
         return indexes
 
     def count_active_submissions_by_framework_id(self, framework_id, identifier_id):
-        result = self.collection.count(
+        result = self.collection.count_documents(
             filter={
                 "tenderers.identifier.id": identifier_id,
                 "status": "active",
@@ -41,7 +41,7 @@ class SubmissionCollection(BaseCollection):
         return result
 
     def count_total_submissions_by_framework_id(self, framework_id):
-        result = self.collection.count(
+        result = self.collection.count_documents(
             filter={
                 "status": {"$nin": ["draft", "deleted"]},
                 # there is an index for these two below

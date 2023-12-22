@@ -15,7 +15,7 @@ from openprocurement.framework.core.procedure.validation import (
 from openprocurement.framework.core.procedure.views.submission import SubmissionsResource
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 from openprocurement.framework.electroniccatalogue.procedure.models.submission import PostSubmission, Submission
-from openprocurement.framework.electroniccatalogue.procedure.state.submission import ElectronicDialogueSubmissionState
+from openprocurement.framework.electroniccatalogue.procedure.state.framework import ElectronicDialogueFrameworkState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     unless_administrator,
@@ -35,7 +35,7 @@ from openprocurement.tender.core.procedure.validation import (
     accept="application/json",
 )
 class ElectronicCatalogueSubmissionResource(SubmissionsResource):
-    state_class = ElectronicDialogueSubmissionState
+    state_class = ElectronicDialogueFrameworkState
 
     @json_view(
         content_type="application/json",

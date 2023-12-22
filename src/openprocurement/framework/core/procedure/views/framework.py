@@ -1,17 +1,17 @@
 from logging import getLogger
 from cornice.resource import resource
-from pyramid.security import Allow, Everyone
-
+from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
     update_logging_context,
 )
-from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.views.base import MongodbResourceListing, BaseResource
 from openprocurement.framework.core.procedure.context import get_object_config, get_object
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.views.qualification import QualificationsListResource
 from openprocurement.framework.core.procedure.views.submission import SubmissionsListResource
 from openprocurement.tender.core.procedure.utils import set_ownership
@@ -55,6 +55,7 @@ class FrameworksListResource(MongodbResourceListing):
 
 class FrameworksResource(FrameworkBaseResource):
     serializer_class = FrameworkSerializer
+    state_class = FrameworkState
 
     def collection_post(self):
         update_logging_context(self.request, {"framework_id": "__new__"})
