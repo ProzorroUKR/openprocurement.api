@@ -8,7 +8,7 @@ from bson.codec_options import TypeRegistry, TypeCodec
 from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
-from datetime import datetime
+from contextlib import contextmanager
 from openprocurement.api.context import get_now, get_db_session, get_request
 
 LOGGER = getLogger("{}.init".format(__name__))
@@ -312,3 +312,15 @@ class BaseCollection:
     def delete(self, uid):
         result = self.store.delete(self.collection, uid)
         return result
+
+
+@contextmanager
+def atomic_transaction():
+    s = get_db_session()
+    database = get_request().registry.mongodb.database
+    with s.start_transaction(
+        read_preference=database.read_preference,
+        write_concern=database.write_concern,
+        read_concern=database.read_concern,
+    ):
+        yield s

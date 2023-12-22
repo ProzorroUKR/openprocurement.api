@@ -100,11 +100,13 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             f'/qualifications/{self.qualification_1_id}?acc_token={self.framework_token}',
             {'data': {"status": "active"}},
         )
+        self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
             f'/qualifications/{self.qualification_2_id}?acc_token={self.framework_token}',
             {'data': {"status": "active"}},
         )
+        self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'example-framework.http', 'wb') as self.app.file_obj:
             response = self.app.get(f'/frameworks/{self.framework_id}')

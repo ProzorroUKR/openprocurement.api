@@ -1,4 +1,4 @@
-GET /api/2.5/qualifications/f72e3f40acc64e4085046733e60d7ebb HTTP/1.0
+GET /api/2.5/qualifications/602b00b82bb2470c99020d7dd9962935 HTTP/1.0
 Authorization: Bearer broker1
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,13 +8,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "fd9a2e1f2e674531813756d4d0aaa351",
     "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
+    "submissionID": "fd9a2e1f2e674531813756d4d0aaa351",
+    "qualificationType": "dynamicPurchasingSystem",
     "status": "pending",
     "date": "2023-01-20T00:00:00+02:00",
-    "qualificationType": "dynamicPurchasingSystem",
     "dateModified": "2023-01-20T00:00:00+02:00",
-    "id": "f72e3f40acc64e4085046733e60d7ebb"
+    "id": "602b00b82bb2470c99020d7dd9962935"
   },
   "config": {
     "restricted": true

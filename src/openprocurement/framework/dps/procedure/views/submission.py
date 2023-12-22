@@ -15,7 +15,7 @@ from openprocurement.framework.core.procedure.validation import (
 from openprocurement.framework.core.procedure.views.submission import SubmissionsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.submission import PostSubmission, Submission
-from openprocurement.framework.dps.procedure.state.submission import DPSSubmissionState
+from openprocurement.framework.dps.procedure.state.framework import DPSFrameworkState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
     unless_administrator,
@@ -35,7 +35,7 @@ from openprocurement.tender.core.procedure.validation import (
     accept="application/json",
 )
 class DPSSubmissionResource(SubmissionsResource):
-    state_class = DPSSubmissionState
+    state_class = DPSFrameworkState
 
     @json_view(
         content_type="application/json",

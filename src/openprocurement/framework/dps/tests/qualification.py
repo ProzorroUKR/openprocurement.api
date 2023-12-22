@@ -31,6 +31,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (
     patch_submission_pending_config_test,
     patch_submission_pending_config_restricted,
     activate_qualification_for_submission_with_docs,
+    active_qualification_changes_atomic,
 )
 
 
@@ -56,6 +57,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_patch_qualification_unsuccessful = snitch(patch_qualification_unsuccessful)
     test_get_qualification = snitch(get_qualification)
     test_qualification_fields = snitch(qualification_fields)
+    test_active_qualification_changes_atomic = snitch(active_qualification_changes_atomic)
 
     test_date_qualification = snitch(date_qualification)
     test_dateModified_qualification = snitch(dateModified_qualification)

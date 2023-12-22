@@ -219,7 +219,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         self.qualification_id = response.json["data"]["qualificationID"]
 
         with open(TARGET_DIR + 'submission-listing.http', 'w') as self.app.file_obj:
-            response = self.app.get('/submissions'.format(self.framework_id))
+            response = self.app.get('/submissions')
             self.assertEqual(response.status, '200 OK')
 
         # Qualification

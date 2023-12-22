@@ -1,18 +1,21 @@
 from logging import getLogger
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
-
+from copy import deepcopy
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
+    raise_operation_error,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.framework.core.procedure.state.qualification import QualificationState
+from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.validation import validate_restricted_access
 from openprocurement.framework.core.procedure.context import get_object_config, get_object
 from openprocurement.framework.core.procedure.serializers.qualification import QualificationSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.utils import get_submission_by_id, get_agreement_by_id
+from openprocurement.framework.core.utils import request_fetch_submission, request_fetch_agreement
 
 LOGGER = getLogger(__name__)
 QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
@@ -60,8 +63,9 @@ class QualificationsListResource(RestrictedResourceListingMixin, MongodbResource
 
 
 class QualificationsResource(FrameworkBaseResource):
+    LOGGER = LOGGER
     serializer_class = QualificationSerializer
-    state_class = QualificationState
+    state_class = FrameworkState
 
     @json_view(
         validators=(
@@ -76,17 +80,22 @@ class QualificationsResource(FrameworkBaseResource):
         }
 
     def patch(self):
-        updated = self.request.validated["data"]
+        request = self.request
+        updated = request.validated["data"]
         if updated:
-            before = self.request.validated["qualification_src"]
-            self.state.on_patch(before, updated)
-            self.request.validated["qualification"] = updated
-            if save_object(self.request, "qualification"):
-                self.LOGGER.info(
-                    f"Updated qualification {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "qualification_patch"})
-                )
-            self.state.after_patch(before, updated)
+            request.validated["qualification"] = updated
+            before = request.validated["qualification_src"]
+
+            # fetch related data
+            request_fetch_submission(request, updated["submissionID"])
+            framework_data = request.validated["framework"]
+            if agreement_id := framework_data.get("agreementID"):
+                request_fetch_agreement(request, agreement_id)
+
+            self.state.qualification.on_patch(before, updated)
+
+            # save all
+            self.save_all_objects()
         return {
             "data": self.serializer_class(get_object("qualification")).data,
             "config": get_object_config("qualification"),

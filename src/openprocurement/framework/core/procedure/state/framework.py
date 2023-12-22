@@ -17,6 +17,9 @@ from openprocurement.framework.core.utils import (
     get_agreement_by_id,
     calculate_framework_date,
 )
+from openprocurement.framework.core.procedure.state.submission import SubmissionState
+from openprocurement.framework.core.procedure.state.qualification import QualificationState
+from openprocurement.framework.core.procedure.state.agreement import AgreementState
 from openprocurement.tender.core.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -24,7 +27,16 @@ AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
 LOGGER = getLogger(__name__)
 
 
-class FrameworkState(ChronographEventsMixing, BaseState):
+class FrameworkState(BaseState, ChronographEventsMixing):
+    agreement_class = AgreementState
+    qualification_class = QualificationState
+    submission_class = SubmissionState
+
+    def __init__(self, request):
+        super().__init__(request)
+        self.agreement = self.agreement_class(request, framework=self)
+        self.qualification = self.qualification_class(request, framework=self)
+        self.submission = self.submission_class(request, framework=self)
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
