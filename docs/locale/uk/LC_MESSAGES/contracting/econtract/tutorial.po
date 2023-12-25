@@ -50,7 +50,7 @@ msgid "`attributes` - formed from requirements and responses in tender"
 msgstr "`attributes` - формується з вимог та відповідей на виомги у закупівлі"
 
 msgid "`contractTemplateName` - copied from tender"
-msgstr "contractTemplateName` - копіюється з закупівлі"
+msgstr "`contractTemplateName` - копіюється з закупівлі"
 
 msgid "Getting contract"
 msgstr "Отримання договору"
