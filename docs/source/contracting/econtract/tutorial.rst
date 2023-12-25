@@ -26,6 +26,12 @@ Let's say that we have conducted tender with award. When the award is activated,
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 
+A PQ contract is created with two additional fields:
+
+* `attributes` - formed from requirements and responses in tender
+* `contractTemplateName` - copied from tender
+
+
 Getting contract
 ----------------
 
@@ -73,6 +79,19 @@ We do see the internal `id` of a contract (that can be used to construct full UR
 Modifying pending contract
 --------------------------
 
+When contract in `pending` status buyer can update those fields:
+
+* `title`
+* `description`
+* `status`
+* `items`
+* `value`
+* `contractNumber`
+* `dateSigned`
+* `period`
+* `implementation`
+
+
 Setting  contract value
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -99,8 +118,8 @@ Setting value per item's unit
 
 `200 OK` response was returned with successfully set item.unit.value structure.
 
-Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using
-contract.value(if exists), otherwise using tender.value data
+Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded must correspond to the values of
+contract.value.
 
 
 Setting contract signature date
@@ -285,7 +304,7 @@ You can update value `amount` and `amountNet` following next rules:
    * - true
      - Amount should be greater than amountNet and differ by no more than 20%
 
-       Amount and amountNet should be equal
+       (but Amount and amountNet can be equal)
    * - false
      - Amount and amountNet should be equal
 
