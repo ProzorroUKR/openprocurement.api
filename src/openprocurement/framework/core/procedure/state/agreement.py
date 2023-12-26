@@ -19,7 +19,7 @@ def get_agreement_next_check(data):
         milestone_due_dates = [
             milestone["dueDate"]
             for contract in data.get("contracts", []) for milestone in contract.get("milestones", [])
-            if milestone["dueDate"] and milestone["status"] == "scheduled"
+            if milestone.get("dueDate") and milestone["status"] == "scheduled"
         ]
         if milestone_due_dates:
             checks.append(min(milestone_due_dates))

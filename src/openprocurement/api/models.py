@@ -90,7 +90,7 @@ class URLType(StringType):
         'not_found': u"URL does not exist.",
     }
 
-    URL_REGEX = re.compile(r'^https?://\S+$')
+    URL_REGEX = re.compile(r'^https?://\S+$', re.IGNORECASE)
 
     def __init__(self, verify_exists=False, **kwargs):
         self.verify_exists = verify_exists
