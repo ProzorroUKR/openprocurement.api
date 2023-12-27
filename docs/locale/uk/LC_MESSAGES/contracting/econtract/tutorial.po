@@ -131,7 +131,7 @@ msgid "By default contract value is set based on the award, but there is a possi
 msgstr "За замовчуванням вартість договору встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
 
 msgid "If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco)."
-msgstr "Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet`(для всіх процедур окрім esco)."
+msgstr "Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet` (для всіх процедур окрім esco)."
 
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
