@@ -97,7 +97,7 @@ Setting  contract value
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 
-If you want to **lower contract value**, you can insert new one into the `amount` field if value without tax, else `amountNet` field(for all procedures except esco).
+If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco).
 
 .. http:example:: http/contract-set-contract-value.http
    :code:
