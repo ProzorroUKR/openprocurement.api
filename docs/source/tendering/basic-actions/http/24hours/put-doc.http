@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/7414e1289a684a588f44f0c2d4293f0e/bids/2327efaddf8f4344af2c556fe8963db3/documents/3f5eae13d717462a91d9202dcdf47c47?acc_token=aea6ead2c72d4229a16e66296dd07ed7 HTTP/1.0
+PUT /api/2.5/tenders/7414e1289a684a588f44f0c2d4293f0e/bids/2327efaddf8f4344af2c556fe8963db3/documents/fa945c45ea0a4f9db67f590f7ea14563?acc_token=aea6ead2c72d4229a16e66296dd07ed7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 337
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3f5eae13d717462a91d9202dcdf47c47",
+    "id": "fa945c45ea0a4f9db67f590f7ea14563",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "укр.doc",

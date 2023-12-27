@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 13:48+0200\n"
+"POT-Creation-Date: 2023-12-21 11:57+0100\n"
 "PO-Revision-Date: 2020-05-20 22:51+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -64,6 +64,9 @@ msgstr "Під час додавання Доказу, Користувач ма
 
 msgid "After that User can indicate relatedDocument in evidence:"
 msgstr "Після цього Користувач може вказати relatedDocument в Доказі:"
+
+msgid "There is an opportunity to create complaint already with document which can be used as relatedDocument in evidences:"
+msgstr "Також є можливість подати скаргу одним запитом одразу з завантаженим документом, який можна вказати в Доказі як `relatedDocument`:"
 
 msgid "For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:"
 msgstr "Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:"

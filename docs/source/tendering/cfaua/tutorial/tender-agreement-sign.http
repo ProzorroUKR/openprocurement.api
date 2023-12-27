@@ -255,14 +255,14 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/40137a4b174840698ca8b3aaf28eeb5b?Signature=tCeyLe%2B3DjDDTG4vsAwydgsKxHNLxjB5dIhwG%2FonMKXaabEh2Q1Wv7BJgorwI%2BNr4GLZ2vQ3JJCzhznoFUT%2BAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "fe7b1d38c11843aab53393373b44d14f",
+        "id": "81b5f510940a4d1298a954e6fd31185a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "title_en": "Title of Document",
         "description_en": "Description of Document",
-        "id": "eea07cf31cc44c5bb16c415d8c75c70d",
+        "id": "e080f3eb1bbb4ff8b5111155314ae608",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",

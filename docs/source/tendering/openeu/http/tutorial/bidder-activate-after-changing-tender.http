@@ -170,7 +170,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "6445cc6ce08c497d8d68b4a048fda100",
+        "id": "7a905073725c46a2a7a5a8818f1cce4a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -182,12 +182,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "24d4842c57d14041b8a66acadbdc91bb",
+        "id": "58f94d5652e04165b89aa3097a66e404",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/24d4842c57d14041b8a66acadbdc91bb?download=0529d526671941f9a44290ac0e5c9891",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/58f94d5652e04165b89aa3097a66e404?download=0529d526671941f9a44290ac0e5c9891",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -197,7 +197,7 @@ Content-Type: application/json
     ],
     "financialDocuments": [
       {
-        "id": "82ee9a2c18d74b98add3b196b7c9d4d4",
+        "id": "1e0490105010453a87a031836975d521",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -209,7 +209,7 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "557e8a4c6ee14c8988cc1a7ef515d755",
+        "id": "e11dbdc5255444689c235594b8316a60",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
@@ -223,7 +223,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "093a11c4b8554add927a5123991ff5d1",
+        "id": "89eafdf2cfdb43b28124adc9a05f26d9",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -237,7 +237,7 @@ Content-Type: application/json
     ],
     "qualificationDocuments": [
       {
-        "id": "3dd62157e2d74172a7d9cb8f21fd67cc",
+        "id": "cd04294c89fe428fad77750fff5bb19b",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

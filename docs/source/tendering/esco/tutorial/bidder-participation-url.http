@@ -150,7 +150,7 @@ Content-Type: application/json
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "documents": [
       {
-        "id": "1ea7f816fd18448fbe63fa008349b298",
+        "id": "ca91ad3b59f1420c8862057bb50cb521",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -162,12 +162,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "dc0fd7def9184bbea336566b746dc500",
+        "id": "00afac13e6224f69acd03c8c3d7644b6",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/9f572f6770254b01b919e923bbbd86ab/documents/dc0fd7def9184bbea336566b746dc500?download=4751b232227f4b73bc130f096dd47076",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/28db6af763c74fceaedc98e147fed6cb/bids/9f572f6770254b01b919e923bbbd86ab/documents/00afac13e6224f69acd03c8c3d7644b6?download=4751b232227f4b73bc130f096dd47076",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -177,7 +177,7 @@ Content-Type: application/json
     ],
     "financialDocuments": [
       {
-        "id": "847f4e9ea0024274be353232780b96a6",
+        "id": "c4ebbdf8565740ca8e964afca94561f7",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -189,7 +189,7 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "54438de132ed4cc08bf8d84c8cbc69d1",
+        "id": "3c397f3007a74dd2a15d3b79cd932c16",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
@@ -203,7 +203,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "0a29861a88724c179673ee007a82c127",
+        "id": "ffc5972228624c20a6ac3996b0a6bc84",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -217,7 +217,7 @@ Content-Type: application/json
     ],
     "qualificationDocuments": [
       {
-        "id": "f10e4a73441342878b1d370d376a5ee6",
+        "id": "10c18354280d4ad1bcf1b58f968fe2b1",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

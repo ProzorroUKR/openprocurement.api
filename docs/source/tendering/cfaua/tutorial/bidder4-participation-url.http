@@ -148,7 +148,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "420fdc16bd5e46feb1a4b0acaa4168a9",
+        "id": "ec8a5564319a4dc58c3daab9c4c1b9df",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -160,12 +160,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "3d544841baf94db5b923a7dcade6111a",
+        "id": "51aa24cd9d324dfaa2bc1f4f2fe81586",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/c3e41a3a099a41ad864be3893e0711b5/documents/3d544841baf94db5b923a7dcade6111a?download=ed54157e228e45f6a32068f85a790948",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/c3e41a3a099a41ad864be3893e0711b5/documents/51aa24cd9d324dfaa2bc1f4f2fe81586?download=ed54157e228e45f6a32068f85a790948",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -175,7 +175,7 @@ Content-Type: application/json
     ],
     "financialDocuments": [
       {
-        "id": "3724fa6926324dd192b425779b2af95e",
+        "id": "7d8dbc290e98464d80c76ad354ab018b",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -189,7 +189,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "9d3875a88943480cbc9c3b970ef890e8",
+        "id": "aa7150b46e824bff9b2ff66998c3f8a5",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -203,7 +203,7 @@ Content-Type: application/json
     ],
     "qualificationDocuments": [
       {
-        "id": "1259c04f0a25402e913616eea81c5755",
+        "id": "db36c27fe5c04442bfba41f861109047",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

@@ -147,7 +147,7 @@ Content-Type: application/json
     "id": "20bbd5548630438fb1306b5de18c0004",
     "documents": [
       {
-        "id": "36c88d2c6b274c65883820cffe552a2b",
+        "id": "b786280261c84f36b69b6a7ca1056520",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -159,12 +159,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "7f10a54685ee4f44a0fed9c27346e262",
+        "id": "7f127ac76e7243ddbe18713eb1b9895d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004/documents/7f10a54685ee4f44a0fed9c27346e262?download=42865ab1b0de4861a16a0b26900142e2",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004/documents/7f127ac76e7243ddbe18713eb1b9895d?download=42865ab1b0de4861a16a0b26900142e2",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -174,7 +174,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "b1164ca7ed164020add2f8d1130d2b56",
+        "id": "6a9cf991358744c09a01dcb17238b32e",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",

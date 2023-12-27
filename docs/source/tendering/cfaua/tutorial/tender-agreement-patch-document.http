@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0/documents/eea07cf31cc44c5bb16c415d8c75c70d?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
+PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0/documents/e080f3eb1bbb4ff8b5111155314ae608?acc_token=5a77c92a3fdf47b4917bc23307e42385 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 106
 Content-Type: application/json
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "title_en": "Title of Document",
     "description_en": "Description of Document",
-    "id": "eea07cf31cc44c5bb16c415d8c75c70d",
+    "id": "e080f3eb1bbb4ff8b5111155314ae608",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_second_document.doc",

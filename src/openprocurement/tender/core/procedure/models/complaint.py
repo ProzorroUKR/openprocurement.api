@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.models.complaint_objection import (
     QualificationComplaintObjection,
     TenderComplaintObjection,
 )
-from openprocurement.tender.core.procedure.models.document import Document
+from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.tender.core.procedure.models.identifier import Identifier
 from openprocurement.tender.core.procedure.models.organization import Organization, PostOrganization
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
@@ -66,6 +66,7 @@ class PostComplaint(Model):
     type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
     relatedLot = MD5Type()
     objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
+    documents = ListType(ModelType(PostDocument, required=True))
 
     def validate_status(self, data, value):
         if tender_created_after_2020_rules():

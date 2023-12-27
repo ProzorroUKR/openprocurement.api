@@ -14,14 +14,14 @@ Content-Type: application/json
       "format": "application/msword",
       "documentOf": "tender",
       "language": "uk",
+      "id": "d02d8dd97df648568d4a58a0ebb0610f",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "This document contains some secret data that shouldn't be public",
-      "id": "792b94edcc1645558285a6e53a6566db",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "09de207106af4254ae4b30471ffb7e21",
+      "id": "21b1f48951004fa39030bc9e1c44f59d",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "public-to-private.doc",
@@ -39,8 +39,8 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b685322d12b4938a1485f15d7b8055c?Signature=Gqk57hUOrPwtwykDL1i7JDzVqpuQJOvTiHQ3vw9152GolAqDD10cXonoHkNGN%2Byv054UsWYfd33%2Bgze1Mo3EDg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
+      "id": "4b5ee692f3d1432881dac3c9af7fb386",
       "confidentiality": "public",
-      "id": "ee649ceb45ab4e82be7e294f047fde7f",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     }

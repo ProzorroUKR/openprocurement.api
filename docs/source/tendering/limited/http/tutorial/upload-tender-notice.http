@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/documents/e09d8f26c3b74f8d8aa1f5fbbbc18c9f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/documents/64816d4f9a0545b289e9c92fe9007036
 
 {
   "data": {
@@ -26,7 +26,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b637535099e452b890198556efb7f70?Signature=Gb0uMtev6EiVhDG%2FUzbdh5NxU8ZGf5XusY8RY9n0C9HplAxVHIPVZ8%2FV5X8I0XUCOjzFPqSAe9CiguZlHkj2CA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "e09d8f26c3b74f8d8aa1f5fbbbc18c9f",
+    "id": "64816d4f9a0545b289e9c92fe9007036",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "tender_owner"

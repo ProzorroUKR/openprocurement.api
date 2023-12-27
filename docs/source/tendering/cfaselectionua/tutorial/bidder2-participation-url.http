@@ -35,7 +35,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "ccbc49d9afb64e48bc47326d43f3df4f",
+        "id": "32c79a66c3804bad893dfaa0c1cfd59f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -47,7 +47,7 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "a75a8ee9ac0040c18c01303d794b899c",
+        "id": "c29a974bdbb34ec690f1e8f5151b95aa",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",

@@ -23,7 +23,7 @@ Content-Type: application/json
     "status": "resolved",
     "documents": [
       {
-        "id": "70d64715f0914d219f1c859d1ea462bd",
+        "id": "0f145031b183425289f4f96be729fdb8",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -35,7 +35,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "f1e342523f3d4ca7bf6f46c9a2b8afdd",
+        "id": "b2f449365e2447308e17774e07a19bb3",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",

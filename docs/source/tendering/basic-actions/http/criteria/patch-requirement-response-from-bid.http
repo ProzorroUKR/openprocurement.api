@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "type": "document"
@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "type": "document"
@@ -68,7 +68,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "id": "2fb67e17ee7f4d8e9686b04afb472496"
@@ -89,7 +89,7 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "412b2323014741b7a6c50a0ca94e98e8",
+              "id": "f15755940c8c467e86b05b3ee64420a0",
               "title": "name.doc"
             },
             "id": "63de878ccc7844adb34f6b15fe5bf1a6"
@@ -141,7 +141,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "412b2323014741b7a6c50a0ca94e98e8",
+        "id": "f15755940c8c467e86b05b3ee64420a0",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

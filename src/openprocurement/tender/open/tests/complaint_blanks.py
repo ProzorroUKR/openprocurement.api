@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from uuid import uuid4
+
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
 from openprocurement.tender.core.tests.utils import change_auth
@@ -1310,6 +1312,30 @@ def objection_related_document_of_evidence(self):
     self.assertEqual(response.status, "200 OK")
     objection = response.json["data"]["objections"][0]
     self.assertEqual(objection["id"], objection_id)
+
+    # create complaint already with document and indicated relatedDocument in evidences in one POST
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    doc_id = uuid4().hex
+    complaint_data["documents"] = [{
+        "id": doc_id,
+        "title": "Evidence_Attachment.pdf",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pdf",
+    }]
+    objection = deepcopy(test_tender_open_complaint_objection)
+    objection["arguments"][0]["evidences"] = [{
+        "title": "Evidence",
+        "description": "Test evidence",
+        "relatedDocument": doc_id,
+    }]
+    complaint_data["objections"] = [objection]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(
+        response.json["data"]["documents"][0]["id"],
+        response.json["data"]["objections"][0]["arguments"][0]["evidences"][0]["relatedDocument"]
+    )
 
 
 def objection_related_item_equals_related_lot(self):
