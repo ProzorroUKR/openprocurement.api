@@ -571,6 +571,10 @@ def create_framework_draft_url_validation(self):
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
 
+    data["procuringEntity"]["contactPoint"]["url"] = "HTTPS://HONCAPK.PP.UA"
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
     data["procuringEntity"]["contactPoint"]["url"] = "foobar.12"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
