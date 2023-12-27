@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-22 17:03+0200\n"
+"POT-Creation-Date: 2023-12-27 13:52+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -31,17 +31,26 @@ msgstr "Подивимось як працює точка входу `/contracts
 msgid "Just invoking it reveals an empty set."
 msgstr "При виклику видає пустий набір."
 
-msgid "Contract is transferred from the tender system by an automated process."
-msgstr "Перенесенням договору із системи закупівель займається автоматизований процес."
+msgid "Contract is transferred from the tender system by an automated process. The circumstances under which this happens are described below."
+msgstr "Перенесення договору із системи закупівель відбувається автоматично.Обставини за яких вібувається перенесення, описані нижче."
 
 msgid "Creating contract"
 msgstr "Створення договору"
 
-msgid "Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender (with a limited set of fields) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status."
-msgstr "Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``."
+msgid "Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status."
+msgstr "Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``."
 
 msgid "*Brokers (eMalls) can't create contracts in the contract system.*"
 msgstr "*Майданчики (брокери) не мають можливості створювати договори в системі договорів.*"
+
+msgid "A PQ contract is created with two additional fields:"
+msgstr "Договір PQ створюється з двома додатковими полями:"
+
+msgid "`attributes` - formed from requirements and responses in tender"
+msgstr "`attributes` - формується з вимог та відповідей на виомги у закупівлі"
+
+msgid "`contractTemplateName` - copied from tender"
+msgstr "`contractTemplateName` - копіюється з закупівлі"
 
 msgid "Getting contract"
 msgstr "Отримання договору"
@@ -85,14 +94,44 @@ msgstr "Ми бачимо внутрішнє `id` договору (що мож�
 msgid "Modifying pending contract"
 msgstr "Редагування чернетки договору"
 
+msgid "When contract in `pending` status buyer can update those fields:"
+msgstr "Коли договір у статусі `pending` замовник може змінити такі поля:"
+
+msgid "`title`"
+msgstr ""
+
+msgid "`description`"
+msgstr ""
+
+msgid "`status`"
+msgstr ""
+
+msgid "`items`"
+msgstr ""
+
+msgid "`value`"
+msgstr ""
+
+msgid "`contractNumber`"
+msgstr ""
+
+msgid "`dateSigned`"
+msgstr ""
+
+msgid "`period`"
+msgstr ""
+
+msgid "`implementation`"
+msgstr ""
+
 msgid "Setting  contract value"
-msgstr "Встановлення вартості угоди"
+msgstr "Встановлення вартості договору"
 
 msgid "By default contract value is set based on the award, but there is a possibility to set custom contract value."
-msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
+msgstr "За замовчуванням вартість договору встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
 
-msgid "If you want to **lower contract value**, you can insert new one into the `amount` field(for all procedures except esco)."
-msgstr "Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`."
+msgid "If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco)."
+msgstr "Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet` (для всіх процедур окрім esco)."
 
 msgid "`200 OK` response was returned. The value was modified successfully."
 msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
@@ -106,29 +145,29 @@ msgstr "Встановлення ціни за одиницю"
 msgid "`200 OK` response was returned with successfully set item.unit.value structure."
 msgstr "`200 OK` відповіддь повертається з успішно створеною структурою item.unit.value."
 
-msgid "Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded are created using contract.value(if exists), otherwise using tender.value data"
-msgstr "Item.unit.value.currency та Item.unit.value.valueAddedTaxIncluded створюються, використовуючи інформацію з contract.value(якщо існує), в іншому випадку з tender.value"
+msgid "Item.unit.value.currency and Item.unit.value.valueAddedTaxIncluded must correspond to the values of contract.value."
+msgstr "Item.unit.value.currency та Item.unit.value.valueAddedTaxIncluded мають відповідати значенням з contract.value."
 
 msgid "Setting contract signature date"
-msgstr "Встановлення дати підписання угоди"
+msgstr "Встановлення дати підписання договору"
 
 msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
-msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
+msgstr "Є можливість встановити дату підписання договору. Для цього вставте відповідну дату в поле `dateSigned`."
 
 msgid "If this date is not set, it will be auto-generated on the date of contract registration."
-msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації договору."
 
 msgid "Setting contract validity period"
-msgstr "Встановлення терміну дії угоди"
+msgstr "Встановлення терміну дії договору"
 
 msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
-msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
+msgstr "Встановлення терміну дії договору необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
 
 msgid "Uploading contract documentation"
-msgstr "Завантаження документації по угоді"
+msgstr "Завантаження документації по договору"
 
-msgid "Contract documents can be uploaded only up until conclusion of the agreement. Let's add contract document:"
-msgstr "Документи пов’язані з угодою можна завантажувати лише до укладання угоди. Спробуємо додати такий документ:"
+msgid "Contract documents can be uploaded only to contract in `pending` and `active` statuses. Let's add contract document:"
+msgstr "Документи пов’язані з договором можна завантажувати лише до контракту у статусі `pending` чи `active`. Спробуємо додати такий документ:"
 
 msgid "`201 Created` response code and `Location` header confirm that document has been added."
 msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:"
@@ -137,67 +176,67 @@ msgid "Let's see the list of contract documents:"
 msgstr "Переглянемо список завантажених документів:"
 
 msgid "We can add another contract document:"
-msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
+msgstr "Тепер спробуємо додати ще один документ щодо укладанням договору:"
 
 msgid "`201 Created` response code and `Location` header confirm second document has been added."
 msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще один документ було додано."
 
 msgid "Let's see the list of all uploaded contract documents:"
-msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
+msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням договору:"
 
 msgid "Cancelling contract"
-msgstr "Скасування угоди"
+msgstr "Скасування договору"
 
 msgid "There are two ways for cancelling contract:"
-msgstr "Існує два способи скасування угоди:"
+msgstr "Існує два способи скасування договору:"
 
 msgid "PATCH award status from `active` to `cancelled`"
 msgstr "Зміна стаусу award з `active` на `cancelled`"
 
 msgid "PATCH contract status from \"pending\" to \"cancelled\" (this can only work if this contract is not the last active contract)"
-msgstr "Зміна статусу угоди з \"pending\" to \"cancelled\" (цей метод працює, коли це не останній активний договір)"
+msgstr "Зміна статусу договору з \"pending\" to \"cancelled\" (цей метод працює, коли це не останній активний договір)"
 
 msgid "Cancelling from award"
-msgstr "Відміна угоди через award"
+msgstr "Відміна договору через award"
 
 msgid "All you need, it's just patch award status to ``cancelled``"
 msgstr "Все що потрібно, це змінити статус award на ``cancelled``"
 
 msgid "Tender contract **automatically** turned to ``cancelled``"
-msgstr "Угода у системі зкупівлі **автомтично** перейде до ``cancelled``"
+msgstr "Договір у системі закупівель **автомтично** перейде до ``cancelled``"
 
 msgid "Contract in contracting also **automatically** turned to ``cancelled``"
-msgstr "Угода у системі договорів також **автоматично** перейде до ``cancelled``"
+msgstr "Договір у системі договорів також **автоматично** перейде до ``cancelled``"
 
 msgid "Cancelling from contract"
 msgstr "Відміна через зміну договору"
 
-msgid "If  you try to patch last contract in ``pending`` to ``cancelled`` you'll get error:"
-msgstr "Якщо ви спробуєте змінити статус останньої угоди з ``pending`` на ``cancelled`` ви отримаєте помилку:"
+msgid "If  you try to patch contract in ``pending`` to ``cancelled`` you'll get error:"
+msgstr "Якщо ви спробуєте змінити статус договору з ``pending`` на ``cancelled`` ви отримаєте помилку:"
 
 msgid "Activating contract"
-msgstr "Реєстрація угоди"
+msgstr "Реєстрація договору"
 
 msgid "For activating contract, at first buyer and supplier should fill signer information. If you try activate contract without that information you'll get error:"
-msgstr "Перед тим як зареєструвати угоду,потрібно замовнику та постачальнику заповнити інформацію підписанта. При спробі активувати угоду без даної інформації, буде отримана помилка:"
+msgstr "Перед тим як зареєструвати договір,потрібно замовнику та постачальнику заповнити інформацію підписанта. При спробі активувати договір без даної інформації, буде отримана помилка:"
 
 msgid "Buyer fill signer information using ``contract_token`` or ``tender_token``:"
 msgstr "Замовник заповнює інформацію підписанта використовуючи ``contract_token`` чи ``tender_token``:"
 
-msgid "Supplier fill signer information using ``bid_token``:"
-msgstr "Постачальник заповнює інформацію підписанта використовуючи ``bid_token``:"
+msgid "Supplier fill signer information using ``bid_token``, for `limited` procedure that request, make buyer using ``contract_token`` or ``tender_token``:"
+msgstr "Постачальник заповнює інформацію підписанта використовуючи ``bid_token``, для `limited` процедури цей запит виконує замовник використовуючи ``contract_token`` чи ``tender_token``:"
 
 msgid "You can update signer information using same method:"
 msgstr "Інформацію підписанта можна оновоити використовуючи той самий спосіб:"
 
 msgid "After that actions you can activate contract:"
-msgstr "Після всіх цих дій, ви можете зареєструвати угоду"
+msgstr "Після всіх цих дій, ви можете зареєструвати договір"
 
 msgid "After activating contract, tender contract **automatically** switch to `active` and tender  to `complete`:"
-msgstr "Після активації угоди, угода у системі закупівель **автоматично** перейде у `active` і закупівля у статус `complete`:"
+msgstr "Після активації договору, договір у системі закупівель **автоматично** перейде у `active` і закупівля у статус `complete`:"
 
 msgid "Modifying active contract"
-msgstr "Редагування зреєстрованого договору"
+msgstr "Редагування зареєстрованого договору"
 
 msgid "You can make changes to the contract in cases described in the 4th part of Article 36 of the Law \"On the Public Procurement\"."
 msgstr "Внесення змін до істотних умов договору можливі у випадках, описаних частиною четвертою статті 36 Закону України “Про публічні закупівлі”."
@@ -258,6 +297,9 @@ msgstr ""
 
 msgid "Amount should be greater than amountNet and differ by no more than 20%"
 msgstr ""
+
+msgid "(but Amount and amountNet can be equal)"
+msgstr "(але Amount та amountNet можуть бути рівними)"
 
 msgid "false"
 msgstr ""

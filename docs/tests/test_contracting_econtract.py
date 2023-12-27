@@ -58,10 +58,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         super(TenderResourceTest, self).tearDown()
 
     def test_docs(self):
+        with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
+            self.app.authorization = None
+            response = self.app.get('/contracts')
+            self.assertEqual(response.status, '200 OK')
+            self.app.file_obj.write("\n")
+
         self.app.authorization = ('Basic', ('broker', ''))
         # empty tenders listing
         response = self.app.get('/tenders')
         self.assertEqual(response.json['data'], [])
+
         # create tender
         test_tender_data['items'].append(deepcopy(test_tender_data['items'][0]))
         for item in test_tender_data['items']:
@@ -128,11 +135,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         #### Exploring basic rules
 
-        with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
-            self.app.authorization = None
-            response = self.app.get(request_path)
-            self.assertEqual(response.status, '200 OK')
-            self.app.file_obj.write("\n")
+        # with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
+        #     self.app.authorization = None
+        #     response = self.app.get(request_path)
+        #     self.assertEqual(response.status, '200 OK')
+        #     self.app.file_obj.write("\n")
 
         # Getting contract
         self.app.authorization = None
