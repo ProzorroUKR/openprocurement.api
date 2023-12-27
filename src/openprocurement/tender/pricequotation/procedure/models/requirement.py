@@ -52,7 +52,8 @@ def validate_criteria_id_uniq(objs, *args):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
 
 
-class Requirement(ValidateIdMixing, Model):
+# TODO Leave after migration only one class without expectedValue
+class RequirementPost(ValidateIdMixing, Model):
 
     title = StringType(required=True)
     description = StringType()
@@ -61,7 +62,6 @@ class Requirement(ValidateIdMixing, Model):
     unit = ModelType(Unit)
     minValue = BaseType()
     maxValue = BaseType()
-    expectedValue = BaseType()
 
     expectedValues = ListType(BaseType(required=True), min_size=1)
     expectedMinItems = IntType(min_value=0)
@@ -73,9 +73,12 @@ class Requirement(ValidateIdMixing, Model):
     def validate_maxValue(self, data, value):
         return validate_value_type(value, data['dataType'])
 
-    def validate_expectedValue(self, data, value):
-        return validate_value_type(value, data['dataType'])
-
     def validate_expectedValues(self, data, value):
         return validate_list_of_values_type(value, data['dataType'])
 
+
+class Requirement(RequirementPost):
+    expectedValue = BaseType()
+
+    def validate_expectedValue(self, data, value):
+        return validate_value_type(value, data['dataType'])

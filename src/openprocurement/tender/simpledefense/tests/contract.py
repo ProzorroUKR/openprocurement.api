@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import unittest
+from unittest.mock import patch
+from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.tender.belowthreshold.tests.contract import (
@@ -41,6 +44,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
@@ -73,6 +77,7 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractReso
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractResourceTest, self).setUp()
         self.create_award()
@@ -90,10 +95,12 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractReso
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractVATNotIncludedResourceTest, self).setUp()
         TenderContractResourceTest.create_award(self, value_vat_included=False)
@@ -104,11 +111,13 @@ class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, Tend
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
     docservice = True
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractDocumentResourceTest, self).setUp()
         # Create award
@@ -140,11 +149,13 @@ class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderCont
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
+@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(BaseSimpleDefContentWebTest):
     initial_data = test_tender_simpledefense_multi_buyers_data
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
 
+    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super(TenderContractMultiBuyersResourceTest, self).setUp()
         TenderContractResourceTest.create_award(self, value_vat_included=True)

@@ -4,10 +4,7 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderStage2UABidDocumentResourceTest
-    patch_tender_with_bids_lots_none,
-)
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
@@ -41,6 +38,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_stage2_data,
     test_tender_cd_tenderer,
     test_tender_cd_lots,
+    test_tender_cd_author,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     # TenderStage2BidResourceTest
@@ -79,6 +77,7 @@ class CreateBidMixin(object):
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
         bid_data["status"] = "draft"
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
@@ -92,6 +91,8 @@ class TenderStage2EUBidResourceTest(
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_stage2_data
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
+    author_data = test_tender_cd_author
 
     test_create_tender_bidder_firm = snitch(create_tender_bidder_firm)
     test_delete_tender_bidder = snitch(delete_tender_bidder_eu)
@@ -100,6 +101,16 @@ class TenderStage2EUBidResourceTest(
     # TODO: undone that
     test_create_tender_biddder_invalid = None
 
+    def setUp(self):
+        super(TenderStage2EUBidResourceTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.tender_lots = response.json["data"]["lots"]
+        self.test_bids_data = []
+        for bid in test_tender_openeu_bids:
+            bid_data = deepcopy(bid)
+            bid_data["tenderers"][0]["identifier"]["id"] = self.initial_data["shortlistedFirms"][0]["identifier"]["id"]
+            set_bid_lotvalues(bid_data, self.tender_lots)
+            self.test_bids_data.append(bid_data)
 
 
 class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -107,6 +118,7 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_stage2_data
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUBidFeaturesResourceTest, self).setUp()
@@ -127,18 +139,21 @@ class TenderStage2EUBidDocumentResourceTest(
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUBidDocumentResourceTest, self).setUp()
         # Create bid
         test_bid_1 = deepcopy(test_tender_openeu_bids[0])
         test_bid_1["tenderers"] = [test_tender_cd_tenderer]
+        set_bid_lotvalues(test_bid_1, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, test_bid_1)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
         # create second bid
         test_bid_2 = deepcopy(test_tender_openeu_bids[1])
         test_bid_2["tenderers"] = [test_tender_cd_tenderer]
+        set_bid_lotvalues(test_bid_2, self.initial_lots)
         bid2, bid2_token = self.create_bid(self.tender_id, test_bid_2)
         self.bid2_id = bid2["id"]
         self.bid2_token = bid2_token
@@ -151,6 +166,7 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     initial_status = "active.tendering"
     initial_data = test_tender_cdua_stage2_data
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
 
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid_ua)
     test_create_tender_bidder = snitch(create_tender_bidder_ua)
@@ -172,6 +188,7 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     initial_status = "active.tendering"
     initial_data = test_tender_cdua_stage2_data
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2UABidFeaturesResourceTest, self).setUp()
@@ -188,12 +205,14 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
 class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_bids_stage2
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(BaseCDUAStage2BidContentWebTest, self).setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.bid_id = bid["id"]
         self.bid_token = bid_token
@@ -212,6 +231,7 @@ class TenderEUBidRequirementResponseResourceTest(
 ):
     test_bids_data = test_bids_stage2
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
 
 class TenderUABidRequirementResponseResourceTest(
@@ -221,6 +241,7 @@ class TenderUABidRequirementResponseResourceTest(
 ):
     test_bids_data = test_bids_stage2
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
 
 class TenderEUBidRequirementResponseEvidenceResourceTest(
@@ -230,6 +251,7 @@ class TenderEUBidRequirementResponseEvidenceResourceTest(
 ):
     test_bids_data = test_bids_stage2
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
 
 class TenderUABidRequirementResponseEvidenceResourceTest(
@@ -239,6 +261,7 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
 ):
     test_bids_data = test_bids_stage2
     initial_status = "active.tendering"
+    initial_lots = test_tender_cd_lots
 
 
 def suite():

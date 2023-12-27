@@ -10,14 +10,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-01-08T00:00:00+02:00"
+        "startDate": "2023-10-17T01:00:00+03:00"
       }
     },
     "items": [
       {
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "additionalClassifications": [
           {
@@ -40,8 +40,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "additionalClassifications": [
           {
@@ -64,8 +64,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "additionalClassifications": [
           {
@@ -189,7 +189,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-01-08T00:00:00+02:00"
+        "startDate": "2023-10-17T01:00:00+03:00"
       }
     },
     "budget": {
@@ -230,7 +230,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
         "description": "-"
       }
     ],
-    "planID": "UA-P-2023-01-01-000001",
+    "planID": "UA-P-2023-10-10-000001",
     "items": [
       {
         "id": "bd1d53956c124170934e1c8f9f4bedfd",
@@ -252,8 +252,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
         },
         "quantity": 1000.0,
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -277,8 +277,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
         },
         "quantity": 2000.0,
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -302,8 +302,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
         },
         "quantity": 3000.0,
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -328,9 +328,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/c4fc1923c53a47079c
       }
     ],
     "status": "scheduled",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "owner": "broker",
     "id": "c4fc1923c53a47079cb230ec4595043a"
   },

@@ -5,6 +5,7 @@ from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import get_tender_by_id
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
+from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 
 
 class ContractBaseResource(BaseResource):
@@ -46,3 +47,10 @@ class ContractBaseResource(BaseResource):
                 if "buyer" in contract:
                     request.validated["tender"] = get_tender_by_id(request, contract["tender_id"])
                     self.request.validated["tender_src"] = deepcopy(request.validated["tender"])
+                    tender_config = request.validated["tender"].pop("config", None) or {}
+                    self.request.validated["tender_config"] = TenderConfigSerializer(tender_config).data
+                    award = [
+                        award for award in request.validated["tender"].get("awards", [])
+                        if award.get("id") == contract.get("awardID")
+                    ][0]
+                    request.validated["award"] = award

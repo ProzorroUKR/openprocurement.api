@@ -5,11 +5,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_cancellation,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
     test_tender_cd_author,
     test_tender_cd_stage1_bids,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
@@ -75,6 +77,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cd_stage1_bids
+    initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
 
@@ -82,6 +85,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
         super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
         bid_data = deepcopy(test_tender_cd_stage1_bids[0])
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(
@@ -163,6 +167,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cd_stage1_bids
+    initial_lots = test_tender_cd_lots
     initial_bid_data = test_tender_cd_stage1_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
@@ -171,6 +176,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
         # Create bid
         bid_data = deepcopy(self.initial_bid_data[0])
+        set_bid_lotvalues(bid_data, self.initial_lots)
         bidder_data = bid_data["tenderers"][0]
         bidder_data["identifier"]["id"] = "00037256"
         response = self.app.post_json(

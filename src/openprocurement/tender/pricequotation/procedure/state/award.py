@@ -1,10 +1,8 @@
-from copy import deepcopy
-
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import (
-    pq_add_contracts,
+    add_contracts,
     save_contracts_to_contracting,
     update_econtracts_statuses,
 )
@@ -29,9 +27,9 @@ class AwardState(AwardStateMixing, PriceQuotationTenderState):
         assert before != after, "Statuses must be different"
 
         if before == "pending" and after == "active":
-            contracts = pq_add_contracts(get_request(), award)
+            contracts = add_contracts(get_request(), award)
             self.add_next_award()
-            save_contracts_to_contracting(contracts)
+            save_contracts_to_contracting(contracts, award)
 
         elif before == "pending" and after == "unsuccessful":
             self.add_next_award()

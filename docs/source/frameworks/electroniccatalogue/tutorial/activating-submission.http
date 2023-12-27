@@ -42,12 +42,12 @@ Content-Type: application/json
     ],
     "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
     "status": "active",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "electronicCatalogue",
     "qualificationID": "2efa97090edf4a269865f3d2a1e88247",
-    "datePublished": "2023-01-17T00:00:00+02:00",
+    "datePublished": "2023-10-26T01:00:00+03:00",
     "id": "8b8465c39dc3471ba57b324f2ed988fa"
   },
   "config": {}

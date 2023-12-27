@@ -17,8 +17,8 @@ Content-Type: application/json
       "language": "uk",
       "confidentiality": "public",
       "id": "56effda6fa064e23b1aa57e3a90f86c0",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
       "hash": "md5:00000000000000000000000000000000",
@@ -29,8 +29,8 @@ Content-Type: application/json
       "language": "uk",
       "confidentiality": "public",
       "id": "687aaee1741f4c2083ca2b2b91c8d366",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00"
     }
   ]
 }

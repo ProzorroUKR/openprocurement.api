@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "description": "Назва предмета закупівлі1",
     "qualificationPeriod": {
-      "endDate": "2023-03-17T00:00:00+02:00"
+      "endDate": "2023-12-24T01:00:00+03:00"
     }
   }
 }
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "prettyID": "UA-F-2023-01-01-000001",
+    "prettyID": "UA-F-2023-10-10-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі1",
     "status": "active",
@@ -45,54 +45,54 @@ Content-Type: application/json
     "documents": [
       {
         "id": "7137fa5d73c64e8ba56d6ea099e6059c",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e38e94f4fbab44ecb6f74b90a27e6181?Signature=eYTcMLrU9pbzXw3zQawemAR2B5P4wH7q9Oi%2BaSrfd8yz0GREYrG3PD2aGzaBcLE443%2FXz7h48KBhMQ9rMl8HDw%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
       },
       {
         "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dc4a665229114a72993b89bb20d7874b?Signature=cdTNyz3oB7rPP2%2Fou8SnYPoxabwo%2BQcAzgKapCGy9PY%2Fo3NSfRnJlvm9jzPX3Maq8xi6wTSODTEEEXWyEhYpCg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
       },
       {
         "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f4300d9a1594cfc800f2ea11c9a38d1?Signature=%2FEIDl4zhMc%2FQIlBBsuAcBovf0l1hIzOWn0E%2BS7E45QoXJ0ZAOOPKXmO2jUWxMhgObJloZ9%2FVLIiar4eop2K7Dg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
       }
     ],
     "agreementID": "acca82c6bd0c40bb99ac3a85e97a0fa7",
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-15T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-24T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-03-17T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-12-24T01:00:00+03:00"
     },
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-14T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-28T00:00:00+03:00"
     },
-    "next_check": "2023-01-28T00:00:00+02:00",
+    "next_check": "2023-11-08T00:00:00+03:00",
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",

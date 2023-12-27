@@ -10,16 +10,16 @@
     },
     "data": {
         "auctionPeriod": {
-            "startDate": "2023-01-01T00:00:00+02:00"
+            "startDate": "2023-10-10T01:00:00+03:00"
         },
         "awardCriteria": "lowestCost",
         "awardPeriod": {
-            "startDate": "2023-01-01T00:00:00+02:00"
+            "startDate": "2023-10-10T01:00:00+03:00"
         },
         "awards": [
             {
                 "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "1f619ca33c0c418680a6e9108c782381",
                 "lotID": "0604e55b3dae444a8d537bb4c971a246",
                 "status": "pending",
@@ -55,7 +55,7 @@
             },
             {
                 "bid_id": "9af619241d9042d39d0123e9463e052f",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "93e3afc7e7444428a688e88ce9655594",
                 "lotID": "0604e55b3dae444a8d537bb4c971a246",
                 "status": "pending",
@@ -91,7 +91,7 @@
             },
             {
                 "bid_id": "9af619241d9042d39d0123e9463e052f",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "1638bb9ae8544adca20905ab2e6cc2ef",
                 "lotID": "f21c5735a39e41538e386c454149f615",
                 "status": "pending",
@@ -127,7 +127,7 @@
             },
             {
                 "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "d45bf625a8e94c678b31c270e2a235f1",
                 "lotID": "f21c5735a39e41538e386c454149f615",
                 "status": "pending",
@@ -164,11 +164,11 @@
         ],
         "bids": [
             {
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "7e95a6b839db44edb45dfdd6caa41a97",
                 "lotValues": [
                     {
-                        "date": "2023-01-01T00:00:00+02:00",
+                        "date": "2023-10-10T01:00:00+03:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
                         "status": "active",
@@ -179,7 +179,7 @@
                         }
                     },
                     {
-                        "date": "2023-01-01T00:00:00+02:00",
+                        "date": "2023-10-10T01:00:00+03:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=7e95a6b839db44edb45dfdd6caa41a97",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
                         "status": "active",
@@ -319,11 +319,11 @@
                 ]
             },
             {
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "id": "9af619241d9042d39d0123e9463e052f",
                 "lotValues": [
                     {
-                        "date": "2023-01-01T00:00:00+02:00",
+                        "date": "2023-10-10T01:00:00+03:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
                         "status": "active",
@@ -334,7 +334,7 @@
                         }
                     },
                     {
-                        "date": "2023-01-01T00:00:00+02:00",
+                        "date": "2023-10-10T01:00:00+03:00",
                         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615?key_for_bid=9af619241d9042d39d0123e9463e052f",
                         "relatedLot": "f21c5735a39e41538e386c454149f615",
                         "status": "active",
@@ -512,7 +512,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "eligibleEvidences": [
                                     {
                                         "description": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430 \u0432 \u0434\u043e\u0432\u0456\u043b\u044c\u043d\u0456\u0439 \u0444\u043e\u0440\u043c\u0456",
@@ -534,7 +534,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "7f98ca27851e43f0b83ad9cba574d4a8",
                                 "status": "active",
@@ -593,7 +593,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "d3c7c750d84b4f7b9df344d0f72b4162",
                                 "status": "active",
@@ -642,7 +642,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "c5f40db7e95549dd980c72629dfb76cf",
                                 "status": "active",
@@ -650,7 +650,7 @@
                             },
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "57839caf020a453caa4db170347f44f9",
                                 "status": "active",
@@ -689,7 +689,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "bfeb7d1fcdd541a0b66b327f99b56d83",
                                 "status": "active",
@@ -728,7 +728,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "0eecf1a5b6c74c008212e43a97dd4b4c",
                                 "status": "active",
@@ -767,7 +767,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "eligibleEvidences": [
                                     {
                                         "description": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430 \u0432 \u0434\u043e\u0432\u0456\u043b\u044c\u043d\u0456\u0439 \u0444\u043e\u0440\u043c\u0456",
@@ -813,7 +813,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "id": "cae982d9b83f419395e6cabe62caaa1d",
                                 "status": "active",
                                 "title": "\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u043c\u0430\u0454 \u043d\u0435\u0437\u0430\u043f\u0435\u0440\u0435\u0447\u043d\u0456 \u0434\u043e\u043a\u0430\u0437\u0438 \u0442\u043e\u0433\u043e, \u0449\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u043f\u043e\u043d\u0443\u0454, \u0434\u0430\u0454 \u0430\u0431\u043e \u043f\u043e\u0433\u043e\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f \u0434\u0430\u0442\u0438 \u043f\u0440\u044f\u043c\u043e \u0447\u0438 \u043e\u043f\u043e\u0441\u0435\u0440\u0435\u0434\u043a\u043e\u0432\u0430\u043d\u043e \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0441\u043b\u0443\u0436\u0431\u043e\u0432\u0456\u0439 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0456\u0439) \u043e\u0441\u043e\u0431\u0456 \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0430, \u0456\u043d\u0448\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u043e\u0440\u0433\u0430\u043d\u0443 \u0432\u0438\u043d\u0430\u0433\u043e\u0440\u043e\u0434\u0443 \u0432 \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0444\u043e\u0440\u043c\u0456 (\u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044f \u0449\u043e\u0434\u043e \u043d\u0430\u0439\u043c\u0443 \u043d\u0430 \u0440\u043e\u0431\u043e\u0442\u0443, \u0446\u0456\u043d\u043d\u0430 \u0440\u0456\u0447, \u043f\u043e\u0441\u043b\u0443\u0433\u0430 \u0442\u043e\u0449\u043e) \u0437 \u043c\u0435\u0442\u043e\u044e \u0432\u043f\u043b\u0438\u043d\u0443\u0442\u0438 \u043d\u0430 \u043f\u0440\u0438\u0439\u043d\u044f\u0442\u0442\u044f \u0440\u0456\u0448\u0435\u043d\u043d\u044f \u0449\u043e\u0434\u043e \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u043d\u044f \u043f\u0435\u0440\u0435\u043c\u043e\u0436\u0446\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0430\u0431\u043e \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u043f\u0435\u0432\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456"
@@ -890,7 +890,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "7c438a4cc0f74adb973c1359a3bb7c22",
                                 "status": "active",
@@ -898,7 +898,7 @@
                             },
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "b80c039b8c9c4a429ff1de4ddc0fd161",
                                 "status": "active",
@@ -906,7 +906,7 @@
                             },
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "45eb7c9c39e545439539875cd8044156",
                                 "status": "active",
@@ -943,7 +943,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-01-01T00:00:00+02:00",
+                                "datePublished": "2023-10-10T01:00:00+03:00",
                                 "expectedValue": "true",
                                 "id": "994974f4350f4df6b2a18bfb14076d1f",
                                 "status": "active",
@@ -956,13 +956,13 @@
                 "title": "\u041c\u043e\u0432\u0430 (\u043c\u043e\u0432\u0438), \u044f\u043a\u043e\u044e (\u044f\u043a\u0438\u043c\u0438) \u043f\u043e\u0432\u0438\u043d\u043d\u0456 \u0433\u043e\u0442\u0443\u0432\u0430\u0442\u0438\u0441\u044f \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0456 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
             }
         ],
-        "date": "2023-01-01T00:00:00+02:00",
-        "dateCreated": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
+        "dateCreated": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "enquiryPeriod": {
-            "clarificationsUntil": "2023-01-09T00:00:00+02:00",
-            "endDate": "2022-12-29T00:00:00+02:00",
-            "startDate": "2022-12-24T00:00:00+02:00"
+            "clarificationsUntil": "2023-10-19T00:00:00+03:00",
+            "endDate": "2023-10-07T01:00:00+03:00",
+            "startDate": "2023-10-02T01:00:00+03:00"
         },
         "id": "62ce6859a3df45b692f7f78357d812c0",
         "items": [
@@ -987,8 +987,8 @@
                     "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
                 },
                 "deliveryDate": {
-                    "endDate": "2023-02-20T00:00:00+02:00",
-                    "startDate": "2023-01-21T00:00:00+02:00"
+                    "endDate": "2023-11-29T00:00:00+02:00",
+                    "startDate": "2023-10-30T00:00:00+02:00"
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "id": "499e09944ea347a994a8f14829146ff7",
@@ -1025,8 +1025,8 @@
                     "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
                 },
                 "deliveryDate": {
-                    "endDate": "2023-02-20T00:00:00+02:00",
-                    "startDate": "2023-01-21T00:00:00+02:00"
+                    "endDate": "2023-11-29T00:00:00+02:00",
+                    "startDate": "2023-10-30T00:00:00+02:00"
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "description_en": "Services in school canteens",
@@ -1047,11 +1047,11 @@
         "lots": [
             {
                 "auctionPeriod": {
-                    "endDate": "2023-01-01T00:00:00+02:00",
-                    "startDate": "2023-01-01T00:00:00+02:00"
+                    "endDate": "2023-10-10T01:00:00+03:00",
+                    "startDate": "2023-10-10T01:00:00+03:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_0604e55b3dae444a8d537bb4c971a246",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "0604e55b3dae444a8d537bb4c971a246",
                 "minimalStep": {
@@ -1069,11 +1069,11 @@
             },
             {
                 "auctionPeriod": {
-                    "endDate": "2023-01-01T00:00:00+02:00",
-                    "startDate": "2023-01-01T00:00:00+02:00"
+                    "endDate": "2023-10-10T01:00:00+03:00",
+                    "startDate": "2023-10-10T01:00:00+03:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/62ce6859a3df45b692f7f78357d812c0_f21c5735a39e41538e386c454149f615",
-                "date": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "f21c5735a39e41538e386c454149f615",
                 "minimalStep": {
@@ -1169,8 +1169,8 @@
                     },
                     "name": "\u0414\u041a\u041f \u00ab\u041a\u043d\u0438\u0433\u0430\u00bb"
                 },
-                "date": "2023-01-01T00:00:00+02:00",
-                "dateAnswered": "2023-01-01T00:00:00+02:00",
+                "date": "2023-10-10T01:00:00+03:00",
+                "dateAnswered": "2023-10-10T01:00:00+03:00",
                 "description": "\u041f\u0440\u043e\u0441\u0438\u043c\u043e \u0434\u043e\u0434\u0430\u0442\u0438 \u0442\u0430\u0431\u043b\u0438\u0446\u044e \u043f\u043e\u0442\u0440\u0456\u0431\u043d\u043e\u0457 \u043a\u0430\u043b\u043e\u0440\u0456\u0439\u043d\u043e\u0441\u0442\u0456 \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f",
                 "id": "e73ecec32b2648b399efc847e49e00d1",
                 "questionOf": "tender",
@@ -1179,10 +1179,10 @@
         ],
         "status": "active.qualification",
         "submissionMethod": "electronicAuction",
-        "tenderID": "UA-2023-01-01-000001-a",
+        "tenderID": "UA-2023-10-10-000001-a",
         "tenderPeriod": {
-            "endDate": "2023-01-01T00:00:00+02:00",
-            "startDate": "2022-12-24T00:00:00+02:00"
+            "endDate": "2023-10-10T01:00:00+03:00",
+            "startDate": "2023-10-02T01:00:00+03:00"
         },
         "title": "\u0444\u0443\u0442\u043b\u044f\u0440\u0438 \u0434\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0438\u0445 \u043d\u0430\u0433\u043e\u0440\u043e\u0434",
         "value": {

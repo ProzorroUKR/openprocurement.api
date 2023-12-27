@@ -30,7 +30,7 @@ def conditional_contract_model(data):
     contract_status = request.validated["contract"]["status"]
     if request.authenticated_role == "Administrator":
         model = AdministratorPatchContract
-    elif request.validated["json_data"].get("status", contract_status) == "pending":
+    elif contract_status == "pending":
         model = PatchContractPending
     else:
         model = PatchContract

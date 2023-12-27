@@ -9,18 +9,18 @@ Content-Type: application/json
 {
   "data": [
     {
-      "dateModified": "2023-01-17T00:00:00+02:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
       "id": "7355d4d6d7be40e498047949f881afd3"
     },
     {
-      "dateModified": "2023-01-17T00:00:00+02:00",
+      "dateModified": "2023-10-26T01:00:00+03:00",
       "id": "8347573536014e65b2bf104c59c74291"
     }
   ],
   "next_page": {
-    "offset": 1673906400.0,
-    "path": "/api/2.5/qualifications?offset=1673906400.0",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=1673906400.0"
+    "offset": 1698271200.0,
+    "path": "/api/2.5/qualifications?offset=1698271200.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?offset=1698271200.0"
   }
 }
 

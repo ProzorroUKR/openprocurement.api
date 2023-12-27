@@ -20,13 +20,13 @@ Content-Type: application/json
 {
   "data": {
     "id": "d16cf36c697745e28d1cddebebf97feb",
-    "datePublished": "2023-01-01T00:00:00+02:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document2.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ef54f95d24d04987ace3b90bc12b4960?Signature=dTBs2Q%2FOFWdk6O5CfaCA7rz8AjvrwD7i8XgrmSDr6kHd2s1z6uxCkBPn%2BjbqarVMnRbalCDh1u0ltiKp8lcjAw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",
     "confidentiality": "public"
   }

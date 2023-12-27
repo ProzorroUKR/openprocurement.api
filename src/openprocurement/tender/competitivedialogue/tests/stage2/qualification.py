@@ -74,6 +74,7 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
     docservice = True
 
     def setUp(self):

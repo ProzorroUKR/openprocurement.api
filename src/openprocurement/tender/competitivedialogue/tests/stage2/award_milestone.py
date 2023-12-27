@@ -13,7 +13,7 @@ from openprocurement.tender.core.tests.qualification_milestone import (
 
 
 class TenderAwardMilestoneTestCase(TenderAwardMilestone24HMixin, BaseTenderUAAwardPendingTest):
-    pass
+    initial_lots = test_tender_cd_lots
 
 
 class UATenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin,

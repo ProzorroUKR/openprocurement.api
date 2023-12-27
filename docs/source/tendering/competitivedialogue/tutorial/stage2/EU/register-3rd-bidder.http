@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 2653
+Content-Length: 2720
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -29,9 +29,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "large"
       }
     ],
-    "value": {
-      "amount": 5
-    },
     "selfQualified": true,
     "documents": [
       {
@@ -72,6 +69,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 5
+        },
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0"
+      }
     ]
   }
 }
@@ -79,15 +84,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/cafec8a6e87645a2bf78d530d93c786c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09/bids/20bbd5548630438fb1306b5de18c0004
 
 {
   "data": {
-    "value": {
-      "amount": 5.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "«Кенгуру»",
@@ -112,6 +112,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
       }
     ],
     "status": "draft",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -122,8 +134,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "language": "uk",
         "confidentiality": "public",
         "id": "36c88d2c6b274c65883820cffe552a2b",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -134,8 +146,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "id": "7f10a54685ee4f44a0fed9c27346e262",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "financialDocuments": [
@@ -148,8 +160,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "language": "uk",
         "confidentiality": "public",
         "id": "78cf3356c934447ea324191c33e582d9",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "eligibilityDocuments": [
@@ -162,8 +174,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "language": "uk",
         "confidentiality": "public",
         "id": "b1164ca7ed164020add2f8d1130d2b56",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "qualificationDocuments": [
@@ -176,13 +188,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ffcd2893dee417c
         "language": "uk",
         "confidentiality": "public",
         "id": "9d6f0ed833f044ab9741a0899e73e8ca",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
-    "id": "cafec8a6e87645a2bf78d530d93c786c",
-    "date": "2023-01-01T00:00:00+02:00"
+    "id": "20bbd5548630438fb1306b5de18c0004",
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "2fbfdc26a9eb404183c5f9e790e9044d",

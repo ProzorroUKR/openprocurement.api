@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "da03b019d57446e68abfcc68e327e407",
-    "awardID": "2571a2c89b5c48f1abd01306597b36bc",
+    "awardID": "de725c6fbb7940a4af63da7619d3fe41",
     "contractID": "UA-2023-01-01-000001-a-1",
     "contractNumber": "contract #13111",
     "status": "pending",
@@ -61,7 +61,8 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
       }
     ],
     "suppliers": [

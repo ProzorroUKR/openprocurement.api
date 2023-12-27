@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/3a68da9a31794f25ad1cbf242e3364d0 HTTP/1.0
+GET /api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -140,7 +140,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/3a68da9a31794f25ad1cbf242e3364d0/documents/278f118019164051b58206db16c8ccc3?download=0d99c24f1f224e35ae9a11b101f38e20",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/278f118019164051b58206db16c8ccc3?download=0d99c24f1f224e35ae9a11b101f38e20",
         "documentOf": "change",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
@@ -173,7 +173,7 @@ Content-Type: application/json
         "telephone": "+0440000000"
       }
     },
-    "id": "3a68da9a31794f25ad1cbf242e3364d0"
+    "id": "e07c2e4ee19e43c5bce75b127566b232"
   }
 }
 

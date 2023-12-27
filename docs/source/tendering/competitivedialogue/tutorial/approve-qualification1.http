@@ -20,8 +20,9 @@ Content-Type: application/json
   "data": {
     "id": "0d7e80c30a2f4dff97d7bdab27d73f2e",
     "bidID": "80525a9a0f714e2b9b8eb34a14ccb612",
+    "lotID": "5a98760088b74d2194a86ab2546f20b4",
     "status": "active",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "qualified": true,
     "eligible": true
   }

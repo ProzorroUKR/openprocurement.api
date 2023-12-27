@@ -59,11 +59,6 @@ Content-Type: application/json
         "id": "cf9dd4e55be44146a4be1c540c06852c"
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -90,18 +85,30 @@ Content-Type: application/json
     ],
     "status": "draft",
     "id": "0e4c0ac9fb214aec86664334f935e806",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "e95c06240942446fbd6289786f02b75e",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "documents": [
       {
         "id": "412b2323014741b7a6c50a0ca94e98e8",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/101a4c542c25418797557f7601d4dc8d?Signature=K26ZyzFLAGitE5vmaETTasDXeOkxZQmoSREf3jTyHtKdUX%2FHnAMvZTD0cCXy6qihSzuWZT0YiRp1bjQCRVj%2FDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       }

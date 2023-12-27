@@ -13,12 +13,17 @@ from openprocurement.tender.belowthreshold.tests.auction import (
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
+    get_tender_lots_auction_features,
+    post_tender_lots_auction_features,
+)
+from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
+from openprocurement.tender.openeu.tests.auction_blanks import (
+    get_tender_auction,
+    post_tender_auction,
     post_tender_auction_reversed,
     post_tender_auction_not_changed,
     get_tender_auction_feature,
     post_tender_auction_feature,
-    get_tender_lots_auction_features,
-    post_tender_lots_auction_features,
 )
 
 from openprocurement.tender.openeu.tests.base import (
@@ -33,6 +38,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_openeu_bids
+    initial_lots = test_lots_data = test_tender_below_lots
 
     def setUp(self):
         super(TenderAuctionResourceTest, self).setUp()
@@ -58,15 +64,20 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
         self.assertEqual(response.status, "200 OK")
         # # switch to active.pre-qualification.stand-still
 
+    test_get_tender_auction = snitch(get_tender_auction)
+    test_post_tender_auction = snitch(post_tender_auction)
+    test_patch_tender_auction = snitch(patch_tender_auction)
+
 
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_organization)
-    initial_bids = [
+    initial_bids = test_bids_data = [
         test_tender_openeu_bids[0]
         for i in range(3)
     ]
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderSameValueAuctionResourceTest, self).setUp()

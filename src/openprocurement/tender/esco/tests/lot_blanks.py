@@ -454,7 +454,7 @@ def lot_yppr_validation(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.set_initial_status(response.json)
+    tender_response = response.json
     self.assertEqual(response.json["data"]["fundingKind"], "budget")
     self.assertIn("lots", response.json["data"])
     self.assertIn("fundingKind", response.json["data"]["lots"][0])
@@ -468,7 +468,11 @@ def lot_yppr_validation(self):
     tender_id = response.json["data"]["id"]
     lot_id1 = response.json["data"]["lots"][0]["id"]
     lot_id2 = response.json["data"]["lots"][1]["id"]
+    items = data["items"]
+    items[0]["relatedLot"] = lot_id1
+    self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"items": items}})
 
+    self.set_initial_status(tender_response)
     bid = deepcopy(self.test_bids[0])
     bid["lotValues"] = [{"value": deepcopy(bid)["value"]}, {"value": deepcopy(bid)["value"]}]
 

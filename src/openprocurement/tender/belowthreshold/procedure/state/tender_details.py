@@ -54,6 +54,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
             self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)
+        self.validate_related_lot_in_items(after)
 
     def invalidate_bids_data(self, tender):
         self.check_auction_time(tender)

@@ -4,7 +4,7 @@ from contextlib import contextmanager
 from decimal import Decimal
 
 from jsonpointer import JsonPointerException
-from pymongo.errors import DuplicateKeyError, OperationFailure, ServerSelectionTimeoutError
+from pymongo.errors import DuplicateKeyError, OperationFailure
 from six import b
 import pytz
 from datetime import datetime
@@ -664,7 +664,7 @@ def handle_store_exceptions(request, raise_error_handler=False):
     except DuplicateKeyError:  # pragma: no cover
         request.errors.add("body", "data", "Document already exists")
         request.errors.status = 409
-    except (MongodbResourceConflict, ServerSelectionTimeoutError) as e:  # pragma: no cover
+    except MongodbResourceConflict as e:  # pragma: no cover
         request.errors.add("body", "data", str(e))
         request.errors.status = 409
     except OperationFailure as e:

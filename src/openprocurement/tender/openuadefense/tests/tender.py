@@ -46,7 +46,7 @@ from openprocurement.tender.openuadefense.tests.tender_blanks import (
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_openuadefense_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
 
     test_empty_listing = snitch(empty_listing)
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -71,7 +71,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     docservice = True
     initial_data = test_tender_openuadefense_data
-    test_bids_data = test_tender_openuadefense_bids
+    initial_bids = test_bids_data = test_tender_openuadefense_bids
+    initial_lots = test_tender_below_lots
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)

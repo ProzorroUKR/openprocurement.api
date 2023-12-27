@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1393
+Content-Length: 1742
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -38,13 +38,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "requirement": {
           "id": "25ad302697704d249e9d653933f909ee"
         },
-        "value": "Розчин для інфузій"
+        "values": [
+          "Розчин для інфузій"
+        ]
       },
       {
         "requirement": {
           "id": "d3cb95288b334796b1562a0c638e526b"
         },
-        "value": 5
+        "values": [
+          5
+        ]
       },
       {
         "requirement": {
@@ -56,7 +60,23 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ]
       }
     ],
-    "status": "draft"
+    "status": "draft",
+    "items": [
+      {
+        "id": "6d463cf854bc4c0eb04915ba7c172bea",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ]
   }
 }
 
@@ -100,14 +120,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         "requirement": {
           "id": "25ad302697704d249e9d653933f909ee"
         },
-        "value": "Розчин для інфузій"
+        "values": [
+          "Розчин для інфузій"
+        ]
       },
       {
         "id": "99a57e5b692745158ef966db7820b11e",
         "requirement": {
           "id": "d3cb95288b334796b1562a0c638e526b"
         },
-        "value": 5
+        "values": [
+          5
+        ]
       },
       {
         "id": "f2263583450b4e2ea0344291b52cf2fc",
@@ -121,6 +145,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "6d463cf854bc4c0eb04915ba7c172bea",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
     "id": "ef1bede622fc44a08d3caa36ebd1de36",
     "date": "2023-09-20T01:00:01+03:00"
   },

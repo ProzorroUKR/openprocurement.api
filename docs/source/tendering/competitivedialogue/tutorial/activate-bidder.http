@@ -129,7 +129,7 @@ Content-Type: application/json
       }
     ],
     "id": "80525a9a0f714e2b9b8eb34a14ccb612",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -152,6 +152,13 @@ Content-Type: application/json
           "name": "Сергій Олексюк"
         },
         "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",

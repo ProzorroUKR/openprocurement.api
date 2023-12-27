@@ -164,7 +164,7 @@ def filter_bids_by_lot(bids, lot_id=None):
                 if lot_id == lv["relatedLot"]:
                     b_copy = dict(b)
                     # value & date
-                    b_copy["date"] = lv["date"]
+                    b_copy["date"] = lv.get("date") or b.get("date")  # we have a bug causes lotValues.date missed
                     value = lv.get("value")
                     if value:
                         b_copy["value"] = value

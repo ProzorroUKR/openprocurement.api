@@ -16,10 +16,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_invalid,
     create_tender_award_no_scale_invalid,
-    create_tender_award,
-    patch_tender_award,
     check_tender_award_complaint_period_dates,
-    patch_tender_award_unsuccessful,
     get_tender_award,
     check_tender_award,
     create_tender_lot_award,
@@ -58,7 +55,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
     create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
+    create_tender_award_no_scale
 )
 
 
@@ -104,11 +101,8 @@ class Tender2LotAwardDocumentResourceTestMixin(object):
 class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
+    initial_lots = test_tender_below_lots
     docservice = True
-
-    test_create_tender_award = snitch(create_tender_award)
-    test_patch_tender_award = snitch(patch_tender_award)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
 
 
 class TenderAwardResourceScaleTest(TenderContentWebTest):

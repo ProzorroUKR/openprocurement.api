@@ -7,8 +7,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T01:00:00+03:00"
     }
   }
 }
@@ -20,10 +20,10 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000016-a.2",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000016-a.2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
@@ -38,6 +38,25 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "48bd8a7458e346f1beeb61941fa097f0",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {
@@ -65,17 +84,17 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-26T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-02-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-10T01:00:00+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-27T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-05T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
@@ -90,9 +109,10 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -128,9 +148,10 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-20T00:00:00+02:00"
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -163,7 +184,12 @@ Content-Type: application/json
           "id": "00137256",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Школяр»"
+        "name": "ДКП «Школяр»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       },
       {
         "identifier": {
@@ -171,7 +197,12 @@ Content-Type: application/json
           "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "ДКП «Книга»"
+        "name": "ДКП «Книга»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       },
       {
         "identifier": {
@@ -179,7 +210,12 @@ Content-Type: application/json
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
-        "name": "«Кенгуру»"
+        "name": "«Кенгуру»",
+        "lots": [
+          {
+            "id": "48bd8a7458e346f1beeb61941fa097f0"
+          }
+        ]
       }
     ],
     "status": "draft.stage2",

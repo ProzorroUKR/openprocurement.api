@@ -6,6 +6,7 @@ from mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.api.constants import NEW_CONTRACTING_FROM
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
@@ -15,6 +16,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.limited.tests.utils import get_award_data
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 def create_tender_award_invalid(self):
@@ -432,12 +434,8 @@ def patch_tender_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     contract = response.json["data"][1]
     self.assertEqual(contract["awardID"], active_award["id"])
-    contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
+
+    activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.tender_token)
 
     response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -608,14 +606,28 @@ def activate_contract_with_cancelled_award(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
     # Try to sign in contract
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update contract in current (cancelled) status")
-
+    if get_now() < NEW_CONTRACTING_FROM:
+        response = self.app.patch_json(
+            "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+            {"data": {"status": "active"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update contract in current (cancelled) status",
+        )
+    else:
+        response = self.app.patch_json(
+            f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+            {"data": {"status": "active"}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            "Can't update contract in current (cancelled) status",
+        )
 
 # TenderAwardComplaintResourceTest
 
@@ -1182,12 +1194,7 @@ def patch_tender_lot_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     contract = response.json["data"][1]
     self.assertEqual(contract["awardID"], active_award["id"])
-    contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.tender_token)
 
     response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, award["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -1333,11 +1340,6 @@ def get_tender_lot_award(self):
 
 
 def two_lot_two_awards(self):
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": self.test_tender_negotiation_data_local["items"] * 2}},
-    )
-
     # create lot
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
@@ -1354,9 +1356,7 @@ def two_lot_two_awards(self):
     self.assertEqual(response.content_type, "application/json")
     lot2 = response.json["data"]
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    items = deepcopy(tender["items"])
+    items = deepcopy(self.test_tender_negotiation_data_local["items"] * 2)
     items[0]["relatedLot"] = lot1["id"]
     items[1]["relatedLot"] = lot2["id"]
     self.app.patch_json(

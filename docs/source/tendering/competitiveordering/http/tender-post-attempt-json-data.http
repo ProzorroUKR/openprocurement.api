@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-01-16T00:00:00+02:00"
+      "endDate": "2023-10-25T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
     "minimalStep": {
@@ -51,8 +51,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -175,7 +175,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "milestones": [
@@ -229,8 +229,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
     "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
     "tenderPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-16T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+02:00"
     },
     "items": [
       {
@@ -260,8 +260,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
         ],
         "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -272,22 +272,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee0e79223d4142f4
         }
       }
     ],
-    "tenderID": "UA-2023-01-01-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "complaintPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-13T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+02:00"
     },
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-16T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-25T00:00:00+03:00"
     },
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "ee0e79223d4142f4a502bfb88d0668cf"
   },
   "config": {

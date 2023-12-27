@@ -21,7 +21,6 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_unsuccessful_1bid,
     switch_to_complaint,
     switch_to_unsuccessful,
-    set_auction_period,
     switch_to_unsuccessful_lot_0bid,
     set_auction_period_lot_0bid,
     switch_to_unsuccessful_lot_1bid,
@@ -34,7 +33,6 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 class TenderSwitchAuctionResourceTestMixin:
     test_switch_to_complaint = snitch(switch_to_complaint)
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful)
-    test_set_auction_period = snitch(set_auction_period)
 
 
 class TenderLotSwitchAuctionResourceTestMixin:

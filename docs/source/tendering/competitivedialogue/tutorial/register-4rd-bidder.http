@@ -1,6 +1,6 @@
 POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1576
+Content-Length: 1643
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -46,7 +46,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "confidentialityRationale": "Only our company sells badgers with pink hair."
       }
     ],
-    "status": "draft"
+    "status": "draft",
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+      }
+    ]
   }
 }
 
@@ -80,6 +85,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "scale": "large"
       }
     ],
+    "lotValues": [
+      {
+        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "status": "pending",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -91,8 +103,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "confidentiality": "public",
         "isDescriptionDecision": false,
         "id": "4204424841514066aa280e4ea1fc1983",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -104,14 +116,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "isDescriptionDecision": false,
         "id": "bae2b712ea9141d3b5b53073b786a3cf",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "cc48b50d0f4445c7b01da298b7dccb8c",
-    "date": "2023-01-01T00:00:00+02:00"
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
     "token": "6bd826026f4543b9bc157cb70b2a2f55",

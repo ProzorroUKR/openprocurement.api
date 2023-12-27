@@ -47,19 +47,19 @@ Content-Type: application/json
     "documents": [
       {
         "id": "8c587c07e098494086ec16f55b1f4285",
-        "datePublished": "2023-01-17T00:00:00+02:00",
+        "datePublished": "2023-10-26T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46a9cf8cd1034d57b7e550b1c7bb0339?Signature=CV6toqmVNh7aYzT8Sn0JjsdtsYR66FqDDLdqXszr49BvU7fkKFV59qITAmgwNxHwaNZ3mGH6rZH5LtzNFshCAQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-01-17T00:00:00+02:00",
+        "dateModified": "2023-10-26T01:00:00+03:00",
         "language": "uk"
       }
     ],
     "frameworkID": "4178f66eebf04c4497d0fb223feeb0fe",
     "status": "draft",
-    "dateModified": "2023-01-17T00:00:00+02:00",
-    "date": "2023-01-17T00:00:00+02:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "dynamicPurchasingSystem",
     "id": "1a3c672e71594a09a9009ac58c77b120"

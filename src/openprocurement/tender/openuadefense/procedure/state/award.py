@@ -5,7 +5,11 @@ from openprocurement.tender.core.procedure.context import (
     get_tender,
 )
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
@@ -60,8 +64,9 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                             "startDate": now,
                             "endDate": end_date,
                         }
-            add_contracts(get_request(), award, self.contract_model)
+            contracts = add_contracts(get_request(), award)
             self.add_next_award()
+            save_contracts_to_contracting(contracts, award)
 
         elif before == "pending" and after == "unsuccessful":
             if not new_defence_complaints:
@@ -82,14 +87,16 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
                         self.set_object_status(i, "cancelled")
-                        self.set_award_contracts_cancelled(i)
+                        contracts_ids = self.set_award_contracts_cancelled(i)
+                        update_econtracts_statuses(contracts_ids, after)
                 self.add_next_award()
 
             else:
                 if not new_defence_complaints and award["complaintPeriod"]["endDate"] > now:
                     award["complaintPeriod"]["endDate"] = now
-                self.set_award_contracts_cancelled(award)
+                contracts_ids = self.set_award_contracts_cancelled(award)
                 self.add_next_award()
+                update_econtracts_statuses(contracts_ids, after)
         elif (
             before == "unsuccessful" and after == "cancelled"
             and any(i["status"] == "satisfied" for i in award.get("complaints", ""))

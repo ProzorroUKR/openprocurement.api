@@ -108,7 +108,7 @@ class TenderResourceTest(BaseTenderWebTest):
 
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
-    test_lots_data = test_lots
+    initial_lots = test_lots_data = test_lots
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)
@@ -130,6 +130,7 @@ class TenderProcessTest(BaseTenderWebTest):
 
 class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
+    initial_lots = test_lots
 
     test_tender_status_change = snitch(tender_negotiation_status_change)
     test_tender_cause = snitch(tender_cause)

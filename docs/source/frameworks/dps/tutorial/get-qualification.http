@@ -12,8 +12,8 @@ Content-Type: application/json
     "submissionID": "2b442aa99f344298bdd76797307adfd7",
     "qualificationType": "dynamicPurchasingSystem",
     "status": "pending",
-    "date": "2023-01-17T00:00:00+02:00",
-    "dateModified": "2023-01-17T00:00:00+02:00",
+    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00",
     "id": "7355d4d6d7be40e498047949f881afd3"
   },
   "config": {}

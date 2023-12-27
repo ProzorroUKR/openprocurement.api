@@ -1,0 +1,188 @@
+PATCH /api/2.5/contracts/bcc9f2201d99405fb451b20abc231e58?acc_token=871fba7d0f2840d48ed2394d778a5004 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 404
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "contractNumber": "contract#1",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 9430.27,
+      "amountPerformance": 864.98,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      },
+      "amountNet": 9429.27
+    }
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "awardID": "25d1cdbfc28949be995a262cb1b235fd",
+    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractNumber": "contract#1",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tender_id": "28db6af763c74fceaedc98e147fed6cb",
+    "owner": "broker",
+    "status": "pending",
+    "buyer": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      }
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "6109d472d8f34975a00dd5709cff36a1",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      },
+      {
+        "id": "f1e2dd652ddf4a4296acc94e78be41e0",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "value": {
+      "amount": 9430.27,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 9429.27,
+      "amountPerformance": 864.98,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0,
+        1000.0
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    },
+    "bid_owner": "broker",
+    "id": "bcc9f2201d99405fb451b20abc231e58"
+  }
+}
+

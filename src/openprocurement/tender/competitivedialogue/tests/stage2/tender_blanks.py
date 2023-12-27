@@ -29,6 +29,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 # CompetitiveDialogStage2EUResourceTest
@@ -648,8 +649,8 @@ def listing(self):
     for i in range(3):
         offset = get_now().timestamp()
         response = self.app.post_json("/tenders", {
-            "data": self.test_tender_data_eu,
-            "config": self.test_tender_config_eu,
+            "data": self.initial_data,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -733,12 +734,12 @@ def listing(self):
     self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
     self.assertEqual(len(response.json["data"]), 0)
 
-    test_tender_data_2 = self.test_tender_data_eu.copy()
+    test_tender_data_2 = self.initial_data.copy()
     test_tender_data_2["mode"] = "test"
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     response = self.app.post_json("/tenders", {
         "data": test_tender_data_2,
-        "config": self.test_tender_config_eu,
+        "config": self.initial_config,
     })
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "draft.stage2")
     self.set_tender_status(response.json["data"], response.json["access"]["token"], "active.tendering")
@@ -762,13 +763,13 @@ def listing_draft(self):
     self.assertEqual(len(response.json["data"]), 0)
 
     tenders = []
-    data = self.test_tender_data_eu.copy()
+    data = self.initial_data.copy()
     data.update({"status": "draft"})
 
     for i in range(3):
         response = self.app.post_json("/tenders", {
-            "data": self.test_tender_data_eu,
-            "config": self.test_tender_config_eu,
+            "data": data,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -777,7 +778,7 @@ def listing_draft(self):
         tenders.append(response.json["data"])
         response = self.app.post_json("/tenders", {
             "data": data,
-            "config": self.test_tender_config_eu,
+            "config": self.initial_config,
         })
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1231,7 +1232,7 @@ def tender_features_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Sum of max value of all features should be less then or equal to 99%"],
+                "description": ["Sum of max value of all features for lot should be less then or equal to 99%"],
                 "location": "body",
                 "name": "features",
             }
@@ -1791,13 +1792,13 @@ def first_bid_tender(self):
     bid_data["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
     bid_data["value"] =  {"amount": 450}
 
-    bid, bid_token = self.create_bid(tender_id, bid_data)
+    bid, bid1_token = self.create_bid(tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     bid_data["value"] = {"amount": 475}
 
     self.app.authorization = ("Basic", ("broker", ""))
-    self.create_bid(tender_id, bid_data)
+    _, bid2_token = self.create_bid(tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction", {"status": "active.tendering"})
     response = self.check_chronograph()
@@ -1821,7 +1822,7 @@ def first_bid_tender(self):
     )
     # view bid participationUrl
     self.app.authorization = ("Basic", ("broker", ""))
-    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid_token))
+    response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid_id, bid1_token))
     self.assertEqual(response.json["data"]["participationUrl"], "https://tender.auction.url/for_bid/{}".format(bid_id))
 
     # posting auction results
@@ -1857,7 +1858,6 @@ def first_bid_tender(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    contract_value = deepcopy(contract["value"])
     # after stand slill period
     self.app.authorization = ("Basic", ("chronograph", ""))
     self.set_status("complete", {"status": "active.awarded"})
@@ -1868,11 +1868,7 @@ def first_bid_tender(self):
     self.mongodb.tenders.save(tender)
     # sign contract
     self.app.authorization = ("Basic", ("broker", ""))
-    contract_value["valueAddedTaxIncluded"] = False
-    self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
-    )
+    activate_contract(self, tender_id, contract_id, owner_token, bid2_token)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))

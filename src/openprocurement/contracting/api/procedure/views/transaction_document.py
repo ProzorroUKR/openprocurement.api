@@ -5,9 +5,10 @@ from openprocurement.contracting.core.procedure.views.transaction_document impor
 
 @resource(
     name="Contract Transaction Documents",
-    path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
+    collection_path="/contracts/{contract_id}/transactions/{transaction_id}/documents",
+    path="/contracts/{contract_id}/transactions/{transaction_id}/documents/{document_id}",
     contractType="general",
     description="Contract transaction related binary files (PDFs, etc.)",
 )
 class GeneralTransactionDocumentResource(TransactionDocumentResource):
-   pass
+    pass

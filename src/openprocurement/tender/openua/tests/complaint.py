@@ -99,7 +99,8 @@ class CreateAwardComplaintMixin:
                 {"data": {
                     "suppliers": [test_tender_below_organization],
                     "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"]
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
                 }}
             )
 
@@ -134,6 +135,7 @@ class TenderAwardComplaintObjectionResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_openua_bids
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderAwardComplaintObjectionResourceTest, self).setUp()

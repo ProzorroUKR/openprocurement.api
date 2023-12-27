@@ -33,6 +33,7 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourc
     docservice = True
     initial_status = "active.tendering"
     initial_bids = test_tender_openuadefense_bids
+    initial_lots = test_tender_below_lots
 
     test_status_that_denies_get_post_patch_auction = "active.tendering"
     test_status_that_denies_get_post_patch_auction_document = "active.tendering"
@@ -50,6 +51,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
         }
         for i in range(3)
     ]
+    initial_lots = test_tender_below_lots
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
 

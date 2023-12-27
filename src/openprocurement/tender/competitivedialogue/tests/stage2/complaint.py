@@ -42,6 +42,7 @@ class TenderStage2EUComplaintResourceTest(
 
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
 
 class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -55,6 +56,7 @@ class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2C
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
 
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
@@ -79,6 +81,7 @@ class TenderStage2UAComplaintResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
     test_author = test_tender_cd_author  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
 
 
 class TenderStage2UALotAwardComplaintResourceTest(
@@ -91,6 +94,8 @@ class TenderStage2UALotAwardComplaintResourceTest(
 class TenderStage2UAComplaintDocumentResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EUComplaintDocumentResourceTest
 ):
+    initial_lots = test_tender_cd_lots
+
     def setUp(self):
         super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
         # Create complaint
@@ -111,6 +116,7 @@ class TenderCompetitiveDialogEUObjectionResourceTest(
     ComplaintObjectionMixin,
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
 
 class TenderCompetitiveDialogUAObjectionResourceTest(
@@ -119,6 +125,7 @@ class TenderCompetitiveDialogUAObjectionResourceTest(
     ComplaintObjectionMixin,
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
 
 class TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest(
@@ -130,6 +137,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest(
     docservice = True
     initial_status = "active.tendering"  # 'active.qualification' status sets in setUp
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest, self).setUp()
@@ -167,6 +175,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest, self).setUp()
@@ -183,6 +192,7 @@ class TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest(
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest, self).setUp()
@@ -195,6 +205,7 @@ class TenderCancellationComplaintObjectionResourceTest(
     ComplaintObjectionMixin,
 ):
     docservice = True
+    initial_lots = test_tender_cd_lots
 
     def setUp(self):
         super(TenderCancellationComplaintObjectionResourceTest, self).setUp()

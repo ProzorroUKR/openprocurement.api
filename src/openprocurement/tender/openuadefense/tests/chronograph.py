@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
 
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_complaint as switch_to_complaint_ua,
-    set_auction_period as set_auction_period_ua,
     switch_to_auction_lot as switch_to_auction_lot_ua,
     set_auction_period_lot as set_auction_period_lot_ua,
     switch_to_unsuccessful_lot_0bid as without_bids_switch_to_unsuccessful,
@@ -58,7 +57,6 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
     test_switch_to_unsuccessful_after_new = snitch(switch_to_unsuccessful_after_new)
     test_switch_to_unsuccessful_new = snitch(switch_to_unsuccessful_new)
     test_switch_to_active_to_unsuccessful = snitch(switch_to_active_to_unsuccessful)
-    test_set_auction_period = snitch(set_auction_period_ua)
 
     test_switch_to_auction = snitch(switch_to_auction)
 

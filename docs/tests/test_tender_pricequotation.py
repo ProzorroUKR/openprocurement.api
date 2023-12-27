@@ -16,6 +16,7 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.utils import (
     criteria_drop_uuids,
     copy_criteria_req_id,
+    copy_tender_items,
 )
 from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
 
@@ -251,6 +252,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bids_access = {}
         bid_data = deepcopy(bid_draft)
         bid_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
+        bid_data["items"] = copy_tender_items(tender["items"])
         with open(TARGET_DIR + 'register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/bids'.format(self.tender_id),
@@ -307,6 +309,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Second bid registration with documents
         bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
         bid_with_docs_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
+        bid_with_docs_data["items"] = copy_tender_items(tender["items"])
         with open(TARGET_DIR + 'register-2nd-bidder.http', 'w') as self.app.file_obj:
             for document in bid_with_docs_data['documents']:
                 document['url'] = self.generate_docservice_url()

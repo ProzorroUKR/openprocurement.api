@@ -26,6 +26,8 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     TZ,
     RELEASE_2020_04_19,
+    PQ_NEW_CONTRACTING_FROM,
+    NEW_CONTRACTING_FROM,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
@@ -428,6 +430,14 @@ def activate_bids(bids):
         if bid["status"] == "pending":
             bid["status"] = "active"
     return bids
+
+
+def is_new_contracting():
+    tender = get_tender()
+    new_contracting_after = PQ_NEW_CONTRACTING_FROM \
+        if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
+
+    return tender_created_after(new_contracting_after)
 
 
 def find_lot(tender, lot_id):

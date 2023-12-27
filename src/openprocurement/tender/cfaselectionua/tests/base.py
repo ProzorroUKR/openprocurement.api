@@ -167,12 +167,15 @@ class BaseTenderWebTest(BaseCoreWebTest):
             now = get_now().isoformat()
             for bid in self.initial_bids:
                 bid = bid.copy()
+                bid_id = uuid4().hex
+                bid_token = uuid4().hex
                 value = bid.pop("value")
                 bid.update({
-                    "id": uuid4().hex, "owner_token": uuid4().hex,
+                    "id": bid_id, "owner_token": bid_token,
                     "owner": "broker", "status": "active",
                     "date": now,
                 })
+                self.initial_bids_tokens[bid_id] = bid_token
                 if self.initial_lots:
                     bid.update({"lotValues": [{"value": value, "relatedLot": l["id"], "date": now}
                                               for l in self.initial_lots]})

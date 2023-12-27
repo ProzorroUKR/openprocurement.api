@@ -17,36 +17,37 @@ Content-Type: application/json
 {
   "data": {
     "id": "865a1c5e642b44cf96bfb9a5316e63d5",
-    "complaintID": "UA-2023-01-01-000001-a.1",
-    "date": "2023-01-01T00:00:01+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.1",
+    "date": "2023-10-10T01:00:01+03:00",
     "status": "satisfied",
     "documents": [
       {
         "id": "70d64715f0914d219f1c859d1ea462bd",
-        "datePublished": "2023-01-01T00:00:01+02:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/720538aa95fa4a9fad02f6420ef0cc22?Signature=zAiHb01B9tN7weejj6IgEYcRaBTqrMbjAh7Jhs4SuqTm%2Bo1rNJ95N2TGJ8xEUu2dNqr806Lsu8Q307ZXOOO1DQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "complaint_owner",
         "language": "uk"
       },
       {
         "id": "f1e342523f3d4ca7bf6f46c9a2b8afdd",
-        "datePublished": "2023-01-01T00:00:01+02:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bf41b7dcccd54e8686f067364d4646dd?Signature=iQ9S72x4kIW%2Fl3HpwPiqvn2eS1s1HJCku8jGvl4eUGJIcqkw1%2BYSDXq%2F%2FkmEFuwk06mlGj4fkL%2BX5TH8t7vvDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "aboveThresholdReviewers",
         "language": "uk"
       }
     ],
     "type": "complaint",
+    "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
     "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
     "author": {
       "name": "ДКП «Школяр»",
@@ -71,16 +72,16 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-01-01T00:00:01+02:00",
+    "dateSubmitted": "2023-10-10T01:00:01+03:00",
     "acceptance": true,
-    "dateAccepted": "2023-01-01T00:00:01+02:00",
-    "reviewDate": "2023-01-01T00:00:01+02:00",
+    "dateAccepted": "2023-10-10T01:00:01+03:00",
+    "reviewDate": "2023-10-10T01:00:01+03:00",
     "reviewPlace": "Place of review",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
-    "dateDecision": "2023-01-01T00:00:01+02:00"
+    "dateDecision": "2023-10-10T01:00:01+03:00"
   }
 }
 

@@ -5,6 +5,7 @@ from unittest.mock import patch
 from datetime import timedelta
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     NBU_DISCOUNT_RATE,
@@ -113,6 +114,7 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
     author_data = test_tender_below_author
     expected_bid_amount_performance = bid_amount_performance
     expected_bid_amount = bid_amount
@@ -138,6 +140,16 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
     test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
+    def setUp(self):
+        super(TenderBidResourceTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.tender_lots = response.json["data"]["lots"]
+        self.test_bids_data = []
+        for bid in test_tender_esco_bids:
+            bid_data = deepcopy(bid)
+            set_bid_lotvalues(bid_data, self.tender_lots)
+            self.test_bids_data.append(bid_data)
+
 
 class Tender2LotBidResourceTest(BaseESCOContentWebTest):
     test_bids_data = test_tender_esco_bids
@@ -162,19 +174,16 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
-    test_bids_data = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
+    initial_bids = test_bids_data = test_tender_esco_bids
     docservice = True
 
     def setUp(self):
         super(TenderBidDocumentResourceTest, self).setUp()
-        # Create bid
-        bid, token = self.create_bid(self.tender_id, test_tender_esco_bids[0], "pending")
-        self.bid_id = bid["id"]
-        self.bid_token = token
-        # create second bid
-        bid2, token = self.create_bid(self.tender_id, test_tender_esco_bids[1], "pending")
-        self.bid2_id = bid2["id"]
-        self.bid2_token = token
+        self.bid_id = self.initial_bids[0]["id"]
+        self.bid_token = self.initial_bids_tokens[self.bid_id]
+        self.bid2_id = self.initial_bids[1]["id"]
+        self.bid2_token = self.initial_bids_tokens[self.bid2_id]
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
 
@@ -259,7 +268,6 @@ def suite():
     suite.addTest(TenderBidFeaturesResourceTest)
     suite.addTest(TenderBidDocumentResourceTest)
     suite.addTest(TenderBidDocumentWithDSResourceTest)
-    suite.addTest(TenderBidDocumentWithoutDSResourceTest)
     suite.addTest(TenderBidBatchDocumentsWithDSResourceTest)
     suite.addTest(TenderBidRequirementResponseResourceTest)
     suite.addTest(TenderBidRequirementResponseEvidenceResourceTest)

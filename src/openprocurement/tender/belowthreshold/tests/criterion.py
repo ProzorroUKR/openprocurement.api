@@ -26,7 +26,7 @@ from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
 
 class TenderCriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     initial_data = test_tender_below_data
-    test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
     test_activate_tender = snitch(activate_tender)

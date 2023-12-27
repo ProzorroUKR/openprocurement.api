@@ -1,4 +1,6 @@
 import unittest
+from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -11,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
 )
-
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentWithDSResourceTestMixin
 from openprocurement.tender.openua.tests.bid_blanks import (
@@ -31,6 +33,17 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     initial_status = "active.tendering"
     test_bids_data = test_tender_openuadefense_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author
+    initial_lots = test_tender_below_lots
+
+    def setUp(self):
+        super(TenderBidResourceTest, self).setUp()
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.tender_lots = response.json["data"]["lots"]
+        self.test_bids_data = []
+        for bid in test_tender_openuadefense_bids:
+            bid_data = deepcopy(bid)
+            set_bid_lotvalues(bid_data, self.tender_lots)
+            self.test_bids_data.append(bid_data)
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):

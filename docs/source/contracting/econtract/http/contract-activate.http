@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
+PATCH /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -17,15 +17,15 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-20-000001-a-1",
+    "contractID": "UA-2023-10-10-000001-a-1",
     "period": {
-      "startDate": "2023-09-20T01:00:00+03:00",
-      "endDate": "2024-09-19T01:00:00+03:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-10-09T01:00:00+03:00"
     },
-    "dateSigned": "2023-09-20T01:00:00+03:00",
-    "date": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
     "owner": "broker",
     "documents": [
@@ -34,28 +34,22 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
-        "datePublished": "2023-09-20T01:00:00+03:00",
-        "dateModified": "2023-09-20T01:00:00+03:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "9202cd64da8f42a5942c68dc14bf534a",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
-        "datePublished": "2023-09-20T01:00:00+03:00",
-        "dateModified": "2023-09-20T01:00:00+03:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
     "status": "active",
     "buyer": {
       "name": "Державне управління справами",
@@ -75,9 +69,9 @@ Content-Type: application/json
         "name": "Test Testovich",
         "email": "example@email.com",
         "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "authorizedBy": "Статут компанії",
-        "position": "Генеральний директор"
+        "iban": "234234234234234",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
       }
     },
     "suppliers": [
@@ -100,8 +94,8 @@ Content-Type: application/json
           "email": "example@email.com",
           "telephone": "+380950000000",
           "iban": "111111111111111",
-          "authorizedBy": "Статут компанії",
-          "position": "Генеральний директор"
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
         }
       }
     ],
@@ -111,8 +105,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -148,8 +142,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -181,8 +175,14 @@ Content-Type: application/json
         }
       }
     ],
+    "value": {
+      "amount": 238.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 230.0
+    },
     "bid_owner": "broker",
-    "id": "0df8cf97d5cb4ba98a7355f981e0afd2"
+    "id": "eb4343b446004f47aa2ec7f6e542f196"
   }
 }
 

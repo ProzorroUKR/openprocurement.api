@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2 HTTP/1.0
+GET /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -8,13 +8,7 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
-    "contractID": "UA-2023-09-20-000001-a-1",
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 500.0
-    },
+    "contractID": "UA-2023-10-10-000001-a-1",
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -40,8 +34,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -77,8 +71,8 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "classification": {
           "description": "Комп’ютерне обладнанн",
@@ -125,11 +119,17 @@ Content-Type: application/json
         "countryName": "Україна"
       }
     },
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 500.0
+    },
     "bid_owner": "broker",
     "status": "pending",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00",
-    "id": "0df8cf97d5cb4ba98a7355f981e0afd2"
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "eb4343b446004f47aa2ec7f6e542f196"
   }
 }
 

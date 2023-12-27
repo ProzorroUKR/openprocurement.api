@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/57b6440f7e5e446a89d496f4fd09c707?acc_token=969e1b1791bf4615a96c4ae39dca5290 HTTP/1.0
+PATCH /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/0d91018f36534468b3d78fa3751084e6?acc_token=969e1b1791bf4615a96c4ae39dca5290 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4255
 Content-Type: application/json
@@ -99,9 +99,9 @@ Content-Type: application/json
         "id": "9d3716d76c2f40bc879e14bc54b0d6ed"
       }
     ],
-    "id": "57b6440f7e5e446a89d496f4fd09c707",
+    "id": "0d91018f36534468b3d78fa3751084e6",
     "status": "pending",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 499.0,
       "currency": "UAH",
@@ -131,17 +131,18 @@ Content-Type: application/json
         "scale": "sme"
       }
     ],
-    "bid_id": "924faccdd7494feebfa7e00270fca758",
+    "bid_id": "049ebbc9829d41199d904f06e3e176d2",
+    "lotID": "44925337e1134559978d929dbd029042",
     "documents": [
       {
         "id": "b4d384a0d475428ab85e4c3f419848c0",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3cf57765098c49819ecff4f12286d56c?Signature=WqJnPucg6uXIzJnh5ontPpNqXoiHKwOUZj1EeVdoGYNJmFJJs%2FdUmA0R9p4n5M2hEAQjx1jXGMgWWWNWRjHsCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       }

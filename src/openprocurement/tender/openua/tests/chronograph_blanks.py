@@ -95,28 +95,6 @@ def switch_to_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
-def set_auction_period(self):
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-    item = response.json["data"]
-    self.assertIn("auctionPeriod", item)
-    self.assertIn("shouldStartAfter", item["auctionPeriod"])
-    self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
-    self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-    )
-
-    start_date = "9999-01-01T00:00:00+00:00"
-    response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}})
-    item = response.json["data"]
-    self.assertEqual(item["auctionPeriod"]["startDate"], start_date)
-
-
-# TenderLotSwitch0BidResourceTest
-# TenderLotSwitchAuctionResourceTest
-
-
 # TenderLotSwitch0BidResourceTest
 
 

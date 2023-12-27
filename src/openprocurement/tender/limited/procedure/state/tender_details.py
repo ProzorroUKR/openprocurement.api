@@ -23,3 +23,4 @@ class NegotiationTenderDetailsState(TenderDetailsMixing, NegotiationTenderState)
                 "Can't update tender when there is at least one award.",
             )
         super().on_patch(before, after)
+        self.validate_related_lot_in_items(after)

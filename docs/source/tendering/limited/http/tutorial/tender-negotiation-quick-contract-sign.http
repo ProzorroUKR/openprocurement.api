@@ -62,7 +62,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "9e84d29f3b604a73b10a26caf8f4830d"
       }
     ],
     "suppliers": [

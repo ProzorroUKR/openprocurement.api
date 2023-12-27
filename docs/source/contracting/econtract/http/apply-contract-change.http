@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/0df8cf97d5cb4ba98a7355f981e0afd2/changes/b9887678ba3c448b977467c0fe3ada31?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
+PATCH /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/changes/b9887678ba3c448b977467c0fe3ada31?acc_token=1981a3b3a85d4159aabe55f5be082fd5 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 73
 Content-Type: application/json
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "active",
-    "dateSigned": "2023-09-20T01:00:00+03:00"
+    "dateSigned": "2023-10-10T01:00:00+03:00"
   }
 }
 
@@ -23,10 +23,10 @@ Content-Type: application/json
       "volumeCuts",
       "priceReduction"
     ],
-    "dateSigned": "2023-09-20T01:00:00+03:00",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
     "id": "b9887678ba3c448b977467c0fe3ada31",
     "status": "active",
-    "date": "2023-09-20T01:00:00+03:00"
+    "date": "2023-10-10T01:00:00+03:00"
   }
 }
 

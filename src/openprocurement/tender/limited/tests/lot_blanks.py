@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_complaint,
     test_tender_below_cancellation,
 )
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 # TenderLotNegotiationResourceTest
 
@@ -303,10 +304,12 @@ def patch_tender_currency(self):
     # update tender currency
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {
-            "value": {"currency": "GBP", "amount": tender["value"]["amount"]}
+            "items": items, "value": {"currency": "GBP", "amount": tender["value"]["amount"]}
         }}
     )
 
@@ -348,11 +351,21 @@ def patch_tender_currency(self):
 def patch_tender_vat(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
+    # create lot
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
+    )
+
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    lot = response.json["data"]
 
     # set tender VAT
+    items = deepcopy(tender["items"])
+    items[0]["relatedLot"] = lot["id"]
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": True, "amount": tender["value"]["amount"]}}},
+        {"data": {"items": items, "value": {"valueAddedTaxIncluded": True, "amount": tender["value"]["amount"]}}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -550,28 +563,6 @@ def delete_tender_lot(self):
         ],
     )
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    items = deepcopy(tender["items"])
-    items[0]["relatedLot"] = None
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": items}},
-    )
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token))
-
-    self.assertEqual(response.status, "200 OK")
-
-    response = self.app.get(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token), status=404
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "lot_id"}])
-
 
 def delete_complete_tender_lot(self):
     response = self.app.post_json(
@@ -702,13 +693,7 @@ def cancel_lot_after_sing_contract(self):
     self.mongodb.tenders.save(tender)
 
     # Activate contract
-    contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.tender_token)
 
     # try to cancel lot
     cancellation = dict(**test_tender_below_cancellation)
@@ -958,20 +943,8 @@ def last_lot_complete(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     first_contract = response.json["data"][0]
     second_contract = response.json["data"][1]
-    first_contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, first_contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": first_contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
-    second_contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, second_contract["id"], self.tender_token),
-        {"data": {"status": "active", "value": second_contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    activate_contract(self, self.tender_id, first_contract["id"], self.tender_token, self.tender_token)
+    activate_contract(self, self.tender_id, second_contract["id"], self.tender_token, self.tender_token)
 
     # Check tender status
     response = self.app.get("/tenders/{}".format(self.tender_id))

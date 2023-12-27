@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "status": "met",
     "description": "Доповнений опис відповіді",
-    "dueDate": "2023-01-01T00:00:07+02:00"
+    "dueDate": "2023-10-10T01:00:07+03:00"
   }
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json
     "title": "Підготовка до проведення процедури",
     "description": "Доповнений опис відповіді",
     "type": "approval",
-    "dueDate": "2023-01-01T00:00:07+02:00",
+    "dueDate": "2023-10-10T01:00:07+03:00",
     "status": "met",
     "author": {
       "id": "223cf816f2d343d2ba8d7a038fafc659",
@@ -41,8 +41,8 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "dateModified": "2023-01-01T00:00:06+02:00",
-    "dateMet": "2023-01-01T00:00:06+02:00",
+    "dateModified": "2023-10-10T01:00:06+03:00",
+    "dateMet": "2023-10-10T01:00:06+03:00",
     "owner": "broker"
   }
 }

@@ -1,6 +1,6 @@
 PATCH /api/2.5/tenders/0ffcd2893dee417cb36ace18bfbd7a09?acc_token=b630da6f0eb34e9eb53e8be052b29ef3 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1162
+Content-Length: 1212
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -18,9 +18,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "deliveryDate": {
-          "startDate": "2023-01-21T00:00:00+02:00",
-          "endDate": "2023-02-01T00:00:00+02:00"
+          "startDate": "2023-10-30T01:00:00+03:00",
+          "endDate": "2023-11-10T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

@@ -146,7 +146,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "id": "381f5658b23a448ea820b823934eeb79",
-    "date": "2023-01-01T00:00:00+02:00",
+    "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
       {
@@ -157,7 +157,7 @@ Content-Type: application/json
         },
         "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "pending",
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
@@ -171,18 +171,18 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "40ec45cd71154d63b94499dfcbee95bc",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "b544cfd9d4be4d33b8c743d18c1ba9ac",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/documents/b544cfd9d4be4d33b8c743d18c1ba9ac?download=c24f82881bbb413090880c729b494aae",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair."
@@ -198,8 +198,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "56effda6fa064e23b1aa57e3a90f86c0",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -210,8 +210,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "687aaee1741f4c2083ca2b2b91c8d366",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "eligibilityDocuments": [
@@ -224,8 +224,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "5ed18485c33e4069bf91d48ba4c0c46f",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "qualificationDocuments": [
@@ -238,18 +238,18 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "d16cf36c697745e28d1cddebebf97feb",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
         "id": "d16cf36c697745e28d1cddebebf97feb",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ef54f95d24d04987ace3b90bc12b4960?Signature=dTBs2Q%2FOFWdk6O5CfaCA7rz8AjvrwD7i8XgrmSDr6kHd2s1z6uxCkBPn%2BjbqarVMnRbalCDh1u0ltiKp8lcjAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
         "confidentiality": "public"
       }

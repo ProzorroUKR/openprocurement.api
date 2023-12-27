@@ -53,6 +53,7 @@ class TenderStage2EUCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin,
 ):
     test_author = test_tender_cd_author
+    initial_lots = test_tender_below_lots
 
     test_activate_cancellation = snitch(activate_cancellation)
 
@@ -80,6 +81,8 @@ class TenderStage2EULotsCancellationResourceTest(BaseCompetitiveDialogEUStage2Co
 class TenderStage2EUCancellationDocumentResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
+    initial_lots = test_tender_below_lots
+
     def setUp(self):
         super(TenderStage2EUCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
@@ -97,6 +100,7 @@ class TenderStage2EUCancellationComplaintResourceTest(
 ):
 
     initial_bids = test_bids
+    initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
@@ -122,6 +126,7 @@ class TenderStage2UACancellationResourceTest(
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
+    initial_lots = test_tender_below_lots
 
     test_activate_cancellation = snitch(activate_cancellation)
 
@@ -147,6 +152,7 @@ class TenderStage2UACancellationDocumentResourceTest(
 ):
 
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderStage2UACancellationDocumentResourceTest, self).setUp()

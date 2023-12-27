@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "a7057fb1c2904c2b90840f70f9477631",
-    "awardID": "a80621d2867247d08f016fe4474de8ea",
+    "awardID": "094bc528b8114acabb63c27ab785abd3",
     "contractID": "UA-2023-01-01-000016-a.2-1",
     "status": "pending",
     "value": {
@@ -28,26 +28,26 @@ Content-Type: application/json
     },
     "suppliers": [
       {
-        "name": "ДКП «Школяр»",
+        "name": "ДКП «Книга»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
           "countryName": "Україна"
         },
         "contactPoint": {
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930",
+          "name": "Андрій Олексюк"
         },
-        "scale": "micro"
+        "scale": "sme"
       }
     ],
     "date": "2023-01-01T00:00:01+02:00",
@@ -75,6 +75,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",

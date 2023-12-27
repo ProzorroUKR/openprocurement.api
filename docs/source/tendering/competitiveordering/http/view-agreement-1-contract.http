@@ -8,13 +8,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-01-000001",
+    "agreementID": "UA-2023-10-10-000001",
     "frameworkID": "aaee5d971c6d4f5dabb88efa004abce8",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2024-02-07T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -87,18 +87,18 @@ Content-Type: application/json
             "id": "f9abf115ef834ab5b4c7467f38f4e2d7",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-05-01T00:00:00+02:00",
-            "dateModified": "2023-01-01T00:00:00+02:00"
+            "dueDate": "2024-02-07T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-01-01T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "owner": "broker",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "date": "2023-01-01T00:00:00+02:00",
-    "next_check": "2023-05-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "next_check": "2024-02-07T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
     "id": "adc832d48d1343a08a9a9d62e45ceb28"
   },
   "config": {}

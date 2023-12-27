@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_cancellation,
 )
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 def create_tender_cancellation_invalid(self):
@@ -481,15 +482,7 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
     # Sign contract
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
-    contract["value"]["valueAddedTaxIncluded"] = False
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(
-            self.tender_id, contract["id"], self.tender_token
-        ),
-        {"data": {"status": "active", "value": contract["value"]}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "active")
+    activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.tender_token)
 
     # Try to create cancellation on tender
     cancellation = dict(**test_tender_below_cancellation)

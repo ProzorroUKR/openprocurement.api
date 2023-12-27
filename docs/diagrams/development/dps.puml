@@ -1,0 +1,27 @@
+@startuml
+
+
+partition "Перший етап" {
+
+    :Створюєтся фреймворк з highItemDetailing = true | false;
+    :Завершуєтся відбір / формуются агріменти + контракти;
+
+}
+
+partition "Другий етап" {
+    if (В першому етапі був highItemDetailing) then (true)
+        :Беремо конфіг для "короткої" процедури;
+
+
+    else (false)
+        :Беремо конфіг для "довгої" процедури;
+
+    endif
+    :Створення тендера з "procurementMethodType": "competitiveOrdering";
+}
+
+
+
+
+
+@enduml

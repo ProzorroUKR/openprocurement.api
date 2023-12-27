@@ -8,7 +8,7 @@ from openprocurement.api.utils import get_now, parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
 from openprocurement.tender.core.tests.utils import change_auth
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
@@ -320,6 +320,7 @@ def create_tender_generated_eu(self):
             "minimalStep",
             "mainProcurementCategory",
             "milestones",
+            "lots",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -580,6 +581,7 @@ def multiple_bidders_tender_eu(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_cd_stage1_bids[0])
     bid_data["tenderers"] = [bidder_data]
+    set_bid_lotvalues(bid_data, self.initial_lots)
     self.create_bid(tender_id, bid_data, "pending")
     bidder_data["identifier"]["id"] = "00037257"
     self.create_bid(tender_id, bid_data, "pending")
@@ -677,6 +679,7 @@ def try_go_to_ready_stage_eu(self):
     bidder_data = deepcopy(test_tender_below_organization)
     bid_data["tenderers"] = [bidder_data]
     self.app.authorization = ("Basic", ("broker", ""))
+    set_bid_lotvalues(bid_data, self.initial_lots)
     self.create_bid(tender_id, bid_data, "pending")
     bidder_data["identifier"]["id"] = "00037257"
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
@@ -1093,6 +1096,7 @@ def create_tender_generated_ua(self):
             "minimalStep",
             "mainProcurementCategory",
             "milestones",
+            "lots",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1561,7 +1565,7 @@ def tender_features_invalid(self):
         [
             {
                 "description": [
-                    "Sum of max value of all features should be less then or equal to {:.0f}%".format(
+                    "Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(
                         FEATURES_MAX_SUM * 100
                     )
                 ],

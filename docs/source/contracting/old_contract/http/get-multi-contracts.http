@@ -9,17 +9,29 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "7729066fdf2643b8a346144672203088",
-      "buyerID": "11111111111111111111111111111111",
-      "awardID": "623a18fbf2664912a11466b0146587a6",
-      "contractID": "UA-2023-01-01-000001-a-1",
-      "status": "pending",
-      "value": {
-        "amount": 0.0,
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amountNet": 0.0
-      },
+      "suppliers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "legalName": "Державне управління справами",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "telephone": "+0440000000",
+            "name": "Державне управління справами"
+          },
+          "scale": "micro"
+        }
+      ],
       "items": [
         {
           "id": "c75c3fccfe9e4fdba3441c4096966812",
@@ -60,6 +72,20 @@ Content-Type: application/json
           "relatedBuyer": "11111111111111111111111111111111"
         }
       ],
+      "buyerID": "11111111111111111111111111111111",
+      "contractID": "UA-2023-01-01-000001-a-1",
+      "id": "243c5ce560a84d80b700742a581fe589",
+      "status": "pending",
+      "awardID": "623a18fbf2664912a11466b0146587a6",
+      "date": "2023-01-01T00:00:00+02:00",
+      "value": {
+        "amount": 0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amountNet": 0
+      }
+    },
+    {
       "suppliers": [
         {
           "name": "Державне управління справами",
@@ -83,20 +109,6 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "date": "2023-01-01T00:00:00+02:00"
-    },
-    {
-      "id": "b63fd75e865b4f06a7f52651c8c26ab3",
-      "buyerID": "22222222222222222222222222222222",
-      "awardID": "623a18fbf2664912a11466b0146587a6",
-      "contractID": "UA-2023-01-01-000001-a-2",
-      "status": "pending",
-      "value": {
-        "amount": 0.0,
-        "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amountNet": 0.0
-      },
       "items": [
         {
           "id": "8636be4c542e41a296c7d278ef5cb291",
@@ -175,30 +187,18 @@ Content-Type: application/json
           "relatedBuyer": "22222222222222222222222222222222"
         }
       ],
-      "suppliers": [
-        {
-          "name": "Державне управління справами",
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
-            "legalName": "Державне управління справами",
-            "uri": "http://www.dus.gov.ua/"
-          },
-          "address": {
-            "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ",
-            "region": "м. Київ",
-            "postalCode": "01220",
-            "countryName": "Україна"
-          },
-          "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Державне управління справами"
-          },
-          "scale": "micro"
-        }
-      ],
-      "date": "2023-01-01T00:00:00+02:00"
+      "buyerID": "22222222222222222222222222222222",
+      "contractID": "UA-2023-01-01-000001-a-2",
+      "id": "45672b610db747b8a84807aa1daf52b4",
+      "status": "pending",
+      "awardID": "623a18fbf2664912a11466b0146587a6",
+      "date": "2023-01-01T00:00:00+02:00",
+      "value": {
+        "amount": 0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true,
+        "amountNet": 0
+      }
     }
   ]
 }

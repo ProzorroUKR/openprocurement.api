@@ -120,11 +120,6 @@ Content-Type: application/json
         "id": "895ffa1910f34b7592a63e5f67e49d07"
       }
     ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -151,24 +146,36 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "5cff484ac52046ce96d713e75a6af577",
-    "date": "2023-01-01T00:00:00+02:00",
-    "selfQualified": true,
-    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
+        "id": "792b94edcc1645558285a6e53a6566db",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e98ff4ebc6424cfba4838b5e790e1366?Signature=fOkU3ELmyYVvsahAhcRBc7yC874TjzHPh5cYUAHPJd4t9ojzcEf%2FMi8YRSSL7rX%2BSaDC1SYS%2Bh7h%2FXQRDaHCAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
-        "confidentiality": "public",
-        "id": "792b94edcc1645558285a6e53a6566db",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00"
+        "confidentiality": "public"
       }
     ],
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2a5accd9090044dfba8773895b0bff51?key_for_bid=5cff484ac52046ce96d713e75a6af577"
+    "selfQualified": true,
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "status": "active",
+        "date": "2023-10-10T01:00:00+03:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/2a5accd9090044dfba8773895b0bff51_f0651104a6f149b5b26cdb6dbe438918?key_for_bid=5cff484ac52046ce96d713e75a6af577"
+      }
+    ]
   }
 }
 

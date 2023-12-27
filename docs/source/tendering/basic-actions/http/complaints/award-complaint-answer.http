@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/91ac65b9beb54606b75e117055a42ea4/complaints/14237aa0cc354ccd869a51f7dad6971d?acc_token=596d2a1c0b3f4932bf4d825bfc8c24f2 HTTP/1.0
+PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/cf26c8c7de5447e083e5a6bb0d27cc66/complaints/14237aa0cc354ccd869a51f7dad6971d?acc_token=596d2a1c0b3f4932bf4d825bfc8c24f2 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 387
 Content-Type: application/json
@@ -19,8 +19,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "14237aa0cc354ccd869a51f7dad6971d",
-    "complaintID": "UA-2023-01-01-000001-a.6",
-    "date": "2023-01-01T00:00:03+02:00",
+    "complaintID": "UA-2023-10-10-000001-a.6",
+    "date": "2023-10-10T01:00:03+03:00",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
@@ -47,10 +47,11 @@ Content-Type: application/json
     "status": "answered",
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
     "resolutionType": "resolved",
-    "dateSubmitted": "2023-01-01T00:00:03+02:00",
+    "dateSubmitted": "2023-10-10T01:00:03+03:00",
     "type": "claim",
+    "relatedLot": "14a2a2bf0b87485c86be3f95b3bbcbc3",
     "bid_id": "e1cb6a5520984996a0d99c83aa93cdf9",
-    "dateAnswered": "2023-01-01T00:00:03+02:00"
+    "dateAnswered": "2023-10-10T01:00:03+03:00"
   }
 }
 

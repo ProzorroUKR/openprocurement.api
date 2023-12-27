@@ -3163,3 +3163,253 @@ def lot2_patch_tender_contract_document_by_supplier(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"],
                      "Supplier can't update document in current contract status")
+
+
+def create_econtract(self):
+    # tender = self.mongodb.tenders.get(self.tender_id)
+    #
+    # criterion = tender["criteria"][0]
+    # criterion["relatesTo"] = "item"
+    # criterion["relatedItem"] = tender["items"][0]["id"]
+    # self.mongodb.tenders.save(tender)
+
+    contract_id = self.contracts_ids[0]
+    response = self.app.get(f"/tenders/{self.tender_id}/awards/{self.award_id}")
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    award = response.json["data"]
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.get(f"/contracts/{contract_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    contract_fields = {
+        "id",
+        "awardID",
+        "contractID",
+        "dateCreated",
+        "dateModified",
+        "items",
+        "tender_id",
+        "owner",
+        "bid_owner",
+        "status",
+        "suppliers",
+        "buyer",
+    }
+
+    if "value" in award:
+        contract_fields.update({"value"})
+
+    self.assertEqual(contract_fields, set(response.json["data"].keys()))
+    # self.assertIn("attributes", response.json["data"]["items"][0])
+
+    # prepare contract for activating
+    doc = self.mongodb.tenders.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(doc)
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "authorizedBy": "документ який дозволяє",
+                "position": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.put_json(
+        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+        {
+            "data": {
+                "name": "Test Testovich",
+                "telephone": "+380950000000",
+                "email": "example@email.com",
+                "iban": "1" * 15,
+                "authorizedBy": "документ який дозволяє",
+                "position": "статус",
+            }
+        }
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+
+def cancelling_award_contract_sync(self):
+    contract_id = self.contracts_ids[0]
+    response = self.app.get(f"/tenders/{self.tender_id}/awards/{self.award_id}")
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    award = response.json["data"]
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    # prepare contract for activating
+    doc = self.mongodb.tenders.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(doc)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.get(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+    )
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+
+
+def patch_multiple_contracts_in_contracting(self):
+    response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
+    contract1 = response.json["data"]
+    response = self.app.get(f"/contracts/{self.contracts_ids[1]}")
+    contract2 = response.json["data"]
+    # 1st contract contains 1 item, 2nd contract contains 2 items
+    self.assertEqual(len(contract1["items"]), 1)
+    self.assertEqual(len(contract2["items"]), 2)
+
+    self.assertEqual(contract1["value"]["amount"], 0)
+    self.assertEqual(contract2["value"]["amount"], 0)
+
+    self.assertEqual(contract1["value"]["valueAddedTaxIncluded"], True)
+    self.assertEqual(contract2["value"]["valueAddedTaxIncluded"], True)
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"value": {**contract1["value"], "amount": 200, "currency": "UAH"}}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                'location': 'body',
+                'name': 'value',
+                'description': 'Amount should be equal or greater than amountNet and differ by no more than 20.0%'
+            }
+        ]
+    )
+    # patch 1st contract
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"value": {**contract1["value"], "amount": 200, "amountNet": 195, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amount"], 200)
+    self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
+
+    # patch 2nd contract
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
+        {"data": {"value": {**contract2["value"], "amount": 400, "amountNet": 390, "currency": "UAH"}}},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+
+    self.assertEqual(
+        response.json["errors"], [
+            {
+                'location': 'body',
+                'name': 'value',
+                'description': 'Amount should be less or equal to awarded amount'
+            }
+        ]
+    )
+
+    # 1st contract.value + 2nd contract.value <= award.amount.value
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
+        {"data": {"value": {**contract2["value"], "amount": 190, "amountNet": 185, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amount"], 190)
+    self.assertEqual(response.json["data"]["value"]["amountNet"], 185)
+
+    # prepare contract for activating
+    doc = self.mongodb.tenders.get(self.tender_id)
+    for i in doc.get("awards", []):
+        if 'complaintPeriod' in i:
+            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+    self.mongodb.tenders.save(doc)
+
+    for i in self.contracts_ids:
+        response = self.app.put_json(
+            f"/contracts/{i}/buyer/signer_info?acc_token={self.tender_token}",
+            {
+                "data": {
+                    "name": "Test Testovich",
+                    "telephone": "+380950000000",
+                    "email": "example@email.com",
+                    "iban": "1" * 15,
+                    "authorizedBy": "документ який дозволяє",
+                    "position": "статус",
+                }
+            }
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        response = self.app.put_json(
+            f"/contracts/{i}/suppliers/signer_info?acc_token={self.bid_token}",
+            {
+                "data": {
+                    "name": "Test Testovich",
+                    "telephone": "+380950000000",
+                    "email": "example@email.com",
+                    "iban": "1" * 15,
+                    "authorizedBy": "документ який дозволяє",
+                    "position": "статус",
+                }
+            }
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+    # in case any contract become active and there are no pending contracts -> tender should have complete status
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotEqual(response.json["data"]["status"], "complete")  # because second contract still in pending
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "complete")

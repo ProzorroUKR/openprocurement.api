@@ -30,6 +30,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
+    freezing_datetime = '2023-01-01T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
 

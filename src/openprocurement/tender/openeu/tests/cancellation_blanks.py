@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from freezegun import freeze_time
 from mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
@@ -153,10 +155,9 @@ def bids_on_tender_cancellation_in_qualification(self):
         "id",
         "selfQualified",
         "eligibilityDocuments",
-        "value",
+        "lotValues",
         "date",
         "financialDocuments",
-        "participationUrl",
         "qualificationDocuments",
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -246,10 +247,9 @@ def bids_on_tender_cancellation_in_awarded(self):
         "id",
         "selfQualified",
         "eligibilityDocuments",
-        "value",
+        "lotValues",
         "date",
         "financialDocuments",
-        "participationUrl",
         "qualificationDocuments",
     ]
 
@@ -272,10 +272,19 @@ def bids_on_tender_cancellation_in_awarded(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token))
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
-    self.app.patch_json(
-        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
-        {"data": {"status": "active", "qualified": True, "eligible": True}},
-    )
+    if "milestones" in response.json["data"][0]:
+        milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
+        with freeze_time((milestone_due_date + timedelta(minutes=10)).isoformat()):
+            self.app.patch_json(
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+    else:
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.get("/tenders/{}".format(self.tender_id), {"data": {"id": self.tender_id}})

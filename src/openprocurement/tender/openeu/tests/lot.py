@@ -67,7 +67,7 @@ class TenderLotEdgeCasesTestMixin(object):
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
-    test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
+    initial_lots = test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
     initial_data = test_tender_openeu_data
 
     test_get_tender_lot = snitch(get_tender_lot)

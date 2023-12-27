@@ -84,6 +84,7 @@ class TenderAwardComplaintObjectionResourceTest(
     docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
+    initial_lots = test_tender_below_lots
 
     def setUp(self):
         super(TenderAwardComplaintObjectionResourceTest, self).setUp()

@@ -8,10 +8,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "tenderID": "UA-2023-01-01-000004-a",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000004-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -407,8 +407,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
@@ -434,7 +434,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "date": "2023-01-01T00:00:00+02:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "id": "50fc7d0cb4e3423491c35387a046af42",
         "value": {
           "currency": "UAH",
@@ -451,8 +451,8 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2023-01-01T00:00:00+02:00",
-          "shouldStartAfter": "2023-01-01T00:00:00+02:00"
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42"
       }
@@ -499,12 +499,12 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "startDate": "2022-12-28T00:00:00+02:00",
-      "endDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-10-06T01:00:00+03:00",
+      "endDate": "2023-10-10T01:00:00+03:00"
     },
     "enquiryPeriod": {
-      "startDate": "2022-12-26T00:00:00+02:00",
-      "endDate": "2022-12-28T00:00:00+02:00"
+      "startDate": "2023-10-04T01:00:00+03:00",
+      "endDate": "2023-10-06T01:00:00+03:00"
     },
     "minimalStep": {
       "amount": 3.0033300000000005,
@@ -516,7 +516,7 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-01-01T00:42:00+02:00",
+    "next_check": "2023-10-10T01:42:00+03:00",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
@@ -526,13 +526,13 @@ Content-Type: application/json
         "documentType": "technicalSpecifications",
         "description": "document description modified",
         "id": "20aade7d4c9948b2b97308ac6e6c942d",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/20aade7d4c9948b2b97308ac6e6c942d?download=d351393c1280494ba80f9ffa0b2345f7",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -544,25 +544,25 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "4fb26dfadede4a7f85699e8e626fc794",
-        "datePublished": "2023-01-01T00:00:00+02:00",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner"
       },
       {
         "id": "4fb26dfadede4a7f85699e8e626fc794",
-        "datePublished": "2023-01-01T00:00:00+02:00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/4fb26dfadede4a7f85699e8e626fc794?download=1c680c5a847e47d397d53c35cd19ac5f",
         "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:00+02:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "auctionPeriod": {
-      "startDate": "2023-01-01T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
     "id": "e23dee5896254eb4ac3364a9a854c3fe"
   },

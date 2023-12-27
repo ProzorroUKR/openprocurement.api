@@ -17,18 +17,18 @@ Content-Type: application/json
       "language": "uk",
       "confidentiality": "public",
       "id": "6445cc6ce08c497d8d68b4a048fda100",
-      "datePublished": "2023-01-01T00:00:00+02:00",
-      "dateModified": "2023-01-01T00:00:00+02:00"
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
       "id": "24d4842c57d14041b8a66acadbdc91bb",
-      "datePublished": "2023-01-01T00:00:00+02:00",
+      "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
       "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/2096f1a2874b40e3bbf150c27e4824bf/documents/24d4842c57d14041b8a66acadbdc91bb?download=0529d526671941f9a44290ac0e5c9891",
       "documentOf": "tender",
-      "dateModified": "2023-01-01T00:00:00+02:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
       "language": "uk",
       "confidentiality": "buyerOnly",
       "confidentialityRationale": "Only our company sells badgers with pink hair."

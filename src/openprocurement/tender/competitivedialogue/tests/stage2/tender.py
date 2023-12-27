@@ -48,6 +48,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_author,
     test_tender_cdua_stage2_config,
     test_tender_cdeu_stage2_config,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
@@ -57,9 +58,9 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     initial_auth = ("Basic", ("competitive_dialogue", ""))
     author_data = test_tender_cd_author
     initial_data = test_tender_cdeu_stage2_data
-    test_tender_data_eu = test_tender_cdeu_stage2_data  # TODO: change attribute identifier
-    test_tender_config_eu = test_tender_cdeu_stage2_config  # TODO: change attribute identifier
+    initial_config = test_tender_cdeu_stage2_config
     test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
+    initial_lots = test_tender_cd_lots
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
@@ -105,10 +106,9 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     docservice = True
     initial_data = test_tender_cdua_stage2_data
     initial_config = test_tender_cdua_stage2_config
-    test_tender_data_eu = test_tender_cdeu_stage2_data  # TODO: change attribute identifier
-    test_tender_config_eu = test_tender_cdeu_stage2_config  # TODO: change attribute identifier
     test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
     author_data = test_tender_cd_author
+    initial_lots = test_tender_cd_lots
 
     def set_tender_status(self, tender, token, status):
         auth = self.app.authorization
