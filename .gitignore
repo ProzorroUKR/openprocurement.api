@@ -58,3 +58,6 @@ target/
 
 cover/
 output.html
+
+# mongo keyfile
+keyfile
