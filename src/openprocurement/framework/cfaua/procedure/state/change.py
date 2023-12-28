@@ -1,5 +1,6 @@
 from openprocurement.api.context import get_request, get_now
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.cfaua.procedure.models.change import (
     PostChangeTaxRate,
     PostChangeItemPriceVariation,
@@ -21,7 +22,7 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 class ChangeState(BaseState):
     def get_post_data_model(self):
         request = get_request()
-        data = request.json["data"]
+        data = validate_json_data(request)
         if "rationaleType" not in data:
             raise_operation_error(get_request(), "Can't add change without rationaleType")
         if data["rationaleType"] == "taxRate":
