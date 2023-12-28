@@ -160,3 +160,79 @@ https://github.com/ProzorroUKR/standards/pull/203/files
     },
 
 Але це все ще один "procurementMethodType: competitiveOrdering"
+
+First iteration - DPS Short
+----------------------------
+Для першої ітерації стоїть задача реалізувати на другому етапі виключно скорочену процедуру, а саме тендер, який не містить оскарження у вигляді подання скарг до АМКУ на будь якому етапі, де таке оскарження виникає.
+
+Для цього будуть використанні наступні конфіги - параметри, що визначають наявність або відсутність у закупівлі оскарження в тендері:
+
+* tenderComplaints - оскарження умов ТД
+
+* awardComplaints - оскарження рішення по кваліфікації
+
+* cancellationComplaints - оскарження скасування тендеру
+
+Запитання/вимоги як функціонал лишаються та відбувається за процесом, притаманним ВТО.
+
+Для скороченої процедури без оскарження ці параметри будуть мати одне тільки значення `False`:
+
+.. sourcecode:: http
+
+
+    POST /api/2.5/tenders  HTTP/1.0
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        "procurementMethodType": "competitiveOrdering",
+        "agreements": [
+          {
+            "id": "4178f66eebf04c4497d0fb223feeb0fe"
+          }
+        ],
+        ...
+      },
+      "config": {
+         "tenderComplaints": false,
+         "awardComplaints": false,
+         "cancellationComplaints": false,
+         ...
+      }
+    }
+
+
+При створенні закупівлі не буде додаватися `complaintPeriod` автоматично, як це працює зараз в відкритих торгах з особливостями. І тому при спробі подати скаргу на умови ТД користувач буде отримувати помилку:
+
+
+.. sourcecode:: http
+
+
+    POST /api/2.5/tenders/1218f66eebf04c4497d0fb223feeb121/complaints HTTP/1.0
+    Authorization: Bearer broker
+    Content-Type: application/json
+    Host: lb-api-sandbox.prozorro.gov.ua
+
+    {
+      "data": {
+        ...
+      }
+    }
+
+    HTTP/1.0 403 Forbidden
+    Content-Type: application/json
+
+    {
+      "status": "error",
+      "errors": [
+        {
+          "location": "body",
+          "name": "data",
+          "description": "Can't add complaint as procedure doesn't have complaintPeriod"
+        }
+      ]
+    }
+
+Схожі помилки будуть при поданні скарги на рішення по кваліфікації та скарги на скасування тендеру.
