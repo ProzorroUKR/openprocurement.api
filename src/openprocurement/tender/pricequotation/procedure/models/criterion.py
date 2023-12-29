@@ -3,34 +3,24 @@ from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
 from openprocurement.api.models import ListType, Model
 from openprocurement.api.utils import get_now, get_first_revision_date
-from openprocurement.tender.pricequotation.procedure.models.requirement import (
-    Requirement,
-    ValidateIdMixing,
-    RequirementPost,
-)
+from openprocurement.tender.pricequotation.procedure.models.requirement import Requirement, ValidateIdMixing
 from openprocurement.tender.pricequotation.procedure.validation import validate_requirement_groups
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
 
 
-# TODO Leave after migration only one class without expectedValue
-class RequirementGroupPost(ValidateIdMixing, Model):
+class RequirementGroup(ValidateIdMixing, Model):
     description = StringType(required=True)
-    requirements = ListType(ModelType(RequirementPost, required=True), required=True, min_size=1)
-
-
-class RequirementGroup(RequirementGroupPost):
     requirements = ListType(ModelType(Requirement, required=True), required=True, min_size=1)
 
 
-# TODO Leave after migration only one class without expectedValue
-class CriterionPost(ValidateIdMixing, Model):
+class Criterion(ValidateIdMixing, Model):
     title = StringType(required=True)
     description = StringType(required=True)
     relatesTo = StringType(choices=["item"])
     relatedItem = MD5Type()
     requirementGroups = ListType(
-        ModelType(RequirementGroupPost, required=True),
+        ModelType(RequirementGroup, required=True),
         required=True,
         min_size=1,
         validators=[validate_requirement_groups],
@@ -45,16 +35,6 @@ class CriterionPost(ValidateIdMixing, Model):
         if value:
             if get_first_revision_date(get_tender(), default=get_now()) < PQ_MULTI_PROFILE_FROM:
                 raise ValidationError("Rogue field.")
-
-
-# TODO Leave after migration only one class without expectedValue
-class Criterion(CriterionPost):
-    requirementGroups = ListType(
-        ModelType(RequirementGroup, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_requirement_groups],
-    )
 
 
 def validate_criterion_related_items(data, criterion_list):
