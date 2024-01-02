@@ -34,6 +34,8 @@ class ESCOContractStateMixing:
                     #  which I believe a cause of this
                     if isinstance(actual, Decimal) and passed:
                         passed = Decimal(passed)
+                    elif isinstance(actual, float) and passed:
+                        passed = float(passed)
                     if passed != actual:
                         raise_operation_error(request, f"Can't update {ro_attr} for contract value", name="value")
 
