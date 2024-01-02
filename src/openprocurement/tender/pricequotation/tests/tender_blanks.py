@@ -863,13 +863,11 @@ def create_tender_draft_with_criteria_expected_values(self):
         [{
             "location": "body",
             "name": "criteria",
-            "description": {
-                "requirementGroups": {
-                    "requirements": {
-                        "expectedValue": "Rogue field"
-                    }
-                }
-            }
+            "description": [{
+                "requirementGroups": [
+                    "expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']"
+                ]
+            }]
         }]
     )
 
@@ -913,7 +911,7 @@ def create_tender_draft_with_criteria_expected_values(self):
 
     patch_failed_criteria = deepcopy(tender_criteria)
     patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValues"] = None
-    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["minValue"] = "value"
+    patch_failed_criteria[2]["requirementGroups"][0]["requirements"][0]["expectedValue"] = "value"
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
         {"data": {"criteria": patch_failed_criteria}},
@@ -1004,7 +1002,7 @@ def tender_criteria_values_type(self):
     criteria = [deepcopy(self.test_criteria_1[0])]
     requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
     requirement["dataType"] = "string"
-    requirement["expectedValues"] = [1]
+    requirement["expectedValue"] = 1
     data = {"data": {"criteria": criteria}}
     response = self.app.patch_json(req_path, data, status=422)
 
@@ -1016,14 +1014,14 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Couldn't interpret '1' as string."]
+                        "expectedValue": ["Couldn't interpret '1' as string."]
                     }]
                 }]
             }]
         }]
     )
 
-    requirement["expectedValues"] = [True]
+    requirement["expectedValue"] = True
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1034,7 +1032,7 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Couldn't interpret 'True' as string."]
+                        "expectedValue": ["Couldn't interpret 'True' as string."]
                     }]
                 }]
             }]
@@ -1043,7 +1041,7 @@ def tender_criteria_values_type(self):
 
     # Test dataType == "integer"
     requirement["dataType"] = "integer"
-    requirement["expectedValues"] = ["5"]
+    requirement["expectedValue"] = "5"
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1054,14 +1052,14 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Value '5' is not int."]
+                        "expectedValue": ["Value '5' is not int."]
                     }]
                 }]
             }]
         }]
     )
 
-    requirement["expectedValues"] = [5.5]
+    requirement["expectedValue"] = 5.5
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1072,7 +1070,7 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Value '5.5' is not int."]
+                        "expectedValue": ["Value '5.5' is not int."]
                     }]
                 }]
             }]
@@ -1083,7 +1081,7 @@ def tender_criteria_values_type(self):
 
     requirement["dataType"] = "number"
 
-    requirement["expectedValues"] = ["5.5"]
+    requirement["expectedValue"] = "5.5"
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1094,7 +1092,7 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Number '5.5' failed to convert to a decimal."]
+                        "expectedValue": ["Number '5.5' failed to convert to a decimal."]
                     }]
                 }]
             }]
@@ -1105,7 +1103,7 @@ def tender_criteria_values_type(self):
 
     requirement["dataType"] = "boolean"
 
-    requirement["expectedValues"] = ["False"]
+    requirement["expectedValue"] = "False"
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1116,14 +1114,14 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Value 'False' is not boolean."]
+                        "expectedValue": ["Value 'False' is not boolean."]
                     }]
                 }]
             }]
         }]
     )
 
-    requirement["expectedValues"] = [1]
+    requirement["expectedValue"] = 1
     response = self.app.patch_json(req_path, data, status=422)
 
     self.assertEqual(
@@ -1134,7 +1132,7 @@ def tender_criteria_values_type(self):
             "description": [{
                 "requirementGroups": [{
                     "requirements": [{
-                        "expectedValues": ["Value '1' is not boolean."]
+                        "expectedValue": ["Value '1' is not boolean."]
                     }]
                 }]
             }]
@@ -1142,6 +1140,7 @@ def tender_criteria_values_type(self):
     )
 
     # dataType == "string" for expectedValues
+    del requirement["expectedValue"]
     requirement["dataType"] = "string"
 
     requirement["expectedValues"] = ["hello", 11, "world"]

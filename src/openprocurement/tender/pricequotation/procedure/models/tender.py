@@ -22,11 +22,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     validate_related_buyer_in_items,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.pricequotation.procedure.models.criterion import (
-    Criterion,
-    CriterionPost,
-    validate_criterion_related_items,
-)
+from openprocurement.tender.pricequotation.procedure.models.criterion import Criterion, validate_criterion_related_items
 from openprocurement.tender.pricequotation.procedure.models.requirement import validate_criteria_id_uniq
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
@@ -105,7 +101,7 @@ class PostTender(PostBaseTender):
         validators=[validate_items_uniq],
     )
     criteria = ListType(
-        ModelType(CriterionPost),
+        ModelType(Criterion),
         validators=[validate_criteria_id_uniq],
     )
 
@@ -166,7 +162,7 @@ class PatchTender(PatchBaseTender):
         validators=[validate_items_uniq],
     )
     criteria = ListType(
-        ModelType(CriterionPost),
+        ModelType(Criterion),
         validators=[validate_criteria_id_uniq],
     )
 

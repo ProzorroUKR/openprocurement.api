@@ -18,10 +18,6 @@ from openprocurement.api.validation import OPERATIONS, validate_items_uniq
 from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
-from openprocurement.tender.pricequotation.procedure.models.req_response import (
-    RequirementResponse,
-    RequirementResponsePost,
-)
 from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
 from uuid import uuid4
 
@@ -156,7 +152,7 @@ class PostBid(PatchBid):
     value = ModelType(Value)
     documents = ListType(ModelType(PostDocument, required=True))
     requirementResponses = ListType(
-        ModelType(RequirementResponsePost),
+        ModelType(RequirementResponse),
         required=True,
         min_size=1,
     )
