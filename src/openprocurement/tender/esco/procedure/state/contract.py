@@ -30,12 +30,8 @@ class ESCOContractStateMixing:
                 if field:
                     passed = value.get(ro_attr)
                     actual = field.get(ro_attr)
-                    # TODO: we are getting Decimal from db now, so we don't have to convert DecimalType to str
-                    #  which I believe a cause of this
-                    if isinstance(actual, Decimal) and passed:
-                        passed = Decimal(passed)
-                    elif isinstance(actual, float) and passed:
-                        passed = float(passed)
+                    if isinstance(passed, Decimal):
+                        actual = to_decimal(actual)
                     if passed != actual:
                         raise_operation_error(request, f"Can't update {ro_attr} for contract value", name="value")
 
