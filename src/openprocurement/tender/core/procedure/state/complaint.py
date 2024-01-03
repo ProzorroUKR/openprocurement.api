@@ -1,6 +1,6 @@
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     dt_from_iso,
@@ -45,10 +45,12 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
     draft_patch_model = DraftPatchComplaint
+    complaints_configuration = "tenderComplaints"
 
     # POST
     def validate_complaint_on_post(self, complaint):
         tender = get_tender()
+        self.validate_complaint_config()
         self.validate_create_allowed_tender_status()
         self.validate_lot_status()
         self.validate_tender_in_complaint_period(tender)
@@ -66,6 +68,14 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             doc["author"] = "complaint_owner"
 
         self.always(tender)
+
+    def validate_complaint_config(self):
+        config = get_tender_config()
+        if config.get(self.complaints_configuration) is False:
+            raise_operation_error(
+                self.request,
+                "Can't add complaint as it is forbidden by configuration",
+            )
 
     def validate_create_allowed_tender_status(self):
         if self.create_allowed_tender_statuses:
@@ -265,7 +275,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
     def validate_tender_in_complaint_period(self, tender):
         complaint_submit_time = self.tender_complaint_submit_time
-        if get_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
+        if tender.get("complaintPeriod") and get_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
             raise_operation_error(
                 self.request,
                 "Can submit complaint not later than {duration.days} "

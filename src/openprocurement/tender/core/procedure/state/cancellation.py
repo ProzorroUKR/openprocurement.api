@@ -202,11 +202,16 @@ class CancellationStateMixing(baseclass):
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            now = get_now()
-            cancellation["complaintPeriod"] = {
-                "startDate": now.isoformat(),
-                "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat()
-            }
+            config = get_tender_config()
+            if config.get("cancellationComplaints") is True:
+                now = get_now()
+                cancellation["complaintPeriod"] = {
+                    "startDate": now.isoformat(),
+                    "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat()
+                }
+            else:
+                self.set_object_status(cancellation, "active")
+                self.cancel(cancellation)
         elif before == "draft" and after == "unsuccessful":
             pass
         elif before == "pending" and after == "unsuccessful" \

@@ -27,6 +27,8 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_negotiation_quick_config,
+    test_tender_negotiation_config,
 )
 from openprocurement.tender.limited.tests.tender_blanks import (
     tender_cause_quick,
@@ -109,6 +111,7 @@ class TenderResourceTest(BaseTenderWebTest):
 class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
     initial_lots = test_lots_data = test_lots
+    initial_config = test_tender_negotiation_config
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)
@@ -118,6 +121,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderProcessTest(BaseTenderWebTest):
@@ -131,6 +135,7 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderNegotiationProcessTest(TenderProcessTest):
     initial_data = test_tender_negotiation_data
     initial_lots = test_lots
+    initial_config = test_tender_negotiation_config
 
     test_tender_status_change = snitch(tender_negotiation_status_change)
     test_tender_cause = snitch(tender_cause)
@@ -141,6 +146,7 @@ class TenderNegotiationProcessTest(TenderProcessTest):
 
 class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
     test_tender_cause = snitch(tender_cause_quick)
     test_tender_cause_choices = snitch(tender_cause_choices)

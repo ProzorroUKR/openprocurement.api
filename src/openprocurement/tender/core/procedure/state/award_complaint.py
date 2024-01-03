@@ -18,6 +18,7 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint
+    complaints_configuration = "awardComplaints"
 
     def complaint_on_post(self, complaint):
         request = self.request

@@ -18,7 +18,7 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_lcc_lot_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_draft_complaint
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.base import test_tender_open_data
@@ -1604,3 +1604,50 @@ def tender_created_before_related_lot_constant(self):
             "description": "This field is required"
         }],
     )
+
+
+# TenderDPSResourceTest
+
+def create_tender_dps(self):
+    data = self.initial_data.copy()
+    data.update({"procurementMethodType": "competitiveOrdering"})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("complaintPeriod", response.json["data"])
+    tender_id = response.json["data"]["id"]
+
+    # try to add complaint
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    response = self.app.post_json(
+        f"/tenders/{tender_id}/complaints",
+        {"data": complaint_data},
+        status=403
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add complaint as it is forbidden by configuration"
+    )
+
+
+def create_tender_dps_invalid_config(self):
+    data = self.initial_data.copy()
+    data.update({"procurementMethodType": "competitiveOrdering"})
+    for config_name in ("tenderComplaints", "awardComplaints", "cancellationComplaints"):
+        config = deepcopy(self.initial_config)
+        config.update({config_name: True})
+        response = self.app.post_json(
+            "/tenders",
+            {
+                "data": data,
+                "config": config,
+            },
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{"description": "True is not one of [False]", "location": "body", "name": config_name}],
+        )

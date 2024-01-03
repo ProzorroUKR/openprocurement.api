@@ -28,6 +28,8 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_data_multi_buyers,
     test_tender_negotiation_quick_data_multi_buyers,
     test_tender_negotiation_data_2items,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
 from openprocurement.tender.limited.tests.contract_blanks import (
     create_tender_contract_negotiation_quick,
@@ -143,6 +145,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderC
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     initial_data = test_tender_negotiation_data
     stand_still_period_days = 10
+    initial_config = test_tender_negotiation_config
 
     test_patch_tender_contract = snitch(patch_tender_negotiation_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
@@ -153,6 +156,7 @@ class TenderNegotiationContractResourceTest(TenderContractResourceTest):
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationContractVATNotIncludedResourceTest(TenderContractVATNotIncludedResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
 
 class TenderNegotiationLotMixin:
@@ -185,6 +189,7 @@ class TenderNegotiationLotMixin:
 class TenderNegotiationLotContractResourceTest(TenderNegotiationLotMixin, TenderNegotiationContractResourceTest):
     initial_status = "active"
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
     stand_still_period_days = 10
     initial_lots = test_lots
 
@@ -196,6 +201,7 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationLotMixin, Tender
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data_2items
+    initial_config = test_tender_negotiation_config
     initial_lots = test_lots * 2
     stand_still_period_days = 10
 
@@ -258,18 +264,21 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 5
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationQuickLotContractResourceTest(TenderNegotiationLotContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 5
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 5
     accelerator = "quick,accelerator=172800"  # 5 days=432000 sec; 432000/172800=2.5 sec
     time_sleep_in_sec = 3  # time which reduced
@@ -317,6 +326,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationQuickLotAccelerationTest(TenderNegotiationQuickAccelerationTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 5
     accelerator = "quick,accelerator=172800"  # 5 days=432000 sec; 432000/172800=2.5 sec
     time_sleep_in_sec = 3  # time which reduced
@@ -397,11 +407,13 @@ class TenderContractDocumentResourceTest(
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractNegotiationDocumentResourceTest(TenderContractDocumentResourceTest, TenderNegotiationLotMixin):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractNegotiationLotDocumentResourceTest(TenderContractDocumentResourceTest, TenderNegotiationLotMixin):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
     initial_lots = test_lots
 
     def create_award(self):
@@ -454,11 +466,13 @@ class TenderContractNegotiationLotDocumentResourceTest(TenderContractDocumentRes
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractNegotiationQuickDocumentResourceTest(TenderContractNegotiationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractNegotiationQuickLotDocumentResourceTest(TenderContractNegotiationLotDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
@@ -484,12 +498,14 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationMultiBuyersContractResourceTest(TenderContractMultiBuyersResourceTest):
     initial_data = test_tender_negotiation_data_multi_buyers
+    initial_config = test_tender_negotiation_config
     stand_still_period_days = 10
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderNegotiationQuickMultiBuyersContractResourceTest(TenderNegotiationMultiBuyersContractResourceTest):
     initial_data = test_tender_negotiation_quick_data_multi_buyers
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 10
 
 
@@ -511,6 +527,7 @@ class TenderReportingEContractResourceTest(
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
     stand_still_period_days = 10
 
     test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
@@ -519,6 +536,7 @@ class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTes
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderNegotiationQuickEContractResourceTest(TenderNegotiationEContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
     stand_still_period_days = 5
 
 
@@ -541,6 +559,7 @@ class TenderNegotiationEContractMultiBuyersResourceTest(
     TenderReportingEContractMultiBuyersResourceTest
 ):
     initial_data = test_tender_negotiation_data_multi_buyers
+    initial_config = test_tender_negotiation_config
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
@@ -548,6 +567,7 @@ class TenderNegotiationEContractMultiBuyersResourceTest(
     TenderReportingEContractMultiBuyersResourceTest
 ):
     initial_data = test_tender_negotiation_quick_data_multi_buyers
+    initial_config = test_tender_negotiation_quick_config
 
 
 def suite():

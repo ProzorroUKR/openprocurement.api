@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_organization,
 )
-from openprocurement.tender.competitivedialogue.tests.base import test_tender_cdua_data
+from openprocurement.tender.competitivedialogue.tests.base import test_tender_cdua_data, test_tender_cdua_config
 
 
 def create_tender_bidder_invalid(self):
@@ -560,7 +560,7 @@ def two_lot_0bid(self):
 def two_lot_2can(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # create tender
-    response = self.app.post_json("/tenders", {"data": test_tender_cdua_data, "config": self.initial_config})
+    response = self.app.post_json("/tenders", {"data": test_tender_cdua_data, "config": test_tender_cdua_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     lots = []
