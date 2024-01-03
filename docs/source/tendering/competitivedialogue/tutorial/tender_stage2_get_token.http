@@ -78,16 +78,16 @@ Content-Type: application/json
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-30T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-02T00:00:00+02:00"
+      "endDate": "2023-10-31T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "tenderPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-10T00:00:00+03:00"
+      "endDate": "2023-11-10T00:00:00+02:00"
     },
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-05T00:00:00+02:00"
+      "endDate": "2023-11-06T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
