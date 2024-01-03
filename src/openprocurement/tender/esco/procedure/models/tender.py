@@ -10,9 +10,9 @@ from openprocurement.tender.core.procedure.models.period import (
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
     EnquiryPeriod,
-    Period,
     TenderAuctionPeriod,
 )
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot

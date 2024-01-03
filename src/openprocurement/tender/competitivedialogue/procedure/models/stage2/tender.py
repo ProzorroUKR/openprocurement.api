@@ -6,11 +6,9 @@ from openprocurement.api.context import (
     get_data,
     get_now,
 )
-from openprocurement.tender.core.procedure.models.period import Period
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.item import (
-    validate_items_uniq,
-)
+from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
 from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,

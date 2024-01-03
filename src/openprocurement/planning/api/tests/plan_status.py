@@ -62,7 +62,7 @@ def test_fail_update_back_to_draft(app, initial_status):
     if initial_status is None:
         plan = app.app.registry.mongodb.plans.get(plan_id)
         del plan["status"]
-        app.app.registry.mongodb.plans.save(Plan(plan))
+        app.app.registry.mongodb.plans.save(plan)
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {"status": "draft"}}, status=422
@@ -170,17 +170,25 @@ def test_cancel_plan_2_steps(app, initial_status):
     plan_id = response.json["data"]["id"]
     acc_token = response.json["access"]["token"]
 
+    cancellation = {
+        "reason": "Because",
+        "status": "pending",
+    }
+
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
-        {"data": {"cancellation": {"reason": "Because", "status": "pending"}}},
+        {"data": {"cancellation": cancellation}},
     )
     assert response.status == "200 OK"
     assert response.json["data"]["cancellation"]["status"] == "pending"
     assert response.json["data"].get("status") == initial_status
     create_time = response.json["data"]["cancellation"]["date"]
 
+    cancellation["status"] = "active"
+
     response = app.patch_json(
-        "/plans/{}?acc_token={}".format(plan_id, acc_token), {"data": {"cancellation": {"status": "active"}}}
+        "/plans/{}?acc_token={}".format(plan_id, acc_token),
+        {"data": {"cancellation": cancellation}},
     )
     assert response.status == "200 OK"
     assert response.json["data"]["cancellation"]["status"] == "active"
@@ -201,9 +209,14 @@ def test_cancel_plan_1_step(app):
     plan_id = response.json["data"]["id"]
     acc_token = response.json["access"]["token"]
 
+    cancellation = {
+        "reason": "",
+        "status": "active",
+    }
+
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
-        {"data": {"cancellation": {"reason": "", "status": "active"}}},
+        {"data": {"cancellation": cancellation}},
         status=422,
     )
     assert response.json == {
@@ -213,9 +226,14 @@ def test_cancel_plan_1_step(app):
         ],
     }
 
+    cancellation = {
+        "reason": "Because",
+        "status": "active",
+    }
+
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
-        {"data": {"cancellation": {"reason": "Because", "status": "active"}}},
+        {"data": {"cancellation": cancellation}},
     )
     assert response.status == "200 OK"
     assert response.json["data"]["cancellation"]["status"] == "active"
@@ -288,12 +306,30 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     acc_token = response.json["access"]["token"]
 
     # patch is allowed, but only "rationale" is allowed
+    classification = deepcopy(test_data["classification"])
+    classification["description"] = "bla"
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
         {"data": {
-            "classification": {
-                "description": "bla",
-            },
+            "classification": classification,
+            "rationale": {"description": "hello, 123#"}
+        }},
+        status=403,
+    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {
+                "description": "Can't update classification in {} status".format(status),
+                "location": "body",
+                "name": "data",
+            }
+        ],
+    }
+
+    response = app.patch_json(
+        "/plans/{}?acc_token={}".format(plan_id, acc_token),
+        {"data": {
             "rationale": {"description": "hello, 123#"}
         }},
     )
@@ -401,8 +437,7 @@ def test_fail_complete_manually(app, value):
         patch_date = get_now() - timedelta(days=1)
 
     if value in ("aboveThresholdUA.defense", "simple.defense"):
-
-        with patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
+        with patch("openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
             response = app.post_json("/plans", {"data": test_data}, status=403)
         assert response.status == "403 Forbidden"
         assert response.json["errors"] == [
@@ -419,7 +454,7 @@ def test_fail_complete_manually(app, value):
         ]
         test_data["procuringEntity"]["kind"] = "defense"
 
-    with patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
+    with patch("openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", patch_date):
         response = app.post_json("/plans", {"data": test_data})
     assert response.status == "201 Created"
     assert response.json["data"]["status"] == "scheduled"

@@ -19,16 +19,17 @@ class BaseState:
     def on_patch(self, before, after):
         # if status has changed, we should take additional actions according to procedure
         if "status" in after and before.get("status") != after["status"]:
-            self.status_up(before["status"], after["status"], after)
+            self.status_up(before.get("status"), after["status"], after)
         self.always(after)
 
     def always(self, data):  # post or patch
         pass
 
     @staticmethod
-    def set_object_status(obj, status):
-        if obj["status"] != status:
+    def set_object_status(obj, status, update_date=True):
+        if obj.get("status") != status:
             obj["status"] = status
-            obj["date"] = get_now().isoformat()
+            if update_date:
+                obj["date"] = get_now().isoformat()
         else:
             logger.warning(f"Obj status already set")

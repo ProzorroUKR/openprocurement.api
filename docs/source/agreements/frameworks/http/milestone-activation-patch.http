@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/617574663a03455d892ddd21b4a3d9c7/contracts/a55dba12087948e994bc6090c541f74f/milestones/4c23475167c7436ca594b2010e9e0a4b?acc_token=9a38d9ba334f4452a12d1a9c94643df0 HTTP/1.0
+PATCH /api/2.5/agreements/617574663a03455d892ddd21b4a3d9c7/contracts/a55dba12087948e994bc6090c541f74f/milestones/4c23475167c7436ca594b2010e9e0a4b?acc_token=47f9fd2d63d44d3d9a5effcecf16fb82 HTTP/1.0
 Authorization: Bearer token
 Content-Length: 27
 Content-Type: application/json

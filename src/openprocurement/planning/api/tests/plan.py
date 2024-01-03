@@ -10,7 +10,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.planning.api.tests.base import test_plan_data, BasePlanTest
 from openprocurement.planning.api.tests.plan_blanks import (
     # PlanTest
-    simple_add_plan,
     concurrent_plan_update,
     # AccreditationPlanTest
     create_plan_accreditation,
@@ -70,7 +69,6 @@ del test_data_with_year["budget"]["period"]
 class PlanTest(BasePlanTest):
     initial_data = test_plan_data
 
-    test_simple_add_plan = snitch(simple_add_plan)
     test_concurrent_plan_update = snitch(concurrent_plan_update)
 
 
@@ -124,7 +122,7 @@ class PlanBudgetBreakdownTest(BasePlanTest):
     test_create_plan_with_delivery_address_validations = snitch(create_plan_with_delivery_address_validations)
     test_create_plan_with_profile = snitch(create_plan_with_profile)
 
-@mock.patch("openprocurement.planning.api.models.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.planning.api.procedure.models.budget.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
 class PlanBudgetYearTest(BasePlanTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
@@ -133,7 +131,7 @@ class PlanBudgetYearTest(BasePlanTest):
     test_patch_plan_budget_year = snitch(patch_plan_budget_year)
 
 
-@mock.patch("openprocurement.planning.api.models.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1))
 class PlanBuyersTestCase(BasePlanTest):
     initial_data = test_plan_data
 

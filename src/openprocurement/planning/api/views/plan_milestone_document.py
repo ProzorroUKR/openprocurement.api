@@ -10,12 +10,12 @@ from openprocurement.api.validation import (
 from openprocurement.planning.api.views.plan_document import PlansDocumentResource
 
 
-@opresource(
-    name="Plan Milestone Documents",
-    collection_path="/plans/{plan_id}/milestones/{milestone_id}/documents",
-    path="/plans/{plan_id}/milestones/{milestone_id}/documents/{document_id}",
-    description="Plan milestone related files",
-)
+# @opresource(
+#     name="Plan Milestone Documents",
+#     collection_path="/plans/{plan_id}/milestones/{milestone_id}/documents",
+#     path="/plans/{plan_id}/milestones/{milestone_id}/documents/{document_id}",
+#     description="Plan milestone related files",
+# )
 class PlanMilestoneDocumentResource(PlansDocumentResource):
     context_name = "plan_milestone"
 

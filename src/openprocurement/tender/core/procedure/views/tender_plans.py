@@ -1,10 +1,12 @@
+from copy import deepcopy
 from logging import getLogger
 
 from cornice.resource import resource
 from schematics.exceptions import ValidationError, ModelValidationError
 
-from openprocurement.api.utils import json_view, handle_data_exceptions
-from openprocurement.planning.api.utils import save_plan
+from openprocurement.api.utils import json_view, handle_data_exceptions, error_handler
+from openprocurement.planning.api.procedure.state.plan import PlanState
+from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.validation import validate_plan_not_terminated, validate_plan_has_not_tender
 from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
@@ -31,6 +33,7 @@ LOGGER = getLogger(__name__)
 )
 class TenderPlansResource(TenderBaseResource):
     serializer_class = PlanSerializer
+    plan_state_class = PlanState
 
     @json_view()
     def get(self):
@@ -43,37 +46,43 @@ class TenderPlansResource(TenderBaseResource):
         validators=(
             validate_item_owner("tender"),
             validate_input_data(PlanRelation),
-            validate_tender_plan_data,
-            validate_procurement_kind_is_central,
-            validate_tender_in_draft,
-            validate_plan_not_terminated,
-            validate_plan_has_not_tender,  # we need this because of the plans created before the statuses release
-            validate_plan_budget_breakdown,
-            validate_procurement_type_of_first_stage,
-            validate_tender_matches_plan,  # procuringEntity and items classification group
         ),
         permission="edit_tender",
     )
     def post(self):
         tender = self.request.validated["tender"]
         plan_relation = self.request.validated["data"]
-        plan = self.request.validated["plan"]
 
+        # get plan
+        plan_id = self.request.validated["data"]["id"]
+        plan = self.request.registry.mongodb.plans.get(plan_id)
+        if plan is None:
+            self.request.errors.add("url", "plan_id", "Not Found")
+            self.request.errors.status = 404
+            raise error_handler(self.request)
+        self.request.validated["plan"] = plan
+        self.request.validated["plan_src"] = deepcopy(plan)
+
+        # update tender
         if "plans" not in tender:
             tender["plans"] = []
         tender["plans"].append(plan_relation)
 
+        # update plan
+        plan_state = self.plan_state_class(self.request)
+        plan_state.tender_plan_on_post(plan, tender)
+
+        # mimic old style validation
         with handle_data_exceptions(self.request):
-            # mimic old style validation
             # TODO: refactor this
             try:
                 validate_plans(tender, tender["plans"])
             except ValidationError as e:
                 raise ModelValidationError({"plans": e})
 
+        # save
         save_tender(self.request)
         if not self.request.errors:
-            plan.tender_id = tender["_id"]
             save_plan(self.request)
 
         data = [self.serializer_class(b).data for b in tender.get("plans", "")]

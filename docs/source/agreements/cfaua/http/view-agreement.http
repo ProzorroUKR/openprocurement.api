@@ -204,7 +204,7 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "changes": [
       {
-        "id": "30eb3b69a8174931a5bc64636ea3e4b2",
+        "id": "373a4c5c929d442aa87d9368e3541288",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -221,7 +221,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "relatedItem": "30eb3b69a8174931a5bc64636ea3e4b2",
+        "relatedItem": "373a4c5c929d442aa87d9368e3541288",
         "id": "2379d9c9a78f43c4a3cb72c9100c8784",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",

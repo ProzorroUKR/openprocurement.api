@@ -327,10 +327,12 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         with open('docs/source/relocation/tutorial/get-used-plan-transfer.http', 'w') as self.app.file_obj:
             response = self.app.get('/transfers/{}'.format(transfer['id']))
 
+        budget = deepcopy(data['budget'])
+        budget['description'] = 'broker1 now can change the plan'
         with open('docs/source/relocation/tutorial/modify-plan.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(plan_id, new_access_token),
-                {"data": {"budget": {"description": "broker1 now can change the plan"}}}
+                {"data": {"budget": budget}}
             )
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['budget']['description'], 'broker1 now can change the plan')

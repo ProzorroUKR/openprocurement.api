@@ -2,7 +2,8 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.contact import ContactPoint, PostContactPoint, PatchContactPoint
 from openprocurement.tender.core.procedure.models.address import Address, PatchAddress, PostAddress
-from openprocurement.tender.core.procedure.models.identifier import Identifier, PatchIdentifier
+from openprocurement.tender.core.procedure.models.identifier import PatchIdentifier
+from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.tender.core.procedure.models.base import ModelType
 from openprocurement.api.models import ListType, Model, MD5Type
 from openprocurement.api.utils import get_first_revision_date

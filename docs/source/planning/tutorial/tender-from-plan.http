@@ -1,4 +1,4 @@
-POST /api/2.5/plans/249bf7a3e1ce48c9bba765eed435b2b4/tenders HTTP/1.0
+POST /api/2.5/plans/e034eb97f84745fcb35c4006cc778372/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4432
 Content-Type: application/json
@@ -176,7 +176,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc8ac82e0fe70308c3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439b21c259f8d7fd1f7
 
 {
   "data": {
@@ -200,7 +200,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
     },
     "items": [
       {
-        "id": "891cd1d74642419faf18d4a8d2ddd740",
+        "id": "71f50367bb6047ee9162e1fc31958608",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -231,7 +231,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
         }
       },
       {
-        "id": "1d5b24218fc14889b0a544f23b62bcc4",
+        "id": "2bd3b1897752453d80780c705b19238b",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -262,7 +262,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
         }
       },
       {
-        "id": "14bb3d84d5d84c9a9832d2060a1e5385",
+        "id": "b3988f255d0941ba85e1aa4c25163f26",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -307,7 +307,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
         "sequenceNumber": 0
       },
       {
-        "id": "0860c4482846468591e388f90fbdbb52",
+        "id": "a09e888d213541b1ba6a3be2f4945a21",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -352,10 +352,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "faedbc9487564abc8ac82e0fe70308c3",
+    "id": "0ea148601bff4439b21c259f8d7fd1f7",
     "plans": [
       {
-        "id": "249bf7a3e1ce48c9bba765eed435b2b4"
+        "id": "e034eb97f84745fcb35c4006cc778372"
       }
     ]
   },
@@ -369,8 +369,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/faedbc9487564abc
     "hasPreSelectionAgreement": false
   },
   "access": {
-    "token": "a3c708e117344873a6a706a046836900",
-    "transfer": "e432e425d06a4ddc9aedd46d175737e3"
+    "token": "098d33295ed448cfa248af0641ed8ec8",
+    "transfer": "90260c36ef2349518f963a4ca6d1053b"
   }
 }
 

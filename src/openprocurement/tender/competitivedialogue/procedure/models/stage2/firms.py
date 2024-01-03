@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.models.organization import Identifier
+from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.models import ListType, Model, ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ModelType

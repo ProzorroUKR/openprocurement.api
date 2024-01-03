@@ -10,11 +10,11 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     StartedPeriodEndRequired,
     PeriodEndRequired,
-    Period,
     PeriodStartEndRequired,
 )
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.models.item import Classification
+from openprocurement.api.procedure.models.item import Classification
 from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
     PatchBaseTender,

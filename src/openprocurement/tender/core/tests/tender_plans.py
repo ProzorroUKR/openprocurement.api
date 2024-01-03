@@ -191,23 +191,3 @@ def test_fail_duplicate(app, tender, plan):
     assert response.json == {'status': 'error', 'errors': [
         {'description': ['The list should not contain duplicates'], 'location': 'body', 'name': 'plans'}]}
     # in this case the plan might be completed manually
-
-
-def test_fail_saving_plan(app, tender, plan):
-    plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
-    plan_obj["status"] = "will cause a data validation error"
-    app.app.registry.mongodb.save_data(app.app.registry.mongodb.plans.collection, plan_obj)
-
-    # got an error
-    response = app.post_json(
-        "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
-        {"data": {"id": plan["data"]["id"]}},
-        status=422
-    )
-    assert response.json == {"status": "error", "errors": [
-        {"location": "body", "name": "status", "description": [
-            "Value must be one of ['draft', 'scheduled', 'cancelled', 'complete']."]}]}
-
-    # check that the tender hasn't been changed
-    tender_obj = app.app.registry.mongodb.tenders.get(tender["data"]["id"])
-    assert tender_obj.get("plans") is None

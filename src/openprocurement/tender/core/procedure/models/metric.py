@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.models.period import Period
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.models import Model, Value
 from schematics.validate import ValidationError
 from schematics.types import StringType, MD5Type

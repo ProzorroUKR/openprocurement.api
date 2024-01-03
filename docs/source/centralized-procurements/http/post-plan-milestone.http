@@ -1,4 +1,4 @@
-POST /api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194/milestones HTTP/1.0
+POST /api/2.5/plans/eb26a3adc64548c4b3aae8df399ed59f/milestones HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1623
 Content-Type: application/json
@@ -32,18 +32,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194/milestones/15a9ab37fec7476aa9ef10890b9b2f4a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3aae8df399ed59f/milestones/1ffe3c99c38b4fa1a86de9e50699cb0b
 
 {
   "data": {
-    "id": "15a9ab37fec7476aa9ef10890b9b2f4a",
+    "status": "scheduled",
+    "dueDate": "2023-10-10T01:00:04+03:00",
     "title": "Підготовка до проведення процедури",
     "description": "Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників",
     "type": "approval",
-    "dueDate": "2023-10-10T01:00:04+03:00",
-    "status": "scheduled",
     "author": {
-      "id": "223cf816f2d343d2ba8d7a038fafc659",
+      "id": "2d40377231e141459dd88168ed4f6dc6",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -59,11 +58,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/2c376a06cbf7476b8c
       },
       "kind": "central"
     },
+    "id": "1ffe3c99c38b4fa1a86de9e50699cb0b",
     "dateModified": "2023-10-10T01:00:03+03:00",
     "owner": "broker"
   },
   "access": {
-    "token": "e7245cb4e7ef4e5aa4252c7e90f07af2"
+    "token": "583e6285b176451ab4f7fd7c9196bd43"
   }
 }
 

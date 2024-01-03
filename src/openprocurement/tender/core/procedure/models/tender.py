@@ -5,11 +5,11 @@ from openprocurement.tender.core.procedure.models.feature import Feature, valida
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
 from openprocurement.tender.core.procedure.models.period import (
     PeriodEndRequired,
-    Period,
     TenderAuctionPeriod,
     EnquiryPeriod,
     QualificationPeriod,
 )
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.lot import (
     PostTenderLot, PatchTenderLot, Lot,
@@ -21,6 +21,7 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_related_buyer_in_items,
     validate_classification_id,
 )
+from openprocurement.api.procedure.models.item import validate_cpv_group
 from schematics.exceptions import ValidationError
 from schematics.types import (
     BaseType,

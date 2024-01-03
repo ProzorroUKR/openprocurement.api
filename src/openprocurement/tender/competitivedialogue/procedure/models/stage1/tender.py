@@ -3,9 +3,7 @@ from schematics.types.compound import ModelType, ListType
 from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
-from openprocurement.tender.core.procedure.models.item import (
-    validate_items_uniq,
-)
+from openprocurement.tender.core.procedure.models.item import validate_items_uniq
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostTenderLot, PatchTenderLot
 from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,

@@ -1,4 +1,4 @@
-GET /api/2.5/plans/2c376a06cbf7476b8c229e6955bd8194 HTTP/1.0
+GET /api/2.5/plans/eb26a3adc64548c4b3aae8df399ed59f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,12 +8,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": {
-      "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-10T01:00:00+03:00"
-    },
+    "status": "complete",
     "procuringEntity": {
-      "id": "83f062b81bae47f8ab0961261aa07c76",
+      "id": "a6e22c1e974b428488ab4efcd3cc985b",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -52,7 +49,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "cfa7241bcbb349619633cf4892ec6f3f",
+          "id": "c96d28cbe3454d70a81c269d96fda2c8",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -74,11 +71,10 @@ Content-Type: application/json
         "description": "-"
       }
     ],
-    "tender_id": "d1b73c4e72e244f1833086204faadff6",
     "planID": "UA-P-2023-10-10-000001",
     "items": [
       {
-        "id": "e6aa4dfbda3e4a8b95228fcd5778f66c",
+        "id": "485533ab54674a5db2b8244e0d8e7988",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -111,7 +107,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "f2831f8b59a042c8a5873da24a571fce",
+        "id": "fbb0ef9be1d54cfeaf4e89e32dc911a1",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -128,28 +124,24 @@ Content-Type: application/json
         "kind": "general"
       }
     ],
-    "status": "complete",
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-10T01:00:00+03:00"
+    },
+    "owner": "broker",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:21+03:00",
+    "datePublished": "2023-10-10T01:00:00+03:00",
     "milestones": [
       {
-        "id": "15a9ab37fec7476aa9ef10890b9b2f4a",
+        "id": "1ffe3c99c38b4fa1a86de9e50699cb0b",
+        "status": "met",
         "title": "Підготовка до проведення процедури",
         "description": "Доповнений опис відповіді",
         "type": "approval",
         "dueDate": "2023-10-10T01:00:07+03:00",
-        "status": "met",
-        "documents": [
-          {
-            "id": "a23d42fa7c964ecba471e1bcb60acc46",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "Notice.pdf",
-            "format": "application/pdf",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e02eb47c177f4e078fd10eb781a99616?Signature=rN9%2BwQqp%2FjcIsh194eH4myfxHp7SzO3wXo9uAwzsF8ktudixiljJfdi7VP8qVHaRw4IhD6zi%2BmVMWZpLDOO0AA%3D%3D&KeyID=a8968c46",
-            "datePublished": "2023-10-10T01:00:10+03:00",
-            "dateModified": "2023-10-10T01:00:10+03:00"
-          }
-        ],
         "author": {
-          "id": "223cf816f2d343d2ba8d7a038fafc659",
+          "id": "2d40377231e141459dd88168ed4f6dc6",
           "name": "ЦЗО №1",
           "identifier": {
             "scheme": "UA-EDR",
@@ -166,15 +158,24 @@ Content-Type: application/json
           "kind": "central"
         },
         "dateModified": "2023-10-10T01:00:10+03:00",
+        "owner": "broker",
         "dateMet": "2023-10-10T01:00:06+03:00",
-        "owner": "broker"
+        "documents": [
+          {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Notice.pdf",
+            "format": "application/pdf",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3aae8df399ed59f/milestones/1ffe3c99c38b4fa1a86de9e50699cb0b/documents/3da7dd465c3841968e8f9f7f707875e9?download=e02eb47c177f4e078fd10eb781a99616",
+            "language": "uk",
+            "id": "3da7dd465c3841968e8f9f7f707875e9",
+            "datePublished": "2023-10-10T01:00:10+03:00",
+            "dateModified": "2023-10-10T01:00:10+03:00"
+          }
+        ]
       }
     ],
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:21+03:00",
-    "datePublished": "2023-10-10T01:00:00+03:00",
-    "owner": "broker",
-    "id": "2c376a06cbf7476b8c229e6955bd8194"
+    "tender_id": "d1b73c4e72e244f1833086204faadff6",
+    "id": "eb26a3adc64548c4b3aae8df399ed59f"
   }
 }
 

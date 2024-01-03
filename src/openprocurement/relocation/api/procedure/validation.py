@@ -1,6 +1,6 @@
 from hashlib import sha512
 
-from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_1
 from openprocurement.api.utils import error_handler
 from openprocurement.api.validation import (
     validate_json_data,
@@ -94,6 +94,14 @@ def validate_contract_transfer_accreditation_level(request, **kwargs):
         source="contract",
     )(request, **kwargs)
 
+def validate_plan_transfer_accreditation_level(request, **kwargs):
+    validate_accreditation_level(
+        levels=(ACCR_1, ACCR_3, ACCR_5),
+        item="ownership",
+        operation="change",
+        source="plan",
+    )(request, **kwargs)
+
 
 def validate_owner_accreditation_level(request, obj):
     _validate_accreditation_level_owner(request, obj["owner"], "ownership", "ownership", "change")
@@ -101,6 +109,10 @@ def validate_owner_accreditation_level(request, obj):
 
 def validate_tender_owner_accreditation_level(request, **kwargs):
     validate_owner_accreditation_level(request, request.validated["tender"])
+
+
+def validate_plan_owner_accreditation_level(request, **kwargs):
+    validate_owner_accreditation_level(request, request.validated["plan"])
 
 
 def validate_contract_owner_accreditation_level(request, **kwargs):
@@ -119,6 +131,16 @@ def validate_tender(request, **kwargs):
     ]:
         request.errors.add(
             "body", "data", "Can't update credentials in current ({}) tender status".format(tender["status"])
+        )
+        request.errors.status = 403
+        raise error_handler(request)
+
+
+def validate_plan(request, **kwargs):
+    plan = request.validated["plan"]
+    if plan["status"] != "scheduled":
+        request.errors.add(
+            "body", "data", "Can't update credentials in current ({}) plan status".format(plan["status"])
         )
         request.errors.status = 403
         raise error_handler(request)
@@ -144,6 +166,10 @@ def validate_transfer_token(request, obj):
 
 def validate_tender_transfer_token(request, **kwargs):
     validate_transfer_token(request, request.validated["tender"])
+
+
+def validate_plan_transfer_token(request, **kwargs):
+    validate_transfer_token(request, request.validated["plan"])
 
 
 def validate_contract_transfer_token(request, **kwargs):

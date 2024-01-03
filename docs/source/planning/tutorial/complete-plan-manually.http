@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/4a8a8a82f7d645289bfd5c1e0ebd4130?acc_token=cfdf866a8ebc4bcfa89f1564dfb0c807 HTTP/1.0
+PATCH /api/2.5/plans/55425a7f08e3419099a5b51231ecd879?acc_token=cc99c7a557f54ca08b0bf5d757bb11b8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 32
 Content-Type: application/json
@@ -16,12 +16,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "rationale": {
-      "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-11T02:00:33+03:00"
-    },
+    "status": "complete",
     "procuringEntity": {
-      "id": "4d2d626626ca4d51ad33d67eeed8897d",
+      "id": "ad62cffcf965489d874294db181c9470",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -74,7 +71,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-11-000001",
     "items": [
       {
-        "id": "9ce130486124412f8989953b92dfca88",
+        "id": "90d50c04765d4d62a61adc377c3193c1",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -105,7 +102,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "031c8f31728947d3b94281bc3e852877",
+        "id": "0dfebd14598b4023b34a338cfea21471",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -136,7 +133,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "ab9d59e713bb452e907349ec5e8282f7",
+        "id": "2a1a87e5f3624dc1b0393d4efbbc4479",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -169,7 +166,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "0d9f9d9f96b7483ead8899aa09566a02",
+        "id": "3bbb4f4d043e437fb5b3f46418c33978",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -186,12 +183,15 @@ Content-Type: application/json
         "kind": "general"
       }
     ],
-    "status": "complete",
+    "rationale": {
+      "description": "Недостатньо змістовне обгрунтування",
+      "date": "2023-10-11T02:00:33+03:00"
+    },
+    "owner": "broker",
     "dateCreated": "2023-10-11T02:00:33+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",
     "datePublished": "2023-10-11T02:00:33+03:00",
-    "owner": "broker",
-    "id": "4a8a8a82f7d645289bfd5c1e0ebd4130"
+    "id": "55425a7f08e3419099a5b51231ecd879"
   }
 }
 

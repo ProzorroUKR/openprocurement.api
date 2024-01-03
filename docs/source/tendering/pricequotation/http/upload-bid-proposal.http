@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids/ef1bede622fc44a08d3caa36ebd1de36/documents?acc_token=5f6e8944db8c465987b29fcc71cb81d6 HTTP/1.0
+POST /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids/ef1bede622fc44a08d3caa36ebd1de36/documents?acc_token=68c0f183a82143678b411345d129233c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 322
 Content-Type: application/json

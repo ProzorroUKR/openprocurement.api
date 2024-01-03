@@ -441,10 +441,9 @@ def test_validations_before_and_after_tender(app):
     plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
 
     # changing procuringEntity
-    pe_change = {
-        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
-        "name": "ДУС",
-    }
+    pe_change = deepcopy(request_plan_data["procuringEntity"])
+    pe_change["identifier"] = {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"}
+    pe_change["name"] = "ДУС"
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
         {"data": {"procuringEntity": pe_change}},
@@ -472,18 +471,7 @@ def test_validations_before_and_after_tender(app):
     # try to change procuringEntity
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
-        {
-            "data": {
-                "procuringEntity": {
-                    "identifier": {
-                        "scheme": "UA-EDR",
-                        "id": "111983",
-                        "legalName": "ДП Державне Управління Справами",
-                    },
-                    "name": "ДУС",
-                }
-            }
-        },
+        {"data": {"procuringEntity": pe_change}},
         status=422,
     )
     assert response.json == {
@@ -498,9 +486,11 @@ def test_validations_before_and_after_tender(app):
     }
 
     # try to change budgetBreakdown
+    budget_change = deepcopy(request_plan_data["budget"])
+    budget_change["breakdown"][0]["description"] = "Changed description"
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
-        {"data": {"budget": {"breakdown": [{"description": "Changed description"}]}}},
+        {"data": {"budget": budget_change}},
         status=422,
     )
     assert response.json == {
@@ -515,15 +505,16 @@ def test_validations_before_and_after_tender(app):
     }
 
     # try to change anything except procuringEntity and budgetBreakdown
+    items_change = deepcopy(request_plan_data["items"])
+    classification_change = {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"}
+    for item_change in items_change:
+        item_change["classification"] = classification_change
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
         {
             "data": {
-                "procurementMethodType": "whatever",
-                "items": [
-                    {"classification": {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"}}
-                ],
-                "classification": {"scheme": "ДК021", "description": "Antiperspirants", "id": "33711120-4"},
+                "items": items_change,
+                "classification": classification_change,
             }
         },
     )
@@ -532,13 +523,16 @@ def test_validations_before_and_after_tender(app):
     # try again
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
-        {"data": {"procurementMethodType": "another"}},
+        {"data": {
+            "items": items_change,
+            "classification": classification_change,
+        }},
+        status=403,
     )
-    assert response.status == "200 OK"
-
-    # but procurementMethodType is the same
-    assert response.json["data"]["procurementMethodType"] != "another"
-    assert response.json["data"]["procurementMethodType"] == "whatever"
+    assert response.json == {
+        "status": "error",
+        "errors": [{"location": "body", "name": "data", "description": "Can't update items in complete status"}],
+    }
 
     #  only "rationale" allowed
     rationale = "my magic mall said so"
@@ -548,6 +542,7 @@ def test_validations_before_and_after_tender(app):
     )
     assert response.status == "200 OK"
     assert response.json["data"]["rationale"]["description"] == rationale
+
 
 
 def test_tender_creation_modified_date(app):
