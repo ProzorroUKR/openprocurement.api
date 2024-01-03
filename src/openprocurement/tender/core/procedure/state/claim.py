@@ -1,3 +1,4 @@
+from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -97,7 +98,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         tender_status = tender["status"]
         validated_claim = request.validated["claim"]
         status = validated_claim["status"]
-        request_data = request.json["data"]
+        request_data = validate_json_data(request)
         new_status = request_data.get("status") or status
 
         # TODO: merge these two checks with the scenarios

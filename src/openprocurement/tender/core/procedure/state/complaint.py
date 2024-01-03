@@ -1,3 +1,4 @@
+from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
@@ -110,7 +111,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         auth_role = request.authenticated_role
         current_complaint = request.validated["complaint"]
         status = current_complaint["status"]
-        request_data = request.json["data"]
+        request_data = validate_json_data(request)
         new_status = request_data.get("status") or status
 
         self.validate_update_allowed_tender_status()

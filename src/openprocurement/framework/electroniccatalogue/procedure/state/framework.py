@@ -1,4 +1,5 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
@@ -17,7 +18,7 @@ class ElectronicDialogueFrameworkState(FrameworkState):
         request = get_request()
         validated_framework = request.validated["framework"]
         status = validated_framework["status"]
-        request_data = request.json["data"]
+        request_data = validate_json_data(request)
         new_status = request_data.get("status") or status
 
         if request.authenticated_role == "chronograph":
