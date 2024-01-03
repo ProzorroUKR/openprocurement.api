@@ -138,10 +138,7 @@ def validate_tender(request, **kwargs):
 
 def validate_plan(request, **kwargs):
     plan = request.validated["plan"]
-    if plan["status"] in [
-        "complete",
-        "cancelled",
-    ]:
+    if plan["status"] != "scheduled":
         request.errors.add(
             "body", "data", "Can't update credentials in current ({}) plan status".format(plan["status"])
         )
