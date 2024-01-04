@@ -1,0 +1,65 @@
+GET /api/2.5/tenders/ee0e79223d4142f4a502bfb88d0668cf/awards/e9d2d54a6b40455c93ac5ae9816d2324 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "milestones": [
+      {
+        "id": "33d490e111ab45ca8cf0055a26889faa",
+        "code": "alp",
+        "dueDate": "2023-10-09T01:00:00+03:00",
+        "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "id": "e9d2d54a6b40455c93ac5ae9816d2324",
+    "status": "active",
+    "date": "2023-10-10T01:00:00+03:00",
+    "value": {
+      "amount": 250.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name_en": "State administration",
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "e04851d5a41b4c30b70d7bb4cd93c8f9",
+          "legalName": "Державне управління справами",
+          "legalName_en": "dus.gov.ua",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name_en": "State administration",
+          "email": "aa@aa.com",
+          "telephone": "+0440000000",
+          "name": "Державне управління справами"
+        },
+        "scale": "micro"
+      }
+    ],
+    "bid_id": "e5ce68271e374b1583daabcf0587f29a",
+    "lotID": "0e04ecea261746bc8fbcced833cde77c",
+    "qualified": true,
+    "eligible": true,
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-16T00:00:00+03:00"
+    }
+  }
+}
+

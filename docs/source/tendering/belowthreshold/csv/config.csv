@@ -6,3 +6,6 @@ valueCurrencyEquality,"true,false",true
 hasPrequalification,"true,false",false
 minBidsNumber,1 - 9,1
 hasPreSelectionAgreement,false,false
+tenderComplaints,false,false
+awardComplaints,false,false
+cancellationComplaints,false,false

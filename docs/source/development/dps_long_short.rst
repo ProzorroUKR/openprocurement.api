@@ -230,7 +230,7 @@ First iteration - DPS Short
         {
           "location": "body",
           "name": "data",
-          "description": "Can't add complaint as procedure doesn't have complaintPeriod"
+          "description": "Can't add complaint as it is forbidden by configuration"
         }
       ]
     }

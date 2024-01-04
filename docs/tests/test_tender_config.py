@@ -10,7 +10,9 @@ from copy import deepcopy
 import standards
 
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
@@ -135,11 +137,13 @@ class TenderConfigCSVMixin:
         else:
             return empty
 
+
 class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_docs_tender_open
+    initial_config = test_tender_below_config
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -191,6 +195,7 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
 
 
 class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
+    initial_config = test_tender_open_config
 
     def test_docs_has_auction_values_csv(self):
         self.write_config_values_csv(
@@ -2143,3 +2148,13 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
             config_name="hasPreSelectionAgreement",
             file_path=TARGET_CSV_DIR + "has-pre-selection-agreement-values.csv",
         )
+
+
+class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_has_pre_selection_agreement_values_csv(self):
+        for config_name in ("tenderComplaints", "awardComplaints", "cancellationComplaints"):
+            self.write_config_values_csv(
+                config_name=config_name,
+                file_path=TARGET_CSV_DIR + f"{config_name}-values.csv",
+            )

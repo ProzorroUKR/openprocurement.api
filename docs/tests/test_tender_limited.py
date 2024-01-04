@@ -3,8 +3,11 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
 from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
+from openprocurement.tender.limited.tests.base import (
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
+)
 
 from tests.base.test import (
     DumpsWebTestApp,
@@ -253,6 +256,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
 class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
     initial_lots = deepcopy(test_lots[:1])
 
     def test_docs(self):
@@ -534,6 +538,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
 class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
     def test_docs(self):
         request_path = '/tenders?opt_pretty=1'

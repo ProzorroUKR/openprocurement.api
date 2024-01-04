@@ -1,0 +1,49 @@
+POST /api/2.5/tenders/ee0e79223d4142f4a502bfb88d0668cf/awards/e9d2d54a6b40455c93ac5ae9816d2324/complaints?acc_token=fcc59c4721c445e199f4673234794953 HTTP/1.0
+Authorization: Bearer broker
+Content-Length: 1077
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "complaint title",
+    "type": "complaint",
+    "description": "complaint description",
+    "author": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
+        "legalName": "Державне управління справами"
+      },
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      }
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't add complaint as it is forbidden by configuration"
+    }
+  ]
+}
+
