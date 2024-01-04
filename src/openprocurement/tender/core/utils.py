@@ -13,6 +13,8 @@ from openprocurement.api.constants import (
     WORKING_DATE_ALLOW_MIDNIGHT_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
     NORMALIZED_TENDER_PERIOD_FROM,
+    DST_AWARE_PERIODS_FROM,
+    TZ,
 )
 from openprocurement.api.utils import (
     get_now,
@@ -116,20 +118,26 @@ def acceleratable(wrapped):
 
 @acceleratable
 def calculate_tender_date(date_obj, timedelta_obj, tender=None, working_days=False, calendar=WORKING_DAYS):
+    tender_date = get_first_revision_date(tender, default=get_now())
     if working_days:
-        tender_date = get_first_revision_date(tender, default=get_now())
         midnight = tender_date > WORKING_DATE_ALLOW_MIDNIGHT_FROM
-        return calc_working_datetime(date_obj, timedelta_obj, midnight, calendar)
+        result_date_obj = calc_working_datetime(date_obj, timedelta_obj, midnight, calendar)
     else:
-        return calc_datetime(date_obj, timedelta_obj)
+        result_date_obj = calc_datetime(date_obj, timedelta_obj)
+    if tender_date > DST_AWARE_PERIODS_FROM:
+        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
+    return result_date_obj
 
 
 def calculate_period_start_date(date_obj, timedelta_obj, normalized_from_date_obj, tender=None):
     tender_date = get_first_revision_date(tender, default=get_now())
     if tender_date > normalized_from_date_obj:
-        return calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
+        result_date_obj = calc_normalized_datetime(date_obj, ceil=timedelta_obj > timedelta())
     else:
-        return date_obj
+        result_date_obj = date_obj
+    if tender_date > DST_AWARE_PERIODS_FROM:
+        result_date_obj = TZ.localize(result_date_obj.replace(tzinfo=None))
+    return result_date_obj
 
 
 @acceleratable

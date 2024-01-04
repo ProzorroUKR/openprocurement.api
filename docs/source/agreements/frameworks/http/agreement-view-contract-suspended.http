@@ -103,7 +103,7 @@ Content-Type: application/json
             ],
             "status": "scheduled",
             "id": "31ba3bc7f2204f73a52ada17a04196c8",
-            "dueDate": "2023-04-16T00:00:00+02:00",
+            "dueDate": "2023-04-16T00:00:00+03:00",
             "dateModified": "2023-01-16T00:00:00+02:00"
           }
         ],
@@ -153,7 +153,7 @@ Content-Type: application/json
     "owner": "test",
     "dateModified": "2023-01-16T00:00:00+02:00",
     "date": "2023-01-16T00:00:00+02:00",
-    "next_check": "2023-04-16T00:00:00+02:00",
+    "next_check": "2023-04-16T00:00:00+03:00",
     "dateCreated": "2023-01-16T00:00:00+02:00",
     "id": "617574663a03455d892ddd21b4a3d9c7"
   },
