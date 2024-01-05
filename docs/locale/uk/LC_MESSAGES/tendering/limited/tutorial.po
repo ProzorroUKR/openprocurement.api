@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-24 01:12+0300\n"
+"POT-Creation-Date: 2024-01-05 12:52+0100\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.13.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -60,6 +60,15 @@ msgid "1"
 msgstr ""
 
 msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "tenderComplaints"
+msgstr ""
+
+msgid "awardComplaints"
+msgstr ""
+
+msgid "cancellationComplaints"
 msgstr ""
 
 msgid "The set of possible configuration values for `negotiation`:"

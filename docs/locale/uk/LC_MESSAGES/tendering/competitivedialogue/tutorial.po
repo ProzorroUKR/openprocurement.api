@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-28 14:04+0100\n"
+"POT-Creation-Date: 2024-01-05 12:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,6 +58,15 @@ msgid "3"
 msgstr ""
 
 msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "tenderComplaints"
+msgstr ""
+
+msgid "awardComplaints"
+msgstr ""
+
+msgid "cancellationComplaints"
 msgstr ""
 
 msgid "The set of possible configuration values for `competitiveDialogueUA`:"
