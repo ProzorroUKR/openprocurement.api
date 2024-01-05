@@ -12,7 +12,7 @@ from pyramid.paster import bootstrap
 from openprocurement.api.constants import BASE_DIR
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.limited.constants import (
     REPORTING,
     NEGOTIATION,
@@ -49,7 +49,7 @@ def award_complaints_populator(tender):
         PQ,
         CFA_SELECTION,
         CD_EU_TYPE,
-        STAGE_2_UA_TYPE,
+        CD_UA_TYPE,
     ):
         return False
     return True
