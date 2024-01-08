@@ -4,7 +4,6 @@ from mock import patch
 from datetime import timedelta
 
 from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
-from openprocurement.planning.api.models import Plan
 from openprocurement.api.utils import get_now
 import pytest
 

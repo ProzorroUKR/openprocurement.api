@@ -4,7 +4,6 @@ import json
 import mock
 import uuid
 from copy import deepcopy
-from urllib.parse import quote
 from datetime import datetime, timedelta
 from freezegun import freeze_time
 from openprocurement.api.constants import (
@@ -16,7 +15,6 @@ from openprocurement.api.constants import (
 from openprocurement.api.context import set_now
 from openprocurement.api.utils import get_now, parse_date
 
-from openprocurement.planning.api.models import Plan
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.api.database import MongodbResourceConflict
 
@@ -1538,7 +1536,7 @@ def patch_plan(self):
     self.assertNotIn("items", response.json["data"])
 
 
-@mock.patch("openprocurement.planning.api.validation.RELEASE_SIMPLE_DEFENSE_FROM", get_now() - timedelta(days=1))
+@mock.patch("openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() - timedelta(days=1))
 def patch_plan_to_simpledefense(self):
     data = self.initial_data
     response = self.app.post_json("/plans", {"data": data})
