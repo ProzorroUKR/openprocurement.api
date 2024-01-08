@@ -9,7 +9,6 @@ from openprocurement.contracting.core.procedure.validation import (
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,
     unless_administrator,
-    validate_item_owner,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,

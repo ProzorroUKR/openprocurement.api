@@ -4,7 +4,6 @@ from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta, datetime
 from openprocurement.api.constants import ROUTE_PREFIX
-from openprocurement.contracting.api.models import Contract
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
 from openprocurement.tender.core.tests.utils import change_auth

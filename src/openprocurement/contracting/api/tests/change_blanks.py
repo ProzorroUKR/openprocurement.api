@@ -2,7 +2,6 @@
 from datetime import timedelta
 from copy import deepcopy
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.api.models import Contract
 
 
 def no_items_contract_change(self):

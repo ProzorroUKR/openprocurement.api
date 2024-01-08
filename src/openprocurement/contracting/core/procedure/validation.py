@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
-from decimal import Decimal, ROUND_FLOOR
-
 from openprocurement.api.utils import (
     raise_operation_error,
-    to_decimal,
 )
 from openprocurement.api.validation import (
     _validate_accreditation_level,
     OPERATIONS,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_contract_value,
-    validate_update_contract_value_amount,
-    validate_update_contract_value_net_required,
-)
-from openprocurement.contracting.core.utils import get_transaction_by_id
 from openprocurement.contracting.core.procedure.utils import is_tender_owner, is_contract_owner, is_bid_owner
 
 

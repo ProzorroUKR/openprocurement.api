@@ -3,7 +3,6 @@ from cornice.resource import resource
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.api.auth import ACCR_3, ACCR_5
-from openprocurement.api.context import get_db_session
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
