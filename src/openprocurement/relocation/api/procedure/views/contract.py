@@ -27,7 +27,7 @@ from openprocurement.relocation.api.procedure.validation import (
 class ContractResource(ContractBaseResource):
     serializer_class = TransferredContractSerializer
     @json_view(
-        permission="view_contract",
+        permission="edit_contract",
         validators=(
             validate_contract_transfer_accreditation_level,
             validate_contract_owner_accreditation_level,

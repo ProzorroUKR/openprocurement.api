@@ -102,6 +102,14 @@ def validate_plan_transfer_accreditation_level(request, **kwargs):
         source="plan",
     )(request, **kwargs)
 
+def validate_agreement_transfer_accreditation_level(request, **kwargs):
+    validate_accreditation_level(
+        levels=(ACCR_3, ACCR_5),
+        item="ownership",
+        operation="change",
+        source="agreement",
+    )(request, **kwargs)
+
 
 def validate_owner_accreditation_level(request, obj):
     _validate_accreditation_level_owner(request, obj["owner"], "ownership", "ownership", "change")
@@ -117,6 +125,10 @@ def validate_plan_owner_accreditation_level(request, **kwargs):
 
 def validate_contract_owner_accreditation_level(request, **kwargs):
     validate_owner_accreditation_level(request, request.validated["contract"])
+
+
+def validate_agreement_owner_accreditation_level(request, **kwargs):
+    validate_owner_accreditation_level(request, request.validated["agreement"])
 
 
 def validate_tender(request, **kwargs):
@@ -156,6 +168,16 @@ def validate_contract(request, **kwargs):
         raise error_handler(request)
 
 
+def validate_agreement(request, **kwargs):
+    agreement = request.validated["agreement"]
+    if agreement["status"] != "active":
+        request.errors.add(
+            "body", "data", "Can't update credentials in current ({}) agreement status".format(agreement["status"])
+        )
+        request.errors.status = 403
+        raise error_handler(request)
+
+
 def validate_transfer_token(request, obj):
     token = request.validated["ownership_data"]["transfer"]
     if obj["transfer_token"] != sha512(token.encode("utf-8")).hexdigest():
@@ -174,3 +196,7 @@ def validate_plan_transfer_token(request, **kwargs):
 
 def validate_contract_transfer_token(request, **kwargs):
     validate_transfer_token(request, request.validated["contract"])
+
+
+def validate_agreement_transfer_token(request, **kwargs):
+    validate_transfer_token(request, request.validated["agreement"])
