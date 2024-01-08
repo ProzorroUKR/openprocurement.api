@@ -1,7 +1,8 @@
 from schematics.types import StringType, BooleanType
 from schematics.types.compound import ModelType
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import validate_bid_value, validate_parameters_uniq
+from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin

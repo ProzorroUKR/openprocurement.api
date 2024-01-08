@@ -9,7 +9,8 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.base import ListType
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import validate_bid_value, validate_parameters_uniq
+from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.api.procedure.validation import validate_parameters_uniq
 
 
 class PostBid(BasePostBid):

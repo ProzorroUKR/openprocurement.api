@@ -44,8 +44,9 @@ from openprocurement.tender.core.procedure.utils import validate_features_custom
 from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_start_date,
-    validate_tender_period_duration, validate_features_uniq,
+    validate_tender_period_duration,
 )
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.models import IsoDurationType
 

@@ -34,8 +34,8 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.procedure.validation import (
     validate_milestones,
     validate_tender_period_duration,
-    validate_features_uniq,
 )
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight

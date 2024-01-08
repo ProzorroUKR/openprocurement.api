@@ -1,12 +1,7 @@
 from datetime import timedelta
 from copy import deepcopy
-from functools import (
-    partial,
-    wraps,
-)
+from functools import wraps
 from logging import getLogger
-
-from cornice.resource import resource
 from dateorro import (
     calc_datetime,
     calc_normalized_datetime,
@@ -20,26 +15,12 @@ from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, 
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
-    set_modetest_titles,
-    get_revision_changes,
     get_now,
-    handle_store_exceptions,
-    context_unpack,
-    apply_data_patch,
     append_revision,
     ACCELERATOR_RE,
-    generate_id,
-    get_first_revision_date,
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.framework.core.traversal import (
-    framework_factory,
-    submission_factory,
-    qualification_factory,
-    agreement_factory,
-    contract_factory,
-)
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10
@@ -50,12 +31,6 @@ MILESTONE_CONTRACT_STATUSES = {
     "ban": "suspended",
     "terminated": "terminated",
 }
-
-frameworksresource = partial(resource, error_handler=error_handler, factory=framework_factory)
-submissionsresource = partial(resource, error_handler=error_handler, factory=submission_factory)
-qualificationsresource = partial(resource, error_handler=error_handler, factory=qualification_factory)
-agreementsresource = partial(resource, error_handler=error_handler, factory=agreement_factory)
-contractresource = partial(resource, error_handler=error_handler, factory=contract_factory)
 
 
 class FrameworkTypePredicate(object):
@@ -257,69 +232,6 @@ def generate_agreement_id(request):
         ctime.year, ctime.month, ctime.day, index,
     )
 
-
-def save_object(request, obj_name, with_test_mode=True, additional_obj_names="", insert=False):
-    obj = request.validated[obj_name]
-
-    if with_test_mode and obj.mode == "test":
-        set_modetest_titles(obj)
-
-    patch = get_revision_changes(obj.serialize("plain"), request.validated["%s_src" % obj_name])
-    if patch:
-        now = get_now()
-        append_obj_revision(request, obj, patch, now)
-
-        config = request.validated.get("%s_config" % obj_name)
-        if config:
-            obj["config"] = config
-
-        old_date_modified = obj.dateModified
-        modified = getattr(obj, "modified", True)
-
-        for i in additional_obj_names:
-            if i in request.validated:
-                request.validated[i].dateModified = now
-
-        with handle_store_exceptions(request):
-            collection = getattr(request.registry.mongodb, f"{obj_name}s")
-            collection.save(obj, insert=insert, modified=modified)
-            LOGGER.info(
-                "Saved {} {}: dateModified {} -> {}".format(
-                    obj_name,
-                    obj.id,
-                    old_date_modified and old_date_modified.isoformat(),
-                    obj.dateModified.isoformat()
-                ),
-                extra=context_unpack(request, {"MESSAGE_ID": "save_{}".format(obj_name)}, {"RESULT": obj.rev}),
-            )
-            return True
-
-
-def save_framework(request, additional_obj_names="", insert=False):
-    return save_object(request, "framework", additional_obj_names=additional_obj_names, insert=insert)
-
-
-def save_submission(request, additional_obj_names="", insert=False):
-    return save_object(
-        request, "submission", with_test_mode=False,
-        additional_obj_names=additional_obj_names, insert=insert
-    )
-
-
-def save_qualification(request, additional_obj_names="", insert=False):
-    return save_object(
-        request, "qualification", with_test_mode=False,
-        additional_obj_names=additional_obj_names, insert=insert
-    )
-
-
-def save_agreement(request, additional_obj_names="", insert=False):
-    return save_object(
-        request, "agreement", with_test_mode=False,
-        additional_obj_names=additional_obj_names, insert=insert
-    )
-
-
 def get_framework_accelerator(context):
     if context and "frameworkDetails" in context and context["frameworkDetails"]:
         re_obj = ACCELERATOR_RE.search(context["frameworkDetails"])
@@ -339,61 +251,6 @@ def acceleratable(wrapped):
         )
 
     return wrapper
-
-
-def apply_patch(request, obj_name, data=None, save=True, src=None, additional_obj_names=""):
-    save_map = {
-        "framework": save_framework,
-        "submission": save_submission,
-        "qualification": save_qualification,
-        "agreement": save_agreement,
-    }
-
-    data = request.validated["data"] if data is None else data
-    patch = data and apply_data_patch(src or request.context.serialize(), data)
-    if patch:
-        # Can't be replaced to "obj_name in save_map" because obj_name for child patch same as for parent
-        if request.context.__class__.__name__.lower() in save_map:
-            request.validated[obj_name].import_data(patch)
-        else:
-            request.context.import_data(patch)
-        if save:
-            save_func = save_map.get(obj_name)
-            return save_func(request, additional_obj_names=additional_obj_names)
-
-
-def append_obj_revision(request, obj, patch, date):
-    status_changes = [p for p in patch if all(
-        [
-            p["path"].endswith("/status"),
-            p["op"] == "replace"
-        ]
-    )]
-    changed_obj = obj
-    for change in status_changes:
-        changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
-        if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
-            date_path = change["path"].replace("/status", "/date")
-            if changed_obj.date and not any([p for p in patch if date_path == p["path"]]):
-                patch.append({"op": "replace", "path": date_path, "value": changed_obj.date.isoformat()})
-            elif not changed_obj.date:
-                patch.append({"op": "remove", "path": date_path})
-            changed_obj.date = date
-        else:
-            changed_obj = obj
-    return append_revision(request, changed_obj, patch)
-
-
-def obj_serialize(request, framework_data, fields):
-    obj = request.framework_from_data(framework_data, raise_error=False)
-    obj.__parent__ = request.context
-    return dict([(i, j) for i, j in obj.serialize("view").items() if i in fields])
-
-
-def agreement_serialize(request, agreement_data, fields):
-    agreement = request.agreement_from_data(agreement_data, raise_error=False)
-    agreement.__parent__ = request.context
-    return {i: j for i, j in agreement.serialize("view").items() if i in fields}
 
 
 def get_submission_by_id(request, submission_id):
@@ -433,11 +290,6 @@ def request_fetch_agreement(request, agreement_id):
     request.validated["agreement_src"] = deepcopy(agreement)
 
 
-
-def set_agreement_ownership(item, request):
-    item.owner_token = generate_id()
-
-
 @acceleratable
 def calculate_framework_date(
     date_obj,
@@ -457,118 +309,9 @@ def calculate_framework_date(
     return result_date_obj
 
 
-def calculate_framework_periods(request, model):
-    framework = request.context
-    data = request.validated["data"]
-    now = get_now()
-
-    enquiryPeriod_startDate = framework.enquiryPeriod and framework.enquiryPeriod.startDate or now
-    enquiryPeriod_endDate = (
-        framework.enquiryPeriod
-        and framework.enquiryPeriod.endDate
-        or calculate_framework_date(
-            enquiryPeriod_startDate,
-            timedelta(days=ENQUIRY_PERIOD_DURATION),
-            framework,
-            working_days=True,
-            ceil=True
-        )
-    )
-    clarifications_until = calculate_framework_date(
-        enquiryPeriod_endDate,
-        timedelta(days=ENQUIRY_STAND_STILL_TIME),
-        framework,
-        working_days=True,
-    )
-
-    data["enquiryPeriod"] = {
-        "startDate": enquiryPeriod_startDate,
-        "endDate": enquiryPeriod_endDate,
-        "clarificationsUntil": clarifications_until,
-    }
-
-    qualification_endDate = model(data["qualificationPeriod"]).endDate
-    period_startDate = framework.period and framework.period.startDate or now
-    period_endDate = calculate_framework_date(
-        qualification_endDate,
-        timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
-        framework,
-    )
-    data["period"] = {
-        "startDate": period_startDate,
-        "endDate": period_endDate,
-    }
-
-    data["qualificationPeriod"]["startDate"] = enquiryPeriod_startDate
-
-
 def get_framework_unsuccessful_status_check_date(framework):
     if framework.period and framework.period.startDate:
         return calculate_framework_date(
             framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
             framework, working_days=True, ceil=True
         )
-
-
-def get_framework_number_of_submissions(request, framework):
-    result = request.registry.mongodb.submissions.count_total_submissions_by_framework_id(framework.id)
-    return result
-
-
-def check_status(request):
-    framework = request.validated["framework"]
-
-    if framework.status == "active":
-        if not framework.successful:
-            unsuccessful_status_check = get_framework_unsuccessful_status_check_date(framework)
-            if unsuccessful_status_check and unsuccessful_status_check < get_now():
-                number_of_submissions = get_framework_number_of_submissions(request, framework)
-                if number_of_submissions == 0:
-                    LOGGER.info(
-                        "Switched framework {} to {}".format(framework.id, "unsuccessful"),
-                        extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_unsuccessful"}),
-                    )
-                    framework.status = "unsuccessful"
-                    return
-                else:
-                    framework.successful = True
-
-        if framework.qualificationPeriod.endDate < get_now():
-            LOGGER.info(
-                "Switched framework {} to {}".format(framework.id, "complete"),
-                extra=context_unpack(request, {"MESSAGE_ID": "switched_framework_complete"}),
-            )
-            framework.status = "complete"
-            return
-
-
-def check_agreement_status(request, now=None):
-    if not now:
-        now = get_now()
-    if request.validated["agreement"].period.endDate < now:
-        request.validated["agreement"].status = "terminated"
-        for contract in request.validated["agreement"].contracts:
-            for milestone in contract.milestones:
-                if milestone.status == "scheduled":
-                    milestone.status = "met" if milestone.dueDate and milestone.dueDate <= now else "notMet"
-                    milestone.dateModified = now
-
-            if contract.status == "active":
-                contract.status = "terminated"
-        return True
-
-
-def check_contract_statuses(request, now=None):
-    if not now:
-        now = get_now()
-    for contract in request.validated["agreement"].contracts:
-        if contract.status == "suspended":
-            for milestone in contract.milestones[::-1]:
-                if milestone.type == "ban":
-                    if milestone.dueDate <= now:
-                        contract.status = "active"
-                        milestone.status = "met"
-                        milestone.dateModified = now
-                    break
-
-

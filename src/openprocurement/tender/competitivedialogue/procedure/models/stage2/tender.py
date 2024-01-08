@@ -28,7 +28,7 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.firms im
 )
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.item import EUItem, UAItem
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
-from openprocurement.tender.core.procedure.validation import validate_features_uniq
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.api.models import Model

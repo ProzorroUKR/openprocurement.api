@@ -1,5 +1,7 @@
 from copy import deepcopy
 
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.utils import handle_data_exceptions, raise_operation_error
 from openprocurement.api.validation import (
     validate_json_data,
@@ -264,3 +266,23 @@ def validate_patch_data_from_resolved_model(item_name):
         validate = validate_patch_data(model, item_name)
         return validate(request, **_)
     return validated
+
+
+def validate_values_uniq(values):
+    codes = [i.get("value") for i in values]
+    if any([codes.count(i) > 1 for i in set(codes)]):
+        raise ValidationError("Feature value should be uniq for feature")
+
+
+def validate_features_uniq(features):
+    if features:
+        codes = [feature.get("code") for feature in features]
+        if any([codes.count(i) > 1 for i in set(codes)]):
+            raise ValidationError("Feature code should be uniq for all features")
+
+
+def validate_parameters_uniq(parameters):
+    if parameters:
+        codes = [param.get("code") for param in parameters]
+        if [i for i in set(codes) if codes.count(i) > 1]:
+            raise ValidationError("Parameter code should be uniq for all parameters")

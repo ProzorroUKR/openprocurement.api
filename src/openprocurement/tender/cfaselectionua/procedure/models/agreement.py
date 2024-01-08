@@ -7,7 +7,7 @@ from openprocurement.api.models import (
     Period,
 )
 from openprocurement.api.utils import get_change_class
-from openprocurement.tender.core.procedure.validation import validate_features_uniq
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.cfaselectionua.procedure.models.agreement_contract import AgreementContract
 from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract import validate_parameter_contracts

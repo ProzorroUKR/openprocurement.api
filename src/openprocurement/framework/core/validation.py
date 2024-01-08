@@ -15,7 +15,6 @@ from openprocurement.api.validation import (
     _validate_accreditation_level,
     _validate_accreditation_level_kind,
 )
-from openprocurement.framework.core.models import Question, PatchQuestion
 from openprocurement.framework.core.utils import (
     get_framework_by_id,
     get_submission_by_id,
@@ -508,16 +507,6 @@ def validate_item_owner(item_name):
                 name="permission"
             )
     return validator
-
-
-def validate_post_question_data(request, **kwargs):
-    data = validate_json_data(request)
-    return validate_data(request, Question, data=data)
-
-
-def validate_patch_question_data(request, **kwargs):
-    data = validate_json_data(request)
-    return validate_data(request, PatchQuestion, data=data)
 
 
 def validate_framework_question_operation_not_in_allowed_status(request, **kwargs):

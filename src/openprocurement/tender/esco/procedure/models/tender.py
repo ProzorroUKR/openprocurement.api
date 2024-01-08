@@ -28,8 +28,9 @@ from openprocurement.tender.core.procedure.models.tender import validate_items_r
 from openprocurement.tender.core.procedure.validation import (
     validate_milestones,
     validate_tender_period_start_date,
-    validate_tender_period_duration, validate_features_uniq,
+    validate_tender_period_duration,
 )
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.models.tender_base import (
     PostBaseTender,
     PatchBaseTender,

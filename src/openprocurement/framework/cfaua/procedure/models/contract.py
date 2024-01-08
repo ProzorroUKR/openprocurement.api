@@ -12,7 +12,7 @@ from openprocurement.api.models import (
     ListType,
     Value as BaseValue,
 )
-from openprocurement.framework.cfaua.procedure.validation import validate_parameters_uniq
+from openprocurement.api.procedure.validation import validate_parameters_uniq
 
 
 class BusinessOrganization(BaseBusinessOrganization):

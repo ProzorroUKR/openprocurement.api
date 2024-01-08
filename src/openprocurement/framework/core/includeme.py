@@ -67,7 +67,6 @@ def includeme(config):
     config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
     config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
     config.add_directive("add_agreement_agreementTypes", register_agreement_agreementType)
-    # config.scan("openprocurement.framework.core.views")
     config.scan("openprocurement.framework.core.procedure.views")
 
     # search for plugins

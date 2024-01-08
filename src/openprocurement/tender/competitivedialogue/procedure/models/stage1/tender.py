@@ -13,7 +13,7 @@ from openprocurement.tender.openeu.procedure.models.tender import (
 from openprocurement.tender.openeu.procedure.models.item import Item
 from openprocurement.tender.openua.procedure.models.item import Item as UAItem
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.tender.core.procedure.validation import validate_features_uniq
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.api.models import Model
 
