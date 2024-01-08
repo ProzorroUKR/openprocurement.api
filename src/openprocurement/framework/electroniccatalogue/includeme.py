@@ -15,5 +15,4 @@ def includeme(config):
     config.add_submission_submissionTypes(Submission)
     config.add_qualification_qualificationTypes(Qualification)
     config.add_agreement_agreementTypes(Agreement)
-    # config.scan("openprocurement.framework.electroniccatalogue.views")
     config.scan("openprocurement.framework.electroniccatalogue.procedure.views")

@@ -1,7 +1,7 @@
 from decimal import Decimal
 from uuid import uuid4
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType, BaseType, BooleanType
+from schematics.types import StringType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
 from openprocurement.api.models import (
@@ -34,12 +34,12 @@ from openprocurement.framework.cfaua.procedure.models.change import (
 )
 from openprocurement.framework.cfaua.procedure.models.contract import Contract
 from openprocurement.framework.cfaua.procedure.models.document import Document
-from openprocurement.framework.cfaua.procedure.validation import validate_values_uniq, validate_features_uniq
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
     PatchAgreement as BasePatchAgreement,
     PostAgreement as BasePostAgreement,
 )
+from openprocurement.api.procedure.validation import validate_values_uniq, validate_features_uniq
 
 
 class FeatureValue(Model):

@@ -11,7 +11,6 @@ from openprocurement.contracting.econtract.tests.data import (
 from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.api.tests.base import BaseContractTest
 from openprocurement.tender.pricequotation.tests.data import *
-from openprocurement.framework.electroniccatalogue.models import Agreement
 from openprocurement.api.context import set_now
 
 

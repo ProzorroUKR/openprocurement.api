@@ -7,7 +7,8 @@ from schematics.types.serializable import serializable
 from openprocurement.api.models import Value, Model
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
-from openprocurement.tender.core.procedure.validation import validate_bid_value, validate_parameters_uniq
+from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import ListType, BaseBid

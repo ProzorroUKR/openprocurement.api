@@ -10,7 +10,6 @@ from openprocurement.api.context import set_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
 from openprocurement.tender.pricequotation.tests.data import *
-from openprocurement.framework.electroniccatalogue.models import Agreement
 
 
 class BaseApiWebTest(BaseWebTest):

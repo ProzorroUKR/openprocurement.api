@@ -4,7 +4,6 @@ from hashlib import sha512
 from pyramid.request import Request
 
 from openprocurement.api.constants import (
-    PQ_NEW_CONTRACTING_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -1871,23 +1870,3 @@ def validate_funders_ids(funders, *args):
     for funder in funders:
         if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
             raise ValidationError("Funder identifier should be one of the values allowed")
-
-
-def validate_parameters_uniq(parameters, *args):
-    if parameters:
-        codes = [i.code for i in parameters]
-        if [i for i in set(codes) if codes.count(i) > 1]:
-            raise ValidationError("Parameter code should be uniq for all parameters")
-
-
-def validate_values_uniq(values, *args):
-    codes = [i.value for i in values]
-    if any([codes.count(i) > 1 for i in set(codes)]):
-        raise ValidationError("Feature value should be uniq for feature")
-
-
-def validate_features_uniq(features, *args):
-    if features:
-        codes = [i.code for i in features]
-        if any([codes.count(i) > 1 for i in set(codes)]):
-            raise ValidationError("Feature code should be uniq for all features")

@@ -37,7 +37,8 @@ from openprocurement.api.models import (
 )
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.validation import validate_milestones, validate_features_uniq
+from openprocurement.tender.core.procedure.validation import validate_milestones
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 
 

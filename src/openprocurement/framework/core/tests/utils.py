@@ -11,12 +11,9 @@ from openprocurement.api.utils import get_now, parse_date
 from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
 from openprocurement.framework.core.tests.framework import Framework
 from openprocurement.framework.core.utils import (
-    obj_serialize,
     framework_from_data,
     extract_doc,
     register_framework_frameworkType,
-    save_framework,
-    apply_patch,
     generate_framework_pretty_id,
     calculate_framework_date,
 )
@@ -25,30 +22,6 @@ from openprocurement.framework.core.utils import (
 class UtilsFrameworkTest(BaseFrameworkTest):
     relative_to = os.path.dirname(__file__)
     framework_data = deepcopy(test_framework_data)
-
-    def test_obj_serialize(self):
-        request = MagicMock()
-        fields = []
-        res = obj_serialize(request, self.framework_data, fields)
-        self.assertEqual(res, {})
-
-    def test_framework_from_data(self):
-        request = MagicMock()
-        request.registry.framework_frameworkTypes.get.side_effect = [None, None, Framework, Framework]
-
-        with self.assertRaises(Exception) as e:
-            framework_from_data(request, self.framework_data)
-        self.assertEqual(request.errors.status, 415)
-        request.errors.add.assert_called_once_with("body", "frameworkType", "Not implemented")
-
-        model = framework_from_data(request, self.framework_data, raise_error=False)
-        self.assertIs(model, None)
-
-        model = framework_from_data(request, self.framework_data, create=False)
-        self.assertIs(model, Framework)
-
-        model = framework_from_data(request, self.framework_data)
-        self.assertIsInstance(model, Framework)
 
     @patch("openprocurement.framework.core.utils.decode_path_info")
     def test_extract_doc(self, mocked_decode_path):
@@ -101,32 +74,6 @@ class UtilsFrameworkTest(BaseFrameworkTest):
         model.frameworkType = frameworkType
         register_framework_frameworkType(config, model)
 
-    def test_save_framework(self):
-        request = MagicMock(authenticated_userid="user_uuid")
-        framework = MagicMock()
-        framework.mode = "test"
-        framework.revisions = []
-        framework.dateModified = datetime(2018, 8, 2, 12, 9, 2, 440566)
-        framework.rev = "12341234"
-        request.validated = {"framework": framework, "framework_src": "src_test"}
-        res = save_framework(request)
-        self.assertTrue(res)
-
-    @patch("openprocurement.framework.core.utils.apply_data_patch")
-    @patch("openprocurement.framework.core.utils.save_framework")
-    def test_apply_patch(self, mocked_apply_data_patch, mocked_save_framework):
-        request = MagicMock()
-        data = deepcopy(test_framework_data)
-        request.validated = {"data": data, "framework": data}
-        mocked_save_framework.return_value = True
-
-        request.context.serialize.return_value = data
-        res = apply_patch(request, "framework")
-        self.assertTrue(res)
-
-        mocked_apply_data_patch.return_value = data
-        res = apply_patch(request, "framework")
-        self.assertEqual(res, data)
 
     def test_generate_framework_id(self):
         ctime = get_now()

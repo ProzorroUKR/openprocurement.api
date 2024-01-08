@@ -4,18 +4,11 @@ import unittest
 
 from copy import deepcopy
 from mock import MagicMock, patch
-from openprocurement.api.constants import VERSION
 from openprocurement.framework.core.utils import AgreementTypePredicate
 from openprocurement.framework.core.tests.base import BaseAgreementTest
 from openprocurement.framework.core.utils import (
-    agreement_from_data,
-    agreement_serialize,
     register_agreement_agreementType,
-    save_agreement,
-    apply_patch,
-    set_agreement_ownership,
 )
-from openprocurement.framework.core.procedure.models.agreement import Agreement
 from openprocurement.framework.core.validation import validate_agreement_data
 from schematics.types import StringType
 
@@ -90,22 +83,6 @@ class AgreementsResourceTest(BaseAgreementTest):
 class UtilsAgreementTest(BaseAgreementTest):
     relative_to = os.path.dirname(__file__)
 
-    def test_agreement_serialize(self):
-        request = MagicMock()
-        agreement_data = deepcopy(TEST_AGREEMENT)
-        fields = []
-        res = agreement_serialize(request, agreement_data, fields)
-        self.assertEqual(res, {})
-
-    def test_agreement_from_data(self):
-        request = MagicMock()
-        request.registry.agreement_agreementTypes.get.side_effect = [Agreement, None]
-        model = agreement_from_data(request, TEST_AGREEMENT)
-        self.assertTrue(model.agreementID)
-        self.assertEqual(model.agreementID, TEST_AGREEMENT["agreementID"])
-        with self.assertRaises(Exception) as e:
-            res = agreement_from_data(request, TEST_AGREEMENT)
-
     def test_register_agreement_agreementType(self):
         config = MagicMock()
         model = MagicMock()
@@ -113,40 +90,6 @@ class UtilsAgreementTest(BaseAgreementTest):
         model.agreementType = agreementType
         register_agreement_agreementType(config, model)
 
-    def test_save_agreement(self):
-        request = MagicMock(authenticated_userid="user_id")
-        agreement = MagicMock()
-        agreement.mode = "test"
-        agreement.revisions = []
-        agreement.dateModified = datetime.datetime(2018, 8, 2, 12, 9, 2, 440566)
-        agreement.rev = "12341234"
-        request.validated = {"agreement": agreement, "agreement_src": "src_test"}
-        res = save_agreement(request)
-        self.assertTrue(res)
-
-    @patch("openprocurement.framework.core.utils.apply_data_patch")
-    @patch("openprocurement.framework.core.utils.save_agreement")
-    def test_apply_patch(self, mocked_apply_data_patch, mocked_save_agreement):
-        request = MagicMock()
-        agreement = MagicMock()
-        agreement.__class__ = Agreement
-        data = deepcopy(TEST_AGREEMENT)
-        request.validated = {"data": data,
-                             "agreement": agreement}
-        mocked_save_agreement.return_value = True
-
-        request.context.serialize.return_value = data
-        res = apply_patch(request, "agreement")
-        self.assertTrue(res)
-
-        mocked_apply_data_patch.return_value = data
-        res = apply_patch(request, "agreement")
-        self.assertEqual(res, data)
-
-    def test_set_agreement_ownership(self):
-        item = MagicMock()
-        request = MagicMock()
-        set_agreement_ownership(item, request)
 
 
 class ValidationAgreementTest(BaseAgreementTest):

@@ -1,11 +1,11 @@
 from decimal import Decimal
 from schematics.types.compound import ModelType, ListType
 from openprocurement.api.models import DecimalType
+from openprocurement.api.procedure.validation import validate_values_uniq
 from openprocurement.tender.core.procedure.models.feature import (
     Feature as BaseFeature,
     FeatureValue as BaseFeatureValue,
 )
-from openprocurement.framework.cfaua.validation import validate_values_uniq
 
 
 class FeatureValue(BaseFeatureValue):

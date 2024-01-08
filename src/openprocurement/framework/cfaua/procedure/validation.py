@@ -32,26 +32,6 @@ def validate_create_agreement_change(request, **kwargs):
     if agreement.get("changes") and agreement["changes"][-1]["status"] == "pending":
         raise_operation_error(request, "Can't create new agreement change while any (pending) change exists")
 
-
-def validate_values_uniq(values):
-    codes = [i.get("value") for i in values]
-    if any([codes.count(i) > 1 for i in set(codes)]):
-        raise ValidationError("Feature value should be uniq for feature")
-
-
-def validate_features_uniq(features):
-    if features:
-        codes = [feature.get("code") for feature in features]
-        if any([codes.count(i) > 1 for i in set(codes)]):
-            raise ValidationError("Feature code should be uniq for all features")
-
-
-def validate_parameters_uniq(parameters):
-    if parameters:
-        codes = [param.get("code") for param in parameters]
-        if [i for i in set(codes) if codes.count(i) > 1]:
-            raise ValidationError("Parameter code should be uniq for all parameters")
-
 # changes modifications validators
 
 
