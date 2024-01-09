@@ -1,6 +1,7 @@
 from decimal import Decimal
 
-from openprocurement.api.models import ModelType, ListType, DecimalType, ContractValue as BaseContractValue
+from openprocurement.api.procedure.types import ListType, ModelType, DecimalType
+from openprocurement.api.procedure.models.value import ContractValue as BaseContractValue
 from openprocurement.tender.esco.procedure.models.value import ContractDuration
 
 

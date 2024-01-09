@@ -7,10 +7,9 @@ from openprocurement.tender.core.procedure.models.complaint import PostComplaint
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
-    get_items,
-    set_item,
     set_ownership,
 )
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
     unless_bots,

@@ -12,10 +12,10 @@ from openprocurement.tender.core.procedure.validation import (
     unless_administrator,
 )
 from openprocurement.tender.core.procedure.validation import validate_input_data
-from openprocurement.contracting.econtract.procedure.models.contract import SignerInfo
+from openprocurement.contracting.econtract.procedure.models.organization import SignerInfo
 from openprocurement.contracting.econtract.procedure.state.signer_info import EContractSignerInfoState
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 class BaseSignerInfoResource(ContractBaseResource):

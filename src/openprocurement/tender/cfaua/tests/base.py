@@ -5,6 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
@@ -13,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.utils import (
 from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-from openprocurement.api.utils import apply_data_patch, get_now
+from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.cfaua.constants import (
     TENDERING_DAYS,
@@ -402,7 +403,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
 
     def save_changes(self):
         if self.tender_document_patch:
-            self.tender_document.update(apply_data_patch(self.tender_document, self.tender_document_patch))
+            patch = apply_data_patch(self.tender_document, self.tender_document_patch)
+            self.tender_document.update(patch)
             self.mongodb.tenders.save(self.tender_document)
             self.tender_document = self.mongodb.tenders.get(self.tender_id)
             self.tender_document_patch = {}

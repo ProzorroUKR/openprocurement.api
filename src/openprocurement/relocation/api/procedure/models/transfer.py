@@ -2,7 +2,9 @@ from schematics.types import StringType
 from schematics.types.serializable import serializable
 from uuid import uuid4
 
-from openprocurement.api.models import get_now, IsoDateTimeType, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.utils import get_now
 
 
 class PostTransfer(Model):

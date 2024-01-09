@@ -3,7 +3,7 @@ from openprocurement.tender.cfaua.procedure.serializers.agreement import Agreeme
 from openprocurement.tender.cfaua.procedure.serializers.guarantee import GuaranteeSerializer
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import QualificationSerializer
-from openprocurement.tender.core.procedure.serializers.base import ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
 from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer

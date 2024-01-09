@@ -1,11 +1,10 @@
 from openprocurement.tender.core.procedure.validation import (
     base_validate_operation_ecriteria_objects,
-    check_requirements_active,
+    check_requirements_active, validate_object_id_uniq,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_id_uniq
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 

@@ -1,5 +1,5 @@
 from openprocurement.framework.core.procedure.serializers.contract import ContractSerializer
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer, BaseUIDSerializer, ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer, BaseUIDSerializer
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 
 

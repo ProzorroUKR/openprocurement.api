@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from copy import deepcopy
-from openprocurement.api.models import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import parse_date
+from openprocurement.api.utils import parse_date, get_now
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
@@ -663,9 +662,11 @@ def patch_tender_bidder(self):
     lot = bidder["lotValues"][0]
     owner_token = response.json["access"]["token"]
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

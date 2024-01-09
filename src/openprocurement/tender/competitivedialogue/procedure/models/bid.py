@@ -3,8 +3,9 @@ from schematics.types.compound import ModelType
 from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.models.organization import PatchBusinessOrganization, PostBusinessOrganization
-from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
+from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
+from openprocurement.tender.core.procedure.models.base import BaseBid
+from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
@@ -16,7 +17,7 @@ from openprocurement.tender.competitivedialogue.procedure.models.lot_value impor
 
 class PatchBid(PatchObjResponsesMixin, BaseBid):
     items = ListType(ModelType(BaseItem, required=True))
-    tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     subcontractingDetails = StringType()
     selfQualified = BooleanType(choices=[True])
@@ -33,7 +34,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
         return uuid4().hex
 
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
     documents = ListType(ModelType(PostDocument, required=True))
@@ -58,7 +59,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
 class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     lotValues = ListType(ModelType(LotValue, required=True))
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))

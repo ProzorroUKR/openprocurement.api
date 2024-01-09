@@ -1,11 +1,11 @@
 from openprocurement.tender.limited.constants import REPORTING_KINDS, NEGOTIATION_KINDS
-from openprocurement.api.models import ModelType
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.tender.core.procedure.models.organization import (
     ProcuringEntity as BaseProcuringEntity,
-    Organization,
     Address,
     ContactPoint,
 )
+from openprocurement.api.procedure.models.organization import Organization
 from openprocurement.api.procedure.models.identifier import Identifier
 from schematics.types import StringType
 

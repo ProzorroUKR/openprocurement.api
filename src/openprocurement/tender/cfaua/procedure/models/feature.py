@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.models.feature import (
     Feature as BaseFeature,
 )
 from openprocurement.api.procedure.validation import validate_values_uniq
-from openprocurement.api.models import ListType, DecimalType
+from openprocurement.api.procedure.types import ListType, DecimalType
 from decimal import Decimal
 from schematics.types.compound import ModelType
 

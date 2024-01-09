@@ -1,6 +1,7 @@
 from schematics.exceptions import ValidationError
 from schematics.types import StringType
-from openprocurement.api.models import Model, DecimalType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import DecimalType
 
 
 def validate_parameter_contracts(features, contracts):

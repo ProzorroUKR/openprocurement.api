@@ -7,11 +7,10 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
 from openprocurement.tender.core.procedure.utils import (
-    get_items,
     save_tender,
-    set_item,
 )
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.cfaua.procedure.state.agreement_contract import AgreementContractState
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import AgreementContract, PatchAgreementContract
 from cornice.resource import resource

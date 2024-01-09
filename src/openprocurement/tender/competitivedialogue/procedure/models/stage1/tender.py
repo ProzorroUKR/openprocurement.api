@@ -15,7 +15,7 @@ from openprocurement.tender.openua.procedure.models.item import Item as UAItem
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 
 
 class BotPatchTender(Model): # "competitive_dialogue": whitelist("status", "stage2TenderID"),

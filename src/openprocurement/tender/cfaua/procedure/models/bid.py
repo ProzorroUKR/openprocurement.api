@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.models.bid import (
     PostBid as BasePostBid,
     PatchBid as BasePatchBid,
 )
-from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.cfaua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 
 

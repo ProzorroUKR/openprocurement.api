@@ -1,16 +1,15 @@
 from schematics.types import StringType
 
-from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM, SCALE_CODES
-from openprocurement.api.models import (
-    BusinessOrganization as BaseBusinessOrganization,
-    ContactPoint as BaseContactPoint,
-    Identifier as BaseIdentifier,
+from openprocurement.api.constants import SCALE_CODES
+from openprocurement.api.procedure.types import ModelType
+from openprocurement.api.procedure.models.contact import ContactPoint as BaseContactPoint
+from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
-    ModelType,
-    Model,
+    BusinessOrganization as BaseBusinessOrganization,
 )
-from openprocurement.framework.core.procedure.models.address import SubmissionAddress, CoreAddress as Address
-from openprocurement.framework.core.procedure.utils import required_field_from_date
+from openprocurement.framework.core.procedure.models.address import FullAddress, Address
+from openprocurement.framework.core.procedure.models.contact import SubmissionContactPoint
+from openprocurement.framework.core.procedure.models.identifier import SubmissionIdentifier
 
 
 class Organization(BaseOrganization):
@@ -18,67 +17,14 @@ class Organization(BaseOrganization):
     address = ModelType(Address, required=True)
 
 
-class Identifier(BaseIdentifier):
-    legalName = StringType(required=True)
-
-
-class SubmissionIdentifier(BaseIdentifier):
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_legalName(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_id(self, data, value):
-        return value
-
-
-class SubmissionContactPoint(BaseContactPoint):
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_name(self, data, value):
-        return value
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_email(self, data, value):
-        super().validate_email(self, data, value)
-        return value
-
-
-class SubmissionOrganization(BaseOrganization):
-    identifier = ModelType(SubmissionIdentifier)
-    address = ModelType(SubmissionAddress)
-    contactPoint = ModelType(SubmissionContactPoint)
+class SubmissionBusinessOrganization(BaseBusinessOrganization):
+    identifier = ModelType(SubmissionIdentifier, required=True)
+    address = ModelType(FullAddress, required=True)
+    contactPoint = ModelType(SubmissionContactPoint, required=True)
     scale = StringType(choices=SCALE_CODES)
 
 
-class PostSubmissionOrganization(BaseOrganization):
-    identifier = ModelType(SubmissionIdentifier, required=True)
-    address = ModelType(SubmissionAddress, required=True)
-    contactPoint = ModelType(SubmissionContactPoint, required=True)
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_name(self, data, value):
-        return value
-
-
-class SubmissionBusinessOrganization(SubmissionOrganization):
-    pass
-
-
-class PostSubmissionBusinessOrganization(PostSubmissionOrganization, BaseBusinessOrganization):
-    pass
-
-
-class ContractOrganization(BaseOrganization):
+class ContractBusinessOrganization(BaseBusinessOrganization):
     contactPoint = ModelType(BaseContactPoint, required=True)
     address = ModelType(Address, required=True)
 
-
-class ContractBusinessOrganization(ContractOrganization, BaseBusinessOrganization):
-    pass
-
-
-class PatchContractBusinessOrganization(Model):
-    contactPoint = ModelType(BaseContactPoint)
-    address = ModelType(Address, required=True)

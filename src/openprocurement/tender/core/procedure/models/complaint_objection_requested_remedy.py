@@ -4,7 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType, MD5Type
 
 from openprocurement.api.constants import REQUESTED_REMEDIES_TYPES
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 
 
 class RequestedRemedy(Model):

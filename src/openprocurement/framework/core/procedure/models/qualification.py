@@ -1,13 +1,8 @@
 from schematics.types import StringType, BaseType, BooleanType
 from schematics.types.compound import DictType
 
-from openprocurement.api.models import (
-    Model,
-    ModelType,
-    IsoDateTimeType,
-    ListType,
-    RootModel,
-)
+from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.document import Document
 

@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import ListSerializer, decimal_serializer
+from openprocurement.api.procedure.serializers.base import ListSerializer, decimal_serializer
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
 from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
 from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer

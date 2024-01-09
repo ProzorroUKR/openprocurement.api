@@ -1,5 +1,8 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.models.identifier import Identifier
-from openprocurement.api.models import ListType, Model, ValidationError
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 

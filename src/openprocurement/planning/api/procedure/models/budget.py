@@ -10,8 +10,8 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import BUDGET_PERIOD_FROM, LOGGER
 from openprocurement.api.procedure.utils import is_const_active
-from openprocurement.api.models import Model, IsoDateTimeType
-from openprocurement.api.procedure.models.base import ListType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.planning.api.procedure.models.guarantee import Guarantee

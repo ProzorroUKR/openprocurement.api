@@ -4,12 +4,8 @@ from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request, get_now
-from openprocurement.api.models import (
-    IsoDateTimeType,
-    Model,
-    ModelType,
-    ListType,
-)
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.utils import calculate_framework_date
 

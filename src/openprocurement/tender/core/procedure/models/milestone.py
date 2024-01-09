@@ -1,13 +1,13 @@
 from schematics.types import MD5Type, StringType, IntType, FloatType
 from openprocurement.api.context import get_now
-from openprocurement.api.models import IsoDateTimeType, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
 from openprocurement.tender.core.procedure.validation import is_positive_float
 from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
-from openprocurement.tender.core.procedure.models.base import ModelType, ListType
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from datetime import timedelta
 from uuid import uuid4

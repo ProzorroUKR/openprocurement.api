@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items
 from openprocurement.tender.core.procedure.validation import validate_item_owner, validate_24h_milestone_released
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource

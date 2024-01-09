@@ -1,8 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import (
-    BaseUIDSerializer,
-    BaseSerializer,
-    ListSerializer,
-)
+from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer, BaseUIDSerializer
 
 
 class BillingBidSerializer(BaseSerializer):

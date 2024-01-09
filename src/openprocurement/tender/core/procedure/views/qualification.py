@@ -5,10 +5,9 @@ from openprocurement.tender.core.procedure.state.qualification import Qualificat
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.qualification import QualificationSerializer
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
-    set_item,
 )
 from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.validation import (

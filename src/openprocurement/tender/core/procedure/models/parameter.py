@@ -1,6 +1,6 @@
 from schematics.exceptions import ValidationError
 from schematics.types import FloatType
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from schematics.types import StringType
 from openprocurement.tender.core.procedure.context import get_tender
 

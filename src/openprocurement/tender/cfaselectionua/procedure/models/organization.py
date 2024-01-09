@@ -1,9 +1,8 @@
 from openprocurement.tender.cfaselectionua.procedure.models.address import Address
-from openprocurement.tender.core.procedure.models.organization import Organization as BaseOrganization
+from openprocurement.api.procedure.models.organization import Organization as BaseOrganization
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION_KINDS
 from openprocurement.tender.cfaselectionua.procedure.models.contact import ContactPoint
-from openprocurement.tender.core.procedure.models.base import ModelType
-from openprocurement.api.models import ListType
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.constants import SCALE_CODES
 from schematics.types import StringType
 

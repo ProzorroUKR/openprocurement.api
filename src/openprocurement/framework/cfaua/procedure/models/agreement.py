@@ -1,26 +1,18 @@
 from decimal import Decimal
 from uuid import uuid4
-from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import (
-    ContactPoint as BaseContactPoint,
-    DecimalType,
-    Model,
-    ModelType,
-    IsoDateTimeType,
-    ListType,
-    Period,
-    Item as BaseItem,
-    Unit,
-    CPVClassification,
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, DecimalType, IsoDateTimeType
+from openprocurement.api.procedure.models.item import (
     AdditionalClassification,
-    PeriodEndRequired,
-    BaseAddress,
-    Organization,
-    PROCURING_ENTITY_KINDS,
+    Item as BaseItem,
 )
+from openprocurement.api.procedure.models.organization import Organization, PROCURING_ENTITY_KINDS
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
+from openprocurement.api.procedure.models.unit import Unit
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.utils import get_change_class
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeTaxRate,
@@ -34,12 +26,14 @@ from openprocurement.framework.cfaua.procedure.models.change import (
 )
 from openprocurement.framework.cfaua.procedure.models.contract import Contract
 from openprocurement.framework.cfaua.procedure.models.document import Document
+from openprocurement.framework.core.procedure.models.contact import ContactPoint as BaseContactPoint
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
     PatchAgreement as BasePatchAgreement,
     PostAgreement as BasePostAgreement,
 )
 from openprocurement.api.procedure.validation import validate_values_uniq, validate_features_uniq
+from openprocurement.framework.core.procedure.models.item import CPVClassification
 
 
 class FeatureValue(Model):
@@ -66,38 +60,17 @@ class Feature(Model):
         ModelType(FeatureValue, required=True), default=list(), min_size=1, validators=[validate_values_uniq]
     )
 
-    def validate_relatedItem(self, data, relatedItem):
-        if not relatedItem and data.get("featureOf") in ["item", "lot"]:
-            raise ValidationError(u"This field is required.")
-        parent = data["__parent__"]
-        if isinstance(parent, Model):
-            if data.get("featureOf") == "item" and parent.items and relatedItem not in [i.id for i in parent.items]:
-                raise ValidationError(u"relatedItem should be one of items")
-            if data.get("featureOf") == "lot" and parent.lots and relatedItem not in [i.id for i in parent.lots]:
-                raise ValidationError(u"relatedItem should be one of lots")
-
-
-class UnitDeprecated(Unit):
-    def validate_code(self, data, value):
-        pass
-
 
 class Item(BaseItem):
-    class Options:
-        roles = BaseItem.Options.roles
-
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, default=list()))
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
-    deliveryAddress = ModelType(BaseAddress, required=True)
-    unit = ModelType(UnitDeprecated)
+    deliveryAddress = ModelType(Address, required=True)
+    unit = ModelType(Unit)
 
 
 class ContactPoint(BaseContactPoint):
-    class Options:
-        roles = BaseContactPoint.Options.roles
-
     availableLanguage = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
     def validate_telephone(self, data, value):
@@ -110,7 +83,7 @@ class ProcuringEntity(Organization):
     kind = StringType(choices=PROCURING_ENTITY_KINDS)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
-    address = ModelType(BaseAddress, required=True)
+    address = ModelType(Address, required=True)
 
 
 class Agreement(BaseAgreement):

@@ -4,7 +4,8 @@ from logging import getLogger
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view, update_logging_context, context_unpack
-from openprocurement.tender.core.procedure.utils import get_items, set_ownership, set_item
+from openprocurement.tender.core.procedure.utils import set_ownership
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.validation import (
     validate_data_documents,
     validate_input_data,

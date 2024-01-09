@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
 from openprocurement.tender.core.procedure.serializers.auction import (
     AuctionSerializer as BaseAuctionSerializer,
 )

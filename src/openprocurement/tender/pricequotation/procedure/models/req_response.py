@@ -3,7 +3,8 @@ from uuid import uuid4
 
 from schematics.types.compound import ModelType
 from schematics.types import MD5Type
-from openprocurement.api.models import Model, ListType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType
 from schematics.types import StringType, BaseType
 
 from logging import getLogger

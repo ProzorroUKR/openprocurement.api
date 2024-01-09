@@ -1,7 +1,9 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.context import get_now, get_request
 from openprocurement.tender.core.procedure.context import get_complaint
-from openprocurement.api.models import ValidationError, ListType
-from openprocurement.tender.core.procedure.models.base import ModelType, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import PostDocument
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.serializable import serializable

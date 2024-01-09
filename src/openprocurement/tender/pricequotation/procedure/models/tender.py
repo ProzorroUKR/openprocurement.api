@@ -1,6 +1,3 @@
-from os.path import split
-
-import standards
 from schematics.types import StringType, MD5Type, BaseType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
@@ -9,11 +6,10 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
     StartedPeriodEndRequired,
-    PeriodEndRequired,
     PeriodStartEndRequired,
 )
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
+from openprocurement.api.procedure.models.organization import BusinessOrganization
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.tender.core.procedure.models.tender import (
     PostBaseTender,
@@ -27,9 +23,10 @@ from openprocurement.tender.pricequotation.procedure.models.requirement import v
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
-from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
 from openprocurement.tender.core.procedure.validation import validate_tender_period_start_date
-from openprocurement.api.models import ModelType, Model, IsoDateTimeType, Value
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ModelType, IsoDateTimeType
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS

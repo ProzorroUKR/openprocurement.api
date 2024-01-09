@@ -3,7 +3,7 @@ from schematics.types import URLType, StringType
 from schematics.types.serializable import serializable
 from decimal import Decimal
 
-from openprocurement.api.models import DecimalType, MD5Type
+from openprocurement.api.procedure.types import DecimalType
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
     PostGuarantee,

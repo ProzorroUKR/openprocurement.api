@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.context import get_contract
 from schematics.types import FloatType
 from schematics.types.serializable import serializable

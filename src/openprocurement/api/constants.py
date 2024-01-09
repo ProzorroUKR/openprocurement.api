@@ -17,16 +17,11 @@ LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"
 ROUTE_PREFIX = "/api/{}".format(VERSION)
 SESSION = Session()
-SCHEMA_VERSION = 24
-SCHEMA_DOC = "openprocurement_schema"
 OCID_PREFIX = os.environ.get("OCID_PREFIX", "ocds-be6bcu")
 
 TZ = timezone(os.environ["TZ"] if "TZ" in os.environ else "Europe/Kiev")
 SANDBOX_MODE = os.environ.get("SANDBOX_MODE", False)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-
-DOCUMENT_BLACKLISTED_FIELDS = ("title", "format", "url", "dateModified", "hash")
-DOCUMENT_WHITELISTED_FIELDS = ("id", "datePublished", "author", "__parent__")
 
 # Tenders in which could be used criteria connected with guarantee
 GUARANTEE_ALLOWED_TENDER_TYPES = (
@@ -161,9 +156,6 @@ CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, "CPV_336_INN_FROM")
 
 JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 
-# Add scale field to organization
-ORGANIZATION_SCALE_FROM = get_constant(CONSTANTS_CONFIG, "ORGANIZATION_SCALE_FROM")
-
 # Set mainProcurementCategory required
 MPC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MPC_REQUIRED_FROM")
 
@@ -232,8 +224,6 @@ RELEASE_METRICS_FROM = get_constant(CONSTANTS_CONFIG, "RELEASE_METRICS_FROM")
 # CS-8330 validation for ContactPoint.telephone
 VALIDATE_TELEPHONE_FROM = get_constant(CONSTANTS_CONFIG, "VALIDATE_TELEPHONE_FROM")
 
-# CS-10305 validation required fields by submission
-REQUIRED_FIELDS_BY_SUBMISSION_FROM = get_constant(CONSTANTS_CONFIG, "REQUIRED_FIELDS_BY_SUBMISSION_FROM")
 # CS-9333 unit object required for item
 UNIT_PRICE_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "UNIT_PRICE_REQUIRED_FROM")
 

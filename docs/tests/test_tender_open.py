@@ -4,7 +4,7 @@ from copy import deepcopy
 from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (

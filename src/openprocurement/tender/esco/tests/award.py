@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-import dateutil
 
-import mock
 from esculator import npv, escp
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
-    patch_tender_lot_award_lots_none,
     create_tender_award_document_json_bulk,
 )
 from openprocurement.tender.core.tests.utils import change_auth
@@ -81,30 +75,6 @@ award_amount = round(
     ),
     2,
 )
-
-
-class TenderAwardResourceScaleTest(BaseESCOContentWebTest):
-    initial_status = "active.qualification"
-    docservice = True
-
-    def setUp(self):
-        patcher = mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
-        patcher = mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-                             get_now() + timedelta(days=1))
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
-        test_bid = deepcopy(test_tender_esco_bids[0])
-        test_bid["tenderers"][0].pop("scale")
-        self.initial_bids = [test_bid]
-        super(TenderAwardResourceScaleTest, self).setUp()
-        self.app.authorization = ("Basic", ("token", ""))
-
-    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardCheckResourceTestMixin):

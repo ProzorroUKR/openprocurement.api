@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
 from openprocurement.api.procedure.models.item import validate_cpv_group
-from openprocurement.tender.core.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
@@ -41,7 +41,8 @@ from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.models import IsoDurationType, Value
+from openprocurement.api.procedure.types import IsoDurationType
+from openprocurement.api.procedure.models.value import Value
 
 
 def validate_features(data, features):

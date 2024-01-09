@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.context import get_tender, get_award, get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import dt_from_iso, is_item_owner
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from logging import getLogger
 from openprocurement.api.validation import OPERATIONS

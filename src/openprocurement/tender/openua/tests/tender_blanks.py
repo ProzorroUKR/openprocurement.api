@@ -5,13 +5,12 @@ from freezegun import freeze_time
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
-from openprocurement.api.utils import parse_date
+from openprocurement.api.utils import parse_date, get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract

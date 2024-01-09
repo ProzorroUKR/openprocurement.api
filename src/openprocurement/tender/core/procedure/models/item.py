@@ -1,14 +1,17 @@
 from uuid import uuid4
-from openprocurement.api.models import ValidationError, Period, URLType
+
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.models.item import (
-    AdditionalClassification,
     validate_additional_classifications,
     validate_scheme,
     CPVClassification as BaseCPVClassification,
+    AdditionalClassification, Location,
 )
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.address import Address
-from openprocurement.tender.core.procedure.models.base import Model
-from openprocurement.api.procedure.models.base import ListType, ModelType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.unit import Unit
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_obj_const_active
@@ -27,12 +30,6 @@ from openprocurement.api.constants import (
     CPV_PHARM_PRODUCTS,
 )
 from openprocurement.tender.core.procedure.validation import validate_ua_road, validate_gmdn
-
-
-class Location(Model):
-    latitude = BaseType(required=True)
-    longitude = BaseType(required=True)
-    elevation = BaseType()
 
 
 class CPVClassification(BaseCPVClassification):

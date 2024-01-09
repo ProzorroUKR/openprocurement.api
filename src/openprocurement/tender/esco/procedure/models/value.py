@@ -5,13 +5,9 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from datetime import datetime
 from esculator import npv, escp
-from openprocurement.api.models import (
-    DecimalType,
-    Value,
-    Model,
-    ListType,
-)
-from openprocurement.tender.core.procedure.models.base import DecimalType as StringDecimalType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, DecimalType, StringDecimalType as StringDecimalType
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.utils import to_decimal

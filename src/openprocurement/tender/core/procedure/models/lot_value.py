@@ -1,6 +1,7 @@
 from schematics.types.compound import ModelType
 from schematics.types import MD5Type, StringType
-from openprocurement.api.models import Model, Value
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.validation import (
     validate_lotvalue_value,

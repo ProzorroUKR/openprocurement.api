@@ -427,36 +427,6 @@ def create_submission_draft_invalid(self):
         }],
     )
 
-    data = deepcopy(self.initial_submission_data)
-    data["tenderers"][0]["address"]["postalCode"] = ""
-    data["tenderers"][0]["address"]["streetAddress"] = ""
-    data["tenderers"][0]["address"]["region"] = "test"
-    data["tenderers"][0]["address"]["locality"] = ""
-    data["tenderers"][0]["contactPoint"]["telephone"] = ""
-    data["tenderers"][0]["contactPoint"]["email"] = ""
-    response = self.app.post_json(request_path, {"data": data}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            'location': 'body',
-            'name': 'tenderers',
-            'description': [{
-                'address': {
-                    'postalCode': ['This field is required.'],
-                    'region': ['field address:region not exist in ua_regions catalog'],
-                    'streetAddress': ['This field is required.'],
-                    'locality': ['This field is required.'],
-                },
-                'contactPoint': {
-                    'email': ["Not a well formed email address."],
-                }
-            }]
-        }],
-    )
-
 
 def create_submission_draft(self):
     data = self.initial_submission_data
@@ -1251,9 +1221,11 @@ def date_submission(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], date)
 
+    tenderer = deepcopy(self.initial_submission_data["tenderers"][0])
+    tenderer["name"] = "Updated title"
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token),
-        {"data": {"tenderers": [{"name": "Updated title"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1291,9 +1263,11 @@ def dateModified_submission(self):
     self.assertEqual(response.json["data"]["dateModified"], dateModified)
 
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+        tenderer = deepcopy(self.initial_submission_data["tenderers"][0])
+        tenderer["name"] = "Draft_change"
         response = self.app.patch_json(
             "/submissions/{}?acc_token={}".format(submission["id"], token),
-            {"data": {"tenderers": [{"name": "Draft_change"}]}},
+            {"data": {"tenderers": [tenderer]}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -1345,9 +1319,11 @@ def datePublished_submission(self):
     self.assertEqual(response.content_type, "application/json")
     # self.assertEqual(response.json["data"]["date"], date)
 
+    tenderer = deepcopy(self.initial_submission_data["tenderers"][0])
+    tenderer["name"] = "Updated title"
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token),
-        {"data": {"tenderers": [{"name": "Updated title"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

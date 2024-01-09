@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer, ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
 
 
 def enum_serializer(_, element):

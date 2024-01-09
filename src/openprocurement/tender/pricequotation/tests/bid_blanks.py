@@ -1,4 +1,6 @@
 from copy import deepcopy
+
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response_valid,
@@ -106,6 +108,7 @@ def create_tender_bid_invalid(self):
                         "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -134,6 +137,7 @@ def create_tender_bid_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -746,9 +750,11 @@ def patch_tender_bid(self):
         ],
     )
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1073,16 +1079,27 @@ def bid_Administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
 
+    tenderer = deepcopy(test_tender_pq_organization)
+    tenderer["identifier"]["id"] = "00000000"
     self.app.authorization = ("Basic", ("administrator", ""))
-    self.app.patch_json(
-        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}]}},
-        status=403
-    )
-
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": {"tenderers": [{"identifier": {"legalName": "ТМ Валєра"}}]}},
+        {"data": {"tenderers": [tenderer]}},
+        status=403
+    )
+    self.assertEqual(
+        response.json["errors"], [{
+            "description": "Can't update bid if tenderer not in shortlistedFirms",
+            "location": "body",
+            "name": "data",
+        }]
+    )
+
+    tenderer = deepcopy(test_tender_pq_organization)
+    tenderer["identifier"]["legalName"] = "ТМ Валєра"
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

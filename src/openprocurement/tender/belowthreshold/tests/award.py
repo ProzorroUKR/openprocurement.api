@@ -54,8 +54,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_lots_award_document,
     put_tender_lots_award_document,
     patch_tender_lots_award_document,
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale
 )
 
 
@@ -103,25 +101,6 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     initial_bids = test_tender_below_bids
     initial_lots = test_tender_below_lots
     docservice = True
-
-
-class TenderAwardResourceScaleTest(TenderContentWebTest):
-    initial_status = "active.qualification"
-    docservice = True
-
-    def setUp(self):
-        patcher = mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-                             get_now() + timedelta(days=1))
-        patcher.start()
-        self.addCleanup(patcher.stop)
-        test_bid = deepcopy(test_tender_below_bids[0])
-        test_bid["tenderers"][0].pop("scale")
-        self.initial_bids = [test_bid]
-        super(TenderAwardResourceScaleTest, self).setUp()
-        self.app.authorization = ("Basic", ("token", ""))
-
-    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):

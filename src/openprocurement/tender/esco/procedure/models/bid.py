@@ -1,7 +1,7 @@
 from schematics.types import BooleanType
 from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
@@ -12,7 +12,7 @@ from openprocurement.tender.openeu.procedure.models.bid import (
 )
 from openprocurement.tender.esco.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
 from openprocurement.tender.esco.procedure.models.value import ESCOValue, PatchESCOValue
-from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.api.procedure.types import ListType
 
 
 class ESCOMixin(Model):

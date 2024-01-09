@@ -5,18 +5,13 @@ from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
-from openprocurement.api.models import (
-    Model,
-    ModelType,
-    IsoDateTimeType,
-    ListType,
-    RootModel,
-)
+from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.organization import (
     SubmissionBusinessOrganization,
-    PostSubmissionBusinessOrganization,
+    SubmissionBusinessOrganization,
 )
 from openprocurement.framework.core.utils import get_framework_by_id
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -31,7 +26,7 @@ class PostSubmission(Model):
     def doc_type(self):
         return "Submission"
 
-    tenderers = ListType(ModelType(PostSubmissionBusinessOrganization, required=True), required=True, min_size=1)
+    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
     documents = ListType(ModelType(Document, required=True), default=list())
     frameworkID = StringType(required=True)
     status = StringType(choices=["draft"], default="draft")
@@ -74,7 +69,7 @@ class BotPatchSubmission(Model):
 
 
 class Submission(RootModel):
-    tenderers = ListType(ModelType(PostSubmissionBusinessOrganization, required=True), required=True, min_size=1)
+    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
     documents = ListType(ModelType(Document, required=True), default=list())
     qualificationID = StringType()
     frameworkID = StringType(required=True)

@@ -15,10 +15,10 @@ from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
     get_now,
-    ACCELERATOR_RE,
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
+from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
 ENQUIRY_PERIOD_DURATION = 10

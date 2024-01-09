@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.base import DecimalType
+from openprocurement.api.procedure.types import StringDecimalType
 from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
 from openprocurement.tender.core.procedure.models.parameter import (
     PatchParameter as BasePatchParameter,
@@ -18,14 +18,14 @@ def validate_value(data, value):
 
 
 class Parameter(BaseParameter):
-    value = DecimalType(required=True)
+    value = StringDecimalType(required=True)
 
     def validate_value(self, data, value):
         validate_value(data, value)
 
 
 class PatchParameter(BasePatchParameter):
-    value = DecimalType()
+    value = StringDecimalType()
 
     def validate_value(self, data, value):
         return value

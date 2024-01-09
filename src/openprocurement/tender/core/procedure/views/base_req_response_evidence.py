@@ -4,11 +4,11 @@ from logging import getLogger
 from pyramid.request import Request
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.utils import save_tender, set_item
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.state.req_response_evidence import ReqResponseEvidenceState
 
 

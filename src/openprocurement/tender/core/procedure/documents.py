@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from base64 import b64encode, b64decode
+from rfc6266 import build_header
 from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
 from nacl.exceptions import BadSignatureError
 from binascii import Error as BinasciiError
-from openprocurement.api.utils import error_handler, generate_docservice_url, build_header
+from openprocurement.api.utils import error_handler, generate_docservice_url
 
 
 def check_document_batch(request, document, document_container, route_kwargs=None, route_prefix=None):

@@ -1,4 +1,4 @@
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from schematics.types import MD5Type
 
 

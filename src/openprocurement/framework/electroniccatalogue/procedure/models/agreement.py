@@ -1,13 +1,14 @@
-from schematics.types import BaseType, StringType
+from schematics.types import StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
-from openprocurement.api.models import ModelType, ListType, Classification as BaseClassification
+from openprocurement.api.procedure.types import ListType, ModelType
 
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
     PostAgreement as BasePostAgreement,
 )
+from openprocurement.api.procedure.models.item import Classification as BaseClassification
 from openprocurement.framework.core.procedure.models.framework import DKClassification
 from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE

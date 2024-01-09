@@ -1,18 +1,12 @@
 import standards
 from schematics.types import StringType, EmailType
 
-from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM
-from openprocurement.api.utils import required_field_from_date
-from openprocurement.api.models import (
-    ContactPoint as BaseContactPoint,
-    ModelType,
-    ListType,
-    Organization as BaseOrganization,
-    Model,
-    PROCURING_ENTITY_KINDS,
-)
-from openprocurement.framework.core.procedure.models.address import Address
-from openprocurement.framework.core.procedure.models.organization import Identifier
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.models.organization import Organization as BaseOrganization, PROCURING_ENTITY_KINDS
+from openprocurement.framework.core.procedure.models.address import FullAddress
+from openprocurement.framework.core.procedure.models.identifier import Identifier
+from openprocurement.framework.core.procedure.models.contact import ContactPoint as BaseContactPoint
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
 
@@ -29,23 +23,19 @@ class PatchContactPoint(ContactPoint):
 class ProcuringEntity(BaseOrganization):
     identifier = ModelType(Identifier, required=True)
     additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(Address, required=True)
+    address = ModelType(FullAddress, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS, default="general")
+    kind = StringType(choices=PROCURING_ENTITY_KINDS, default="general", required=True)
 
     def validate_identifier(self, data, identifier):
         pass
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_kind(self, data, value):
-        return value
 
 
 class PatchProcuringEntity(BaseOrganization):
     name = StringType()
     identifier = ModelType(Identifier)
     additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(Address)
+    address = ModelType(FullAddress)
     contactPoint = ModelType(PatchContactPoint)
     kind = StringType(choices=PROCURING_ENTITY_KINDS, default="general")
 

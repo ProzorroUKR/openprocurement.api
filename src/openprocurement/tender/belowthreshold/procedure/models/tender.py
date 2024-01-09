@@ -22,7 +22,9 @@ from openprocurement.tender.belowthreshold.procedure.models.organization import 
 from openprocurement.tender.core.procedure.validation import validate_tender_period_duration
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.api.models import ListType, Model, ModelType, Value, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import RELEASE_2020_04_19
 from datetime import timedelta

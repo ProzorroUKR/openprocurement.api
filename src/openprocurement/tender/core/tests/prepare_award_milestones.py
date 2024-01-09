@@ -34,8 +34,7 @@ test_tender_data = deepcopy(test_tender_openua_data)
         (600, 999.99, 1000),  # first check:  1 - (600/ MEAN(999.99 + 1000)) = 39.99% < 40%
         (600, 857.14, 850),   # second check: 1 - (600/857.14) = 29.99%               < 30%
         tuple(),  # indexes of milestone reasons
-    )
-    ,
+    ),
     (
         (185000, 182415, 1000),
         (106500, 107000, 850),

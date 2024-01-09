@@ -1,11 +1,6 @@
 from schematics.types import DateTimeType
 
-from openprocurement.api.models import (
-    StrictStringType,
-    StrictIntType,
-    StrictDecimalType,
-    StrictBooleanType,
-)
+from openprocurement.api.procedure.types import StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_tender_config
 from schematics.exceptions import ValidationError

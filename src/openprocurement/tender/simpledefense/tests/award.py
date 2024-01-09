@@ -48,8 +48,6 @@ from openprocurement.tender.openua.tests.award_blanks import (
     put_tender_lots_award_complaint_document,
     patch_tender_lots_award_complaint_document,
     create_tender_award_no_scale_invalid,
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
 )
@@ -99,29 +97,6 @@ class TenderAwardResourceTest(BaseSimpleDefContentWebTest):
     test_get_tender_award = snitch(get_tender_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
-
-class TenderAwardResourceScaleTest(BaseSimpleDefContentWebTest):
-    initial_status = "active.qualification"
-
-    def setUp(self):
-        patcher = mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
-        patcher = mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-                             get_now() + timedelta(days=1))
-        patcher.start()
-        self.addCleanup(patcher.stop)
-
-        test_bid = deepcopy(test_tender_simpledefense_bids[0])
-        test_bid["tenderers"][0].pop("scale")
-        self.initial_bids = [test_bid]
-        super(TenderAwardResourceScaleTest, self).setUp()
-
-        self.app.authorization = ("Basic", ("token", ""))
-
-    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardResourceTest(BaseSimpleDefContentWebTest):

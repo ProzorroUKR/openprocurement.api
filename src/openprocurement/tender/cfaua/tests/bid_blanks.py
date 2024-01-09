@@ -2,6 +2,9 @@
 from copy import deepcopy
 from mock import patch
 from datetime import datetime, timedelta
+
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 from openprocurement.tender.core.tests.utils import change_auth
@@ -1740,9 +1743,11 @@ def create_tender_bidder_document_invalid_award_status(self):
 
 
 def bid_Administrator_change(self):
+
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
-    del bid_data["value"]
+    bid_data["value"] = {"amount": 500}
+    set_bid_lotvalues(bid_data, self.initial_lots)
+
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1753,13 +1758,15 @@ def bid_Administrator_change(self):
 
     self.app.authorization = ("Basic", ("administrator", ""))
 
-    bid_data.update({
-        "tenderers": [{"identifier": {"id": "00000000"}}],
-        "lotValues": [{"value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}],
-    })
+    patch_bid_data = {}
+    patch_bid_data["tenderers"] = bid_data["tenderers"]
+    patch_bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
+    patch_bid_data["lotValues"] = bid_data["lotValues"]
+    patch_bid_data["lotValues"][0]["value"]["amount"] = 400
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": bid_data},
+        {"data": patch_bid_data}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1898,6 +1905,7 @@ def create_tender_biddder_invalid(self):
                     "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                     "name": ["This field is required."],
                     "address": ["This field is required."],
+                    "scale": ["This field is required."],
                 }
             ],
             "location": "body",
@@ -1928,6 +1936,7 @@ def create_tender_biddder_invalid(self):
                         "uri": ["Not a well formed URL."],
                     },
                     "address": ["This field is required."],
+                    "scale": ["This field is required."],
                 }
             ],
             "location": "body",
@@ -2109,9 +2118,11 @@ def patch_tender_bidder(self):
         ],
     )
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

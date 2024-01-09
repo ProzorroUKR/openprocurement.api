@@ -1,4 +1,5 @@
-from openprocurement.api.models import Model, HashType
+from openprocurement.api.procedure.types import HashType
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.context import get_now
 from uuid import uuid4
 from schematics.types import StringType, MD5Type
@@ -55,7 +56,6 @@ class BaseDocument(Model):
 
 
 class PostDocument(BaseDocument):
-    # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     @serializable
     def id(self):
         return uuid4().hex
@@ -76,7 +76,6 @@ class PostDocument(BaseDocument):
 
 
 class Document(BaseDocument):
-    # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
     id = MD5Type(required=True)
     datePublished = StringType(required=True)
     hash = HashType()
@@ -89,7 +88,6 @@ class Document(BaseDocument):
 
 
 class PatchDocument(BaseDocument):
-    # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
     language = StringType(choices=["uk", "en", "ru"])
 
     @serializable

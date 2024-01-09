@@ -1,7 +1,7 @@
 import os
 from uuid import uuid4
 
-from openprocurement.api.utils import apply_data_patch
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,

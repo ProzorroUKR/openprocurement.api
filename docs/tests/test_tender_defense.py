@@ -4,7 +4,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest

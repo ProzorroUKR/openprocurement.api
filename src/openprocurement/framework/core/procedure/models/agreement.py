@@ -3,17 +3,12 @@ from schematics.types import MD5Type, StringType, BaseType, BooleanType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.models import (
-    Model,
-    ModelType,
-    IsoDateTimeType,
-    ListType,
-    RootModel,
-    PeriodEndRequired as BasePeriodEndRequired,
-    Organization,
-)
+from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from openprocurement.api.procedure.models.organization import Organization
 from openprocurement.framework.core.procedure.models.contract import Contract
 from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.api.procedure.models.period import PeriodEndRequired
 
 
 class PatchAgreement(Model):
@@ -24,7 +19,7 @@ class Agreement(RootModel):
     agreementID = StringType()
     agreementType = StringType(default=DPS_TYPE, required=True)
     status = StringType(choices=["active", "terminated"], required=True)
-    period = ModelType(BasePeriodEndRequired)
+    period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=list())
 
@@ -54,7 +49,7 @@ class PostAgreement(Model):
     agreementID = StringType()
     agreementType = StringType(default=DPS_TYPE, required=True)
     status = StringType(choices=["active"], required=True)
-    period = ModelType(BasePeriodEndRequired)
+    period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
     contracts = ListType(ModelType(Contract, required=True), default=list())
 

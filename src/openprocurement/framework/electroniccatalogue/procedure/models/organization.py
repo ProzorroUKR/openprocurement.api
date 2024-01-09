@@ -2,17 +2,12 @@ import standards
 from schematics.exceptions import ValidationError
 from schematics.types import StringType, EmailType
 
-from openprocurement.api.constants import REQUIRED_FIELDS_BY_SUBMISSION_FROM
-from openprocurement.api.utils import required_field_from_date
-from openprocurement.api.models import (
-    ContactPoint as BaseContactPoint,
-    ModelType,
-    ListType,
-    Organization as BaseOrganization,
-    Model,
-)
-from openprocurement.framework.core.procedure.models.address import Address
-from openprocurement.framework.core.procedure.models.organization import Identifier
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.framework.core.procedure.models.address import FullAddress
+from openprocurement.framework.core.procedure.models.identifier import Identifier
+from openprocurement.framework.core.procedure.models.contact import ContactPoint as BaseContactPoint
+from openprocurement.api.procedure.models.organization import Organization as BaseOrganization
 
 
 AUTHORIZED_CPB = standards.load("organizations/authorized_cpb.json")
@@ -30,25 +25,21 @@ class PatchContactPoint(ContactPoint):
 class CentralProcuringEntity(BaseOrganization):
     identifier = ModelType(Identifier, required=True)
     additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(Address, required=True)
+    address = ModelType(FullAddress, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
-    kind = StringType(choices=["central"], default="central")
+    kind = StringType(choices=["central"], default="central", required=True)
 
     def validate_identifier(self, data, identifier):
         if identifier:
-            id_ = identifier.id
+            identifier_id = identifier.id
             cpb_with_statuses = {cpb["identifier"]["id"]: cpb["active"] for cpb in AUTHORIZED_CPB}
-            if id_ not in cpb_with_statuses or not cpb_with_statuses[id_]:
+            if identifier_id not in cpb_with_statuses or not cpb_with_statuses[identifier_id]:
                 raise ValidationError("Can't create framework for inactive cpb")
-
-    @required_field_from_date(REQUIRED_FIELDS_BY_SUBMISSION_FROM)
-    def validate_kind(self, data, value):
-        return value
 
 
 class PatchCentralProcuringEntity(CentralProcuringEntity):
     identifier = ModelType(Identifier)
-    address = ModelType(Address)
+    address = ModelType(FullAddress)
     contactPoint = ModelType(PatchContactPoint)
     name = StringType()
 

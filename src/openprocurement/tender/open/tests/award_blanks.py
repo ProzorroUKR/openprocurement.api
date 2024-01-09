@@ -160,6 +160,7 @@ def create_tender_award_invalid(self):
                         "identifier": {"scheme": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -188,6 +189,7 @@ def create_tender_award_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -778,41 +780,6 @@ def check_tender_award_complaint_period_dates(self):
     self.assertIn("complaintPeriod", updated_award)
     self.assertIn("startDate", updated_award["complaintPeriod"])
     self.assertIn("endDate", updated_award["complaintPeriod"])
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_with_scale_not_required(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {
-            "status": "pending",
-            "bid_id": self.initial_bids[0]["id"],
-            "lotID": self.initial_lots[0]["id"],
-            "suppliers": [test_tender_below_organization],
-        }},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_no_scale(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    suppliers = [{key: value for key, value in test_tender_below_organization.items() if key != "scale"}]
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {
-            "status": "pending",
-            "bid_id": self.initial_bids[0]["id"],
-            "lotID": self.initial_lots[0]["id"],
-            "suppliers": suppliers,
-        }},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["suppliers"][0])
 
 
 def create_tender_lot_award(self):

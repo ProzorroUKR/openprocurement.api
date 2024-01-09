@@ -4,10 +4,10 @@ from typing import Optional, List, Tuple
 from pyramid.request import Request
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.utils import save_tender, set_item
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_evidence import (
     EligibleEvidenceSerializer,
 )

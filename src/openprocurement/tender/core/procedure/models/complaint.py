@@ -1,9 +1,7 @@
-from openprocurement.api.models import IsoDateTimeType, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.constants import COMPLAINT_IDENTIFIER_REQUIRED_FROM
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.models.base import (
-    ModelType, ListType,
-)
 from openprocurement.tender.core.procedure.models.complaint_objection import (
     AwardComplaintObjection,
     CancellationComplaintObjection,
@@ -13,10 +11,11 @@ from openprocurement.tender.core.procedure.models.complaint_objection import (
 )
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument
 from openprocurement.api.procedure.models.identifier import Identifier
-from openprocurement.tender.core.procedure.models.organization import Organization, PostOrganization
+from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.validation import validate_related_lot
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, is_item_owner
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.api.context import get_now, get_request
 from schematics.types import StringType, MD5Type, BaseType, BooleanType
@@ -46,7 +45,7 @@ class ComplaintOrganization(Organization):
     identifier = ModelType(ComplaintIdentifier, required=True)
 
 
-class PostComplaintOrganization(PostOrganization):
+class PostComplaintOrganization(Organization):
     identifier = ModelType(ComplaintIdentifier, required=True)
 
 

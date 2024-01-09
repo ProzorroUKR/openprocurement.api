@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.models.base import ModelType, ListType
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.openeu.procedure.models.contract import (
     PatchContractSupplier as EUBasePatchContractSupplier,
     PatchContract as EUBasePatchContract,

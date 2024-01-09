@@ -1,6 +1,6 @@
 from decimal import Decimal
 from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import DecimalType
+from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.validation import validate_values_uniq
 from openprocurement.tender.core.procedure.models.feature import (
     Feature as BaseFeature,

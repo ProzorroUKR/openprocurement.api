@@ -71,8 +71,6 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     create_tender_bid_invalid_funding_kind_budget,
     create_tender_bid_31_12,
     create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_not_required,
-    create_tender_bid_no_scale,
 )
 from openprocurement.tender.esco.procedure.utils import to_decimal
 
@@ -137,8 +135,6 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid_31_12 = snitch(create_tender_bid_31_12)
 
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-    test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
-    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
     def setUp(self):
         super(TenderBidResourceTest, self).setUp()

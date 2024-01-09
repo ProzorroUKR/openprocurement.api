@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_tender_config
-from openprocurement.tender.core.procedure.serializers.base import BaseUIDSerializer, ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
 from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer

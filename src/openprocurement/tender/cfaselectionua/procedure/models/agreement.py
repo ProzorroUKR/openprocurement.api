@@ -1,11 +1,8 @@
 from schematics.types import MD5Type, StringType, IntType, BaseType
 from schematics.types.compound import ModelType, PolyModelType
-from openprocurement.api.models import (
-    IsoDateTimeType,
-    ListType,
-    Model,
-    Period,
-)
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.utils import get_change_class
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature

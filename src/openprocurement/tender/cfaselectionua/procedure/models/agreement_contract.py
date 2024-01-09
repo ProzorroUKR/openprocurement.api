@@ -4,7 +4,9 @@ from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract i
 from openprocurement.tender.cfaselectionua.procedure.models.unitprices import UnitPrice
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from schematics.types import MD5Type, StringType
-from openprocurement.api.models import IsoDateTimeType, ListType, Model, ModelType, Value
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from openprocurement.api.procedure.models.value import Value
 
 
 class AgreementContract(Model):

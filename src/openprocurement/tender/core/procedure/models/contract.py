@@ -1,8 +1,8 @@
 from openprocurement.api.context import get_now
-from openprocurement.api.models import IsoDateTimeType, Value, Period
-from openprocurement.tender.core.procedure.models.base import (
-    Model, ModelType, ListType,
-)
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -31,8 +31,10 @@ class CommonContract(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"],
-                        default="pending")
+    status = StringType(
+        choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"],
+        default="pending",
+    )
     period = ModelType(Period)
     value = ModelType(ContractValue)
     dateSigned = IsoDateTimeType()

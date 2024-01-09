@@ -97,16 +97,16 @@ def is_obj_const_active(obj, constant):
     return get_first_revision_date(obj, default=get_now()) > constant
 
 
-def is_item_owner(request, item):
+def is_item_owner(request, item, token_field_name="owner_token"):
     acc_token = extract_access_token(request)
-    return request.authenticated_userid == item["owner"] and acc_token == item["owner_token"]
+    return request.authenticated_userid == item["owner"] and acc_token == item[token_field_name]
 
 
-def get_items(request, parent, key, uid):
+def get_items(request, parent, key, uid, raise_404=True):
     items = tuple(i for i in parent.get(key, "") if i["id"] == uid)
     if items:
         return items
-    else:
+    elif raise_404:
         from openprocurement.api.utils import error_handler
         obj_name = "document" if "Document" in key else key.rstrip('s')
         request.errors.add("url", f"{obj_name}_id", "Not Found")

@@ -5,20 +5,19 @@ from logging import getLogger
 from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
-from schematics.types import BaseType
-from schematics.exceptions import ValidationError
 
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.context import get_now
 from openprocurement.api.mask import mask_object_data
+from openprocurement.api.procedure.utils import get_revision_changes, append_revision
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
-    get_revision_changes, error_handler, get_first_revision_date)
+    error_handler,
+)
 from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
-from openprocurement.framework.core.procedure.context import get_object
 from openprocurement.framework.core.utils import calculate_framework_date
-from openprocurement.tender.core.procedure.utils import append_revision, dt_from_iso
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
 
@@ -141,18 +140,6 @@ def get_framework_number_of_submissions(request, framework):
     framework_id = framework.get("_id") if isinstance(framework, dict) else framework.id
     result = request.registry.mongodb.submissions.count_total_submissions_by_framework_id(framework_id)
     return result
-
-
-def required_field_from_date(date):
-    def decorator(function):
-        def wrapper(*args, **kwargs):
-            data, value = args[1:]
-            is_valid_date = get_first_revision_date(get_object("submission"), default=get_now()) >= date
-            if is_valid_date and not value:
-                raise ValidationError(BaseType.MESSAGES["required"])
-            function(*args, **kwargs)
-        return wrapper
-    return decorator
 
 
 # ACL ---
