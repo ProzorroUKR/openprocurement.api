@@ -62,22 +62,8 @@ DEFAULT_LIMIT = 100
 DEFAULT_DESCENDING = False
 
 
-def validate_dkpp(items, *args):
-    if items and not any([i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items]):
-        raise ValidationError(
-            "One of additional classifications should be one of [{0}].".format(
-                ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
-            )
-        )
-
-
 def get_now():
     return datetime.now(TZ)
-
-
-def request_get_now(request):
-    return get_now()
-
 
 def set_parent(item, parent):
     if hasattr(item, "__parent__") and item.__parent__ is None:
@@ -583,15 +569,6 @@ def decrypt(uuid, name, key):
     return text
 
 
-def set_modetest_titles(item):
-    if not item.title or "[ТЕСТУВАННЯ]" not in item.title:
-        item.title = "[ТЕСТУВАННЯ] {}".format(item.title or "")
-    if not item.title_en or "[TESTING]" not in item.title_en:
-        item.title_en = "[TESTING] {}".format(item.title_en or "")
-    if not item.title_ru or "[ТЕСТИРОВАНИЕ]" not in item.title_ru:
-        item.title_ru = "[ТЕСТИРОВАНИЕ] {}".format(item.title_ru or "")
-
-
 def get_first_revision_date(schematics_document, default=None):
     revisions = schematics_document.get("revisions") if schematics_document else None
     return parse_datetime(revisions[0]["date"]) if revisions else default
@@ -617,17 +594,6 @@ def to_decimal(value):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
-
-
-def append_revision(request, obj, patch):
-    from openprocurement.api.models import Revision
-    revision_data = {
-        "author": request.authenticated_userid,
-        "changes": patch,
-        "rev": obj.rev
-    }
-    obj.revisions.append(Revision(revision_data).serialize())
-    return obj.revisions
 
 
 @contextmanager
@@ -732,13 +698,6 @@ def get_uah_amount_from_value(request, value, logging_params):
     return amount
 
 
-def is_new_created(data):
-    """
-    Check if data['_rev'] is None then tender was created just now
-    """
-    return data["_rev"] is None
-
-
 def json_body(request):
     return request.json_body
 
@@ -766,15 +725,6 @@ def get_change_class(poly_model, data, _validation=False):
 
     _change_class = [model_class for model_class in poly_model.model_classes if model_class.__name__ == _class_name][0]
     return _change_class
-
-
-def get_criterion_requirement(tender, requirement_id):
-    for criteria in tender.criteria:
-        for group in criteria.requirementGroups:
-            for req in group.requirements:
-                if req.id == requirement_id:
-                    return criteria
-    return None
 
 
 def required_field_from_date(date):

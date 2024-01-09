@@ -7,7 +7,6 @@ from dateorro import (
     calc_normalized_datetime,
     calc_working_datetime,
 )
-from jsonpointer import resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
@@ -16,7 +15,6 @@ from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
     get_now,
-    append_revision,
     ACCELERATOR_RE,
     raise_operation_error,
 )

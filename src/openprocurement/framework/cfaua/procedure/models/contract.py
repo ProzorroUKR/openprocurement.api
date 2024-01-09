@@ -27,9 +27,6 @@ class Value(BaseValue):
 
 
 class UnitPrice(Model):
-    class Options:
-        roles = Model.Options.roles
-
     # TODO: validate relatedItem? (quintagroup)
     relatedItem = StringType()
     value = ModelType(Value)
@@ -38,7 +35,6 @@ class UnitPrice(Model):
 class Parameter(Model):
     class Options:
         serialize_when_none = False
-        roles = Model.Options.roles
 
     code = StringType(required=True)
     value = DecimalType(required=True)
