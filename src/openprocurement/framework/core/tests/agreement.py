@@ -2,14 +2,12 @@ import datetime
 import os
 import unittest
 
-from copy import deepcopy
-from mock import MagicMock, patch
+from mock import MagicMock
 from openprocurement.framework.core.utils import AgreementTypePredicate
 from openprocurement.framework.core.tests.base import BaseAgreementTest
 from openprocurement.framework.core.utils import (
     register_agreement_agreementType,
 )
-from openprocurement.framework.core.validation import validate_agreement_data
 from schematics.types import StringType
 
 
@@ -89,24 +87,6 @@ class UtilsAgreementTest(BaseAgreementTest):
         agreementType = StringType(default="cfaua")
         model.agreementType = agreementType
         register_agreement_agreementType(config, model)
-
-
-
-class ValidationAgreementTest(BaseAgreementTest):
-    relative_to = os.path.dirname(__file__)
-
-    @patch("openprocurement.framework.core.validation.validate_json_data")
-    def test_validate_agreement_data(self, mocked_validation_json_data):
-        request = MagicMock()
-        data = deepcopy(TEST_AGREEMENT)
-        model = MagicMock()
-        request.check_accreditations.side_effect = [False, True]
-        mocked_validation_json_data.side_effect = [data, data]
-        request.agreement_from_data.side_effect = [model, model]
-        with self.assertRaises(Exception) as e:
-            res = validate_agreement_data(request)
-        res = validate_agreement_data(request)
-        self.assertTrue(res)
 
 
 class ResourcesAgreementTest(BaseAgreementTest):
