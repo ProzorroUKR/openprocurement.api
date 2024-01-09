@@ -7,21 +7,14 @@ from schematics.exceptions import ValidationError, ModelValidationError
 from openprocurement.api.utils import json_view, handle_data_exceptions, error_handler
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
-from openprocurement.planning.api.validation import validate_plan_not_terminated, validate_plan_has_not_tender
 from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,
-    validate_procurement_kind_is_central,
-    validate_tender_in_draft, validate_procurement_type_of_first_stage, validate_item_owner,
+    validate_item_owner,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.validation import (
-    validate_tender_plan_data,
-    validate_plan_budget_breakdown,
-    validate_tender_matches_plan,
-)
 
 LOGGER = getLogger(__name__)
 

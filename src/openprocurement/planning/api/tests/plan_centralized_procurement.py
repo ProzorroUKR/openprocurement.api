@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from openprocurement.planning.api.tests.base import (
-    app, singleton_app, generate_docservice_url, test_plan_data, generate_docservice_url
+    app,
+    singleton_app,
+    test_plan_data,
+    generate_docservice_url
 )
-from openprocurement.planning.api.models import Milestone, Plan
+from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.planning.api.constants import (
-    CENTRAL_PROCUREMENT_APPROVE_TIME,
     MILESTONE_APPROVAL_TITLE,
     MILESTONE_APPROVAL_DESCRIPTION
 )
