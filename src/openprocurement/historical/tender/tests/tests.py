@@ -48,11 +48,9 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         result = response.json["data"]
-        result["dateModified"] = response.json["data"]["dateModified"].split(".")[0]
-        tender["dateModified"] = tender["dateModified"].split(".")[0]
         self.assertEqual(result, tender)
 
-        response = self.app.get("/tenders/{}/historical?opt_jsonp" "=callback".format(tender["id"]))
+        response = self.app.get("/tenders/{}/historical?opt_jsonp=callback".format(tender["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/javascript")
         self.assertIn('callback({"data": {"', response.body.decode())
@@ -69,8 +67,6 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         result = response.json["data"]
-        result["dateModified"] = response.json["data"]["dateModified"].split(".")[0]
-        tender["dateModified"] = tender["dateModified"].split(".")[0]
         self.assertEqual(result, tender)
 
         # test forbidden
@@ -79,7 +75,6 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         result = response.json["data"]
-        result["dateModified"] = response.json["data"]["dateModified"].split(".")[0]
         self.assertEqual(result, tender)
 
         response = self.app.get("/tenders/{}/historical".format(tender["id"]), status=403)
@@ -220,8 +215,6 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(enquiries.content_type, "application/json")
         enquiries_historical = enquiries_historical.json["data"]
         enquiries = enquiries.json["data"]
-        enquiries_historical["dateModified"] = enquiries_historical["dateModified"].split(".")[0]
-        enquiries["dateModified"] = enquiries["dateModified"].split(".")[0]
         self.assertEqual(enquiries_historical, enquiries)
 
         self.app.authorization = ("Basic", ("administrator", ""))
@@ -245,9 +238,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(tendering.status, "200 OK")
         self.assertEqual(tendering.content_type, "application/json")
         tendering_historical = tendering_historical.json["data"]
-        tendering_historical["dateModified"] = tendering_historical["dateModified"].split(".")[0]
         tendering = tendering.json["data"]
-        tendering["dateModified"] = tendering["dateModified"].split(".")[0]
         self.assertEqual(tendering_historical, tendering)
 
         response = self.app.post_json(
@@ -267,9 +258,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(tendering.status, "200 OK")
         self.assertEqual(tendering.content_type, "application/json")
         tendering_historical = tendering_historical.json["data"]
-        tendering_historical["dateModified"] = tendering_historical["dateModified"].split(".")[0]
         tendering = tendering.json["data"]
-        tendering["dateModified"] = tendering["dateModified"].split(".")[0]
         self.assertEqual(tendering_historical, tendering)
 
         self.app.authorization = ("Basic", ("administrator", ""))
@@ -294,9 +283,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(auction.status, "200 OK")
         self.assertEqual(auction.content_type, "application/json")
         auction_historical = auction_historical.json["data"]
-        auction_historical["dateModified"] = auction_historical["dateModified"].split(".")[0]
         auction = auction.json["data"]
-        auction["dateModified"] = auction["dateModified"].split(".")[0]
         self.assertEqual(auction_historical, auction)
 
         self.app.authorization = ("Basic", ("administrator", ""))
@@ -322,9 +309,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(qualification.content_type, "application/json")
         self.assertEqual(qualification_historical.json["data"]["bids"], qualification.json["data"]["bids"])
         qualification_historical = qualification_historical.json["data"]
-        qualification_historical["dateModified"] = qualification_historical["dateModified"].split(".")[0]
         qualification = qualification.json["data"]
-        qualification["dateModified"] = qualification["dateModified"].split(".")[0]
 
         self.assertEqual(qualification_historical, qualification)
 
@@ -351,9 +336,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(awarded.content_type, "application/json")
         self.assertEqual(awarded_historical.json["data"]["bids"], awarded.json["data"]["bids"])
         awarded_historical = awarded_historical.json["data"]
-        awarded_historical["dateModified"] = awarded_historical["dateModified"].split(".")[0]
         awarded = awarded.json["data"]
-        awarded["dateModified"] = awarded["dateModified"].split(".")[0]
 
         self.assertEqual(awarded_historical, awarded)
 
@@ -381,9 +364,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         complete_historical_bids = complete_historical.json["data"]["bids"]
         self.assertEqual(complete_historical_bids, complete.json["data"]["bids"])
         complete_historical = complete_historical.json["data"]
-        complete_historical["dateModified"] = complete_historical["dateModified"].split(".")[0]
         complete = complete.json["data"]
-        complete["dateModified"] = complete["dateModified"].split(".")[0]
 
         self.assertEqual(complete_historical, complete)
 
@@ -392,7 +373,6 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(complete_historical_bids, response.json["data"]["bids"])
         data = response.json["data"]
-        data["dateModified"] = data["dateModified"].split(".")[0]
         self.assertEqual(complete_historical, data)
 
         response = self.app.get("/tenders/{}/historical".format(tender["id"]), headers={VERSION: "100"}, status=404)

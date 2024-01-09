@@ -19,7 +19,6 @@ from openprocurement.api.utils import (
     raise_operation_error,
     get_first_revision_date,
     parse_date,
-    get_now,
     error_handler,
 )
 from openprocurement.api.auth import extract_access_token
