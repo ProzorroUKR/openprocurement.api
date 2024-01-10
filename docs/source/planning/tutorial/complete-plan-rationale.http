@@ -82,7 +82,7 @@ Content-Type: application/json
       }
     ],
     "tender_id": "0ea148601bff4439b21c259f8d7fd1f7",
-    "planID": "UA-P-2023-10-10-000001",
+    "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
         "id": "5697880f01454fda999239f110ad8753",
