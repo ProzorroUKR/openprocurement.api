@@ -1515,7 +1515,10 @@ def patch_tender_active_tendering(self):
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={token}",
         {"data": {
-            "tenderPeriod": {"startDate": get_now().isoformat()},
+            "tenderPeriod": {
+                "startDate": get_now().isoformat(),
+                "endDate": end_date.isoformat()
+            },
         }},
         status=422,
     )
@@ -1525,10 +1528,8 @@ def patch_tender_active_tendering(self):
         [
             {
                 "location": "body",
-                "name": "tenderPeriod",
-                "description": {
-                    "startDate": "Rogue field"
-                }
+                "name": "tenderPeriod.startDate",
+                "description": "Can't change tenderPeriod.startDate",
             }
         ]
     )

@@ -1,6 +1,7 @@
 from schematics.types import StringType
 from schematics.validate import ValidationError
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -74,9 +75,7 @@ class PatchTender(BasePatchTender):
     procuringEntity = ModelType(ProcuringEntity)
 
 
-class TenderPeriodEnd(Model):
-    endDate = IsoDateTimeType(required=True)
-
+class GreaterPeriodEndRequired(PeriodEndRequired):
     def validate_endDate(self, data, value):
         tender = get_tender()
         if tender and value < dt_from_iso(tender["tenderPeriod"]["endDate"]):
@@ -84,7 +83,7 @@ class TenderPeriodEnd(Model):
 
 
 class PatchActiveTender(Model):
-    tenderPeriod = ModelType(TenderPeriodEnd)
+    tenderPeriod = ModelType(GreaterPeriodEndRequired)
     guarantee = ModelType(Guarantee)
     value = ModelType(Value)
     milestones = ListType(
