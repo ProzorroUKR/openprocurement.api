@@ -4,14 +4,11 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType, MD5Type, IntType
 from openprocurement.api.context import get_now
-from openprocurement.api.models import (
-    Reference,
-    Period,
-    Model,
-    IsoDateTimeType,
-    ListType,
-    Classification as BaseClassification,
-)
+from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.models.item import Classification as BaseClassification
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -23,10 +20,13 @@ from openprocurement.tender.core.constants import (
     CRITERION_LIFE_CYCLE_COST_IDS,
     AWARD_CRITERIA_LIFE_CYCLE_COST,
 )
-from openprocurement.tender.core.procedure.validation import validate_requirement_values, validate_value_type
+from openprocurement.tender.core.procedure.validation import (
+    validate_requirement_values,
+    validate_value_type,
+    validate_object_id_uniq,
+)
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.identifier import LegislationIdentifier
-from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from logging import getLogger
 
 

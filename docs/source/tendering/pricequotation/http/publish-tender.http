@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/511ad32c232540d693bcdda2dd603406?acc_token=5bc846d5687141fa9b6e6dda2122dd32 HTTP/1.0
+PATCH /api/2.5/tenders/277f76ddce2f4662af0a91e630acbf5a?acc_token=5bc846d5687141fa9b6e6dda2122dd32 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -54,14 +54,14 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
     "items": [
       {
-        "id": "1624a28ab11b43cabcaef9018c023a16",
+        "id": "71bad0af594849acbfc21494c325d555",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -101,16 +101,16 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "fc286b057a6f4e90af906d671cabd8c4",
+        "id": "9c06a5a89d144029878df7b6b14e7fc6",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "94d7ddacdb7c4428872b19615e455e5c",
+            "id": "ca566084929a4cdc9168d51d205d9162",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "eb40cc8ae615437cb0f97f4e4e584d14",
+                "id": "598ce4e3026d49f0819c1a124c94ca33",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -120,16 +120,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "09832e562d6049089f1b2d6806e45a20",
+        "id": "2b2dbf222def4713b08680ec729e594c",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "1de5131390d041a98c0333e4b1a5bd27",
+            "id": "d84a4e922c2a44ca9229c78bc6bc45ed",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "3b6248539c3d4ff1a69d98d3f79a941e",
+                "id": "6d09190ad7d442718d01c3e16a49b575",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -143,16 +143,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "52aa71c7eee743f18b0d05ea705e76aa",
+        "id": "9d5594f4ba604ac488ca583393242ead",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "76232039d4ce4994824d26510f0bf484",
+            "id": "c3d2cf6ffa8645ceb7f1e710d87ba104",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "e75acce3b5eb403ca05b2428c5f7592f",
+                "id": "7a0c5c984c774c06a29a46ca5841ac3c",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -170,7 +170,7 @@ Content-Type: application/json
       }
     ],
     "noticePublicationDate": "2023-09-20T01:00:00+03:00",
-    "id": "511ad32c232540d693bcdda2dd603406"
+    "id": "277f76ddce2f4662af0a91e630acbf5a"
   },
   "config": {
     "hasAuction": false,

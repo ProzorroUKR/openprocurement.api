@@ -1,9 +1,8 @@
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.api.utils import json_view, context_unpack, update_logging_context
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
-    set_item,
 )
 from openprocurement.api.context import get_db_session
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer

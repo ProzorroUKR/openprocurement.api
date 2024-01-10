@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import BaseUIDSerializer
+from openprocurement.api.procedure.serializers.base import BaseUIDSerializer
 
 
 class ChronographSerializer(BaseUIDSerializer):

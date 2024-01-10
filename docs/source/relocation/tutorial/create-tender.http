@@ -154,7 +154,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4cccb42d5b415bc7fec8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275b004cc812347895b
 
 {
   "data": {
@@ -178,7 +178,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
     },
     "items": [
       {
-        "id": "58e7e07a6b6f4ba784c525f0dc76f195",
+        "id": "ce1dc42026064c66a9152ad9755409f7",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -215,7 +215,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
         }
       },
       {
-        "id": "e349a32ccde84b8186a9f58cf14aae60",
+        "id": "f8d046e966e845c98d8c15ccd233005f",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -266,7 +266,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
         "sequenceNumber": 0
       },
       {
-        "id": "f62b46ce98424cd8a038a68d55904815",
+        "id": "8798236315914dacb235c929cf50b1b1",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -295,8 +295,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -312,7 +312,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d381bc0bece4ccc
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "8d381bc0bece4cccb42d5b415bc7fec8"
+    "id": "771d7fde7ae24275b004cc812347895b"
   },
   "config": {
     "hasAuction": true,

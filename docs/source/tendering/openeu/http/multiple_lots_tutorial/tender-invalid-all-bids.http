@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c3028c9ca7a940518864792509ea9232/lots/b04396e7a0df411991f9fdf58ee8961d?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
+PATCH /api/2.5/tenders/7b32e93503314032810e6dd5a0209cee/lots/1a3ccfcc596347ddad9d263e4c05c8e2?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 86
 Content-Type: application/json
@@ -23,7 +23,7 @@ Content-Type: application/json
     "title": "Лот №2",
     "description": "Опис Лот №2",
     "status": "active",
-    "id": "b04396e7a0df411991f9fdf58ee8961d",
+    "id": "1a3ccfcc596347ddad9d263e4c05c8e2",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 400.0,

@@ -1,6 +1,6 @@
 from hashlib import sha512
 
-from openprocurement.tender.core.procedure.serializers.base import BaseUIDSerializer
+from openprocurement.api.procedure.serializers.base import BaseUIDSerializer
 
 
 class TenderCredentialsSerializer(BaseUIDSerializer):

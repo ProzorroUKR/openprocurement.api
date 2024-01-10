@@ -2,8 +2,8 @@ from uuid import uuid4
 
 from schematics.types import StringType, FloatType
 
-from openprocurement.api.models import Model
-from openprocurement.api.procedure.models.base import ModelType, ListType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.procedure.models.item import (
     Classification,
     validate_additional_classifications,

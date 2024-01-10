@@ -7,7 +7,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.validation import ValidationError
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.models import Value
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.tender.core.procedure.validation import (
     validate_milestones,
     validate_funders_unique,

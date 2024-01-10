@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
-from copy import deepcopy
-
-from datetime import timedelta
-
-import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -42,8 +36,6 @@ from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
     create_tender_award_no_scale_invalid,
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
     create_tender_lot_award,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
@@ -125,30 +117,6 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_patch_tender_award_unsuccessful = snitch(patch_tender_award_unsuccessful)
     test_tender_award_complaint_period = snitch(tender_award_complaint_period)
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
-
-
-class TenderAwardResourceScaleTest(BaseTenderUAContentWebTest):
-    initial_status = "active.qualification"
-    initial_lots = test_tender_below_lots
-
-    def setUp(self):
-        patcher = mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-        patcher.start()
-        procedure_patcher = mock.patch(
-            "openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-            get_now() + timedelta(days=1),
-        )
-        procedure_patcher.start()
-        self.addCleanup(patcher.stop)
-        self.addCleanup(procedure_patcher.stop)
-        test_bid = deepcopy(test_tender_open_bids[0])
-        test_bid["tenderers"][0].pop("scale")
-        self.initial_bids = [test_bid]
-        super(TenderAwardResourceScaleTest, self).setUp()
-        self.app.authorization = ("Basic", ("token", ""))
-
-    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):

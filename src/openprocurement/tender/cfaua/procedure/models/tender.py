@@ -48,8 +48,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.models import IsoDurationType
-
+from openprocurement.api.procedure.types import IsoDurationType
 
 LOTS_MIN_SIZE = 1
 LOTS_MAX_SIZE = 1

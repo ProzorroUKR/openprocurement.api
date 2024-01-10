@@ -1,5 +1,6 @@
 from openprocurement.api.procedure.validation import validate_values_uniq
-from openprocurement.api.models import Model, ListType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType
 from schematics.types import StringType, FloatType
 from schematics.types.compound import ModelType
 from schematics.validate import ValidationError

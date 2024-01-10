@@ -6,8 +6,8 @@ from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.models import Model, ListType, IsoDateTimeType
-
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 
 RATIONALE_TYPES = tuple(standards.load("codelists/contract_change_rationale_type.json").keys())
 

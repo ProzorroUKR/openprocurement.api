@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids HTTP/1.0
+POST /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2987
 Content-Type: application/json
@@ -84,7 +84,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/bids/0a7474f57f7f434aa03c3187d5861748
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/bids/22fc952567f147dc9448b3434c0752eb
 
 {
   "data": {
@@ -97,6 +97,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -105,11 +106,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "status": "draft",
@@ -133,7 +133,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e41aa3266f24b9980125cb78364eb93?Signature=mhxSI9BsuM3ZpxlDAJN0o%2BUlFmp5J0zw7iyAadRF73Syhi8FiNpZaR9%2B0K7PqesH1a%2BUgzzXXMWCx6yjI0DeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "29c1eec23f624ccc946bf3ad673dbf24",
+        "id": "0511a8d43a9844a9b0b3c3cd318eb85d",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -145,7 +145,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ebbf9207d9d40238691d14be83d98ab?Signature=USenzreniFdmFIKZS0A8SrzWsk%2FNJAbLR%2FHbw9RRaurdjlzinVZeGruiYCn3itI8h3xPbrmhGzyd8t25uWRRDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "d66e6f7bd69e461caa73a87253914a46",
+        "id": "acad97aa2dac4f199c730cb75e722661",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -159,7 +159,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d6482cffb6e542068865551d52794911?Signature=aQzkFkHctVQar10T9fRkjoqdU1eGHVWDIyPExLWgeyiATJsp%2BWcwgLTw4xFF%2FUjo27KLyoX1CcGHzPcW20qnAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8668506406b945f2b1521266bee0bbe6",
+        "id": "1f1a1504846a4a1abe0decaab7dba710",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -173,7 +173,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4edcff934f64be5941b4dd15202a07f?Signature=hvXycTPfnORnYBe%2FLRrhQnYouVrHiVZM71uSXxB7UVyCDv2HaofKnRx8OK7NL%2FwApqwF0TkXqNbILgJ7D%2F5NAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8f6b301343c4492abf0716789b6565b1",
+        "id": "f502ff892d19456b9f80a71280d461b5",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -187,14 +187,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26dac5d9cddc43f1
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f55e79d771f4c2bb7099132b547d242?Signature=aUIaf3RXJct4daa8KvFpx%2FJ4JVGuTFYmD64495onR9X8b41Ti8Lv6cY821fV6TgH1VETwjI4%2FZEdziQb1vT0Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "b6a1ef40751b4c5dbd1db72ab26f2111",
+        "id": "63298aba8e02421892464deff763ab4b",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
-    "id": "0a7474f57f7f434aa03c3187d5861748",
+    "id": "22fc952567f147dc9448b3434c0752eb",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

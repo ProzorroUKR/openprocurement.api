@@ -180,10 +180,12 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             response = self.app.get('/submissions/{}'.format(self.submission_id))
             self.assertEqual(response.status, '200 OK')
 
+        tenderer = deepcopy(test_docs_tenderer)
+        tenderer["name"] = "НАЗВА"
         with open(TARGET_DIR + 'updating-submission.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/submissions/{}?acc_token={}'.format(self.submission_id, self.submission_token),
-                {'data': {"tenderers": [{"name": "НАЗВА"}]}},
+                {'data': {"tenderers": [tenderer]}},
             )
             self.assertEqual(response.status, '200 OK')
 

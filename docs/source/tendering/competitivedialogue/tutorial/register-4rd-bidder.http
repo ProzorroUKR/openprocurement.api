@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
+POST /api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1643
 Content-Type: application/json
@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+        "relatedLot": "f5585c247e854510bba989119bf55ea0"
       }
     ]
   }
@@ -58,7 +58,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/cc48b50d0f4445c7b01da298b7dccb8c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/83f8ec8c73344860ad874831f3f22356
 
 {
   "data": {
@@ -70,6 +70,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "large",
         "address": {
           "streetAddress": "вул. Коцюбинського, 15",
           "locality": "м. Запоріжя",
@@ -78,16 +79,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Іван Карпенко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456",
-          "name": "Іван Карпенко"
-        },
-        "scale": "large"
+          "telephone": "+380322123456"
+        }
       }
     ],
     "lotValues": [
       {
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "3924d612a18e424d93c621fac5fa2b6a",
+        "id": "146fe995775643a8a7369f2f93b0405a",
         "confidentiality": "public",
         "isDescriptionDecision": false,
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -112,7 +112,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "b5b9bf2fff234aa0970307284651b1e3",
+        "id": "be09a47dbf204d5f8ff087112bbe45b1",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "isDescriptionDecision": false,
@@ -122,7 +122,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "cc48b50d0f4445c7b01da298b7dccb8c",
+    "id": "83f8ec8c73344860ad874831f3f22356",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

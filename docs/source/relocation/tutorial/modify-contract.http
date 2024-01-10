@@ -20,10 +20,6 @@ Content-Type: application/json
     "contractID": "UA-2016-03-18-000001-1",
     "contractNumber": "contract #13111",
     "description": "broker3 now can change the contract",
-    "period": {
-      "startDate": "2016-03-18T18:47:47.155143+02:00",
-      "endDate": "2017-03-18T18:47:47.155143+02:00"
-    },
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
@@ -32,10 +28,6 @@ Content-Type: application/json
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2016-03-20T18:47:47.136678+02:00",
-          "endDate": "2016-03-23T18:47:47.136678+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "CPV",
@@ -63,12 +55,20 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2016-03-20T18:47:47.136678+02:00",
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
         }
       }
     ],
     "tender_id": "232024f88849442aae6b031afd11a28b",
     "owner": "broker3",
     "status": "active",
+    "period": {
+      "startDate": "2016-03-18T18:47:47.155143+02:00",
+      "endDate": "2017-03-18T18:47:47.155143+02:00"
+    },
     "suppliers": [
       {
         "name": "ДКП «Книга»",

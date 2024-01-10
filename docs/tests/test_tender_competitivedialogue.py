@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from mock import patch
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,

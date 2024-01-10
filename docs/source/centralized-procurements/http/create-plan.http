@@ -126,13 +126,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3aae8df399ed59f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/ccabf835a75648e5b86d7ffc168cba8f
 
 {
   "data": {
     "status": "draft",
     "procuringEntity": {
-      "id": "a6e22c1e974b428488ab4efcd3cc985b",
+      "id": "f7dcb474c4244b98a8b6189f558e46f7",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -171,7 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3
       },
       "breakdown": [
         {
-          "id": "c96d28cbe3454d70a81c269d96fda2c8",
+          "id": "3894079ea12e46e9b48294e46e551c61",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -195,7 +195,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3
     ],
     "items": [
       {
-        "id": "485533ab54674a5db2b8244e0d8e7988",
+        "id": "4056fe5ce3804997bc8bf7daca7878a2",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -228,7 +228,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3
     ],
     "buyers": [
       {
-        "id": "fbb0ef9be1d54cfeaf4e89e32dc911a1",
+        "id": "1dc68ab348844a1cb458a4a9d13a25bf",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -254,7 +254,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "id": "eb26a3adc64548c4b3aae8df399ed59f"
+    "id": "ccabf835a75648e5b86d7ffc168cba8f"
   },
   "access": {
     "token": "ef8025edf3df47a9a4a0f4599f00d7a4",

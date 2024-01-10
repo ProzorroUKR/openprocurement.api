@@ -1,4 +1,4 @@
-POST /api/2.5/plans/e034eb97f84745fcb35c4006cc778372/tenders HTTP/1.0
+POST /api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4432
 Content-Type: application/json
@@ -176,7 +176,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439b21c259f8d7fd1f7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968b5c8dbd4012271d1
 
 {
   "data": {
@@ -200,7 +200,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
     },
     "items": [
       {
-        "id": "71f50367bb6047ee9162e1fc31958608",
+        "id": "b5d58780a97d487885e1dd0f77c51d7f",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -231,7 +231,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
         }
       },
       {
-        "id": "2bd3b1897752453d80780c705b19238b",
+        "id": "40745c2eddbf4fb8815e5d104f4dfca6",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -262,7 +262,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
         }
       },
       {
-        "id": "b3988f255d0941ba85e1aa4c25163f26",
+        "id": "b556b78bc08c421386702fb2dc961f3e",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -307,7 +307,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
         "sequenceNumber": 0
       },
       {
-        "id": "a09e888d213541b1ba6a3be2f4945a21",
+        "id": "9265260a40ef4ee98bba056f5f9a085a",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -335,8 +335,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -352,10 +352,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0ea148601bff4439
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "0ea148601bff4439b21c259f8d7fd1f7",
+    "id": "8d436ed545324968b5c8dbd4012271d1",
     "plans": [
       {
-        "id": "e034eb97f84745fcb35c4006cc778372"
+        "id": "b78458ab31b845d6a123d3029d6e7e68"
       }
     ]
   },

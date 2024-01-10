@@ -1,7 +1,11 @@
-from schematics.exceptions import ValidationError
-from schematics.types import StringType, BaseType
+from uuid import uuid4
 
-from openprocurement.api.models import URLType
+from schematics.exceptions import ValidationError
+from schematics.types import StringType, BaseType, FloatType, MD5Type
+from schematics.types.compound import ModelType
+
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, URLType
 from openprocurement.api.constants import (
     UA_ROAD_SCHEME,
     UA_ROAD,
@@ -17,7 +21,6 @@ from openprocurement.api.constants import (
     GMDN_2023_SCHEME,
     GMDN_2023,
 )
-from openprocurement.api.models import Model
 from openprocurement.api.procedure.utils import is_obj_const_active
 
 
@@ -109,3 +112,24 @@ def validate_cpv_group(items, *args):
             and len({i.classification.id[:4] for i in items}) != 1
         ):
             raise ValidationError("CPV class of items should be identical")
+
+
+class Location(Model):
+    latitude = BaseType(required=True)
+    longitude = BaseType(required=True)
+    elevation = BaseType()
+
+
+class Item(Model):
+    """A good, service, or work to be contracted."""
+
+    id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
+    description = StringType(required=True)  # A description of the goods, services to be provided.
+    description_en = StringType()
+    description_ru = StringType()
+    classification = ModelType(CPVClassification)
+    additionalClassifications = ListType(ModelType(AdditionalClassification), default=list())
+    quantity = FloatType(min_value=0)  # The number of units required
+    deliveryLocation = ModelType(Location)
+    relatedLot = MD5Type()
+    relatedBuyer = MD5Type()

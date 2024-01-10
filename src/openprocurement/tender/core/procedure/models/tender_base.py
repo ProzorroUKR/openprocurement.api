@@ -4,25 +4,26 @@ from schematics.types import MD5Type, BaseType, BooleanType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.types import StringType
-from openprocurement.api.models import IsoDateTimeType, ListType, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHODS,
 )
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import tender_created_after, generate_tender_id
-from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.models.document import (
     PostDocument,
     Document,
     validate_tender_document_relations,
 )
 from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_id_uniq
-from openprocurement.tender.core.procedure.models.organization import Organization, BaseOrganization
+from openprocurement.tender.core.procedure.models.organization import Buyer
+from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_unique,
-    validate_funders_ids,
+    validate_funders_ids, validate_object_id_uniq,
 )
 from openprocurement.api.constants import (
     MPC_REQUIRED_FROM,
@@ -57,7 +58,7 @@ class CommonBaseTender(Model):
             "active.pre-qualification.stand-still",
         ]
     )
-    buyers = ListType(ModelType(BaseOrganization, required=True))
+    buyers = ListType(ModelType(Buyer, required=True))
 
     title = StringType()
     title_en = StringType()
@@ -164,7 +165,7 @@ class BaseTender(PatchBaseTender):
     title = StringType(required=True)
     mode = StringType(choices=["test"])
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
-    buyers = ListType(ModelType(BaseOrganization, required=True))
+    buyers = ListType(ModelType(Buyer, required=True))
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)

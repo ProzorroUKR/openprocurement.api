@@ -19,7 +19,11 @@ from openprocurement.tender.open.tests.base import test_tender_open_bids
 
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
-        "/tenders/some_id/bids", {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 500}}}, status=404
+        "/tenders/some_id/bids", {"data": {
+            "tenderers": [test_tender_below_organization],
+            "value": {"amount": 500}}
+        },
+        status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -116,6 +120,7 @@ def create_tender_biddder_invalid(self):
                         "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -151,6 +156,7 @@ def create_tender_biddder_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -725,6 +731,7 @@ def bid_Administrator_change(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
+
     self.app.authorization = ("Basic", ("administrator", ""))
 
     patch_bid_data = {}
@@ -957,41 +964,6 @@ def create_tender_bid_no_scale_invalid(self):
         response.json["errors"],
         [{"location": "body", "name": "tenderers", "description": [{"scale": ["This field is required."]}]}],
     )
-
-
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_bid_with_scale_not_required(self):
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
-    bid_data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-    set_bid_lotvalues(bid_data, self.initial_lots)
-
-    response = self.app.post_json(request_path, {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_bid_no_scale(self):
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["value"] = {"amount": 500}
-    bid_data["tenderers"] = [{
-        key: value
-        for key, value in self.test_bids_data[0]["tenderers"][0].items()
-        if key != "scale"
-    }]
-    set_bid_lotvalues(bid_data, self.initial_lots)
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-    test_data = {"data": bid_data}
-    response = self.app.post_json(request_path, test_data)
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["tenderers"][0])
 
 
 def features_bidder(self):

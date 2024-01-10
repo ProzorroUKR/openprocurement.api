@@ -2,7 +2,7 @@ from copy import deepcopy
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 

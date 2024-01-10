@@ -113,7 +113,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6bc9d60862b662d27
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b6678a27922a4ae89f3898a5a9183aa0
 
 {
   "data": {
@@ -132,8 +132,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "uri": "http://www.dus.gov.ua/"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "availableLanguage": "uk"
       },
       "address": {
@@ -173,12 +173,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "кілограм",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         }
       }
     ],
@@ -205,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
         "sequenceNumber": 0
       },
       {
-        "id": "e3ecb4dac667456ba483498c8c348d92",
+        "id": "3ec226c14d3e4d4a9d04d4e606823fb8",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -224,7 +224,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd5002cf75a64ce6
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "dd5002cf75a64ce6bc9d60862b662d27"
+    "id": "b6678a27922a4ae89f3898a5a9183aa0"
   },
   "config": {
     "hasAuction": true,

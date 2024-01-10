@@ -1,3 +1,4 @@
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.validation import (
@@ -11,7 +12,7 @@ from openprocurement.tender.core.procedure.context import (
     get_tender_config,
 )
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import save_tender, apply_data_patch
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.models.auction import (
     AuctionUrls,

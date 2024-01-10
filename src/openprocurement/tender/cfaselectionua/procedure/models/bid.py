@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 )
 from openprocurement.tender.cfaselectionua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.cfaselectionua.procedure.models.parameter import PatchParameter, Parameter
-from openprocurement.tender.core.procedure.models.base import ListType
+from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/ceb28fdcf5944cd8b77800a6e86733f6/bids HTTP/1.0
+POST /api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1904
 Content-Type: application/json
@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "years": 7
           }
         },
-        "relatedLot": "47aa65f0d5b944629ab6126141681de8"
+        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
@@ -96,7 +96,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "years": 9
           }
         },
-        "relatedLot": "42032ff885e34954a4dd831b4a0e4059"
+        "relatedLot": "f1212ee9eb8c4cc7ab7e8de0ebe21a39"
       }
     ]
   }
@@ -105,7 +105,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8b77800a6e86733f6/bids/08194921af9d4f4eb7bc00b0c15c97cf
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids/cb6704293ed44f9aba53d6614537d344
 
 {
   "data": {
@@ -118,6 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -126,11 +127,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "status": "draft",
@@ -138,7 +138,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     "lotValues": [
       {
         "status": "pending",
-        "relatedLot": "47aa65f0d5b944629ab6126141681de8",
+        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -177,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
       },
       {
         "status": "pending",
-        "relatedLot": "42032ff885e34954a4dd831b4a0e4059",
+        "relatedLot": "f1212ee9eb8c4cc7ab7e8de0ebe21a39",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "currency": "UAH",
@@ -216,7 +216,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "08194921af9d4f4eb7bc00b0c15c97cf",
+    "id": "cb6704293ed44f9aba53d6614537d344",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.serializers.base import ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer
 from openprocurement.tender.competitivedialogue.procedure.serializers.stage1.lot import LotStage1Serializer
 
 

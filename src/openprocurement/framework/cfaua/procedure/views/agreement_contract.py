@@ -5,7 +5,7 @@ from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseRe
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.core.procedure.context import get_object
 from openprocurement.framework.core.procedure.serializers.contract import ContractSerializer
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items
 
 
 def resolve_contract(request):

@@ -10,13 +10,11 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.models import IsoDateTimeType
-from openprocurement.api.models import ListType
-from openprocurement.api.models import Model
-from openprocurement.api.models import Period
-from openprocurement.api.models import Reference
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.base import validate_object_id_uniq
 from openprocurement.tender.core.procedure.utils import (
     get_criterion_requirement,
     bid_in_invalid_status,
@@ -25,7 +23,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.validation import (
-    validate_value_type,
+    validate_value_type, validate_object_id_uniq,
 )
 
 LOGGER = getLogger(__name__)

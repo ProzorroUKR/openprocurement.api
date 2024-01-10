@@ -115,6 +115,7 @@ def create_tender_biddder_invalid(self):
                         "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -150,6 +151,7 @@ def create_tender_biddder_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -716,10 +718,18 @@ def bid_Administrator_change(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
+
     self.app.authorization = ("Basic", ("administrator", ""))
+
+    patch_bid_data = {}
+    patch_bid_data["tenderers"] = bid_data["tenderers"]
+    patch_bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
+    patch_bid_data["lotValues"] = bid_data["lotValues"]
+    patch_bid_data["lotValues"][0]["value"]["amount"] = 400
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": {"tenderers": [{"identifier": {"id": "00000000"}}], "lotValues": [{"value": {"amount": 400}}]}},
+        {"data": patch_bid_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -830,38 +840,6 @@ def create_tender_bid_no_scale_invalid(self):
         response.json["errors"],
         [{"location": "body", "name": "tenderers", "description": [{"scale": ["This field is required."]}]}],
     )
-
-
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_bid_with_scale_not_required(self):
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"] = {"amount": 500}
-    bid_data["tenderers"] = [self.test_bids_data[0]["tenderers"][0]]
-
-    response = self.app.post_json(request_path, {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_bid_no_scale(self):
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update({
-        "tenderers": [
-            {key: value for key, value in self.test_bids_data[0]["tenderers"][0].items() if key != "scale"}
-        ],
-    })
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-    test_data = {"data": bid_data}
-    response = self.app.post_json(request_path, test_data)
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["tenderers"][0])
 
 
 # TenderBidResourceTest

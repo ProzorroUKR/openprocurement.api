@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.models.item import Item as BaseItem
-from openprocurement.tender.core.procedure.models.period import PeriodEndRequired
-from openprocurement.tender.core.procedure.models.base import ModelType
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.tender.core.procedure.models.address import Address
 
 

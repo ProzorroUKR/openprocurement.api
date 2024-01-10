@@ -23,24 +23,16 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "06ea2a70534d48e6b815a0fca2cbc82c",
+    "awardID": "02726caea29a421cb9362f258017d617",
     "contractID": "UA-2023-01-01-000001-a-1",
-    "period": {
-      "startDate": "2023-01-01T00:00:01+02:00",
-      "endDate": "2023-01-31T00:00:01+02:00"
-    },
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
     "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "b2c802b290d4452da2961ba7ca9b8601",
+        "id": "d49df131ea374b619446ee1fc18149b9",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -68,16 +60,16 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       },
       {
-        "id": "c7dc122e31f943c9b0ec3c7e201fec8a",
+        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -105,12 +97,20 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       }
     ],
-    "tender_id": "08c193123f36498c8a6f8adaacdee277",
+    "tender_id": "3e115ed14c174579bc5308c7e4a82d6a",
     "owner": "broker",
     "status": "active",
+    "period": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-31T00:00:01+02:00"
+    },
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -142,19 +142,19 @@ Content-Type: application/json
           "volumeCuts",
           "priceReduction"
         ],
-        "id": "9e4c33ab6b874b4fbee83206aaa9b507",
+        "id": "a61dac7b90b3466db3c2022e0a30c889",
         "status": "pending",
         "date": "2023-01-01T00:00:01+02:00"
       }
     ],
     "documents": [
       {
-        "relatedItem": "9e4c33ab6b874b4fbee83206aaa9b507",
-        "id": "278f118019164051b58206db16c8ccc3",
+        "relatedItem": "a61dac7b90b3466db3c2022e0a30c889",
+        "id": "f96a84b890ca404f819cc42ba432c37b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/278f118019164051b58206db16c8ccc3?download=0d99c24f1f224e35ae9a11b101f38e20",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/f96a84b890ca404f819cc42ba432c37b?download=0d99c24f1f224e35ae9a11b101f38e20",
         "documentOf": "change",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"

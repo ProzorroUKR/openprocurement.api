@@ -1,17 +1,16 @@
-from schematics.types import StringType, MD5Type, BaseType
+from uuid import uuid4
+from schematics.types import StringType, MD5Type
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+from schematics.exceptions import ValidationError
 
 from openprocurement.tender.core.procedure.context import get_tender, get_request
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
-from openprocurement.tender.core.procedure.models.base import ListType
-from openprocurement.tender.core.procedure.models.organization import (
-    PatchBusinessOrganization,
-    PostBusinessOrganization,
-)
-from schematics.exceptions import ValidationError
-from openprocurement.api.models import Model, Value
+from openprocurement.api.procedure.types import ListType
+from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.utils import raise_operation_error, get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
 from openprocurement.api.validation import OPERATIONS, validate_items_uniq
@@ -19,7 +18,6 @@ from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
 from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
-from uuid import uuid4
 
 
 def validate_requirement_responses(criterias, req_responses):
@@ -114,7 +112,7 @@ class MatchResponseValue:
 
 class PatchBid(Model):
     value = ModelType(Value)
-    tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
@@ -144,7 +142,7 @@ class PostBid(PatchBid):
         return uuid4().hex
 
     tenderers = ListType(
-        ModelType(PostBusinessOrganization, required=True),
+        ModelType(BusinessOrganization, required=True),
         required=True,
         min_size=1,
         max_size=1
@@ -188,7 +186,7 @@ class Bid(Model):
     qualificationDocuments = ListType(ModelType(Document, required=True))
 
     tenderers = ListType(
-        ModelType(PostBusinessOrganization, required=True),
+        ModelType(BusinessOrganization, required=True),
         required=True,
         min_size=1,
         max_size=1

@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from cornice.resource import resource
 
+from openprocurement.api.procedure.utils import apply_data_patch, get_items, set_item
 from openprocurement.api.procedure.validation import (
     validate_input_data_from_resolved_model,
     validate_patch_data_from_resolved_model,
@@ -18,8 +19,7 @@ from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseRe
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.core.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.utils import get_items, set_item, apply_data_patch
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.validation import unless_administrator, validate_item_owner
 
 

@@ -18,6 +18,7 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS, FUNDERS,
 )
+from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner
 from openprocurement.api.utils import (
     to_decimal,
     raise_operation_error,
@@ -37,8 +38,6 @@ from openprocurement.api.validation import (
 from openprocurement.api.auth import extract_access_token
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.utils import (
-    is_item_owner,
-    apply_data_patch,
     delete_nones,
     get_contracts_values_related_to_patched_contract,
     find_item_by_id,
@@ -93,7 +92,7 @@ def filter_whitelist(data: dict, filter_data: dict) -> None:
         data[field] = new_data[field]
 
 
-def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False, whitelist=None):
+def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
@@ -116,16 +115,10 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
                 # None means that the field value is deleted
                 # IMPORTANT: input_data can contain more fields than are allowed to update
                 # validate_data will raise Rogue field error then
-                # Update: doesn't work with sub-models {'auctionPeriod': {'startDate': None}}
+                # NOTE: empty list does the same for list fields
                 for k, v in input_data.items():
-                    if (
-                            v is None
-                            or isinstance(v, list) and len(v) == 0  # for list fields, an empty list does the same
-                    ):
+                    if v is None or isinstance(v, list) and len(v) == 0:
                         result[k] = v
-            # TODO: Remove it
-            if whitelist:
-                filter_whitelist(input_data, whitelist)
             valid_data = validate_data(request, input_model, input_data)
             if valid_data is not None:
                 result.update(valid_data)
@@ -1870,3 +1863,14 @@ def validate_funders_ids(funders, *args):
     for funder in funders:
         if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
             raise ValidationError("Funder identifier should be one of the values allowed")
+
+
+def validate_object_id_uniq(objs, *_, obj_name=None):
+
+    if objs:
+        if not obj_name:
+            obj_name = objs[0].__class__.__name__
+        obj_name_multiple = obj_name[0].lower() + obj_name[1:]
+        ids = [i["id"] for i in objs]
+        if ids and len(set(ids)) != len(ids):
+            raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))

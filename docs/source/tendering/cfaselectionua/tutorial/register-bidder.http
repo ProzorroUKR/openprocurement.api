@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids HTTP/1.0
+POST /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1059
 Content-Type: application/json
@@ -15,8 +15,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "uri": "http://www.dus.gov.ua/"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
         },
         "scale": "large",
         "address": {
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/ba9c4ed2a7794a2d8234ba4ce62d909e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/384d9c08c2d249a5b4d44e16caea0ecc
 
 {
   "data": {
@@ -65,6 +65,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "large",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -73,10 +74,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "large"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "status": "draft",
@@ -102,7 +102,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "ba9c4ed2a7794a2d8234ba4ce62d909e",
+    "id": "384d9c08c2d249a5b4d44e16caea0ecc",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

@@ -1,5 +1,6 @@
 from schematics.types import StringType, BaseType
-from openprocurement.api.models import Model, URLType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import URLType
 from openprocurement.api.constants import ORA_CODES
 
 

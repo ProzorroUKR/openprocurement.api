@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/dc8ffe21ec71411e8aa2e68c5b472983?acc_token=71e933a932a74dbebacb6cb35225df83 HTTP/1.0
+PATCH /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/b1544e74cef845dc9372c859df4e2695?acc_token=71e933a932a74dbebacb6cb35225df83 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 387
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "dc8ffe21ec71411e8aa2e68c5b472983",
+    "id": "b1544e74cef845dc9372c859df4e2695",
     "complaintID": "UA-2023-10-10-000001-a.6",
     "date": "2023-10-10T01:00:01+03:00",
     "title": "Недостатньо інформації",
@@ -28,8 +28,8 @@ Content-Type: application/json
     "resolutionType": "resolved",
     "dateSubmitted": "2023-10-10T01:00:01+03:00",
     "type": "claim",
-    "relatedLot": "5156a68d591d4354bb3c50dd5146953f",
-    "bid_id": "fa5ea5df9a1f477eae28fa67fd041361",
+    "relatedLot": "8b38edcddb064ef3b0ed49cd5f49953a",
+    "bid_id": "4ce64dcce01b4e5d9cca9350dc21988d",
     "dateAnswered": "2023-10-10T01:00:01+03:00"
   }
 }

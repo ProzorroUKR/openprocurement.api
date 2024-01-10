@@ -3,9 +3,9 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.models import Model, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.base import ListType, ModelType
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_TITLE,
     MILESTONE_APPROVAL_DESCRIPTION,

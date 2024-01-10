@@ -5,7 +5,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest

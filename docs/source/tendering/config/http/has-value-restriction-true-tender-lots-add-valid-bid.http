@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/bids HTTP/1.0
+POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1343
 Content-Type: application/json
@@ -36,13 +36,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "0604e55b3dae444a8d537bb4c971a246"
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
       },
       {
         "value": {
           "amount": 500
         },
-        "relatedLot": "f21c5735a39e41538e386c454149f615"
+        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
       }
     ]
   }
@@ -51,7 +51,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/bids/7e95a6b839db44edb45dfdd6caa41a97
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c
 
 {
   "data": {
@@ -64,6 +64,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -72,11 +73,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
@@ -88,7 +88,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "0604e55b3dae444a8d537bb4c971a246",
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
@@ -98,11 +98,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/62ce6859a3df45b6
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f21c5735a39e41538e386c454149f615",
+        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "7e95a6b839db44edb45dfdd6caa41a97",
+    "id": "4b2f22ec008b4f4e88f2f69ea174242c",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

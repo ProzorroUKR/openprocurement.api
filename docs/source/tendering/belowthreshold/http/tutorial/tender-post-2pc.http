@@ -112,7 +112,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ed1a800796d458596de9b1262b3d1e0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d202b8c43d3c45b995c64f5094996eb4
 
 {
   "data": {
@@ -178,7 +178,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ed1a800796d4585
         "sequenceNumber": 0
       },
       {
-        "id": "f0f29cf8bc2c4605812e4743b913415d",
+        "id": "c39b41e3721d4215ba376eddaf9289e5",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -206,8 +206,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ed1a800796d4585
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -223,7 +223,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ed1a800796d4585
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "1ed1a800796d458596de9b1262b3d1e0"
+    "id": "d202b8c43d3c45b995c64f5094996eb4"
   },
   "config": {
     "hasAuction": true,

@@ -12,7 +12,7 @@ from openprocurement.api.context import (
     get_now,
 )
 from openprocurement.api.mask import mask_object_data
-from openprocurement.api.traversal import get_child_items
+from openprocurement.api.procedure.utils import apply_data_patch, append_revision, get_revision_changes
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
@@ -20,8 +20,8 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     parse_date,
     error_handler,
+    get_child_items,
 )
-from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import (
     TZ,
     RELEASE_2020_04_19,
@@ -41,8 +41,6 @@ from openprocurement.tender.core.utils import (
 )
 from dateorro import calc_normalized_datetime
 from jsonpatch import (
-    make_patch,
-    apply_patch,
     apply_patch as apply_json_patch,
     JsonPatchException,
 )
@@ -151,24 +149,6 @@ def append_tender_revision(request, tender, patch, date):
     return append_revision(request, tender, patch)
 
 
-def append_revision(request, obj, patch):
-    revision_data = {
-        "author": request.authenticated_userid,
-        "changes": patch,
-        "rev": obj.get("_rev"),
-        "date": get_now().isoformat(),
-    }
-    if "revisions" not in obj:
-        obj["revisions"] = []
-    obj["revisions"].append(revision_data)
-    return obj["revisions"]
-
-
-def get_revision_changes(dst, src):
-    result = make_patch(dst, src).patch
-    return result
-
-
 def set_mode_test_titles(item):
     for key, prefix in (
         ("title", "ТЕСТУВАННЯ"),
@@ -179,40 +159,6 @@ def set_mode_test_titles(item):
             item[key] = f"[{prefix}] {item.get(key) or ''}"
 
 
-# GETTING/SETTING sub documents ---
-
-def get_items(request, parent, key, uid, raise_404=True):
-    items = tuple(i for i in parent.get(key, "") if i["id"] == uid)
-    if items:
-        return items
-    elif raise_404:
-        from openprocurement.api.utils import error_handler
-        obj_name = "document" if "Document" in key else key.rstrip('s')
-        request.errors.add("url", f"{obj_name}_id", "Not Found")
-        request.errors.status = 404
-        raise error_handler(request)
-
-
-def set_item(parent, key, uid, value):
-    assert value["id"] == uid, "Assigning item by id with a different id ?"
-    initial_list = parent.get(key, "")
-    # in case multiple documents we update the latest
-    for n, item in enumerate(reversed(initial_list), 1):
-        if item["id"] == uid:
-            initial_list[-1 * n] = value
-            break
-    else:
-        raise AssertionError(f"Item with id {uid} unexpectedly not found")
-# --- GETTING/SETTING/DELETING sub documents
-
-
-# ACL ---
-def is_item_owner(request, item, token_field_name="owner_token"):
-    acc_token = extract_access_token(request)
-    return request.authenticated_userid == item["owner"] and acc_token == item[token_field_name]
-# --- ACL
-
-
 # PATCHING ---
 def apply_tender_patch(request, data, src, save=True, modified=True):
     patch = apply_data_patch(src, data)
@@ -220,50 +166,6 @@ def apply_tender_patch(request, data, src, save=True, modified=True):
     # it should link to request.validated["tender"]
     if patch and save:
         return save_tender(request, modified=modified)
-
-
-def apply_data_patch(item, changes, none_means_remove=False):
-    """
-    :param item:
-    :param changes:
-    :param none_means_remove:  if True, passing for ex. {"period": {"startDate": None}}
-    will actually delete field's value instead of replacing it with None
-    :return:
-    """
-    patch_changes = []
-    prepare_patch(patch_changes, item, changes, none_means_remove=none_means_remove)
-    if not patch_changes:
-        return {}
-    r = apply_patch(item, patch_changes)
-    return r
-
-
-def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
-    if isinstance(patch, dict):
-        for i in patch:
-            if i in orig:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
-                              none_means_remove=none_means_remove)
-            elif patch[i] is None and none_means_remove:
-                pass  # already deleted
-            else:
-                changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
-    elif isinstance(patch, list):
-        if len(patch) < len(orig):
-            for i in reversed(list(range(len(patch), len(orig)))):
-                changes.append({"op": "remove", "path": "{}/{}".format(basepath, i)})
-        for i, j in enumerate(patch):
-            if len(orig) > i:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
-                              none_means_remove=none_means_remove)
-            else:
-                changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
-    elif none_means_remove and patch is None:
-        changes.append({"op": "remove", "path": basepath})
-    else:
-        for x in make_patch(orig, patch).patch:
-            x["path"] = "{}{}".format(basepath, x["path"])
-            changes.append(x)
 
 # --- PATCHING
 

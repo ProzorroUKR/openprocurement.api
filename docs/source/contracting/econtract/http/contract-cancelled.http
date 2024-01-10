@@ -10,15 +10,15 @@ Content-Type: application/json
   "data": {
     "awardID": "c220713cbd024586b6382ef97a852dc7",
     "contractID": "UA-2023-10-10-000001-a-1",
+    "dateSigned": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tender_id": "9d0132ecdea04c5bbab926da6ea94e0a",
+    "owner": "broker",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2024-10-09T01:00:00+03:00"
     },
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "26fe592e6eb4454fb91865f39117fe4b",
-    "owner": "broker",
     "status": "cancelled",
     "buyer": {
       "name": "Державне управління справами",
@@ -54,13 +54,9 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "d7ba05ad129d4380b139d363df055ec0",
+        "id": "d75459d9da8a4386b380198eca937030",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
         "classification": {
           "description": "Комп’ютерне обладнанн",
           "scheme": "ДК021",
@@ -79,6 +75,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "штук",
@@ -91,13 +91,9 @@ Content-Type: application/json
         }
       },
       {
-        "id": "98b99c56dacf48728e1a069205bdf6c2",
+        "id": "909a48c29a3f448bbd498cc0f96259bd",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
         "classification": {
           "description": "Комп’ютерне обладнанн",
           "scheme": "ДК021",
@@ -116,6 +112,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "штук",
@@ -140,9 +140,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/0042d18dfb254f4a8a0c166f1e980196?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/c4e5d576f0e3439a87b379c9fe6e961a?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
-        "id": "0042d18dfb254f4a8a0c166f1e980196",
+        "id": "c4e5d576f0e3439a87b379c9fe6e961a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
@@ -150,9 +150,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/9202cd64da8f42a5942c68dc14bf534a?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/f7cd5a18adbf4a8282dd6f58b2796ced?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
-        "id": "9202cd64da8f42a5942c68dc14bf534a",
+        "id": "f7cd5a18adbf4a8282dd6f58b2796ced",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }

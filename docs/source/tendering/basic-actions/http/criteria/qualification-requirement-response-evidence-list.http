@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses/a99c0528a18b4d1a82128c1302cf01e0/evidences HTTP/1.0
+GET /api/2.5/tenders/9514051b350b4ddb87eb569482b942f6/qualifications/78425f5401724a8187553e0c037975a5/requirement_responses/b7bd6acdcaf34b649071092a7154d3b2/evidences HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -12,19 +12,19 @@ Content-Type: application/json
       "title": "Requirement response",
       "type": "document",
       "relatedDocument": {
-        "id": "bf8d8da7edae4c06ab61411b340ebb03",
+        "id": "053c185a3bf545a5bb881c942ad4731b",
         "title": "name.doc"
       },
-      "id": "ab61001c6f3b420086fee03610d62f29"
+      "id": "fdfa044eda3a43dda47c47c32f0deadd"
     },
     {
       "title": "Update evidence title",
       "type": "document",
       "relatedDocument": {
-        "id": "bf8d8da7edae4c06ab61411b340ebb03",
+        "id": "053c185a3bf545a5bb881c942ad4731b",
         "title": "name.doc"
       },
-      "id": "dbb10c2306874b11bc8ed3c83e95288a"
+      "id": "cd61503e1dc0487683507b5dd335b971"
     }
   ]
 }

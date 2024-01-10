@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/awards HTTP/1.0
+GET /api/2.5/tenders/d129be7cbe054d18a179ea11a7141a52/awards HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -18,6 +18,7 @@ Content-Type: application/json
             "id": "00037256",
             "uri": "http://www.dus.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
             "locality": "м. Київ",
@@ -26,13 +27,12 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Державне управління справами"
-          },
-          "scale": "micro"
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
         }
       ],
-      "bid_id": "ef1bede622fc44a08d3caa36ebd1de36",
+      "bid_id": "e147879859fb43caad2391bf20d0b032",
       "value": {
         "amount": 459.0,
         "currency": "UAH",

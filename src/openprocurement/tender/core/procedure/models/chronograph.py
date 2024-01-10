@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.base import Model, ListType, NoneAllowedModelType
-from openprocurement.api.models import IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from schematics.types.compound import ModelType
 from schematics.types import MD5Type
 from schematics.exceptions import ValidationError
@@ -11,13 +11,13 @@ class AuctionPeriod(Model):
 
 
 class LotData(Model):
-    auctionPeriod = ModelType(AuctionPeriod)
+    auctionPeriod = ModelType(AuctionPeriod, serialize_when_none=True)
 
 
 class TenderChronographData(Model):
     _id = MD5Type(deserialize_from=['id'])
     auctionPeriod = ModelType(AuctionPeriod)
-    lots = ListType(NoneAllowedModelType(LotData))
+    lots = ListType(ModelType(LotData))
 
     def validate_auctionPeriod(self, data, period):
         if period:

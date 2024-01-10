@@ -1,6 +1,8 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.context import get_now
-from openprocurement.api.models import IsoDateTimeType, ValidationError, ListType, Model
-from openprocurement.tender.core.procedure.models.base import ModelType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules

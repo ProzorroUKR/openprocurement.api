@@ -31,7 +31,7 @@ from openprocurement.tender.competitivedialogue.procedure.models.feature import 
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.openua.constants import (
     TENDERING_DURATION as TENDERING_DURATION_UA,
     COMPLAINT_SUBMIT_TIME as COMPLAINT_SUBMIT_TIME_UA,

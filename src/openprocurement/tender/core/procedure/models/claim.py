@@ -1,18 +1,13 @@
-from openprocurement.api.models import ListType, Model, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.context import get_now, get_request
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import (
-    RELEASE_2020_04_19,
-)
 from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.base import ModelType
-from openprocurement.tender.core.procedure.models.organization import PostOrganization, Organization, PatchOrganization
-from openprocurement.tender.core.procedure.models.agreement_contract import Contract
-from openprocurement.tender.core.procedure.models.document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.organization import Organization
+from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.validation import validate_related_lot
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, is_item_owner
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.api.procedure.utils import is_item_owner
 from schematics.types import StringType, MD5Type, BooleanType
-from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from uuid import uuid4
@@ -43,7 +38,7 @@ class PostClaim(Model):
     )
     type = StringType(choices=["claim"])  # feel free to choose
     relatedLot = MD5Type()
-    author = ModelType(PostOrganization, required=True)
+    author = ModelType(Organization, required=True)
     title = StringType(required=True)
     description = StringType()
 
@@ -86,7 +81,7 @@ class ClaimOwnerPatchClaim(Model):
 class ClaimOwnerClaimDraft(Model):
     title = StringType()
     description = StringType()
-    author = ModelType(PatchOrganization)
+    author = ModelType(Organization)
     status = StringType(choices=["draft", "claim"])
 
 

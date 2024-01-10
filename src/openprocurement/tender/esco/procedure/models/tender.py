@@ -3,16 +3,16 @@ from schematics.validate import ValidationError
 from schematics.types import StringType, BaseType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
-from openprocurement.api.models import DecimalType, Value, IsoDateTimeType
+from openprocurement.api.procedure.types import DecimalType, IsoDateTimeType
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
-    PeriodEndRequired,
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
     EnquiryPeriod,
     TenderAuctionPeriod,
 )
-from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.esco.procedure.models.feature import Feature
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot

@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.models.feature import (
 )
 from openprocurement.tender.competitivedialogue.constants import FEATURES_MAX_SUM
 from openprocurement.api.procedure.validation import validate_values_uniq
-from openprocurement.api.models import ListType
+from openprocurement.api.procedure.types import ListType
 from schematics.types import FloatType
 from schematics.types.compound import ModelType
 

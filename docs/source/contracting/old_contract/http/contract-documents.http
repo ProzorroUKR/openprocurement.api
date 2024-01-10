@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": [
     {
-      "relatedItem": "9e4c33ab6b874b4fbee83206aaa9b507",
-      "id": "278f118019164051b58206db16c8ccc3",
+      "relatedItem": "a61dac7b90b3466db3c2022e0a30c889",
+      "id": "f96a84b890ca404f819cc42ba432c37b",
       "hash": "md5:00000000000000000000000000000000",
       "title": "contract_changes.doc",
       "format": "application/msword",
@@ -25,7 +25,7 @@ Content-Type: application/json
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e13edfd2b47b4517b2c666fd6b7c3196?Signature=IYfzAIAKvHzmmhP7RsgXgW0YWTYEblqVeDFlOlJIub5upZTOhnVFjLlHy54NP9A%2BVXa4dkw91bvR0nCCqIaQBg%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "id": "df57c2ebdf514c04a00d4bcf03af6b06",
+      "id": "0ee320d00bc442f7a63047521fbf63ae",
       "datePublished": "2023-01-01T00:00:01+02:00",
       "dateModified": "2023-01-01T00:00:01+02:00"
     }

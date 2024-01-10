@@ -1,8 +1,8 @@
 from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
-from openprocurement.tender.core.procedure.models.base import Model, ListType, ModelType
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.context import get_request, get_tender
 from openprocurement.api.context import get_now
-from openprocurement.api.models import IsoDateTimeType
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 from schematics.types import URLType, MD5Type, FloatType, StringType, BooleanType

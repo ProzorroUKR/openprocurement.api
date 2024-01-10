@@ -1,6 +1,6 @@
-PATCH /api/2.5/submissions/438590c36742473c9858b8b466e0dde5?acc_token=680e74861490448a9177bf199cb6395b HTTP/1.0
+PATCH /api/2.5/submissions/307a5eb4da8948faa46564921a9facf6?acc_token=680e74861490448a9177bf199cb6395b HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 69
+Content-Length: 1116
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "tenderers": [
       {
-        "name": "НАЗВА"
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "НАЗВА",
+        "scale": "micro"
       }
     ]
   }
@@ -23,30 +42,30 @@ Content-Type: application/json
     "tenderers": [
       {
         "name": "НАЗВА",
-        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
         },
         "address": {
+          "countryName": "Україна",
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
           "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
+          "postalCode": "21100"
         },
         "contactPoint": {
           "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        }
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        },
+        "scale": "micro"
       }
     ],
     "documents": [
       {
-        "id": "e1a378fd7df247249af772576e1f1154",
+        "id": "90016b13615145eb89f20331f5935d66",
         "datePublished": "2023-10-26T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
@@ -56,13 +75,13 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
     "status": "draft",
     "dateModified": "2023-10-26T01:00:00+03:00",
     "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "electronicCatalogue",
-    "id": "438590c36742473c9858b8b466e0dde5"
+    "id": "307a5eb4da8948faa46564921a9facf6"
   },
   "config": {}
 }

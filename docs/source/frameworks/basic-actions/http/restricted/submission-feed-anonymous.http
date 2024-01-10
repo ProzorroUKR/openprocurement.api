@@ -8,15 +8,15 @@ Content-Type: application/json
 {
   "data": [
     {
-      "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
+      "frameworkID": "baca8568a6e0453f859f1a64c6e0fd50",
       "dateModified": "2023-01-20T00:00:00+02:00",
-      "id": "fd9a2e1f2e674531813756d4d0aaa351",
+      "id": "8c118377feb64f93823ba46329faa451",
       "restricted": true
     },
     {
-      "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
+      "frameworkID": "baca8568a6e0453f859f1a64c6e0fd50",
       "dateModified": "2023-01-20T00:00:00+02:00",
-      "id": "e0fc16d4a32e49bbb327106221ee3afe",
+      "id": "9d618d8b636b4f07b66cb79856f15c47",
       "restricted": true
     }
   ],

@@ -8,7 +8,7 @@ from openprocurement.tender.openeu.procedure.models.award import (
     PostAward as BaseEUPostAward,
     PatchAward as BaseEUPatchAward,
 )
-from openprocurement.tender.core.procedure.models.base import ModelType, ListType
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.competitivedialogue.procedure.models.item import Item
 
 

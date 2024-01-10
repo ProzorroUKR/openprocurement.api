@@ -162,7 +162,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422
 
 {
   "data": {
@@ -211,8 +211,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "name_en": "State administration",
         "availableLanguage": "uk"
       },
@@ -223,7 +223,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
     "maxAwardsCount": 4,
     "items": [
       {
-        "id": "f7f221177ecc41369b255d9ba4620b02",
+        "id": "20103816ae224b5c83308d32a8b7030e",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -257,7 +257,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
         "description_en": "Cases for state awards"
       },
       {
-        "id": "95fb67978b4a4d5185a03bebe11d2d59",
+        "id": "a4873474339e4408966d29ed77c3330d",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -331,7 +331,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5a06577d0adb4c42
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "5a06577d0adb4c42907931f3b9b03b2c"
+    "id": "a00c3352983c4c63b2d094cbbe220422"
   },
   "config": {
     "hasAuction": true,

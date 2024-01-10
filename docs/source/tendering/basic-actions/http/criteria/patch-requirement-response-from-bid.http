@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806?acc_token=6f9ffb4773a14f17b72d927d856ae71d HTTP/1.0
+PATCH /api/2.5/tenders/9cc65ce29e4f4ae0b098f633963efa7f/bids/7878cf456f9640bea5cb979f1fbebeee?acc_token=6f9ffb4773a14f17b72d927d856ae71d HTTP/1.0
 Authorization: Bearer token
 Content-Length: 3612
 Content-Type: application/json
@@ -11,14 +11,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 1",
         "description": "some description",
         "requirement": {
-          "id": "4198c9413b51442eab2d779a5f23f656",
+          "id": "2d0f191e424845cea0d0a424258d3d3f",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "55793858b955403c94b8684888df3e3a",
+          "id": "9bd2cee0585e446883c22762587b8106",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
             "type": "document"
@@ -60,7 +60,7 @@ Content-Type: application/json
         "title": "Requirement response 1",
         "description": "some description",
         "requirement": {
-          "id": "4198c9413b51442eab2d779a5f23f656",
+          "id": "2d0f191e424845cea0d0a424258d3d3f",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -68,20 +68,20 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
-            "id": "2fb67e17ee7f4d8e9686b04afb472496"
+            "id": "fd687a57360e495e9140240a2d34c349"
           }
         ],
         "value": "True",
-        "id": "ee4bc2352a6a4134b02a971fc5edb352"
+        "id": "a7ac7208ce104ef1997ff5223c1cd9b6"
       },
       {
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "55793858b955403c94b8684888df3e3a",
+          "id": "9bd2cee0585e446883c22762587b8106",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
@@ -89,14 +89,14 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
-            "id": "63de878ccc7844adb34f6b15fe5bf1a6"
+            "id": "5f6a72dde39844e9a30706dcc6f48002"
           }
         ],
         "value": "True",
-        "id": "76fcaa3c13e44a3f9afed9173074d385"
+        "id": "c23b005094e44e7a95eacd469df85092"
       }
     ],
     "tenderers": [
@@ -108,6 +108,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -116,15 +117,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
-    "id": "0e4c0ac9fb214aec86664334f935e806",
+    "id": "7878cf456f9640bea5cb979f1fbebeee",
     "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -134,14 +134,14 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "e95c06240942446fbd6289786f02b75e",
+        "relatedLot": "438fbb101d17461a9a4cdc16b7088d05",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
       {
-        "id": "f15755940c8c467e86b05b3ee64420a0",
+        "id": "2e37b10636cb4e53a41b3973f4469c3c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

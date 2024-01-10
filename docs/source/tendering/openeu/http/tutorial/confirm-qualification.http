@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/awards/85df374c0b7b42a7a3d71dfcbc9c77aa?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
+PATCH /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/awards/00a2a0b3afd549ba91071c2deed5e203?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "85df374c0b7b42a7a3d71dfcbc9c77aa",
+    "id": "00a2a0b3afd549ba91071c2deed5e203",
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -35,6 +35,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -43,14 +44,13 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
-    "bid_id": "bf64c133e6e34cde85dac889a9fe274a",
+    "bid_id": "23623f2492b0443cb3a14e5b7f7ab3d5",
     "lotID": "f593b0ce6a334393bfba269562fa3ac9",
     "qualified": true,
     "eligible": true,

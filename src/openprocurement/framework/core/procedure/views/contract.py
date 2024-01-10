@@ -9,7 +9,7 @@ from openprocurement.framework.core.procedure.validation import validate_restric
 from openprocurement.framework.core.procedure.context import get_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.tender.core.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.utils import get_items, set_item
 
 LOGGER = getLogger(__name__)
 QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}

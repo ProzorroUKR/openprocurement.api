@@ -406,15 +406,7 @@ def patch_contract_suppliers(self):
             [{"location": "url", "name": "permission", "description": "Forbidden"}]
         )
 
-    supplier = {
-        "address": {
-            "countryName": "Україна",
-            "postalCode": "01220",
-            "region": "м. Київ",
-            "locality": "м. Київ",
-            "streetAddress": "вул. Банкова, 11, корпус 1"
-        }
-    }
+    supplier = deepcopy(self.initial_submission_data["tenderers"][0])
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
         {"data": {"suppliers": [supplier, supplier]}},
@@ -440,22 +432,25 @@ def patch_contract_suppliers(self):
     error_fields = [field["name"] for field in response.json["errors"]]
     self.assertListEqual(sorted(error_fields), list(contract_invalid_patch_fields.keys()))
 
+    supplier = deepcopy(self.initial_submission_data["tenderers"][0])
+    supplier.update({
+        "address": {
+            "countryName": "Україна",
+            "postalCode": "01221",
+            "region": "Київська область",
+            "locality": "Київська область",
+            "streetAddress": "вул. Банкова, 11, корпус 2"
+        },
+        "contactPoint": {
+            "name": "Найновіше державне управління справами",
+            "name_en": "New state administration",
+            "telephone": "+0440000001",
+            "email": "aa@aa.com",
+        },
+    })
+
     contract_patch_fields = {
-        "suppliers": [{
-            "address": {
-                "countryName": "Україна",
-                "postalCode": "01221",
-                "region": "Київська область",
-                "locality": "Київська область",
-                "streetAddress": "вул. Банкова, 11, корпус 2"
-            },
-            "contactPoint": {
-                "name": "Найновіше державне управління справами",
-                "name_en": "New state administration",
-                "telephone": "+0440000001",
-                "email": "aa@aa.com",
-            },
-        }]
+        "suppliers": [supplier]
     }
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",

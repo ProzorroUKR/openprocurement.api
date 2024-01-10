@@ -224,34 +224,6 @@ def create_tender_award_no_scale_invalid(self):
     )
 
 
-# TenderAwardResourceScaleTest
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_with_scale_not_required(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"status": "pending", "bid_id": self.initial_bids[0]["id"], "suppliers": [test_tender_below_organization]}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_no_scale(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    suppliers = [{key: value for key, value in test_tender_below_organization.items() if key != "scale"}]
-    response = self.app.post_json(
-        "/tenders/{}/awards".format(self.tender_id),
-        {"data": {"status": "pending", "bid_id": self.initial_bids[0]["id"], "suppliers": suppliers}},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["suppliers"][0])
-
-
 # TenderLotAwardResourceTest
 
 

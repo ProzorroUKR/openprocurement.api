@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids HTTP/1.0
+POST /api/2.5/tenders/70977f2395ad406daa456417f50dd237/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1422
 Content-Type: application/json
@@ -47,7 +47,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044dfba8773895b0bff51/bids/5cff484ac52046ce96d713e75a6af577
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/70977f2395ad406daa456417f50dd237/bids/60441dfb078d49908974e0935d68bc6b
 
 {
   "data": {
@@ -60,6 +60,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -68,11 +69,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
@@ -90,7 +90,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a5accd9090044df
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "5cff484ac52046ce96d713e75a6af577",
+    "id": "60441dfb078d49908974e0935d68bc6b",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

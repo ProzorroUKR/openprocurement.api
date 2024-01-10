@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0/contracts/b9c82bbdb13b481bae95d48eb2724c58?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/agreements/b996fbc0afc54062aac0fbaa492eb9e0/contracts/b9c82bbdb13b481bae95d48eb2724c58?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 284
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+        "relatedItem": "20103816ae224b5c83308d32a8b7030e",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+        "relatedItem": "a4873474339e4408966d29ed77c3330d",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -44,6 +44,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -52,16 +53,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "unitPrices": [
       {
-        "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+        "relatedItem": "20103816ae224b5c83308d32a8b7030e",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -69,7 +69,7 @@ Content-Type: application/json
         }
       },
       {
-        "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+        "relatedItem": "a4873474339e4408966d29ed77c3330d",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -77,8 +77,8 @@ Content-Type: application/json
         }
       }
     ],
-    "awardID": "f69080728fd34165b517341694df0475",
-    "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
+    "awardID": "6d5e25fb6e5243279b55e008e9d8aa0d",
+    "bidID": "23a9ebfe99294a09886d88b14f506a21",
     "date": "2023-10-10T01:00:00+03:00"
   }
 }

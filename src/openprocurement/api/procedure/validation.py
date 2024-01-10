@@ -11,7 +11,7 @@ from openprocurement.api.validation import (
 from openprocurement.api.procedure.utils import is_item_owner, apply_data_patch
 
 
-def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False, whitelist=None):
+def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
@@ -34,16 +34,10 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
                 # None means that the field value is deleted
                 # IMPORTANT: input_data can contain more fields than are allowed to update
                 # validate_data will raise Rogue field error then
-                # Update: doesn't work with sub-models {'auctionPeriod': {'startDate': None}}
+                # NOTE: empty list does the same for list fields
                 for k, v in input_data.items():
-                    if (
-                            v is None
-                            or isinstance(v, list) and len(v) == 0  # for list fields, an empty list does the same
-                    ):
+                    if v is None or isinstance(v, list) and len(v) == 0:
                         result[k] = v
-            # TODO: Remove it
-            if whitelist:
-                filter_whitelist(input_data, whitelist)
             valid_data = validate_data(request, input_model, input_data)
             if valid_data is not None:
                 result.update(valid_data)

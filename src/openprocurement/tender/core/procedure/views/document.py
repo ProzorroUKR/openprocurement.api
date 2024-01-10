@@ -7,7 +7,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.tender.core.procedure.documents import get_file, check_document, update_document_url
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.tender.core.procedure.state.base import BaseState
@@ -22,10 +22,9 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.utils import (
     delete_nones,
-    get_items,
-    set_item,
     save_tender,
 )
+from openprocurement.api.procedure.utils import get_items, set_item
 
 
 def resolve_document(request, item_name, container):

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/requirement_responses HTTP/1.0
+GET /api/2.5/tenders/9514051b350b4ddb87eb569482b942f6/qualifications/78425f5401724a8187553e0c037975a5/requirement_responses HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ Content-Type: application/json
       "title": "Requirement response 1",
       "description": "some description",
       "requirement": {
-        "id": "2912e1a1b5ac4d15a8c08ce48013f8e3",
+        "id": "1380a8ebb81046cdbb657f6cc0b0c1ae",
         "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
       },
       "evidences": [
@@ -20,20 +20,20 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "bf8d8da7edae4c06ab61411b340ebb03",
+            "id": "053c185a3bf545a5bb881c942ad4731b",
             "title": "name.doc"
           },
-          "id": "13aa24cf3dbe46ed99e7144cce104b54"
+          "id": "dfa2714018bd46af80ee0db75f706ed1"
         }
       ],
       "value": "True",
-      "id": "ca7ad03aaae5448aa8804158da95a259"
+      "id": "9f34687e700e4b8cad8d6deae24d0a48"
     },
     {
       "title": "Updated title",
       "description": "some description",
       "requirement": {
-        "id": "e7ba271d2d0b49e09e1a83638c12cb77",
+        "id": "94e99992ec40401d87628ea4aa6783ac",
         "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
       },
       "evidences": [
@@ -41,23 +41,23 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "bf8d8da7edae4c06ab61411b340ebb03",
+            "id": "053c185a3bf545a5bb881c942ad4731b",
             "title": "name.doc"
           },
-          "id": "ab61001c6f3b420086fee03610d62f29"
+          "id": "fdfa044eda3a43dda47c47c32f0deadd"
         },
         {
           "title": "Update evidence title",
           "type": "document",
           "relatedDocument": {
-            "id": "bf8d8da7edae4c06ab61411b340ebb03",
+            "id": "053c185a3bf545a5bb881c942ad4731b",
             "title": "name.doc"
           },
-          "id": "dbb10c2306874b11bc8ed3c83e95288a"
+          "id": "cd61503e1dc0487683507b5dd335b971"
         }
       ],
       "value": "True",
-      "id": "a99c0528a18b4d1a82128c1302cf01e0"
+      "id": "b7bd6acdcaf34b649071092a7154d3b2"
     }
   ]
 }

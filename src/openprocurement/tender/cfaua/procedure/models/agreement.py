@@ -4,12 +4,9 @@ from schematics.exceptions import ValidationError
 from isodate import duration_isoformat
 from uuid import uuid4
 from openprocurement.api.context import get_now
-from openprocurement.api.models import (
-    IsoDateTimeType,
-    ListType,
-    Model,
-    Period,
-)
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.context import get_tender

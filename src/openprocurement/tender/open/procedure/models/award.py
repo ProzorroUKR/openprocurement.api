@@ -1,7 +1,7 @@
 from schematics.types import StringType, BooleanType, MD5Type, BaseType
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
-from openprocurement.api.models import ListType
+from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.core.procedure.models.award import (
     Award as BaseAward,
     PatchAward as BasePatchAward,

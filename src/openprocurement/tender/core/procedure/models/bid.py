@@ -4,18 +4,17 @@ from schematics.transforms import whitelist
 from schematics.types import MD5Type, StringType, BaseType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.models import Value, Model
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.validation import validate_bid_value
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.core.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.core.procedure.models.base import ListType, BaseBid
-from openprocurement.tender.core.procedure.models.organization import (
-    PatchBusinessOrganization,
-    PostBusinessOrganization,
-)
+from openprocurement.tender.core.procedure.models.base import BaseBid
+from openprocurement.api.procedure.types import ListType
+from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
 from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
 from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
@@ -28,7 +27,7 @@ class PatchBid(BaseBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
-    tenderers = ListType(ModelType(PatchBusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
@@ -51,7 +50,7 @@ class CommonBid(BaseBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     value = ModelType(Value)
     lotValues = ListType(ModelType(LotValue, required=True))
-    tenderers = ListType(ModelType(PostBusinessOrganization, required=True), min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
         required=True,
@@ -95,7 +94,7 @@ class PostBid(CommonBid):
         return uuid4().hex
 
     items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
-    tenderers = ListType(ModelType(PostBusinessOrganization, required=True), required=True, min_size=1, max_size=1)
+    tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_parameters_uniq])
     lotValues = ListType(ModelType(PostLotValue, required=True))
     status = StringType(

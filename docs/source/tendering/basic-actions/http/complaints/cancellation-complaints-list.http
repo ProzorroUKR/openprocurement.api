@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints HTTP/1.0
+GET /api/2.5/tenders/1197f048832148399d8e67e69c2f720e/cancellations/02c627bbb5884b6b85d1aeb67044e53f/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -8,13 +8,13 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "c1ae0eb958ca45f8835465e2539cc626",
+      "id": "bc33a708d6a9451ca98e7b485fdfd577",
       "complaintID": "UA-2023-10-10-000001-a.1",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "resolved",
       "documents": [
         {
-          "id": "2540eb4af34b4ac7b44b898e4c4e0645",
+          "id": "27dd2969b8ef464c9861c741da28fd3b",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
@@ -26,7 +26,7 @@ Content-Type: application/json
           "language": "uk"
         },
         {
-          "id": "51b943cdaa8d4a9a912f1fac835d6c33",
+          "id": "c4b80d6ec0f74330a6d2b42fe530a51c",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
@@ -49,9 +49,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -76,7 +76,7 @@ Content-Type: application/json
       "tendererActionDate": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "428a76b2f0d84d11b9a66de1c77544ef",
+      "id": "8b141050bc96402bb3dbc1503a5f712b",
       "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "declined",
@@ -91,9 +91,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -116,7 +116,7 @@ Content-Type: application/json
       "dateDecision": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "24e5acd0f7eb4b70b71adffe2f24be24",
+      "id": "45b60143d29d453b9ac8890c29be1558",
       "complaintID": "UA-2023-10-10-000001-a.3",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "invalid",
@@ -131,9 +131,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -155,7 +155,7 @@ Content-Type: application/json
       "acceptance": false
     },
     {
-      "id": "91e9a0cc233e40e18ca6d45f7420da84",
+      "id": "72603db810334ec99918359280859186",
       "complaintID": "UA-2023-10-10-000001-a.4",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "stopped",
@@ -170,9 +170,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -198,7 +198,7 @@ Content-Type: application/json
       "dateCanceled": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "6ae8ed0a37ef42eeb0669177bcebd3e9",
+      "id": "0b39808ea9134d6b935aa73c1fcb6d38",
       "complaintID": "UA-2023-10-10-000001-a.5",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "stopped",
@@ -213,9 +213,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_cancellation,
 )
 from openprocurement.tender.competitivedialogue.tests.base import test_tender_cd_tenderer
-from openprocurement.api.models import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
 from openprocurement.tender.core.tests.utils import change_auth
@@ -481,6 +481,7 @@ def create_tender_award_invalid(self):
                         "identifier": {"scheme": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -509,6 +510,7 @@ def create_tender_award_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",

@@ -2,13 +2,14 @@ import uuid
 
 import os
 from copy import deepcopy
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.api.models import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_data,

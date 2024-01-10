@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/3af6fd49c3fb48cea8734c145f480cae/posts?acc_token=80c86579cf3a46bea10734a89e9b6610 HTTP/1.0
+POST /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/61012149f6894096aa43cf7bdf381fbd/posts?acc_token=80c86579cf3a46bea10734a89e9b6610 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 674
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "fbc58d62e0dd482fa23730816da4fbaa",
+    "relatedPost": "19b07852ec114c87938f607437863f4b",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -24,7 +24,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253882085d3438eb6e0/qualifications/9bb4cca9c17343c191da1750c233fdf6/complaints/3af6fd49c3fb48cea8734c145f480cae/posts/564e61bb1e9e4c31a6772e4d385fae1f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/61012149f6894096aa43cf7bdf381fbd/posts/2d66a0b3e4054225b735c1b070917f65
 
 {
   "data": {
@@ -38,15 +38,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5f16f024cad74253
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3ade0fbc9f34687b3fb8649c13e1b75?Signature=%2BmS22rGZQy0KAc%2BkNTebwrpSCb5AnZRirVGHNVCUzppse9XMrUsZgzR5gOsCclTRkluh3Q%2F7UI56Jlk8S9ueAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "d01c3bf5a122469883b8ead2f62e0c67",
+        "id": "9c6712cbc2424593a78173a985018247",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "complaint_owner"
       }
     ],
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "fbc58d62e0dd482fa23730816da4fbaa",
-    "id": "564e61bb1e9e4c31a6772e4d385fae1f",
+    "relatedPost": "19b07852ec114c87938f607437863f4b",
+    "id": "2d66a0b3e4054225b735c1b070917f65",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "author": "complaint_owner"
   }

@@ -3,7 +3,7 @@ from datetime import timedelta
 from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
-    test_tender_below_author,
+    test_tender_below_author, test_tender_below_organization,
 )
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
@@ -352,9 +352,11 @@ def patch_tender_bidder(self):
     bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

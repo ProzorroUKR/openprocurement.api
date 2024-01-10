@@ -2,16 +2,18 @@
 import os
 import sys
 import unittest
-from datetime import timedelta
+from datetime import timedelta, datetime
 from isodate import duration_isoformat
 from isodate.duration import Duration
-from schematics.transforms import whitelist
+from pytz import timezone
+from schematics.exceptions import ConversionError
 from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
-from openprocurement.api.roles import RolesFromCsv
+
+from openprocurement.api.constants import TZ
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.models import Model, IsoDurationType
-from openprocurement.api.dev_tools import create_csv_roles, get_fields_name, get_roles_from_object
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDurationType, IsoDateTimeType
 
 
 class TestModel(Model):
@@ -22,41 +24,6 @@ class TestModel(Model):
     @serializable(serialized_name="status")
     def serialize_status(self):
         return "test_status"
-
-
-class CreateRoleCsvTest(BaseWebTest):
-    def test_fields(self):
-        fields = get_fields_name(TestModel)
-        list_fields = list(fields)
-        self.assertEqual(len(fields), 5)
-        self.assertIn("test_field0", list_fields)
-        self.assertIn("test_field1", list_fields)
-        self.assertIn("test_field2", list_fields)
-        self.assertIn("__parent__", list_fields)
-        self.assertIn("serialize_status", list_fields)
-
-    def test_get_roles(self):
-        roles = get_roles_from_object(TestModel)
-        fields = ["test_field0", "test_field1", "test_field2", "serialize_status"]
-        self.assertEqual(len(roles), 2)
-        self.assertEqual(list(roles.keys())[0], "default")
-        self.assertEqual(list(roles.keys())[1], "embedded")
-        self.assertEqual(roles[list(roles.keys())[0]], set(fields))
-        self.assertEqual(roles[list(roles.keys())[1]], set(fields))
-
-    def test_create_role_csv(self):
-        create_csv_roles(TestModel)
-        roles = RolesFromCsv("{0}.csv".format(TestModel.__name__), relative_to=__file__)
-        path_role_csv = ""
-        for i in os.path.abspath(sys.modules[TestModel.__module__].__file__).split("/")[:-1]:
-            path_role_csv += i + "/"
-        white_list_roles = whitelist("test_field0", "test_field1", "test_field2", "serialize_status")
-        self.assertEqual(len(roles), 2)
-        self.assertEqual(list(roles.keys())[0], "default")
-        self.assertEqual(list(roles.keys())[1], "embedded")
-        for i in roles.keys():
-            self.assertEqual(roles[i], white_list_roles)
-        os.remove("{0}.csv".format(path_role_csv + TestModel.__name__))
 
 
 class IsoDurationTypeTest(BaseWebTest):
@@ -109,10 +76,62 @@ class IsoDurationTypeTest(BaseWebTest):
         self.assertEqual(duration_instance(duration), duration)
 
 
+class TestIsoDateTimeType(unittest.TestCase):
+    def test_to_native_string(self):
+        dt_str = "2020-01-01T12:00:00+02:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_no_tz(self):
+        dt_str = "2020-01-01T12:00:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_no_time_and_tz(self):
+        dt_str = "2020-01-01"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = TZ.localize(datetime(2020, 1, 1))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_with_not_default_tz(self):
+        dt_str = "2020-01-01T12:00:00-05:00"
+        dt_result = IsoDateTimeType().to_native(dt_str)
+        dt_expected = timezone('US/Eastern').localize(datetime(2020, 1, 1, 12, 0, 0))
+        self.assertEqual(dt_result, dt_expected)
+
+    def test_to_native_string_invalid_format(self):
+        dt_str = "test"
+        with self.assertRaises(ConversionError) as e:
+            IsoDateTimeType().to_native(dt_str)
+            self.assertEqual(
+                e.exception.message,
+                IsoDateTimeType.MESSAGES["parse"].format(dt_str)
+            )
+
+    def test_to_native_datetime(self):
+        dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        dt_result = IsoDateTimeType().to_native(dt)
+        self.assertEqual(dt_result, dt)
+
+    def test_to_primitive_string(self):
+        dt_str = "2020-01-01T12:00:00+02:00"
+        dt_result = IsoDateTimeType().to_primitive(dt_str)
+        self.assertEqual(dt_result, dt_str)
+
+    def test_to_primitive_datetime(self):
+        dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
+        dt_str_result = IsoDateTimeType().to_primitive(dt)
+        dt_str_expected = "2020-01-01T12:00:00+02:00"
+        self.assertEqual(dt_str_result, dt_str_expected)
+
+
+
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CreateRoleCsvTest))
     suite.addTest(unittest.makeSuite(IsoDurationTypeTest))
+    suite.addTest(unittest.makeSuite(TestIsoDateTimeType))
     return suite
 
 

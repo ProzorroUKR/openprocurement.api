@@ -4,9 +4,9 @@ from schematics.exceptions import ValidationError
 from schematics.types import StringType
 
 from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.utils import is_obj_const_active
-from openprocurement.api.procedure.models.base import ModelType
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.planning.api.procedure.context import get_plan

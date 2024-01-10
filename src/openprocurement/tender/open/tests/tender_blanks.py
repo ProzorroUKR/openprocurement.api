@@ -6,13 +6,12 @@ from copy import deepcopy
 from jsonschema import validate
 import requests
 
-from openprocurement.api.models import get_now
 from openprocurement.api.constants import (
     CPV_ITEMS_CLASS_FROM,
     NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
-from openprocurement.api.utils import parse_date
+from openprocurement.api.utils import parse_date, get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,

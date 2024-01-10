@@ -2,6 +2,7 @@ from unittest.mock import patch
 from datetime import timedelta
 from copy import deepcopy
 
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_documents,
@@ -107,6 +108,7 @@ def create_tender_biddder_invalid(self):
                     "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                     "name": ["This field is required."],
                     "address": ["This field is required."],
+                    "scale": ["This field is required."],
                 }
             ],
             "location": "body",
@@ -143,6 +145,7 @@ def create_tender_biddder_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -293,9 +296,11 @@ def patch_tender_bidder(self):
         ],
     )
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -593,48 +598,6 @@ def create_tender_bid_no_scale_invalid(self):
         response.json["errors"],
         [{"description": [{"scale": ["This field is required."]}], "location": "body", "name": "tenderers"}],
     )
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-            get_now() + timedelta(days=1))
-def create_tender_bid_with_scale_not_required(self):
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update({
-        "lotValues": [{
-            "relatedLot": self.tender_lots[0]["id"],
-            "value": {
-                "amount": 500,
-            }
-        }],
-        "tenderers": [{key: value for key, value in self.author_data.items() if key != "scale"}],
-    })
-    response = self.app.post_json(request_path, {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-@patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM",
-            get_now() + timedelta(days=1))
-def create_tender_bid_no_scale(self):
-    request_path = "/tenders/{}/bids".format(self.tender_id)
-    bid_data = deepcopy(self.test_bids_data[0])
-    bid_data.update({
-        "lotValues": [{
-            "relatedLot": self.tender_lots[0]["id"],
-            "value": {
-                "amount": 500,
-            }
-        }],
-        "tenderers": [{key: value for key, value in self.author_data.items() if key != "scale"}],
-    })
-    response = self.app.post_json(request_path, {"data": bid_data})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["tenderers"][0])
 
 
 @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
@@ -983,7 +946,7 @@ def bid_Administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
 
-    bid_data["tenderers"] = [{"identifier": {"id": "00000000"}}]
+    bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
     bid_data["lotValues"][0]["value"] = {"amount": 400}
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(

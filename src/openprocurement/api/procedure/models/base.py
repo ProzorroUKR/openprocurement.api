@@ -1,65 +1,100 @@
-from schematics.transforms import export_loop
-from schematics.types.compound import ModelType as BaseModelType,  ListType as BaseListType
-from openprocurement.api.models import DecimalType as BaseDecimalType
-from decimal import Decimal
+from schematics.models import Model as SchematicsModel
+from schematics.transforms import blacklist, convert, export_loop
+from schematics.types import BaseType, StringType
+from schematics.types.serializable import serializable
+
+from openprocurement.api.utils import set_parent
 
 
-class ListType(BaseListType):  # TODO RM?
-    """
-    Schematics ListType export_loop returns None instead of the empty list
-    if an empty list passed to model.
-    So you have to pass serialize_when_none , like
-    ListType(ModelType(Parameter, required=True), serialize_when_none=True, ...
-    and then converting '[]' to 'None' won't happen.
-    1) It's not obvious
-    2) If we use model to validate user input data, we do want to know they sending this empty list
-    """
-    def allow_none(self):
-        return True
+class Model(SchematicsModel):
 
+    class Options:
+        """Export options for Document."""
 
-class ModelType(BaseModelType):  # TODO RM?
+        serialize_when_none = False
+        roles = {"default": blacklist("__parent__"), "embedded": blacklist("__parent__")}
 
-    def __init__(self, model_class, **kwargs):
-        name = kwargs.pop("name", None)
-        if name:
-            model_class.__name__ = name
-        super().__init__(model_class, **kwargs)
+    __parent__ = BaseType()
 
+    # def __getattribute__(self, name):
+    #     serializables = super(Model, self).__getattribute__("_serializables")
+    #     if name in serializables.adaptive_items:
+    #         return serializables[name](self)
+    #     return super(Model, self).__getattribute__(name)
 
-class NoneAllowedModelType(BaseModelType):
-    """
-    without overwriting export_loop
-    the following data provided to model {'auctionPeriod': {'startDate': None}}
-    would result with None as output from .serialize()
-    """
+    def __getitem__(self, name):
+        try:
+            return getattr(self, name)
+        except AttributeError as e:
+            raise KeyError(e)
 
-    def export_loop(self, model_instance, field_converter,
-                    role=None, print_none=False):
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            for k in self._fields:
+                if k != "__parent__" and self.get(k) != other.get(k):
+                    return False
+            return True
+        return NotImplemented
+
+    def convert(self, raw_data, **kw):
         """
-        Calls the main `export_loop` implementation because they are both
-        supposed to operate on models.
+        Converts the raw data into richer Python constructs according to the
+        fields on the model
         """
-        if isinstance(model_instance, self.model_class):
-            model_class = model_instance.__class__
-        else:
-            model_class = self.model_class
-
-        shaped = export_loop(model_class, model_instance,
-                             field_converter,
-                             role=role, print_none=True)
-
-        if shaped and len(shaped) == 0 and self.allow_none():
-            return shaped
-        elif shaped:
-            return shaped
-        elif print_none:
-            return shaped
-
-
-class DecimalType(BaseDecimalType):
-    def to_primitive(self, *args, **kwargs):
-        value = super().to_primitive(*args, **kwargs)
-        if isinstance(value, Decimal):
-            return '{0:f}'.format(value)
+        value = convert(self.__class__, raw_data, **kw)
+        for i, j in value.items():
+            if isinstance(j, list):
+                for x in j:
+                    set_parent(x, self)
+            else:
+                set_parent(j, self)
         return value
+
+    def to_patch(self, role=None):
+        """
+        Return data as it would be validated. No filtering of output unless
+        role is defined.
+        """
+        field_converter = lambda field, value: field.to_primitive(value)
+        data = export_loop(self.__class__, self, field_converter, role=role, raise_error_on_role=True, print_none=True)
+        return data
+
+    def get_role(self):
+        root = self.get_root()
+        request = root.request
+        return "Administrator" if request.authenticated_role == "Administrator" else "edit"
+
+    def get_root(self):
+        root = self.__parent__
+        while root.__parent__ is not None:
+            root = root.__parent__
+        return root
+
+
+class RootModel(Model):
+    _id = StringType(deserialize_from=['id', 'doc_id'])
+    _rev = StringType()
+    doc_type = StringType()
+    public_modified = BaseType()
+
+    @serializable(serialized_name="id")
+    def doc_id(self):
+        """A property that is serialized by schematics exports."""
+        return self._id
+
+    def _get_id(self):
+        """id property getter."""
+        return self._id
+
+    def _set_id(self, value):
+        """id property setter."""
+        if self.id is not None:
+            raise AttributeError('id can only be set on new documents')
+        self._id = value
+
+    id = property(_get_id, _set_id, doc='The document ID')
+
+    @property
+    def rev(self):
+        """A property for self._rev"""
+        return self._rev

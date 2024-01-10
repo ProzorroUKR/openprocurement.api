@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
+PATCH /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2637
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "43204fd932374740a40528f7712ca55e",
+        "id": "0e756c74ade8495581a5e9193849a431",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -43,10 +43,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007"
+        "relatedLot": "3fdae4595ce746318c81ada140ff94d7"
       },
       {
-        "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
+        "id": "6683b1e519db42a9a6923075f0745b38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -82,7 +82,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "03db38a8519e40fc9fc9377793126015"
+        "relatedLot": "87b8c90776524a309ee776907e5ef0b9"
       }
     ]
   }
@@ -118,7 +118,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "eb3a2c7480d14c948cce6d516a8fb007",
+        "id": "3fdae4595ce746318c81ada140ff94d7",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -135,7 +135,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "03db38a8519e40fc9fc9377793126015",
+        "id": "87b8c90776524a309ee776907e5ef0b9",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -163,7 +163,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "9a0a73c7e00f49228dd67b72bcc34dbc",
+        "id": "5f63678dbcf54818a581bda6b9e29572",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -190,9 +190,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна"
+        "url": "http://sch10.edu.vn.ua/"
       },
       "kind": "special"
     },
@@ -211,7 +211,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "43204fd932374740a40528f7712ca55e",
+        "id": "0e756c74ade8495581a5e9193849a431",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -235,7 +235,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "relatedLot": "3fdae4595ce746318c81ada140ff94d7",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -249,7 +249,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
+        "id": "6683b1e519db42a9a6923075f0745b38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -274,7 +274,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "03db38a8519e40fc9fc9377793126015",
+        "relatedLot": "87b8c90776524a309ee776907e5ef0b9",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -292,7 +292,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-22T00:00:00+03:00"
     },
-    "id": "cb76d20a62ef4e318ecb101430b63776"
+    "id": "4a47e2c36bdc4f3bab60ecf7d8d0700e"
   },
   "config": {
     "hasAuction": true,

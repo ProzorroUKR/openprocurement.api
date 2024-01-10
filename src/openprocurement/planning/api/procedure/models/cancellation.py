@@ -3,7 +3,8 @@ from uuid import uuid4
 from schematics.types.serializable import serializable
 from schematics.types import MD5Type, StringType
 
-from openprocurement.api.models import Model, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType
 from openprocurement.api.context import get_now
 
 

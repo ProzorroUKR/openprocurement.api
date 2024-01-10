@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/75a2c418caee4a10b881681b191f3a8a?acc_token=9b0c2eb782a148278eafc00e8a90a28c HTTP/1.0
+PATCH /api/2.5/plans/7e9f5db82f6345b4ae70053125672288?acc_token=9b0c2eb782a148278eafc00e8a90a28c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 213
 Content-Type: application/json
@@ -21,7 +21,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "dcb61d851a69495db9e6aacab179c903",
+      "id": "955379ff93554f2383890a62a842513a",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -74,7 +74,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-11-000002-a",
     "items": [
       {
-        "id": "93e70744b8fc49f4950f9ec5b60ae1f4",
+        "id": "eed95a05da594cfa8b4c2be806ff0660",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -105,7 +105,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "543103ea99b74335b0e3b765ca40dfdb",
+        "id": "5c4c8fb858624118bd71cc793ee21a3f",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -136,7 +136,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "c0a5f5deb8204552bf16a37f58441c6c",
+        "id": "d20bedc73b0a456097d2f8b9c41dff90",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -169,7 +169,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "83e0ffef87dc4920901bd7a46df12f03",
+        "id": "918e07dbb0a24778a00d269fd00ed42f",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -190,7 +190,7 @@ Content-Type: application/json
       "reason": "Підстава для скасування",
       "reason_en": "Reason of the cancellation",
       "status": "pending",
-      "id": "35031579fd864554833b5e640beddd67",
+      "id": "2d82a0b075934f5ab78b0457ea025f48",
       "date": "2023-10-11T02:00:33+03:00"
     },
     "rationale": {
@@ -201,7 +201,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-11T02:00:33+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",
     "datePublished": "2023-10-11T02:00:33+03:00",
-    "id": "75a2c418caee4a10b881681b191f3a8a"
+    "id": "7e9f5db82f6345b4ae70053125672288"
   }
 }
 

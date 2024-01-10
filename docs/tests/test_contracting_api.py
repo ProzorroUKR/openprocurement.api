@@ -3,7 +3,7 @@ import os
 from datetime import timedelta
 from copy import deepcopy
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,

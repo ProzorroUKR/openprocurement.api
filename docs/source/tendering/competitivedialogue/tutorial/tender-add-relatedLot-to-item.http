@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+PATCH /api/2.5/tenders/bdf767732b5740cc980564940363d11b?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2402
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "5596e0db6a3146bba28de4f2822c558f",
+        "id": "aca11f1f7da545d49988474e339c8940",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -44,10 +44,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+        "relatedLot": "f5585c247e854510bba989119bf55ea0"
       },
       {
-        "id": "34a7aec5f5bc4230b1a854f4942cb535",
+        "id": "4017ff8e4b0749a9a017f05976d8ea8a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+        "relatedLot": "f5585c247e854510bba989119bf55ea0"
       }
     ]
   }
@@ -127,7 +127,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "14630654fc3e481c95a77e52fe17067c",
+        "id": "024b5406e5bf4e6c8e0569dbc9f7396b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -156,9 +156,9 @@ Content-Type: application/json
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -184,7 +184,7 @@ Content-Type: application/json
     "status": "draft",
     "items": [
       {
-        "id": "5596e0db6a3146bba28de4f2822c558f",
+        "id": "aca11f1f7da545d49988474e339c8940",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -208,7 +208,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -223,7 +223,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "34a7aec5f5bc4230b1a854f4942cb535",
+        "id": "4017ff8e4b0749a9a017f05976d8ea8a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -247,7 +247,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -267,7 +267,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "f5585c247e854510bba989119bf55ea0",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -281,7 +281,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "00653c26796e413c89e22e65cd6da9cd"
+    "id": "bdf767732b5740cc980564940363d11b"
   },
   "config": {
     "hasAuction": false,

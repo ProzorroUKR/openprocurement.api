@@ -8,27 +8,17 @@ from pymongo.errors import DuplicateKeyError, OperationFailure
 from six import b
 import pytz
 from datetime import datetime
-from base64 import b64encode, b64decode
-from cornice.resource import resource, view
-from email.header import decode_header
+from base64 import b64encode
+from cornice.resource import view
 from functools import partial
 
 from ciso8601 import parse_datetime
-from jsonpatch import make_patch, apply_patch
-from schematics.types import StringType, BaseType
-from schematics.models import Model as SchematicsModel
-
-from openprocurement.api.traversal import factory
-from rfc6266 import build_header
-from hashlib import sha512
 from time import time as ttime
-from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
+from urllib.parse import urlparse, urlunsplit, urlencode
 from nacl.encoding import HexEncoder
-from nacl.exceptions import BadSignatureError
 from uuid import uuid4
 from webob.multidict import NestedMultiDict
 from binascii import hexlify, unhexlify
-from binascii import Error as BinasciiError
 from Crypto.Cipher import AES
 from cornice.util import json_error
 from json import dumps
@@ -38,28 +28,15 @@ from openprocurement.api.events import ErrorDescriptorEvent
 from openprocurement.api.constants import (
     LOGGER,
     JOURNAL_PREFIX,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES,
-    DOCUMENT_BLACKLISTED_FIELDS,
-    DOCUMENT_WHITELISTED_FIELDS,
     ROUTE_PREFIX,
     TZ,
-    SESSION,
     GMDN_CPV_PREFIXES,
     UA_ROAD_CPV_PREFIXES,
 )
 from openprocurement.api.database import MongodbResourceConflict
-from openprocurement.api.interfaces import IOPContent
-from openprocurement.api.interfaces import IContentConfigurator
 import requests
 
 json_view = partial(view, renderer="simplejson")
-
-ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
-
-
-DEFAULT_PAGE = 1
-DEFAULT_LIMIT = 100
-DEFAULT_DESCENDING = False
 
 
 def get_now():
@@ -70,51 +47,8 @@ def set_parent(item, parent):
         item.__parent__ = parent
 
 
-def get_root(item):
-    """ traverse back to root op content object (plan, tender, contract, etc.)
-    """
-    while not IOPContent.providedBy(item):
-        item = item.__parent__
-    return item
-
-
-def get_particular_parent(item, model):
-    """ traverse back to particular parent
-    """
-    while not isinstance(item, model):
-        item = item.__parent__
-    return item
-
-
-def get_particular_parent_by_namespace(item, model_namespace):
-    """ traverse back to particular parent
-    """
-    while not item._options.namespace == model_namespace:
-        item = item.__parent__
-    return item
-
 def generate_id():
     return uuid4().hex
-
-
-def get_filename(data):
-    try:
-        pairs = decode_header(data.filename)
-    except Exception:
-        pairs = None
-    if not pairs:
-        return data.filename
-    header = pairs[0]
-    if header[1]:
-        return header[0].decode(header[1])
-    else:
-        return header[0]
-
-
-def get_schematics_document(model):
-    while isinstance(model.__parent__, SchematicsModel):
-        model = model.__parent__
-    return model
 
 
 def generate_docservice_url(request, doc_id, temporary=True, prefix=None):
@@ -171,323 +105,8 @@ def raise_operation_error(request, message, status=403, location="body", name="d
     raise error_handler(request)
 
 
-def upload_file(request):
-    if "data" in request.validated and request.validated["data"]:
-        return upload_file_json(request)
-    return upload_file_direct(request)
-
-
-def upload_files(request, container="documents"):
-    bulk_documents = request.validated.get("document_bulk")
-    if bulk_documents:
-        for document in bulk_documents:
-            yield upload_file_data(request, document, None)
-    else:
-        yield upload_file(request)
-
-
-def upload_file_json(request):
-    document = request.validated["document"]
-    prev_documents = request.validated.get("documents")
-    return upload_file_data(request, document, prev_documents)
-
-
-def upload_file_data(request, document, prev_documents):
-    first_document = prev_documents[-1] if prev_documents else None
-    check_document(request, document)
-    if first_document:
-        update_new_document_version(request, document, first_document)
-    document_route = request.matched_route.name.replace("collection_", "")
-    document = update_document_url(request, document, document_route, {})
-    return document
-
-
-def upload_file_direct(request):
-    prev_documents = request.validated.get("documents")
-    first_document = prev_documents[-1] if prev_documents else None
-    if request.content_type == "multipart/form-data":
-        data = request.validated["file"]
-        filename = get_filename(data)
-        content_type = data.type
-        in_file = data.file
-    else:
-        filename = first_document.title
-        content_type = request.content_type
-        in_file = request.body_file
-    if hasattr(request.context, "documents"):
-        # upload new document
-        model = type(request.context).documents.model_class
-    else:
-        # update document
-        model = type(request.context)
-    document = model({"title": filename, "format": content_type})
-    document.__parent__ = request.context
-    if "document_id" in request.validated:
-        document.id = request.validated["document_id"]
-    if first_document:
-        update_new_document_direct_version(document, first_document)
-    if request.registry.docservice_url:
-        key = upload_file_to_docservice(request, document, in_file, filename, content_type)
-    else:
-        key = upload_file_to_attachments(document, in_file, request)
-    document_route = request.matched_route.name.replace("collection_", "")
-    document_path = request.current_route_path(
-        _route_name=document_route, document_id=document.id, _query={"download": key}
-    )
-    document.url = "/" + "/".join(document_path.split("/")[3:])
-    update_logging_context(request, {"file_size": in_file.tell()})
-    return document
-
-
-def upload_file_to_docservice(request, document, in_file, filename, content_type):
-    parsed_url = urlparse(request.registry.docservice_url)
-    url = request.registry.docservice_upload_url or urlunsplit(
-        (parsed_url.scheme, parsed_url.netloc, "/upload", "", "")
-    )
-    files = {"file": (filename, in_file, content_type)}
-    doc_url = None
-    index = 10
-    while index:
-        try:
-            r = SESSION.post(
-                url,
-                files=files,
-                headers={"X-Client-Request-ID": request.environ.get("REQUEST_ID", "")},
-                auth=(request.registry.docservice_username, request.registry.docservice_password),
-            )
-            json_data = r.json()
-        except Exception as e:
-            LOGGER.warning(
-                "Raised exception '{}' on uploading document to document service': {}.".format(type(e), e),
-                extra=context_unpack(
-                    request, {"MESSAGE_ID": "document_service_exception"}, {"file_size": in_file.tell()}
-                ),
-            )
-        else:
-            if r.status_code == 200 and json_data.get("data", {}).get("url"):
-                doc_url = json_data["data"]["url"]
-                doc_hash = json_data["data"]["hash"]
-                break
-            else:
-                LOGGER.warning(
-                    "Error {} on uploading document to document service '{}': {}".format(
-                        r.status_code, url, r.text
-                    ),
-                    extra=context_unpack(
-                        request,
-                        {"MESSAGE_ID": "document_service_error"},
-                        {"ERROR_STATUS": r.status_code, "file_size": in_file.tell()},
-                    ),
-                )
-        in_file.seek(0)
-        index -= 1
-    else:
-        request.errors.add("body", "body", "Can't upload document to document service.")
-        request.errors.status = 422
-        raise error_handler(request)
-    document.hash = doc_hash
-    key = urlparse(doc_url).path.split("/")[-1]
-    return key
-
-
-def upload_file_to_attachments(document, in_file, request):
-    key = generate_id()
-    filename = "{}_{}".format(document.id, key)
-    request.validated["db_doc"]["_attachments"][filename] = {
-        "content_type": document.format,
-        "data": b64encode(in_file.read()).decode('utf-8'),
-    }
-    return key
-
-
-def update_new_document_version(
-    request, document, first_document,
-    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
-    whitelisted_fields=DOCUMENT_WHITELISTED_FIELDS
-):
-    json_data = request.validated["json_data"]
-    if isinstance(json_data, list):
-        for json_item in json_data:
-            if json_item["id"] == first_document["id"]:
-                json_document = json_item
-                break
-        else:
-            raise ValueError
-    else:
-        json_document = json_data
-    for attr_name in type(first_document)._fields:
-        if attr_name in whitelisted_fields:
-            setattr(document, attr_name, getattr(first_document, attr_name))
-        elif attr_name not in blacklisted_fields and attr_name not in json_document:
-            setattr(document, attr_name, getattr(first_document, attr_name))
-
-
-def update_new_document_direct_version(
-    document, first_document,
-    blacklisted_fields=DOCUMENT_BLACKLISTED_FIELDS,
-):
-    for attr_name in type(first_document)._fields:
-        if attr_name not in blacklisted_fields:
-            setattr(document, attr_name, getattr(first_document, attr_name))
-
-
 def update_file_content_type(request):  # XXX TODO
     pass
-
-
-def get_file(request):
-    db_doc_id = request.validated["db_doc"].id
-    key = request.params.get("download")
-    if not any([key in i.url for i in request.validated["documents"]]):
-        request.errors.add("url", "download", "Not Found")
-        request.errors.status = 404
-        return
-    return get_file_docservice(request, db_doc_id, key)
-
-
-def get_file_docservice(request, db_doc_id, key):
-    document = [i for i in request.validated["documents"] if key in i.url][-1]
-    if "Signature=" in document.url and "KeyID" in document.url:
-        url = document.url
-    else:
-        if "download=" not in document.url:
-            key = urlparse(document.url).path.replace("/get/", "")
-        if not document.hash:
-            url = generate_docservice_url(request, key, prefix="{}/{}".format(db_doc_id, document.id))
-        else:
-            url = generate_docservice_url(request, key)
-    request.response.content_type = document.format
-    request.response.content_disposition = build_header(
-        document.title, filename_compat=quote(document.title.encode("utf-8"))
-    ).decode("utf-8")
-    request.response.status = "302 Moved Temporarily"
-    request.response.location = url
-    return url
-
-
-def prepare_patch(changes, orig, patch, basepath=""):
-    if isinstance(patch, dict):
-        for i in patch:
-            if i in orig:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i))
-            else:
-                changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": patch[i]})
-    elif isinstance(patch, list):
-        if len(patch) < len(orig):
-            for i in reversed(list(range(len(patch), len(orig)))):
-                changes.append({"op": "remove", "path": "{}/{}".format(basepath, i)})
-        for i, j in enumerate(patch):
-            if len(orig) > i:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i))
-            else:
-                changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
-    else:
-        for x in make_patch(orig, patch).patch:
-            x["path"] = "{}{}".format(basepath, x["path"])
-            changes.append(x)
-
-
-def apply_data_patch(item, changes):
-    patch_changes = []
-    prepare_patch(patch_changes, item, changes)
-    if not patch_changes:
-        return {}
-    return apply_patch(item, patch_changes)
-
-
-def get_revision_changes(dst, src):
-    return make_patch(dst, src).patch
-
-
-def set_ownership(item, request):
-    if not item.get("owner"):
-        item.owner = request.authenticated_userid
-    item.owner_token = generate_id()
-    access = {"token": item.owner_token}
-    if isinstance(getattr(type(item), "transfer_token", None), StringType):
-        transfer = generate_id()
-        item.transfer_token = sha512(transfer.encode("utf-8")).hexdigest()
-        access["transfer"] = transfer
-    return access
-
-
-def check_document(request, document):
-    url = document.url
-    parsed_url = urlparse(url)
-    parsed_query = dict(parse_qsl(parsed_url.query))
-    if (
-        not (
-            url.startswith(request.registry.docservice_url)
-            or request.registry.dep_docservice_url and url.startswith(request.registry.dep_docservice_url)
-        )
-        or len(parsed_url.path.split("/")) != 3
-        or {"Signature", "KeyID"} != set(parsed_query)
-    ):
-        request.errors.add("body", "url", "Can add document only from document service.")
-        request.errors.status = 403
-        raise error_handler(request)
-    if not document.hash:
-        request.errors.add("body", "hash", "This field is required.")
-        request.errors.status = 422
-        raise error_handler(request)
-    keyid = parsed_query["KeyID"]
-    if keyid not in request.registry.keyring:
-        request.errors.add("body", "url", "Document url expired.")
-        request.errors.status = 422
-        raise error_handler(request)
-    dockey = request.registry.keyring[keyid]
-    signature = parsed_query["Signature"]
-    key = urlparse(url).path.split("/")[-1]
-    try:
-        signature = b64decode(unquote(signature))
-    except BinasciiError:
-        request.errors.add("body", "url", "Document url signature invalid.")
-        request.errors.status = 422
-        raise error_handler(request)
-    mess = "{}\0{}".format(key, document.hash.split(":", 1)[-1])
-    try:
-        if mess.encode() != dockey.verify(signature + mess.encode("utf-8")):
-            raise BadSignatureError
-    except BadSignatureError:
-        request.errors.add("body", "url", "Document url invalid.")
-        request.errors.status = 422
-        raise error_handler(request)
-
-
-def update_document_url(request, document, document_route, route_kwargs=None):
-    route_kwargs = route_kwargs or {}
-    key = urlparse(document.url).path.split("/")[-1]
-    route_kwargs.update({"_route_name": document_route, "document_id": document.id, "_query": {"download": key}})
-    document_path = request.current_route_path(**route_kwargs)
-    document.url = "/" + "/".join(document_path.split("/")[3:])
-    return document
-
-
-def check_document_batch(request, document, document_container, route_kwargs=None, route_prefix=None):
-    check_document(request, document)
-    document_route = request.matched_route.name.replace("collection_", "")
-    # Following piece of code was written by leits, so no one knows how it works
-    # and why =)
-    # To redefine document_route to get appropriate real document route when bid
-    # is created with documents? I hope so :)
-    if "Documents" not in document_route:
-        if document_container != "body":
-            route_end = document_container.lower().rsplit("documents")[0] + " documents"
-        else:
-            route_end = "documents"
-        specified_document_route_end = route_end.lstrip().title()
-        document_route = " ".join([document_route[:-1], specified_document_route_end])
-        if route_prefix:
-            document_route = ":".join([route_prefix, document_route])
-    return update_document_url(request, document, document_route, route_kwargs)
-
-
-def upload_objects_documents(request, obj, document_container='body', route_kwargs=None, route_prefix=None):
-    if request.registry.docservice_url:
-        documents = getattr(obj, 'documents', []) if not isinstance(obj, list) else obj
-        for document in documents:
-            check_document_batch(request, document, document_container, route_kwargs, route_prefix)
-
 
 def request_params(request):
     try:
@@ -501,9 +120,6 @@ def request_params(request):
         request.errors.status = 422
         raise error_handler(request, False)
     return params
-
-
-opresource = partial(resource, error_handler=error_handler, factory=factory)
 
 
 def forbidden(request):
@@ -534,13 +150,6 @@ def context_unpack(request, msg, params=None):
     for key, value in logging_context.items():
         journal_context[JOURNAL_PREFIX + key] = value
     return journal_context
-
-
-def get_content_configurator(request):
-    content_type = request.path[len(ROUTE_PREFIX) + 1 :].split("/")[0][:-1]
-    if hasattr(request, content_type):  # content is constructed
-        context = getattr(request, content_type)
-        return request.registry.queryMultiAdapter((context, request), IContentConfigurator)
 
 
 def fix_url(item, app_url):
@@ -727,23 +336,6 @@ def get_change_class(poly_model, data, _validation=False):
     return _change_class
 
 
-def required_field_from_date(date):
-    def decorator(function):
-        def wrapper(*args, **kwargs):
-            data, value = args[1:]
-            try:
-                root = get_root(data.get("__parent__", {}))
-            except AttributeError:
-                pass
-            else:
-                is_valid_date = get_first_revision_date(root, default=get_now()) >= date
-                if is_valid_date and not value:
-                    raise ValidationError(BaseType.MESSAGES["required"])
-            function(*args, **kwargs)
-        return wrapper
-    return decorator
-
-
 def requested_fields_changes(request, fieldnames):
     changed_fields = request.validated["json_data"].keys()
     return set(fieldnames) & set(changed_fields)
@@ -772,3 +364,7 @@ def get_tender_by_id(request, tender_id: str, raise_error: bool = True):
 
 def get_contract_by_id(request, contract_id: str, raise_error: bool = True):
     return get_obj_by_id(request, "contracts", contract_id, raise_error)
+
+
+def get_child_items(parent, item_field, item_id):
+    return [i for i in parent.get(item_field, []) if i.get("id") == item_id]

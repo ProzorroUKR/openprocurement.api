@@ -1,15 +1,11 @@
 from openprocurement.api.context import get_now
-from openprocurement.api.models import IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType
 
-from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 
 
 class QualificationPeriod(Period):
     reportingDatePublication = IsoDateTimeType()
-
-
-class PeriodEndRequired(Period):
-    endDate = IsoDateTimeType(required=True)
 
 
 class PostPeriodStartEndRequired(Period):

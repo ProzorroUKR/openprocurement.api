@@ -1,79 +1,43 @@
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.contact import ContactPoint, PostContactPoint, PatchContactPoint
-from openprocurement.tender.core.procedure.models.address import Address, PatchAddress, PostAddress
-from openprocurement.tender.core.procedure.models.identifier import PatchIdentifier
-from openprocurement.api.procedure.models.identifier import Identifier
-from openprocurement.tender.core.procedure.models.base import ModelType
-from openprocurement.api.models import ListType, Model, MD5Type
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import ORGANIZATION_SCALE_FROM, SCALE_CODES
-from schematics.types import StringType, BaseType
-from schematics.validate import ValidationError
+from schematics.types import StringType, MD5Type
 from uuid import uuid4
-
+from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.models.organization import (
+    CommonOrganization,
+    Organization as BaseOrganization,
+    BusinessOrganization as BaseBusinessOrganization,
+)
+from openprocurement.tender.core.procedure.models.contact import ContactPoint
+from openprocurement.tender.core.procedure.models.address import Address
 
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 
 
-class PatchOrganization(Model):  # TODO: remove Post, Patch models
-    name = StringType()
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(PatchIdentifier, name="Identifier")
-    additionalIdentifiers = ListType(ModelType(PatchIdentifier))
-    address = ModelType(PatchAddress)
-    contactPoint = ModelType(PatchContactPoint)
-
-
-class PostOrganization(PatchOrganization):
-    name = StringType(required=True)
-    identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
-    address = ModelType(PostAddress, required=True)
-    contactPoint = ModelType(PostContactPoint, required=True)
-
-
-class PatchBusinessOrganization(PatchOrganization):
-    scale = StringType(choices=SCALE_CODES)
-
-
-class PostBusinessOrganization(PostOrganization, PatchBusinessOrganization):
-    def validate_scale(self, data, value):
-        tender = get_tender()
-        validation_date = get_first_revision_date(tender, default=get_now())
-        if validation_date >= ORGANIZATION_SCALE_FROM and value is None:
-            raise ValidationError(BaseType.MESSAGES["required"])
-
-
-class BusinessOrganization(PostBusinessOrganization):
-    pass
-
-
-class ContactLessBusinessOrganization(BusinessOrganization):
-    contactPoint = ModelType(PostContactPoint)
-
-
-class BaseOrganization(Model):
-    id = MD5Type(default=lambda: uuid4().hex)
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(Identifier, required=True)
-    address = ModelType(Address)
-    kind = StringType(choices=PROCURING_ENTITY_KINDS)
-
-
-class Organization(Model):
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
+class Organization(BaseOrganization):
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
 
 
+class BusinessOrganization(BaseBusinessOrganization):
+    address = ModelType(Address, required=True)
+    contactPoint = ModelType(ContactPoint, required=True)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+
+
+class ContactLessBusinessOrganization(BaseBusinessOrganization):
+    address = ModelType(Address, required=True)
+    contactPoint = ModelType(ContactPoint)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+
+
+class Buyer(CommonOrganization):
+    id = MD5Type(default=lambda: uuid4().hex)
+    address = ModelType(Address)
+    kind = StringType(choices=PROCURING_ENTITY_KINDS)
+
+
 class ProcuringEntity(Organization):
+    address = ModelType(Address, required=True)
+    contactPoint = ModelType(ContactPoint, required=True)
+    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KINDS, required=True)

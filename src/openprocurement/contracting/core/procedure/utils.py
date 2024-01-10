@@ -9,12 +9,9 @@ from openprocurement.api.utils import (
 from openprocurement.api.auth import extract_access_token
 
 from openprocurement.tender.core.procedure.utils import (
-    is_item_owner,
-    append_revision,
-    get_revision_changes,
     set_mode_test_titles,
 )
-
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes, is_item_owner
 
 LOGGER = getLogger("openprocurement.contracting.api.procedure")
 

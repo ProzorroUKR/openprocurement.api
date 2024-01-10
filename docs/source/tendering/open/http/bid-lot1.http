@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/bids HTTP/1.0
+POST /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1422
 Content-Type: application/json
@@ -38,7 +38,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007"
+        "relatedLot": "3fdae4595ce746318c81ada140ff94d7"
       }
     ]
   }
@@ -47,7 +47,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/bids/1fcbb7ab0a104c228baa39c0c89927fe
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/bids/f5ee9153aadb4ae59874c308815130ad
 
 {
   "data": {
@@ -60,6 +60,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -68,11 +69,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
@@ -85,12 +85,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "relatedLot": "3fdae4595ce746318c81ada140ff94d7",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "1fcbb7ab0a104c228baa39c0c89927fe",
+    "id": "f5ee9153aadb4ae59874c308815130ad",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0babf43ffe2a4934bcbb730f93d38601/bids/0e4c0ac9fb214aec86664334f935e806?acc_token=6f9ffb4773a14f17b72d927d856ae71d HTTP/1.0
+PATCH /api/2.5/tenders/9cc65ce29e4f4ae0b098f633963efa7f/bids/7878cf456f9640bea5cb979f1fbebeee?acc_token=6f9ffb4773a14f17b72d927d856ae71d HTTP/1.0
 Authorization: Bearer token
 Content-Length: 5861
 Content-Type: application/json
@@ -11,14 +11,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "4198c9413b51442eab2d779a5f23f656",
+          "id": "2d0f191e424845cea0d0a424258d3d3f",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d40249ef45b6492c9dcb8140bff07aba",
+          "id": "a6307ab3111e4d649d7470284d0cdd93",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за злочин, вчинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом, шахрайством та відмиванням коштів), судимість з якої  знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
             "type": "document"
@@ -49,14 +49,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "55793858b955403c94b8684888df3e3a",
+          "id": "9bd2cee0585e446883c22762587b8106",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
             "type": "document"
@@ -79,7 +79,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "4198c9413b51442eab2d779a5f23f656",
+          "id": "2d0f191e424845cea0d0a424258d3d3f",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -87,20 +87,20 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
-            "id": "07ec621e4ec2436c885dd57dd8afcd8f"
+            "id": "26872ec684d549ca9325ad126d4409e9"
           }
         ],
         "value": "True",
-        "id": "7cef8ba2a8de4130b6c9e0000ccc09d8"
+        "id": "61625391b0ad45cc9c6ce29065472599"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d40249ef45b6492c9dcb8140bff07aba",
+          "id": "a6307ab3111e4d649d7470284d0cdd93",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за злочин, вчинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом, шахрайством та відмиванням коштів), судимість з якої  знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -108,20 +108,20 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
-            "id": "6d9cd32c7d954048bd678e103754f7ca"
+            "id": "fc819b13d1b74848b97005938b243636"
           }
         ],
         "value": "True",
-        "id": "fc94fec9ffa14519945fdc0d462cfb45"
+        "id": "a0a8f6ac8f2d4425917703c86b379052"
       },
       {
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "55793858b955403c94b8684888df3e3a",
+          "id": "9bd2cee0585e446883c22762587b8106",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
@@ -129,14 +129,14 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "f15755940c8c467e86b05b3ee64420a0",
+              "id": "2e37b10636cb4e53a41b3973f4469c3c",
               "title": "name.doc"
             },
-            "id": "14c64b7d92524892b9434a065947c39a"
+            "id": "db1e355e36f8491e9e111d7cf2259b4c"
           }
         ],
         "value": "True",
-        "id": "f0442f963cdd47f8816531a346403c17"
+        "id": "3f1c8235c6354ffeaf07883abc04d955"
       }
     ],
     "tenderers": [
@@ -148,6 +148,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -156,15 +157,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
-    "id": "0e4c0ac9fb214aec86664334f935e806",
+    "id": "7878cf456f9640bea5cb979f1fbebeee",
     "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -174,14 +174,14 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "e95c06240942446fbd6289786f02b75e",
+        "relatedLot": "438fbb101d17461a9a4cdc16b7088d05",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
       {
-        "id": "f15755940c8c467e86b05b3ee64420a0",
+        "id": "2e37b10636cb4e53a41b3973f4469c3c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

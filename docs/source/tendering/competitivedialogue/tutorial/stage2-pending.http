@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+GET /api/2.5/tenders/bdf767732b5740cc980564940363d11b?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -19,7 +19,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
-        "id": "94159c5d6cb8409fb42915cb57ba2f6f",
+        "id": "1916b90a1a014cb0855464ec12319422",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -54,16 +54,16 @@ Content-Type: application/json
                     "title": "Документальне підтвердження",
                     "description": "Довідка в довільній формі",
                     "type": "document",
-                    "id": "6fcaa20c15b24ce4a99ad2dd6588ef9d"
+                    "id": "b3aa81dbe2ac407893f9200167efb418"
                   }
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "id": "dfdcc883199e421a955b53a755e76d6e",
+                "id": "d586a6fb25884e4aaa77f50cd54224b9",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "e8f1e9725e8d413ea8b435c689632650"
+            "id": "13cec5075fb04e28a711cab3ba22121d"
           },
           {
             "description": "Учасник юридична особа підтверджує, що",
@@ -73,11 +73,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "57a5981c7723434cb32f1d9552a60113",
+                "id": "5a52623a94e64f6ab57ee18eabc35c35",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "c23f006bccb3496ab651a534658aa431"
+            "id": "aaa6f5d0d05541309dc96dc1f6816b55"
           }
         ]
       },
@@ -90,7 +90,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
-        "id": "2d41fdfc22ad4ae6b2d54d38144c807a",
+        "id": "d2f08c2eb5e04505bfea57b2ec0cab9b",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -132,11 +132,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "f346d079e9194f0594c8c55f7df358da",
+                "id": "8b23214af67c48818872a798b3ee4738",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "ed73acfcecc24022ad622c2bea538270"
+            "id": "01703634fb5c42a7bfd701bd88483ab8"
           }
         ]
       },
@@ -149,7 +149,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
-        "id": "6cc33fa42f8a475a8c0f36b94dd9e561",
+        "id": "d4dc9cae45af435586177c29db8e9c40",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -181,7 +181,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "dbe41c9380d243bb8d37c610178abb1d",
+                "id": "30bf76aa7a794b109a27934196482093",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -189,11 +189,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "cdc9c060834d42c6a90aecd8a46118e7",
+                "id": "219d1369669d4b63bc0b99f3f233d2ef",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "850898666cad440487c7e5c6c394d861"
+            "id": "17c0a889d07140ea85b76eeede778222"
           }
         ]
       },
@@ -206,7 +206,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
-        "id": "3850a2b26fd647c5b9b9b208d82d0fd6",
+        "id": "33f9c818f80a4aa6be2b9e0809c96812",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -228,11 +228,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "d5c0ecb404304fa783802b7b3b67aa7a",
+                "id": "df87852d075a4e4da4ac665d76ff36e6",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "0bfb961f0566449cb6cb7c0c00bd70f9"
+            "id": "2ff6a9091adf4e8c9a4984104852949a"
           }
         ]
       },
@@ -245,7 +245,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
-        "id": "025097156b514b2d9966d1e9212cdd97",
+        "id": "1605b0b54b974a7ca1e62b312d41efb4",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -267,11 +267,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "277784a43f7c4364a9b3e00a453a781f",
+                "id": "e35fa4b8357e49c28db0fc0ef0193948",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "721cc3132ce14c96bf8456f05828d9bb"
+            "id": "0d1098883d814398b65ef84e9b5fe6f6"
           },
           {
             "description": "Учасник підтверджує, що",
@@ -281,28 +281,28 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "dd329c194d6d4fc8bbe5f2d0b384960e",
+                "id": "ecdec5e8436c4a5c80c4cf789ab6eb6b",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "id": "47dce57796214217a8d9e32f69ac657f",
+                "id": "e8f4765e6b4e4ded99de38c29da99888",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "id": "b22e634c8af94cba9ed029c32f79b21c",
+                "id": "2b6039752b414a2dbeb82a6d2ae5afce",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "id": "acecd485f885491b963f3aa5bd827452",
+                "id": "fbedee0c42e4435e908fec6ecf28547f",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -310,11 +310,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "97ae044bf1464bef8447f1b8af2c4741",
+                "id": "4582ca2a55504314a20a6105a434258f",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "7532fc03d47447fc83622723a64797d3"
+            "id": "e85e123778d14ff9af6552e9f861265f"
           }
         ]
       },
@@ -327,7 +327,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
-        "id": "63aeb6c7cf5e4b03a663dca92a84dce3",
+        "id": "9e89340148bf4ca59e940387c9c257ac",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -349,11 +349,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "c5e0a420d6254c9a8d1b9a4de322ed4c",
+                "id": "8829e8f2e85b4bb1988e9abe7cf8a1b1",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "bc695aa1b4914e9c95849dd3868c9c37"
+            "id": "275651a85c25408fbcffd2c65051657c"
           }
         ]
       },
@@ -366,7 +366,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
-        "id": "8ed1c0b7174344c985701c2444d3862c",
+        "id": "3934b83046c642c286a7e3d8e8bdf69b",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -391,15 +391,15 @@ Content-Type: application/json
                     "title": "Документальне підтвердження",
                     "description": "Довідка в довільній формі",
                     "type": "document",
-                    "id": "8bb44dc23ad14eccaab7627881f6510b"
+                    "id": "752af81e712a4d4f8280e26aac23f606"
                   }
                 ],
                 "status": "active",
-                "id": "fca650d40ae847cc875e3258c53700c1",
+                "id": "b8693864b2cd4efe8142d187ce0577ca",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "074de0c137aa4d8384dfdf1d21415a4f"
+            "id": "f948ad6b6c7740ad963250e674e13216"
           }
         ]
       },
@@ -412,7 +412,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
-        "id": "528a2d22ef0a4a57b3a242e37f2f384a",
+        "id": "2213c3e618424d4ca26389d10ad6738f",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -433,11 +433,11 @@ Content-Type: application/json
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "id": "64456f28754c439ca1f92ea3ba0b834f",
+                "id": "e376ce48527d429b8e65fcaf5df6bbb8",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "3312757342664cf7ab248f960f5f326d"
+            "id": "32d796be3e3549538bd790231ce36e21"
           }
         ]
       },
@@ -450,7 +450,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
-        "id": "3fe2e96eead242bb8a506a29969cdbbe",
+        "id": "c57866e8b88347fc80a3d0860d42b8ac",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -511,7 +511,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "3c65eff1c9c644a08a3fd2a06a1eb578",
+                "id": "5af34739f4e64e3f921f883fcbdd73e0",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -519,7 +519,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "b7ce1bb37f1a4aafaec7724d82e1635d",
+                "id": "193d9ba102124630a3e0ba7e21fdaa05",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -527,11 +527,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "54cdb94e41604f4b969b466a855ad70c",
+                "id": "6efd1ad76ec647a3a2e9216eff617a14",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "916dd84390a54be4a486661aca5e57ae"
+            "id": "dbda1aff671345e4b7f0fbb90f61106a"
           }
         ]
       },
@@ -543,7 +543,7 @@ Content-Type: application/json
           "scheme": " ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
-        "id": "8257f0e582b249aa968c372f6b844ee8",
+        "id": "f47115a8da984759b9ec1ec2770df9ab",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -564,11 +564,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "aa6c2cbb8b2f4459a63e7c90c7df3694",
+                "id": "36b3a87ca99544c9a37704c2745c4882",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "bb22a2976aea4a3f98d5eb407b0863b9"
+            "id": "05c891cc4b2e4fa3b60de4e51eacbd7e"
           }
         ]
       }
@@ -584,114 +584,114 @@ Content-Type: application/json
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dfdcc883199e421a955b53a755e76d6e",
+              "id": "d586a6fb25884e4aaa77f50cd54224b9",
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
             "value": "True",
-            "id": "d900e625f9f642699a576243db8a90d6"
+            "id": "552936d41d0747f6becdc59e9faef936"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "f346d079e9194f0594c8c55f7df358da",
+              "id": "8b23214af67c48818872a798b3ee4738",
               "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
             },
             "value": "True",
-            "id": "6e5ac5dc533d44e49cc7cf3c2fedb61e"
+            "id": "ce21204eef214b57b1e41b5cbe4a763c"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dbe41c9380d243bb8d37c610178abb1d",
+              "id": "30bf76aa7a794b109a27934196482093",
               "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
             "value": "True",
-            "id": "8ada3731644043c5b44e374aebd8b3ff"
+            "id": "55f00be352d94d3681804b45fb239c97"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "cdc9c060834d42c6a90aecd8a46118e7",
+              "id": "219d1369669d4b63bc0b99f3f233d2ef",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
             "value": "True",
-            "id": "43e688c1f51d459ba34bb1cc53ff1cf1"
+            "id": "40b010f208bf49489c67045ad5df786c"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "d5c0ecb404304fa783802b7b3b67aa7a",
+              "id": "df87852d075a4e4da4ac665d76ff36e6",
               "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
             "value": "True",
-            "id": "00cc3b75226d4060b4a12c409d9a7269"
+            "id": "a3e0a76928644aec9e43ac9acba5d405"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "277784a43f7c4364a9b3e00a453a781f",
+              "id": "e35fa4b8357e49c28db0fc0ef0193948",
               "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
             "value": "True",
-            "id": "cc47a79a1d914dd7b2c27f0f3f396f53"
+            "id": "0fff52f1f2fa444eb63c872c66fe3e37"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "c5e0a420d6254c9a8d1b9a4de322ed4c",
+              "id": "8829e8f2e85b4bb1988e9abe7cf8a1b1",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
             "value": "True",
-            "id": "97b8c6034817493092afb6ac1c2d0570"
+            "id": "a532677573ed4b6b863ea27523778412"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "3c65eff1c9c644a08a3fd2a06a1eb578",
+              "id": "5af34739f4e64e3f921f883fcbdd73e0",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
             },
             "value": "True",
-            "id": "7ea0492e0acf4a7d8deaf437a98cc69d"
+            "id": "75e05b52260d4caa8487fe4791046014"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "b7ce1bb37f1a4aafaec7724d82e1635d",
+              "id": "193d9ba102124630a3e0ba7e21fdaa05",
               "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
             },
             "value": "True",
-            "id": "e6724cb4eac44db99cc8405792d5721b"
+            "id": "66868fd722ba43f989ff8059673271f0"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "54cdb94e41604f4b969b466a855ad70c",
+              "id": "6efd1ad76ec647a3a2e9216eff617a14",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
             "value": "True",
-            "id": "3bba1738ab6c4b59a768a32d5c983605"
+            "id": "14ee0fce4ccf40d6b73dacda83a904be"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "aa6c2cbb8b2f4459a63e7c90c7df3694",
+              "id": "36b3a87ca99544c9a37704c2745c4882",
               "title": "Мова тендерної пропозиції українська"
             },
             "value": "True",
-            "id": "5f28ff5cdd7e41ea86d8ea2abe9f0638"
+            "id": "47df05627a7c4edba9d3e628e328a523"
           }
         ],
-        "id": "80525a9a0f714e2b9b8eb34a14ccb612",
+        "id": "18ddc2a79e264e6babef6eb4927ca37c",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -702,6 +702,7 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -710,23 +711,22 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930",
-              "name": "Сергій Олексюк"
-            },
-            "scale": "micro"
+              "telephone": "+380432216930"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+            "relatedLot": "f5585c247e854510bba989119bf55ea0",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "documents": [
           {
-            "id": "eeaf59700b724c8fb1231eedf183d88c",
+            "id": "d08bbe40ac364695acf5f081e9241929",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
@@ -739,12 +739,12 @@ Content-Type: application/json
             "isDescriptionDecision": false
           },
           {
-            "id": "1482e8679ad84526a7a38f8350d1f02e",
+            "id": "5daedc87148646f59fc977c8d4c975c5",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/1482e8679ad84526a7a38f8350d1f02e?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/18ddc2a79e264e6babef6eb4927ca37c/documents/5daedc87148646f59fc977c8d4c975c5?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -752,12 +752,12 @@ Content-Type: application/json
             "isDescriptionDecision": true
           },
           {
-            "id": "a84b7add3fad491188ac216ff6e663c9",
+            "id": "dbbe8f6a802346efbed2af0b50013721",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/80525a9a0f714e2b9b8eb34a14ccb612/documents/a84b7add3fad491188ac216ff6e663c9?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/18ddc2a79e264e6babef6eb4927ca37c/documents/dbbe8f6a802346efbed2af0b50013721?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -776,114 +776,114 @@ Content-Type: application/json
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dfdcc883199e421a955b53a755e76d6e",
+              "id": "d586a6fb25884e4aaa77f50cd54224b9",
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
             "value": "True",
-            "id": "cfec942388614a7d89f3b2880c751d80"
+            "id": "8d1f9c3b3fb84204b084531827b1f330"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "f346d079e9194f0594c8c55f7df358da",
+              "id": "8b23214af67c48818872a798b3ee4738",
               "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
             },
             "value": "True",
-            "id": "8ce490d3a2254ea187f44fdee3aebcdb"
+            "id": "7c8eb348e0784026bce6ea28dba388b0"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dbe41c9380d243bb8d37c610178abb1d",
+              "id": "30bf76aa7a794b109a27934196482093",
               "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
             "value": "True",
-            "id": "d7dae128b2f44193a3d9119d1dc3c6fc"
+            "id": "a752f2d94b0e4a3eb002a4a7bda17cf3"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "cdc9c060834d42c6a90aecd8a46118e7",
+              "id": "219d1369669d4b63bc0b99f3f233d2ef",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
             "value": "True",
-            "id": "0c3aa0f623144e02bdd6356cacb8facd"
+            "id": "ea3c8312c72f4c46851a8dccdd79dc5b"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "d5c0ecb404304fa783802b7b3b67aa7a",
+              "id": "df87852d075a4e4da4ac665d76ff36e6",
               "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
             "value": "True",
-            "id": "333fafdc2dca4135be4b8bac80619fb5"
+            "id": "0394137933a94cf8aa567e2446212307"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "277784a43f7c4364a9b3e00a453a781f",
+              "id": "e35fa4b8357e49c28db0fc0ef0193948",
               "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
             "value": "True",
-            "id": "8ad26ce3cdf948d2a190ca46ea2f042d"
+            "id": "565323febe5c409a8934bf4397525d0d"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "c5e0a420d6254c9a8d1b9a4de322ed4c",
+              "id": "8829e8f2e85b4bb1988e9abe7cf8a1b1",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
             "value": "True",
-            "id": "47a49f28f00d4cdc8e2883a759616533"
+            "id": "49b58ed0e55b4c1aaa1d0ea9684a51cf"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "3c65eff1c9c644a08a3fd2a06a1eb578",
+              "id": "5af34739f4e64e3f921f883fcbdd73e0",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
             },
             "value": "True",
-            "id": "f51354c56dca4fec9b64f088b04c15e9"
+            "id": "dfb348d56d8940a59a4750bb9094e1ee"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "b7ce1bb37f1a4aafaec7724d82e1635d",
+              "id": "193d9ba102124630a3e0ba7e21fdaa05",
               "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
             },
             "value": "True",
-            "id": "eb5fadba2b4f458785a81ed4cdcdd90a"
+            "id": "e671be65d0764e26bfb7ee631a5097bd"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "54cdb94e41604f4b969b466a855ad70c",
+              "id": "6efd1ad76ec647a3a2e9216eff617a14",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
             "value": "True",
-            "id": "9c9ce889c7974f98873ffe8be3d286a2"
+            "id": "4877292aeda8467db12645026cb1033e"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "aa6c2cbb8b2f4459a63e7c90c7df3694",
+              "id": "36b3a87ca99544c9a37704c2745c4882",
               "title": "Мова тендерної пропозиції українська"
             },
             "value": "True",
-            "id": "945c56066d23436bb8c789bf1c2eb996"
+            "id": "9311b6722d234552a27aa8b72bd9028f"
           }
         ],
-        "id": "fa890d2c806e47e1873c2ded975eaebf",
+        "id": "435ea64549ef412d97fd0dade8c4caa0",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -894,6 +894,7 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "sme",
             "address": {
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
@@ -902,16 +903,15 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380322916930",
-              "name": "Андрій Олексюк"
-            },
-            "scale": "sme"
+              "telephone": "+380322916930"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+            "relatedLot": "f5585c247e854510bba989119bf55ea0",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
           }
@@ -925,114 +925,114 @@ Content-Type: application/json
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dfdcc883199e421a955b53a755e76d6e",
+              "id": "d586a6fb25884e4aaa77f50cd54224b9",
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
             "value": "True",
-            "id": "55c2263bff4f4de485abb19e584bbc63"
+            "id": "1d8de0aa7fc64c2eb2b067deb0105c58"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "f346d079e9194f0594c8c55f7df358da",
+              "id": "8b23214af67c48818872a798b3ee4738",
               "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
             },
             "value": "True",
-            "id": "bf05fca525e04495ba37dc0a6ad5658b"
+            "id": "e298c217375f4c8ba41ffbfa0d87a0a9"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dbe41c9380d243bb8d37c610178abb1d",
+              "id": "30bf76aa7a794b109a27934196482093",
               "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
             "value": "True",
-            "id": "fd572597e63b4f3b9c1c1be0123cbf2c"
+            "id": "beed437c81e24e1fbde33662fe2f6d3e"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "cdc9c060834d42c6a90aecd8a46118e7",
+              "id": "219d1369669d4b63bc0b99f3f233d2ef",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
             "value": "True",
-            "id": "dead77d50072406da39c15113751ddda"
+            "id": "f15333e2449642cfb8eee418ccf76236"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "d5c0ecb404304fa783802b7b3b67aa7a",
+              "id": "df87852d075a4e4da4ac665d76ff36e6",
               "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
             "value": "True",
-            "id": "ff8b66d319914022a9e332c557016f6a"
+            "id": "fc98a91df32a4a9c95d3c03e553c86fd"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "277784a43f7c4364a9b3e00a453a781f",
+              "id": "e35fa4b8357e49c28db0fc0ef0193948",
               "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
             "value": "True",
-            "id": "984ea050a0c448318cc135ae14e72b61"
+            "id": "d593155c8fe5447b86d35e2b5621d2ca"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "c5e0a420d6254c9a8d1b9a4de322ed4c",
+              "id": "8829e8f2e85b4bb1988e9abe7cf8a1b1",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
             "value": "True",
-            "id": "22a38a1a7ee34c1ebe802d2f8024be5a"
+            "id": "8d5b01cafdbd4fa49feea706667fc517"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "3c65eff1c9c644a08a3fd2a06a1eb578",
+              "id": "5af34739f4e64e3f921f883fcbdd73e0",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
             },
             "value": "True",
-            "id": "9d689e83571a4027a0fd060fdaad8e66"
+            "id": "a6bdf0e4276444b6ba940d7eb32e4c46"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "b7ce1bb37f1a4aafaec7724d82e1635d",
+              "id": "193d9ba102124630a3e0ba7e21fdaa05",
               "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
             },
             "value": "True",
-            "id": "36ba5440512f402eb1df3ebc2b87789f"
+            "id": "eaab779eb2964d61a956a33f13e72b5e"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "54cdb94e41604f4b969b466a855ad70c",
+              "id": "6efd1ad76ec647a3a2e9216eff617a14",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
             "value": "True",
-            "id": "2c53793d5b8c48eeb92ace81d865241e"
+            "id": "fa4425e252714e64a3fc225bab86e9ed"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "aa6c2cbb8b2f4459a63e7c90c7df3694",
+              "id": "36b3a87ca99544c9a37704c2745c4882",
               "title": "Мова тендерної пропозиції українська"
             },
             "value": "True",
-            "id": "fdecb7cda80a488c9226252cb97fe6d3"
+            "id": "153053768b7e4b4a841454ef834dd021"
           }
         ],
-        "id": "4ca517fcb8d84a9a8f56e79897ac1bb1",
+        "id": "6b002866124448bcb80cf359888c8799",
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1041,6 +1041,7 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -1049,11 +1050,10 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380322123456",
-              "name": "Іван Іваненко"
-            },
-            "scale": "mid"
+              "telephone": "+380322123456"
+            }
           }
         ],
         "selfQualified": true,
@@ -1065,114 +1065,114 @@ Content-Type: application/json
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dfdcc883199e421a955b53a755e76d6e",
+              "id": "d586a6fb25884e4aaa77f50cd54224b9",
               "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
             },
             "value": "True",
-            "id": "913439861ff84fd6a3d2a36c173505ec"
+            "id": "f20ea5e9f7d145e7a4eb1bc4ec167ec5"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "f346d079e9194f0594c8c55f7df358da",
+              "id": "8b23214af67c48818872a798b3ee4738",
               "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
             },
             "value": "True",
-            "id": "8c897998a2104b0b91d0dbd4872fa48b"
+            "id": "020b863e8d064d3ca4f0d0728ab01a6f"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "dbe41c9380d243bb8d37c610178abb1d",
+              "id": "30bf76aa7a794b109a27934196482093",
               "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
             },
             "value": "True",
-            "id": "57a7c9d8b1824bc48ab25a578ad3ca76"
+            "id": "6aaadb162d114b8985e2dfce4af596c2"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "cdc9c060834d42c6a90aecd8a46118e7",
+              "id": "219d1369669d4b63bc0b99f3f233d2ef",
               "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
             },
             "value": "True",
-            "id": "96cc140992794edd940f8a5b6a361b04"
+            "id": "7bbdc30c3e8048c0b9146797162d42f7"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "d5c0ecb404304fa783802b7b3b67aa7a",
+              "id": "df87852d075a4e4da4ac665d76ff36e6",
               "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
             },
             "value": "True",
-            "id": "52faa2eaa7cd46db80e32a4f7fcb2a0a"
+            "id": "58c0d7efbe184015b6d566353940cb55"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "277784a43f7c4364a9b3e00a453a781f",
+              "id": "e35fa4b8357e49c28db0fc0ef0193948",
               "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
             },
             "value": "True",
-            "id": "fe41e3f7e8dd4499b6862a521ae577f2"
+            "id": "cf04f42911614d29a496b2562537b094"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "c5e0a420d6254c9a8d1b9a4de322ed4c",
+              "id": "8829e8f2e85b4bb1988e9abe7cf8a1b1",
               "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
             },
             "value": "True",
-            "id": "d28ddd5b8d4546ea993911598af018fe"
+            "id": "cf8e984621f54c29b5ef5080b7b8c377"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "3c65eff1c9c644a08a3fd2a06a1eb578",
+              "id": "5af34739f4e64e3f921f883fcbdd73e0",
               "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
             },
             "value": "True",
-            "id": "bf81b35d55f64c16a579b59fc01cc6f0"
+            "id": "2f3fca8ccb1f4a29bceeb6d75be80c7e"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "b7ce1bb37f1a4aafaec7724d82e1635d",
+              "id": "193d9ba102124630a3e0ba7e21fdaa05",
               "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
             },
             "value": "True",
-            "id": "814d56dd15dc44f5901ecc61c1f2b9b1"
+            "id": "a9c092e411e74b71938506670481ddb6"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "54cdb94e41604f4b969b466a855ad70c",
+              "id": "6efd1ad76ec647a3a2e9216eff617a14",
               "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
             },
             "value": "True",
-            "id": "4c26ee1674cb4892b72d060c7559b895"
+            "id": "371874f5d93d4a62845972392bfeeab8"
           },
           {
             "title": "Requirement response",
             "description": "some description",
             "requirement": {
-              "id": "aa6c2cbb8b2f4459a63e7c90c7df3694",
+              "id": "36b3a87ca99544c9a37704c2745c4882",
               "title": "Мова тендерної пропозиції українська"
             },
             "value": "True",
-            "id": "82cdb60b45224e9ab40b1014a2acbde9"
+            "id": "420b2986dc0842429dceb4e173f3abaa"
           }
         ],
-        "id": "cc48b50d0f4445c7b01da298b7dccb8c",
+        "id": "83f8ec8c73344860ad874831f3f22356",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -1182,6 +1182,7 @@ Content-Type: application/json
               "id": "00137228",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "large",
             "address": {
               "streetAddress": "вул. Коцюбинського, 15",
               "locality": "м. Запоріжя",
@@ -1190,23 +1191,22 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Іван Карпенко",
               "email": "fake@mail.com",
-              "telephone": "+380322123456",
-              "name": "Іван Карпенко"
-            },
-            "scale": "large"
+              "telephone": "+380322123456"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+            "relatedLot": "f5585c247e854510bba989119bf55ea0",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
           }
         ],
         "documents": [
           {
-            "id": "3924d612a18e424d93c621fac5fa2b6a",
+            "id": "146fe995775643a8a7369f2f93b0405a",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1219,12 +1219,12 @@ Content-Type: application/json
             "isDescriptionDecision": false
           },
           {
-            "id": "b5b9bf2fff234aa0970307284651b1e3",
+            "id": "be09a47dbf204d5f8ff087112bbe45b1",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/cc48b50d0f4445c7b01da298b7dccb8c/documents/b5b9bf2fff234aa0970307284651b1e3?download=0949e250dfc14f529d528e285cbde095",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/83f8ec8c73344860ad874831f3f22356/documents/be09a47dbf204d5f8ff087112bbe45b1?download=0949e250dfc14f529d528e285cbde095",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -1239,7 +1239,7 @@ Content-Type: application/json
     ],
     "questions": [
       {
-        "id": "018a12d515b24e3286bffbff626695d5",
+        "id": "aa84115da708457db17654a15fe1f906",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -1256,9 +1256,9 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930",
-            "name": "Андрій Олексюк"
+            "telephone": "+380322916930"
           }
         },
         "title": "Калорійність",
@@ -1271,36 +1271,36 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "5475dfe6d134426196c195d5158e4927",
+        "id": "ea3f22ca7d0549d0920f6e88a7346fc8",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/5475dfe6d134426196c195d5158e4927?download=2c15ebde20e04d82861d1e3de466faf6",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/documents/ea3f22ca7d0549d0920f6e88a7346fc8?download=2c15ebde20e04d82861d1e3de466faf6",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "408cb39a6da24ce4b5faf9781f2e7042",
+        "id": "622a1297bb33476b9ee1119bfdab51f1",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/408cb39a6da24ce4b5faf9781f2e7042?download=74e6f765c6ce49cd9a82a77631e1fad1",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/documents/622a1297bb33476b9ee1119bfdab51f1?download=74e6f765c6ce49cd9a82a77631e1fad1",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "408cb39a6da24ce4b5faf9781f2e7042",
+        "id": "622a1297bb33476b9ee1119bfdab51f1",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/documents/408cb39a6da24ce4b5faf9781f2e7042?download=0ec2154729a94aef83c93e3881aba6dd",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/documents/622a1297bb33476b9ee1119bfdab51f1?download=0ec2154729a94aef83c93e3881aba6dd",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1338,7 +1338,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "14630654fc3e481c95a77e52fe17067c",
+        "id": "024b5406e5bf4e6c8e0569dbc9f7396b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -1357,36 +1357,36 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "0d7e80c30a2f4dff97d7bdab27d73f2e",
-        "bidID": "80525a9a0f714e2b9b8eb34a14ccb612",
-        "lotID": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "e1aafdb9303b43a09a86c17466624039",
+        "bidID": "18ddc2a79e264e6babef6eb4927ca37c",
+        "lotID": "f5585c247e854510bba989119bf55ea0",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "c0cc3798dda1419e88ea3720c42e72ac",
-        "bidID": "fa890d2c806e47e1873c2ded975eaebf",
-        "lotID": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "051703a2c0474462ac047925232d5263",
+        "bidID": "435ea64549ef412d97fd0dade8c4caa0",
+        "lotID": "f5585c247e854510bba989119bf55ea0",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "4bd508dc776d43a1916fbbe4c71d026b",
-        "bidID": "4ca517fcb8d84a9a8f56e79897ac1bb1",
-        "lotID": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "ef8db23b363942dbad2219ceac715e10",
+        "bidID": "6b002866124448bcb80cf359888c8799",
+        "lotID": "f5585c247e854510bba989119bf55ea0",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
         "eligible": false
       },
       {
-        "id": "d14a672229e34e6c8799ae19a962f624",
-        "bidID": "cc48b50d0f4445c7b01da298b7dccb8c",
-        "lotID": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "d062aadde6a2467da5c243216822966d",
+        "bidID": "83f8ec8c73344860ad874831f3f22356",
+        "lotID": "f5585c247e854510bba989119bf55ea0",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1410,9 +1410,9 @@ Content-Type: application/json
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -1438,7 +1438,7 @@ Content-Type: application/json
     "status": "active.stage2.pending",
     "items": [
       {
-        "id": "5596e0db6a3146bba28de4f2822c558f",
+        "id": "aca11f1f7da545d49988474e339c8940",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -1462,7 +1462,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -1477,7 +1477,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "34a7aec5f5bc4230b1a854f4942cb535",
+        "id": "4017ff8e4b0749a9a017f05976d8ea8a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -1501,7 +1501,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -1521,7 +1521,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5a98760088b74d2194a86ab2546f20b4",
+        "id": "f5585c247e854510bba989119bf55ea0",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -1535,7 +1535,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "00653c26796e413c89e22e65cd6da9cd"
+    "id": "bdf767732b5740cc980564940363d11b"
   },
   "config": {
     "hasAuction": false,

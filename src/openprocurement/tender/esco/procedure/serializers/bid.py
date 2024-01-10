@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import ListSerializer
+from openprocurement.api.procedure.serializers.base import ListSerializer
 from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.tender.core.procedure.serializers.parameter import ParameterSerializer
 from openprocurement.tender.esco.procedure.serializers.lot_value import LotValueSerializer

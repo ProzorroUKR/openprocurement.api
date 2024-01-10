@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes/373a4c5c929d442aa87d9368e3541288?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
+PATCH /api/2.5/agreements/b7536ab0fbe34a1dafa73fe7943ff79c/changes/4f32972b3cfd4f248814b2a88e8e21d6?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 73
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "373a4c5c929d442aa87d9368e3541288",
+    "id": "4f32972b3cfd4f248814b2a88e8e21d6",
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
     "rationale": "Друга і третя поставка має бути розфасована",
@@ -26,7 +26,7 @@ Content-Type: application/json
     "rationaleType": "taxRate",
     "modifications": [
       {
-        "itemId": "b0a774dcb2784648b6f81791b294a6be",
+        "itemId": "ecd813a505424fc4a38b1aaf8035619a",
         "factor": 0.1605
       }
     ]

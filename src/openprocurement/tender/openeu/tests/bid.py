@@ -72,8 +72,6 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     create_tender_bid_with_qualification_documents,
     patch_tender_draft_bidder,
     create_tender_bid_no_scale_invalid,
-    create_tender_bid_with_scale_not_required,
-    create_tender_bid_no_scale,
 )
 from openprocurement.tender.openua.tests.bid_blanks import patch_tender_with_bids_lots_none
 
@@ -109,8 +107,6 @@ class Tender2BidResourceTestMixin(object):
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-    test_create_tender_bid_with_scale_not_required = snitch(create_tender_bid_with_scale_not_required)
-    test_create_tender_bid_no_scale = snitch(create_tender_bid_no_scale)
 
 
 class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin, Tender2BidResourceTestMixin):

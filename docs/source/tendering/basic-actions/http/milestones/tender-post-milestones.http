@@ -114,7 +114,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4fb58dca333d3fefd1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fc5de711b4a445f68cddcf3aa9dbb038
 
 {
   "data": {
@@ -172,7 +172,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
     ],
     "milestones": [
       {
-        "id": "d40e5e789b2e4999bee3c87879f74730",
+        "id": "b1cb66cd5e0a473bb354c5d736cfdf63",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -184,7 +184,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
         "sequenceNumber": 0
       },
       {
-        "id": "be29ce19cb374870a781d5fb3c8a54b6",
+        "id": "ace6d2758fbb4e5bb28588e15ec267f0",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -212,8 +212,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -229,7 +229,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/19cdc6eddc144c4f
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "19cdc6eddc144c4fb58dca333d3fefd1"
+    "id": "fc5de711b4a445f68cddcf3aa9dbb038"
   },
   "config": {
     "hasAuction": true,

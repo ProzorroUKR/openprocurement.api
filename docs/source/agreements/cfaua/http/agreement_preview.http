@@ -25,24 +25,24 @@ Content-Type: application/json
               "legalName_en": "dus.gov.ua",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "telephone": "+0440000000"
-            },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            }
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
           }
         ],
         "unitPrices": [
           {
-            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+            "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -67,24 +67,24 @@ Content-Type: application/json
               "legalName_en": "dus.gov.ua",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "telephone": "+0440000000"
-            },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            }
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
           }
         ],
         "unitPrices": [
           {
-            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+            "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -109,24 +109,24 @@ Content-Type: application/json
               "legalName_en": "dus.gov.ua",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "name_en": "State administration",
-              "telephone": "+0440000000"
-            },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
-            }
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "name_en": "State administration",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro"
           }
         ],
         "unitPrices": [
           {
-            "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+            "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": true,
@@ -141,7 +141,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "b0a774dcb2784648b6f81791b294a6be",
+        "id": "ecd813a505424fc4a38b1aaf8035619a",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
@@ -199,12 +199,12 @@ Content-Type: application/json
         "countryName": "Україна"
       }
     },
-    "tender_id": "932b9b683eab4ce4a7eb7f1ecfd2164f",
+    "tender_id": "182020ce4a0a4ce3a5ea0bbb29faed1f",
     "numberOfContracts": 3,
     "dateModified": "2023-10-10T01:00:00+03:00",
     "changes": [
       {
-        "id": "373a4c5c929d442aa87d9368e3541288",
+        "id": "4f32972b3cfd4f248814b2a88e8e21d6",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -212,7 +212,7 @@ Content-Type: application/json
         "rationaleType": "taxRate",
         "modifications": [
           {
-            "itemId": "b0a774dcb2784648b6f81791b294a6be",
+            "itemId": "ecd813a505424fc4a38b1aaf8035619a",
             "factor": 0.1605
           }
         ]
@@ -220,8 +220,8 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "relatedItem": "373a4c5c929d442aa87d9368e3541288",
-        "id": "2379d9c9a78f43c4a3cb72c9100c8784",
+        "relatedItem": "4f32972b3cfd4f248814b2a88e8e21d6",
+        "id": "0ea0d2981ba746a3b63bbdd37c3efbe4",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",

@@ -2,14 +2,11 @@ from schematics.types import StringType
 
 from openprocurement.api.procedure.models.guarantee import (
     Guarantee as BaseGuarantee,
-    validate_currency,
 )
-from openprocurement.planning.api.procedure.context import get_plan
 
 
 class Guarantee(BaseGuarantee):
-    def validate_currency(self, guarantee, currency):
-        validate_currency(get_plan(), guarantee, currency)
+    pass
 
 
 class PostGuarantee(Guarantee):

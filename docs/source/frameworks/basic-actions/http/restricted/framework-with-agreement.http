@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333 HTTP/1.0
+GET /api/2.5/frameworks/baca8568a6e0453f859f1a64c6e0fd50 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -25,7 +25,7 @@ Content-Type: application/json
     ],
     "questions": [
       {
-        "id": "bfbf3b0718564cc1b1d4dab56c4d796f",
+        "id": "72e1e0af20fe48c7b3463789571dfe74",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -95,7 +95,7 @@ Content-Type: application/json
       "kind": "defense"
     },
     "agreementID": "64ee22028e884e79a085ea8bad23763e",
-    "id": "6f4f10deaaae4f8b9d117837474a9333"
+    "id": "baca8568a6e0453f859f1a64c6e0fd50"
   },
   "config": {
     "restrictedDerivatives": true

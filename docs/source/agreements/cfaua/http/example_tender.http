@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/932b9b683eab4ce4a7eb7f1ecfd2164f HTTP/1.0
+GET /api/2.5/tenders/182020ce4a0a4ce3a5ea0bbb29faed1f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -53,8 +53,8 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "name_en": "State administration",
         "availableLanguage": "uk"
       },
@@ -65,7 +65,7 @@ Content-Type: application/json
     "maxAwardsCount": 4,
     "items": [
       {
-        "id": "b0a774dcb2784648b6f81791b294a6be",
+        "id": "ecd813a505424fc4a38b1aaf8035619a",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "item",
@@ -451,7 +451,7 @@ Content-Type: application/json
         "id": "b7536ab0fbe34a1dafa73fe7943ff79c",
         "items": [
           {
-            "id": "b0a774dcb2784648b6f81791b294a6be",
+            "id": "ecd813a505424fc4a38b1aaf8035619a",
             "description": "футляри до державних нагород",
             "unit": {
               "name": "item",
@@ -520,7 +520,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+                "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -562,7 +562,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+                "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -604,7 +604,7 @@ Content-Type: application/json
             "date": "2023-10-10T01:00:00+03:00",
             "unitPrices": [
               {
-                "relatedItem": "b0a774dcb2784648b6f81791b294a6be",
+                "relatedItem": "ecd813a505424fc4a38b1aaf8035619a",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": true,
@@ -618,7 +618,7 @@ Content-Type: application/json
         "status": "active"
       }
     ],
-    "id": "932b9b683eab4ce4a7eb7f1ecfd2164f"
+    "id": "182020ce4a0a4ce3a5ea0bbb29faed1f"
   },
   "config": {
     "hasAuction": true,

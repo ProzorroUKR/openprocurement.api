@@ -1,10 +1,10 @@
-from openprocurement.tender.core.procedure.models.base import Model, ListType, ModelType, DecimalType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, ModelType, StringDecimalType, IsoDateTimeType
 from openprocurement.tender.core.procedure.models.auction import (
     AuctionLotResults as BaseAuctionLotResults,
     AuctionResults as BaseAuctionResults,
 )
 from openprocurement.tender.esco.procedure.models.value import ContractDuration
-from openprocurement.api.models import IsoDateTimeType
 from schematics.types import MD5Type
 
 from openprocurement.tender.openeu.procedure.models.auction import WeightedValueResult
@@ -12,8 +12,8 @@ from openprocurement.tender.openeu.procedure.models.auction import WeightedValue
 
 # auction results
 class ValueResult(Model):
-    amount = DecimalType(min_value=0)  # this one is going to be
-    yearlyPaymentsPercentage = DecimalType(min_value=0)
+    amount = StringDecimalType(min_value=0)  # this one is going to be
+    yearlyPaymentsPercentage = StringDecimalType(min_value=0)
     contractDuration = ModelType(ContractDuration)
 
 

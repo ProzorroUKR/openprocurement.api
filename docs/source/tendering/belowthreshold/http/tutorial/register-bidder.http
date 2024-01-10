@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids HTTP/1.0
+POST /api/2.5/tenders/4e68e96de67049cb8b8bb2c77571116b/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1265
 Content-Type: application/json
@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
+        "relatedLot": "9ce47ec05ab54c8e8478d6f79717e73d"
       }
     ]
   }
@@ -45,7 +45,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids/8d8c35d315ec458aa2bf51fdcef0717b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4e68e96de67049cb8b8bb2c77571116b/bids/1fe56c906e5d459cb025bd56e998289b
 
 {
   "data": {
@@ -58,6 +58,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -66,11 +67,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
@@ -82,11 +82,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f2ffdfd3a21b4081
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "relatedLot": "9ce47ec05ab54c8e8478d6f79717e73d",
         "date": "2023-10-16T01:00:02+03:00"
       }
     ],
-    "id": "8d8c35d315ec458aa2bf51fdcef0717b",
+    "id": "1fe56c906e5d459cb025bd56e998289b",
     "date": "2023-10-16T01:00:02+03:00"
   },
   "access": {

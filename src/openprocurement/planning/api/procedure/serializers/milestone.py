@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 class MilestoneSerializer(BaseSerializer):

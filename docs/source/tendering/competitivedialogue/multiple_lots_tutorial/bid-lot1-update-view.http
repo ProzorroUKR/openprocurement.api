@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/bids/a95f810cd7eb47739df6fcbe23cce246?acc_token=4d7feff188c5479ba9b421f97a1a7aa8 HTTP/1.0
+PATCH /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7/bids/bd957d309ac347d0b24790b2c35f7751?acc_token=4d7feff188c5479ba9b421f97a1a7aa8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 188
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "lotValues": [
       {
         "subcontractingDetails": "ДКП «Орфей»",
-        "relatedLot": "5042b6586cbb4a679380f561ba153121"
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a"
       }
     ],
     "status": "pending"
@@ -22,7 +22,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a95f810cd7eb47739df6fcbe23cce246",
+    "id": "bd957d309ac347d0b24790b2c35f7751",
     "date": "2023-10-10T01:00:00+03:00",
     "tenderers": [
       {
@@ -33,6 +33,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -41,16 +42,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "lotValues": [
       {
-        "relatedLot": "5042b6586cbb4a679380f561ba153121",
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a",
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"

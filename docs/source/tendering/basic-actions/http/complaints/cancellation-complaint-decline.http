@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/428a76b2f0d84d11b9a66de1c77544ef HTTP/1.0
+PATCH /api/2.5/tenders/1197f048832148399d8e67e69c2f720e/cancellations/02c627bbb5884b6b85d1aeb67044e53f/complaints/8b141050bc96402bb3dbc1503a5f712b HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 32
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "428a76b2f0d84d11b9a66de1c77544ef",
+    "id": "8b141050bc96402bb3dbc1503a5f712b",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "declined",
@@ -31,9 +31,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",

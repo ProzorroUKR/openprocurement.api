@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids HTTP/1.0
+POST /api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 836
 Content-Type: application/json
@@ -33,7 +33,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4"
+        "relatedLot": "f5585c247e854510bba989119bf55ea0"
       }
     ]
   }
@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c89e22e65cd6da9cd/bids/4ca517fcb8d84a9a8f56e79897ac1bb1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/6b002866124448bcb80cf359888c8799
 
 {
   "data": {
@@ -54,6 +54,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -62,23 +63,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/00653c26796e413c
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456",
-          "name": "Іван Іваненко"
-        },
-        "scale": "mid"
+          "telephone": "+380322123456"
+        }
       }
     ],
     "lotValues": [
       {
-        "relatedLot": "5a98760088b74d2194a86ab2546f20b4",
+        "relatedLot": "f5585c247e854510bba989119bf55ea0",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "4ca517fcb8d84a9a8f56e79897ac1bb1",
+    "id": "6b002866124448bcb80cf359888c8799",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

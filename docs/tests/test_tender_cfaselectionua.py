@@ -5,7 +5,7 @@ from datetime import timedelta
 from time import sleep
 from uuid import uuid4
 
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,

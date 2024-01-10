@@ -54,7 +54,7 @@ class DumpsWebTestApp(BaseTestApp):
                             '\n' + json.dumps(
                                 obj, indent=self.indent, ensure_ascii=self.ensure_ascii
                             )
-                            )
+                        )
                     self.file_obj.write("\n")
                 self.file_obj.write("\n")
             else:
@@ -70,7 +70,7 @@ class DumpsWebTestApp(BaseTestApp):
                             b'\n' + json.dumps(
                                 obj, indent=self.indent, ensure_ascii=self.ensure_ascii
                             ).encode('utf8')
-                            )
+                        )
                     self.file_obj.write(b"\n")
                 self.file_obj.write(b"\n")
 

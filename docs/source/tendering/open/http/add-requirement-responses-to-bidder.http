@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/bids/1fcbb7ab0a104c228baa39c0c89927fe?acc_token=d838be06648343148752cdb7c643774f HTTP/1.0
+PATCH /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/bids/f5ee9153aadb4ae59874c308815130ad?acc_token=d838be06648343148752cdb7c643774f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 13950
 Content-Type: application/json
@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "3fb35155c70b4075bebdb3ca2c453682",
+          "id": "435fcb5ccdb147f79df1cb4e444fd2c0",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "value": true
@@ -20,7 +20,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "7926f86c0ac24311a7d15d61a4427ecf",
+          "id": "d61c2ec1e5e346359cd2ae3cdcd026e4",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "value": true
@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "f9980d80b6c44f5bad2096134042a3c1",
+          "id": "747f6f1012364df49dd361280d2c3359",
           "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
         },
         "value": true
@@ -38,7 +38,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c2167bccd58e4837a9867806e948d0fe",
+          "id": "c9017930d4704a6c9916628f6a1a2531",
           "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
         },
         "value": true
@@ -47,7 +47,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "0d186bdd1c8a42d2a4f2f9b9034ba6da",
+          "id": "e1303eecdcc84d0f814afda27df55b37",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
         },
         "value": true
@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d91741fec29d441193bb5feaffb6802c",
+          "id": "34d91d160a6f43e3b43fbdf43ebe506b",
           "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
         },
         "value": true
@@ -65,7 +65,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "5115817e78f84b17b1a9a1ebadc7099a",
+          "id": "19b9a97e7c4343ab84d77e8f840c072b",
           "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
         },
         "value": true
@@ -74,7 +74,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "ed5e78d8d45f437588b395c6e8cd8a9d",
+          "id": "0fa26ec2eea246a19fd7e7cf94f43d02",
           "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
         },
         "value": true
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "f968e325b93c4c6f95ed8bdd5702d638",
+          "id": "fa2105f965284ed699de2875f22a1220",
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": true
@@ -92,7 +92,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "568fa8979eba438abf91366af2ede0df",
+          "id": "40051773a86248d597e8bbd62972de40",
           "title": "Мова тендерної пропозиції українська"
         },
         "value": true
@@ -112,101 +112,101 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "3fb35155c70b4075bebdb3ca2c453682",
+          "id": "435fcb5ccdb147f79df1cb4e444fd2c0",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "value": "True",
-        "id": "ed8eb0f92c7c44e3947155a8c211df28"
+        "id": "140dd906f98d433f832fffa50b1fb1b1"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "7926f86c0ac24311a7d15d61a4427ecf",
+          "id": "d61c2ec1e5e346359cd2ae3cdcd026e4",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "value": "True",
-        "id": "a471beebbe0c474fb7d323f787006ed8"
+        "id": "d8eb49a0a7664ee0b877da37433129b0"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "f9980d80b6c44f5bad2096134042a3c1",
+          "id": "747f6f1012364df49dd361280d2c3359",
           "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
         },
         "value": "True",
-        "id": "60530a9d7d6644868d33e479a450c01a"
+        "id": "705de5560bf943e8aa25bb9f7add5746"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "c2167bccd58e4837a9867806e948d0fe",
+          "id": "c9017930d4704a6c9916628f6a1a2531",
           "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
         },
         "value": "True",
-        "id": "7022bbd3d70a4960b94a66f4457c8cc6"
+        "id": "a00f92ebb16f4e6b955e684639a961a1"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "0d186bdd1c8a42d2a4f2f9b9034ba6da",
+          "id": "e1303eecdcc84d0f814afda27df55b37",
           "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
         },
         "value": "True",
-        "id": "1015c4b8cce0451fb3d2bbae19d0dc60"
+        "id": "16a13cffb23e4391b86eed23e7a88aa7"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d91741fec29d441193bb5feaffb6802c",
+          "id": "34d91d160a6f43e3b43fbdf43ebe506b",
           "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
         },
         "value": "True",
-        "id": "299681fc8b8842b08402a25ee79d73ac"
+        "id": "9c874883e2794d9babb4543d957e1396"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "5115817e78f84b17b1a9a1ebadc7099a",
+          "id": "19b9a97e7c4343ab84d77e8f840c072b",
           "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
         },
         "value": "True",
-        "id": "83e6d5b90d3b47628ba160a213918fd0"
+        "id": "37f3b34a12254b848309d6fe1551e935"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "ed5e78d8d45f437588b395c6e8cd8a9d",
+          "id": "0fa26ec2eea246a19fd7e7cf94f43d02",
           "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
         },
         "value": "True",
-        "id": "3f92ccb9d00a48bbb1ea955ebd0ccc56"
+        "id": "bc14b63f14984dacb3cbb5783933c24e"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "f968e325b93c4c6f95ed8bdd5702d638",
+          "id": "fa2105f965284ed699de2875f22a1220",
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": "True",
-        "id": "88b42ce66674467bbaef6a08e13c99b5"
+        "id": "a74b0879be514385a7b9e50d7b8350ae"
       },
       {
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "568fa8979eba438abf91366af2ede0df",
+          "id": "40051773a86248d597e8bbd62972de40",
           "title": "Мова тендерної пропозиції українська"
         },
         "value": "True",
-        "id": "c637048d604f4690b6fa54a16d1486d5"
+        "id": "fa1f546bf06a4c39822ff946b0de7e6e"
       }
     ],
     "tenderers": [
@@ -218,6 +218,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -226,15 +227,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
-    "id": "1fcbb7ab0a104c228baa39c0c89927fe",
+    "id": "f5ee9153aadb4ae59874c308815130ad",
     "date": "2023-10-10T01:00:00+03:00",
     "selfQualified": true,
     "lotValues": [
@@ -244,7 +244,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "eb3a2c7480d14c948cce6d516a8fb007",
+        "relatedLot": "3fdae4595ce746318c81ada140ff94d7",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "subcontractingDetails": "ДКП «Орфей», Україна"

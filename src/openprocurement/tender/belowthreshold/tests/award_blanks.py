@@ -102,6 +102,7 @@ def create_tender_award_invalid(self):
                         "identifier": {"scheme": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -130,6 +131,7 @@ def create_tender_award_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -294,40 +296,6 @@ def create_tender_award_no_scale_invalid(self):
         response.json["errors"],
         [{"location": "body", "name": "suppliers", "description": [{"scale": ["This field is required."]}]}],
     )
-
-
-# TenderAwardResourceScaleTest
-
-
-@mock.patch("openprocurement.api.models.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_with_scale_not_required(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    award_data = {"data": {"status": "pending", "suppliers": [test_tender_below_organization],
-                           "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
-    if self.initial_bids:
-        award_data["data"]["bid_id"] = self.initial_bids[0]["id"]
-    response = self.app.post_json("/tenders/{}/awards".format(self.tender_id), award_data)
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"])
-
-
-@mock.patch("openprocurement.tender.core.procedure.models.organization.ORGANIZATION_SCALE_FROM", get_now() + timedelta(days=1))
-def create_tender_award_no_scale(self):
-    self.app.authorization = ("Basic", ("token", ""))
-    award_data = {
-        "data": {
-            "status": "pending",
-            "suppliers": [{key: value for key, value in test_tender_below_organization.items() if key != "scale"}],
-            "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
-        }
-    }
-    if self.initial_bids:
-        award_data["data"]["bid_id"] = self.initial_bids[0]["id"]
-    response = self.app.post_json("/tenders/{}/awards".format(self.tender_id), award_data)
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("scale", response.json["data"]["suppliers"][0])
 
 
 # TenderLotAwardResourceTest

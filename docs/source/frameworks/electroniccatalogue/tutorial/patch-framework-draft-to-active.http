@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c?acc_token=797fdae523914449922546561e43242f HTTP/1.0
+PATCH /api/2.5/frameworks/78d4ab4039c8441d8cac856e90e3b82b?acc_token=797fdae523914449922546561e43242f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -34,7 +34,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "7137fa5d73c64e8ba56d6ea099e6059c",
+        "id": "bffc331018b943438e4c05ded15704d8",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
@@ -44,7 +44,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
+        "id": "07c983b9206444d8b4b440f9ec3feb22",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -54,7 +54,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "3a01f49d8fc64d7d8b8b42d9d70b000e",
+        "id": "07c983b9206444d8b4b440f9ec3feb22",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -104,7 +104,7 @@ Content-Type: application/json
       "endDate": "2023-11-09T00:00:00+02:00"
     },
     "next_check": "2023-11-08T00:00:00+02:00",
-    "id": "1b70e498d27e4c1dba8838d6807dac0c"
+    "id": "78d4ab4039c8441d8cac856e90e3b82b"
   },
   "config": {}
 }

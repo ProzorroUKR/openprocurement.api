@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/documents?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+POST /api/2.5/tenders/df26af14d20e44a4a11a7ad4d6758698/documents?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 322
 Content-Type: application/json
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8bac25fc817a2b68c0/documents/64816d4f9a0545b289e9c92fe9007036
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/df26af14d20e44a4a11a7ad4d6758698/documents/bd124296ba2e414b810324f4bcd8a943
 
 {
   "data": {
@@ -26,7 +26,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f8573404c1ff4e8b
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b637535099e452b890198556efb7f70?Signature=Gb0uMtev6EiVhDG%2FUzbdh5NxU8ZGf5XusY8RY9n0C9HplAxVHIPVZ8%2FV5X8I0XUCOjzFPqSAe9CiguZlHkj2CA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "64816d4f9a0545b289e9c92fe9007036",
+    "id": "bd124296ba2e414b810324f4bcd8a943",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "tender_owner"

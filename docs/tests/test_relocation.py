@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.contracting.api.tests.base import test_contract_data
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.api.models import get_now
+from openprocurement.api.utils import get_now
 
 from tests.base.test import (
     DumpsWebTestApp,

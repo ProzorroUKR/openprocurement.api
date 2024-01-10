@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c3028c9ca7a940518864792509ea9232/qualifications?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
+GET /api/2.5/tenders/7b32e93503314032810e6dd5a0209cee/qualifications?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,18 +9,18 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "2366870ed2b644f08d8b5ff751f470ce",
-      "bidID": "6ef1334f528a47d0a18eeae9a8a980ac",
-      "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
+      "id": "74d8243ac4e142be930ba0c408a78149",
+      "bidID": "fac066eaa2c14d61a405d677c7a7d443",
+      "lotID": "f5711b9bc6ec4743b53e78759874481a",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "f5e2986899b14fd8a2008247e250da5a",
-      "bidID": "bd30b0698c984e7096a4df6c2e0ea581",
-      "lotID": "01598eb9c6d3489494777dc7d4fffb7b",
+      "id": "d579d7d2f93a49ccbff3ac0353c68058",
+      "bidID": "96460d40cabd4bc3aad6e6afead0fc53",
+      "lotID": "f5711b9bc6ec4743b53e78759874481a",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,

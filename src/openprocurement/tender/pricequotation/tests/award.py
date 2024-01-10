@@ -21,8 +21,6 @@ from openprocurement.tender.belowthreshold.tests.award import (
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_award,
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
     create_tender_award_no_scale_invalid,
 )
 
@@ -51,12 +49,8 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_bids = test_tender_pq_bids
     reverse = False
 
-    test_create_tender_award_no_scale = snitch(create_tender_award_no_scale)
     test_create_tender_award_no_scale_invalid = snitch(
         create_tender_award_no_scale_invalid
-    )
-    test_create_tender_award_with_scale_not_required = snitch(
-        create_tender_award_with_scale_not_required
     )
 
 

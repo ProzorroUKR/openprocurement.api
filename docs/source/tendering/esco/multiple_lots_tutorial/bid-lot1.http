@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/ceb28fdcf5944cd8b77800a6e86733f6/bids HTTP/1.0
+POST /api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1626
 Content-Type: application/json
@@ -64,7 +64,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "years": 7
           }
         },
-        "relatedLot": "47aa65f0d5b944629ab6126141681de8"
+        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71"
       }
     ]
   }
@@ -73,7 +73,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8b77800a6e86733f6/bids/0382e1a830c74d9ea44f2bbe4823a623
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids/698c9601b111453592d8bfdfa8f629fd
 
 {
   "data": {
@@ -86,6 +86,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -94,11 +95,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "draft",
@@ -106,7 +106,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     "lotValues": [
       {
         "status": "pending",
-        "relatedLot": "47aa65f0d5b944629ab6126141681de8",
+        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "value": {
           "currency": "UAH",
@@ -145,7 +145,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "0382e1a830c74d9ea44f2bbe4823a623",
+    "id": "698c9601b111453592d8bfdfa8f629fd",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

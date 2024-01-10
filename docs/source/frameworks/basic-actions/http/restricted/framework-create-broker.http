@@ -54,7 +54,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/6f4f10deaaae4f8b9d117837474a9333
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e0453f859f1a64c6e0fd50
 
 {
   "data": {
@@ -103,7 +103,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/6f4f10deaaae4
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "6f4f10deaaae4f8b9d117837474a9333"
+    "id": "baca8568a6e0453f859f1a64c6e0fd50"
   },
   "access": {
     "token": "6193b4e3e4864affbecdbfc0d4cf6b7b",

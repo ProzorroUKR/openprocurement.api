@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/aa38d9c00da04374aa49bfa7d8f5dfd3/awards/e6251e8157ce420e8d9efa7161cdf649?acc_token=3e7eb9dbf94945df86ba3402d00ee7c7 HTTP/1.0
+PATCH /api/2.5/tenders/812c91961776458fadd47b11d492c960/awards/30b8ee14773941159bde312d7547c2d9?acc_token=3e7eb9dbf94945df86ba3402d00ee7c7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -13,11 +13,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374aa49bfa7d8f5dfd3/awards/85c89a762245416ba8ef5f388149d9ce
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458fadd47b11d492c960/awards/fdb8b81ae8da4737a9b3d3567772b891
 
 {
   "data": {
-    "id": "e6251e8157ce420e8d9efa7161cdf649",
+    "id": "30b8ee14773941159bde312d7547c2d9",
     "status": "cancelled",
     "date": "2023-10-10T01:00:01+03:00",
     "value": {
@@ -34,6 +34,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -42,13 +43,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
-    "bid_id": "f6c1a7631d8b4a198bc14b200e6ad1bd",
+    "bid_id": "654c5fa90e2e4ed8bc01a2d5d56db215",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-10T01:00:00+03:00"

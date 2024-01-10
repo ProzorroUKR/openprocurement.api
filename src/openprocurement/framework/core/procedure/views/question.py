@@ -8,8 +8,8 @@ from openprocurement.framework.core.procedure.models.question import PostQuestio
 from openprocurement.framework.core.procedure.state.question import QuestionState
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.tender.core.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.validation import validate_input_data, validate_patch_data_simple
 
 

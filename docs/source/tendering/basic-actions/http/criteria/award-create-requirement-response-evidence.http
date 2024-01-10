@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/0d91018f36534468b3d78fa3751084e6/requirement_responses/46e80fa2fe8b40aa8d334b67f6e7d855/evidences?acc_token=9f30066363e3475c95cfabbd00c5f172 HTTP/1.0
+POST /api/2.5/tenders/3b02451f7d3040b699a8e3fa6f02ac13/awards/f95dd7a15d4c408481c7dfdeddc80346/requirement_responses/d1fddfac7e664be5827e9e5f257f1c67/evidences?acc_token=9f30066363e3475c95cfabbd00c5f172 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 147
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "Requirement response",
     "relatedDocument": {
-      "id": "e153ac99f62e443ba1c9098b724633d9",
+      "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
       "title": "name.doc"
     },
     "type": "document"
@@ -24,10 +24,10 @@ Content-Type: application/json
     "title": "Requirement response",
     "type": "document",
     "relatedDocument": {
-      "id": "e153ac99f62e443ba1c9098b724633d9",
+      "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
       "title": "name.doc"
     },
-    "id": "a83def4b01f14beb8e60fdfe2a4e1e71"
+    "id": "a4774de9155749ffba7e63731bc74d2d"
   }
 }
 

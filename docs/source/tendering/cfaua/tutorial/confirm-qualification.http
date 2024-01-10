@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/awards/6c3f9c3c0f7243e5b59b0376be6a24b6?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/awards/da10980678b841e6a8440494aad2ff10?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 67
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "6c3f9c3c0f7243e5b59b0376be6a24b6",
+    "id": "da10980678b841e6a8440494aad2ff10",
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -34,6 +34,7 @@ Content-Type: application/json
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -42,14 +43,13 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456",
-          "name": "Іван Іваненко"
-        },
-        "scale": "mid"
+          "telephone": "+380322123456"
+        }
       }
     ],
-    "bid_id": "c3e41a3a099a41ad864be3893e0711b5",
+    "bid_id": "189a05bb0caf4f55bafb28808f108512",
     "lotID": "9dea7e57fca24c0fa6c43f752611342d",
     "qualified": true,
     "eligible": true

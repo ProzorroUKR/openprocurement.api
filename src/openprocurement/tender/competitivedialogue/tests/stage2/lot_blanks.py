@@ -583,9 +583,11 @@ def patch_tender_bidder(self):
     bidder, bid_token = self.create_bid(self.tender_id, bid_data)
     lot = bidder["lotValues"][0]
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1939,9 +1941,11 @@ def patch_tender_bidder_ua(self):
     lot = bidder["lotValues"][0]
     owner_token = response.json["access"]["token"]
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

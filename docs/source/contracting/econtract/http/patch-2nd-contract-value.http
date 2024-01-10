@@ -20,11 +20,11 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "5eef47a33ded457095af6fea3ef83910",
+    "awardID": "76e8c60cfb62437cb0cfcd110d0dc4a0",
     "contractID": "UA-2023-10-10-000001-a-2",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "8d1c8bffbc1e4d5f91296f831bc586d0",
+    "tender_id": "c7d03b515def41539b8f383bf4bc3608",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -56,13 +56,9 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "1f8e2bae0cef4600ac58608fd25b28e6",
+        "id": "48e77976f2a9426c961ff8e0e8495029",
         "description": "портфелі",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
         "relatedBuyer": "22222222222222222222222222222222",
         "classification": {
           "description": "Cartons",
@@ -82,6 +78,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -94,13 +94,9 @@ Content-Type: application/json
         }
       },
       {
-        "id": "bfa63d8c3ad04d5f804f40d24b2dc4c1",
+        "id": "55835bec06fa415d8407e9a74411dc01",
         "description": "портфелі",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
         "relatedBuyer": "22222222222222222222222222222222",
         "classification": {
           "description": "Cartons",
@@ -120,6 +116,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",

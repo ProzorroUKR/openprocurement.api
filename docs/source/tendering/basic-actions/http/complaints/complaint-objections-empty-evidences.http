@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
+POST /api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1869
 Content-Type: application/json
@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -62,7 +62,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/48153ea17b8b4a46883221469016b183
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/3e9fa4304ddc4e36966c56bd986b4db6
 
 {
   "data": {
@@ -76,9 +76,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",
@@ -93,10 +93,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
     "type": "complaint",
     "objections": [
       {
-        "id": "02b5b44a78844b8bb928152ddb6217f6",
+        "id": "f3c3ca1bad594b31b5ec79c7cafd6f2e",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -104,21 +104,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         },
         "requestedRemedies": [
           {
-            "id": "c13ee63aa7ee4fb0ba11f4be655a582a",
+            "id": "9dd48776e0244c379f35d71867a9b0e9",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "0fc275d7a2b04820a34fb4af54050296",
+            "id": "572e99f75c504db3ad62444cb0f5f24f",
             "description": "test argument"
           }
         ],
         "relatesTo": "tender"
       }
     ],
-    "id": "48153ea17b8b4a46883221469016b183",
+    "id": "3e9fa4304ddc4e36966c56bd986b4db6",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "value": {

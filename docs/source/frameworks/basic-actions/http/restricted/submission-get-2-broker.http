@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/e0fc16d4a32e49bbb327106221ee3afe HTTP/1.0
+GET /api/2.5/submissions/9d618d8b636b4f07b66cb79856f15c47 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,28 +11,28 @@ Content-Type: application/json
     "tenderers": [
       {
         "name": "ДКП «Книга»",
-        "scale": "sme",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»"
         },
         "address": {
+          "countryName": "Україна",
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
           "region": "Львівська область",
-          "postalCode": "79013",
-          "countryName": "Україна"
+          "postalCode": "79013"
         },
         "contactPoint": {
           "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com",
-          "telephone": "+380322916930"
-        }
+          "telephone": "+380322916930",
+          "email": "aagt@gmail.com"
+        },
+        "scale": "sme"
       }
     ],
-    "frameworkID": "6f4f10deaaae4f8b9d117837474a9333",
+    "frameworkID": "baca8568a6e0453f859f1a64c6e0fd50",
     "status": "active",
     "dateModified": "2023-01-20T00:00:00+02:00",
     "date": "2023-01-20T00:00:00+02:00",
@@ -40,7 +40,7 @@ Content-Type: application/json
     "submissionType": "dynamicPurchasingSystem",
     "qualificationID": "7996b273586044d7921da96e0d16de5a",
     "datePublished": "2023-01-20T00:00:00+02:00",
-    "id": "e0fc16d4a32e49bbb327106221ee3afe"
+    "id": "9d618d8b636b4f07b66cb79856f15c47"
   },
   "config": {
     "restricted": true

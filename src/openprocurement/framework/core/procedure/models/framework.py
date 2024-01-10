@@ -5,21 +5,16 @@ from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
-from openprocurement.api.models import (
-    Model,
-    ModelType,
-    IsoDateTimeType,
-    ListType,
-    Classification as BaseClassification,
-    PeriodEndRequired as BasePeriodEndRequired,
-    Organization as BaseOrganization,
-    RootModel,
-)
+from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.constants import SANDBOX_MODE, DK_CODES
+from openprocurement.api.procedure.models.organization import Organization as BaseOrganization
+from openprocurement.api.procedure.models.item import Classification as BaseClassification
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.api.procedure.models.period import PeriodEndRequired
 
 
 class DKClassification(BaseClassification):
@@ -31,7 +26,7 @@ class DKClassification(BaseClassification):
             raise ValidationError(BaseType.MESSAGES["choices"].format(DK_CODES))
 
 
-class EnquiryPeriod(BasePeriodEndRequired):
+class EnquiryPeriod(PeriodEndRequired):
     clarificationsUntil = IsoDateTimeType()
 
 
@@ -58,7 +53,7 @@ class PostFramework(Model):
     mode = StringType(choices=["test"])
     if SANDBOX_MODE:
         frameworkDetails = StringType()
-    qualificationPeriod = ModelType(BasePeriodEndRequired, required=True)
+    qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
@@ -84,7 +79,7 @@ class PatchFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    qualificationPeriod = ModelType(BasePeriodEndRequired)
+    qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(BaseClassification))
@@ -129,8 +124,8 @@ class Framework(RootModel):
     date = IsoDateTimeType()
     dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
-    period = ModelType(BasePeriodEndRequired)
-    qualificationPeriod = ModelType(BasePeriodEndRequired, required=True)
+    period = ModelType(PeriodEndRequired)
+    qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
     _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
@@ -156,7 +151,7 @@ class PatchActiveFramework(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    qualificationPeriod = ModelType(BasePeriodEndRequired)
+    qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
     documents = ListType(ModelType(Document), default=list())
     if SANDBOX_MODE:

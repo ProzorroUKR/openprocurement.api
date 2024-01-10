@@ -10,10 +10,9 @@ from openprocurement.tender.core.procedure.models.claim import (
 )
 from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer, ComplaintSerializer
 from openprocurement.tender.core.procedure.utils import set_ownership
-from openprocurement.tender.core.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
-    set_item,
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_admins,

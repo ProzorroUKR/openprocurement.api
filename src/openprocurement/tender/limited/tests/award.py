@@ -4,8 +4,6 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_no_scale_invalid,
-    create_tender_award_with_scale_not_required,
-    create_tender_award_no_scale,
     create_tender_award_document_json_bulk,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -97,8 +95,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_get_tender_award = snitch(get_tender_award)
     test_activate_contract_with_cancelled_award = snitch(activate_contract_with_cancelled_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
-    test_create_tender_award_with_scale_not_required = snitch(create_tender_award_with_scale_not_required)
-    test_create_tender_award_with_no_scale = snitch(create_tender_award_no_scale)
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):

@@ -119,6 +119,7 @@ def create_tender_award_invalid(self):
                         "identifier": {"scheme": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -147,6 +148,7 @@ def create_tender_award_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",

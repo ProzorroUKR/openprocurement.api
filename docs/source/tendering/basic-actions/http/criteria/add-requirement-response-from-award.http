@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/0d91018f36534468b3d78fa3751084e6?acc_token=9f30066363e3475c95cfabbd00c5f172 HTTP/1.0
+PATCH /api/2.5/tenders/3b02451f7d3040b699a8e3fa6f02ac13/awards/f95dd7a15d4c408481c7dfdeddc80346?acc_token=9f30066363e3475c95cfabbd00c5f172 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 4253
 Content-Type: application/json
@@ -11,14 +11,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d5c9086bd34e49c5afc2ecc2ee9c7057",
+          "id": "77f5a898cd634c3791f99b969c349d69",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "e153ac99f62e443ba1c9098b724633d9",
+              "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
               "title": "name.doc"
             },
             "type": "document"
@@ -30,14 +30,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "1836b967f12b4365972bf091a04ce1cf",
+          "id": "ddc03b1463a0427396ae00177aa13c56",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "e153ac99f62e443ba1c9098b724633d9",
+              "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
               "title": "name.doc"
             },
             "type": "document"
@@ -60,7 +60,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "d5c9086bd34e49c5afc2ecc2ee9c7057",
+          "id": "77f5a898cd634c3791f99b969c349d69",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
@@ -68,20 +68,20 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "e153ac99f62e443ba1c9098b724633d9",
+              "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
               "title": "name.doc"
             },
-            "id": "4c71afff0aad4a1eb3ce8f748eec1a7e"
+            "id": "6c48edd42f214431a09cf1ad071096e7"
           }
         ],
         "value": "True",
-        "id": "e8c2e749d8254321b0372ff465121294"
+        "id": "f7e1aeb2dad24d1bbc5327ef3ea9d9dd"
       },
       {
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "1836b967f12b4365972bf091a04ce1cf",
+          "id": "ddc03b1463a0427396ae00177aa13c56",
           "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
@@ -89,17 +89,17 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "e153ac99f62e443ba1c9098b724633d9",
+              "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
               "title": "name.doc"
             },
-            "id": "e3a12f370cf14102ba07e67b2afd06d2"
+            "id": "b92d109e5cd7450399c542c745f21976"
           }
         ],
         "value": "True",
-        "id": "6bba96cbf9454822b23302959e193b28"
+        "id": "41640c1be8144c0292adce0c63cd3c95"
       }
     ],
-    "id": "0d91018f36534468b3d78fa3751084e6",
+    "id": "f95dd7a15d4c408481c7dfdeddc80346",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -116,6 +116,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -124,18 +125,17 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
-    "bid_id": "049ebbc9829d41199d904f06e3e176d2",
-    "lotID": "44925337e1134559978d929dbd029042",
+    "bid_id": "5ca5ffe8c8194f5993aa41876e58048e",
+    "lotID": "6a9379adf21f48ef9dc36afe6736e8cf",
     "documents": [
       {
-        "id": "e153ac99f62e443ba1c9098b724633d9",
+        "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

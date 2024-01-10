@@ -2,6 +2,8 @@
 from copy import deepcopy
 from mock import patch
 from datetime import timedelta
+
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.utils import get_now
 
@@ -1250,9 +1252,11 @@ def patch_tender_bid(self):
         bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

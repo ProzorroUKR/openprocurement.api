@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/awards HTTP/1.0
+GET /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/awards HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "22fef0a4f3e74e778afb520847f7409f",
+      "id": "399c461ae8bf4f5cafa91de5fba161d2",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -31,6 +31,7 @@ Content-Type: application/json
             "id": "00037257",
             "uri": "http://www.dus.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
             "locality": "м. Київ",
@@ -39,13 +40,12 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Державне управління справами"
-          },
-          "scale": "micro"
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
         }
       ],
-      "bid_id": "c6ce785401b149cca81e00c5236c853b",
+      "bid_id": "ebccd6f195534cacb2e3dbcaa3e6f719",
       "lotID": "50fc7d0cb4e3423491c35387a046af42"
     }
   ]

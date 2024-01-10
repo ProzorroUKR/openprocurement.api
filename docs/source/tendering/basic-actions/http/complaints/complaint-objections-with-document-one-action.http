@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints HTTP/1.0
+POST /api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2363
 Content-Type: application/json
@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/64df5ed993a04f20bc2f6da737efe221
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/565bfb376ca247f484a09745429cc2fe
 
 {
   "data": {
@@ -91,9 +91,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",
@@ -108,10 +108,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
     "type": "complaint",
     "objections": [
       {
-        "id": "684385edf32149e7ac2138e1247b6f53",
+        "id": "1341363823464e8090065d245fbffde3",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -119,18 +119,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         },
         "requestedRemedies": [
           {
-            "id": "ee72c667d9ee40f4ba6ec2d9bd3ad438",
+            "id": "d38af27a4aad4d48803503b399996ae4",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "cad1ecebb45147398dc8551690c4abc3",
+            "id": "3959e3747691432ab895de86f2e9f391",
             "description": "test argument",
             "evidences": [
               {
-                "id": "32ecf6c77d284948b7cd932466437b34",
+                "id": "6935426eb50a4a43b17b320ee319adae",
                 "title": "Evidence",
                 "description": "Test evidence",
                 "relatedDocument": "d4d9db0403484ce4b9fc70a8837d1805"
@@ -155,7 +155,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/45b0bfa4f1fe43e9
         "author": "complaint_owner"
       }
     ],
-    "id": "64df5ed993a04f20bc2f6da737efe221",
+    "id": "565bfb376ca247f484a09745429cc2fe",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.3",
     "value": {

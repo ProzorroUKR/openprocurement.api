@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_tender, get_request
-from openprocurement.tender.core.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 class QuestionSerializer(BaseSerializer):

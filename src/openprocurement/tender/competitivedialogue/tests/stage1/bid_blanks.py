@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 
 # CompetitiveDialogEUBidResourceTest
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
@@ -180,7 +180,7 @@ def create_tender_bidder_invalid(self):
                     "contactPoint": ["This field is required."],
                     "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                     "name": ["This field is required."],
-
+                    "scale": ["This field is required."],
                 }
             ],
             "location": "body",
@@ -209,6 +209,7 @@ def create_tender_bidder_invalid(self):
                         "id": ["This field is required."],
                         "uri": ["Not a well formed URL."],
                     },
+                    "scale": ["This field is required."],
 
                 }
             ],
@@ -407,9 +408,11 @@ def patch_tender_bidder(self):
     bid_token = response.json["access"]["token"]
 
     # Update tenders[0].name, and check response fields
+    tenderer = deepcopy(test_tender_below_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"tenderers": [{"name": "Державне управління управлінням справами"}]}},
+        {"data": {"tenderers": [tenderer]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

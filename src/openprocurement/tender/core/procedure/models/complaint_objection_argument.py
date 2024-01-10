@@ -5,7 +5,7 @@ from schematics.types import StringType, MD5Type
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import get_request
-from openprocurement.api.models import Model
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.context import get_complaint
 
 

@@ -105,6 +105,7 @@ def create_tender_bid_invalid(self):
                         "identifier": {"scheme": ["This field is required."], "id": ["This field is required."]},
                         "name": ["This field is required."],
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -132,6 +133,7 @@ def create_tender_bid_invalid(self):
                             "uri": ["Not a well formed URL."],
                         },
                         "address": ["This field is required."],
+                        "scale": ["This field is required."],
                     }
                 ],
                 "location": "body",
@@ -381,11 +383,13 @@ def patch_tender_bid(self):
         ],
     )
 
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
+    tenderer["name"] = "Державне управління управлінням справами"
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {
             "data": {
-                "tenderers": [{"name": "Державне управління управлінням справами"}],
+                "tenderers": [tenderer],
                 "subcontractingDetails": "test_details",
             }
         },
@@ -616,11 +620,15 @@ def bid_Administrator_change(self):
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("administrator", ""))
+
+    tenderer = deepcopy(test_tender_cfaselectionua_organization)
+    tenderer["identifier"]["id"] = "00037257"
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
         {
             "data": {
-                "tenderers": [{"identifier": {"id": "00037257"}}],
+                "tenderers": [tenderer],
                 "lotValues": [{"value": {"amount": 300}, "relatedLot": self.initial_lots[0]["id"]}],
             }
         },

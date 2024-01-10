@@ -9,10 +9,10 @@ from openprocurement.api.constants import (
     PLAN_BUYERS_REQUIRED_FROM,
 )
 from openprocurement.api.utils import to_decimal
-from openprocurement.api.models import ModelType, Model, IsoDateTimeType
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.context import get_request, get_now
 from openprocurement.api.procedure.utils import is_obj_const_active
-from openprocurement.api.procedure.models.base import ListType
+from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification,
     validate_items_uniq,

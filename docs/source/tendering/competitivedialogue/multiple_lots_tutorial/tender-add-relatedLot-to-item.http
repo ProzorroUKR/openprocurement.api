@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
+PATCH /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2402
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "b2ed7275e3614c6db118756ef8e20cfb",
+        "id": "b4fa3679ca1d43a0bd502459053208b4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -44,10 +44,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "5042b6586cbb4a679380f561ba153121"
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a"
       },
       {
-        "id": "0e92722d1ae84d4f845264885d7062dd",
+        "id": "92c0fc8deb6f434e880718e521d5140b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "description_en": "Services in school canteens",
-        "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8"
+        "relatedLot": "2866b9eca86549469d19f5b13268d0af"
       }
     ]
   }
@@ -127,7 +127,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "258db6b318044b84a9ded1b956746772",
+        "id": "d6e3c176788c492dbdc82b03736d1eac",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -156,9 +156,9 @@ Content-Type: application/json
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -184,7 +184,7 @@ Content-Type: application/json
     "status": "draft",
     "items": [
       {
-        "id": "b2ed7275e3614c6db118756ef8e20cfb",
+        "id": "b4fa3679ca1d43a0bd502459053208b4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -208,7 +208,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5042b6586cbb4a679380f561ba153121",
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -223,7 +223,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "0e92722d1ae84d4f845264885d7062dd",
+        "id": "92c0fc8deb6f434e880718e521d5140b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -247,7 +247,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8",
+        "relatedLot": "2866b9eca86549469d19f5b13268d0af",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -267,7 +267,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5042b6586cbb4a679380f561ba153121",
+        "id": "ce878968f8764c5abbbf54f83211031a",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -284,7 +284,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "b2732357fe2843d1a3a29850b3cd09a8",
+        "id": "2866b9eca86549469d19f5b13268d0af",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -298,7 +298,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "cf488f0e7db04145a88a15ca0429e178"
+    "id": "1ee8633e845844849cfdd79e535391f7"
   },
   "config": {
     "hasAuction": false,

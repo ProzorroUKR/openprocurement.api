@@ -1,64 +1,21 @@
-from schematics.types import StringType, EmailType
+from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.models import (
-    Model,
-    BaseType,
-    ListType,
-    IsoDateTimeType,
-    Identifier,
-    validate_telephone,
-)
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.api.validation import validate_items_uniq
 
-from openprocurement.contracting.core.procedure.models.contract_base import Item as BaseItem
-from openprocurement.contracting.core.procedure.models.contract_base import (
-    Address,
-    ContactPoint,
-    AmountPaid,
+from openprocurement.contracting.core.procedure.models.contract import (
     BasePostContract,
     BasePatchContract,
     BaseContract,
 )
+from openprocurement.contracting.core.procedure.models.value import AmountPaid
+from openprocurement.contracting.econtract.procedure.models.item import Item
+from openprocurement.contracting.econtract.procedure.models.organization import Organization
 from openprocurement.contracting.econtract.procedure.models.value import ContractValue
 from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
-from openprocurement.tender.core.procedure.models.unit import Unit
-
-
-class SignerInfo(Model):
-    name = StringType(min_length=1, required=True)
-    email = EmailType(min_length=1, required=True)
-    telephone = StringType(min_length=1, required=True)
-    iban = StringType(min_length=15, max_length=33, required=True)
-    position = StringType(min_length=1, required=True)
-    authorizedBy = StringType(min_length=1, required=True)
-
-    def validate_telephone(self, data, value):
-        validate_telephone(value)
-
-
-class Attribute(Model):
-    name = StringType(required=True)
-    unit = ModelType(Unit)
-    values = ListType(BaseType(required=True))
-
-
-class Item(BaseItem):
-    attributes = ListType(ModelType(Attribute, required=True))
-    unit = ModelType(Unit)
-
-
-class Organization(Model):
-    """An organization."""
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(Identifier, required=True)
-    additionalIdentifiers = ListType(ModelType(Identifier))
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
-    address = ModelType(Address)
-    signerInfo = ModelType(SignerInfo)
 
 
 class PostContract(BasePostContract):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c1ecbb7654494927b3713d6f2307973d/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+PATCH /api/2.5/tenders/c41060021ebc4cccb8e66eda82f3c502/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 2
 Content-Type: application/json
@@ -67,9 +67,9 @@ Content-Type: application/json
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -92,7 +92,7 @@ Content-Type: application/json
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
       {
-        "id": "a789515915fc431d9f9cde4188c621f2",
+        "id": "2850ac78b96b415a8fb8e55025b7df25",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -131,7 +131,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "2f425a1372a445cea9f10390e9709db1",
+        "id": "1d7584a0e494404f9634ddbb151ad270",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -197,7 +197,7 @@ Content-Type: application/json
       }
     ],
     "status": "draft.stage2",
-    "id": "c1ecbb7654494927b3713d6f2307973d"
+    "id": "c41060021ebc4cccb8e66eda82f3c502"
   },
   "access": {
     "token": "7daf4a43d2eb4322865a73d28689213b",

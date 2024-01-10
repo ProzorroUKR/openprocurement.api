@@ -1,5 +1,5 @@
 from schematics.types import StringType
-from openprocurement.api.models import ModelType
+from openprocurement.api.procedure.types import ModelType
 
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,

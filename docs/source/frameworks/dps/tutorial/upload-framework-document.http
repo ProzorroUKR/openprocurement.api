@@ -1,4 +1,4 @@
-POST /api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+POST /api/2.5/frameworks/cc9a8f71020a459188912858e360d70f/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 326
 Content-Type: application/json
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe/documents/ecdce85901c748e3ba722d06c584a578
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/cc9a8f71020a459188912858e360d70f/documents/e6c5987a9bb949fe961bdc8982ceea97
 
 {
   "data": {
@@ -25,7 +25,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/4178f66eebf04
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "ecdce85901c748e3ba722d06c584a578",
+    "id": "e6c5987a9bb949fe961bdc8982ceea97",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00"
   }

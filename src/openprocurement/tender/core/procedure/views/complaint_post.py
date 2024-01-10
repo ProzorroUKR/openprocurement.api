@@ -11,7 +11,8 @@ from openprocurement.tender.core.procedure.state.complaint_post import Complaint
 from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.utils import get_items, save_tender
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.api.procedure.utils import get_items
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate

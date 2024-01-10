@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
+GET /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -15,7 +15,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "bids": [
       {
-        "id": "a95f810cd7eb47739df6fcbe23cce246",
+        "id": "bd957d309ac347d0b24790b2c35f7751",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -26,6 +26,7 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -34,16 +35,15 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930",
-              "name": "Сергій Олексюк"
-            },
-            "scale": "micro"
+              "telephone": "+380432216930"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5042b6586cbb4a679380f561ba153121",
+            "relatedLot": "ce878968f8764c5abbbf54f83211031a",
             "subcontractingDetails": "ДКП «Орфей»",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
@@ -53,7 +53,7 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "id": "a69b2cc0c68f49bcbe9d85275643446d",
+        "id": "aac968ffedef4e3580f7174de9df9be2",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -64,6 +64,7 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "sme",
             "address": {
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
@@ -72,16 +73,15 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
-              "telephone": "+380322916930",
-              "name": "Андрій Олексюк"
-            },
-            "scale": "sme"
+              "telephone": "+380322916930"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5042b6586cbb4a679380f561ba153121",
+            "relatedLot": "ce878968f8764c5abbbf54f83211031a",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
           }
@@ -90,7 +90,7 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "id": "2fc425bd1234426486aec58c4200b3ca",
+        "id": "41e708bb767949a886ffd26b9919230f",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -100,6 +100,7 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
+            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -108,16 +109,15 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
+              "name": "Іван Іваненко",
               "email": "fake@mail.com",
-              "telephone": "+380322123456",
-              "name": "Іван Іваненко"
-            },
-            "scale": "mid"
+              "telephone": "+380322123456"
+            }
           }
         ],
         "lotValues": [
           {
-            "relatedLot": "5042b6586cbb4a679380f561ba153121",
+            "relatedLot": "ce878968f8764c5abbbf54f83211031a",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00"
           }
@@ -153,7 +153,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "258db6b318044b84a9ded1b956746772",
+        "id": "d6e3c176788c492dbdc82b03736d1eac",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -172,27 +172,27 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "b418dba3c56347959cf065ba33f18f61",
-        "bidID": "a95f810cd7eb47739df6fcbe23cce246",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "id": "dfa22ad4b91d4feebe29fbec33adad6e",
+        "bidID": "bd957d309ac347d0b24790b2c35f7751",
+        "lotID": "ce878968f8764c5abbbf54f83211031a",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "daa10427e70547749ae4173a0816a5c0",
-        "bidID": "a69b2cc0c68f49bcbe9d85275643446d",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "id": "40b5627ee61a46f89acfe64e5a329132",
+        "bidID": "aac968ffedef4e3580f7174de9df9be2",
+        "lotID": "ce878968f8764c5abbbf54f83211031a",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "f8ef8e3722e747888be637abe401c6b3",
-        "bidID": "2fc425bd1234426486aec58c4200b3ca",
-        "lotID": "5042b6586cbb4a679380f561ba153121",
+        "id": "99d753166f2b4c9ab82aac543a8e349c",
+        "bidID": "41e708bb767949a886ffd26b9919230f",
+        "lotID": "ce878968f8764c5abbbf54f83211031a",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -216,9 +216,9 @@ Content-Type: application/json
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -244,7 +244,7 @@ Content-Type: application/json
     "status": "complete",
     "items": [
       {
-        "id": "b2ed7275e3614c6db118756ef8e20cfb",
+        "id": "b4fa3679ca1d43a0bd502459053208b4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -268,7 +268,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5042b6586cbb4a679380f561ba153121",
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -283,7 +283,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "0e92722d1ae84d4f845264885d7062dd",
+        "id": "92c0fc8deb6f434e880718e521d5140b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -307,7 +307,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "b2732357fe2843d1a3a29850b3cd09a8",
+        "relatedLot": "2866b9eca86549469d19f5b13268d0af",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -327,7 +327,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5042b6586cbb4a679380f561ba153121",
+        "id": "ce878968f8764c5abbbf54f83211031a",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -344,7 +344,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "unsuccessful",
-        "id": "b2732357fe2843d1a3a29850b3cd09a8",
+        "id": "2866b9eca86549469d19f5b13268d0af",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 400.0,
@@ -358,8 +358,8 @@ Content-Type: application/json
         }
       }
     ],
-    "stage2TenderID": "546d408affff46abb140a86f866faaa3",
-    "id": "cf488f0e7db04145a88a15ca0429e178"
+    "stage2TenderID": "a21119912da64d9082cdcbb4b2a4268a",
+    "id": "1ee8633e845844849cfdd79e535391f7"
   },
   "config": {
     "hasAuction": false,

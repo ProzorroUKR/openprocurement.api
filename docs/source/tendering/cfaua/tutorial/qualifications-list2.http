@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/awards?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+GET /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/awards?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "6c3f9c3c0f7243e5b59b0376be6a24b6",
+      "id": "da10980678b841e6a8440494aad2ff10",
       "status": "cancelled",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -25,6 +25,7 @@ Content-Type: application/json
             "id": "00137227",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "mid",
           "address": {
             "streetAddress": "вул. Островського, 35",
             "locality": "м. Львів",
@@ -33,20 +34,19 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Іван Іваненко",
             "email": "fake@mail.com",
-            "telephone": "+380322123456",
-            "name": "Іван Іваненко"
-          },
-          "scale": "mid"
+            "telephone": "+380322123456"
+          }
         }
       ],
-      "bid_id": "c3e41a3a099a41ad864be3893e0711b5",
+      "bid_id": "189a05bb0caf4f55bafb28808f108512",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
     },
     {
-      "id": "aea17e160d324bad99b2233e4f08df66",
+      "id": "e6cfe52be724467b86ca4ffcffbba954",
       "status": "active",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -63,6 +63,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "sme",
           "address": {
             "streetAddress": "вул. Островського, 34",
             "locality": "м. Львів",
@@ -71,20 +72,19 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930",
-            "name": "Андрій Олексюк"
-          },
-          "scale": "sme"
+            "telephone": "+380322916930"
+          }
         }
       ],
-      "bid_id": "8f1f5d51afcd4521ae73bc0799c5445d",
+      "bid_id": "23a9ebfe99294a09886d88b14f506a21",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
     },
     {
-      "id": "338641fcf8204c2580aae5a310fa5fd5",
+      "id": "b0823c22a8da42b8adfa7b7de1f04236",
       "status": "active",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -101,6 +101,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -109,20 +110,19 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "381f5658b23a448ea820b823934eeb79",
+      "bid_id": "5b7faf5a4e7a49959ae66a4113b80982",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
     },
     {
-      "id": "492878ce49444795a5373c5b3c635bde",
+      "id": "faaf149afb634910800cccba36442d51",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -138,6 +138,7 @@ Content-Type: application/json
             "id": "00137227",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "mid",
           "address": {
             "streetAddress": "вул. Островського, 35",
             "locality": "м. Львів",
@@ -146,14 +147,13 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Іван Іваненко",
             "email": "fake@mail.com",
-            "telephone": "+380322123456",
-            "name": "Іван Іваненко"
-          },
-          "scale": "mid"
+            "telephone": "+380322123456"
+          }
         }
       ],
-      "bid_id": "c3e41a3a099a41ad864be3893e0711b5",
+      "bid_id": "189a05bb0caf4f55bafb28808f108512",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     }
   ]
