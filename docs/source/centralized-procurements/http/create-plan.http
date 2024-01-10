@@ -249,7 +249,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/eb26a3adc64548c4b3
       "description": "Недостатньо змістовне обгрунтування",
       "date": "2023-10-10T01:00:00+03:00"
     },
-    "planID": "UA-P-2023-10-10-000001",
+    "planID": "UA-P-2023-10-10-000001-a",
     "owner": "broker",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
