@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
-    "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
+    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
+    "submissionID": "660d637f7cf749888336a1412725caf8",
     "qualificationType": "electronicCatalogue",
     "status": "pending",
     "date": "2023-10-26T01:00:00+03:00",

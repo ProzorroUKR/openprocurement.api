@@ -130,7 +130,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8b77800a6e86733f6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05
 
 {
   "data": {
@@ -166,9 +166,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
@@ -176,7 +176,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     },
     "items": [
       {
-        "id": "8723d1c9716f450b98fb6598e03c1bb5",
+        "id": "e025716c694a4213b88e400bf7aea57c",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -200,7 +200,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         }
       },
       {
-        "id": "54421234ef194d16ad1e184a4b8df06f",
+        "id": "62f7f0be52b948c88efcd6ce1b2a7fc3",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -238,7 +238,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
         "sequenceNumber": 0
       },
       {
-        "id": "e075fd2ae5ff4548bcabc44c3cd67f14",
+        "id": "086b123db5734a05b1b8191857e3d2dc",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -270,7 +270,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ceb28fdcf5944cd8
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "ceb28fdcf5944cd8b77800a6e86733f6"
+    "id": "4442ee4f8a2f485d8235daf1b0b21b05"
   },
   "config": {
     "hasAuction": true,

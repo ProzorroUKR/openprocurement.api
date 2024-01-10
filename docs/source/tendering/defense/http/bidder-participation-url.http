@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/bids/5896e44a93ff466397bbaaaf13853ea3?acc_token=a6961b269f624e39aabccf7327530788 HTTP/1.0
+GET /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/bids/430ded0e84324d18b9110b87c37132b4?acc_token=a6961b269f624e39aabccf7327530788 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -22,6 +22,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -30,19 +31,18 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "active",
-    "id": "5896e44a93ff466397bbaaaf13853ea3",
+    "id": "430ded0e84324d18b9110b87c37132b4",
     "date": "2023-10-10T01:00:01+03:00",
     "documents": [
       {
-        "id": "ee0ba12ab3e742afaccd3a1c8504a7d3",
+        "id": "af8631d151ca42a484dbec6731b948b7",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -57,7 +57,7 @@ Content-Type: application/json
     "selfEligible": true,
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3cf3333f00394e93bc3caaea00cbe9e2?key_for_bid=5896e44a93ff466397bbaaaf13853ea3"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0cabdf69621745b5b57212d59b3b388c?key_for_bid=430ded0e84324d18b9110b87c37132b4"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cf488f0e7db04145a88a15ca0429e178/bids/2fc425bd1234426486aec58c4200b3ca?acc_token=c962dec9949240f9aa7733143f3c8165 HTTP/1.0
+PATCH /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7/bids/41e708bb767949a886ffd26b9919230f?acc_token=c962dec9949240f9aa7733143f3c8165 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 98
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "lotValues": [
       {
-        "relatedLot": "5042b6586cbb4a679380f561ba153121"
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a"
       }
     ],
     "status": "pending"
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "2fc425bd1234426486aec58c4200b3ca",
+    "id": "41e708bb767949a886ffd26b9919230f",
     "date": "2023-10-10T01:00:00+03:00",
     "tenderers": [
       {
@@ -31,6 +31,7 @@ Content-Type: application/json
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -39,16 +40,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456",
-          "name": "Іван Іваненко"
-        },
-        "scale": "mid"
+          "telephone": "+380322123456"
+        }
       }
     ],
     "lotValues": [
       {
-        "relatedLot": "5042b6586cbb4a679380f561ba153121",
+        "relatedLot": "ce878968f8764c5abbbf54f83211031a",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements HTTP/1.0
+GET /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/agreements HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -12,7 +12,7 @@ Content-Type: application/json
       "id": "b996fbc0afc54062aac0fbaa492eb9e0",
       "items": [
         {
-          "id": "f7f221177ecc41369b255d9ba4620b02",
+          "id": "20103816ae224b5c83308d32a8b7030e",
           "description": "футляри до державних нагород",
           "unit": {
             "name": "item",
@@ -46,7 +46,7 @@ Content-Type: application/json
           "description_en": "Cases for state awards"
         },
         {
-          "id": "95fb67978b4a4d5185a03bebe11d2d59",
+          "id": "a4873474339e4408966d29ed77c3330d",
           "description": "футляри до державних нагород",
           "unit": {
             "name": "item",
@@ -93,6 +93,7 @@ Content-Type: application/json
                 "id": "00137227",
                 "uri": "http://www.sc.gov.ua/"
               },
+              "scale": "mid",
               "address": {
                 "streetAddress": "вул. Островського, 35",
                 "locality": "м. Львів",
@@ -101,26 +102,25 @@ Content-Type: application/json
                 "countryName": "Україна"
               },
               "contactPoint": {
+                "name": "Іван Іваненко",
                 "email": "fake@mail.com",
-                "telephone": "+380322123456",
-                "name": "Іван Іваненко"
-              },
-              "scale": "mid"
+                "telephone": "+380322123456"
+              }
             }
           ],
-          "awardID": "153edf0c78dd4fc98c3f46930956479c",
-          "bidID": "c3e41a3a099a41ad864be3893e0711b5",
+          "awardID": "17926cab98b04e68b692d616e25a0cef",
+          "bidID": "189a05bb0caf4f55bafb28808f108512",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [
             {
-              "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+              "relatedItem": "20103816ae224b5c83308d32a8b7030e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+              "relatedItem": "a4873474339e4408966d29ed77c3330d",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
@@ -140,6 +140,7 @@ Content-Type: application/json
                 "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
                 "uri": "http://www.sc.gov.ua/"
               },
+              "scale": "sme",
               "address": {
                 "streetAddress": "вул. Островського, 34",
                 "locality": "м. Львів",
@@ -148,26 +149,25 @@ Content-Type: application/json
                 "countryName": "Україна"
               },
               "contactPoint": {
+                "name": "Андрій Олексюк",
                 "email": "aagt@gmail.com",
-                "telephone": "+380322916930",
-                "name": "Андрій Олексюк"
-              },
-              "scale": "sme"
+                "telephone": "+380322916930"
+              }
             }
           ],
-          "awardID": "f69080728fd34165b517341694df0475",
-          "bidID": "8f1f5d51afcd4521ae73bc0799c5445d",
+          "awardID": "6d5e25fb6e5243279b55e008e9d8aa0d",
+          "bidID": "23a9ebfe99294a09886d88b14f506a21",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [
             {
-              "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+              "relatedItem": "20103816ae224b5c83308d32a8b7030e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+              "relatedItem": "a4873474339e4408966d29ed77c3330d",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
@@ -187,6 +187,7 @@ Content-Type: application/json
                 "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
                 "uri": "http://www.sc.gov.ua/"
               },
+              "scale": "micro",
               "address": {
                 "streetAddress": "вул. Островського, 33",
                 "locality": "м. Вінниця",
@@ -195,26 +196,25 @@ Content-Type: application/json
                 "countryName": "Україна"
               },
               "contactPoint": {
+                "name": "Сергій Олексюк",
                 "email": "soleksuk@gmail.com",
-                "telephone": "+380432216930",
-                "name": "Сергій Олексюк"
-              },
-              "scale": "micro"
+                "telephone": "+380432216930"
+              }
             }
           ],
-          "awardID": "0de06b46cccd45c2896163bbabd6f4d3",
-          "bidID": "381f5658b23a448ea820b823934eeb79",
+          "awardID": "dd9e029509ec4b5f850710a23e5d17a9",
+          "bidID": "5b7faf5a4e7a49959ae66a4113b80982",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [
             {
-              "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+              "relatedItem": "20103816ae224b5c83308d32a8b7030e",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
               }
             },
             {
-              "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+              "relatedItem": "a4873474339e4408966d29ed77c3330d",
               "value": {
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true

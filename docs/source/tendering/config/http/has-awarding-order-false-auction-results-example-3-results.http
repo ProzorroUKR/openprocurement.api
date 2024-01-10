@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/awards?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
+GET /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "1f619ca33c0c418680a6e9108c782381",
+      "id": "23995d40cc7347569e6d5f2f47ece4e8",
       "status": "cancelled",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -26,6 +26,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -34,14 +35,13 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
+      "bid_id": "d1c44e2996c3401ab8953b4d8372969b",
       "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
@@ -49,7 +49,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "93e3afc7e7444428a688e88ce9655594",
+      "id": "99e6dcc3408d4794ae66c30ae2297ea7",
       "status": "active",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -66,6 +66,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -74,14 +75,13 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "9af619241d9042d39d0123e9463e052f",
+      "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
       "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",
@@ -89,7 +89,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "1638bb9ae8544adca20905ab2e6cc2ef",
+      "id": "caa0fe450e3a4b99bc1d7a6fc77bdde5",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -106,6 +106,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -114,18 +115,17 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "7e95a6b839db44edb45dfdd6caa41a97",
+      "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
       "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
     },
     {
-      "id": "d45bf625a8e94c678b31c270e2a235f1",
+      "id": "f8c771c7053c432cadbce62b9c7be656",
       "status": "unsuccessful",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -142,6 +142,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -150,14 +151,13 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "a25e8ec9aa144e9a86415849be36cf7e",
+      "bid_id": "d1c44e2996c3401ab8953b4d8372969b",
       "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
       "complaintPeriod": {
         "startDate": "2023-10-10T01:00:00+03:00",

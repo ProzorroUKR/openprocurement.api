@@ -51,12 +51,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "25d1cdbfc28949be995a262cb1b235fd",
+    "awardID": "a6a73750ffe84e75bbaf483f2210cfba",
     "contractID": "UA-2023-10-10-000001-a-1",
     "contractNumber": "contract#1",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "28db6af763c74fceaedc98e147fed6cb",
+    "tender_id": "c11a2140a8964d45bebcd82401c7dd25",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -96,7 +96,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "6109d472d8f34975a00dd5709cff36a1",
+        "id": "d1751c37d90a4d4096af1f13306e362d",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
@@ -121,7 +121,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "f1e2dd652ddf4a4296acc94e78be41e0",
+        "id": "408f12f4ea9d48dd9c0e00be974022d4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",

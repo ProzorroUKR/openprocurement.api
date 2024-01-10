@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids HTTP/1.0
+POST /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1699
 Content-Type: application/json
@@ -15,8 +15,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "uri": "http://www.dus.gov.ua/"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
         },
         "scale": "micro",
         "address": {
@@ -66,7 +66,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/c6ce785401b149cca81e00c5236c853b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/ebccd6f195534cacb2e3dbcaa3e6f719
 
 {
   "data": {
@@ -78,6 +78,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
           "id": "00037257",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -86,10 +87,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "status": "draft",
@@ -101,7 +101,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f5d54d6f96e4f93bb84aaf2005ecd74?Signature=gWkknoOyOQh2cpnX6nZmhLZJrFxulp8qPlSiERXttONVOcfK8ZCL1ksm1AQp292iAQqY6uzphnL10nz8PEnlAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "32c79a66c3804bad893dfaa0c1cfd59f",
+        "id": "3b77de1addd141a6a1c2dd2b6c063e6d",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -113,7 +113,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7c465d3486b487db509f0e8482bcafd?Signature=Dt0bUdqRLCf5ENnzoOZDqA6XZdViV36%2BLgE4rzqjUtBbVG0krDrux7p3D7C45U3%2BZaqfHqB1ntI9LVS%2F6PoeCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "c29a974bdbb34ec690f1e8f5151b95aa",
+        "id": "da17607d2ff14dc1afaeaf410803a542",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -141,7 +141,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "c6ce785401b149cca81e00c5236c853b",
+    "id": "ebccd6f195534cacb2e3dbcaa3e6f719",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

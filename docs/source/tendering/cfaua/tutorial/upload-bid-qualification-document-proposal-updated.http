@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/bids/381f5658b23a448ea820b823934eeb79/qualification_documents/9de0164b46444ca2a38ff2adf0885f95?acc_token=9799b93b281448ac9708706fc3893f31 HTTP/1.0
+PUT /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/bids/5b7faf5a4e7a49959ae66a4113b80982/qualification_documents/11cd446a452b4141841b21c5505ee418?acc_token=9799b93b281448ac9708706fc3893f31 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 335
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "9de0164b46444ca2a38ff2adf0885f95",
+    "id": "11cd446a452b4141841b21c5505ee418",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "qualification_document2.pdf",

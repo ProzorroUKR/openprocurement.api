@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bf399bcd03af45efa76f2d266f03ccf6 HTTP/1.0
+GET /api/2.5/tenders/9f0a43fb24d94dc985f0bb233f6f5f04 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -19,14 +19,14 @@ Content-Type: application/json
         "uri": "http://www.dus.gov.ua/"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "additionalContactPoints": [
         {
-          "telephone": "+0440000000",
           "name": "Державне управління справами 1",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ],
@@ -70,12 +70,12 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -102,7 +102,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "bf399bcd03af45efa76f2d266f03ccf6"
+    "id": "9f0a43fb24d94dc985f0bb233f6f5f04"
   },
   "config": {
     "hasAuction": true,

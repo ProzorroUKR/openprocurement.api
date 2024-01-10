@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776/awards?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
+GET /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/awards?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,14 +11,14 @@ Content-Type: application/json
     {
       "milestones": [
         {
-          "id": "2966a4774b8344869cfaab80de02191a",
+          "id": "845189bc29e54ba0ae86e5bbc6941770",
           "code": "alp",
           "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
           "date": "2023-10-10T01:00:00+03:00",
           "dueDate": "2023-10-12T00:00:00+03:00"
         }
       ],
-      "id": "025c8edf5baa4124a7bfd6454122fa3d",
+      "id": "dc87ba1686ce42babcf6b6452efbd5e6",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "value": {
@@ -35,6 +35,7 @@ Content-Type: application/json
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
             "uri": "http://www.sc.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
@@ -43,15 +44,14 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Сергій Олексюк",
             "email": "soleksuk@gmail.com",
-            "telephone": "+380432216930",
-            "name": "Сергій Олексюк"
-          },
-          "scale": "micro"
+            "telephone": "+380432216930"
+          }
         }
       ],
-      "bid_id": "1fcbb7ab0a104c228baa39c0c89927fe",
-      "lotID": "eb3a2c7480d14c948cce6d516a8fb007",
+      "bid_id": "f5ee9153aadb4ae59874c308815130ad",
+      "lotID": "3fdae4595ce746318c81ada140ff94d7",
       "qualified": false,
       "eligible": false
     }

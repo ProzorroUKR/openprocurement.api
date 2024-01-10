@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/55425a7f08e3419099a5b51231ecd879?acc_token=cc99c7a557f54ca08b0bf5d757bb11b8 HTTP/1.0
+PATCH /api/2.5/plans/52312ccdba634effa70e1a18dd4da4d3?acc_token=cc99c7a557f54ca08b0bf5d757bb11b8 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 32
 Content-Type: application/json
@@ -18,7 +18,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "ad62cffcf965489d874294db181c9470",
+      "id": "748217f669a1498dbfe708f2895cb854",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -71,7 +71,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-11-000001-a",
     "items": [
       {
-        "id": "90d50c04765d4d62a61adc377c3193c1",
+        "id": "89223125e6be4e809291136c46676ebe",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -102,7 +102,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "0dfebd14598b4023b34a338cfea21471",
+        "id": "8ad4a1ae07ea4dacb145922c73fe35f9",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -133,7 +133,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "2a1a87e5f3624dc1b0393d4efbbc4479",
+        "id": "d055f32f8cac450f89e28420e6f82dac",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -166,7 +166,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "3bbb4f4d043e437fb5b3f46418c33978",
+        "id": "0652a82c4dad45e88ac54306af04f43e",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -191,7 +191,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-11T02:00:33+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",
     "datePublished": "2023-10-11T02:00:33+03:00",
-    "id": "55425a7f08e3419099a5b51231ecd879"
+    "id": "52312ccdba634effa70e1a18dd4da4d3"
   }
 }
 

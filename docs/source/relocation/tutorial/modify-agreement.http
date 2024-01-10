@@ -33,16 +33,16 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
-            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
             }
           }
         ],
@@ -71,16 +71,16 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
-            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
             }
           }
         ],
@@ -109,16 +109,16 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
-            },
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
               "postalCode": "01220",
               "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
             }
           }
         ],

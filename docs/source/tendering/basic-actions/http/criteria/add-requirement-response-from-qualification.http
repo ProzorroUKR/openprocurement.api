@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80?acc_token=c6729983359f482788fb215676877c34 HTTP/1.0
+PATCH /api/2.5/tenders/9514051b350b4ddb87eb569482b942f6/qualifications/78425f5401724a8187553e0c037975a5?acc_token=c6729983359f482788fb215676877c34 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1689
 Content-Type: application/json
@@ -11,14 +11,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "2912e1a1b5ac4d15a8c08ce48013f8e3",
+          "id": "1380a8ebb81046cdbb657f6cc0b0c1ae",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "bf8d8da7edae4c06ab61411b340ebb03",
+              "id": "053c185a3bf545a5bb881c942ad4731b",
               "title": "name.doc"
             },
             "type": "document"
@@ -41,7 +41,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "2912e1a1b5ac4d15a8c08ce48013f8e3",
+          "id": "1380a8ebb81046cdbb657f6cc0b0c1ae",
           "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
         },
         "evidences": [
@@ -49,29 +49,29 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "bf8d8da7edae4c06ab61411b340ebb03",
+              "id": "053c185a3bf545a5bb881c942ad4731b",
               "title": "name.doc"
             },
-            "id": "0d185bf81a3942a0adfd1ec1f5d59501"
+            "id": "63fba3a5f2694136bae7f9c6928fe16c"
           }
         ],
         "value": "True",
-        "id": "4b6c18ef6646405b9929ca21a97e85dd"
+        "id": "b77857cda412440ca940789e54ba9460"
       }
     ],
-    "id": "07996f89c0ff478686c6b72ddaf73c80",
-    "bidID": "1ec84994990544de87c86c6ff2c20ed5",
-    "lotID": "3390bd874e294cc4862ed84abf881c80",
+    "id": "78425f5401724a8187553e0c037975a5",
+    "bidID": "c74552a6ccc242e9b3cb96a6e8d2e4de",
+    "lotID": "31b2cedd99fa405586acfe90bd02c1e1",
     "status": "pending",
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "bf8d8da7edae4c06ab61411b340ebb03",
+        "id": "053c185a3bf545a5bb881c942ad4731b",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5d8c9b51c2d14c1196b1f7833c8ac475/qualifications/07996f89c0ff478686c6b72ddaf73c80/documents/bf8d8da7edae4c06ab61411b340ebb03?download=778be56a0b794ee1b0b568e8e2d03004",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9514051b350b4ddb87eb569482b942f6/qualifications/78425f5401724a8187553e0c037975a5/documents/053c185a3bf545a5bb881c942ad4731b?download=778be56a0b794ee1b0b568e8e2d03004",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",

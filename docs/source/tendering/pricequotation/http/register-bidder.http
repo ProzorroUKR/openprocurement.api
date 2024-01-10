@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids HTTP/1.0
+POST /api/2.5/tenders/d129be7cbe054d18a179ea11a7141a52/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1736
 Content-Type: application/json
@@ -36,19 +36,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "25ad302697704d249e9d653933f909ee"
+          "id": "50f91892d16c4bc2bd0ed3622c37942b"
         },
         "value": "Розчин для інфузій"
       },
       {
         "requirement": {
-          "id": "d3cb95288b334796b1562a0c638e526b"
+          "id": "21f2f298b75f4b049ede70d8f7cc27b1"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "a917b3e240d94416aac128cd1c3775e1"
+          "id": "93fade2f51004ff597eebfb2a0dff304"
         },
         "values": [
           "Відповідь1",
@@ -59,7 +59,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "items": [
       {
-        "id": "6d463cf854bc4c0eb04915ba7c172bea",
+        "id": "3fe2d354a11b47e7a3e9109f595968cb",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -79,7 +79,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/bids/ef1bede622fc44a08d3caa36ebd1de36
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d129be7cbe054d18a179ea11a7141a52/bids/e147879859fb43caad2391bf20d0b032
 
 {
   "data": {
@@ -91,6 +91,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -99,10 +100,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "value": {
@@ -112,23 +112,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
     },
     "requirementResponses": [
       {
-        "id": "41d6e0ec22344c04ba26d0c9860aa329",
+        "id": "d51e9d7a04d54963ba3140525616c364",
         "requirement": {
-          "id": "25ad302697704d249e9d653933f909ee"
+          "id": "50f91892d16c4bc2bd0ed3622c37942b"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "99a57e5b692745158ef966db7820b11e",
+        "id": "71c540419c5c4211bcdc09948a69ce7f",
         "requirement": {
-          "id": "d3cb95288b334796b1562a0c638e526b"
+          "id": "21f2f298b75f4b049ede70d8f7cc27b1"
         },
         "value": 5
       },
       {
-        "id": "f2263583450b4e2ea0344291b52cf2fc",
+        "id": "bc07a4eb405b4c909809dd454dd29cf8",
         "requirement": {
-          "id": "a917b3e240d94416aac128cd1c3775e1"
+          "id": "93fade2f51004ff597eebfb2a0dff304"
         },
         "values": [
           "Відповідь1",
@@ -139,7 +139,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
     "status": "draft",
     "items": [
       {
-        "id": "6d463cf854bc4c0eb04915ba7c172bea",
+        "id": "3fe2d354a11b47e7a3e9109f595968cb",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -153,7 +153,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bb8949e735294cba
         "quantity": 5.0
       }
     ],
-    "id": "ef1bede622fc44a08d3caa36ebd1de36",
+    "id": "e147879859fb43caad2391bf20d0b032",
     "date": "2023-09-20T01:00:01+03:00"
   },
   "access": {

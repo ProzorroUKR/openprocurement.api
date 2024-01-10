@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe?acc_token=a6cc32f878544fed9009024edd091a24 HTTP/1.0
+PATCH /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6?acc_token=a6cc32f878544fed9009024edd091a24 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1421
 Content-Type: application/json
@@ -35,12 +35,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -78,14 +78,14 @@ Content-Type: application/json
         "uri": "http://www.dus.gov.ua/"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "additionalContactPoints": [
         {
-          "telephone": "+0440000000",
           "name": "Державне управління справами 1",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ],
@@ -207,8 +207,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "large",
                 "address": {
@@ -261,8 +261,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -315,8 +315,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами 1"
+                  "name": "Державне управління справами 1",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -369,8 +369,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -420,12 +420,12 @@ Content-Type: application/json
             "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\""
           },
           "contactPoint": {
+            "name": "Ліповець Євген Іванович",
             "name_en": "Gregory Gillespie",
             "email": "buh510@ukr.net",
             "telephone": "+2341170",
             "faxNumber": "2343591",
             "url": "http://www.shev.gov.ua/",
-            "name": "Ліповець Євген Іванович",
             "availableLanguage": "en"
           },
           "address": {
@@ -465,12 +465,12 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -560,7 +560,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "next_check": "2023-10-12T00:00:00+03:00",
-    "id": "e23dee5896254eb4ac3364a9a854c3fe"
+    "id": "9c3bab1d2b124303adb40303b401fef6"
   },
   "config": {
     "hasAuction": true,

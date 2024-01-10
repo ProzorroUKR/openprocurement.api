@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/1b70e498d27e4c1dba8838d6807dac0c/qualifications HTTP/1.0
+GET /api/2.5/frameworks/78d4ab4039c8441d8cac856e90e3b82b/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,18 +11,18 @@ Content-Type: application/json
     {
       "documents": [
         {
-          "id": "c03b20fc63b44ed99250c3b8fa3cd7f0",
+          "id": "c03d17ed739d43d38e6a26b11382093b",
           "datePublished": "2023-10-26T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "qualification.doc",
           "format": "application/msword",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/2efa97090edf4a269865f3d2a1e88247/documents/c03b20fc63b44ed99250c3b8fa3cd7f0?download=3cd211e97f284e79b39a6dbba518a484",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/2efa97090edf4a269865f3d2a1e88247/documents/c03d17ed739d43d38e6a26b11382093b?download=3cd211e97f284e79b39a6dbba518a484",
           "dateModified": "2023-10-26T01:00:00+03:00",
           "language": "uk"
         }
       ],
-      "submissionID": "8b8465c39dc3471ba57b324f2ed988fa",
-      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "submissionID": "660d637f7cf749888336a1412725caf8",
+      "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
       "status": "unsuccessful",
       "date": "2023-10-26T01:00:00+03:00",
       "dateCreated": "2023-10-26T01:00:00+03:00",
@@ -30,8 +30,8 @@ Content-Type: application/json
       "id": "2efa97090edf4a269865f3d2a1e88247"
     },
     {
-      "submissionID": "c032bcbca6d942d88bfa243b8b266b15",
-      "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+      "submissionID": "d95643791311471fb3ae290c48641822",
+      "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
       "status": "active",
       "date": "2023-10-26T01:00:00+03:00",
       "dateCreated": "2023-10-26T01:00:00+03:00",

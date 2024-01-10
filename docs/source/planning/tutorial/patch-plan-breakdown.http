@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/e034eb97f84745fcb35c4006cc778372?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
+PATCH /api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 395
 Content-Type: application/json
@@ -42,7 +42,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "e87fd83c1a57450583d3aa0c3294d052",
+      "id": "6d8d57fa440348488964090c842487fc",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -81,7 +81,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "8a872e2a84644be2b7754d5407819c0e",
+          "id": "afc7b60818254482b3abc46c8002ebe0",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -106,7 +106,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "5697880f01454fda999239f110ad8753",
+        "id": "cc78c7eb1054477184275de99caf66e9",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "4d6149e5a0b84713a5af02c1d7fe3342",
+        "id": "200ac01f7be14904a310dc4fbbd7c6ee",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -157,7 +157,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "id": "e034eb97f84745fcb35c4006cc778372"
+    "id": "b78458ab31b845d6a123d3029d6e7e68"
   }
 }
 

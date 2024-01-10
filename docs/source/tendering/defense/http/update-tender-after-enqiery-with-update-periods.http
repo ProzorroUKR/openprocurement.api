@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2?acc_token=0686dbcd3079442fb4777eee185e6cd7 HTTP/1.0
+PATCH /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c?acc_token=0686dbcd3079442fb4777eee185e6cd7 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 155
 Content-Type: application/json
@@ -29,7 +29,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
       {
-        "id": "5a1d41f4c6764d50a0b12798ec87c354",
+        "id": "7e5a6e91d54f472b8fa0b5bbc9c90b7d",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -46,9 +46,9 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
+            "name": "Андрій Олексюк",
             "email": "aagt@gmail.com",
-            "telephone": "+380322916930",
-            "name": "Андрій Олексюк"
+            "telephone": "+380322916930"
           }
         },
         "title": "Калорійність",
@@ -61,36 +61,36 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "8248f92f46954e18bbb6ebee09e598b0",
+        "id": "4bcf0dcade374f74821c7506c1cf0738",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/8248f92f46954e18bbb6ebee09e598b0?download=652841daeeeb439495081421efd95a14",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/4bcf0dcade374f74821c7506c1cf0738?download=652841daeeeb439495081421efd95a14",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "2cfc3af3ded0434ea2991769bd31335c",
+        "id": "827d1c5f60a641c7aed04c30d709915a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/2cfc3af3ded0434ea2991769bd31335c?download=d3b3e9515e024fcfab143be97a3e7ec9",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/827d1c5f60a641c7aed04c30d709915a?download=d3b3e9515e024fcfab143be97a3e7ec9",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "2cfc3af3ded0434ea2991769bd31335c",
+        "id": "827d1c5f60a641c7aed04c30d709915a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/documents/2cfc3af3ded0434ea2991769bd31335c?download=69070d50771a4daca7c07e2513280022",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/827d1c5f60a641c7aed04c30d709915a?download=69070d50771a4daca7c07e2513280022",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -135,7 +135,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "751b591b7605421bb8cc3f258b26afc2",
+        "id": "4b7cdf77c4b6449d8d98ccfd9402478c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -161,7 +161,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d7ad37910a9845afa314850acc7d7c90",
+        "id": "8510e95265834e8c9049e3aaedee9eba",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -214,9 +214,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "availableLanguage": "uk"
       },
       "kind": "defense"
@@ -225,7 +225,7 @@ Content-Type: application/json
       "startDate": "2023-09-27T01:00:00+03:00",
       "endDate": "2023-10-14T00:00:00+03:00"
     },
-    "id": "3cf3333f00394e93bc3caaea00cbe9e2"
+    "id": "0cabdf69621745b5b57212d59b3b388c"
   },
   "config": {
     "hasAuction": true,

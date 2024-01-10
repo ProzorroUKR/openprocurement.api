@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/c6ce785401b149cca81e00c5236c853b?acc_token=d70e8eace012416b9c2735ca1457ad27 HTTP/1.0
+GET /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/ebccd6f195534cacb2e3dbcaa3e6f719?acc_token=d70e8eace012416b9c2735ca1457ad27 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -16,6 +16,7 @@ Content-Type: application/json
           "id": "00037257",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -24,18 +25,17 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "status": "active",
-    "id": "c6ce785401b149cca81e00c5236c853b",
+    "id": "ebccd6f195534cacb2e3dbcaa3e6f719",
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "32c79a66c3804bad893dfaa0c1cfd59f",
+        "id": "3b77de1addd141a6a1c2dd2b6c063e6d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -47,7 +47,7 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "c29a974bdbb34ec690f1e8f5151b95aa",
+        "id": "da17607d2ff14dc1afaeaf410803a542",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
@@ -79,7 +79,7 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42?key_for_bid=c6ce785401b149cca81e00c5236c853b"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9c3bab1d2b124303adb40303b401fef6_50fc7d0cb4e3423491c35387a046af42?key_for_bid=ebccd6f195534cacb2e3dbcaa3e6f719"
       }
     ]
   }

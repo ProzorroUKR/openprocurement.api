@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f/awards/a731c12fe3644953b13a3fc0352d0949?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
+PATCH /api/2.5/tenders/d129be7cbe054d18a179ea11a7141a52/awards/e01ef20540ac40c288dcd352b827253a?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a731c12fe3644953b13a3fc0352d0949",
+    "id": "e01ef20540ac40c288dcd352b827253a",
     "status": "active",
     "date": "2023-09-20T01:00:01+03:00",
     "value": {
@@ -32,6 +32,7 @@ Content-Type: application/json
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -40,13 +41,12 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
-    "bid_id": "c586fda9baec46a9aa99c9f697250a2e"
+    "bid_id": "ad28b70c80434cbd9aca133eee12e0da"
   }
 }
 

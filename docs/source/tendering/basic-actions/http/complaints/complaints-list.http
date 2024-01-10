@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints HTTP/1.0
+GET /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -8,12 +8,12 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "f0c38fcaca5943158f084a8e0f922608",
+      "id": "ce1d5dd8499f4f5eb0cae366de1770ca",
       "complaintID": "UA-2023-10-10-000001-a.1",
       "date": "2023-10-10T01:00:00+03:00",
       "documents": [
         {
-          "id": "2c23eb8f1f4f49a1a6e924cb2f66acb2",
+          "id": "82922d46201147d3b523f998049b45cf",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
@@ -32,7 +32,7 @@ Content-Type: application/json
       "dateSubmitted": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "8f5f689017624645858b920b09f25b9e",
+      "id": "2e09eb687f6e4ac1935bf3e59634e621",
       "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "title": "Недостатньо інформації",
@@ -46,7 +46,7 @@ Content-Type: application/json
       "type": "claim"
     },
     {
-      "id": "2af3aca54e1a475a8e82540fbc1a291f",
+      "id": "78041171e35f49299c0b617710cb783e",
       "complaintID": "UA-2023-10-10-000001-a.3",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "declined",
@@ -61,9 +61,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -86,7 +86,7 @@ Content-Type: application/json
       "dateDecision": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "df0b9a31cbad4b57911a866ae41b2aef",
+      "id": "407b6b7d2a36408493482d073ab499da",
       "complaintID": "UA-2023-10-10-000001-a.4",
       "date": "2023-10-10T01:00:00+03:00",
       "title": "Недостатньо інформації",
@@ -99,13 +99,13 @@ Content-Type: application/json
       "dateAnswered": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "0d2bd1274a464452a45df8f92da4d7a8",
+      "id": "e7af1dc6707d433592a8cd927e02acd0",
       "complaintID": "UA-2023-10-10-000001-a.5",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "resolved",
       "documents": [
         {
-          "id": "89d9027aba0d4abfae82aabe21ade44b",
+          "id": "1c6422fc8d414b9cb6534964642de446",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
@@ -128,9 +128,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -154,7 +154,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "69445f09ef264fa9bdc678699a485d91",
+      "id": "e12c3a3f660849939652f97feea21f95",
       "complaintID": "UA-2023-10-10-000001-a.6",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "stopped",
@@ -169,9 +169,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -197,7 +197,7 @@ Content-Type: application/json
       "dateCanceled": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "0fd7349c1c564ccfb2060b9526873196",
+      "id": "afe0675e090f4ea383bdaeaf90584078",
       "complaintID": "UA-2023-10-10-000001-a.7",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "accepted",
@@ -212,9 +212,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -236,7 +236,7 @@ Content-Type: application/json
       "acceptance": true
     },
     {
-      "id": "30b3bbc21cf54b0e96ed5ffdfbca8871",
+      "id": "52ddd1b83db644099f5b752b6fd17a70",
       "complaintID": "UA-2023-10-10-000001-a.8",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "invalid",
@@ -251,9 +251,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -274,7 +274,7 @@ Content-Type: application/json
       "acceptance": false
     },
     {
-      "id": "aae4943eac7b4faa95994ed5d6b39d31",
+      "id": "91b66cbfb81f48a59073539e3eb55e3a",
       "complaintID": "UA-2023-10-10-000001-a.9",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "mistaken",
@@ -289,9 +289,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -309,7 +309,7 @@ Content-Type: application/json
       "rejectReason": "cancelledByComplainant"
     },
     {
-      "id": "552d75b02d07493ca397b349f8f42363",
+      "id": "ad6e6280b4df46ee984ec14ff9a1ca31",
       "complaintID": "UA-2023-10-10-000001-a.10",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "pending",
@@ -324,9 +324,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
+          "telephone": "+380432216930"
         },
         "identifier": {
           "scheme": "UA-EDR",
@@ -347,7 +347,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "complaint_owner",
-          "id": "a8a90cc6d7714aeb897378b5a3eee3c7",
+          "id": "b3a40ada30d644f8aac27dc654bd0534",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "author": "aboveThresholdReviewers"
         },
@@ -362,15 +362,15 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=I%2BSDHWQGH9hP4eLNQgKNS44%2BMe0IXre%2Bnt3gT5QwhGxNPi75C71dT2jK2gPUnWL3uO1nEAoloRQgnZTOueVuDQ%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "d6aaa9c86bf04a958476d4e33d7b39cc",
+              "id": "8f25c5fde5db483cbdc26a7719f42e71",
               "datePublished": "2023-10-10T01:00:00+03:00",
               "dateModified": "2023-10-10T01:00:00+03:00",
               "author": "complaint_owner"
             }
           ],
           "recipient": "aboveThresholdReviewers",
-          "relatedPost": "a8a90cc6d7714aeb897378b5a3eee3c7",
-          "id": "be37b2f2f72e40a28ec979674842463e",
+          "relatedPost": "b3a40ada30d644f8aac27dc654bd0534",
+          "id": "adeaa3de92c047e5a3c022152434ad56",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "author": "complaint_owner"
         },
@@ -378,7 +378,7 @@ Content-Type: application/json
           "title": "Уточнення по вимозі",
           "description": "Відсутній документ",
           "recipient": "tender_owner",
-          "id": "c35f6ca22e1140a3a7053f6e03fe1b2a",
+          "id": "3538099678ed4074b063575560fa7a74",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "author": "aboveThresholdReviewers"
         },
@@ -393,15 +393,15 @@ Content-Type: application/json
               "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb21efa9fd8045898374f46f1c113bb8?Signature=rAJ4kmPK6sfn%2B8U1gNPjmeoKfkCNeQxFFuqKCWJlsHdpM%2FeLxycGLqbD5WWhkT2hX7ubAu%2FEqSbot5gvusfRAg%3D%3D&KeyID=a8968c46",
               "documentOf": "tender",
               "language": "uk",
-              "id": "df792b57886e4627ad3bce388a0f1745",
+              "id": "039c594ccfe74ba3b9ad21bb096c3e7f",
               "datePublished": "2023-10-10T01:00:00+03:00",
               "dateModified": "2023-10-10T01:00:00+03:00",
               "author": "tender_owner"
             }
           ],
           "recipient": "aboveThresholdReviewers",
-          "relatedPost": "c35f6ca22e1140a3a7053f6e03fe1b2a",
-          "id": "9e2104a733724b6cae41606d8439bfa4",
+          "relatedPost": "3538099678ed4074b063575560fa7a74",
+          "id": "41b02260362540a0bd0cef76fbc4a5c6",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "author": "tender_owner"
         }

@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-10-000001",
-    "frameworkID": "aaee5d971c6d4f5dabb88efa004abce8",
+    "frameworkID": "3a893cf33c0142edb921995a5925b862",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -53,33 +53,33 @@ Content-Type: application/json
       {
         "id": "47d4f000eb0e4823969e06c9535d9ef3",
         "qualificationID": "68de2a943cda42ffb3215bafd3349152",
-        "submissionID": "0ba8a372b4d54e02b05a340a9cf86c11",
+        "submissionID": "4c344a1ede6246549b56d3c323204339",
         "status": "active",
         "suppliers": [
           {
             "name": "Державне управління справами",
             "name_en": "State administration",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
-              "legalName": "Державне управління справами",
               "legalName_en": "dus.gov.ua",
-              "uri": "http://www.dus.gov.ua/"
+              "uri": "http://www.dus.gov.ua/",
+              "legalName": "Державне управління справами"
             },
             "address": {
+              "countryName": "Україна",
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
               "region": "м. Київ",
-              "postalCode": "01220",
-              "countryName": "Україна"
+              "postalCode": "01220"
             },
             "contactPoint": {
               "name": "Державне управління справами",
               "name_en": "State administration",
-              "email": "aa@aa.com",
-              "telephone": "+0440000000"
-            }
+              "telephone": "+0440000000",
+              "email": "aa@aa.com"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [

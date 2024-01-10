@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/54784c9d4ff74af1986c35990954e7e6?acc_token=256c51452b26431bb4013b804989df6c HTTP/1.0
+PATCH /api/2.5/tenders/5df232c51fe546ab9d77b698e74e70e8?acc_token=256c51452b26431bb4013b804989df6c HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 30
 Content-Type: application/json
@@ -43,9 +43,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна"
+        "url": "http://sch10.edu.vn.ua/"
       },
       "kind": "special"
     },
@@ -57,7 +57,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "cb67762467844f0281d3dbf0910706ea",
+        "id": "5d1d0355b6f4454599643ef55cf28588",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -81,7 +81,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "d049e59ecd494591ab40486ee8250cc7",
+        "relatedLot": "7ef14321e86047b09378ef9cf3465b9a",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -103,7 +103,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "d049e59ecd494591ab40486ee8250cc7",
+        "id": "7ef14321e86047b09378ef9cf3465b9a",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500000.0,
@@ -126,7 +126,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "6fd39fb212c249d1a6bb26d118f09cca",
+        "id": "2ddea28f885c4d28af29368fa1a29950",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -140,7 +140,7 @@ Content-Type: application/json
     ],
     "procurementMethodType": "negotiation.quick",
     "cause": "twiceUnsuccessful",
-    "id": "54784c9d4ff74af1986c35990954e7e6"
+    "id": "5df232c51fe546ab9d77b698e74e70e8"
   },
   "config": {
     "hasAuction": false,

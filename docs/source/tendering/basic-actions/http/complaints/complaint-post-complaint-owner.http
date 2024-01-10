@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts?acc_token=40c0a17b0da242fb8878c5bf9d10992e HTTP/1.0
+POST /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/ad6e6280b4df46ee984ec14ff9a1ca31/posts?acc_token=40c0a17b0da242fb8878c5bf9d10992e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 664
 Content-Type: application/json
@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "a8a90cc6d7714aeb897378b5a3eee3c7",
+    "relatedPost": "b3a40ada30d644f8aac27dc654bd0534",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
@@ -24,7 +24,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5902cacc12c9a8788/complaints/552d75b02d07493ca397b349f8f42363/posts/be37b2f2f72e40a28ec979674842463e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/ad6e6280b4df46ee984ec14ff9a1ca31/posts/adeaa3de92c047e5a3c022152434ad56
 
 {
   "data": {
@@ -38,15 +38,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/06a89d3522bf4ba5
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=I%2BSDHWQGH9hP4eLNQgKNS44%2BMe0IXre%2Bnt3gT5QwhGxNPi75C71dT2jK2gPUnWL3uO1nEAoloRQgnZTOueVuDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "d6aaa9c86bf04a958476d4e33d7b39cc",
+        "id": "8f25c5fde5db483cbdc26a7719f42e71",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "complaint_owner"
       }
     ],
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "a8a90cc6d7714aeb897378b5a3eee3c7",
-    "id": "be37b2f2f72e40a28ec979674842463e",
+    "relatedPost": "b3a40ada30d644f8aac27dc654bd0534",
+    "id": "adeaa3de92c047e5a3c022152434ad56",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "author": "complaint_owner"
   }

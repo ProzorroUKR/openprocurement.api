@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0f776099eb8344b4a149200a8657a9df/awards/cf26c8c7de5447e083e5a6bb0d27cc66/complaints/5ee03229cced4dd987e148caddae4b97 HTTP/1.0
+PATCH /api/2.5/tenders/6cd337f9f29d416db8d06a06d52553c2/awards/da128562874540adb64b7c27790c1a29/complaints/2729b7f0fd714e35b829c8f93066a2d0 HTTP/1.0
 Authorization: Bearer bot
 Content-Length: 31
 Content-Type: application/json
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "5ee03229cced4dd987e148caddae4b97",
+    "id": "2729b7f0fd714e35b829c8f93066a2d0",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:03+03:00",
     "status": "pending",
     "documents": [
       {
-        "id": "3eca4e2f52ad45d7aec964bc20e40cd6",
+        "id": "958212f707234d9eaaa21961a7d4e378",
         "datePublished": "2023-10-10T01:00:03+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -35,8 +35,8 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "14a2a2bf0b87485c86be3f95b3bbcbc3",
-    "bid_id": "e1cb6a5520984996a0d99c83aa93cdf9",
+    "relatedLot": "8f8664c04e974743b112690046a6d3e9",
+    "bid_id": "7b369f62b6054208bd778c807835f875",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -47,9 +47,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",

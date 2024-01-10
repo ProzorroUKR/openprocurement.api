@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/questions/480584a7a20341fab0d8ae1aed779bb2?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
+PATCH /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/questions/ed741425edae4250a080d10fb35c1238?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 162
 Content-Type: application/json
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "480584a7a20341fab0d8ae1aed779bb2",
+    "id": "ed741425edae4250a080d10fb35c1238",
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
     "date": "2023-10-10T01:00:00+03:00",

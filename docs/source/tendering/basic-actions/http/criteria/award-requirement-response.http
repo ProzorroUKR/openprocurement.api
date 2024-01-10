@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1000439b7a694fcbb7e241e9d7a3bb39/awards/0d91018f36534468b3d78fa3751084e6/requirement_responses/46e80fa2fe8b40aa8d334b67f6e7d855 HTTP/1.0
+GET /api/2.5/tenders/3b02451f7d3040b699a8e3fa6f02ac13/awards/f95dd7a15d4c408481c7dfdeddc80346/requirement_responses/d1fddfac7e664be5827e9e5f257f1c67 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     "title": "Updated title",
     "description": "some description",
     "requirement": {
-      "id": "d5c9086bd34e49c5afc2ecc2ee9c7057",
+      "id": "77f5a898cd634c3791f99b969c349d69",
       "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника"
     },
     "evidences": [
@@ -19,23 +19,23 @@ Content-Type: application/json
         "title": "Requirement response",
         "type": "document",
         "relatedDocument": {
-          "id": "e153ac99f62e443ba1c9098b724633d9",
+          "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
           "title": "name.doc"
         },
-        "id": "bfca30a7f22e4a5eb7dd3d17aa1310c1"
+        "id": "ce6dca61b3c745dabb6e9de8c2c6980e"
       },
       {
         "title": "Update evidence title",
         "type": "document",
         "relatedDocument": {
-          "id": "e153ac99f62e443ba1c9098b724633d9",
+          "id": "e0af1ce1d8d047f880ea176fdc92ffb8",
           "title": "name.doc"
         },
-        "id": "a83def4b01f14beb8e60fdfe2a4e1e71"
+        "id": "a4774de9155749ffba7e63731bc74d2d"
       }
     ],
     "value": "True",
-    "id": "46e80fa2fe8b40aa8d334b67f6e7d855"
+    "id": "d1fddfac7e664be5827e9e5f257f1c67"
   }
 }
 

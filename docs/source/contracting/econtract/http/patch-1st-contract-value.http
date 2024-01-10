@@ -20,11 +20,11 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "5eef47a33ded457095af6fea3ef83910",
+    "awardID": "76e8c60cfb62437cb0cfcd110d0dc4a0",
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "8d1c8bffbc1e4d5f91296f831bc586d0",
+    "tender_id": "c7d03b515def41539b8f383bf4bc3608",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -56,13 +56,9 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "4f4759ac513e4071bcc01efc9740e53a",
+        "id": "f626ead528884217806c09742a328a5e",
         "description": "телевізори",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
-        },
         "relatedBuyer": "11111111111111111111111111111111",
         "classification": {
           "description": "Cartons",
@@ -82,6 +78,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",

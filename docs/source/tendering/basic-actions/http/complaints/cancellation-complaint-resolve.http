@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9056b6881e5c4accadfcaa96d4409069/cancellations/fcbd87c46f7d49e3a21f70b1a0b85f6a/complaints/c1ae0eb958ca45f8835465e2539cc626 HTTP/1.0
+PATCH /api/2.5/tenders/1197f048832148399d8e67e69c2f720e/cancellations/02c627bbb5884b6b85d1aeb67044e53f/complaints/bc33a708d6a9451ca98e7b485fdfd577 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Length: 33
 Content-Type: application/json
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "c1ae0eb958ca45f8835465e2539cc626",
+    "id": "bc33a708d6a9451ca98e7b485fdfd577",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "satisfied",
     "documents": [
       {
-        "id": "2540eb4af34b4ac7b44b898e4c4e0645",
+        "id": "27dd2969b8ef464c9861c741da28fd3b",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -34,7 +34,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "51b943cdaa8d4a9a912f1fac835d6c33",
+        "id": "c4b80d6ec0f74330a6d2b42fe530a51c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
@@ -57,9 +57,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",

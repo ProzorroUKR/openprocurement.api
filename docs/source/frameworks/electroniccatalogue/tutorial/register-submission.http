@@ -30,48 +30,48 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c"
+    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/438590c36742473c9858b8b466e0dde5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/307a5eb4da8948faa46564921a9facf6
 
 {
   "data": {
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
-        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
         },
         "address": {
+          "countryName": "Україна",
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
           "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
+          "postalCode": "21100"
         },
         "contactPoint": {
           "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        }
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        },
+        "scale": "micro"
       }
     ],
-    "frameworkID": "1b70e498d27e4c1dba8838d6807dac0c",
+    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
     "status": "draft",
     "submissionType": "electronicCatalogue",
     "owner": "broker",
     "date": "2023-10-26T01:00:00+03:00",
     "dateModified": "2023-10-26T01:00:00+03:00",
-    "id": "438590c36742473c9858b8b466e0dde5"
+    "id": "307a5eb4da8948faa46564921a9facf6"
   },
   "access": {
     "token": "680e74861490448a9177bf199cb6395b",

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/26fe592e6eb4454fb91865f39117fe4b HTTP/1.0
+GET /api/2.5/tenders/9d0132ecdea04c5bbab926da6ea94e0a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -41,14 +41,14 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
     "items": [
       {
-        "id": "d7ba05ad129d4380b139d363df055ec0",
+        "id": "d75459d9da8a4386b380198eca937030",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -86,7 +86,7 @@ Content-Type: application/json
         "profile": "655360-30230000-889652-40000777"
       },
       {
-        "id": "98b99c56dacf48728e1a069205bdf6c2",
+        "id": "909a48c29a3f448bbd498cc0f96259bd",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -126,16 +126,16 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "e232a0b37a0041cdb58916e9550102c8",
+        "id": "6bc4d9e93a484e9ca8d2e713a1a81559",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "f23eb66e67f74ead9d79edc0b42e71c0",
+            "id": "3fb726bdb017485a924a45e16f8bf05a",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "e6f9be7a505143948d92a687c03d24b5",
+                "id": "2f180898e67441b78da9b86a17a2f89c",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -145,16 +145,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "58e197cbf866429196799d8e290a783c",
+        "id": "65c1cce79d534fa08145b7d012d4b367",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "f5c97b40f7914db1975cfe728ebd0ca4",
+            "id": "01b6b9acc732440f939a78e25968ff16",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "d8cce89c0dcb4748828ccf2a141554bb",
+                "id": "6e3b2ad4566c4b3da0aa256642a1c7a5",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -168,16 +168,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "108107e8f8a04ed8884e899d96007806",
+        "id": "9946263621c541c9a5f65a1c35d63b95",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "dc1f3f74ad8146fd9703b7582e3de385",
+            "id": "20dea1176f6d4499a01930b5201d08a1",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f9d6ad9094d746ffb048ec5d42fb4f9e",
+                "id": "694ddf04516b441da56b9dbf47d8314e",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -252,7 +252,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "5324d8e7db1c4a3baf5456140f128229",
+        "id": "3f7ccd0730224e95b566f1551881797b",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -262,6 +262,7 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -270,10 +271,9 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
-              "telephone": "+0440000000",
-              "name": "Державне управління справами"
-            },
-            "scale": "micro"
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            }
           }
         ],
         "value": {
@@ -283,23 +283,23 @@ Content-Type: application/json
         },
         "requirementResponses": [
           {
-            "id": "585ff3cc25684deba52def8cbabef863",
+            "id": "7d2f690ae07742538c086add5d5ea3b9",
             "requirement": {
-              "id": "e6f9be7a505143948d92a687c03d24b5"
+              "id": "2f180898e67441b78da9b86a17a2f89c"
             },
             "value": "Розчин для інфузій"
           },
           {
-            "id": "3a792c49a8cd4188aee2e87af1b8f25d",
+            "id": "46db715a60f141feac1364df67ec6ffb",
             "requirement": {
-              "id": "d8cce89c0dcb4748828ccf2a141554bb"
+              "id": "6e3b2ad4566c4b3da0aa256642a1c7a5"
             },
             "value": 5
           },
           {
-            "id": "315577b4a97c46b5836595e9dafb424a",
+            "id": "49f12bf9b6c846afab0dd18f5567e96a",
             "requirement": {
-              "id": "f9d6ad9094d746ffb048ec5d42fb4f9e"
+              "id": "694ddf04516b441da56b9dbf47d8314e"
             },
             "values": [
               "Відповідь1",
@@ -331,6 +331,7 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -339,16 +340,15 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
-              "telephone": "+0440000000",
-              "name": "Державне управління справами"
-            },
-            "scale": "micro"
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            }
           }
         ],
-        "bid_id": "5324d8e7db1c4a3baf5456140f128229"
+        "bid_id": "3f7ccd0730224e95b566f1551881797b"
       },
       {
-        "id": "a3771b096c9644c5ba09fe6f9c9cb091",
+        "id": "d3abee48154c47358abc7375a2191b78",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -364,6 +364,7 @@ Content-Type: application/json
               "id": "00037256",
               "uri": "http://www.dus.gov.ua/"
             },
+            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -372,13 +373,12 @@ Content-Type: application/json
               "countryName": "Україна"
             },
             "contactPoint": {
-              "telephone": "+0440000000",
-              "name": "Державне управління справами"
-            },
-            "scale": "micro"
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            }
           }
         ],
-        "bid_id": "5324d8e7db1c4a3baf5456140f128229"
+        "bid_id": "3f7ccd0730224e95b566f1551881797b"
       }
     ],
     "contracts": [
@@ -395,7 +395,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "26fe592e6eb4454fb91865f39117fe4b"
+    "id": "9d0132ecdea04c5bbab926da6ea94e0a"
   },
   "config": {
     "hasAuction": false,

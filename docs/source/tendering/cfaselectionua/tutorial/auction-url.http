@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe HTTP/1.0
+GET /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -26,14 +26,14 @@ Content-Type: application/json
         "uri": "http://www.dus.gov.ua/"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "additionalContactPoints": [
         {
-          "telephone": "+0440000000",
           "name": "Державне управління справами 1",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ],
@@ -155,8 +155,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "large",
                 "address": {
@@ -209,8 +209,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -263,8 +263,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами 1"
+                  "name": "Державне управління справами 1",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -317,8 +317,8 @@ Content-Type: application/json
                   "uri": "http://www.dus.gov.ua/"
                 },
                 "contactPoint": {
-                  "telephone": "+0440000000",
-                  "name": "Державне управління справами"
+                  "name": "Державне управління справами",
+                  "telephone": "+0440000000"
                 },
                 "scale": "micro",
                 "address": {
@@ -368,12 +368,12 @@ Content-Type: application/json
             "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\""
           },
           "contactPoint": {
+            "name": "Ліповець Євген Іванович",
             "name_en": "Gregory Gillespie",
             "email": "buh510@ukr.net",
             "telephone": "+2341170",
             "faxNumber": "2343591",
             "url": "http://www.shev.gov.ua/",
-            "name": "Ліповець Євген Іванович",
             "availableLanguage": "en"
           },
           "address": {
@@ -413,12 +413,12 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -454,7 +454,7 @@ Content-Type: application/json
           "startDate": "2023-10-10T01:00:00+03:00",
           "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9c3bab1d2b124303adb40303b401fef6_50fc7d0cb4e3423491c35387a046af42"
       }
     ],
     "features": [
@@ -525,12 +525,12 @@ Content-Type: application/json
       {
         "documentType": "technicalSpecifications",
         "description": "document description modified",
-        "id": "c5a46f0e5a86433893504196a5a48aae",
+        "id": "be69f16ea13b48419f959c6bcd2cf518",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/c5a46f0e5a86433893504196a5a48aae?download=d351393c1280494ba80f9ffa0b2345f7",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/documents/be69f16ea13b48419f959c6bcd2cf518?download=d351393c1280494ba80f9ffa0b2345f7",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -540,21 +540,21 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/bb7fe0b3738b4219b174eebe4bc226bb?download=dd09c74752f54370b81db56456d4622c",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/documents/5298dd90eaa24c348dd1244867034ad9?download=dd09c74752f54370b81db56456d4622c",
         "documentOf": "tender",
         "language": "uk",
-        "id": "bb7fe0b3738b4219b174eebe4bc226bb",
+        "id": "5298dd90eaa24c348dd1244867034ad9",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner"
       },
       {
-        "id": "bb7fe0b3738b4219b174eebe4bc226bb",
+        "id": "5298dd90eaa24c348dd1244867034ad9",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/documents/bb7fe0b3738b4219b174eebe4bc226bb?download=1c680c5a847e47d397d53c35cd19ac5f",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/documents/5298dd90eaa24c348dd1244867034ad9?download=1c680c5a847e47d397d53c35cd19ac5f",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -564,7 +564,7 @@ Content-Type: application/json
     "auctionPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },
-    "id": "e23dee5896254eb4ac3364a9a854c3fe"
+    "id": "9c3bab1d2b124303adb40303b401fef6"
   },
   "config": {
     "hasAuction": true,

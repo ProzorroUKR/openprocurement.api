@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids/7c93f54de7f8485889496ff805689a3d?acc_token=439cc37c864b4e2a886bf3ab89aad7af HTTP/1.0
+GET /api/2.5/tenders/4e68e96de67049cb8b8bb2c77571116b/bids/af74d1e5e976448bb8f8afffa3b4d3ee?acc_token=439cc37c864b4e2a886bf3ab89aad7af HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,6 +17,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -25,11 +26,10 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "status": "draft",
@@ -41,7 +41,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=nhY11nzZvoAKjFc3a%2FPpyp9%2BxrzoIXCWAYyrTlcJ%2FVzF6BLISq%2FmFK7mkqMFMxpbHQrYyJ%2B0DcVJExrJdvE1DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "414848f43f2d450dadb5a59a946e22a4",
+        "id": "56587e23b60840868316570a6a199ad3",
         "confidentiality": "public",
         "datePublished": "2023-10-16T01:00:02+03:00",
         "dateModified": "2023-10-16T01:00:02+03:00"
@@ -53,7 +53,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=9meqwsW99XL5YpmHvnJQjExFMu2X6to3Wor7h88g%2F%2FV5eb6%2FfKI%2B872U0tVny68LXkJ0GMTjT2raZPL%2BOC%2BXAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "dcd731a0cca841f3a18d39e59a774aa4",
+        "id": "ff2735c2d70a4726ac48aaf4903236ec",
         "confidentiality": "public",
         "datePublished": "2023-10-16T01:00:02+03:00",
         "dateModified": "2023-10-16T01:00:02+03:00"
@@ -67,12 +67,12 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "relatedLot": "9ce47ec05ab54c8e8478d6f79717e73d",
         "date": "2023-10-16T01:00:02+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f2ffdfd3a21b4081841738915486b18b_b670ed4c0ed845cab0b7eb532fe4fe3f?key_for_bid=7c93f54de7f8485889496ff805689a3d"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/4e68e96de67049cb8b8bb2c77571116b_9ce47ec05ab54c8e8478d6f79717e73d?key_for_bid=af74d1e5e976448bb8f8afffa3b4d3ee"
       }
     ],
-    "id": "7c93f54de7f8485889496ff805689a3d",
+    "id": "af74d1e5e976448bb8f8afffa3b4d3ee",
     "date": "2023-10-16T01:00:02+03:00"
   }
 }

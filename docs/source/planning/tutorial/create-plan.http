@@ -176,13 +176,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb35c4006cc778372
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68
 
 {
   "data": {
     "status": "draft",
     "procuringEntity": {
-      "id": "e87fd83c1a57450583d3aa0c3294d052",
+      "id": "6d8d57fa440348488964090c842487fc",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -234,7 +234,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb3
     ],
     "items": [
       {
-        "id": "8272cb67e6a44cdab1243e6eeddb713d",
+        "id": "58cc1233f6cd477680efdf5a0e0bd14e",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -265,7 +265,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb3
         "description": "Насіння гірчиці"
       },
       {
-        "id": "d1c8ac882ea64577bdd5c55490eb46bf",
+        "id": "7ab69427e0c44366b41130eed6ed5b27",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -296,7 +296,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb3
         "description": "Насіння соняшнику"
       },
       {
-        "id": "1579069a1b2440879105f2bbe1533f00",
+        "id": "44b90266334f4064b8e590092d00c446",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -329,7 +329,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb3
     ],
     "buyers": [
       {
-        "id": "4d6149e5a0b84713a5af02c1d7fe3342",
+        "id": "200ac01f7be14904a310dc4fbbd7c6ee",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -355,7 +355,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/e034eb97f84745fcb3
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "id": "e034eb97f84745fcb35c4006cc778372"
+    "id": "b78458ab31b845d6a123d3029d6e7e68"
   },
   "access": {
     "token": "f6128957cf8546dcbc580ffab786e150",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b/bids/8d8c35d315ec458aa2bf51fdcef0717b?acc_token=bc54813784ea4768b5b328cf4abd4efc HTTP/1.0
+PATCH /api/2.5/tenders/4e68e96de67049cb8b8bb2c77571116b/bids/1fe56c906e5d459cb025bd56e998289b?acc_token=bc54813784ea4768b5b328cf4abd4efc HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 31
 Content-Type: application/json
@@ -25,6 +25,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -33,15 +34,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "status": "pending",
-    "id": "8d8c35d315ec458aa2bf51fdcef0717b",
+    "id": "1fe56c906e5d459cb025bd56e998289b",
     "date": "2023-10-16T01:00:02+03:00",
     "lotValues": [
       {
@@ -50,7 +50,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "relatedLot": "9ce47ec05ab54c8e8478d6f79717e73d",
         "status": "pending",
         "date": "2023-10-16T01:00:02+03:00"
       }

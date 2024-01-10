@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/26dac5d9cddc43f1b4178ec68bd3f601/questions HTTP/1.0
+POST /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1525
 Content-Type: application/json

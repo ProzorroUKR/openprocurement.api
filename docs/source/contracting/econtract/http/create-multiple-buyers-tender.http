@@ -213,31 +213,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374aa49bfa7d8f5dfd3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458fadd47b11d492c960
 
 {
   "data": {
     "mainProcurementCategory": "goods",
     "buyers": [
       {
-        "id": "11111111111111111111111111111111",
         "name": "Державне управління справами",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00037256",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
-        }
+        },
+        "id": "11111111111111111111111111111111"
       },
       {
-        "id": "22222222222222222222222222222222",
         "name": "Державне управління справами",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00037254",
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
-        }
+        },
+        "id": "22222222222222222222222222222222"
       }
     ],
     "title": "футляри до державних нагород",
@@ -259,7 +259,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
     },
     "items": [
       {
-        "id": "3829ed01fa9545e7b491f51dc52ca27d",
+        "id": "2192f86160964a47851a8314ad1cef69",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -297,7 +297,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "6233be6bfc2444c7ac22442d442fd437",
+        "id": "2c25eab4210b401ea38e8054075b5d58",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -335,7 +335,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "8d3aaa96a57d4fcfb2b5e84fade75a38",
+        "id": "cafef318cf174c7b959c3164bac532f3",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -387,7 +387,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
         "sequenceNumber": 0
       },
       {
-        "id": "99d7613ecdb040b886d4ca13c2d072eb",
+        "id": "4591964639844c15954ba0112d18d49d",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -416,8 +416,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -433,7 +433,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aa38d9c00da04374
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "aa38d9c00da04374aa49bfa7d8f5dfd3"
+    "id": "812c91961776458fadd47b11d492c960"
   },
   "config": {
     "hasAuction": true,

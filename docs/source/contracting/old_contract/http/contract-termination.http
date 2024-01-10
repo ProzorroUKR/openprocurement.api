@@ -21,24 +21,16 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "06ea2a70534d48e6b815a0fca2cbc82c",
+    "awardID": "02726caea29a421cb9362f258017d617",
     "contractID": "UA-2023-01-01-000001-a-1",
-    "period": {
-      "startDate": "2023-01-01T00:00:01+02:00",
-      "endDate": "2023-01-31T00:00:01+02:00"
-    },
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
     "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "b2c802b290d4452da2961ba7ca9b8601",
+        "id": "d49df131ea374b619446ee1fc18149b9",
         "description": "футляри до державних нагород",
         "quantity": 2.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -66,16 +58,16 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       },
       {
-        "id": "c7dc122e31f943c9b0ec3c7e201fec8a",
+        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -103,12 +95,20 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       }
     ],
-    "tender_id": "08c193123f36498c8a6f8adaacdee277",
+    "tender_id": "3e115ed14c174579bc5308c7e4a82d6a",
     "owner": "broker",
     "status": "terminated",
+    "period": {
+      "startDate": "2023-01-01T00:00:01+02:00",
+      "endDate": "2023-01-31T00:00:01+02:00"
+    },
     "suppliers": [
       {
         "name": "Державне управління справами",
@@ -141,49 +141,49 @@ Content-Type: application/json
           "priceReduction"
         ],
         "dateSigned": "2023-01-01T00:00:01+02:00",
-        "id": "9e4c33ab6b874b4fbee83206aaa9b507",
+        "id": "a61dac7b90b3466db3c2022e0a30c889",
         "status": "active",
         "date": "2022-12-31T22:00:01"
       }
     ],
     "documents": [
       {
-        "relatedItem": "9e4c33ab6b874b4fbee83206aaa9b507",
-        "id": "278f118019164051b58206db16c8ccc3",
+        "relatedItem": "a61dac7b90b3466db3c2022e0a30c889",
+        "id": "f96a84b890ca404f819cc42ba432c37b",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/278f118019164051b58206db16c8ccc3?download=0d99c24f1f224e35ae9a11b101f38e20",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/f96a84b890ca404f819cc42ba432c37b?download=0d99c24f1f224e35ae9a11b101f38e20",
         "documentOf": "change",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "df57c2ebdf514c04a00d4bcf03af6b06",
+        "id": "0ee320d00bc442f7a63047521fbf63ae",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/df57c2ebdf514c04a00d4bcf03af6b06?download=e13edfd2b47b4517b2c666fd6b7c3196",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/0ee320d00bc442f7a63047521fbf63ae?download=e13edfd2b47b4517b2c666fd6b7c3196",
         "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "07193403e1d8413d85fd4c6e3927f388",
+        "id": "a2a7b25c5d2e4912b3cf9ec71127ee91",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/07193403e1d8413d85fd4c6e3927f388?download=621afd2fea2e451ea7e9a1f1477026f1",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/a2a7b25c5d2e4912b3cf9ec71127ee91?download=621afd2fea2e451ea7e9a1f1477026f1",
         "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"
       },
       {
-        "id": "07193403e1d8413d85fd4c6e3927f388",
+        "id": "a2a7b25c5d2e4912b3cf9ec71127ee91",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/07193403e1d8413d85fd4c6e3927f388?download=add37452a76c4d0c8d0a94b0bdcc9d60",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/a2a7b25c5d2e4912b3cf9ec71127ee91?download=add37452a76c4d0c8d0a94b0bdcc9d60",
         "documentOf": "contract",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"

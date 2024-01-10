@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7d08059488fd44c0a4df6167b2aa95de/awards/4d3e6fecff4044828e15eb6c2e4e926f?acc_token=955ba98fce244b3aa2cd16bcdbd01e2a HTTP/1.0
+PATCH /api/2.5/tenders/26c5e5e23b64414082edd92e3ed48f9c/awards/b31735b856e2401fbd942c398e81df73?acc_token=955ba98fce244b3aa2cd16bcdbd01e2a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 49
 Content-Type: application/json
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "4d3e6fecff4044828e15eb6c2e4e926f",
+    "id": "b31735b856e2401fbd942c398e81df73",
     "qualified": true,
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
@@ -35,6 +35,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -43,11 +44,10 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930",
-          "name": "Сергій Олексюк"
-        },
-        "scale": "micro"
+          "telephone": "+380432216930"
+        }
       }
     ],
     "lotID": "79e5f434045c4d8698d3423133f65438",

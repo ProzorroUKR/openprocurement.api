@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/bids HTTP/1.0
+POST /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1202
 Content-Type: application/json
@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2/bids/63588b9454ad4de4aa8309083114c3c6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/bids/d7da36f2306843eb9cbe80020a5f529c
 
 {
   "data": {
@@ -59,6 +59,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -67,17 +68,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3cf3333f00394e93
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "status": "draft",
     "selfEligible": true,
     "selfQualified": true,
-    "id": "63588b9454ad4de4aa8309083114c3c6",
+    "id": "d7da36f2306843eb9cbe80020a5f529c",
     "date": "2023-10-10T01:00:01+03:00"
   },
   "access": {

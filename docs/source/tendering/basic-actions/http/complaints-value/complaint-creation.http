@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/6ad49f0acbdd4762906df6d26fc5ddc2/complaints HTTP/1.0
+POST /api/2.5/tenders/b632f857b2fd4e7096363011b29dd68c/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1463
 Content-Type: application/json
@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ad49f0acbdd4762906df6d26fc5ddc2/complaints/475a5ea5cd50473a9e112338f1146fee
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b632f857b2fd4e7096363011b29dd68c/complaints/3edccbc745a54dfcb8157bf86400dbec
 
 {
   "data": {
@@ -51,9 +51,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ad49f0acbdd4762
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",
@@ -66,7 +66,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6ad49f0acbdd4762
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "draft",
     "type": "complaint",
-    "id": "475a5ea5cd50473a9e112338f1146fee",
+    "id": "3edccbc745a54dfcb8157bf86400dbec",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "value": {

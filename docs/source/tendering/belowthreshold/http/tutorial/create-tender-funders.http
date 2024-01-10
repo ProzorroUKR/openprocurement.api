@@ -136,7 +136,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b83e29ee8478a9bf6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e6a2601ee08243579c85fc64432b5aae
 
 {
   "data": {
@@ -157,11 +157,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
           "countryName": "Швейцарська Конфедерація"
         },
         "contactPoint": {
+          "name": "",
           "email": "ccm@theglobalfund.org",
           "telephone": "+41587911700",
           "faxNumber": "+41 44 580 6820",
-          "url": "https://www.theglobalfund.org/en/",
-          "name": ""
+          "url": "https://www.theglobalfund.org/en/"
         }
       }
     ],
@@ -226,7 +226,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
         "sequenceNumber": 0
       },
       {
-        "id": "794fc866453c40cbae9cd3be845c6ed7",
+        "id": "51840b98c55a42aca9ddd38252bea80b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -254,8 +254,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -271,7 +271,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3301e3cc12864a8b
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "3301e3cc12864a8b83e29ee8478a9bf6"
+    "id": "e6a2601ee08243579c85fc64432b5aae"
   },
   "config": {
     "hasAuction": true,

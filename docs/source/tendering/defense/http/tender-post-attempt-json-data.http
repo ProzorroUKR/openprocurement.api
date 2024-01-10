@@ -117,7 +117,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2bf5360b15804466879e532abb426719
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/caa7964546884977a24b60f2a94c6124
 
 {
   "data": {
@@ -147,7 +147,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2bf5360b15804466
         "sequenceNumber": 0
       },
       {
-        "id": "40b89e394ac54c4a9265ed74cc44a6ee",
+        "id": "0d297fd3d1cd4f44b5dead8339733ed6",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -167,7 +167,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2bf5360b15804466
     },
     "items": [
       {
-        "id": "a8045dbf590b4288b0fc9fb0c529ff00",
+        "id": "07aa6a121df24d99b064650bae1fcc5c",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -220,9 +220,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2bf5360b15804466
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "availableLanguage": "uk"
       },
       "kind": "defense"
@@ -243,7 +243,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2bf5360b15804466
     },
     "dateCreated": "2023-10-21T01:00:02+03:00",
     "dateModified": "2023-10-21T01:00:02+03:00",
-    "id": "2bf5360b15804466879e532abb426719"
+    "id": "caa7964546884977a24b60f2a94c6124"
   },
   "config": {
     "hasAuction": true,

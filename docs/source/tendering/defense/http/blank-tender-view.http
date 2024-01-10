@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3cf3333f00394e93bc3caaea00cbe9e2 HTTP/1.0
+GET /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -34,7 +34,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "751b591b7605421bb8cc3f258b26afc2",
+        "id": "4b7cdf77c4b6449d8d98ccfd9402478c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -54,7 +54,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d7ad37910a9845afa314850acc7d7c90",
+        "id": "8510e95265834e8c9049e3aaedee9eba",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -107,9 +107,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
         "availableLanguage": "uk"
       },
       "kind": "defense"
@@ -130,7 +130,7 @@ Content-Type: application/json
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "3cf3333f00394e93bc3caaea00cbe9e2"
+    "id": "0cabdf69621745b5b57212d59b3b388c"
   },
   "config": {
     "hasAuction": true,

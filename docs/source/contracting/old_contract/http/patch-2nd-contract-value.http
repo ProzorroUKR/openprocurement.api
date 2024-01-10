@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d0be7ef6d02e45648259d04584c4b376/contracts/12815f4d668b47e39d6e2f54466072b6?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
+PATCH /api/2.5/tenders/0346df4bd59945ed8016546ef54ca30e/contracts/12815f4d668b47e39d6e2f54466072b6?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 54
 Content-Type: application/json
@@ -21,7 +21,7 @@ Content-Type: application/json
   "data": {
     "id": "12815f4d668b47e39d6e2f54466072b6",
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "885f4eacf1d84900af80341a221651bf",
+    "awardID": "2c61bd8e09c7490fab7aa19c6d9707e7",
     "contractID": "UA-2023-01-01-000001-a-2",
     "status": "pending",
     "value": {
@@ -32,7 +32,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "2c85e9fbc51945bfbe5dbc621ab50795",
+        "id": "4294a5e2b8f344439ad13adcb55dd22e",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -70,7 +70,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "318de977cb2747e6b39ab6311b9c83b2",
+        "id": "27fada779c854db185fc6481651a3e84",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -117,6 +117,7 @@ Content-Type: application/json
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -125,10 +126,9 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "date": "2023-01-01T00:00:00+02:00"

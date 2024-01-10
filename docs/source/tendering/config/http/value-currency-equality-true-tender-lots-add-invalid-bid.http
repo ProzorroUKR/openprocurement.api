@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/62ce6859a3df45b692f7f78357d812c0/bids HTTP/1.0
+POST /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 1381
 Content-Type: application/json
@@ -37,14 +37,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 600,
           "currency": "USD"
         },
-        "relatedLot": "0604e55b3dae444a8d537bb4c971a246"
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
       },
       {
         "value": {
           "amount": 500,
           "currency": "UAH"
         },
-        "relatedLot": "f21c5735a39e41538e386c454149f615"
+        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
       }
     ]
   }

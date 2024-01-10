@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria?acc_token=1e9cf570ec0c409b89cec0d0656d000a HTTP/1.0
+POST /api/2.5/tenders/8d8242d0ac8c41b7ad9863937fd3ead6/criteria?acc_token=1e9cf570ec0c409b89cec0d0656d000a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 5296
 Content-Type: application/json
@@ -75,7 +75,7 @@ Content-Type: application/json
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
       },
-      "id": "c4ff58c4349647d4b8fe9de39bd19367",
+      "id": "8aada8cd9b3a4a7e9b28532640b20863",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -110,16 +110,16 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "97d66823aa5a42cb8885e203593bcc64"
+                  "id": "cf08998b6fea4bb7b49b9dda01c6a52d"
                 }
               ],
               "expectedValue": "true",
               "status": "active",
-              "id": "1f1bc73db30e4c4da5a30da124af935e",
+              "id": "52922f2d1b8943e2b45f57390786dc5c",
               "datePublished": "2023-10-10T01:00:00+03:00"
             }
           ],
-          "id": "05b90eba26e14c66891211d4f8ef469c"
+          "id": "97e62e491267456eb31a117e761f88ab"
         }
       ]
     }

@@ -1,4 +1,4 @@
-PUT /api/2.5/frameworks/4178f66eebf04c4497d0fb223feeb0fe/documents/f52dbfeff7274a58bf377da4cbc7cd26?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+PUT /api/2.5/frameworks/cc9a8f71020a459188912858e360d70f/documents/200abe7079a047879bb0b885123952de?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 346
 Content-Type: application/json
@@ -19,7 +19,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f52dbfeff7274a58bf377da4cbc7cd26",
+    "id": "200abe7079a047879bb0b885123952de",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",

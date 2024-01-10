@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bf399bcd03af45efa76f2d266f03ccf6?acc_token=d2f4a5cf84ba424d8439f906e5faf58e HTTP/1.0
+PATCH /api/2.5/tenders/9f0a43fb24d94dc985f0bb233f6f5f04?acc_token=d2f4a5cf84ba424d8439f906e5faf58e HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 37
 Content-Type: application/json
@@ -34,14 +34,14 @@ Content-Type: application/json
         "uri": "http://www.dus.gov.ua/"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
         "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "availableLanguage": "en"
       },
       "additionalContactPoints": [
         {
-          "telephone": "+0440000000",
           "name": "Державне управління справами 1",
+          "telephone": "+0440000000",
           "availableLanguage": "uk"
         }
       ],
@@ -85,12 +85,12 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "unit": {
           "name": "item",
-          "code": "KGM",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
-          }
+          },
+          "code": "KGM"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -118,7 +118,7 @@ Content-Type: application/json
       "startDate": "2023-10-12T00:00:00+03:00",
       "endDate": "2023-10-15T00:00:00+03:00"
     },
-    "id": "bf399bcd03af45efa76f2d266f03ccf6"
+    "id": "9f0a43fb24d94dc985f0bb233f6f5f04"
   },
   "config": {
     "hasAuction": true,

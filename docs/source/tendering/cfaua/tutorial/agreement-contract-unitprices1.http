@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5a06577d0adb4c42907931f3b9b03b2c/agreements/b996fbc0afc54062aac0fbaa492eb9e0/contracts/3cfdad4a64a54acfb88bc4b77dc03d71?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/a00c3352983c4c63b2d094cbbe220422/agreements/b996fbc0afc54062aac0fbaa492eb9e0/contracts/3cfdad4a64a54acfb88bc4b77dc03d71?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 284
 Content-Type: application/json
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+        "relatedItem": "20103816ae224b5c83308d32a8b7030e",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+        "relatedItem": "a4873474339e4408966d29ed77c3330d",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -43,6 +43,7 @@ Content-Type: application/json
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -51,16 +52,15 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Іван Іваненко",
           "email": "fake@mail.com",
-          "telephone": "+380322123456",
-          "name": "Іван Іваненко"
-        },
-        "scale": "mid"
+          "telephone": "+380322123456"
+        }
       }
     ],
     "unitPrices": [
       {
-        "relatedItem": "f7f221177ecc41369b255d9ba4620b02",
+        "relatedItem": "20103816ae224b5c83308d32a8b7030e",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -68,7 +68,7 @@ Content-Type: application/json
         }
       },
       {
-        "relatedItem": "95fb67978b4a4d5185a03bebe11d2d59",
+        "relatedItem": "a4873474339e4408966d29ed77c3330d",
         "value": {
           "currency": "UAH",
           "amount": 0.5,
@@ -76,8 +76,8 @@ Content-Type: application/json
         }
       }
     ],
-    "awardID": "153edf0c78dd4fc98c3f46930956479c",
-    "bidID": "c3e41a3a099a41ad864be3893e0711b5",
+    "awardID": "17926cab98b04e68b692d616e25a0cef",
+    "bidID": "189a05bb0caf4f55bafb28808f108512",
     "date": "2023-10-10T01:00:00+03:00"
   }
 }

@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/f83728385fa9438bb4c5c118ffc5012a/criteria/c4ff58c4349647d4b8fe9de39bd19367/requirement_groups/05b90eba26e14c66891211d4f8ef469c/requirements/1f1bc73db30e4c4da5a30da124af935e?acc_token=1e9cf570ec0c409b89cec0d0656d000a HTTP/1.0
+PUT /api/2.5/tenders/8d8242d0ac8c41b7ad9863937fd3ead6/criteria/8aada8cd9b3a4a7e9b28532640b20863/requirement_groups/97e62e491267456eb31a117e761f88ab/requirements/52922f2d1b8943e2b45f57390786dc5c?acc_token=1e9cf570ec0c409b89cec0d0656d000a HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 379
 Content-Type: application/json
@@ -30,16 +30,16 @@ Content-Type: application/json
           "title": "Документальне підтвердження",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "e96548971e6d4847b92e62c848fe212a"
+          "id": "4416277675dd4e6e874d8ea9723f5c8d"
         }
       ],
       "expectedValue": "true",
-      "id": "1f1bc73db30e4c4da5a30da124af935e",
+      "id": "52922f2d1b8943e2b45f57390786dc5c",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "active"
     },
     {
-      "id": "1f1bc73db30e4c4da5a30da124af935e",
+      "id": "52922f2d1b8943e2b45f57390786dc5c",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "cancelled",
       "dateModified": "2023-10-10T01:00:00+03:00"

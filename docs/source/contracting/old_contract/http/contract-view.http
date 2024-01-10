@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "06ea2a70534d48e6b815a0fca2cbc82c",
+    "awardID": "02726caea29a421cb9362f258017d617",
     "contractID": "UA-2023-01-01-000001-a-1",
     "value": {
       "amount": 500.0,
@@ -17,13 +17,9 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "b2c802b290d4452da2961ba7ca9b8601",
+        "id": "d49df131ea374b619446ee1fc18149b9",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -51,16 +47,16 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       },
       {
-        "id": "c7dc122e31f943c9b0ec3c7e201fec8a",
+        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
-        "deliveryDate": {
-          "startDate": "2023-01-03T00:00:00+02:00",
-          "endDate": "2023-01-06T00:00:00+02:00"
-        },
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -88,6 +84,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-01-03T00:00:00+02:00",
+          "endDate": "2023-01-06T00:00:00+02:00"
         }
       }
     ],
@@ -115,7 +115,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "08c193123f36498c8a6f8adaacdee277",
+    "tender_id": "3e115ed14c174579bc5308c7e4a82d6a",
     "status": "active",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "procuringEntity": {

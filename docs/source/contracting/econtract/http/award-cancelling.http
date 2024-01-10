@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/26fe592e6eb4454fb91865f39117fe4b/awards/c220713cbd024586b6382ef97a852dc7?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+PATCH /api/2.5/tenders/9d0132ecdea04c5bbab926da6ea94e0a/awards/c220713cbd024586b6382ef97a852dc7?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 33
 Content-Type: application/json
@@ -13,7 +13,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26fe592e6eb4454fb91865f39117fe4b/awards/a3771b096c9644c5ba09fe6f9c9cb091
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d0132ecdea04c5bbab926da6ea94e0a/awards/d3abee48154c47358abc7375a2191b78
 
 {
   "data": {
@@ -33,6 +33,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26fe592e6eb4454f
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -41,13 +42,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/26fe592e6eb4454f
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
-    "bid_id": "5324d8e7db1c4a3baf5456140f128229"
+    "bid_id": "3f7ccd0730224e95b566f1551881797b"
   }
 }
 

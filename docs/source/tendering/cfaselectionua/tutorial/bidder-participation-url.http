@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e23dee5896254eb4ac3364a9a854c3fe/bids/ba9c4ed2a7794a2d8234ba4ce62d909e?acc_token=b5dc2b2245f14b5ea8fbc726e64fdfa9 HTTP/1.0
+GET /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/384d9c08c2d249a5b4d44e16caea0ecc?acc_token=b5dc2b2245f14b5ea8fbc726e64fdfa9 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -16,6 +16,7 @@ Content-Type: application/json
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "large",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -24,14 +25,13 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "large"
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "status": "active",
-    "id": "ba9c4ed2a7794a2d8234ba4ce62d909e",
+    "id": "384d9c08c2d249a5b4d44e16caea0ecc",
     "date": "2023-10-10T01:00:00+03:00",
     "parameters": [
       {
@@ -53,7 +53,7 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/e23dee5896254eb4ac3364a9a854c3fe_50fc7d0cb4e3423491c35387a046af42?key_for_bid=ba9c4ed2a7794a2d8234ba4ce62d909e"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9c3bab1d2b124303adb40303b401fef6_50fc7d0cb4e3423491c35387a046af42?key_for_bid=384d9c08c2d249a5b4d44e16caea0ecc"
       }
     ],
     "documents": [
@@ -64,7 +64,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "f2341617be2a4e49bd13bb7c76d83121",
+        "id": "874ffaf54521474db684e5e636a6816e",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"

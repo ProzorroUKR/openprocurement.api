@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d1b73c4e72e244f1833086204faadff6 HTTP/1.0
+GET /api/2.5/tenders/86cc1c80054c4941ac16e1a6db4c2de8 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,13 +11,13 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "buyers": [
       {
-        "id": "3e32f23699ea4ac0b8e105e7babd2c86",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "111983",
           "legalName": "ДП Державне Управління Справами"
         },
+        "id": "3e32f23699ea4ac0b8e105e7babd2c86",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -28,13 +28,13 @@ Content-Type: application/json
         "kind": "general"
       },
       {
-        "id": "88c051728aae432ca2d39a0215d63fcd",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "222983",
           "legalName": "ДП Державне Управління Справами"
         },
+        "id": "88c051728aae432ca2d39a0215d63fcd",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -70,7 +70,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "519152a1889240fd9cf9dd576c46265c",
+        "id": "137f5a8221d945a8896c31f6a9289f45",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -97,8 +97,8 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Довідкова"
+        "name": "Довідкова",
+        "telephone": "+0440000000"
       },
       "kind": "central"
     },
@@ -111,7 +111,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "97735bdc93204bd7a1469064bb3e615b",
+        "id": "848ae8d0cd2b4cacbd29c6605245a84b",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -143,7 +143,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "258306a31f6a47758d528d907f4329fe",
+        "id": "5bfbf4289fbd487594815bf78d8c5240",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -175,7 +175,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "650759050f6a43e4aa1ab880fa5f35fb",
+        "id": "f916bd820133467187065ed51e5826b3",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -225,10 +225,10 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:21+03:00",
     "plans": [
       {
-        "id": "eb26a3adc64548c4b3aae8df399ed59f"
+        "id": "ccabf835a75648e5b86d7ffc168cba8f"
       }
     ],
-    "id": "d1b73c4e72e244f1833086204faadff6"
+    "id": "86cc1c80054c4941ac16e1a6db4c2de8"
   },
   "config": {
     "hasAuction": true,

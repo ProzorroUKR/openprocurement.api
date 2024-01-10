@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": [
     {
-      "relatedItem": "373a4c5c929d442aa87d9368e3541288",
-      "id": "2379d9c9a78f43c4a3cb72c9100c8784",
+      "relatedItem": "4f32972b3cfd4f248814b2a88e8e21d6",
+      "id": "0ea0d2981ba746a3b63bbdd37c3efbe4",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_changes.doc",
@@ -27,7 +27,7 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/11eb2dec3c4941aaa20b9f9f3242da8a?Signature=aSUaH4aKyvvHHNyDgX%2BUS92rE%2Fpy8aEUBTNaribYkkc5XyYX4awtgUD8TuwG0XeiLc87akD36sgPaPE32NZnCg%3D%3D&KeyID=a8968c46",
       "language": "uk",
       "documentOf": "agreement",
-      "id": "fbacaaf3d97b4c0cbf6b2c78aedec61b",
+      "id": "1d4e8f39e65540769624d688095262b3",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00"
     }

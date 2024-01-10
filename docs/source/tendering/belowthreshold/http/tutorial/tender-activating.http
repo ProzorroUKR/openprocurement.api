@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f2ffdfd3a21b4081841738915486b18b?acc_token=f220033fc2004e90a9398defdea66c9f HTTP/1.0
+PATCH /api/2.5/tenders/4e68e96de67049cb8b8bb2c77571116b?acc_token=f220033fc2004e90a9398defdea66c9f HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 40
 Content-Type: application/json
@@ -69,7 +69,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "b670ed4c0ed845cab0b7eb532fe4fe3f"
+        "relatedLot": "9ce47ec05ab54c8e8478d6f79717e73d"
       }
     ],
     "lots": [
@@ -77,7 +77,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "b670ed4c0ed845cab0b7eb532fe4fe3f",
+        "id": "9ce47ec05ab54c8e8478d6f79717e73d",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -105,7 +105,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "0f95cecf71134fa899a1be0dcf9ae13c",
+        "id": "081693cbeb71428fa3ba027edf5cf316",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -133,8 +133,8 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
-        "telephone": "+0440000000",
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       },
       "kind": "general"
     },
@@ -144,7 +144,7 @@ Content-Type: application/json
       "endDate": "2023-10-17T00:00:00+02:00"
     },
     "next_check": "2023-10-17T00:00:00+02:00",
-    "id": "f2ffdfd3a21b4081841738915486b18b"
+    "id": "4e68e96de67049cb8b8bb2c77571116b"
   },
   "config": {
     "hasAuction": true,

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/32bf03368c4c49869cf9b1103c9c69f8/bids/926834ae76fa46ddbd3aaedea61b2c6c?acc_token=fdd2e0a4e27d4a59aa80866dc546ab40 HTTP/1.0
+GET /api/2.5/tenders/0653aa92786e43349c05b64015a57ee4/bids/9bd37ef083d04a38ac05e0bb1fbcf053?acc_token=fdd2e0a4e27d4a59aa80866dc546ab40 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,6 +17,7 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
+        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -25,11 +26,10 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "+380322916930",
-          "name": "Андрій Олексюк"
-        },
-        "scale": "sme"
+          "telephone": "+380322916930"
+        }
       }
     ],
     "status": "draft",
@@ -44,10 +44,10 @@ Content-Type: application/json
         },
         "relatedLot": "9d95d7c5f19f4d24b17d650fe94a42f5",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32bf03368c4c49869cf9b1103c9c69f8_9d95d7c5f19f4d24b17d650fe94a42f5?key_for_bid=926834ae76fa46ddbd3aaedea61b2c6c"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0653aa92786e43349c05b64015a57ee4_9d95d7c5f19f4d24b17d650fe94a42f5?key_for_bid=9bd37ef083d04a38ac05e0bb1fbcf053"
       }
     ],
-    "id": "926834ae76fa46ddbd3aaedea61b2c6c",
+    "id": "9bd37ef083d04a38ac05e0bb1fbcf053",
     "date": "2023-10-10T01:00:00+03:00"
   }
 }

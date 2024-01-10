@@ -152,7 +152,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e318ecb101430b63776
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e
 
 {
   "data": {
@@ -182,7 +182,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
         "sequenceNumber": 0
       },
       {
-        "id": "9a0a73c7e00f49228dd67b72bcc34dbc",
+        "id": "5f63678dbcf54818a581bda6b9e29572",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -209,9 +209,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
         "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна"
+        "url": "http://sch10.edu.vn.ua/"
       },
       "kind": "special"
     },
@@ -224,7 +224,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
     },
     "items": [
       {
-        "id": "43204fd932374740a40528f7712ca55e",
+        "id": "0e756c74ade8495581a5e9193849a431",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -261,7 +261,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
         }
       },
       {
-        "id": "d81485ce6a9d4b6c8842d1c3c2fbae01",
+        "id": "6683b1e519db42a9a6923075f0745b38",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -315,7 +315,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb76d20a62ef4e31
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "cb76d20a62ef4e318ecb101430b63776"
+    "id": "4a47e2c36bdc4f3bab60ecf7d8d0700e"
   },
   "config": {
     "hasAuction": true,

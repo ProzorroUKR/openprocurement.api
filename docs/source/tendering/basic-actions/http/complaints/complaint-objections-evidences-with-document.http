@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/45b0bfa4f1fe43e9b299928fe7c3e788/complaints/48153ea17b8b4a46883221469016b183?acc_token=79b1f65ea5944d6aa16734423bddd897 HTTP/1.0
+PATCH /api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/3e9fa4304ddc4e36966c56bd986b4db6?acc_token=79b1f65ea5944d6aa16734423bddd897 HTTP/1.0
 Authorization: Bearer broker
 Content-Length: 566
 Content-Type: application/json
@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -30,12 +30,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
               {
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "73e6b546de024c969ae2151883cefadd"
+                "relatedDocument": "df202e6470d44ee6901d7a8ae43fe0b8"
               }
             ]
           }
         ],
-        "id": "02b5b44a78844b8bb928152ddb6217f6"
+        "id": "f3c3ca1bad594b31b5ec79c7cafd6f2e"
       }
     ]
   }
@@ -47,13 +47,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "48153ea17b8b4a46883221469016b183",
+    "id": "3e9fa4304ddc4e36966c56bd986b4db6",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "draft",
     "documents": [
       {
-        "id": "73e6b546de024c969ae2151883cefadd",
+        "id": "df202e6470d44ee6901d7a8ae43fe0b8",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Evidence_Attachment.pdf",
@@ -76,9 +76,9 @@ Content-Type: application/json
         "countryName": "Україна"
       },
       "contactPoint": {
+        "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
-        "telephone": "+380432216930",
-        "name": "Сергій Олексюк"
+        "telephone": "+380432216930"
       },
       "identifier": {
         "scheme": "UA-EDR",
@@ -91,11 +91,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "02b5b44a78844b8bb928152ddb6217f6",
+        "id": "f3c3ca1bad594b31b5ec79c7cafd6f2e",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "45b0bfa4f1fe43e9b299928fe7c3e788",
+        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -103,21 +103,21 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "298c8b57ff4340e2af9b4f276aa458c8",
+            "id": "6384300c78eb40b0889c4d8ae444c66c",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "14cf6a8f0b5f4abdaf63ae7b53d9728b",
+            "id": "0b32676e845b4658919092f8adfdb4a3",
             "description": "test argument",
             "evidences": [
               {
-                "id": "8c9ef2564c1b464eae9909618ffc5329",
+                "id": "11f02fd2af124e5f9d9addbd1f447052",
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "73e6b546de024c969ae2151883cefadd"
+                "relatedDocument": "df202e6470d44ee6901d7a8ae43fe0b8"
               }
             ]
           }

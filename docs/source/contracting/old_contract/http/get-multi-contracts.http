@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ced458f6982740de9423ca48326073a3/contracts HTTP/1.0
+GET /api/2.5/tenders/61a4604114444820b7d85e6dc92c93b3/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -18,6 +18,7 @@ Content-Type: application/json
             "legalName": "Державне управління справами",
             "uri": "http://www.dus.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
             "locality": "м. Київ",
@@ -26,15 +27,14 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Державне управління справами"
-          },
-          "scale": "micro"
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
         }
       ],
       "items": [
         {
-          "id": "c75c3fccfe9e4fdba3441c4096966812",
+          "id": "4e091c16b3374dceb1d05d57ae90e3bf",
           "description": "телевізори",
           "unit": {
             "name": "кг",
@@ -76,7 +76,7 @@ Content-Type: application/json
       "contractID": "UA-2023-01-01-000001-a-1",
       "id": "243c5ce560a84d80b700742a581fe589",
       "status": "pending",
-      "awardID": "623a18fbf2664912a11466b0146587a6",
+      "awardID": "addb016aac704c2294f1c3eb498f1e8a",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 0,
@@ -95,6 +95,7 @@ Content-Type: application/json
             "legalName": "Державне управління справами",
             "uri": "http://www.dus.gov.ua/"
           },
+          "scale": "micro",
           "address": {
             "streetAddress": "вул. Банкова, 11, корпус 1",
             "locality": "м. Київ",
@@ -103,15 +104,14 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Державне управління справами"
-          },
-          "scale": "micro"
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
         }
       ],
       "items": [
         {
-          "id": "8636be4c542e41a296c7d278ef5cb291",
+          "id": "5791c5ecb8264d1badcc2d7955877c62",
           "description": "портфелі",
           "unit": {
             "name": "кг",
@@ -149,7 +149,7 @@ Content-Type: application/json
           "relatedBuyer": "22222222222222222222222222222222"
         },
         {
-          "id": "36ff47918da4483bafc3da251f66851c",
+          "id": "a96de68112fb4c45b7c23d49e6f6ddc3",
           "description": "портфелі",
           "unit": {
             "name": "кг",
@@ -191,7 +191,7 @@ Content-Type: application/json
       "contractID": "UA-2023-01-01-000001-a-2",
       "id": "45672b610db747b8a84807aa1daf52b4",
       "status": "pending",
-      "awardID": "623a18fbf2664912a11466b0146587a6",
+      "awardID": "addb016aac704c2294f1c3eb498f1e8a",
       "date": "2023-01-01T00:00:00+02:00",
       "value": {
         "amount": 0,
