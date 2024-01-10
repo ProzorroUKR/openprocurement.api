@@ -78,10 +78,11 @@ class TenderConfigCSVMixin:
             row = self.get_config_row(pmt, config_schema)
             rows.append(row)
 
-        with open(file_path, "w") as file_csv:
-            writer = csv.writer(file_csv)
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(headers)
             writer.writerows(rows)
+
     def write_config_pmt_csv(self, pmt, file_path):
         headers = [
             "name",
@@ -97,8 +98,8 @@ class TenderConfigCSVMixin:
             row = self.get_config_row(config_name, config_schema)
             rows.append(row)
 
-        with open(file_path, "w") as file_csv:
-            writer = csv.writer(file_csv)
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(headers)
             writer.writerows(rows)
 

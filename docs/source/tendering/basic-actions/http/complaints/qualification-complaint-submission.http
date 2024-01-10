@@ -1,6 +1,5 @@
 POST /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints?acc_token=fa939d4349bd4760a72ae3c2727b0fe4 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1463
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

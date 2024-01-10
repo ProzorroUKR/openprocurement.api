@@ -1,6 +1,5 @@
 PATCH /api/2.5/tenders/0346df4bd59945ed8016546ef54ca30e/contracts/12815f4d668b47e39d6e2f54466072b6?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 54
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

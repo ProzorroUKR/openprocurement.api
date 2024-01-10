@@ -1,6 +1,5 @@
 PATCH /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/57f434fea5b34a5cbacfb2ebbe2757ea HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 64
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
