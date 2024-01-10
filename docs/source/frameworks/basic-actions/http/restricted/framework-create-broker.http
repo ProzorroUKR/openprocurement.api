@@ -1,6 +1,5 @@
 POST /api/2.5/frameworks HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1873
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

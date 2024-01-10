@@ -1,6 +1,5 @@
 POST /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids HTTP/1.0
 Authorization: Bearer broker
-Content-Length: 1059
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

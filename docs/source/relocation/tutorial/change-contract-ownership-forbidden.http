@@ -1,6 +1,5 @@
 POST /api/2.5/contracts/2b264b733b7546749561d03ffa5e7971/ownership HTTP/1.0
 Authorization: Bearer broker2
-Content-Length: 100
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

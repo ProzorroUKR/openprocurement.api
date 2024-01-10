@@ -1,6 +1,5 @@
 POST /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/ad6e6280b4df46ee984ec14ff9a1ca31/posts HTTP/1.0
 Authorization: Bearer reviewer
-Content-Length: 278
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
