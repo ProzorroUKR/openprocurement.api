@@ -7,6 +7,8 @@ from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
 from openprocurement.api.utils import raise_operation_error
 
 
@@ -68,32 +70,7 @@ class AwardStateMixing(baseclass):
             and any(i["status"] in ("claim", "answered", "pending", "resolved")
                     for i in award.get("complaints", ""))
         ):
-            if tender["status"] == "active.awarded":
-                self.get_change_tender_status_handler("active.qualification")(tender)
-                if "endDate" in tender["awardPeriod"]:
-                    del tender["awardPeriod"]["endDate"]
-
-            award["complaintPeriod"]["endDate"] = now
-
-            if awarding_order_enabled:
-                # If hasAwardingOrder is True, then the current award should be found through all
-                # tender awards/lot awards. Then the current award and next ones after it should be cancelled.
-                # The new 'pending' award will be generated instead of current one.
-                # And qualification will be continued starting from this new award.
-                skip = True
-                for i in tender.get("awards"):
-                    # skip all award before the context one
-                    if i["id"] == award["id"]:
-                        skip = False
-                    if skip:
-                        continue
-                    # skip different lot awards
-                    if i.get("lotID") != award.get("lotID"):
-                        continue
-                    self.cancel_award(i)
-            else:
-                self.cancel_award(award)
-            self.add_next_award()
+            self.award_status_up_from_unsuccessful_to_cancelled(award, tender, awarding_order_enabled)
         else:  # any other state transitions are forbidden
             raise_operation_error(get_request(),
                                   f"Can't update award in current ({before}) status")
@@ -115,6 +92,40 @@ class AwardStateMixing(baseclass):
             get_now(), self.award_stand_still_time, tender, working_days
         ).isoformat()
         self.add_next_award()
+
+    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender, awarding_order_enabled=False):
+        now = get_now().isoformat()
+        if tender["status"] == "active.awarded":
+            self.get_change_tender_status_handler("active.qualification")(tender)
+            if "endDate" in tender["awardPeriod"]:
+                del tender["awardPeriod"]["endDate"]
+
+        award["complaintPeriod"]["endDate"] = now
+
+        if awarding_order_enabled:
+            # If hasAwardingOrder is True, then the current award should be found through all
+            # tender awards/lot awards. Then the current award and next ones after it should be cancelled.
+            # The new 'pending' award will be generated instead of current one.
+            # And qualification will be continued starting from this new award.
+            skip = True
+            for i in tender.get("awards"):
+                # skip all award before the context one
+                if i["id"] == award["id"]:
+                    skip = False
+                if skip:
+                    continue
+                # skip different lot awards
+                if i.get("lotID") != award.get("lotID"):
+                    continue
+                self.cancel_award(i)
+        else:
+            self.cancel_award(award)
+        self.add_next_award()
+
+    @staticmethod
+    def is_available_to_cancel_award(award):
+        is_created_after = tender_created_after(QUALIFICATION_AFTER_COMPLAINT_FROM)
+        return is_created_after and award["status"] in ("pending", "active") or not is_created_after
 
     @staticmethod
     def check_active_awards(current_award, tender):

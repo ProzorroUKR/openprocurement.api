@@ -86,9 +86,10 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                         if not new_defence_complaints and period:
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
-                        self.set_object_status(i, "cancelled")
-                        contracts_ids = self.set_award_contracts_cancelled(i)
-                        update_econtracts_statuses(contracts_ids, after)
+                        if self.is_available_to_cancel_award(i):
+                            self.set_object_status(i, "cancelled")
+                            contracts_ids = self.set_award_contracts_cancelled(i)
+                            update_econtracts_statuses(contracts_ids, after)
                 self.add_next_award()
 
             else:
@@ -115,8 +116,10 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     if not new_defence_complaints and period:
                         if not period.get("endDate") or period["endDate"] > now:
                             period["endDate"] = now
-                    self.set_object_status(i, "cancelled")
-                    self.set_award_contracts_cancelled(i)
+
+                    if self.is_available_to_cancel_award(i):
+                        self.set_object_status(i, "cancelled")
+                        self.set_award_contracts_cancelled(i)
             self.add_next_award()
 
         else:  # any other state transitions are forbidden

@@ -14,28 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 
 
-def finalize_unsuccessful_award(self, new_award_location, request_path):
-    for x in range(self.min_bids_number):
-        response = self.app.patch_json(
-            new_award_location[-81:] + "?acc_token={}".format(self.tender_token), {"data": {"status": "unsuccessful"}}
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        if x == self.min_bids_number - 1:
-            self.assertNotIn("Location", response.headers)
-        else:
-            self.assertIn("Location", response.headers)
-            new_award_location = response.headers["Location"]
-
-    response = self.app.get(request_path)
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), self.min_bids_number + 2)
-
-
 # TenderAwardResourceTest
-
 
 def create_tender_award_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
@@ -312,7 +291,17 @@ def patch_tender_award_active(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    finalize_unsuccessful_award(self, new_award_location, request_path)
+    response = self.app.patch_json(
+        new_award_location[-81:] + "?acc_token={}".format(self.tender_token), {"data": {"status": "unsuccessful"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("Location", response.headers)
+
+    response = self.app.get(request_path)
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 3)
 
 
 def get_tender_award(self):
@@ -590,7 +579,25 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
-    finalize_unsuccessful_award(self, new_award_location, request_path)
+    response = self.app.patch_json(
+        new_award_location[-81:] + "?acc_token={}".format(self.tender_token), {"data": {"status": "unsuccessful"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+
+    response = self.app.patch_json(
+        new_award_location[-81:] + "?acc_token={}".format(self.tender_token), {"data": {"status": "unsuccessful"}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("Location", response.headers)
+
+    response = self.app.get(request_path)
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 4)
 
 
 # Tender2LotAwardResourceTest

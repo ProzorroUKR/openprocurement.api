@@ -60,6 +60,13 @@ for bid in test_tender_open_bids:
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
+test_tender_open_three_bids = deepcopy(test_tender_open_bids)
+test_tender_open_three_bids.append({
+    "tenderers": [test_tender_below_organization],
+    "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    "selfQualified": True
+})
+
 test_tender_open_features_data = test_tender_below_features_data.copy()
 test_tender_open_features_data["procurementMethodType"] = ABOVE_THRESHOLD
 del test_tender_open_features_data["enquiryPeriod"]

@@ -85,6 +85,41 @@ for bid in test_tender_openeu_bids:
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
+test_tender_openeu_three_bids = copy.deepcopy(test_tender_openeu_bids)
+test_tender_openeu_three_bids.append({
+    "tenderers": [
+        {
+            "name": "Державне управління справами",
+            "name_en": "State administration",
+            "identifier": {
+                "legalName_en": "dus.gov.ua",
+                "legalName": "Державне управління справами",
+                "scheme": "UA-EDR",
+                "id": "00037256",
+                "uri": "http://www.dus.gov.ua/",
+            },
+            "address": {
+                "countryName": "Україна",
+                "postalCode": "01220",
+                "region": "м. Київ",
+                "locality": "м. Київ",
+                "streetAddress": "вул. Банкова, 11, корпус 1",
+            },
+            "contactPoint": {
+                "name": "Державне управління справами",
+                "name_en": "State administration",
+                "telephone": "+0440000000",
+            },
+            "scale": "micro",
+        }
+    ],
+    "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+    "selfQualified": True,
+})
+for bid in test_tender_openeu_three_bids:
+    if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
+        bid["selfEligible"] = True
+
 now = datetime.now()
 
 test_tender_openeu_data = {

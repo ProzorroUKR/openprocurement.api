@@ -31,9 +31,10 @@ class AwardState(AwardStateMixing, OpenTenderState):
                         if period:
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
-                        self.set_object_status(i, "cancelled")
-                        contracts_ids = self.set_award_contracts_cancelled(i)
-                        update_econtracts_statuses(contracts_ids, after)
+                        if self.is_available_to_cancel_award(i):
+                            self.set_object_status(i, "cancelled")
+                            contracts_ids = self.set_award_contracts_cancelled(i)
+                            update_econtracts_statuses(contracts_ids, after)
                 self.add_next_award()
 
             else:
@@ -48,27 +49,33 @@ class AwardState(AwardStateMixing, OpenTenderState):
             and any(i["status"] == "satisfied"
                     for i in award.get("complaints", ""))
         ):
-            if tender["status"] == "active.awarded":
-                self.set_object_status(tender, "active.qualification")
-                if "endDate" in tender["awardPeriod"]:
-                    del tender["awardPeriod"]["endDate"]
-
-            if award["complaintPeriod"]["endDate"] > now:
-                award["complaintPeriod"]["endDate"] = now
-
-            for i in tender.get("awards"):
-                if i.get("lotID") == award.get("lotID"):
-                    period = i.get("complaintPeriod")
-                    if period:
-                        if not period.get("endDate") or period["endDate"] > now:
-                            period["endDate"] = now
-                    self.set_object_status(i, "cancelled")
-                    self.set_award_contracts_cancelled(i)
-            self.add_next_award()
+            self.award_status_up_from_unsuccessful_to_cancelled(award, tender)
 
         else:  # any other state transitions are forbidden
             raise_operation_error(get_request(),
                                   f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
+
+    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender, awarding_order_enabled=False):
+        now = get_now().isoformat()
+        if tender["status"] == "active.awarded":
+            self.set_object_status(tender, "active.qualification")
+            if "endDate" in tender["awardPeriod"]:
+                del tender["awardPeriod"]["endDate"]
+
+        if award["complaintPeriod"]["endDate"] > now:
+            award["complaintPeriod"]["endDate"] = now
+
+        for i in tender.get("awards", ""):
+            if i.get("lotID") == award.get("lotID"):
+                period = i.get("complaintPeriod")
+                if period:
+                    if not period.get("endDate") or period["endDate"] > now:
+                        period["endDate"] = now
+
+                if self.is_available_to_cancel_award(i):
+                    self.set_object_status(i, "cancelled")
+                    self.set_award_contracts_cancelled(i)
+        self.add_next_award()
 
