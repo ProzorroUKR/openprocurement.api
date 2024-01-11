@@ -16,6 +16,7 @@ from openprocurement.api.utils import (
     update_logging_context,
     get_now,
     raise_operation_error,
+    get_obj_by_id,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE
@@ -250,20 +251,19 @@ def acceleratable(wrapped):
 
     return wrapper
 
-
-def get_submission_by_id(request, submission_id):
+def get_submission_by_id(request, submission_id, raise_error=True):
     if submission_id:
-        return request.registry.mongodb.submissions.get(submission_id)
+        return get_obj_by_id(request, "submissions", submission_id, raise_error)
 
 
-def get_framework_by_id(request, framework_id):
+def get_framework_by_id(request, framework_id, raise_error=True):
     if framework_id:
-        return request.registry.mongodb.frameworks.get(framework_id)
+        return get_obj_by_id(request, "frameworks", framework_id, raise_error)
 
 
-def get_agreement_by_id(request, agreement_id):
+def get_agreement_by_id(request, agreement_id, raise_error=True):
     if agreement_id:
-        return request.registry.mongodb.agreements.get(agreement_id)
+        return get_obj_by_id(request, "agreements", agreement_id, raise_error)
 
 
 def request_fetch_submission(request, submission_id):

@@ -82,6 +82,7 @@ test_tender_openuadefense_config = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 

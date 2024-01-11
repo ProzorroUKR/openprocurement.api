@@ -5,6 +5,7 @@ from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.api.procedure.validation import validate_input_data_from_resolved_model
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.framework import FrameworkConfig
+from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
 from openprocurement.framework.core.procedure.validation import unless_administrator_or_chronograph
 from openprocurement.framework.core.procedure.views.framework import FrameworksResource
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
@@ -36,7 +37,11 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
         permission="create_framework",
         validators=(
                 validate_input_data(PostFramework),
-                validate_config_data(FrameworkConfig, obj_name="framework"),
+                validate_config_data(
+                    FrameworkConfig,
+                    serializer=FrameworkConfigSerializer,
+                    obj_name="framework",
+                ),
                 validate_accreditation_level(
                     levels=(ACCR_1, ACCR_3, ACCR_5),
                     kind_central_levels=(ACCR_5,),

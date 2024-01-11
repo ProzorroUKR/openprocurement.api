@@ -9,18 +9,14 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.framework.core.procedure.context import get_object_config, get_object
+from openprocurement.framework.core.procedure.mask import SUBMISSION_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.submission import SubmissionSerializer
-from openprocurement.framework.core.procedure.state.submission import SubmissionState
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.procedure.validation import validate_restricted_access
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 LOGGER = getLogger(__name__)
-
-
-SUBMISSION_OWNER_FIELDS = {"owner", "framework_owner"}
 
 
 @resource(
@@ -30,33 +26,27 @@ SUBMISSION_OWNER_FIELDS = {"owner", "framework_owner"}
     request_method=("GET",),
 )
 class SubmissionsListResource(RestrictedResourceListingMixin, MongodbResourceListing):
+    listing_name = "Submissions"
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "id",
+        "frameworkID",
+        "qualificationID",
+        "submissionType",
+        "status",
+        "tenderers",
+        "documents",
+        "date",
+        "datePublished",
+    }
+    mask_mapping = SUBMISSION_MASK_MAPPING
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Submissions"
-        self.listing_default_fields = {"dateModified"}
-        self.owner_fields = SUBMISSION_OWNER_FIELDS
-        self.listing_allowed_fields = {
-            "dateCreated",
-            "dateModified",
-            "id",
-            "frameworkID",
-            "qualificationID",
-            "submissionType",
-            "status",
-            "tenderers",
-            "documents",
-            "date",
-            "datePublished",
-        }
-        self.listing_safe_fields = {
-            "dateCreated",
-            "dateModified",
-            "id",
-            "frameworkID",
-            "qualificationID",
-            "submissionType",
-        }
         self.db_listing_method = request.registry.mongodb.submissions.list
 
     def __acl__(self):
@@ -79,7 +69,6 @@ class SubmissionsResource(FrameworkBaseResource):
             submission_config["test"] = framework_config["test"]
         if framework_config.get("restrictedDerivatives", False):
             submission_config["restricted"] = True
-        self._serialize_config(self.request, "submission", submission_config)
         access = set_ownership(submission, self.request)
         self.state.submission.on_post(submission)
         self.request.validated["submission"] = submission
@@ -107,9 +96,6 @@ class SubmissionsResource(FrameworkBaseResource):
             }
 
     @json_view(
-        validators=(
-            validate_restricted_access("submission", owner_fields=SUBMISSION_OWNER_FIELDS)
-        ),
         permission="view_framework",
     )
     def get(self):

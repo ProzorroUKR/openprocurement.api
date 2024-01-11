@@ -58,6 +58,7 @@ test_tender_simpledefense_config = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 class BaseApiWebTest(BaseWebTest):

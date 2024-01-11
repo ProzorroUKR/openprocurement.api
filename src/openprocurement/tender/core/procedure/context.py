@@ -8,8 +8,8 @@ def get_tender() -> Union[dict, None]:
 
 
 def get_tender_config() -> Union[dict, None]:
-    tender = get_request().validated.get("tender_config", {})
-    return tender
+    tender_config = get_request().validated.get("tender_config", {})
+    return tender_config
 
 
 def get_award() -> Union[dict, None]:
@@ -20,6 +20,11 @@ def get_award() -> Union[dict, None]:
 def get_contract() -> Union[dict, None]:
     contract = get_request().validated.get("contract")
     return contract
+
+
+def get_contract_config() -> Union[dict, None]:
+    contract_config = get_request().validated.get("contract_config")
+    return contract_config
 
 
 def get_cancellation() -> Union[dict, None]:

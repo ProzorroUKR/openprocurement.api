@@ -91,11 +91,6 @@ class FrameworkState(BaseState, ChronographEventsMixing):
         if agreement_id := data.get("agreementID"):
             request = get_request()
             agreement = get_agreement_by_id(request, agreement_id)
-            if not agreement:
-                raise_operation_error(
-                    get_request(),
-                    "agreementID must be one of exists agreement",
-                )
             model = get_request().agreement_from_data(agreement, create=False)
             agreement = model(agreement)
             request.validated["agreement"] = agreement.serialize()

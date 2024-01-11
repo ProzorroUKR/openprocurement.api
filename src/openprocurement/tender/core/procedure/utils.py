@@ -12,7 +12,12 @@ from openprocurement.api.context import (
     get_now,
 )
 from openprocurement.api.mask import mask_object_data
-from openprocurement.api.procedure.utils import apply_data_patch, append_revision, get_revision_changes
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.api.procedure.utils import (
+    apply_data_patch,
+    append_revision,
+    get_revision_changes,
+)
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
@@ -35,6 +40,7 @@ from openprocurement.tender.core.procedure.context import (
     get_request,
     get_tender,
 )
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.utils import (
     QUICK,
     calculate_tender_date,
@@ -100,11 +106,14 @@ def save_tender(request, modified: bool = True, insert: bool = False, tender: di
     if tender_src is None:
         tender_src = request.validated["tender_src"]
 
-    set_tender_config(request, tender)
     patch = get_revision_changes(tender, tender_src)
     if patch:
         now = get_now()
         append_tender_revision(request, tender, patch, now)
+
+        config = request.validated.get("tender_config")
+        if config:
+            tender["config"] = config
 
         old_date_modified = tender.get("dateModified", now.isoformat())
         with handle_store_exceptions(request):
@@ -123,12 +132,6 @@ def save_tender(request, modified: bool = True, insert: bool = False, tender: di
             )
             return True
     return False
-
-
-def set_tender_config(request, tender):
-    config = request.validated.get("tender_config", {})
-    if config:
-        tender["config"] = config
 
 
 def append_tender_revision(request, tender, patch, date):
@@ -474,7 +477,8 @@ def extract_tender_doc(request):
             raise error_handler(request)
 
         # wartime measures
-        mask_object_data(request, doc)
+        mask_object_data_deprecated(request, doc)
+        mask_object_data(request, doc, TENDER_MASK_MAPPING)
 
         return doc
 

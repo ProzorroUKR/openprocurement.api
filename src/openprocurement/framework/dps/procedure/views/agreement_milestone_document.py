@@ -8,7 +8,6 @@ from openprocurement.framework.core.procedure.validation import (
     validate_action_in_milestone_status,
 )
 from openprocurement.framework.core.procedure.views.document import CoreMilestoneDocumentResource
-from openprocurement.framework.core.procedure.validation import validate_restricted_access
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.procedure.validation import (
     validate_item_owner,
@@ -29,18 +28,12 @@ from openprocurement.tender.core.procedure.validation import (
 )
 class MilestoneDocumentResource(CoreMilestoneDocumentResource):
     @json_view(
-        validators=(
-            validate_restricted_access("agreement")
-        ),
         permission="view_framework",
     )
     def collection_get(self):
         return super().collection_get()
 
     @json_view(
-        validators=(
-            validate_restricted_access("agreement")
-        ),
         permission="view_framework",
     )
     def get(self):

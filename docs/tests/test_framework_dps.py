@@ -3,6 +3,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.api.tests.base import change_auth
 from tests.base.data import test_docs_tenderer
 from tests.base.constants import DOCS_URL
 from tests.base.test import (
@@ -16,7 +17,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
-    BaseFrameworkWebTest,
+    BaseFrameworkWebTest, test_question_data,
 )
 
 TARGET_DIR = 'docs/source/frameworks/dps/tutorial/'

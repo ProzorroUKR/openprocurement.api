@@ -1,15 +1,16 @@
 from hashlib import sha224
 
 from openprocurement.api.context import set_now
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import singleton_app, app, change_auth
-from openprocurement.api.mask import mask_object_data
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from unittest.mock import patch, MagicMock
 from copy import deepcopy
 import json
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
     sha224("00000000".encode()).hexdigest(),
 ])
 def test_mask_function():
@@ -18,14 +19,14 @@ def test_mask_function():
     initial_data = deepcopy(data)
 
     request = MagicMock()
-    mask_object_data(request, data)
+    mask_object_data_deprecated(request, data)
 
     assert data["items"][0]["description"] == "00000000000000000000000000000000"
     assert data["_id"] == initial_data["_id"]
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
     sha224("00000000".encode()).hexdigest(),
 ])
 def test_mask_contract_by_identifier(app):
@@ -62,7 +63,7 @@ def test_mask_contract_by_identifier(app):
     assert data["mode"] == "test"
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
@@ -131,9 +132,9 @@ def test_mask_contract_by_is_masked(app):
     assert "is_masked" not in app.app.registry.mongodb.contracts.get(id)
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_skipped(app):
     set_now()
     with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
@@ -150,3 +151,73 @@ def test_mask_contract_skipped(app):
     assert response.status_code == 200
     data = response.json["data"]
     assert data["items"][0]["description"] != "00000000000000000000000000000000"
+
+
+
+def test_mask_contract_by_config_restricted(app):
+    set_now()
+
+    # Load initial db data
+    with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
+        initial_db_data = json.load(f)
+    id = initial_db_data['_id']
+
+    # Save to db
+    app.app.registry.mongodb.contracts.save(initial_db_data, insert=True)
+
+    # Get not masked data
+    response = app.get(f"/contracts/{id}")
+    assert response.status_code == 200
+    data = response.json["data"]
+
+    # Load expected masked data
+    with open(f"src/openprocurement/contracting/api/tests/data/contract_masked.json") as f:
+        expected_masked_data = json.load(f)
+
+    # Ensure dumped data is masked
+    assert expected_masked_data["procuringEntity"]["name"] == MASK_STRING
+
+    # Mask data
+    db_data = app.app.registry.mongodb.contracts.get(id)
+    if "config" not in db_data:
+        db_data["config"] = {}
+    db_data["config"]["restricted"] = True
+    app.app.registry.mongodb.contracts.save(db_data)
+
+    # Get masked data
+    response = app.get(f"/contracts/{id}")
+    assert response.status_code == 200
+    masked_data = response.json["data"]
+
+    # Dump expected data
+    # with open(f"src/openprocurement/contracting/api/tests/data/contract_masked.json", mode="w") as f:
+    #     json.dump(masked_data, f, indent=4, ensure_ascii=False)
+
+    # Check masked data with loaded (dumped) expected data
+    expected_masked_data["dateCreated"] = masked_data["dateCreated"]
+    expected_masked_data["dateModified"] = masked_data["dateModified"]
+    assert masked_data == expected_masked_data
+
+    # Broker allowed to see masked data
+    with change_auth(app, ("Basic", ("broker", ""))):
+        response = app.get(f"/contracts/{id}")
+    assert response.status_code == 200
+    unmasked_data = response.json["data"]
+    data["dateCreated"] = unmasked_data["dateCreated"]
+    data["dateModified"] = unmasked_data["dateModified"]
+    assert unmasked_data == data
+
+    # Feed is masked
+    # TODO: add check if there will be masked fields that allowed in feed
+    # response = app.get(f"/contracts?mode=_all_&opt_fields=some_field")
+    # assert response.status_code == 200
+    # masked_feed_data = response.json["data"][0]
+    # assert masked_feed_data["some_field"] == expected_masked_data["some_field"]
+
+    # Broker allowed to see masked data in feed
+    # TODO: add check if there will be masked fields that allowed in feed
+    # with change_auth(app, ("Basic", ("broker", ""))):
+    #     response = app.get(f"/contracts?mode=_all_&opt_fields=some_field")
+    # assert response.status_code == 200
+    # unmasked_feed_data = response.json["data"][0]
+    # assert unmasked_feed_data["some_field"] == data["some_field"]

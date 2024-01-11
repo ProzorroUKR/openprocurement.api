@@ -1,0 +1,258 @@
+# -*- coding: utf-8 -*-
+import csv
+import os
+from copy import deepcopy
+from datetime import timedelta
+
+from openprocurement.api.tests.base import change_auth
+from openprocurement.framework.core.procedure.mask import (
+    SUBMISSION_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    AGREEMENT_MASK_MAPPING,
+)
+from tests.base.data import (
+    test_docs_tenderer,
+)
+from tests.base.constants import DOCS_URL
+from tests.base.test import (
+    DumpsWebTestApp,
+    MockWebTestMixin,
+)
+
+from openprocurement.api.utils import get_now
+from openprocurement.framework.dps.tests.base import (
+    test_framework_dps_data,
+    BaseFrameworkWebTest,
+)
+
+TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
+TARGET_CSV_DIR_RESTRICTED = 'docs/source/frameworks/config/csv/restricted/'
+
+test_framework_open_data = deepcopy(test_framework_dps_data)
+
+
+class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
+    AppClass = DumpsWebTestApp
+    relative_to = os.path.dirname(__file__)
+    initial_data = test_framework_open_data
+    docservice = True
+    docservice_url = DOCS_URL
+
+    def setUp(self):
+        super(RestrictedFrameworkOpenResourceTest, self).setUp()
+        self.setUpMock()
+
+    def tearDown(self):
+        self.tearDownMock()
+        super(RestrictedFrameworkOpenResourceTest, self).tearDown()
+
+    def create_framework(self):
+        pass
+
+    def write_config_mask_csv(self, mapping, file_path):
+        headers = [
+            "rule",
+            "value",
+        ]
+
+        rows = []
+
+        for rule, value in mapping.items():
+            rows.append([rule, value])
+
+        with open(file_path, "w") as file_csv:
+            writer = csv.writer(file_csv)
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+    def test_docs_restricted_submission_mask_mapping_csv(self):
+        self.write_config_mask_csv(
+            mapping=SUBMISSION_MASK_MAPPING,
+            file_path=TARGET_CSV_DIR_RESTRICTED + "submission-mask-mapping.csv",
+        )
+
+    def test_docs_restricted_qualification_mask_mapping_csv(self):
+        self.write_config_mask_csv(
+            mapping=QUALIFICATION_MASK_MAPPING,
+            file_path=TARGET_CSV_DIR_RESTRICTED + "qualification-mask-mapping.csv",
+        )
+
+    def test_docs_restricted_agreement_mask_mapping_csv(self):
+        self.write_config_mask_csv(
+            mapping=AGREEMENT_MASK_MAPPING,
+            file_path=TARGET_CSV_DIR_RESTRICTED + "agreement-mask-mapping.csv",
+        )
+
+    def test_docs(self):
+        # empty frameworks listing
+        data = deepcopy(self.initial_data)
+        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
+        data["procuringEntity"]["kind"] = "defense"
+        response = self.app.get('/frameworks')
+        self.assertEqual(response.json['data'], [])
+
+        # create frameworks
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'framework-create-broker.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/frameworks', {
+                        'data': data,
+                        'config': {
+                            'restrictedDerivatives': True,
+                        }
+                    }
+                )
+                self.assertEqual(response.status, '201 Created')
+
+            framework = response.json['data']
+            self.framework_id = framework["id"]
+            owner_token = response.json['access']['token']
+
+            with open(TARGET_DIR_RESTRICTED + 'framework-activate-broker.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
+                )
+                self.assertEqual(response.status, '200 OK')
+
+        # Submissions
+
+        # Create by Broker
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'submission-register-broker.http', 'w') as self.app.file_obj:
+                response = self.app.post_json(
+                    '/submissions',
+                    {
+                        'data': {
+                            "tenderers": [test_docs_tenderer],
+                            "frameworkID": self.framework_id,
+                        },
+                        'config': {
+                            'restricted': True,
+                        },
+                    }
+                )
+                self.assertEqual(response.status, '201 Created')
+
+        self.submission1_id = response.json["data"]["id"]
+        self.submission1_token = response.json["access"]["token"]
+
+        # Add Submission document
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            response = self.app.post_json(
+                '/submissions/{}/documents?acc_token={}'.format(self.submission1_id, self.submission1_token),
+                {
+                    "data": {
+                        "title": "укр.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
+                status=201
+            )
+
+        # Activate Submission
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'submission-activate-broker.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/submissions/{}?acc_token={}'.format(self.submission1_id, self.submission1_token),
+                    {'data': {"status": "active"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
+            self.qualification1_id = response.json["data"]["qualificationID"]
+
+
+        # Check by Broker, can see submissions
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'submission-feed-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/submissions?opt_fields=frameworkID,status,documents')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'submission-get-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/submissions/{}'.format(self.submission1_id))
+                self.assertEqual(response.status, '200 OK')
+
+        # Check by Anonymous
+        with change_auth(self.app, None):
+            with open(TARGET_DIR_RESTRICTED + 'submission-feed-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/submissions?opt_fields=frameworkID,status,documents')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'submission-get-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/submissions/{}'.format(self.submission1_id))
+                self.assertEqual(response.status, '200 OK')
+
+        # Qualification
+
+        # Add Qualification document
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            response = self.app.post_json(
+                '/qualifications/{}/documents?acc_token={}'.format(self.qualification1_id, owner_token),
+                {
+                    "data": {
+                        "title": "укр.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
+                status=201
+            )
+
+        # Check by Broker, can see qualifications
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'qualification-feed-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/qualifications?opt_fields=frameworkID,status,documents')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'qualification-get-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/qualifications/{}'.format(self.qualification1_id))
+                self.assertEqual(response.status, '200 OK')
+
+        # Check by Anonymous
+        with change_auth(self.app, None):
+            with open(TARGET_DIR_RESTRICTED + 'qualification-feed-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/qualifications?opt_fields=frameworkID,status,documents')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'qualification-get-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/qualifications/{}'.format(self.qualification1_id))
+                self.assertEqual(response.status, '200 OK')
+
+        # Activate Qualifications
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'qualification-activate-broker.http', 'w') as self.app.file_obj:
+                response = self.app.patch_json(
+                    '/qualifications/{}?acc_token={}'.format(self.qualification1_id, owner_token),
+                    {'data': {"status": "active"}},
+                )
+                self.assertEqual(response.status, '200 OK')
+
+        # Agreement
+
+        with change_auth(self.app, None):
+            with open(TARGET_DIR_RESTRICTED + 'framework-with-agreement.http', 'w') as self.app.file_obj:
+                response = self.app.get(f'/frameworks/{self.framework_id}')
+                self.assertEqual(response.status, '200 OK')
+                self.agreement_id = response.json["data"]["agreementID"]
+
+        # Check by Broker
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            with open(TARGET_DIR_RESTRICTED + 'agreement-feed-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/agreements?opt_fields=status,procuringEntity')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'agreement-get-broker.http', 'w') as self.app.file_obj:
+                response = self.app.get('/agreements/{}'.format(self.agreement_id))
+                self.assertEqual(response.status, '200 OK')
+
+        # Check by Anonymous
+        with change_auth(self.app, None):
+            with open(TARGET_DIR_RESTRICTED + 'agreement-feed-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/agreements?opt_fields=status,procuringEntity')
+                self.assertEqual(response.status, '200 OK')
+
+            with open(TARGET_DIR_RESTRICTED + 'agreement-get-anonymous.http', 'w') as self.app.file_obj:
+                response = self.app.get('/agreements/{}'.format(self.agreement_id))
+                self.assertEqual(response.status, '200 OK')

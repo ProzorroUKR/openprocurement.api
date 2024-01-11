@@ -313,6 +313,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_TENDER_COMPLAINTS_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "restricted": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_RESTRICTED_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Tender weightedValue pre-calculation on switch to active.auction

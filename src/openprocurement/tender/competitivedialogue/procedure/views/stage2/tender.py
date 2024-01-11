@@ -1,6 +1,7 @@
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_5, ACCR_COMPETITIVE
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
+from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDEUStage2TenderDetailsState,
@@ -92,7 +93,12 @@ class TenderStage2UEResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostEUTender),
-            validate_config_data(TenderConfig, obj_name="tender", default=STAGE_2_EU_DEFAULT_CONFIG),
+            validate_config_data(
+                TenderConfig,
+                serializer=TenderConfigSerializer,
+                obj_name="tender",
+                default=STAGE_2_EU_DEFAULT_CONFIG,
+            ),
             validate_accreditation_level(
                 levels=(ACCR_COMPETITIVE,),
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
@@ -154,7 +160,12 @@ class TenderStage2UAResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostUATender),
-            validate_config_data(TenderConfig, obj_name="tender", default=STAGE_2_UA_DEFAULT_CONFIG),
+            validate_config_data(
+                TenderConfig,
+                serializer=TenderConfigSerializer,
+                obj_name="tender",
+                default=STAGE_2_UA_DEFAULT_CONFIG,
+            ),
             validate_accreditation_level(
                 levels=(ACCR_COMPETITIVE,),
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),

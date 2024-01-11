@@ -111,6 +111,8 @@ class BaseContract(Model):
 
     revisions = BaseType()
 
+    config = BaseType()
+
     _attachments = BaseType()  # deprecated
 
     @serializable(serialized_name="amountPaid", serialize_when_none=False, type=ModelType(AmountPaid))
@@ -120,3 +122,8 @@ class BaseContract(Model):
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
             return self.amountPaid
+
+
+
+class ContractConfig(Model):
+    restricted = BooleanType()

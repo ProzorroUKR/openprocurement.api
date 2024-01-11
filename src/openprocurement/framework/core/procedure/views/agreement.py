@@ -8,16 +8,15 @@ from openprocurement.api.utils import (
     update_logging_context,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
+from openprocurement.framework.core.procedure.mask import AGREEMENT_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
-from openprocurement.framework.core.procedure.validation import validate_restricted_access
 from openprocurement.framework.core.procedure.context import get_object_config, get_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 LOGGER = getLogger(__name__)
-QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
 
 
 @resource(
@@ -27,29 +26,25 @@ QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
     request_method=("GET",),
 )
 class AgreementsListResource(RestrictedResourceListingMixin, MongodbResourceListing):
+    listing_name = "Agreements"
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "id",
+        "agreementID",
+        "agreementType",
+        "status",
+        "tender_id",
+        "next_check",
+        "procuringEntity",
+    }
+    mask_mapping = AGREEMENT_MASK_MAPPING
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Agreements"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {
-            "dateCreated",
-            "dateModified",
-            "id",
-            "agreementID",
-            "agreementType",
-            "status",
-            "tender_id",
-            "next_check",
-        }
-        self.listing_safe_fields = {
-            "dateCreated",
-            "dateModified",
-            "id",
-            "agreementID",
-            "agreementType",
-            "next_check",
-        }
         self.db_listing_method = request.registry.mongodb.agreements.list
 
     def __acl__(self):
@@ -93,9 +88,6 @@ class AgreementsResource(FrameworkBaseResource):
             }
 
     @json_view(
-        validators=(
-            validate_restricted_access("agreement")
-        ),
         permission="view_framework",
     )
     def get(self):

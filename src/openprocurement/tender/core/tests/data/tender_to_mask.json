@@ -14,7 +14,6 @@
    "owner": "test.quintagroup.com",
    "owner_token": "7587d9f9d73346b2a1560f2b7451f7dd",
    "transfer_token": "7a0d98149535e65444f28b6365bb3e5f72e3201db8677a08455f232d14b420f34db1de66239c145f1ceb2887d56b271918e49d04e62a9f5ff54b17fe0940e195",
-   "mode": "test",
    "mainProcurementCategory": "services",
    "milestones": [
        {
@@ -1841,5 +1840,7 @@
        "currency": "UAH"
    },
    "procurementMethodType": "belowThreshold",
-   "numberOfBids": 0
+   "numberOfBids": 0,
+   "is_public": true,
+   "is_test": false
 }

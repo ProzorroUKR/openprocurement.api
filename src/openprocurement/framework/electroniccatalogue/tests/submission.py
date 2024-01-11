@@ -3,6 +3,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.dps.tests.base import test_submission_config
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
     test_framework_electronic_catalogue_data,
@@ -69,6 +70,7 @@ class SubmissionResourceTest(SubmissionContentWebTest):
 
     initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
+    initial_submission_config = test_submission_config
     initial_auth = ('Basic', ('broker', ''))
 
 
