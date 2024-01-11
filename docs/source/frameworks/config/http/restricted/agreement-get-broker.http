@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/64ee22028e884e79a085ea8bad23763e HTTP/1.0
+GET /api/2.5/agreements/ed63d21544aa450785f3f749b448454e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,13 +8,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-01-20-000001",
-    "frameworkID": "baca8568a6e0453f859f1a64c6e0fd50",
+    "agreementID": "UA-2023-10-10-000001",
+    "frameworkID": "6fc8f6c72fdb427d9dfb18b6d9aba8fd",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
-      "startDate": "2023-01-20T00:00:00+02:00",
-      "endDate": "2023-03-02T00:00:00+02:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-12-09T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "51a3a97f51834c05a8436afed047d92e",
-        "qualificationID": "602b00b82bb2470c99020d7dd9962935",
-        "submissionID": "8c118377feb64f93823ba46329faa451",
+        "id": "f5d76f70fd94468f8108f32e241f3936",
+        "qualificationID": "264d8903584148fb89d77bbb7d18ce58",
+        "submissionID": "5c92716ceb9243c3822cdd8bdc60c735",
         "status": "active",
         "suppliers": [
           {
@@ -81,62 +81,22 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "e6ab19f37ae949a7ac897c384b4c1bc0",
+            "id": "08fc096e7b8647329d208e3f1a5d12d2",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2023-03-02T00:00:00+02:00",
-            "dateModified": "2023-01-20T00:00:00+02:00"
+            "dueDate": "2023-12-09T01:00:00+03:00",
+            "dateModified": "2023-10-10T01:00:00+03:00"
           }
         ],
-        "date": "2023-01-20T00:00:00+02:00"
-      },
-      {
-        "id": "b8b5861a42794ca89fc32745a56c2f3e",
-        "qualificationID": "7996b273586044d7921da96e0d16de5a",
-        "submissionID": "9d618d8b636b4f07b66cb79856f15c47",
-        "status": "active",
-        "suppliers": [
-          {
-            "name": "ДКП «Книга»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137226",
-              "uri": "http://www.sc.gov.ua/",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»"
-            },
-            "address": {
-              "countryName": "Україна",
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013"
-            },
-            "contactPoint": {
-              "name": "Андрій Олексюк",
-              "telephone": "+380322916930",
-              "email": "aagt@gmail.com"
-            },
-            "scale": "sme"
-          }
-        ],
-        "milestones": [
-          {
-            "id": "2fb7a1cf440f4c3380c9b98748205b2b",
-            "status": "scheduled",
-            "type": "activation",
-            "dueDate": "2023-03-02T00:00:00+02:00",
-            "dateModified": "2023-01-20T00:00:00+02:00"
-          }
-        ],
-        "date": "2023-01-20T00:00:00+02:00"
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "owner": "broker",
-    "dateModified": "2023-01-20T00:00:00+02:00",
-    "date": "2023-01-20T00:00:00+02:00",
-    "next_check": "2023-03-02T00:00:00+02:00",
-    "dateCreated": "2023-01-20T00:00:00+02:00",
-    "id": "64ee22028e884e79a085ea8bad23763e"
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "next_check": "2023-12-09T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "id": "ed63d21544aa450785f3f749b448454e"
   },
   "config": {
     "restricted": true

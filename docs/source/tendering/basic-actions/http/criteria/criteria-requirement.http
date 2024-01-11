@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/8d8242d0ac8c41b7ad9863937fd3ead6/criteria/281238ff60ed49f49ad223f92c10abb9/requirement_groups/3e0a5afcde3a4f4296cb7f7f9159411f/requirements/2c920f9c8b754f7084810fcbf8913ec8 HTTP/1.0
+GET /api/2.5/tenders/105db8e43d7443dd82928beebb8543f5/criteria/c7c47b5322c745099e753ef3ec729d43/requirement_groups/e8f535ac413a40aa883f265c9756083b/requirements/f43da990a32745a0814d50700303a99d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -15,11 +15,11 @@ Content-Type: application/json
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "document",
-        "id": "a8e04ea8374347e3911b7a5bb4ed007d"
+        "id": "d216aa40bcae4ee09cbf17fc84bb8018"
       }
     ],
     "expectedValue": "true",
-    "id": "2c920f9c8b754f7084810fcbf8913ec8",
+    "id": "f43da990a32745a0814d50700303a99d",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "status": "active"
   }

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/ad6e6280b4df46ee984ec14ff9a1ca31/posts?acc_token=40c0a17b0da242fb8878c5bf9d10992e HTTP/1.0
+POST /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/67a9b06d735b4578b3889ad775a65e21/posts?acc_token=e3de4cad10924527927b751b1ceeae1b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,11 +8,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "b3a40ada30d644f8aac27dc654bd0534",
+    "relatedPost": "3b414047f34d411c9112ea2d31956fda",
     "documents": [
       {
         "title": "post_document_complaint.pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=YFd7QUeLSkzheLfOUo5ekkOkrxkKkunjzbsvOvAjrbjg4zCJlKlUHFA8AtEKyRBwy89AhlLfspoKZzik9DYMBQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/842a382f56354d5ebbe08b7dec07d46a?Signature=kI2bMfs5yvKEz9X2%2FQvltWVwqstO4RL3BOo9YBH2hh7xrw30Y58YfnMS0b39iNhheUaB9PF9WUofGzjciV%2FSBQ%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
         "format": "application/pdf"
       }
@@ -23,7 +23,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/ad6e6280b4df46ee984ec14ff9a1ca31/posts/adeaa3de92c047e5a3c022152434ad56
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/67a9b06d735b4578b3889ad775a65e21/posts/4a174367c19443c586357f4e5a268125
 
 {
   "data": {
@@ -34,18 +34,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c09
         "hash": "md5:00000000000000000000000000000000",
         "title": "post_document_complaint.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/afe325decc3a47b9a6152c78f5b19667?Signature=I%2BSDHWQGH9hP4eLNQgKNS44%2BMe0IXre%2Bnt3gT5QwhGxNPi75C71dT2jK2gPUnWL3uO1nEAoloRQgnZTOueVuDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/842a382f56354d5ebbe08b7dec07d46a?Signature=G0g69DxjEzmE0ZAZ%2B7S9WCAUVZGW3qDS%2F8TpeiMk3jOebuAd%2FKG9FQkkTNhDsFQogV30qRU54gOiuy5jtqW7AQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8f25c5fde5db483cbdc26a7719f42e71",
+        "id": "12cee1a27f1343d982f2709ef0ed0f00",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "complaint_owner"
       }
     ],
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "b3a40ada30d644f8aac27dc654bd0534",
-    "id": "adeaa3de92c047e5a3c022152434ad56",
+    "relatedPost": "3b414047f34d411c9112ea2d31956fda",
+    "id": "4a174367c19443c586357f4e5a268125",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "author": "complaint_owner"
   }

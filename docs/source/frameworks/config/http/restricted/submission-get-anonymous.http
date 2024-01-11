@@ -1,0 +1,60 @@
+GET /api/2.5/submissions/5c92716ceb9243c3822cdd8bdc60c735 HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "Приховано",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "Приховано",
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Приховано"
+        },
+        "address": {
+          "countryName": "Приховано",
+          "streetAddress": "Приховано",
+          "locality": "Приховано",
+          "region": "Приховано",
+          "postalCode": "Приховано"
+        },
+        "contactPoint": {
+          "name": "Приховано",
+          "telephone": "Приховано",
+          "email": "soleksuk@gmail.com"
+        },
+        "scale": "micro"
+      }
+    ],
+    "documents": [
+      {
+        "id": "18d227b25f2b4100ab6f7e46f76557ff",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Приховано",
+        "format": "application/msword",
+        "url": "Приховано",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
+    "frameworkID": "6fc8f6c72fdb427d9dfb18b6d9aba8fd",
+    "status": "active",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "owner": "broker",
+    "submissionType": "dynamicPurchasingSystem",
+    "qualificationID": "264d8903584148fb89d77bbb7d18ce58",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "id": "5c92716ceb9243c3822cdd8bdc60c735"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

@@ -139,6 +139,9 @@ Content-Type: application/json
     },
     "bid_owner": "broker",
     "id": "eb4343b446004f47aa2ec7f6e542f196"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

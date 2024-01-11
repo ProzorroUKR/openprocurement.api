@@ -1,0 +1,73 @@
+GET /api/2.5/frameworks/6fc8f6c72fdb427d9dfb18b6d9aba8fd HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-10-10-000001",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "broker",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "period": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-09T00:00:00+02:00"
+    },
+    "qualificationPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-12-09T01:00:00+03:00"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-28T00:00:00+03:00"
+    },
+    "next_check": "2023-11-08T00:00:00+02:00",
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "defense"
+    },
+    "agreementID": "ed63d21544aa450785f3f749b448454e",
+    "id": "6fc8f6c72fdb427d9dfb18b6d9aba8fd"
+  },
+  "config": {
+    "restrictedDerivatives": true
+  }
+}
+

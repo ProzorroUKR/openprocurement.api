@@ -24,6 +24,7 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
+    "agreementID": "617574663a03455d892ddd21b4a3d9c7",
     "owner": "test",
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
@@ -64,9 +65,10 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "agreementID": "617574663a03455d892ddd21b4a3d9c7",
     "id": "54770d4474694c37ac05a24bce2ee643"
   },
-  "config": {}
+  "config": {
+    "restrictedDerivatives": false
+  }
 }
 

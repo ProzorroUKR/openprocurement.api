@@ -1,0 +1,34 @@
+GET /api/2.5/qualifications/264d8903584148fb89d77bbb7d18ce58 HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "frameworkID": "6fc8f6c72fdb427d9dfb18b6d9aba8fd",
+    "submissionID": "5c92716ceb9243c3822cdd8bdc60c735",
+    "qualificationType": "dynamicPurchasingSystem",
+    "status": "pending",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Приховано",
+        "format": "application/msword",
+        "url": "Приховано",
+        "language": "uk",
+        "id": "65846ad03cd8431bbab6e33c489aa674",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "id": "264d8903584148fb89d77bbb7d18ce58"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

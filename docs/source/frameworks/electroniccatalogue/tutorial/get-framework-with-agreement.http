@@ -99,6 +99,8 @@ Content-Type: application/json
     "agreementID": "acca82c6bd0c40bb99ac3a85e97a0fa7",
     "id": "78d4ab4039c8441d8cac856e90e3b82b"
   },
-  "config": {}
+  "config": {
+    "restrictedDerivatives": false
+  }
 }
 

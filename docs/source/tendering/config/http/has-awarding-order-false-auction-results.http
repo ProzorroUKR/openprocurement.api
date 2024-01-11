@@ -1200,7 +1200,8 @@ Content-Type: application/json
     "hasPreSelectionAgreement": false,
     "tenderComplaints": false,
     "awardComplaints": false,
-    "cancellationComplaints": false
+    "cancellationComplaints": false,
+    "restricted": false
   }
 }
 

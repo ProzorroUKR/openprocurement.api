@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/8d8242d0ac8c41b7ad9863937fd3ead6/criteria/281238ff60ed49f49ad223f92c10abb9/requirement_groups?acc_token=1e9cf570ec0c409b89cec0d0656d000a HTTP/1.0
+POST /api/2.5/tenders/105db8e43d7443dd82928beebb8543f5/criteria/c7c47b5322c745099e753ef3ec729d43/requirement_groups?acc_token=0f8789a0ad704200b65926ab1ef950da HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -39,16 +39,16 @@ Content-Type: application/json
             "title": "Документальне підтвердження",
             "description": "Довідка в довільній формі",
             "type": "document",
-            "id": "ddbc0c3cbacd45aaa9611bae70ebf696"
+            "id": "7e81a1dcb0d24f04bc739703a4dbfbdc"
           }
         ],
         "expectedValue": "true",
         "status": "active",
-        "id": "639082cffc8f401f8bb49ef1fd5cd357",
+        "id": "d54336316e1b4d379be95ea13dc25fe6",
         "datePublished": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "16692f3b8041465bb254c7e992dd3309"
+    "id": "03ca3d1ae9d04f6fb33c455fedffc4cd"
   }
 }
 

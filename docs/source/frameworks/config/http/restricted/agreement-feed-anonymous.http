@@ -1,0 +1,43 @@
+GET /api/2.5/agreements?opt_fields=status,procuringEntity HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "status": "active",
+      "procuringEntity": {
+        "name": "Приховано",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "Приховано",
+          "legalName": "Приховано"
+        },
+        "address": {
+          "countryName": "Приховано",
+          "streetAddress": "Приховано",
+          "locality": "Приховано",
+          "region": "Приховано",
+          "postalCode": "Приховано"
+        },
+        "contactPoint": {
+          "name": "Приховано",
+          "telephone": "Приховано",
+          "email": "aa@aa.com"
+        },
+        "kind": "defense"
+      },
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "id": "ed63d21544aa450785f3f749b448454e"
+    }
+  ],
+  "next_page": {
+    "offset": 1696888800.0,
+    "path": "/api/2.5/agreements?opt_fields=procuringEntity%2Cstatus&offset=1696888800.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/agreements?opt_fields=procuringEntity%2Cstatus&offset=1696888800.0"
+  }
+}
+

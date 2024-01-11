@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/9514051b350b4ddb87eb569482b942f6/qualifications/78425f5401724a8187553e0c037975a5/requirement_responses/b7bd6acdcaf34b649071092a7154d3b2?acc_token=c6729983359f482788fb215676877c34 HTTP/1.0
+DELETE /api/2.5/tenders/3b9fc223c731491bb732705babf328f8/qualifications/35de471acc864214ac4e536b60cce65d/requirement_responses/88f084eadab9458c9ae7d16e24d85f9e?acc_token=289610ea5a9b448e9b44db767a3ca67f HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     "title": "Updated title",
     "description": "some description",
     "requirement": {
-      "id": "94e99992ec40401d87628ea4aa6783ac",
+      "id": "fffc7538381c4d129a2b16799704ce36",
       "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
     },
     "evidences": [
@@ -19,14 +19,14 @@ Content-Type: application/json
         "title": "Requirement response",
         "type": "document",
         "relatedDocument": {
-          "id": "053c185a3bf545a5bb881c942ad4731b",
+          "id": "5d41e33d8c6f47c3be400935b0e3ca3f",
           "title": "name.doc"
         },
-        "id": "fdfa044eda3a43dda47c47c32f0deadd"
+        "id": "989189360b954419affef6fd1b9d44e2"
       }
     ],
     "value": "True",
-    "id": "b7bd6acdcaf34b649071092a7154d3b2"
+    "id": "88f084eadab9458c9ae7d16e24d85f9e"
   }
 }
 

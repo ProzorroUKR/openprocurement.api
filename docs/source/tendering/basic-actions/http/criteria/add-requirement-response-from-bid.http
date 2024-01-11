@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9cc65ce29e4f4ae0b098f633963efa7f/bids/7878cf456f9640bea5cb979f1fbebeee?acc_token=6f9ffb4773a14f17b72d927d856ae71d HTTP/1.0
+PATCH /api/2.5/tenders/f1fbb400833c48d7ad67197874b4b998/bids/ef6ae271c87f4446bff5378bdc22587b?acc_token=8b99a067fc704e46a53bfc180665fe0a HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,14 +10,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "2d0f191e424845cea0d0a424258d3d3f",
+          "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "2e37b10636cb4e53a41b3973f4469c3c",
+              "id": "653e302bf2b64ca09b743d65b78142f4",
               "title": "name.doc"
             },
             "type": "document"
@@ -29,14 +29,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "9bd2cee0585e446883c22762587b8106",
+          "id": "5cc0238eb2e040b89ed8e9ff9c870559",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "2e37b10636cb4e53a41b3973f4469c3c",
+              "id": "653e302bf2b64ca09b743d65b78142f4",
               "title": "name.doc"
             },
             "type": "document"
@@ -59,7 +59,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "2d0f191e424845cea0d0a424258d3d3f",
+          "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -67,20 +67,20 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "2e37b10636cb4e53a41b3973f4469c3c",
+              "id": "653e302bf2b64ca09b743d65b78142f4",
               "title": "name.doc"
             },
-            "id": "9adb23ab7d7244e59713d80987b0c791"
+            "id": "91f466ab34e7470890f649178baf11e1"
           }
         ],
         "value": "True",
-        "id": "ff84fa46eadf48b78b20c8573d62dc5f"
+        "id": "76475e9e84484619a28f6c68a6cb4fee"
       },
       {
         "title": "Requirement response 2",
         "description": "some description",
         "requirement": {
-          "id": "9bd2cee0585e446883c22762587b8106",
+          "id": "5cc0238eb2e040b89ed8e9ff9c870559",
           "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
         },
         "evidences": [
@@ -88,14 +88,14 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "2e37b10636cb4e53a41b3973f4469c3c",
+              "id": "653e302bf2b64ca09b743d65b78142f4",
               "title": "name.doc"
             },
-            "id": "020532f43ccc48b7bd6107ff4bb6be4f"
+            "id": "d501dc6c38094d1da2d11ca72c5cd8c5"
           }
         ],
         "value": "True",
-        "id": "c84ee441e47e4bfdaf57bf455b6864d2"
+        "id": "ce43dc8d33234e34b2b729d660611fd1"
       }
     ],
     "tenderers": [
@@ -123,7 +123,7 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
-    "id": "7878cf456f9640bea5cb979f1fbebeee",
+    "id": "ef6ae271c87f4446bff5378bdc22587b",
     "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -133,19 +133,19 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "438fbb101d17461a9a4cdc16b7088d05",
+        "relatedLot": "66a8223f6c464cda9d8aeafd23536554",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
       {
-        "id": "2e37b10636cb4e53a41b3973f4469c3c",
+        "id": "653e302bf2b64ca09b743d65b78142f4",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/101a4c542c25418797557f7601d4dc8d?Signature=K26ZyzFLAGitE5vmaETTasDXeOkxZQmoSREf3jTyHtKdUX%2FHnAMvZTD0cCXy6qihSzuWZT0YiRp1bjQCRVj%2FDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eca1451a57d142f394808a9f0953822a?Signature=A5icXgC%2BjDHMUEXaX29uygDBZX9J6M9cqFFJ2zo16OfslBgPmX65qOyR9HdbASPCIYc%2Fgu5Rv6JBLxngz5v1Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",

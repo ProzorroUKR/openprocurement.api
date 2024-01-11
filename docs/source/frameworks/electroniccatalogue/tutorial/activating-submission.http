@@ -49,6 +49,8 @@ Content-Type: application/json
     "datePublished": "2023-10-26T01:00:00+03:00",
     "id": "660d637f7cf749888336a1412725caf8"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

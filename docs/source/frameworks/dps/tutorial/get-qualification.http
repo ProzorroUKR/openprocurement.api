@@ -16,6 +16,8 @@ Content-Type: application/json
     "dateModified": "2023-10-26T01:00:00+03:00",
     "id": "7355d4d6d7be40e498047949f881afd3"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

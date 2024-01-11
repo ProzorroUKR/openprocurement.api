@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/fc5de711b4a445f68cddcf3aa9dbb038?acc_token=1277b29bd71946d8b8d16d5ea7021a06 HTTP/1.0
+PATCH /api/2.5/tenders/d1db88d4ac034f3daabc3709de6544c3?acc_token=3c1eccac9dc948528b14a5a86a4438ab HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "milestones": [
       {
-        "id": "b1cb66cd5e0a473bb354c5d736cfdf63",
+        "id": "e860242f8fb24929be9ae8e21cde09f3",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -17,10 +17,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "a1e45369aa1e46819da4adce35d5dce5"
+        "relatedLot": "413d6045064c410688d1792f4ab8cf09"
       },
       {
-        "id": "ace6d2758fbb4e5bb28588e15ec267f0",
+        "id": "8e05279f9f524fcda09d9c53fe2edfad",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "description": "Підозрілий опис",
-        "relatedLot": "a1e45369aa1e46819da4adce35d5dce5"
+        "relatedLot": "413d6045064c410688d1792f4ab8cf09"
       }
     ]
   }
@@ -107,7 +107,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "a1e45369aa1e46819da4adce35d5dce5",
+        "id": "413d6045064c410688d1792f4ab8cf09",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -123,7 +123,7 @@ Content-Type: application/json
     ],
     "milestones": [
       {
-        "id": "b1cb66cd5e0a473bb354c5d736cfdf63",
+        "id": "e860242f8fb24929be9ae8e21cde09f3",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -133,10 +133,10 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 0,
-        "relatedLot": "a1e45369aa1e46819da4adce35d5dce5"
+        "relatedLot": "413d6045064c410688d1792f4ab8cf09"
       },
       {
-        "id": "ace6d2758fbb4e5bb28588e15ec267f0",
+        "id": "8e05279f9f524fcda09d9c53fe2edfad",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",
@@ -147,7 +147,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "a1e45369aa1e46819da4adce35d5dce5"
+        "relatedLot": "413d6045064c410688d1792f4ab8cf09"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -176,7 +176,7 @@ Content-Type: application/json
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
       "endDate": "2023-10-17T01:00:00+03:00"
     },
-    "id": "fc5de711b4a445f68cddcf3aa9dbb038"
+    "id": "d1db88d4ac034f3daabc3709de6544c3"
   },
   "config": {
     "hasAuction": true,
@@ -188,7 +188,8 @@ Content-Type: application/json
     "hasPreSelectionAgreement": false,
     "tenderComplaints": false,
     "awardComplaints": false,
-    "cancellationComplaints": false
+    "cancellationComplaints": false,
+    "restricted": false
   }
 }
 

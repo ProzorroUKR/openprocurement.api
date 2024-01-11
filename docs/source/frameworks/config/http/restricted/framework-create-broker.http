@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2023-03-02T00:00:00+02:00"
+      "endDate": "2023-12-09T01:00:00+03:00"
     }
   },
   "config": {
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e0453f859f1a64c6e0fd50
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/6fc8f6c72fdb427d9dfb18b6d9aba8fd
 
 {
   "data": {
@@ -61,7 +61,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e04
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2023-03-02T00:00:00+02:00"
+      "endDate": "2023-12-09T01:00:00+03:00"
     },
     "classification": {
       "description": "Mustard seeds",
@@ -97,16 +97,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e04
       },
       "kind": "defense"
     },
-    "prettyID": "UA-F-2023-01-01-000001",
+    "prettyID": "UA-F-2023-10-10-000001",
     "owner": "broker",
-    "date": "2023-01-01T00:00:00+02:00",
-    "dateCreated": "2023-01-01T00:00:00+02:00",
-    "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "baca8568a6e0453f859f1a64c6e0fd50"
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "id": "6fc8f6c72fdb427d9dfb18b6d9aba8fd"
   },
   "access": {
-    "token": "6193b4e3e4864affbecdbfc0d4cf6b7b",
-    "transfer": "45f2e58bd3294e169bdde3976521031f"
+    "token": "e8b68517319b4d4699c42692c138e6a0",
+    "transfer": "dd191aaedece43279902bc8a271edc6f"
   },
   "config": {
     "restrictedDerivatives": true

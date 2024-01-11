@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/3e9fa4304ddc4e36966c56bd986b4db6?acc_token=79b1f65ea5944d6aa16734423bddd897 HTTP/1.0
+PATCH /api/2.5/tenders/9e6e1afaf84849429e92a025c9aa46f4/complaints/28533349dcd84d33a67093531cd4eb72?acc_token=a4e7fad4785c4844941bc64b490c3693 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
+        "relatedItem": "9e6e1afaf84849429e92a025c9aa46f4",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -29,12 +29,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
               {
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "df202e6470d44ee6901d7a8ae43fe0b8"
+                "relatedDocument": "a7717d6fe3924f25989d4d1aecc88570"
               }
             ]
           }
         ],
-        "id": "f3c3ca1bad594b31b5ec79c7cafd6f2e"
+        "id": "6c426df2cd2b4836a6fc78bc987509dc"
       }
     ]
   }
@@ -46,18 +46,18 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3e9fa4304ddc4e36966c56bd986b4db6",
+    "id": "28533349dcd84d33a67093531cd4eb72",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "draft",
     "documents": [
       {
-        "id": "df202e6470d44ee6901d7a8ae43fe0b8",
+        "id": "a7717d6fe3924f25989d4d1aecc88570",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Evidence_Attachment.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31f24c650bf0450a9e351fcadad42d8f?Signature=Dn3KrTtqhhnkZg99w0%2B3e5lNXoGMTo0KYi1TMWQofS9n5JGPueLURYUn80rNe2L4bT7qY4PQX1q8VaLSbQk1DA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b26be5ae7c34fba94a90ded82ea8f77?Signature=BUNzCuzNDxlsQErN6J%2BpEczxECckQ3X21eWWljMmudrqUDGMOXlyLAhh%2BAWSFauQxp8nprIF%2FJtKWUBHtSVICw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "complaint_owner",
@@ -90,11 +90,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "f3c3ca1bad594b31b5ec79c7cafd6f2e",
+        "id": "6c426df2cd2b4836a6fc78bc987509dc",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "b696346c4c21448992ec590d044c2b5c",
+        "relatedItem": "9e6e1afaf84849429e92a025c9aa46f4",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -102,21 +102,21 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "6384300c78eb40b0889c4d8ae444c66c",
+            "id": "a13cf14cd8ce4f17870dda76d1860093",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "0b32676e845b4658919092f8adfdb4a3",
+            "id": "f8d0c4a302fc4c11932c963cc820124a",
             "description": "test argument",
             "evidences": [
               {
-                "id": "11f02fd2af124e5f9d9addbd1f447052",
+                "id": "3c00d91d8f3445f089fe29592c0be0b2",
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "df202e6470d44ee6901d7a8ae43fe0b8"
+                "relatedDocument": "a7717d6fe3924f25989d4d1aecc88570"
               }
             ]
           }
