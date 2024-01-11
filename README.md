@@ -5,6 +5,7 @@
 ## Installation
 
 ```
+openssl rand -base64 756 > keyfile
 docker-compose build
 docker-compose up
 ```

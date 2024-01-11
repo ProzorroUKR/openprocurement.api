@@ -1,5 +1,50 @@
-version: '3'
+---
+version: '3.8'
+
+volumes:
+  mongo1_data:
+  mongo1_config:
+
 services:
+  mongo:
+    image: mongo:7.0
+    container_name: mongo 
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: test
+      # MONGODB_ROOT_PASSWORD: example
+      # MONGODB_REPLICA_SET_MODE: primary
+      # MONGODB_REPLICA_SET_NAME: rs0
+      # MONGODB_REPLICA_SET_KEY: replicaSetKey
+    entrypoint:
+      - bash
+      - -c
+      - |
+          cp /keyfile /mongo_keyfile
+          chmod 400 /mongo_keyfile
+          chown 999:999 /mongo_keyfile
+          exec docker-entrypoint.sh $$@
+    command: "mongod --bind_ip_all --replSet rs0 --keyFile /mongo_keyfile"
+
+    volumes:
+      - ./keyfile:/keyfile
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
+
+  mongo-setup:
+    image: mongo:7.0
+    container_name: mongo_setup
+    depends_on:
+      - mongo
+    restart: on-failure
+    entrypoint: ["/bin/bash", "/setup_mongo.sh"]
+    volumes:
+      - ./setup_mongo.sh:/setup_mongo.sh
+
   api:
     build:
       context: .
@@ -7,7 +52,8 @@ services:
     environment:
       SANDBOX_MODE: 'True'
     depends_on:
-      - mongo
+      mongo-setup:
+        condition: service_completed_successfully
     volumes:
       - "./src/openprocurement:/app/src/openprocurement:delegated"
       - "./docs:/app/docs:delegated"
@@ -15,16 +61,6 @@ services:
     ports:
       - "8000:80"
     command: ["gunicorn", "--bind", "0.0.0.0:80", "-k", "gevent", "--paste", "etc/service.ini", "--graceful-timeout=60", "--timeout=3600"]
-
-  mongo:
-    image: 'bitnami/mongodb:4.4.10'
-    environment:
-      MONGODB_ROOT_PASSWORD: example
-      MONGODB_REPLICA_SET_MODE: primary
-      MONGODB_REPLICA_SET_NAME: rs0
-      MONGODB_REPLICA_SET_KEY: replicaSetKey
-    ports:
-      - 27017:27017
 
 #  replica:
 #    image: 'bitnami/mongodb:latest'
