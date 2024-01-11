@@ -1,0 +1,4 @@
+rule,value
+$..documents[*].documentType,Приховано
+$..documents[*].title,Приховано
+$..documents[*].url,Приховано

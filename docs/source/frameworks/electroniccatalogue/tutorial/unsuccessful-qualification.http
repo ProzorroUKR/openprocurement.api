@@ -35,6 +35,8 @@ Content-Type: application/json
     "qualificationType": "electronicCatalogue",
     "id": "2efa97090edf4a269865f3d2a1e88247"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

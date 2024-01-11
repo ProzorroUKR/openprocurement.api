@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/dfe244357cd1424f9a3cb7b190b3e9a6 HTTP/1.0
+PATCH /api/2.5/tenders/53abca43c14f4515b7f912c00c37cbd4/qualifications/be777a5b462c47b4a57628796c466162/complaints/ffe85469ef5c4a78a1ad4cd059ae7b27 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,13 +15,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "dfe244357cd1424f9a3cb7b190b3e9a6",
+    "id": "ffe85469ef5c4a78a1ad4cd059ae7b27",
     "complaintID": "UA-2023-10-10-000001-a.3",
     "date": "2023-10-10T01:00:01+03:00",
     "status": "declined",
     "type": "complaint",
-    "relatedLot": "8b38edcddb064ef3b0ed49cd5f49953a",
-    "bid_id": "4ce64dcce01b4e5d9cca9350dc21988d",
+    "relatedLot": "a88d14efdf394577ac81f7caf39ecabe",
+    "bid_id": "6e63953ca56f40c292f5012d6f2e8b21",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {

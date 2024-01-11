@@ -1,4 +1,4 @@
-POST /api/2.5/frameworks/baca8568a6e0453f859f1a64c6e0fd50/questions HTTP/1.0
+POST /api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -34,7 +34,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e0453f859f1a64c6e0fd50/questions/72e1e0af20fe48c7b3463789571dfe74
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0/questions/75359f8d10fc4dfda58a4f3c7f18dc5a
 
 {
   "data": {
@@ -61,7 +61,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/baca8568a6e04
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
-    "id": "72e1e0af20fe48c7b3463789571dfe74",
+    "id": "75359f8d10fc4dfda58a4f3c7f18dc5a",
     "date": "2023-01-01T00:00:00+02:00"
   }
 }

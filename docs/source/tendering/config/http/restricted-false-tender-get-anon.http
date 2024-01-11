@@ -1,0 +1,696 @@
+GET /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994 HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "criteria": [
+      {
+        "title": "Вчинення злочинів, учинених з корисливих мотивів",
+        "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+        },
+        "id": "7d8beb0857d14da68bbe34c8841529bf",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.5"
+          },
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.6"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник фізична особа підтверджує, що",
+            "requirements": [
+              {
+                "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
+                "dataType": "boolean",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "description": "Довідка в довільній формі",
+                    "type": "document",
+                    "id": "bad3cd0572834072ac75295a68607d52"
+                  }
+                ],
+                "expectedValue": "true",
+                "status": "active",
+                "id": "12f798905d484b02940df91af72c3603",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "2b0e0b185efe460983488473b23c439a"
+          },
+          {
+            "description": "Учасник юридична особа підтверджує, що",
+            "requirements": [
+              {
+                "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за злочин, вчинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом, шахрайством та відмиванням коштів), судимість з якої  знято або погашено у встановленому законом порядку",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "06bfb4f7d4764f29863e146035bc7061",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "0c02355083f94b7caec39a7a8e8e6e65"
+          }
+        ]
+      },
+      {
+        "title": "Вчинення економічних правопорушень",
+        "description": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        },
+        "id": "45fa89471c044f4ebf3f7f787d862dde",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.4"
+          },
+          {
+            "version": "2020-02-13",
+            "identifier": {
+              "id": "2210-III",
+              "legalName": "Закон України \"Про захист економічної конкуренції\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/2210-14"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "6.2.4"
+          },
+          {
+            "version": "2020-02-13",
+            "identifier": {
+              "id": "2210-III",
+              "legalName": "Закон України \"Про захист економічної конкуренції\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/2210-14"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "50.1"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "47913da50da84e10be3a195881bcd817",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "77fa3e680c9d4edea5c5f2793d8510c3"
+          }
+        ]
+      },
+      {
+        "title": "Вчинення корупційних правопорушень",
+        "description": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення. Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+        },
+        "id": "1b08436d214e477a9ef236d6bb0738e8",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.2"
+          },
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.3"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "cf7d819dffb8420b8b40df21b59452be",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "e63fb90ea1084d14b23dc5a4ec6f0efa",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "3fdff9141c8f4922a1d8f3f07327f686"
+          }
+        ]
+      },
+      {
+        "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
+        "description": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+        },
+        "id": "f372fa59505c410badcc68764b6292fc",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.12"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "73af36fc176c411eb2999004c8607bed",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "7b323d4abadd44688d62b7f35e298881"
+          }
+        ]
+      },
+      {
+        "title": "Порушення справ про банкрутство",
+        "description": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+        },
+        "id": "449700e0a09949679bf8455cc54e7a8c",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.8"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "e572dd329e014c6fa6b34adf23942add",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "a25df3ad233f4052a3fbbfe28747bcd4"
+          }
+        ]
+      },
+      {
+        "title": "Виявлення факту зв'язку учасника з іншими учасниками процедури або замовником",
+        "description": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника",
+        "source": "procuringEntity",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
+        },
+        "id": "0b2caa16e25546a49eecb38608e3b393",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.7"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Замовник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Тендерна пропозиція подана учасником конкурентної процедури закупівлі або участь у переговорній процедурі бере учасник, який є пов'язаною особою з іншими учасниками процедури закупівлі та/або з уповноваженою особою (особами), та/або з керівником замовника",
+                "dataType": "boolean",
+                "eligibleEvidences": [
+                  {
+                    "title": "Документальне підтвердження",
+                    "description": "Довідка в довільній формі",
+                    "type": "document",
+                    "id": "8c38524c5db9418aa124f3310f876934"
+                  }
+                ],
+                "status": "active",
+                "id": "a743cae9cc0a4496b0d7d93ae8b9821d",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "57fc3c68d6f947bcaf5d513f579c2d10"
+          }
+        ]
+      },
+      {
+        "title": "Виявлення факту наміру впливу на прийняття рішення замовника",
+        "description": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
+        "source": "procuringEntity",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
+        },
+        "id": "f1d031cd2ba24bcea79c404bbf723037",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.1"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Замовник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
+                "dataType": "boolean",
+                "status": "active",
+                "id": "aa9ef521377e49b4aefe3925ac500468",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "7ac4eb6255ec4a87b43a982611888eaf"
+          }
+        ]
+      },
+      {
+        "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
+        "description": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " espd211",
+          "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+        },
+        "id": "ac6d86d0b0e049e999b42a105cfebdda",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.9"
+          },
+          {
+            "version": "2020-03-16",
+            "identifier": {
+              "id": "755-IV",
+              "legalName": "Закон України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/755-15"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "9.2.9"
+          },
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.10"
+          },
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "17.1.11"
+          },
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "1644-VII",
+              "legalName": "Закон України \"Про санкції\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/1644-18"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "64d6f02b1e7b4e7099495fbe0dfefa90",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "e6d98ac4acc146a3a57d7a3cdb6d438d",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              },
+              {
+                "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "d0a2f867cbe6423d927b0491621c04ef",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "c24cc9edeeac47f78fa6d3a0ab16583c"
+          }
+        ]
+      },
+      {
+        "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
+        "source": "tenderer",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": " ESPD211",
+          "id": "CRITERION.OTHER.BID.LANGUAGE"
+        },
+        "id": "12b679d29c544c33acd0966c0522458b",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник фізична особа підтверджує, що",
+            "requirements": [
+              {
+                "title": "Мова тендерної пропозиції українська",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "870ea1e0385d4a99880d72992bff54ff",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "3d17dbb2b590421091c9ab44f8f6ebca"
+          }
+        ]
+      },
+      {
+        "title": "Забезпечення виконання договору",
+        "source": "winner",
+        "relatesTo": "tenderer",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+        },
+        "id": "a0fa30e983d342bbb77759e52a090fd6",
+        "legislation": [
+          {
+            "version": "2020-04-19",
+            "identifier": {
+              "id": "922-VIII",
+              "legalName": "Закон України \"Про публічні закупівлі\"",
+              "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+            },
+            "type": "NATIONAL_LEGISLATION"
+          }
+        ],
+        "requirementGroups": [
+          {
+            "description": "Учасник підтверджує, що",
+            "requirements": [
+              {
+                "title": "Розмір та умови надання забезпечення виконання договору про закупівлю",
+                "dataType": "boolean",
+                "expectedValue": "true",
+                "status": "active",
+                "id": "bb85fa64a1024eaca19de6eb97fd1227",
+                "datePublished": "2023-10-10T01:00:00+03:00"
+              }
+            ],
+            "id": "2f2b7d33fce94f969a21157b5e3c9316"
+          }
+        ]
+      }
+    ],
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
+    "owner": "broker",
+    "title": "футляри до державних нагород",
+    "mainProcurementCategory": "services",
+    "agreements": [
+      {
+        "id": "514d764704784304906b25138785146c"
+      }
+    ],
+    "procurementMethod": "selective",
+    "submissionMethod": "electronicAuction",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 5.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "e11eddbda0794b0da849c19d74ab06d8",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 5.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-10-26T00:00:00+03:00"
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "54885e2435434072891db5e792b35a43",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 0
+      }
+    ],
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "special"
+    },
+    "status": "active.tendering",
+    "procurementMethodType": "competitiveOrdering",
+    "awardCriteria": "lowestCost",
+    "enquiryPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-25T00:00:00+03:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-25T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "ac8e7fb163cf4fa2ab111e2e42b8dc2f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 10.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "e11eddbda0794b0da849c19d74ab06d8",
+        "deliveryDate": {
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        }
+      }
+    ],
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00"
+    },
+    "next_check": "2023-10-25T00:00:00+02:00",
+    "id": "38bca89f7ba4477d97f553d576fd6994"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": false,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": true,
+    "tenderComplaints": false,
+    "awardComplaints": false,
+    "cancellationComplaints": false,
+    "restricted": false
+  }
+}
+

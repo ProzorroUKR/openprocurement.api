@@ -576,7 +576,8 @@ Content-Type: application/json
     "hasPreSelectionAgreement": true,
     "tenderComplaints": false,
     "awardComplaints": false,
-    "cancellationComplaints": false
+    "cancellationComplaints": false,
+    "restricted": false
   }
 }
 

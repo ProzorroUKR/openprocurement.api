@@ -35,6 +35,8 @@ Content-Type: application/json
     "qualificationType": "dynamicPurchasingSystem",
     "id": "7355d4d6d7be40e498047949f881afd3"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

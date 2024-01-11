@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1197f048832148399d8e67e69c2f720e/cancellations/02c627bbb5884b6b85d1aeb67044e53f/complaints/0b39808ea9134d6b935aa73c1fcb6d38 HTTP/1.0
+PATCH /api/2.5/tenders/fb1eae1f48b24edc82315df57cc27bbd/cancellations/85187a20d3f94b90a50ca1939bab3080/complaints/788a11bc78c94bad88a7f63834e478e9 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "0b39808ea9134d6b935aa73c1fcb6d38",
+    "id": "788a11bc78c94bad88a7f63834e478e9",
     "complaintID": "UA-2023-10-10-000001-a.5",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "stopped",
