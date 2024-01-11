@@ -2,7 +2,8 @@ from hashlib import sha512
 from uuid import uuid4
 from typing import List, Dict
 
-from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award
+from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
+from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award, get_contract_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
 from openprocurement.api.utils import context_unpack, get_contract_by_id
@@ -213,6 +214,7 @@ def save_contracts_to_contracting(contracts, award=None):
             return
         contract.update(additional_contract_data)
         contract_data = PostContract(contract).serialize()
+        contract_data["config"] = ContractConfigSerializer({}).data
         save_contract(request, contract=contract_data, contract_src={}, insert=True)
 
 

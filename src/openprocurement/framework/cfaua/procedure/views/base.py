@@ -1,14 +1,12 @@
-from copy import deepcopy
+from openprocurement.api.procedure.context import init_object
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class AgreementBaseResource(BaseResource):
     serializer_class = AgreementSerializer
-    serializer_config_class = BaseSerializer
     state_class = AgreementState
 
     def __acl__(self):
@@ -34,5 +32,4 @@ class AgreementBaseResource(BaseResource):
             # getting agreement
             match_dict = request.matchdict
             if match_dict and match_dict.get("agreement_id"):
-                request.validated["agreement_src"] = getattr(request, "agreement_doc")
-                request.validated["agreement"] = deepcopy(request.validated["agreement_src"])
+                init_object("agreement", request.agreement_doc)

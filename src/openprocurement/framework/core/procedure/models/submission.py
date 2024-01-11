@@ -32,7 +32,7 @@ class PostSubmission(Model):
     status = StringType(choices=["draft"], default="draft")
 
     def validate_frameworkID(self, data, value):
-        framework = get_framework_by_id(get_request(), value)
+        framework = get_framework_by_id(get_request(), value, raise_error=False)
         if not framework:
             raise ValidationError("frameworkID must be one of exists frameworks")
 
@@ -121,5 +121,5 @@ class SubmissionConfig(Model):
                 if value is True:
                     raise ValidationError("restricted must be false for non-defense procuring entity")
         else:
-            if value is not None:
-                raise ValidationError("restricted not allowed for this framework type")
+            if value is True:
+                raise ValidationError("restricted must be false for this framework type")

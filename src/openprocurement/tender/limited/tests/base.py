@@ -80,6 +80,7 @@ test_tender_reporting_config = {
     "tenderComplaints": False,
     "awardComplaints": False,
     "cancellationComplaints": False,
+    "restricted": False,
 }
 
 test_tender_negotiation_config = {
@@ -93,6 +94,7 @@ test_tender_negotiation_config = {
     "tenderComplaints": False,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 test_tender_negotiation_quick_config = {
@@ -106,6 +108,7 @@ test_tender_negotiation_quick_config = {
     "tenderComplaints": False,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 

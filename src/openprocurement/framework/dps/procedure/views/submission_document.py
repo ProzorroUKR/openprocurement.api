@@ -4,7 +4,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.framework.core.procedure.views.document import CoreSubmissionDocumentResource
 from openprocurement.framework.core.procedure.validation import (
-    validate_restricted_access,
     validate_document_operation_in_not_allowed_period,
 )
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -27,18 +26,12 @@ from openprocurement.tender.core.procedure.validation import (
 )
 class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(
-        validators=(
-            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
-        ),
         permission="view_framework",
     )
     def collection_get(self):
         return super().collection_get()
 
     @json_view(
-        validators=(
-            validate_restricted_access("submission", owner_fields={"owner", "framework_owner"})
-        ),
         permission="view_framework",
     )
     def get(self):

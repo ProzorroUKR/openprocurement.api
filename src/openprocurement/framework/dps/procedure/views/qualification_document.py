@@ -4,7 +4,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.framework.core.procedure.validation import (
     validate_framework_owner,
-    validate_restricted_access,
     validate_document_operation_in_not_allowed_status,
 )
 from openprocurement.framework.core.procedure.views.document import CoreQualificationDocumentResource
@@ -27,18 +26,12 @@ from openprocurement.tender.core.procedure.validation import (
 )
 class QualificationDocumentResource(CoreQualificationDocumentResource):
     @json_view(
-        validators=(
-            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
-        ),
         permission="view_framework"
     )
     def collection_get(self):
         return super().collection_get()
 
     @json_view(
-        validators=(
-            validate_restricted_access("qualification", owner_fields={"framework_owner", "submission_owner"})
-        ),
         permission="view_framework"
     )
     def get(self):

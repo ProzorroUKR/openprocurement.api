@@ -3,6 +3,7 @@ from logging import getLogger
 
 from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
 from openprocurement.api.context import set_request, set_now
+from openprocurement.api.mask import mask_object_data
 from openprocurement.api.utils import parse_date, json_view, raise_operation_error
 
 
@@ -150,41 +151,23 @@ class MongodbResourceListing(BaseResource):
         return fields
 
     def filter_results_fields(self, results, fields):
+        all_fields = fields | {"id"}
+        for r in results:
+            for k in list(r.keys()):
+                if k not in all_fields:
+                    del r[k]
         return results
 
 class RestrictedResourceListingMixin:
-    config_field = "config"
-    owner_fields = {"owner"}
-    listing_safe_fields = {"dateModified"}
-
+    mask_mapping = {}
     request = None
 
     def db_fields(self, fields):
-        return fields | self.owner_fields | {self.config_field}
+        fields = super().db_fields(fields)
+        return fields | {"config"}
 
     def filter_results_fields(self, results, fields):
-        visible_results = []
-        for result in results:
-            visible_fields = {"id", "restricted"}
-            if result.get(self.config_field, {}).get("restricted", False) is False:
-                # not restricted item
-                visible_fields = visible_fields | fields
-            else:
-                # restricted item
-                if self.request.authenticated_userid and any(
-                    result.get(owner_filed) == self.request.authenticated_userid
-                    for owner_filed in self.owner_fields
-                ):
-                    # private item owned by current user
-                    visible_fields = visible_fields | fields
-                else:
-                    result["restricted"] = True
-                    # private item not owned by current user
-                    visible_fields = visible_fields | self.listing_safe_fields
-            visible_results.append(
-                {
-                    k: v for k, v in result.items()
-                    if k in visible_fields
-                }
-            )
-        return visible_results
+        for r in results:
+            mask_object_data(self.request, r, mask_mapping=self.mask_mapping)
+        results = super().filter_results_fields(results, fields)
+        return results

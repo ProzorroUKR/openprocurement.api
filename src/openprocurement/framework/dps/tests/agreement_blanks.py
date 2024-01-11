@@ -100,6 +100,7 @@ def create_agreement_config_test(self):
     # Check agreement
     expected_config = {
         "test": True,
+        "restricted": False,
     }
 
     response = self.app.patch_json(

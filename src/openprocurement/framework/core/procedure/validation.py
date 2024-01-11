@@ -13,11 +13,6 @@ def validate_framework(request, item_name=None, **kwargs):
     data = request.validated["data"]
     previous_obj_framework_id = request.validated.get(item_name, {}).get("frameworkID")
     framework = get_framework_by_id(request, data.get("frameworkID", previous_obj_framework_id))
-    if not framework:
-        raise_operation_error(
-            request,
-            "frameworkID must be one of exists frameworks",
-        )
     model = request.framework_from_data(framework, create=False)
     framework = model(framework)
     request.validated["framework_src"] = framework.serialize()
@@ -35,7 +30,7 @@ def validate_agreement_framework(request, **kwargs):
 
 def validate_post_submission_with_active_contract(request, **kwargs):
     framework = request.validated["framework"]
-    agreement = get_agreement_by_id(request, framework.get("agreementID"))
+    agreement = get_agreement_by_id(request, framework.get("agreementID"), raise_error=False)
     submission_identifier_id = request.validated["data"]["tenderers"][0]["identifier"]["id"]
     if not agreement:
         return

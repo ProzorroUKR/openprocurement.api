@@ -1,3 +1,4 @@
+from openprocurement.api.context import get_request
 from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer

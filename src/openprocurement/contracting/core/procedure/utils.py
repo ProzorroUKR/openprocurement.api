@@ -30,6 +30,8 @@ def save_contract(request, insert=False, contract=None, contract_src=None):
         now = get_now()
         append_revision(request, contract, patch)
 
+        contract["config"] = request.validated.get("contract_config", {})
+
         old_date_modified = contract.get("dateModified", now.isoformat())
         with handle_store_exceptions(request):
             request.registry.mongodb.contracts.save(

@@ -1,14 +1,18 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.contracting.core.procedure.models.contract import ContractConfig
+from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.tender.core.procedure.validation import unless_admins
+from openprocurement.tender.core.procedure.context import get_contract_config
+from openprocurement.tender.core.procedure.validation import unless_admins, validate_config_data
 from openprocurement.tender.core.procedure.validation import (
     validate_accreditation_level,
     validate_input_data,
@@ -25,14 +29,23 @@ from openprocurement.tender.core.procedure.utils import set_ownership
     description="Contracts listing",
     # request_method=("GET",),
 )
-class ContractsResource(MongodbResourceListing, ContractBaseResource):
+class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, ContractBaseResource):
+    listing_name = "Contracts"
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateCreated",
+        "contractID",
+        "dateModified",
+        "status",
+    }
+    mask_mapping = CONTRACT_MASK_MAPPING
+
     serializer_class = ContractBaseSerializer
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Contracts"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {"dateCreated", "contractID", "dateModified", "status"}
         self.db_listing_method = request.registry.mongodb.contracts.list
 
     @json_view(
@@ -40,6 +53,11 @@ class ContractsResource(MongodbResourceListing, ContractBaseResource):
         permission="create_contract",
         validators=(
             validate_input_data(PostContract),
+            validate_config_data(
+                ContractConfig,
+                serializer=ContractConfigSerializer,
+                obj_name="contract",
+            ),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="contract",
@@ -65,7 +83,11 @@ class ContractsResource(MongodbResourceListing, ContractBaseResource):
                 ),
             )
             self.request.response.status = 201
-            return {"data": self.serializer_class(contract).data, "access": {"token": contract["owner_token"]}}
+            return {
+                "data": self.serializer_class(contract).data,
+                "config": get_contract_config(),
+                "access": {"token": contract["owner_token"]},
+            }
 
 
 class ContractResource(ContractBaseResource):
@@ -73,7 +95,10 @@ class ContractResource(ContractBaseResource):
 
     @json_view(permission="view_contract")
     def get(self):
-        return {"data": self.serializer_class(self.request.validated["contract"]).data}
+        return {
+            "data": self.serializer_class(self.request.validated["contract"]).data,
+            "config": get_contract_config(),
+        }
 
     @json_view(
         content_type="application/json",
@@ -91,7 +116,10 @@ class ContractResource(ContractBaseResource):
                     f"Updated contract {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
                 )
-                return {"data": self.serializer_class(self.request.validated["contract"]).data}
+                return {
+                    "data": self.serializer_class(self.request.validated["contract"]).data,
+                    "config": get_contract_config(),
+                }
 
 
 @resource(
@@ -117,4 +145,8 @@ class ContractCredentialsResource(ContractBaseResource):
                 f"Generate Contract credentials {contract['_id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
             )
-            return {"data": self.serializer_class(contract).data, "access": access}
+            return {
+                "data": self.serializer_class(contract).data,
+                "config": get_contract_config(),
+                "access": access,
+            }

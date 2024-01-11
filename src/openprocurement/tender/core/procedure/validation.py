@@ -200,7 +200,7 @@ def validate_patch_data_simple(model, item_name):
     return validate
 
 
-def validate_config_data(input_model, obj_name=None, default=None):
+def validate_config_data(input_model, serializer=None, obj_name=None, default=None):
     """
     Simple way to validate config in request.validated["config"] against a provided model
     the result is put back in request.validated["config"]
@@ -214,6 +214,8 @@ def validate_config_data(input_model, obj_name=None, default=None):
         config_name = f"{obj_name}_config" if obj_name else "config"
         config = request.json.get("config") or default
         request.validated[config_name] = validate_data(request, input_model, config) or {}
+        if serializer:
+            request.validated[config_name] = serializer(request.validated[config_name]).data
         return request.validated[config_name]
     return validate
 

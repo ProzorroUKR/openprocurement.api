@@ -14,4 +14,5 @@ class ContractBaseSerializer(BaseUIDSerializer):
         "public_modified",
         "is_public",
         "is_test",
+        "config",
     }

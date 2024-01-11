@@ -38,20 +38,20 @@ LOGGER = getLogger(__name__)
     request_method=("GET",),
 )
 class PlansListResource(MongodbResourceListing):
+    listing_name = "Plans Listing"
+    listing_default_fields = {"dateModified"}
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "status",
+        "planID",
+        "procuringEntity",
+        "procurementMethodType",
+        "mode",
+    }
+
     def __init__(self, request, context=None):
         super(PlansListResource, self).__init__(request, context)
-        self.listing_name = "Plans Listing"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {
-            "dateCreated",
-            "dateModified",
-            "status",
-            "planID",
-            "procuringEntity",
-            "procurementMethodType",
-            "mode",
-        }
-        self.all_fields = {"dateCreated", "planID", "dateModified"}
         self.db_listing_method = request.registry.mongodb.plans.list
 
     def __acl__(self):

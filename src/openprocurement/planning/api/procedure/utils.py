@@ -11,6 +11,7 @@ LOGGER = getLogger(__name__)
 
 def save_plan(request, modified: bool = True, insert: bool = False) -> bool:
     plan = request.validated["plan"]
+
     patch = get_revision_changes(plan, request.validated["plan_src"])
     if patch:
         now = get_now()

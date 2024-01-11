@@ -773,17 +773,17 @@ def patch_submission_draft(self):
     }
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_patch_data},
-        status=403,
+        status=404,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
         [{
-            'description': 'frameworkID must be one of exists frameworks',
-            'location': 'body',
-            'name': 'data'
+            "location": "url",
+            "name": "framework_id",
+            "description": "Not Found"
         }],
     )
 

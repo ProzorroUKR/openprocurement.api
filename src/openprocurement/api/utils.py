@@ -352,7 +352,7 @@ def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool 
     elif tender is None:
         LOGGER.error(
             f"{obj_name.capitalize()} {obj_id} not found",
-            extra=context_unpack(request, {"MESSAGE_ID": "get_tender_by_id"})
+            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"})
         )
 
     return tender

@@ -1028,6 +1028,7 @@ def create_tender_invalid_config_ua(self):
                 "hasAwardingOrder": True,
                 "minBidsNumber": 2,
                 "hasPreSelectionAgreement": False,
+                "restricted": False,
             }
         },
         status=422,
@@ -1048,6 +1049,7 @@ def create_tender_invalid_config_ua(self):
                 "hasAwardingOrder": True,
                 "minBidsNumber": 4,
                 "hasPreSelectionAgreement": False,
+                "restricted": False,
             }
         },
         status=422,

@@ -1,3 +1,4 @@
+from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 
@@ -27,3 +28,15 @@ class QualificationSerializer(BaseUIDSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
         self.private_fields = set(self.base_private_fields)
+
+
+def restricted_serializer(obj, value):
+    if value is None:
+        return False
+    return value
+
+
+class QualificationConfigSerializer(BaseConfigSerializer):
+    serializers = {
+        "restricted": restricted_serializer,
+    }

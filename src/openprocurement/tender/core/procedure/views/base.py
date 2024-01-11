@@ -1,13 +1,11 @@
+from openprocurement.api.procedure.context import init_object
 from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from copy import deepcopy
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class TenderBaseResource(BaseResource):
-
-    serializer_config_class = TenderConfigSerializer
     state_class = TenderState
 
     def __acl__(self):
@@ -37,10 +35,4 @@ class TenderBaseResource(BaseResource):
             # getting tender
             match_dict = request.matchdict
             if match_dict and match_dict.get("tender_id"):
-                request.validated["tender_src"] = request.tender_doc
-                request.validated["tender"] = deepcopy(request.validated["tender_src"])
-                tender_config = request.validated["tender"].pop("config", None) or {}
-                self._serialize_config(request, tender_config)
-
-    def _serialize_config(self, request, config):
-        request.validated["tender_config"] = self.serializer_config_class(config).data
+                init_object("tender", request.tender_doc, TenderConfigSerializer)

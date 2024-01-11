@@ -6,6 +6,7 @@ from datetime import timedelta
 from uuid import uuid4
 from hashlib import sha512
 
+from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,

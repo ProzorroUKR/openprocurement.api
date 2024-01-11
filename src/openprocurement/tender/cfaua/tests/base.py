@@ -90,6 +90,7 @@ test_tender_cfaua_config = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 

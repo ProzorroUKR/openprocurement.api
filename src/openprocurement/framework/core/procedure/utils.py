@@ -9,6 +9,7 @@ from pyramid.exceptions import URLDecodeError
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.context import get_now
 from openprocurement.api.mask import mask_object_data
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.utils import get_revision_changes, append_revision
 from openprocurement.api.utils import (
     handle_store_exceptions,
@@ -16,6 +17,11 @@ from openprocurement.api.utils import (
     error_handler,
 )
 from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
+from openprocurement.framework.core.procedure.mask import (
+    SUBMISSION_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    AGREEMENT_MASK_MAPPING,
+)
 from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -97,7 +103,7 @@ def extract_object_id(request, obj_name):
     return object_id
 
 
-def extract_object_doc(request, obj_name):
+def extract_object_doc(request, obj_name, mask_mapping=None):
     object_id = extract_object_id(request, obj_name)
     if object_id:
         doc = getattr(request.registry.mongodb, f"{obj_name}s").get(object_id)
@@ -107,7 +113,8 @@ def extract_object_doc(request, obj_name):
             raise error_handler(request)
 
         # wartime measures
-        mask_object_data(request, doc)
+        mask_object_data_deprecated(request, doc)
+        mask_object_data(request, doc, mask_mapping=mask_mapping)
 
         return doc
 
@@ -117,15 +124,15 @@ def extract_framework_doc(request):
 
 
 def extract_submission_doc(request):
-    return extract_object_doc(request, "submission")
+    return extract_object_doc(request, "submission", mask_mapping=SUBMISSION_MASK_MAPPING)
 
 
 def extract_qualification_doc(request):
-    return extract_object_doc(request, "qualification")
+    return extract_object_doc(request, "qualification", mask_mapping=QUALIFICATION_MASK_MAPPING)
 
 
 def extract_agreement_doc(request):
-    return extract_object_doc(request, "agreement")
+    return extract_object_doc(request, "agreement", mask_mapping=AGREEMENT_MASK_MAPPING)
 
 
 def get_framework_unsuccessful_status_check_date(framework):

@@ -7,7 +7,7 @@ from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
     test_framework_dps_data,
     test_dps_documents,
-    test_submission_data,
+    test_submission_data, test_submission_config,
 )
 from openprocurement.framework.dps.tests.submission_blanks import (
     listing,
@@ -46,6 +46,11 @@ from openprocurement.framework.dps.tests.submission_blanks import (
 
 
 class SubmissionResourceTest(SubmissionContentWebTest):
+    initial_data = test_framework_dps_data
+    initial_submission_data = test_submission_data
+    initial_submission_config = test_submission_config
+    initial_auth = ('Basic', ('broker', ''))
+
     test_listing = snitch(listing)
     test_listing_draft = snitch(listing_draft)
     test_listing_changes = snitch(listing_changes)
@@ -70,10 +75,6 @@ class SubmissionResourceTest(SubmissionContentWebTest):
     test_datePublished_submission = snitch(datePublished_submission)
     test_submission_not_found = snitch(submission_not_found)
     test_submission_token_invalid = snitch(submission_token_invalid)
-
-    initial_data = test_framework_dps_data
-    initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
 
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):

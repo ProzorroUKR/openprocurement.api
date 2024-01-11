@@ -1,0 +1,797 @@
+{
+    "title": "[ТЕСТУВАННЯ] Потріпки уміцняти імшедь пороспорюватися.",
+    "title_en": "[TESTING] Switchable stable time-frame",
+    "title_ru": "[ТЕСТИРОВАНИЕ] Versatile bi-directional synergy",
+    "description": "Галаснути вісьмина попороскошувати зросливий гостиночка жовтішати рідкий кізка грюк II сходистий курча надкусити.",
+    "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
+    "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
+    "date": "2021-11-08T16:59:10.235391+02:00",
+    "dateModified": "2024-01-08T04:55:21.302248+02:00",
+    "tenderID": "UA-2021-11-08-000045-a",
+    "owner": "test.quintagroup.com",
+    "mainProcurementCategory": "services",
+    "milestones": [
+        {
+            "id": "679e28f676e54ff5a8db845505ffcc60",
+            "title": "anotherEvent",
+            "description": "Ошпарити заважний жовтішати виречи осердак а кто ето сделал? обгуркати узголов'я запащекувати кіска гандевери очиська недомова наблювати багатолотовий корупціон з неціновими показниками соненько слюзувати зчарувати докука зморхтися вимірювати коськання грюк II матюнка буба літній жалуватися обчірати виправа навратитися золотокрилий замішанина досипатися I пообробляти чортячий випекти узавтра цвірінь клятьба десяточок.",
+            "type": "financing",
+            "code": "prepayment",
+            "percentage": 19,
+            "duration": {
+                "days": 73,
+                "type": "working"
+            },
+            "sequenceNumber": 0,
+            "relatedLot": "eb63b318a9bb4216ba425322f788fdef"
+        },
+        {
+            "id": "ae9cd7a3db804d05946fcab0dd3f1944",
+            "title": "dateOfInvoicing",
+            "type": "financing",
+            "code": "postpayment",
+            "percentage": 4,
+            "duration": {
+                "days": 269,
+                "type": "working"
+            },
+            "sequenceNumber": 1,
+            "relatedLot": "eb63b318a9bb4216ba425322f788fdef"
+        },
+        {
+            "id": "31708251dcb943748b4a0ae0d2ae54e5",
+            "title": "endDateOfTheReportingPeriod",
+            "type": "financing",
+            "code": "prepayment",
+            "percentage": 77,
+            "duration": {
+                "days": 286,
+                "type": "banking"
+            },
+            "sequenceNumber": 2,
+            "relatedLot": "eb63b318a9bb4216ba425322f788fdef"
+        }
+    ],
+    "plans": [
+        {
+            "id": "2ef0aeb6f07d49a1a898cdff13fc6a36"
+        }
+    ],
+    "procurementMethod": "open",
+    "awardCriteria": "lowestCost",
+    "submissionMethod": "electronicAuction",
+    "submissionMethodDetails": "quick(mode:no-auction)",
+    "status": "complete",
+    "criteria": [
+        {
+            "id": "9abbb237d6a74bab8710ed30ec8245f5",
+            "title": "Приховано",
+            "source": "tenderer",
+            "relatesTo": "tender",
+            "classification": {
+                "scheme": "ESPD211",
+                "id": "CRITERION.OTHER.BID.GUARANTEE"
+            },
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                    },
+                    "type": "NATIONAL_LEGISLATION"
+                }
+            ],
+            "requirementGroups": [
+                {
+                    "id": "26ea4cf8dc2a4c9bb0902b6803003267",
+                    "description": "Приховано",
+                    "requirements": [
+                        {
+                            "id": "fa101545e82d493690951c7149a42abc",
+                            "title": "Приховано",
+                            "description": "Приховано",
+                            "dataType": "boolean",
+                            "eligibleEvidences": [
+                                {
+                                    "id": "9c930c379b714b91af241abbd37f67e0",
+                                    "title": "Підтвердження банківської гарантії",
+                                    "description": "документ що підтверджує банківську гарантію",
+                                    "type": "document"
+                                }
+                            ],
+                            "expectedValue": "true",
+                            "status": "active",
+                            "datePublished": "2021-11-08T16:41:19.367128+02:00"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "32729548b3d140d0a82a360ec1ea6573",
+            "title": "Приховано",
+            "source": "winner",
+            "relatesTo": "tender",
+            "classification": {
+                "scheme": "ESPD211",
+                "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+            },
+            "legislation": [
+                {
+                    "version": "2020-04-19",
+                    "identifier": {
+                        "id": "922-VIII",
+                        "legalName": "Закон України \"Про публічні закупівлі\"",
+                        "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                    },
+                    "type": "NATIONAL_LEGISLATION",
+                    "article": "14.2.12"
+                }
+            ],
+            "requirementGroups": [
+                {
+                    "id": "49f53c5e658443ebb40d3ec99d4f3aa7",
+                    "description": "Приховано",
+                    "requirements": [
+                        {
+                            "id": "8cd44b01978f47fc9f470cdcedfef6b6",
+                            "title": "Приховано",
+                            "description": "Приховано",
+                            "dataType": "boolean",
+                            "eligibleEvidences": [
+                                {
+                                    "id": "b7ae2a31e89c472cb2ee67c8d9dba682",
+                                    "title": "Підтвердження банківської гарантії",
+                                    "description": "Різнокольоровий скан у форматі pdf",
+                                    "type": "document"
+                                }
+                            ],
+                            "expectedValue": "true",
+                            "status": "active",
+                            "datePublished": "2021-11-08T16:41:19.370606+02:00"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "items": [
+        {
+            "id": "a7f8f276319f4d0690afc84af1fa6d8e",
+            "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
+            "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
+            "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+            "additionalClassifications": [
+                {
+                    "scheme": "INN",
+                    "id": "ibuprofen",
+                    "description": "Ibuprofen"
+                },
+                {
+                    "scheme": "ATC",
+                    "id": "M01AE01",
+                    "description": "ibuprofen"
+                }
+            ],
+            "quantity": 0.0,
+            "deliveryDate": {
+                "startDate": "1111-11-11T00:00:00+02:00",
+                "endDate": "1111-11-11T00:00:00+02:00"
+            },
+            "deliveryAddress": {
+                "streetAddress": "Приховано",
+                "locality": "Приховано",
+                "region": "Приховано",
+                "postalCode": "Приховано",
+                "countryName": "Приховано",
+                "countryName_en": "Hidden",
+                "countryName_ru": "Приховано"
+            },
+            "relatedLot": "eb63b318a9bb4216ba425322f788fdef",
+            "classification": {
+                "description": "Протизапальні та протиревматичні засоби",
+                "scheme": "ДК021",
+                "id": "33632100-0"
+            },
+            "deliveryLocation": {
+                "latitude": 48.506347,
+                "longitude": 35.0762495
+            },
+            "unit": {
+                "name": "упаковка",
+                "code": "PK"
+            }
+        }
+    ],
+    "value": {
+        "amount": 0.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+    },
+    "enquiryPeriod": {
+        "startDate": "2021-09-08T16:42:16.188535+02:00",
+        "endDate": "2021-10-08T16:44:16.188535+02:00"
+    },
+    "tenderPeriod": {
+        "startDate": "2021-10-08T16:45:16.188535+02:00",
+        "endDate": "2021-11-08T16:52:16.188535+02:00"
+    },
+    "awardPeriod": {
+        "startDate": "2021-11-08T16:54:45.165403+02:00",
+        "endDate": "2021-11-08T16:56:00.738020+02:00"
+    },
+    "bids": [
+        {
+            "tenderers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@ukr.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "333-44-55",
+                        "url": "Приховано"
+                    },
+                    "scale": "mid"
+                }
+            ],
+            "lotValues": [
+                {
+                    "value": {
+                        "amount": 0.0,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    },
+                    "relatedLot": "eb63b318a9bb4216ba425322f788fdef",
+                    "date": "2021-11-08T16:50:30.055620+02:00"
+                }
+            ],
+            "date": "2021-11-08T16:50:03.433888+02:00",
+            "id": "8e8f1460414641fda17e4700f0a96e90",
+            "status": "active",
+            "documents": [
+                {
+                    "id": "76ee3af1b6574d4bad888f3258e4d875",
+                    "hash": "md5:ab910a07fc087ab71b34afea267deef6",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:50:04.350010+02:00",
+                    "dateModified": "2021-11-08T16:50:04.350010+02:00",
+                    "documentOf": "tender"
+                },
+                {
+                    "id": "7532b2eae5114c4ba437343370ea0ef5",
+                    "hash": "md5:79c9c5a1ab27335669c29a3e002ef041",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:50:30.954468+02:00",
+                    "dateModified": "2021-11-08T16:50:30.954468+02:00",
+                    "documentOf": "tender"
+                },
+                {
+                    "id": "7532b2eae5114c4ba437343370ea0ef5",
+                    "hash": "md5:a2241eb5bef1320862540cb6937bb3be",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:50:30.954468+02:00",
+                    "dateModified": "2021-11-08T16:50:32.762727+02:00",
+                    "documentOf": "tender"
+                }
+            ],
+            "requirementResponses": [
+                {
+                    "id": "8d2e2ee1656e432fa772e8131a25f8aa",
+                    "title": "Приховано",
+                    "description": "Приховано",
+                    "requirement": {
+                        "id": "fa101545e82d493690951c7149a42abc",
+                        "title": "Приховано"
+                    },
+                    "evidences": [
+                        {
+                            "id": "09fc3644a7074708a5928240e77ad4c8",
+                            "title": "Приховано",
+                            "type": "document",
+                            "relatedDocument": {
+                                "id": "76ee3af1b6574d4bad888f3258e4d875",
+                                "title": "Приховано"
+                            }
+                        }
+                    ],
+                    "value": "true"
+                },
+                {
+                    "id": "30bd153da6f846499dd31bbcf27191a7",
+                    "title": "Приховано",
+                    "description": "Приховано",
+                    "requirement": {
+                        "id": "8cd44b01978f47fc9f470cdcedfef6b6",
+                        "title": "Приховано"
+                    },
+                    "value": "true"
+                }
+            ]
+        },
+        {
+            "tenderers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@bigmir.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "088-111-22-33",
+                        "url": "Приховано"
+                    },
+                    "scale": "large"
+                }
+            ],
+            "lotValues": [
+                {
+                    "value": {
+                        "amount": 0.0,
+                        "currency": "UAH",
+                        "valueAddedTaxIncluded": true
+                    },
+                    "relatedLot": "eb63b318a9bb4216ba425322f788fdef",
+                    "date": "2021-11-08T16:50:23.511686+02:00"
+                }
+            ],
+            "date": "2021-11-08T16:50:23.511686+02:00",
+            "id": "f6553a0675ff458c8c13e625de342295",
+            "status": "active",
+            "documents": [
+                {
+                    "id": "86f54ceb8cfd4f91a40023521e24d0e5",
+                    "hash": "md5:0d953dd0a0636e779ba2f787062eaac4",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:50:24.513290+02:00",
+                    "dateModified": "2021-11-08T16:50:24.513290+02:00",
+                    "documentOf": "tender"
+                }
+            ],
+            "requirementResponses": [
+                {
+                    "id": "799e735059b14cfba92c70c5699b8d3b",
+                    "title": "Приховано",
+                    "description": "Приховано",
+                    "requirement": {
+                        "id": "fa101545e82d493690951c7149a42abc",
+                        "title": "Приховано"
+                    },
+                    "evidences": [
+                        {
+                            "id": "e09bd61b44af403b99e857d1d66570c2",
+                            "title": "Приховано",
+                            "type": "document",
+                            "relatedDocument": {
+                                "id": "86f54ceb8cfd4f91a40023521e24d0e5",
+                                "title": "Приховано"
+                            }
+                        }
+                    ],
+                    "value": "true"
+                },
+                {
+                    "id": "9c443e23673249bc8d394619e3feb5be",
+                    "title": "Приховано",
+                    "description": "Приховано",
+                    "requirement": {
+                        "id": "8cd44b01978f47fc9f470cdcedfef6b6",
+                        "title": "Приховано"
+                    },
+                    "value": "true"
+                }
+            ]
+        }
+    ],
+    "procuringEntity": {
+        "name": "Приховано",
+        "identifier": {
+            "scheme": "UA-EDR",
+            "id": "Приховано",
+            "legalName": "Приховано"
+        },
+        "address": {
+            "streetAddress": "Приховано",
+            "locality": "Приховано",
+            "region": "Приховано",
+            "postalCode": "Приховано",
+            "countryName": "Приховано"
+        },
+        "contactPoint": {
+            "name": "Приховано",
+            "email": "e_mail_test@bigmir.net",
+            "telephone": "Приховано",
+            "faxNumber": "088-111-22-33",
+            "url": "Приховано"
+        },
+        "kind": "defense"
+    },
+    "awards": [
+        {
+            "id": "007f17590a804c3f9bfa0870cbe7e87a",
+            "status": "cancelled",
+            "date": "2021-11-08T16:55:57.765449+02:00",
+            "value": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+            },
+            "suppliers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@ukr.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "333-44-55",
+                        "url": "Приховано"
+                    },
+                    "scale": "mid"
+                }
+            ],
+            "documents": [
+                {
+                    "id": "602efa3d8ffe418f85e15166c3c0715e",
+                    "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:55:38.669219+02:00",
+                    "dateModified": "2021-11-08T16:55:38.669231+02:00",
+                    "author": "tender_owner",
+                    "documentOf": "tender"
+                }
+            ],
+            "bid_id": "8e8f1460414641fda17e4700f0a96e90",
+            "lotID": "eb63b318a9bb4216ba425322f788fdef",
+            "complaintPeriod": {
+                "startDate": "2021-11-08T16:55:56.357208+02:00",
+                "endDate": "2021-11-08T16:55:57.759036+02:00"
+            }
+        },
+        {
+            "id": "b7d20c86e18c4a2ea9ee13744d478059",
+            "status": "active",
+            "date": "2021-11-08T16:56:00.747454+02:00",
+            "value": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+            },
+            "suppliers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@ukr.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "333-44-55",
+                        "url": "Приховано"
+                    },
+                    "scale": "mid"
+                }
+            ],
+            "documents": [
+                {
+                    "id": "6ce42d836c424810aa8b510905da1ee8",
+                    "hash": "md5:144514f62b902834ee90c22b63eabc03",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:55:59.289225+02:00",
+                    "dateModified": "2021-11-08T16:55:59.289247+02:00",
+                    "author": "tender_owner",
+                    "documentOf": "tender"
+                }
+            ],
+            "bid_id": "8e8f1460414641fda17e4700f0a96e90",
+            "lotID": "eb63b318a9bb4216ba425322f788fdef",
+            "complaintPeriod": {
+                "startDate": "2021-11-08T16:56:00.737009+02:00",
+                "endDate": "2021-11-08T16:56:40.737009+02:00"
+            }
+        }
+    ],
+    "contracts": [
+        {
+            "id": "1f1841ed61f34e3ba8a8436496c33f19",
+            "contractID": "UA-2021-11-08-000045-a-a1",
+            "status": "cancelled",
+            "suppliers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@ukr.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "333-44-55",
+                        "url": "Приховано"
+                    },
+                    "scale": "mid"
+                }
+            ],
+            "date": "2021-11-08T16:55:57.765449+02:00",
+            "value": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true,
+                "amountNet": 0.0
+            },
+            "awardID": "007f17590a804c3f9bfa0870cbe7e87a",
+            "items": [
+                {
+                    "id": "a7f8f276319f4d0690afc84af1fa6d8e",
+                    "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
+                    "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
+                    "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+                    "additionalClassifications": [
+                        {
+                            "scheme": "INN",
+                            "id": "ibuprofen",
+                            "description": "Ibuprofen"
+                        },
+                        {
+                            "scheme": "ATC",
+                            "id": "M01AE01",
+                            "description": "ibuprofen"
+                        }
+                    ],
+                    "quantity": 0.0,
+                    "deliveryDate": {
+                        "startDate": "1111-11-11T00:00:00+02:00",
+                        "endDate": "1111-11-11T00:00:00+02:00"
+                    },
+                    "deliveryAddress": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "relatedLot": "eb63b318a9bb4216ba425322f788fdef",
+                    "classification": {
+                        "description": "Протизапальні та протиревматичні засоби",
+                        "scheme": "ДК021",
+                        "id": "33632100-0"
+                    },
+                    "deliveryLocation": {
+                        "latitude": 0.0,
+                        "longitude": 0.0
+                    },
+                    "unit": {
+                        "name": "упаковка",
+                        "code": "PK"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "c82c5de0c9ef4302a3e086dbb9f366bc",
+            "contractID": "UA-2021-11-08-000045-a-a2",
+            "status": "active",
+            "period": {
+                "startDate": "2021-11-08T16:57:56.851916+02:00",
+                "endDate": "2021-11-08T17:07:56.851916+02:00"
+            },
+            "dateSigned": "2021-11-08T16:57:38.548072+02:00",
+            "suppliers": [
+                {
+                    "name": "Приховано",
+                    "identifier": {
+                        "scheme": "UA-EDR",
+                        "id": "Приховано",
+                        "legalName": "Приховано"
+                    },
+                    "address": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "contactPoint": {
+                        "name": "Приховано",
+                        "email": "e_mail_test@ukr.net",
+                        "telephone": "Приховано",
+                        "faxNumber": "333-44-55",
+                        "url": "Приховано"
+                    },
+                    "scale": "mid"
+                }
+            ],
+            "date": "2021-11-08T16:59:10.235391+02:00",
+            "value": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true,
+                "amountNet": 0.0
+            },
+            "awardID": "b7d20c86e18c4a2ea9ee13744d478059",
+            "documents": [
+                {
+                    "id": "e37156a4f12948b6880322cf9671464e",
+                    "hash": "md5:a0e488744583f671f71f5fae922bed15",
+                    "title": "Приховано",
+                    "format": "text/plain",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:58:16.917503+02:00",
+                    "dateModified": "2021-11-08T16:58:16.917515+02:00",
+                    "documentOf": "tender"
+                }
+            ],
+            "items": [
+                {
+                    "id": "a7f8f276319f4d0690afc84af1fa6d8e",
+                    "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
+                    "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
+                    "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+                    "additionalClassifications": [
+                        {
+                            "scheme": "INN",
+                            "id": "ibuprofen",
+                            "description": "Ibuprofen"
+                        },
+                        {
+                            "scheme": "ATC",
+                            "id": "M01AE01",
+                            "description": "ibuprofen"
+                        }
+                    ],
+                    "quantity": 0.0,
+                    "deliveryDate": {
+                        "startDate": "1111-11-11T00:00:00+02:00",
+                        "endDate": "1111-11-11T00:00:00+02:00"
+                    },
+                    "deliveryAddress": {
+                        "streetAddress": "Приховано",
+                        "locality": "Приховано",
+                        "region": "Приховано",
+                        "postalCode": "Приховано",
+                        "countryName": "Приховано",
+                        "countryName_en": "Hidden",
+                        "countryName_ru": "Приховано"
+                    },
+                    "relatedLot": "eb63b318a9bb4216ba425322f788fdef",
+                    "classification": {
+                        "description": "Протизапальні та протиревматичні засоби",
+                        "scheme": "ДК021",
+                        "id": "33632100-0"
+                    },
+                    "deliveryLocation": {
+                        "latitude": 0.0,
+                        "longitude": 0.0
+                    },
+                    "unit": {
+                        "name": "упаковка",
+                        "code": "PK",
+                        "value": {
+                            "amount": 256307,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": true
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "minimalStep": {
+        "amount": 0.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+    },
+    "lots": [
+        {
+            "id": "eb63b318a9bb4216ba425322f788fdef",
+            "title": "l-40da3d9b: Доборотися протьохкати простирядно фльорес наємець.",
+            "title_en": "l-62f96d60: Error quo inventore voluptates pariatur.",
+            "title_ru": "l-42c9f668: Хёз хёз мютат чэнзэрет.",
+            "description": "Маґерка слюзувати чужинонька киць заселювати ушнипитися вивагом вимірювати виґуляри.",
+            "date": "2021-11-08T16:59:10.235391+02:00",
+            "status": "complete",
+            "value": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+            },
+            "minimalStep": {
+                "amount": 0.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": true
+            },
+            "auctionPeriod": {
+                "startDate": "1111-11-11T00:00:00+02:00",
+                "endDate": "1111-11-11T00:00:00+02:00"
+            }
+        }
+    ],
+    "guarantee": {
+        "amount": 0.0,
+        "currency": "UAH"
+    },
+    "procurementMethodType": "belowThreshold",
+    "dateCreated": "2024-01-08T04:55:21.280630+02:00",
+    "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
+}

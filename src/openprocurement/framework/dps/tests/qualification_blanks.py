@@ -369,6 +369,7 @@ def patch_submission_pending_config_test(self):
     # Activate qualification
     expected_config = {
         "test": True,
+        "restricted": False,
     }
 
     response = self.activate_qualification()

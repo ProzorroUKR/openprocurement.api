@@ -9,10 +9,9 @@ from openprocurement.api.tests.base import (
     BaseWebTest,
     change_auth,
 )
-from openprocurement.api.utils import (
-    get_now,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
+from openprocurement.framework.dps.tests.base import test_submission_config
 from openprocurement.framework.electroniccatalogue.procedure.models.framework import Framework
 from openprocurement.framework.electroniccatalogue.procedure.models.organization import AUTHORIZED_CPB
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
@@ -76,6 +75,10 @@ test_framework_electronic_catalogue_data = {
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()}
+}
+
+test_framework_electronic_catalogue_config = {
+    "restrictedDerivatives": False,
 }
 
 test_electronicCatalogue_documents = [
@@ -218,7 +221,7 @@ class BaseDSFrameworkContentWebTest(FrameworkContentWebTest):
 
 class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     initial_submission_data = None
-    initial_submission_config = {}
+    initial_submission_config = test_submission_config
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):

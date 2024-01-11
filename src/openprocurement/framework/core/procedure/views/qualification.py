@@ -1,24 +1,16 @@
 from logging import getLogger
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
-from copy import deepcopy
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    raise_operation_error,
-)
+from openprocurement.api.utils import json_view
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
+from openprocurement.framework.core.procedure.mask import QUALIFICATION_MASK_MAPPING
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.framework.core.procedure.validation import validate_restricted_access
 from openprocurement.framework.core.procedure.context import get_object_config, get_object
 from openprocurement.framework.core.procedure.serializers.qualification import QualificationSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.utils import get_submission_by_id, get_agreement_by_id
 from openprocurement.framework.core.utils import request_fetch_submission, request_fetch_agreement
 
 LOGGER = getLogger(__name__)
-QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
 
 
 @resource(
@@ -28,31 +20,25 @@ QUALIFICATION_OWNER_FIELDS = {"framework_owner", "submission_owner"}
     request_method=("GET",),
 )
 class QualificationsListResource(RestrictedResourceListingMixin, MongodbResourceListing):
+    listing_name = "Qualifications"
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateModified",
+        "dateCreated",
+        "id",
+        "frameworkID",
+        "submissionID",
+        "qualificationType",
+        "status",
+        "documents",
+        "date",
+    }
+    mask_mapping = QUALIFICATION_MASK_MAPPING
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Qualifications"
-        self.owner_fields = QUALIFICATION_OWNER_FIELDS
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {
-            "dateModified",
-            "dateCreated",
-            "id",
-            "frameworkID",
-            "submissionID",
-            "qualificationType",
-            "status",
-            "documents",
-            "date",
-        }
-        self.listing_safe_fields = {
-            "dateModified",
-            "dateCreated",
-            "id",
-            "frameworkID",
-            "submissionID",
-            "qualificationType",
-        }
         self.db_listing_method = request.registry.mongodb.qualifications.list
 
     def __acl__(self):
@@ -68,9 +54,6 @@ class QualificationsResource(FrameworkBaseResource):
     state_class = FrameworkState
 
     @json_view(
-        validators=(
-            validate_restricted_access("qualification", owner_fields=QUALIFICATION_OWNER_FIELDS)
-        ),
         permission="view_framework",
     )
     def get(self):
