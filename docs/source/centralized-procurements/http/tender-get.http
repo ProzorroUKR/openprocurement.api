@@ -237,7 +237,10 @@ Content-Type: application/json
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 2,
-    "hasPreSelectionAgreement": false
+    "hasPreSelectionAgreement": false,
+    "tenderComplaints": true,
+    "awardComplaints": true,
+    "cancellationComplaints": true
   }
 }
 

@@ -144,7 +144,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false
+    "hasPreSelectionAgreement": false,
+    "tenderComplaints": true,
+    "awardComplaints": true,
+    "cancellationComplaints": true
   }
 }
 
@@ -299,10 +302,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3b
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00"
-    },
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
@@ -323,7 +322,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3b
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false
+    "hasPreSelectionAgreement": false,
+    "tenderComplaints": true,
+    "awardComplaints": true,
+    "cancellationComplaints": true
   },
   "access": {
     "token": "f63fd82030a24dfc961d6995dc3f33d1",

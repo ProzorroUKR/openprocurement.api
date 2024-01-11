@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ee0e79223d4142f4a502bfb88d0668cf/awards/e9d2d54a6b40455c93ac5ae9816d2324 HTTP/1.0
+GET /api/2.5/tenders/72de65d0bc9e41d5a8c4760d96e68f3c/awards/c2ab42232d6b4298b2829c0689312059 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,14 +10,14 @@ Content-Type: application/json
   "data": {
     "milestones": [
       {
-        "id": "33d490e111ab45ca8cf0055a26889faa",
+        "id": "d7e75ec4e5214f098fa92661f5de53c3",
         "code": "alp",
         "dueDate": "2023-10-09T01:00:00+03:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "e9d2d54a6b40455c93ac5ae9816d2324",
+    "id": "c2ab42232d6b4298b2829c0689312059",
     "status": "active",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
@@ -27,8 +27,8 @@ Content-Type: application/json
     },
     "suppliers": [
       {
-        "name_en": "State administration",
         "name": "Державне управління справами",
+        "name_en": "State administration",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "e04851d5a41b4c30b70d7bb4cd93c8f9",
@@ -36,6 +36,7 @@ Content-Type: application/json
           "legalName_en": "dus.gov.ua",
           "uri": "http://www.dus.gov.ua/"
         },
+        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -44,15 +45,14 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "contactPoint": {
+          "name": "Державне управління справами",
           "name_en": "State administration",
           "email": "aa@aa.com",
-          "telephone": "+0440000000",
-          "name": "Державне управління справами"
-        },
-        "scale": "micro"
+          "telephone": "+0440000000"
+        }
       }
     ],
-    "bid_id": "e5ce68271e374b1583daabcf0587f29a",
+    "bid_id": "48da2da66507495895c97b7f0dc44ae2",
     "lotID": "0e04ecea261746bc8fbcced833cde77c",
     "qualified": true,
     "eligible": true,

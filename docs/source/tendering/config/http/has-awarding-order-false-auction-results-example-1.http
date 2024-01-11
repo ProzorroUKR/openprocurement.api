@@ -1209,11 +1209,14 @@ Content-Type: application/json
   "config": {
     "hasAuction": true,
     "hasAwardingOrder": false,
-    "hasValueRestriction": false,
+    "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false
+    "hasPreSelectionAgreement": false,
+    "tenderComplaints": false,
+    "awardComplaints": false,
+    "cancellationComplaints": false
   }
 }
 
