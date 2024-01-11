@@ -1,10 +1,7 @@
 from schematics.types import StringType
 from schematics.validate import ValidationError
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.validation import validate_milestones
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import Item, validate_classification_id
@@ -12,6 +9,7 @@ from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
     StartedEnquiryPeriodEndRequired,
+    PeriodEndRequired,
 )
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
