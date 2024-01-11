@@ -142,18 +142,12 @@ def patch_tender_award_active(self):
     response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertIn("Location", response.headers)
-    new_award_location = response.headers["Location"]
-
-    response = self.app.patch_json(new_award_location[-81:], {"data": {"status": "unsuccessful"}})
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("Location", response.headers)
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(len(response.json["data"]), 4)
+    self.assertEqual(len(response.json["data"]), 3)
 
 
 def last_award_unsuccessful_next_check(self):

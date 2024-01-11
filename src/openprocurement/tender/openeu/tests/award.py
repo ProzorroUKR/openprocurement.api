@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
+from datetime import timedelta
+import mock
 
 from openprocurement.api.tests.base import snitch, change_auth
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
@@ -47,8 +51,36 @@ from openprocurement.tender.openeu.tests.award_blanks import (
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
+    test_tender_openeu_three_bids,
     test_tender_openeu_lots,
 )
+from openprocurement.tender.open.tests.award_blanks import (
+    patch_tender_award_unsuccessful_complaint_first,
+    patch_tender_award_unsuccessful_complaint_second,
+)
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
+    get_now() - timedelta(days=1),
+)
+class TenderAwardQualificationAfterComplaint(BaseTenderContentWebTest):
+    initial_status = "active.tendering"
+    initial_bids = test_tender_openeu_three_bids
+    initial_lots = test_tender_openeu_lots
+    initial_auth = ("Basic", ("broker", ""))
+
+    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
+    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
+
+    def setUp(self):
+        super(TenderAwardQualificationAfterComplaint, self).setUp()
+
+        self.prepare_award()
+
+        # Get award
+        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+        self.award_id = response.json["data"][0]["id"]
 
 
 class TenderLotAwardResourceTestMixin(object):

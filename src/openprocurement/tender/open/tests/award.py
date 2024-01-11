@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
+from datetime import timedelta
+import mock
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -9,7 +13,6 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
-    test_tender_below_organization,
     test_tender_below_draft_complaint,
 )
 
@@ -29,12 +32,17 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_open_bids,
+    test_tender_open_three_bids,
+    test_tender_below_organization,
 )
 from openprocurement.tender.open.tests.award_blanks import (
     create_tender_award,
     patch_tender_award,
     patch_tender_award_active,
     patch_tender_award_unsuccessful,
+    patch_tender_award_unsuccessful_complaint_first,
+    patch_tender_award_unsuccessful_complaint_second,
+    patch_tender_award_unsuccessful_complaint_third,
     create_tender_award_no_scale_invalid,
     create_tender_lot_award,
     patch_tender_lot_award,
@@ -68,7 +76,6 @@ from openprocurement.tender.open.tests.award_blanks import (
     get_award_requirement_response_evidence, create_tender_award_invalid, get_tender_award,
     check_tender_award_complaint_period_dates,
 )
-
 
 class TenderUAAwardComplaintResourceTestMixin(object):
     test_create_tender_award_claim = snitch(create_tender_award_claim)
@@ -119,6 +126,19 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
+    get_now() - timedelta(days=1),
+)
+class TenderAwardQualificationAfterComplaint(BaseTenderUAContentWebTest):
+    initial_status = "active.qualification"
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_open_three_bids
+
+    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
+    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
+
+
 class TenderLotAwardResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
@@ -159,6 +179,20 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
             )
         award = response.json["data"]
         self.award_id = award["id"]
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
+    get_now() - timedelta(days=1),
+)
+class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase):
+    initial_status = "active.qualification"
+    initial_lots = test_tender_below_lots
+    initial_bids = test_tender_open_three_bids
+
+    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
+    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
+    test_patch_tender_award_unsuccessful_complaint_third = snitch(patch_tender_award_unsuccessful_complaint_third)
 
 
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
@@ -311,6 +345,7 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
     suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
+    suite.addTest(unittest.makeSuite(TenderAwardQualificationAfterComplaint))
     suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
     return suite
 
