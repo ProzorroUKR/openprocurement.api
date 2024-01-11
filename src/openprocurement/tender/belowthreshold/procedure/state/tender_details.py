@@ -15,7 +15,6 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
-    allow_tender_period_start_date_change = True
     tendering_period_extra_working_days = True
     tendering_period_extra = TENDERING_EXTRA_PERIOD
 

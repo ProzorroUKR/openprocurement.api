@@ -121,7 +121,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
-    allow_tender_period_start_date_change = False
     pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
@@ -369,11 +368,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
 
     def validate_tender_period_start_date_change(self, before, after):
-        if self.allow_tender_period_start_date_change:
-            return
-
-        if "draft" in before["status"]:
-            # draft, draft.stage2
+        if before["status"] in ("draft", "draft.stage2", "active.enquiries"):
             # still can change tenderPeriod.startDate
             return
 

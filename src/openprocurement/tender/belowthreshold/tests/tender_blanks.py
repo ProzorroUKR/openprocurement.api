@@ -1469,29 +1469,6 @@ def patch_tender_active_tendering(self):
     response = self.app.get(f"/tenders/{self.tender_id}?acc_token={token}")
     tender_updated = response.json["data"]
 
-    # patch invalid tenderPeriod.endDate
-    end_date = calculate_tender_business_date(get_now(), timedelta(days=14), {}, True)
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}?acc_token={token}",
-        {"data": {"tenderPeriod": {"endDate": end_date.isoformat()}}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "tenderPeriod",
-                "description": {
-                    "endDate": [
-                        "tenderPeriod.endDate couldn't be less than previous endDate"
-                    ]
-                }
-            }
-        ]
-    )
-
     with freeze_time((dt_from_iso(tender_updated["tenderPeriod"]["endDate"]) - timedelta(hours=10)).isoformat()):
         end_date = calculate_tender_business_date(get_now(), timedelta(days=1), {}, True)
         response = self.app.patch_json(
@@ -1515,7 +1492,10 @@ def patch_tender_active_tendering(self):
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={token}",
         {"data": {
-            "tenderPeriod": {"startDate": get_now().isoformat()},
+            "tenderPeriod": {
+                "startDate": get_now().isoformat(),
+                "endDate": end_date.isoformat()
+            },
         }},
         status=422,
     )
@@ -1525,10 +1505,8 @@ def patch_tender_active_tendering(self):
         [
             {
                 "location": "body",
-                "name": "tenderPeriod",
-                "description": {
-                    "startDate": "Rogue field"
-                }
+                "name": "tenderPeriod.startDate",
+                "description": "Can't change tenderPeriod.startDate",
             }
         ]
     )
