@@ -75,15 +75,8 @@ class PatchTender(BasePatchTender):
     procuringEntity = ModelType(ProcuringEntity)
 
 
-class GreaterPeriodEndRequired(PeriodEndRequired):
-    def validate_endDate(self, data, value):
-        tender = get_tender()
-        if tender and value < dt_from_iso(tender["tenderPeriod"]["endDate"]):
-            raise ValidationError("tenderPeriod.endDate couldn't be less than previous endDate")
-
-
 class PatchActiveTender(Model):
-    tenderPeriod = ModelType(GreaterPeriodEndRequired)
+    tenderPeriod = ModelType(PeriodEndRequired)
     guarantee = ModelType(Guarantee)
     value = ModelType(Value)
     milestones = ListType(
