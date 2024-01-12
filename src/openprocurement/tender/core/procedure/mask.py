@@ -7,31 +7,6 @@ from openprocurement.api.mask import (
 
 TENDER_MASK_MAPPING = {
 
-    # procuringEntity
-    "$.procuringEntity.name": MASK_STRING,
-    "$.procuringEntity.name_en": MASK_STRING_EN,
-    "$.procuringEntity.name_ru": MASK_STRING,
-
-    # procuringEntity.identifier
-    "$.procuringEntity.identifier.id": MASK_STRING,
-    "$.procuringEntity.identifier.legalName": MASK_STRING,
-    "$.procuringEntity.identifier.legalName_en": MASK_STRING_EN,
-    "$.procuringEntity.identifier.legalName_ru": MASK_STRING,
-
-    # procuringEntity.address
-    "$.procuringEntity.address.streetAddress": MASK_STRING,
-    "$.procuringEntity.address.locality": MASK_STRING,
-    "$.procuringEntity.address.region": MASK_STRING,
-    "$.procuringEntity.address.postalCode": MASK_STRING,
-    "$.procuringEntity.address.countryName": MASK_STRING,
-    "$.procuringEntity.address.countryName_en": MASK_STRING_EN,
-    "$.procuringEntity.address.countryName_ru": MASK_STRING,
-
-    # procuringEntity.contactPoint
-    "$.procuringEntity.contactPoint.telephone": MASK_STRING,
-    "$.procuringEntity.contactPoint.url": MASK_STRING,
-    "$.procuringEntity.contactPoint.name": MASK_STRING,
-
     # quantity
     "$.items[*].quantity": MASK_NUMBER,
 
@@ -98,6 +73,10 @@ TENDER_MASK_MAPPING = {
     # bids.weightedValue
     "$.bids[*].weightedValue.amount": MASK_NUMBER,
     "$.bids[*].lotValues[*].weightedValue.amount": MASK_NUMBER,
+
+    # bids.participationUrl
+    "$.bids[*].participationUrl": MASK_NUMBER,
+    "$.bids[*].lotValues[*].participationUrl": MASK_NUMBER,
 
     # bids.requirementResponses
     "$.bids[*].requirementResponses[*].title": MASK_STRING,
@@ -204,5 +183,20 @@ TENDER_MASK_MAPPING = {
     "$..documents[*].documentType": MASK_STRING,
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
+
+    # bids.eligibilityDocuments
+    "$.bids[*].eligibilityDocuments[*].documentType": MASK_STRING,
+    "$.bids[*].eligibilityDocuments[*].title": MASK_STRING,
+    "$.bids[*].eligibilityDocuments[*].url": MASK_STRING,
+
+    # bids.qualificationDocuments
+    "$.bids[*].qualificationDocuments[*].documentType": MASK_STRING,
+    "$.bids[*].qualificationDocuments[*].title": MASK_STRING,
+    "$.bids[*].qualificationDocuments[*].url": MASK_STRING,
+
+    # bids.financialDocuments
+    "$.bids[*].financialDocuments[*].documentType": MASK_STRING,
+    "$.bids[*].financialDocuments[*].title": MASK_STRING,
+    "$.bids[*].financialDocuments[*].url": MASK_STRING,
 
 }
