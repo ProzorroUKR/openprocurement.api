@@ -10,6 +10,8 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
 
 
@@ -20,10 +22,12 @@ class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentWithDSR
 
 class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
 
 class TenderNegotiationQuickDocumentResourceTest(TenderNegotiationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
@@ -32,10 +36,12 @@ class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumen
 
 class TenderNegotiationDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
 
 class TenderNegotiationQuickDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 def suite():

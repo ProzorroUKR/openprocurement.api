@@ -193,6 +193,7 @@ class CancellationStateMixing(baseclass):
 
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
+        config = get_tender_config()
         if before == "draft" and after == "pending":
             if not cancellation["reason"] or not cancellation.get("documents"):
                 raise_operation_error(
@@ -202,11 +203,26 @@ class CancellationStateMixing(baseclass):
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            now = get_now()
-            cancellation["complaintPeriod"] = {
-                "startDate": now.isoformat(),
-                "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat()
-            }
+            if config.get("cancellationComplaints") is True:
+                now = get_now()
+                cancellation["complaintPeriod"] = {
+                    "startDate": now.isoformat(),
+                    "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat()
+                }
+            else:
+                self.set_object_status(cancellation, "active")
+                self.cancel(cancellation)
+        # TODO: deprecated logic for belowThreshold, cfaselection, PQ and limited procedures
+        elif before in ("draft", "pending") and after == "active" and \
+                (config.get("cancellationComplaints") is False or self.use_deprecated_activation(cancellation, tender)):
+            if tender_created_after_2020_rules() and (not cancellation["reason"] or not cancellation.get("documents")):
+                raise_operation_error(
+                    request,
+                    "Fields reason, cancellationOf and documents must be filled "
+                    "for switch cancellation to active status",
+                    status=422,
+                )
+            self.cancel(cancellation)
         elif before == "draft" and after == "unsuccessful":
             pass
         elif before == "pending" and after == "unsuccessful" \
@@ -216,6 +232,10 @@ class CancellationStateMixing(baseclass):
             self.cancel(cancellation)
         else:
             raise_operation_error(request, f"Can't switch cancellation status from {before} to {after}")
+
+    @staticmethod
+    def use_deprecated_activation(cancellation, tender):
+        return False
 
 
 class CancellationState(CancellationStateMixing, TenderState):

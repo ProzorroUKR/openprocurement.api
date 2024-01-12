@@ -40,6 +40,8 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_data,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
 from openprocurement.tender.limited.tests.cancellation_blanks import (
     # TenderNegotiationLotsCancellationResourceTest
@@ -88,6 +90,8 @@ class TenderNegotiationCancellationResourceTest(
     TenderCancellationResourceNewReleaseTestMixin,
     BaseTenderContentWebTest,
 ):
+    initial_config = test_tender_negotiation_config
+
     def setUp(self):
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
@@ -117,6 +121,8 @@ class TenderNegotiationQuickCancellationResourceTest(
     TenderNegotiationCancellationResourceTest,
     TenderCancellationResourceNewReleaseTestMixin
 ):
+    initial_config = test_tender_negotiation_quick_config
+
     def setUp(self):
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
@@ -159,12 +165,14 @@ class TenderCancellationDocumentResourceTest(
 
 class TenderNegotiationCancellationDocumentResourceTest(TenderCancellationDocumentResourceTest):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
 
 class TenderNegotiationQuickCancellationComplaintResourceTest(
     BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
@@ -202,6 +210,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
     BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
@@ -242,6 +251,7 @@ class TenderNegotiationQuickCancellationDocumentResourceTest(TenderNegotiationCa
 class TenderNegotiationLotsCancellationResourceTest(BaseTenderContentWebTest):
     initial_lots = 2 * test_lots
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     test_create_tender_cancellation = snitch(create_tender_lots_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_lots_cancellation)

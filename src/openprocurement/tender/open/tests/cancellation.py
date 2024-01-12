@@ -1,4 +1,6 @@
 import unittest
+from copy import deepcopy
+
 from mock import patch
 from datetime import timedelta
 
@@ -22,6 +24,9 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_open_bids,
+    test_tender_open_data,
+    test_tender_dps_config,
+
 )
 from openprocurement.tender.open.tests.cancellation_blanks import (
     cancellation_active_award,
@@ -46,6 +51,8 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     create_tender_lots_cancellation_complaint,
     create_lot_cancellation_with_tender_cancellation,
     bot_patch_tender_cancellation_complaint,
+    create_tender_dps_lot_cancellation_complaint,
+    patch_tender_dps_lot_cancellation,
 )
 
 
@@ -91,6 +98,17 @@ class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
+
+
+class TenderDPSLotCancellationResourceTest(BaseTenderUAContentWebTest):
+    initial_lots = test_tender_below_lots
+    dps_data = deepcopy(test_tender_open_data)
+    dps_data["procurementMethodType"] = "competitiveOrdering"
+    initial_data = dps_data
+    initial_config = test_tender_dps_config
+
+    test_tender_lot_cancellation_complaint = snitch(create_tender_dps_lot_cancellation_complaint)
+    test_patch_tender_dps_lot_cancellation = snitch(patch_tender_dps_lot_cancellation)
 
 
 class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):

@@ -2,6 +2,8 @@ from schematics.validate import ValidationError
 from schematics.types import StringType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
+
+from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
@@ -68,8 +70,10 @@ class PostTender(BasePostTender):
 
     @serializable(type=ModelType(Period))
     def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
+        config = get_tender_config()
+        if config.get("tenderComplaints") is True:
+            end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
+            return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:

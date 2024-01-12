@@ -1,5 +1,10 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
+from openprocurement.tender.core.migrations.add_config_complaints import (
+    award_complaints_populator,
+    tender_complaints_populator,
+    cancellation_complaints_populator,
+)
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
 from openprocurement.tender.core.migrations.add_config_min_bids_number import min_bids_number_populator
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
@@ -69,6 +74,30 @@ def pre_selection_serializer(obj, value):
     return value
 
 
+def tender_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["tenderComplaints"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return tender_complaints_populator(tender)
+    return value
+
+
+def award_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["awardComplaints"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return award_complaints_populator(tender)
+    return value
+
+
+def cancellation_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["cancellationComplaints"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return cancellation_complaints_populator(tender)
+    return value
+
+
 class TenderConfigSerializer(BaseSerializer):
     def __init__(self, data: dict):
         super().__init__(data)
@@ -84,4 +113,7 @@ class TenderConfigSerializer(BaseSerializer):
         "hasPrequalification": has_prequalification_serializer,
         "minBidsNumber": min_bids_number_serializer,
         "hasPreSelectionAgreement": pre_selection_serializer,
+        "tenderComplaints": tender_complaints_serializer,
+        "awardComplaints": award_complaints_serializer,
+        "cancellationComplaints": cancellation_complaints_serializer,
     }

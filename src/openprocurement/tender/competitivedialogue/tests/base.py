@@ -148,6 +148,9 @@ test_tender_cdeu_config = {
     "hasPrequalification": True,
     "minBidsNumber": 3,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": False,
+    "cancellationComplaints": True,
 }
 
 test_tender_cdua_config = {
@@ -158,6 +161,9 @@ test_tender_cdua_config = {
     "hasPrequalification": True,
     "minBidsNumber": 3,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": False,
+    "cancellationComplaints": True,
 }
 
 test_tender_cdeu_stage2_config = {
@@ -168,6 +174,9 @@ test_tender_cdeu_stage2_config = {
     "hasPrequalification": True,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 test_tender_cdua_stage2_config = {
@@ -178,6 +187,9 @@ test_tender_cdua_stage2_config = {
     "hasPrequalification": False,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 

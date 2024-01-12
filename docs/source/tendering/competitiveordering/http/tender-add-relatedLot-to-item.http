@@ -185,10 +185,6 @@ Content-Type: application/json
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00"
-    },
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
@@ -209,7 +205,10 @@ Content-Type: application/json
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
     "minBidsNumber": 1,
-    "hasPreSelectionAgreement": true
+    "hasPreSelectionAgreement": true,
+    "tenderComplaints": false,
+    "awardComplaints": false,
+    "cancellationComplaints": false
   }
 }
 

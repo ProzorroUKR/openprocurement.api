@@ -17,3 +17,6 @@ Contents:
    min_bids_number
    has_prequalification
    has_pre_selection_agreement
+   tender_complaints
+   award_complaints
+   cancellation_complaints

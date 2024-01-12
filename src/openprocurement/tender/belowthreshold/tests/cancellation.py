@@ -26,7 +26,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     patch_tender_cancellation_2020_04_19,
     create_tender_cancellation_before_19_04_2020,
     permission_cancellation_pending,
-
+    tender_lot_cancellation_universal_logic,
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import create_tender_cancellation_2020_04_19
 
@@ -72,6 +72,7 @@ class TenderLotCancellationResourceTest(TenderContentWebTest):
 
     test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
+    test_tender_lot_cancellation_universal_logic = snitch(tender_lot_cancellation_universal_logic)
 
 
 class TenderLotsCancellationResourceTest(TenderContentWebTest):

@@ -1,11 +1,14 @@
 {
     "config": {
+        "awardComplaints": false,
+        "cancellationComplaints": false,
         "hasAuction": true,
         "hasAwardingOrder": true,
         "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
-        "hasValueRestriction": false,
+        "hasValueRestriction": true,
         "minBidsNumber": 1,
+        "tenderComplaints": false,
         "valueCurrencyEquality": true
     },
     "data": {

@@ -10,6 +10,8 @@ from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config
 )
 from openprocurement.tender.openua.tests.post import (
     TenderAwardComplaintPostResourceMixin,
@@ -50,6 +52,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
 ):
     docservice = True
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     def setUp(self):
         super(TenderNegotiationAwardComplaintPostResourceTest, self).setUp()
@@ -88,6 +91,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
 class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwardComplaintPostResourceTest):
     docservice = True
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
@@ -98,6 +102,7 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
 ):
     docservice = True
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):

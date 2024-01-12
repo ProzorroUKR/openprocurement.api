@@ -349,6 +349,9 @@ test_tender_pq_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": True,
+    "tenderComplaints": False,
+    "awardComplaints": False,
+    "cancellationComplaints": False,
 }
 
 test_tender_pq_cancellation = {

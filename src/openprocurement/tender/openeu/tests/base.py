@@ -244,6 +244,9 @@ test_tender_openeu_config = {
     "hasPrequalification": True,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

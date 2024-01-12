@@ -25,6 +25,7 @@ LOGGER = getLogger(__name__)
 class CancellationComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     update_allowed_tender_statuses = None
+    complaints_configuration = "cancellationComplaints"
 
     def complaint_on_post(self, complaint):
         request = self.request
@@ -35,6 +36,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
     def validate_complaint_on_post(self, complaint):
         tender = get_tender()
 
+        self.validate_complaint_config()
         self.validate_post_cancellation_complaint_permission()
         self.validate_cancellation_complaint_resolved(complaint)
         self.validate_tender_in_complaint_period(tender)

@@ -55,6 +55,9 @@ test_tender_simpledefense_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 class BaseApiWebTest(BaseWebTest):

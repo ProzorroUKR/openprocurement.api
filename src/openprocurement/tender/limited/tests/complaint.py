@@ -6,6 +6,8 @@ from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_negotiation_data,
     test_tender_negotiation_quick_data,
+    test_tender_negotiation_config,
+    test_tender_negotiation_quick_config,
 )
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
@@ -21,6 +23,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
 ):
     docservice = True
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
@@ -54,6 +57,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
 class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwardComplaintObjectionResourceTest):
     docservice = True
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderNegotiationCancellationComplaintObjectionResourceTest(
@@ -63,6 +67,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
 ):
     docservice = True
     initial_data = test_tender_negotiation_data
+    initial_config = test_tender_negotiation_config
 
     def setUp(self):
         super(TenderNegotiationCancellationComplaintObjectionResourceTest, self).setUp()

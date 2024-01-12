@@ -17,6 +17,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_lots,
     test_tender_cdeu_data,
     test_tender_cdua_data,
+    test_tender_cdua_config,
 )
 from openprocurement.tender.belowthreshold.tests.lot import TenderLotResourceTestMixin, TenderLotValueTestMixin
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
@@ -126,6 +127,7 @@ class CompetitiveDialogueUALotResourceTest(
 
 class CompetitiveDialogueUALotEdgeCasesTest(CompetitiveDialogueEULotEdgeCasesTest):
     initial_data = test_tender_cdua_data
+    initial_config = test_tender_cdua_config
 
 
 class CompetitiveDialogueUALotFeatureResourceTest(BaseCompetitiveDialogUAContentWebTest):

@@ -521,6 +521,23 @@ def create_tender_invalid_config(self):
         [{"description": "4 is greater than the maximum of 3", "location": "body", "name": "minBidsNumber"}],
     )
 
+    config.update({"minBidsNumber": 3, "tenderComplaints": False})
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": data,
+            "config": config,
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "False is not one of [True]", "location": "body", "name": "tenderComplaints"}],
+    )
+
 
 def create_tender_generated(self):
     data = self.initial_data.copy()

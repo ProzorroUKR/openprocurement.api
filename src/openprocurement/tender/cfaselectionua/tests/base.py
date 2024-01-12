@@ -83,6 +83,9 @@ test_tender_cfaselectionua_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": True,
+    "tenderComplaints": False,
+    "awardComplaints": False,
+    "cancellationComplaints": False,
 }
 
 

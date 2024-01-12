@@ -10,7 +10,9 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_data,
     test_submission_config,
 )
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from openprocurement.tender.core.tests.base import test_exclusion_criteria, test_language_criteria
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.open.tests.base import test_tender_dps_config, BaseTenderUAWebTest
 
 from tests.base.constants import DOCS_URL, AUCTIONS_URL
@@ -85,6 +87,7 @@ class TenderResourceTest(
         data = deepcopy(test_submission_data)
         data["frameworkID"] = self.framework_id
         data["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        self.tenderer = data["tenderers"][0]
         response = self.app.post_json("/submissions", {
             "data": data,
             "config": test_submission_config,
@@ -184,6 +187,19 @@ class TenderResourceTest(
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
 
+        # try to add complaint
+        with open(TARGET_DIR + 'tender-add-complaint-error.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/complaints?acc_token={owner_token}',
+                {'data': test_tender_below_draft_complaint},
+                status=403
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(
+                response.json['errors'][0]['description'],
+                "Can't add complaint as it is forbidden by configuration"
+            )
+
         # add lots
 
         with open(TARGET_DIR + 'tender-add-lot-more-than-1-error.http', 'w') as self.app.file_obj:
@@ -263,3 +279,255 @@ class TenderResourceTest(
                 {'data': {"status": "active.tendering"}}
             )
             self.assertEqual(response.status, '200 OK')
+
+        # Setting Bid guarantee
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}?acc_token={owner_token}',
+            {'data': {"guarantee": {"amount": 8, "currency": "USD"}}}
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.assertIn('guarantee', response.json['data'])
+
+        # Uploading documentation
+        response = self.app.post_json(
+            f'/tenders/{self.tender_id}/documents?acc_token={owner_token}',
+            {
+                "data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf"
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # Registering bid
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': [self.tenderer],
+                    'lotValues': [{
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        'relatedLot': lot['id']
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid1_token = response.json['access']['token']
+        bid1_id = response.json['data']['id']
+
+        requirement_responses = generate_responses(self)
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}',
+            {'data': {"requirementResponses": requirement_responses}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}',
+            {'data': {"status": "pending"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # Proposal Uploading
+
+        response = self.app.post_json(
+            f'/tenders/{self.tender_id}/bids/{bid1_id}/documents?acc_token={bid1_token}',
+            {
+                "data": {
+                    "title": "Proposal.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf"
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # Registering bid 2
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': [self.tenderer],
+                    'lotValues': [{
+                        "value": {"amount": 500},
+                        'relatedLot': lot["id"]
+                    }]
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid2_id = response.json['data']['id']
+        bid2_token = response.json['access']['token']
+        self.set_responses(tender_id, response.json, "pending")
+
+        # Bids confirmation
+        response = self.app.patch_json(
+            f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
+            {
+                'data': {
+                    'lotValues': [{
+                        "value": {"amount": 500},
+                        'relatedLot': lot["id"]
+                    }],
+                    'status': 'pending'
+                }
+            }
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        #  Auction
+        self.set_status('active.auction')
+        self.app.authorization = ('Basic', ('auction', ''))
+        auction1_url = f'{self.auctions_url}/tenders/{self.tender_id}_{lot["id"]}'
+        patch_data = {
+            'lots': [
+                {
+                    'id': lot["id"],
+                    'auctionUrl': auction1_url,
+                }
+            ],
+            'bids': [{
+                "id": bid1_id,
+                "lotValues": [
+                    {"participationUrl": f'{auction1_url}?key_for_bid={bid1_id}'},
+                ]
+            }, {
+                "id": bid2_id,
+                "lotValues": [
+                    {"participationUrl": f'{auction1_url}?key_for_bid={bid2_id}'},
+                ]
+            }]
+        }
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}',
+            {'data': patch_data}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # Confirming qualification
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get(f'/tenders/{self.tender_id}/auction')
+        auction_bids_data = response.json['data']['bids']
+        auction_bids_data[0]["lotValues"][0]["value"]["amount"] = 250  # too low price
+
+        self.app.post_json(
+            f'/tenders/{self.tender_id}/auction/{lot["id"]}',
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": bid["id"],
+                            "lotValues": [
+                                {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
+                                for lot_value in bid["lotValues"]
+                            ]
+                        }
+                        for bid in auction_bids_data
+                    ]
+                }
+            }
+        )
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # get pending award
+        response = self.app.get(f'/tenders/{self.tender_id}/awards?acc_token={owner_token}')
+
+        award = response.json["data"][0]
+        award_id = award["id"]
+        self.assertEqual(len(award.get("milestones", "")), 1)
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["awards"][0]["milestones"][0]["dueDate"] = (get_now() - datetime.timedelta(days=1)).isoformat()
+        self.mongodb.tenders.save(tender)
+
+        self.app.patch_json(
+            f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={owner_token}',
+            {
+                "data": {
+                    "status": "active",
+                    "qualified": True,
+                    "eligible": True
+                }
+            },
+            status=200
+        )
+
+        with open(TARGET_DIR + 'tender-get-award.http', 'w') as self.app.file_obj:
+            self.app.get(f'/tenders/{self.tender_id}/awards/{award_id}')
+
+        # try to add complaint to award
+        with open(TARGET_DIR + 'tender-add-complaint-qualification-error.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/awards/{award_id}/complaints?acc_token={bid2_token}',
+                {'data': test_tender_below_draft_complaint},
+                status=403
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(
+                response.json['errors'][0]['description'],
+                "Can't add complaint as it is forbidden by configuration"
+            )
+
+        # Preparing the cancellation request
+
+        response = self.app.post_json(
+            f'/tenders/{self.tender_id}/cancellations?acc_token={owner_token}',
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'unFixable'}}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        cancellation_id = response.json['data']['id']
+
+        #  Filling cancellation with protocol and supplementary documentation
+
+        response = self.app.post_json(
+            f'/tenders/{self.tender_id}/cancellations/{cancellation_id}/documents?acc_token={owner_token}',
+            {
+                "data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf"
+                }
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # try to add complaint to cancellation
+        with open(TARGET_DIR + 'tender-add-complaint-cancellation-error.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/cancellations/{cancellation_id}/complaints?acc_token={owner_token}',
+                {'data': test_tender_below_draft_complaint},
+                status=403
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+            self.assertEqual(
+                response.json['errors'][0]['description'],
+                "Can't add complaint as it is forbidden by configuration"
+            )
+
+        # Activating the request and cancelling tender
+        with open(TARGET_DIR + 'pending-cancellation.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={owner_token}',
+                {'data': {"status": "pending"}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        response = self.app.get(f'/tenders/{self.tender_id}?acc_token={owner_token}')
+        self.assertEqual(response.status, '200 OK')
+        self.assertEqual(response.json["data"]["status"], "cancelled")

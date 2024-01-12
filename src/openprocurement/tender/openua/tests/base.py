@@ -88,6 +88,9 @@ test_tender_openua_config = {
     "hasPrequalification": False,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 

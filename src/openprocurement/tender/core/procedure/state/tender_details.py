@@ -62,6 +62,9 @@ class TenderConfigMixin(baseclass):
         "hasPrequalification",
         "minBidsNumber",
         "hasPreSelectionAgreement",
+        "tenderComplaints",
+        "awardComplaints",
+        "cancellationComplaints",
     )
 
     def validate_config(self, data):

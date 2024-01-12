@@ -88,6 +88,9 @@ test_tender_open_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": True,
+    "awardComplaints": True,
+    "cancellationComplaints": True,
 }
 
 test_tender_dps_config = {
@@ -98,6 +101,9 @@ test_tender_dps_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": True,
+    "tenderComplaints": False,
+    "awardComplaints": False,
+    "cancellationComplaints": False,
 }
 
 test_tender_open_complaint_objection = {

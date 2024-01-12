@@ -217,6 +217,9 @@ test_tender_below_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
+    "tenderComplaints": False,
+    "awardComplaints": False,
+    "cancellationComplaints": False,
 }
 
 

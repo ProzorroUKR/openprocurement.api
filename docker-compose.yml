@@ -20,6 +20,7 @@ services:
     image: 'bitnami/mongodb:4.4.10'
     environment:
       MONGODB_ROOT_PASSWORD: example
+      MONGODB_ADVERTISED_HOSTNAME: mongo
       MONGODB_REPLICA_SET_MODE: primary
       MONGODB_REPLICA_SET_NAME: rs0
       MONGODB_REPLICA_SET_KEY: replicaSetKey
