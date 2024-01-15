@@ -50,6 +50,13 @@ TENDER_PERIOD_START_DATE_STALE_MINUTES = int(os.environ.get("TENDER_PERIOD_START
 CPV_PHARM_PRODUCTS = "33600000-6"
 CPV_NOT_CPV = "99999999-9"
 
+CPV_PREFIX_LENGTH_TO_NAME = {
+    3: "group",
+    4: "class",
+    5: "category",
+    6: "subcategory",
+}
+
 CPV_CODES = list(standards.load("classifiers/cpv_en.json"))
 CPV_CODES.append(CPV_NOT_CPV)
 DK_CODES = list(standards.load("classifiers/dk021_uk.json"))

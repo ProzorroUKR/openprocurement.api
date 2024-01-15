@@ -168,7 +168,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         }
         tender_items_ids = {
             cls.calculate_item_identification_tuple(tender_item)
-            for tender_item in tender.get("items", "items")
+            for tender_item in tender.get("items", "")
         }
         return not tender_items_ids.issubset(agreement_items_ids)
 

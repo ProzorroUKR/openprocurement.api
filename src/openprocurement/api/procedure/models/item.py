@@ -71,21 +71,11 @@ def validate_additional_classifications(obj, data, items):
         )
 
 
-
 def validate_items_uniq(items, *args):
     if items:
         ids = [i.id for i in items]
         if len(ids) > len(set(ids)):
             raise ValidationError("Item id should be uniq for all items")
-
-
-def validate_cpv_group(items, *args):
-    if items:
-        if (
-            items[0].classification.id[:3] != "336"
-            and len({i.classification.id[:4] for i in items}) != 1
-        ):
-            raise ValidationError("CPV class of items should be identical")
 
 
 class Location(Model):

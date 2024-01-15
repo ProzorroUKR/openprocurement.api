@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_SELECTIVE,
@@ -33,7 +34,7 @@ from openprocurement.api.constants import (
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_CONFIG_JSONSCHEMAS,
-    RELATED_LOT_REQUIRED_FROM,
+    RELATED_LOT_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import (
@@ -127,7 +128,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
-    items_classification_prefix_length_default = 4
+    should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
 
     def validate_tender_patch(self, before, after):
@@ -488,63 +489,57 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 name="procurementMethod",
             )
 
-    @classmethod
-    def get_items_classification_prefix_length(cls, tender):
-        if any(i.get("classification")['id'][:3] == "336" for i in tender.get("items", "")):
-            # medicine
-            return 3
-        else:
-            return cls.items_classification_prefix_length_default
-
-    @staticmethod
-    def get_items_classification_prefix_name(length):
-        LENGTH_TO_NAME = {
-            3: "group",
-            4: "class",
-            5: "category",
-            6: "subcategory",
-        }
-        return LENGTH_TO_NAME[length]
-
     def validate_items_classification_prefix(self, tender):
-        if not self.items_classification_prefix_length_default:
+        if not self.should_validate_cpv_prefix:
             return
 
-        classification_prefix_list = set()
-        classification_prefix_length = self.get_items_classification_prefix_length(tender)
-        classification_prefix_name = self.get_items_classification_prefix_name(classification_prefix_length)
-        error_message = f"CPV {classification_prefix_name} of items should be identical"
+        # tender.items.classification
+        classifications = [item["classification"] for item in tender.get("items", "")]
 
-        for item in tender.get("items", ""):
-            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
-
-        if self.should_validate_pre_selection_agreement:
-            agreement = self.get_agreement(tender)
-            if agreement:
-                classification_prefix_list.add(agreement["classification"]["id"][:classification_prefix_length])
-                error_message = f"CPV {classification_prefix_name} of items should be identical to agreement"
-
-        if len(classification_prefix_list) != 1:
+        prefix_length = get_cpv_prefix_length(classifications)
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
             raise_operation_error(
                 get_request(),
-                [error_message],
+                [f"CPV {prefix_name} of items should be identical"],
+                status=422,
+                name="items"
+            )
+
+        if not self.should_validate_pre_selection_agreement:
+            return
+
+        agreement = self.get_agreement(tender)
+
+        if not agreement:
+            return
+
+        # tender.items.classification + agreement.classification
+        classifications.append(agreement["classification"])
+
+        prefix_length = get_cpv_prefix_length(classifications)
+        prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
+        if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
+            raise_operation_error(
+                get_request(),
+                [f"CPV {prefix_name} of items should be identical to agreement cpv"],
                 status=422,
                 name="items"
             )
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
-        classification_prefix_list = set()
-        classification_prefix_length = 3  # group
+        prefix_list = set()
+        prefix_length = 3  # group
         for item in before.get("items", ""):
-            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
+            prefix_list.add(item["classification"]["id"][:prefix_length])
         for item in after.get("items", ""):
-            classification_prefix_list.add(item["classification"]["id"][:classification_prefix_length])
-        if len(classification_prefix_list) != 1:
-            name = cls.get_items_classification_prefix_name(classification_prefix_length)
+            prefix_list.add(item["classification"]["id"][:prefix_length])
+        if len(prefix_list) != 1:
+            prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
             raise_operation_error(
                 get_request(),
-                [f"Can't change classification {name} of items"],
+                [f"Can't change classification {prefix_name} of items"],
                 status=422,
                 name="items"
             )

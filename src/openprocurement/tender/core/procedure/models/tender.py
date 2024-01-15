@@ -20,7 +20,6 @@ from openprocurement.tender.core.procedure.models.item import (
     validate_related_buyer_in_items,
     validate_classification_id,
 )
-from openprocurement.api.procedure.models.item import validate_cpv_group
 from schematics.exceptions import ValidationError
 from schematics.types import (
     BaseType,

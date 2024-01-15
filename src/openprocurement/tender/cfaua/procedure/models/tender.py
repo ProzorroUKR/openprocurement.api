@@ -9,7 +9,6 @@ from decimal import Decimal
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
-from openprocurement.api.procedure.models.item import validate_cpv_group
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
     PeriodStartEndRequired,
