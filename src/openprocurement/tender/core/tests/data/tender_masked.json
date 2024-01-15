@@ -6,7 +6,7 @@
     "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
     "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
     "date": "2021-11-08T16:59:10.235391+02:00",
-    "dateModified": "2024-01-08T04:55:21.302248+02:00",
+    "dateModified": "2024-01-15T12:49:09.471123+02:00",
     "tenderID": "UA-2021-11-08-000045-a",
     "owner": "test.quintagroup.com",
     "mainProcurementCategory": "services",
@@ -65,7 +65,7 @@
     "criteria": [
         {
             "id": "9abbb237d6a74bab8710ed30ec8245f5",
-            "title": "Приховано",
+            "title": "Вид та умови надання забезпечення тендерних пропозицій",
             "source": "tenderer",
             "relatesTo": "tender",
             "classification": {
@@ -86,12 +86,12 @@
             "requirementGroups": [
                 {
                     "id": "26ea4cf8dc2a4c9bb0902b6803003267",
-                    "description": "Приховано",
+                    "description": "Учасник підтверджує, що",
                     "requirements": [
                         {
                             "id": "fa101545e82d493690951c7149a42abc",
-                            "title": "Приховано",
-                            "description": "Приховано",
+                            "title": "Вид та умови надання забезпечення тендерних пропозицій",
+                            "description": "Умови забезпечення тендерної пропозиції: строк дії забезпечення тендерної пропозиції повинен бути протягом строку дії тендерної пропозиції, не менше ніж 90 днів з дати розкриття тендерних пропозицій електронною системою закупівель (відповідно до ст. 253 Цивільного кодексу України розраховується з наступного дня після розкриття тендерних пропозицій електронною системою закупівель), вид банківська гарантія",
                             "dataType": "boolean",
                             "eligibleEvidences": [
                                 {
@@ -111,7 +111,7 @@
         },
         {
             "id": "32729548b3d140d0a82a360ec1ea6573",
-            "title": "Приховано",
+            "title": "Розмір та умови надання забезпечення виконання договору",
             "source": "winner",
             "relatesTo": "tender",
             "classification": {
@@ -133,12 +133,12 @@
             "requirementGroups": [
                 {
                     "id": "49f53c5e658443ebb40d3ec99d4f3aa7",
-                    "description": "Приховано",
+                    "description": "Учасник підтверджує, що",
                     "requirements": [
                         {
                             "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                            "title": "Приховано",
-                            "description": "Приховано",
+                            "title": "розмір та умови надання забезпечення виконання договору про закупівлю",
+                            "description": "Умови забезпечення виконання умов договору: строк дії забезпечення тендерної пропозиції повинен бути протягом строку дії тендерної пропозиції, не менше ніж 90 днів з дати розкриття тендерних пропозицій електронною системою закупівель (відповідно до ст. 253 Цивільного кодексу України розраховується з наступного дня після розкриття тендерних пропозицій електронною системою закупівель), вид забезпечення банківська гарантія, розмір забезпечення 5% від вартості договору",
                             "dataType": "boolean",
                             "eligibleEvidences": [
                                 {
@@ -175,7 +175,7 @@
                     "description": "ibuprofen"
                 }
             ],
-            "quantity": 0.0,
+            "quantity": 136.2,
             "deliveryDate": {
                 "startDate": "1111-11-11T00:00:00+02:00",
                 "endDate": "1111-11-11T00:00:00+02:00"
@@ -206,7 +206,7 @@
         }
     ],
     "value": {
-        "amount": 0.0,
+        "amount": 39696226.76,
         "currency": "UAH",
         "valueAddedTaxIncluded": true
     },
@@ -248,13 +248,13 @@
                         "faxNumber": "333-44-55",
                         "url": "Приховано"
                     },
-                    "scale": "mid"
+                    "scale": "Приховано"
                 }
             ],
             "lotValues": [
                 {
                     "value": {
-                        "amount": 0.0,
+                        "amount": 37366279.6,
                         "currency": "UAH",
                         "valueAddedTaxIncluded": true
                     },
@@ -300,20 +300,20 @@
             "requirementResponses": [
                 {
                     "id": "8d2e2ee1656e432fa772e8131a25f8aa",
-                    "title": "Приховано",
-                    "description": "Приховано",
+                    "title": "Requirement response title",
+                    "description": "Requirement response description",
                     "requirement": {
                         "id": "fa101545e82d493690951c7149a42abc",
-                        "title": "Приховано"
+                        "title": "Вид та умови надання забезпечення тендерних пропозицій"
                     },
                     "evidences": [
                         {
                             "id": "09fc3644a7074708a5928240e77ad4c8",
-                            "title": "Приховано",
+                            "title": "Evidence of Requirement response",
                             "type": "document",
                             "relatedDocument": {
                                 "id": "76ee3af1b6574d4bad888f3258e4d875",
-                                "title": "Приховано"
+                                "title": "d-76fb95afmodiUMOL6V.docx"
                             }
                         }
                     ],
@@ -321,11 +321,11 @@
                 },
                 {
                     "id": "30bd153da6f846499dd31bbcf27191a7",
-                    "title": "Приховано",
-                    "description": "Приховано",
+                    "title": "Requirement response title",
+                    "description": "Requirement response description",
                     "requirement": {
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                        "title": "Приховано"
+                        "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
                     "value": "true"
                 }
@@ -356,13 +356,13 @@
                         "faxNumber": "088-111-22-33",
                         "url": "Приховано"
                     },
-                    "scale": "large"
+                    "scale": "Приховано"
                 }
             ],
             "lotValues": [
                 {
                     "value": {
-                        "amount": 0.0,
+                        "amount": 38481231.14,
                         "currency": "UAH",
                         "valueAddedTaxIncluded": true
                     },
@@ -388,20 +388,20 @@
             "requirementResponses": [
                 {
                     "id": "799e735059b14cfba92c70c5699b8d3b",
-                    "title": "Приховано",
-                    "description": "Приховано",
+                    "title": "Requirement response title",
+                    "description": "Requirement response description",
                     "requirement": {
                         "id": "fa101545e82d493690951c7149a42abc",
-                        "title": "Приховано"
+                        "title": "Вид та умови надання забезпечення тендерних пропозицій"
                     },
                     "evidences": [
                         {
                             "id": "e09bd61b44af403b99e857d1d66570c2",
-                            "title": "Приховано",
+                            "title": "Evidence of Requirement response",
                             "type": "document",
                             "relatedDocument": {
                                 "id": "86f54ceb8cfd4f91a40023521e24d0e5",
-                                "title": "Приховано"
+                                "title": "d-d8c4e4ddvoluptatesJGJtyE.pdf"
                             }
                         }
                     ],
@@ -409,11 +409,11 @@
                 },
                 {
                     "id": "9c443e23673249bc8d394619e3feb5be",
-                    "title": "Приховано",
-                    "description": "Приховано",
+                    "title": "Requirement response title",
+                    "description": "Requirement response description",
                     "requirement": {
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
-                        "title": "Приховано"
+                        "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
                     "value": "true"
                 }
@@ -421,25 +421,25 @@
         }
     ],
     "procuringEntity": {
-        "name": "Приховано",
+        "name": "Київська Тестова міська клінічна лікарня",
         "identifier": {
             "scheme": "UA-EDR",
-            "id": "Приховано",
-            "legalName": "Приховано"
+            "id": "00000000",
+            "legalName": "Київська Тестова міська клінічна лікарня"
         },
         "address": {
-            "streetAddress": "Приховано",
-            "locality": "Приховано",
-            "region": "Приховано",
-            "postalCode": "Приховано",
-            "countryName": "Приховано"
+            "streetAddress": "вулиця Тестова, 220, 8",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01111",
+            "countryName": "Україна"
         },
         "contactPoint": {
-            "name": "Приховано",
+            "name": "Перший Тестовий Замовник",
             "email": "e_mail_test@bigmir.net",
-            "telephone": "Приховано",
+            "telephone": "+380771112233",
             "faxNumber": "088-111-22-33",
-            "url": "Приховано"
+            "url": "http://webpage.org.ua/"
         },
         "kind": "defense"
     },
@@ -449,7 +449,7 @@
             "status": "cancelled",
             "date": "2021-11-08T16:55:57.765449+02:00",
             "value": {
-                "amount": 0.0,
+                "amount": 37366279.6,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
             },
@@ -477,7 +477,7 @@
                         "faxNumber": "333-44-55",
                         "url": "Приховано"
                     },
-                    "scale": "mid"
+                    "scale": "Приховано"
                 }
             ],
             "documents": [
@@ -505,7 +505,7 @@
             "status": "active",
             "date": "2021-11-08T16:56:00.747454+02:00",
             "value": {
-                "amount": 0.0,
+                "amount": 37366279.6,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
             },
@@ -533,7 +533,7 @@
                         "faxNumber": "333-44-55",
                         "url": "Приховано"
                     },
-                    "scale": "mid"
+                    "scale": "Приховано"
                 }
             ],
             "documents": [
@@ -586,15 +586,15 @@
                         "faxNumber": "333-44-55",
                         "url": "Приховано"
                     },
-                    "scale": "mid"
+                    "scale": "Приховано"
                 }
             ],
             "date": "2021-11-08T16:55:57.765449+02:00",
             "value": {
-                "amount": 0.0,
+                "amount": 37366279.6,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true,
-                "amountNet": 0.0
+                "amountNet": 37366279.6
             },
             "awardID": "007f17590a804c3f9bfa0870cbe7e87a",
             "items": [
@@ -615,7 +615,7 @@
                             "description": "ibuprofen"
                         }
                     ],
-                    "quantity": 0.0,
+                    "quantity": 136.2,
                     "deliveryDate": {
                         "startDate": "1111-11-11T00:00:00+02:00",
                         "endDate": "1111-11-11T00:00:00+02:00"
@@ -679,15 +679,15 @@
                         "faxNumber": "333-44-55",
                         "url": "Приховано"
                     },
-                    "scale": "mid"
+                    "scale": "Приховано"
                 }
             ],
             "date": "2021-11-08T16:59:10.235391+02:00",
             "value": {
-                "amount": 0.0,
+                "amount": 34909065.49,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true,
-                "amountNet": 0.0
+                "amountNet": 32877694.75
             },
             "awardID": "b7d20c86e18c4a2ea9ee13744d478059",
             "documents": [
@@ -720,7 +720,7 @@
                             "description": "ibuprofen"
                         }
                     ],
-                    "quantity": 0.0,
+                    "quantity": 136.2,
                     "deliveryDate": {
                         "startDate": "1111-11-11T00:00:00+02:00",
                         "endDate": "1111-11-11T00:00:00+02:00"
@@ -758,7 +758,7 @@
         }
     ],
     "minimalStep": {
-        "amount": 0.0,
+        "amount": 670722.19,
         "currency": "UAH",
         "valueAddedTaxIncluded": true
     },
@@ -772,26 +772,26 @@
             "date": "2021-11-08T16:59:10.235391+02:00",
             "status": "complete",
             "value": {
-                "amount": 0.0,
+                "amount": 39696226.76,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
             },
             "minimalStep": {
-                "amount": 0.0,
+                "amount": 670722.19,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": true
             },
             "auctionPeriod": {
-                "startDate": "1111-11-11T00:00:00+02:00",
-                "endDate": "1111-11-11T00:00:00+02:00"
+                "startDate": "2021-11-08T16:54:45.165403+02:00",
+                "endDate": "2021-11-08T16:54:45.165403+02:00"
             }
         }
     ],
     "guarantee": {
-        "amount": 0.0,
+        "amount": 29772170.07,
         "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
-    "dateCreated": "2024-01-08T04:55:21.280630+02:00",
+    "dateCreated": "2024-01-15T12:49:09.453481+02:00",
     "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
 }

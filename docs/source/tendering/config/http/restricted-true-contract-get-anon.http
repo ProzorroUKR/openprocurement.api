@@ -15,16 +15,16 @@ Content-Type: application/json
       "endDate": "2017-03-18T18:47:47.155143+02:00"
     },
     "value": {
-      "amount": 0.0,
+      "amount": 238.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
-      "amountNet": 0.0
+      "amountNet": 237.0
     },
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
         "description": "футляри до державних нагород",
-        "quantity": 0.0,
+        "quantity": 5.0,
         "classification": {
           "description": "Cartons",
           "scheme": "CPV",
@@ -86,22 +86,22 @@ Content-Type: application/json
     "status": "active",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "procuringEntity": {
-      "name": "Приховано",
+      "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-EDR",
-        "id": "Приховано",
+        "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
       "address": {
-        "streetAddress": "Приховано",
-        "locality": "Приховано",
-        "region": "Приховано",
-        "postalCode": "Приховано",
-        "countryName": "Приховано"
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
-        "name": "Приховано",
-        "telephone": "Приховано"
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
       }
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",

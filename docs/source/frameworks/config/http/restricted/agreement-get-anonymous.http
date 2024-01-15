@@ -16,22 +16,22 @@ Content-Type: application/json
       "endDate": "2023-12-09T01:00:00+03:00"
     },
     "procuringEntity": {
-      "name": "Приховано",
+      "name": "Державне управління справами",
       "identifier": {
         "scheme": "UA-EDR",
-        "id": "Приховано",
-        "legalName": "Приховано"
+        "id": "00037256",
+        "legalName": "Назва організації"
       },
       "address": {
-        "countryName": "Приховано",
-        "streetAddress": "Приховано",
-        "locality": "Приховано",
-        "region": "Приховано",
-        "postalCode": "Приховано"
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
       },
       "contactPoint": {
-        "name": "Приховано",
-        "telephone": "Приховано",
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
       "kind": "defense"
@@ -64,15 +64,15 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
             },
             "address": {
-              "countryName": "Україна",
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100"
+              "countryName": "Приховано",
+              "streetAddress": "Приховано",
+              "locality": "Приховано",
+              "region": "Приховано",
+              "postalCode": "Приховано"
             },
             "contactPoint": {
-              "name": "Сергій Олексюк",
-              "telephone": "+380432216930",
+              "name": "Приховано",
+              "telephone": "Приховано",
               "email": "soleksuk@gmail.com"
             },
             "scale": "micro"

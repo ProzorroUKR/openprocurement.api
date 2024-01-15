@@ -10,22 +10,22 @@ Content-Type: application/json
     {
       "status": "active",
       "procuringEntity": {
-        "name": "Приховано",
+        "name": "Державне управління справами",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "Приховано",
-          "legalName": "Приховано"
+          "id": "00037256",
+          "legalName": "Назва організації"
         },
         "address": {
-          "countryName": "Приховано",
-          "streetAddress": "Приховано",
-          "locality": "Приховано",
-          "region": "Приховано",
-          "postalCode": "Приховано"
+          "countryName": "Україна",
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220"
         },
         "contactPoint": {
-          "name": "Приховано",
-          "telephone": "Приховано",
+          "name": "Державне управління справами",
+          "telephone": "+0440000000",
           "email": "aa@aa.com"
         },
         "kind": "defense"

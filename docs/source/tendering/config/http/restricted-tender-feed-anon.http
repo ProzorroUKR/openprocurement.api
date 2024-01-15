@@ -35,23 +35,23 @@ Content-Type: application/json
     {
       "dateModified": "2023-10-10T01:00:00+03:00",
       "procuringEntity": {
-        "name": "Приховано",
+        "name": "ЗОСШ #10 м.Вінниці",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "Приховано",
-          "legalName": "Приховано"
+          "id": "00037256",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
         },
         "address": {
-          "streetAddress": "Приховано",
-          "locality": "Приховано",
-          "region": "Приховано",
-          "postalCode": "Приховано",
-          "countryName": "Приховано"
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Приховано",
-          "telephone": "Приховано",
-          "url": "Приховано"
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/"
         },
         "kind": "special"
       },

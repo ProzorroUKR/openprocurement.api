@@ -7,9 +7,6 @@ from openprocurement.api.mask import (
 
 TENDER_MASK_MAPPING = {
 
-    # quantity
-    "$.items[*].quantity": MASK_NUMBER,
-
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -22,24 +19,6 @@ TENDER_MASK_MAPPING = {
     "$.items[*].deliveryAddress.countryName": MASK_STRING,
     "$.items[*].deliveryAddress.countryName_en": MASK_STRING_EN,
     "$.items[*].deliveryAddress.countryName_ru": MASK_STRING,
-
-    # value
-    "$.value.amount": MASK_NUMBER,
-    "$.lots[*].value.amount": MASK_NUMBER,
-
-    # minimalStep
-    "$.minimalStep.amount": MASK_NUMBER,
-    "$.lots[*].minimalStep.amount": MASK_NUMBER,
-
-    # guarantee
-    "$.guarantee.amount": MASK_NUMBER,
-    "$.lots[*].guarantee.amount": MASK_NUMBER,
-
-    # criteria
-    "$.criteria[*].title": MASK_STRING,
-    "$.criteria[*].requirementGroups[*].description": MASK_STRING,
-    "$.criteria[*].requirementGroups[*].requirements[*].title": MASK_STRING,
-    "$.criteria[*].requirementGroups[*].requirements[*].description": MASK_STRING,
 
     # bids.tenderers
     "$.bids[*].tenderers[*].name": MASK_STRING,
@@ -66,42 +45,16 @@ TENDER_MASK_MAPPING = {
     "$.bids[*].tenderers[*].contactPoint.url": MASK_STRING,
     "$.bids[*].tenderers[*].contactPoint.name": MASK_STRING,
 
-    # bids.value
-    "$.bids[*].value.amount": MASK_NUMBER,
-    "$.bids[*].lotValues[*].value.amount": MASK_NUMBER,
-
-    # bids.weightedValue
-    "$.bids[*].weightedValue.amount": MASK_NUMBER,
-    "$.bids[*].lotValues[*].weightedValue.amount": MASK_NUMBER,
+    # bids.tenderers.scale
+    "$.bids[*].tenderers[*].scale": MASK_STRING,
 
     # bids.participationUrl
     "$.bids[*].participationUrl": MASK_NUMBER,
     "$.bids[*].lotValues[*].participationUrl": MASK_NUMBER,
 
-    # bids.requirementResponses
-    "$.bids[*].requirementResponses[*].title": MASK_STRING,
-    "$.bids[*].requirementResponses[*].description": MASK_STRING,
-    "$.bids[*].requirementResponses[*].requirement.title": MASK_STRING,
-    "$.bids[*].requirementResponses[*].evidences[*].title": MASK_STRING,
-    "$.bids[*].requirementResponses[*].evidences[*].relatedDocument.title": MASK_STRING,
-
-    # auctionUrl
-    "$.auctionUrl": MASK_STRING,
-    "$.lots[*].auctionUrl": MASK_STRING,
-
-    # auctionPeriod
-    "$.auctionPeriod.shouldStartAfter": MASK_DATE,
-    "$.auctionPeriod.startDate": MASK_DATE,
-    "$.auctionPeriod.endDate": MASK_DATE,
-    "$.lots[*].auctionPeriod.shouldStartAfter": MASK_DATE,
-    "$.lots[*].auctionPeriod.startDate": MASK_DATE,
-    "$.lots[*].auctionPeriod.endDate": MASK_DATE,
-
-    # awards.value
-    "$.awards[*].value.amount": MASK_NUMBER,
-
-    # awards.weightedValue
-    "$.awards[*].weightedValue.amount": MASK_NUMBER,
+    # bids.subcontractingDetails
+    "$.bids[*].subcontractingDetails": MASK_NUMBER,
+    "$.bids[*].lotValues[*].subcontractingDetails": MASK_NUMBER,
 
     # awards.suppliers
     "$.awards[*].suppliers[*].name": MASK_STRING,
@@ -128,8 +81,8 @@ TENDER_MASK_MAPPING = {
     "$.awards[*].suppliers[*].contactPoint.url": MASK_STRING,
     "$.awards[*].suppliers[*].contactPoint.name": MASK_STRING,
 
-    # contracts.items.quantity
-    "$.contracts[*].items[*].quantity": MASK_NUMBER,
+    # bids.tenderers.scale
+    "$.awards[*].suppliers[*].scale": MASK_STRING,
 
     # contracts.items.deliveryDate
     "$.contracts[*].items[*].deliveryDate.startDate": MASK_DATE,
@@ -173,30 +126,118 @@ TENDER_MASK_MAPPING = {
     "$.contracts[*].suppliers[*].contactPoint.url": MASK_STRING,
     "$.contracts[*].suppliers[*].contactPoint.name": MASK_STRING,
 
-    # contracts.value
-    "$.contracts[*].value.amount": MASK_NUMBER,
-    "$.contracts[*].value.amountNet": MASK_NUMBER,
+    # contracts.suppliers.scale
+    "$.contracts[*].suppliers[*].scale": MASK_STRING,
 
-    # documents
-    #   recursive search for all documents like:
-    #   bids.documents, qualifications.documents, awards.documents, etc
-    "$..documents[*].documentType": MASK_STRING,
-    "$..documents[*].title": MASK_STRING,
-    "$..documents[*].url": MASK_STRING,
+    # bids.documents
+    "$.bids[*].documents[*].title": MASK_STRING,
+    "$.bids[*].documents[*].url": MASK_STRING,
+    "$.bids[*].documents[*].confidentialityRationale": MASK_STRING,
 
     # bids.eligibilityDocuments
-    "$.bids[*].eligibilityDocuments[*].documentType": MASK_STRING,
     "$.bids[*].eligibilityDocuments[*].title": MASK_STRING,
     "$.bids[*].eligibilityDocuments[*].url": MASK_STRING,
+    "$.bids[*].eligibilityDocuments[*].confidentialityRationale": MASK_STRING,
 
     # bids.qualificationDocuments
-    "$.bids[*].qualificationDocuments[*].documentType": MASK_STRING,
     "$.bids[*].qualificationDocuments[*].title": MASK_STRING,
     "$.bids[*].qualificationDocuments[*].url": MASK_STRING,
+    "$.bids[*].qualificationDocuments[*].confidentialityRationale": MASK_STRING,
 
     # bids.financialDocuments
-    "$.bids[*].financialDocuments[*].documentType": MASK_STRING,
     "$.bids[*].financialDocuments[*].title": MASK_STRING,
     "$.bids[*].financialDocuments[*].url": MASK_STRING,
+    "$.bids[*].financialDocuments[*].confidentialityRationale": MASK_STRING,
+
+    # awards.documents
+    "$.awards[*].documents[*].title": MASK_STRING,
+    "$.awards[*].documents[*].url": MASK_STRING,
+
+    # contracts.documents
+    "$.contracts[*].documents[*].title": MASK_STRING,
+    "$.contracts[*].documents[*].url": MASK_STRING,
+
+    # complaints.documents
+    "$..complaints[*].documents[*].title": MASK_STRING,
+    "$..complaints[*].documents[*].url": MASK_STRING,
+
+    # complaints.posts.documents
+    "$..complaints[*].posts[*].documents[*].title": MASK_STRING,
+    "$..complaints[*].posts[*].documents[*].url": MASK_STRING,
+
+    # complaints
+    "$..complaints[*].title": MASK_STRING,
+    "$..complaints[*].description": MASK_STRING,
+    "$..complaints[*].objections[*].title": MASK_STRING,
+    "$..complaints[*].objections[*].description": MASK_STRING,
+    "$..complaints[*].objections[*].classification.description": MASK_STRING,
+    "$..complaints[*].objections[*].requestedRemedies[*].type": MASK_STRING,
+    "$..complaints[*].objections[*].requestedRemedies[*].description": MASK_STRING,
+    "$..complaints[*].objections[*].arguments[*].description": MASK_STRING,
+    "$..complaints[*].objections[*].arguments[*].evidences[*].title": MASK_STRING,
+    "$..complaints[*].objections[*].arguments[*].evidences[*].description": MASK_STRING,
+    "$..complaints[*].resolution": MASK_STRING,
+    "$..complaints[*].tendererAction": MASK_STRING,
+    "$..complaints[*].decision": MASK_STRING,
+    "$..complaints[*].rejectReasonDescription": MASK_STRING,
+    "$..complaints[*].reviewPlace": MASK_STRING,
+    "$..complaints[*].cancellationReason": MASK_STRING,
+    "$..complaints[*].posts[*].title": MASK_STRING,
+    "$..complaints[*].posts[*].description": MASK_STRING,
+
+    # complaints.author
+    "$..complaints[*].author.name": MASK_STRING,
+    "$..complaints[*].author.name_en": MASK_STRING_EN,
+    "$..complaints[*].author.name_ru": MASK_STRING,
+
+    # complaints.author.identifier
+    "$..complaints[*].author.identifier.id": MASK_STRING,
+    "$..complaints[*].author.identifier.legalName": MASK_STRING,
+    "$..complaints[*].author.identifier.legalName_en": MASK_STRING_EN,
+    "$..complaints[*].author.identifier.legalName_ru": MASK_STRING,
+
+    # complaints.author.address
+    "$..complaints[*].author.address.streetAddress": MASK_STRING,
+    "$..complaints[*].author.address.locality": MASK_STRING,
+    "$..complaints[*].author.address.region": MASK_STRING,
+    "$..complaints[*].author.address.postalCode": MASK_STRING,
+    "$..complaints[*].author.address.countryName": MASK_STRING,
+    "$..complaints[*].author.address.countryName_en": MASK_STRING_EN,
+    "$..complaints[*].author.address.countryName_ru": MASK_STRING,
+
+    # complaints.author.contactPoint
+    "$..complaints[*].author.contactPoint.telephone": MASK_STRING,
+    "$..complaints[*].author.contactPoint.url": MASK_STRING,
+    "$..complaints[*].author.contactPoint.name": MASK_STRING,
+
+    # questions
+    "$..questions[*].title": MASK_STRING,
+    "$..questions[*].description": MASK_STRING,
+    "$..questions[*].answer": MASK_STRING,
+
+    # questions.author
+    "$..questions[*].author.name": MASK_STRING,
+    "$..questions[*].author.name_en": MASK_STRING_EN,
+    "$..questions[*].author.name_ru": MASK_STRING,
+
+    # questions.author.identifier
+    "$..questions[*].author.identifier.id": MASK_STRING,
+    "$..questions[*].author.identifier.legalName": MASK_STRING,
+    "$..questions[*].author.identifier.legalName_en": MASK_STRING_EN,
+    "$..questions[*].author.identifier.legalName_ru": MASK_STRING,
+
+    # questions.author.address
+    "$..questions[*].author.address.streetAddress": MASK_STRING,
+    "$..questions[*].author.address.locality": MASK_STRING,
+    "$..questions[*].author.address.region": MASK_STRING,
+    "$..questions[*].author.address.postalCode": MASK_STRING,
+    "$..questions[*].author.address.countryName": MASK_STRING,
+    "$..questions[*].author.address.countryName_en": MASK_STRING_EN,
+    "$..questions[*].author.address.countryName_ru": MASK_STRING,
+
+    # complaints.author.contactPoint
+    "$..questions[*].author.contactPoint.telephone": MASK_STRING,
+    "$..questions[*].author.contactPoint.url": MASK_STRING,
+    "$..questions[*].author.contactPoint.name": MASK_STRING,
 
 }

@@ -2430,7 +2430,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
                 response = self.app.get('/tenders/{}'.format(tender_id))
                 self.assertEqual(response.status, '200 OK')
 
-        assert response.json["data"]["procuringEntity"]["name"] == MASK_STRING
+        assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] == MASK_STRING
 
         # Get not masked tender by broker (should not be masked)
         with open(TARGET_DIR + 'restricted-true-tender-get.http', 'w') as self.app.file_obj:
