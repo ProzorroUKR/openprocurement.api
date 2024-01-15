@@ -1,0 +1,48 @@
+@startuml
+
+
+
+cloud "Central Database API" as API {
+    component EntryPoint [
+        EntryPoint
+        - gunicorn
+        - WSGI app
+    ]
+    component Views
+    component Models
+    component Context
+    component Database
+    component Serializers
+    component Middlewares
+    component StateClasses
+
+    component Configurations [
+        Configurations
+        - Constants
+        - Standards
+        - Configs
+        All the components can use them
+    ]
+
+    EntryPoint --> Middlewares: call view
+    Middlewares --> Views: call view
+
+    EntryPoint --> Middlewares: response
+    Middlewares <-- Views: response
+
+    Views --> Context: set/use request data
+    Views --> Serializers: prepare response format
+    Views --> Models: validate client input format
+    Views --> Database: get/save data
+    Views --> StateClasses: validate bussines logic
+
+}
+
+actor Client
+Client --> EntryPoint: http requests
+
+
+
+
+
+@enduml

@@ -28,6 +28,7 @@ Contents:
    acceleration
    constants
    development/index
+   developers/index
 
 
 Indices and tables

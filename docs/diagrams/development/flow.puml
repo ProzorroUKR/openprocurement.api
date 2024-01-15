@@ -7,11 +7,12 @@ cloud RequirementsGathering {
         Product Goal
         - product goal
         - product details
+        - requirements
     ]
     PO --> ProductGoal: works on
 
     component Requirements [
-        Requirements
+        Design docs
         - high lvl description
         - bpmn diagrams
         - user stories

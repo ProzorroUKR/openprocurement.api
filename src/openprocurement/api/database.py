@@ -294,6 +294,8 @@ class BaseCollection:
         # reading from primary solves the issues
         # when write operation is allowed because of a state object from a secondary replica
         # This means more reads from Primary, but at the moment we can't force everybody to use the cookie
+        # ! There is also the case, that internal services (like chronograph or tasks)
+        # can read stale versions from secondaries !
         collection = (
             self.collection
             if getattr(get_request(), "method", None) in ("GET", "HEAD")
