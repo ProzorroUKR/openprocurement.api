@@ -9,12 +9,12 @@ Content-Type: application/json
   "data": {
     "tenderers": [
       {
-        "name": "Приховано",
+        "name": "ДКП «Школяр»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "Приховано",
+          "id": "00137256",
           "uri": "http://www.sc.gov.ua/",
-          "legalName": "Приховано"
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
         },
         "address": {
           "countryName": "Приховано",

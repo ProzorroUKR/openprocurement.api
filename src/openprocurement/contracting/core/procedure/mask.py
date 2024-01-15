@@ -6,35 +6,6 @@ from openprocurement.api.mask import (
 )
 
 CONTRACT_MASK_MAPPING = {
-
-    # procuringEntity
-    "$.procuringEntity.name": MASK_STRING,
-    "$.procuringEntity.name_en": MASK_STRING_EN,
-    "$.procuringEntity.name_ru": MASK_STRING,
-
-    # procuringEntity.identifier
-    "$.procuringEntity.identifier.id": MASK_STRING,
-    "$.procuringEntity.identifier.legalName": MASK_STRING,
-    "$.procuringEntity.identifier.legalName_en": MASK_STRING_EN,
-    "$.procuringEntity.identifier.legalName_ru": MASK_STRING,
-
-    # procuringEntity.address
-    "$.procuringEntity.address.streetAddress": MASK_STRING,
-    "$.procuringEntity.address.locality": MASK_STRING,
-    "$.procuringEntity.address.region": MASK_STRING,
-    "$.procuringEntity.address.postalCode": MASK_STRING,
-    "$.procuringEntity.address.countryName": MASK_STRING,
-    "$.procuringEntity.address.countryName_en": MASK_STRING_EN,
-    "$.procuringEntity.address.countryName_ru": MASK_STRING,
-
-    # procuringEntity.contactPoint
-    "$.procuringEntity.contactPoint.telephone": MASK_STRING,
-    "$.procuringEntity.contactPoint.url": MASK_STRING,
-    "$.procuringEntity.contactPoint.name": MASK_STRING,
-
-    # items.quantity
-    "$.items[*].quantity": MASK_NUMBER,
-
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -77,12 +48,23 @@ CONTRACT_MASK_MAPPING = {
     "$.suppliers[*].contactPoint.url": MASK_STRING,
     "$.suppliers[*].contactPoint.name": MASK_STRING,
 
-    # value
-    "$.value.amount": MASK_NUMBER,
-    "$.value.amountNet": MASK_NUMBER,
+    # suppliers.scale
+    "$.suppliers[*].scale": MASK_STRING,
+
+    # suppliers.signerInfo
+    "$.suppliers[*].signerInfo.name": MASK_STRING,
+    "$.suppliers[*].signerInfo.email": MASK_STRING,
+    "$.suppliers[*].signerInfo.telephone": MASK_STRING,
+    "$.suppliers[*].signerInfo.iban": MASK_STRING,
+    "$.suppliers[*].signerInfo.position": MASK_STRING,
+    "$.suppliers[*].signerInfo.authorizedBy": MASK_STRING,
+
+    # changes
+    "$.changes[*].rationale": MASK_STRING,
+    "$.changes[*].rationale_ru": MASK_STRING,
+    "$.changes[*].rationale_en": MASK_STRING,
 
     # documents
-    "$..documents[*].documentType": MASK_STRING,
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 }

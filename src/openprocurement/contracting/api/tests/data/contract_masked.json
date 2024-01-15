@@ -5,14 +5,14 @@
     "title_en": "[TESTING] ",
     "title_ru": "[ТЕСТИРОВАНИЕ] ",
     "dateSigned": "2022-06-01T13:52:55.463116+03:00",
-    "dateModified": "2024-01-08T04:59:01.282411+02:00",
+    "dateModified": "2024-01-15T12:51:59.214545+02:00",
     "items": [
         {
             "id": "2dc54675d6364e2baffbc0f8e74432ac",
             "description": "Тестова назва предмета закупівлі",
             "description_en": "Procurement item test name",
             "description_ru": "Тестовое название предмета закупки",
-            "quantity": 0.0,
+            "quantity": 1,
             "deliveryDate": {
                 "startDate": "1111-11-11T00:00:00+02:00",
                 "endDate": "1111-11-11T00:00:00+02:00"
@@ -61,7 +61,7 @@
                 "postalCode": "Приховано",
                 "countryName": "Приховано"
             },
-            "scale": "micro",
+            "scale": "Приховано",
             "contactPoint": {
                 "name": "Приховано",
                 "email": "factory@example.com",
@@ -70,32 +70,32 @@
         }
     ],
     "procuringEntity": {
-        "name": "Приховано",
+        "name": "Тестовий заклад #1 м.Київ",
         "identifier": {
             "scheme": "UA-EDR",
-            "id": "Приховано",
-            "legalName": "Приховано"
+            "id": "00000000",
+            "legalName": "Тестовий заклад"
         },
         "address": {
-            "streetAddress": "Приховано",
-            "locality": "Приховано",
-            "region": "Приховано",
-            "postalCode": "Приховано",
-            "countryName": "Приховано"
+            "streetAddress": "вул. Тестова 22",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "42000",
+            "countryName": "Україна"
         },
         "contactPoint": {
-            "name": "Приховано",
-            "telephone": "Приховано",
-            "url": "Приховано"
+            "name": "Тестовенко Тест Тестович",
+            "telephone": "+380424424242",
+            "url": "https://example.com"
         },
         "kind": "general"
     },
     "value": {
-        "amount": 0.0,
+        "amount": 475000,
         "currency": "UAH",
         "valueAddedTaxIncluded": false,
-        "amountNet": 0.0
+        "amountNet": 475000
     },
-    "dateCreated": "2024-01-08T04:59:01.270212+02:00",
+    "dateCreated": "2024-01-15T12:51:59.204113+02:00",
     "id": "de579eadfab54a26b3be28b1232eea6a"
 }

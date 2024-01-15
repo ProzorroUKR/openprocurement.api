@@ -151,13 +151,6 @@ def test_mask_tender_by_config_restricted(app):
     assert response.status_code == 200
     data = response.json["data"]
 
-    # Load expected masked data
-    with open(f"src/openprocurement/tender/core/tests/data/tender_masked.json") as f:
-        expected_masked_data = json.load(f)
-
-    # Ensure dumped data is masked
-    assert expected_masked_data["procuringEntity"]["name"] == MASK_STRING
-
     # Mask data
     db_data = app.app.registry.mongodb.tenders.get(id)
     if "config" not in db_data:
@@ -173,6 +166,13 @@ def test_mask_tender_by_config_restricted(app):
     # Dump expected data
     # with open(f"src/openprocurement/tender/core/tests/data/tender_masked.json", mode="w") as f:
     #     json.dump(masked_data, f, indent=4, ensure_ascii=False)
+
+    # Load expected masked data
+    with open(f"src/openprocurement/tender/core/tests/data/tender_masked.json") as f:
+        expected_masked_data = json.load(f)
+
+    # Ensure dumped data is masked
+    assert expected_masked_data["items"][0]["deliveryAddress"]["streetAddress"] == MASK_STRING
 
     # Check masked data with loaded (dumped) expected data
     expected_masked_data["dateCreated"] = masked_data["dateCreated"]

@@ -1,11 +1,4 @@
 rule,value
-$.tenderers[*].name,Приховано
-$.tenderers[*].name_en,Hidden
-$.tenderers[*].name_ru,Приховано
-$.tenderers[*].identifier.id,Приховано
-$.tenderers[*].identifier.legalName,Приховано
-$.tenderers[*].identifier.legalName_en,Hidden
-$.tenderers[*].identifier.legalName_ru,Приховано
 $.tenderers[*].address.streetAddress,Приховано
 $.tenderers[*].address.locality,Приховано
 $.tenderers[*].address.region,Приховано
