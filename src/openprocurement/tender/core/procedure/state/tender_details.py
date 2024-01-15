@@ -4,6 +4,9 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.api.procedure.context import init_object
+from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.framework.core.utils import get_agreement_by_id
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -34,7 +37,8 @@ from openprocurement.api.constants import (
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_CONFIG_JSONSCHEMAS,
-    RELATED_LOT_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
+    RELATED_LOT_REQUIRED_FROM,
+    CPV_PREFIX_LENGTH_TO_NAME,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import (
@@ -191,16 +195,12 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 )
         super().status_up(before, after, data)
 
-
-    _agreement = None
-
-    def get_agreement(self, tender):
-        agreements = tender.get("agreements")
-        if not agreements:
-            return None
-        if not self._agreement:
-            self._agreement = self.request.registry.mongodb.agreements.get(agreements[0]["id"])
-        return self._agreement
+    def get_agreement(self, agreement_id):
+        request = get_request()
+        if "agreement" not in request.validated:
+            agreement = get_agreement_by_id(request, agreement_id)
+            init_object("agreement", agreement)
+        return get_object("agreement")
 
 
     def validate_pre_selection_agreement(self, tender):
@@ -225,7 +225,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if len(agreements) != 1:
                 raise_agreements_error("Exactly one agreement is expected.")
 
-            agreement = self.get_agreement(tender)
+            agreement = self.get_agreement(agreements[0]["id"])
 
             tender_agreement_type_mapping = {
                 COMPETITIVE_ORDERING: DPS_TYPE

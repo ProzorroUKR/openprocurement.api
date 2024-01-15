@@ -3,6 +3,7 @@ from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.context import get_now, get_request
+from openprocurement.api.procedure.context import init_object
 from openprocurement.api.utils import raise_operation_error, context_unpack
 from openprocurement.framework.core.constants import (
     MIN_QUALIFICATION_DURATION,
@@ -11,6 +12,7 @@ from openprocurement.framework.core.constants import (
     SUBMISSION_STAND_STILL_DURATION,
     ENQUIRY_STAND_STILL_TIME,
 )
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.procedure.utils import save_object, get_framework_unsuccessful_status_check_date
 from openprocurement.framework.core.utils import (
@@ -93,8 +95,7 @@ class FrameworkState(BaseState, ChronographEventsMixing):
             agreement = get_agreement_by_id(request, agreement_id)
             model = get_request().agreement_from_data(agreement, create=False)
             agreement = model(agreement)
-            request.validated["agreement"] = agreement.serialize()
-            request.validated["agreement_src"] = deepcopy(request.validated["agreement"])
+            init_object("agreement", agreement.serialize(), config_serializer=AgreementConfigSerializer)
 
     def validate_framework_patch_status(self, data):
         framework_status = data.get("status")

@@ -35,4 +35,4 @@ class TenderBaseResource(BaseResource):
             # getting tender
             match_dict = request.matchdict
             if match_dict and match_dict.get("tender_id"):
-                init_object("tender", request.tender_doc, TenderConfigSerializer)
+                init_object("tender", request.tender_doc, config_serializer=TenderConfigSerializer)
