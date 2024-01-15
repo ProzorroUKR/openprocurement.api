@@ -5,7 +5,6 @@ from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTes
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     invalid_tender_conditions,
     create_tender_with_inn,
-    create_tender_with_inn_before,
     tender_milestones_required,
     patch_tender_lots_none,
     tender_minimalstep_validation,
@@ -57,7 +56,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin):
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
-    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_minimalstep_validation = snitch(tender_minimalstep_validation)

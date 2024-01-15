@@ -7,7 +7,6 @@ constants_service = Service(name="constants", path="/constants", renderer="json"
 
 blacklist = (
     "ADDITIONAL_CLASSIFICATIONS_SCHEMES",
-    "ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017",
     "ATC_CODES",
     "ATC_SCHEME",
     "CONSTANTS_CONFIG",
@@ -16,7 +15,6 @@ blacklist = (
     "COUNTRIES",
     "CPV_BLOCK_FROM",
     "CPV_CODES",
-    "CPV_ITEMS_CLASS_FROM",
     "CPV_PHARM_PRODUCTS",
     "CURRENCIES",
     "DK_CODES",

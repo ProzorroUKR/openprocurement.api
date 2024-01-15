@@ -4,7 +4,6 @@ from schematics.types import MD5Type, StringType, BaseType, BooleanType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
-    CPV_ITEMS_CLASS_FROM,
     BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_BUYERS_REQUIRED_FROM,
 )
@@ -167,9 +166,7 @@ def validate_items(plan, items):
     validate_items_classification(plan, items)
     cpv_336_group = items[0]["classification"]["id"][:3] == "336" if items else False
     if (
-        not cpv_336_group
-        and is_obj_const_active(get_plan(), CPV_ITEMS_CLASS_FROM)
-        and items
+        not cpv_336_group and items
         and len(set([item["classification"]["id"][:4] for item in items])) != 1
     ):
         raise ValidationError("CPV class of items should be identical")
@@ -179,14 +176,13 @@ def validate_items(plan, items):
 
 def validate_items_classification(plan, items):
     if items:
-        plan_from_2017 = is_obj_const_active(get_plan(), CPV_ITEMS_CLASS_FROM)
         cpv_336_group = plan["classification"]["id"][:3] == "336"
-        base_cpv_code = plan["classification"]["id"][:4 if not cpv_336_group and plan_from_2017 else 3]
+        base_cpv_code = plan["classification"]["id"][:4 if not cpv_336_group else 3]
         for item in items:
             classification = item["classification"]
-            if not cpv_336_group and plan_from_2017 and (base_cpv_code != classification["id"][:4]):
+            if not cpv_336_group and base_cpv_code != classification["id"][:4]:
                 raise ValidationError("CPV class of items should be identical to root cpv")
-            elif (cpv_336_group or not plan_from_2017) and (base_cpv_code != classification["id"][:3]):
+            elif cpv_336_group and base_cpv_code != classification["id"][:3]:
                 raise ValidationError("CPV group of items be identical to root cpv")
 
 

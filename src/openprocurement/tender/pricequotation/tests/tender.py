@@ -56,7 +56,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_jsonpatch,
     tender_funders,
     tender_with_main_procurement_category,
-    create_tender_with_inn_before,
     tender_token_invalid,
     create_tender_with_required_unit,
     create_tender_with_earlier_non_required_unit,
@@ -111,7 +110,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
-    test_create_tender_with_inn_before = snitch(create_tender_with_inn_before)
     test_patch_tender_by_pq_bot_before_multiprofile = snitch(patch_tender_by_pq_bot_before_multiprofile)
     test_patch_tender_by_pq_bot_after_multiprofile = snitch(patch_tender_by_pq_bot_after_multiprofile)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)

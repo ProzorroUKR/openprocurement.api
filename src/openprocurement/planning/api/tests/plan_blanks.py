@@ -8,8 +8,6 @@ from datetime import datetime, timedelta
 from freezegun import freeze_time
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
-    CPV_ITEMS_CLASS_FROM,
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
 from openprocurement.api.context import set_now
@@ -501,95 +499,52 @@ def create_plan_invalid(self):
     )
 
     additionalClassifications = [i.pop("additionalClassifications") for i in initial_data["items"]]
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = initial_data["classification"]["id"]
-        cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
-        initial_data["classification"]["id"] = "99999999-9"
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = "99999999-9"
-
-    if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM:
-        response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {"additionalClassifications": ["This field is required."]},
-                        {"additionalClassifications": ["This field is required."]},
-                        {"additionalClassifications": ["This field is required."]},
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
+    cpv_code = initial_data["classification"]["id"]
+    cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
+    initial_data["classification"]["id"] = "99999999-9"
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = "99999999-9"
 
     for index, additionalClassification in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"] = additionalClassification
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        initial_data["classification"]["id"] = cpv_code
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = cpv_code
+    initial_data["classification"]["id"] = cpv_code
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = cpv_code
 
     additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in initial_data["items"]]
     for index, _ in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = initial_data["classification"]["id"]
-        cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
-        initial_data["classification"]["id"] = "99999999-9"
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = "99999999-9"
+    cpv_code = initial_data["classification"]["id"]
+    cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
+    initial_data["classification"]["id"] = "99999999-9"
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = "99999999-9"
     response = self.app.post_json(request_path, {"data": initial_data}, status=422)
     for index, data in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"][0]["scheme"] = data
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        initial_data["classification"]["id"] = cpv_code
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = cpv_code
+    initial_data["classification"]["id"] = cpv_code
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = cpv_code
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {
-                            "additionalClassifications": [
-                                "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
-                            ]
-                        }
-                        for _ in additionalClassifications
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-    else:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {
-                            "additionalClassifications": [
-                                "One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
-                            ]
-                        }
-                        for _ in additionalClassifications
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [
+                    {
+                        "additionalClassifications": [
+                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
+                        ]
+                    }
+                    for _ in additionalClassifications
+                ],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
 
     data = initial_data["procuringEntity"]["name"]
     del initial_data["procuringEntity"]["name"]
@@ -626,28 +581,16 @@ def create_plan_invalid(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["CPV class of items should be identical to root cpv"],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-    else:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["CPV group of items be identical to root cpv"],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["CPV class of items should be identical to root cpv"],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
 
     classification_id = initial_data["classification"]["id"]
     initial_data["classification"]["id"] = "33600000-6"
