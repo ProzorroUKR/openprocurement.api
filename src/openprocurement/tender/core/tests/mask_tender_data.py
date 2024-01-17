@@ -163,7 +163,7 @@ def test_mask_tender_by_config_restricted(app):
     assert response.status_code == 200
     masked_data = response.json["data"]
 
-    # Dump expected data
+    # Dump expected data (uncomment to update)
     # with open(f"src/openprocurement/tender/core/tests/data/tender_masked.json", mode="w") as f:
     #     json.dump(masked_data, f, indent=4, ensure_ascii=False)
 

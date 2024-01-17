@@ -42,19 +42,23 @@ TENDER_MASK_MAPPING = {
 
     # bids.tenderers.contactPoint
     "$.bids[*].tenderers[*].contactPoint.telephone": MASK_STRING,
+    "$.bids[*].tenderers[*].contactPoint.email": MASK_STRING,
+    "$.bids[*].tenderers[*].contactPoint.faxNumber": MASK_STRING,
     "$.bids[*].tenderers[*].contactPoint.url": MASK_STRING,
     "$.bids[*].tenderers[*].contactPoint.name": MASK_STRING,
+    "$.bids[*].tenderers[*].contactPoint.name_en": MASK_STRING_EN,
+    "$.bids[*].tenderers[*].contactPoint.name_ru": MASK_STRING,
 
     # bids.tenderers.scale
     "$.bids[*].tenderers[*].scale": MASK_STRING,
 
     # bids.participationUrl
-    "$.bids[*].participationUrl": MASK_NUMBER,
-    "$.bids[*].lotValues[*].participationUrl": MASK_NUMBER,
+    "$.bids[*].participationUrl": MASK_STRING,
+    "$.bids[*].lotValues[*].participationUrl": MASK_STRING,
 
     # bids.subcontractingDetails
-    "$.bids[*].subcontractingDetails": MASK_NUMBER,
-    "$.bids[*].lotValues[*].subcontractingDetails": MASK_NUMBER,
+    "$.bids[*].subcontractingDetails": MASK_STRING,
+    "$.bids[*].lotValues[*].subcontractingDetails": MASK_STRING,
 
     # awards.suppliers
     "$.awards[*].suppliers[*].name": MASK_STRING,
@@ -78,8 +82,12 @@ TENDER_MASK_MAPPING = {
 
     # awards.suppliers.contactPoint
     "$.awards[*].suppliers[*].contactPoint.telephone": MASK_STRING,
+    "$.awards[*].suppliers[*].contactPoint.email": MASK_STRING,
+    "$.awards[*].suppliers[*].contactPoint.faxNumber": MASK_STRING,
     "$.awards[*].suppliers[*].contactPoint.url": MASK_STRING,
     "$.awards[*].suppliers[*].contactPoint.name": MASK_STRING,
+    "$.awards[*].suppliers[*].contactPoint.name_en": MASK_STRING_EN,
+    "$.awards[*].suppliers[*].contactPoint.name_ru": MASK_STRING,
 
     # bids.tenderers.scale
     "$.awards[*].suppliers[*].scale": MASK_STRING,
@@ -123,8 +131,12 @@ TENDER_MASK_MAPPING = {
 
     # contracts.suppliers.contactPoint
     "$.contracts[*].suppliers[*].contactPoint.telephone": MASK_STRING,
+    "$.contracts[*].suppliers[*].contactPoint.email": MASK_STRING,
+    "$.contracts[*].suppliers[*].contactPoint.faxNumber": MASK_STRING,
     "$.contracts[*].suppliers[*].contactPoint.url": MASK_STRING,
     "$.contracts[*].suppliers[*].contactPoint.name": MASK_STRING,
+    "$.contracts[*].suppliers[*].contactPoint.name_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].contactPoint.name_ru": MASK_STRING,
 
     # contracts.suppliers.scale
     "$.contracts[*].suppliers[*].scale": MASK_STRING,
@@ -207,8 +219,12 @@ TENDER_MASK_MAPPING = {
 
     # complaints.author.contactPoint
     "$..complaints[*].author.contactPoint.telephone": MASK_STRING,
+    "$..complaints[*].author.contactPoint.email": MASK_STRING,
+    "$..complaints[*].author.contactPoint.faxNumber": MASK_STRING,
     "$..complaints[*].author.contactPoint.url": MASK_STRING,
     "$..complaints[*].author.contactPoint.name": MASK_STRING,
+    "$..complaints[*].author.contactPoint.name_en": MASK_STRING_EN,
+    "$..complaints[*].author.contactPoint.name_ru": MASK_STRING,
 
     # questions
     "$..questions[*].title": MASK_STRING,
@@ -237,7 +253,11 @@ TENDER_MASK_MAPPING = {
 
     # complaints.author.contactPoint
     "$..questions[*].author.contactPoint.telephone": MASK_STRING,
+    "$..questions[*].author.contactPoint.email": MASK_STRING,
+    "$..questions[*].author.contactPoint.faxNumber": MASK_STRING,
     "$..questions[*].author.contactPoint.url": MASK_STRING,
     "$..questions[*].author.contactPoint.name": MASK_STRING,
+    "$..questions[*].author.contactPoint.name_en": MASK_STRING_EN,
+    "$..questions[*].author.contactPoint.name_ru": MASK_STRING,
 
 }

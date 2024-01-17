@@ -6,7 +6,7 @@
     "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
     "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
     "date": "2021-11-08T16:59:10.235391+02:00",
-    "dateModified": "2024-01-15T12:49:09.471123+02:00",
+    "dateModified": "2024-01-17T13:29:37.853697+02:00",
     "tenderID": "UA-2021-11-08-000045-a",
     "owner": "test.quintagroup.com",
     "mainProcurementCategory": "services",
@@ -243,9 +243,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@ukr.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "333-44-55",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -351,9 +351,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@bigmir.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "088-111-22-33",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -472,9 +472,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@ukr.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "333-44-55",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -528,9 +528,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@ukr.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "333-44-55",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -581,9 +581,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@ukr.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "333-44-55",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -674,9 +674,9 @@
                     },
                     "contactPoint": {
                         "name": "Приховано",
-                        "email": "e_mail_test@ukr.net",
+                        "email": "Приховано",
                         "telephone": "Приховано",
-                        "faxNumber": "333-44-55",
+                        "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
                     "scale": "Приховано"
@@ -792,6 +792,6 @@
         "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
-    "dateCreated": "2024-01-15T12:49:09.453481+02:00",
+    "dateCreated": "2024-01-17T13:29:37.835382+02:00",
     "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
 }
