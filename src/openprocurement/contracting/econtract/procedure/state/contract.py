@@ -131,7 +131,7 @@ class EContractState(
 
         award = request.validated["award"]
         self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
-        self.validate_update_contract_value_with_award(request, before, after)
+        self.validate_update_contract_value_with_award(request, tender, before, after)
 
     def validate_threshold_contract(self, request, before: dict, after: dict) -> None:
         self.validate_contract_signing(before, after)
@@ -172,7 +172,7 @@ class EContractState(
             )
 
     @staticmethod
-    def validate_update_contract_value_with_award(request, before: dict, after: dict) -> None:
+    def validate_update_contract_value_with_award(request, tender:dict, before: dict, after: dict) -> None:
         value = after.get("value")
         if value and (
                 before.get("value") != after.get("value") or
@@ -180,15 +180,22 @@ class EContractState(
         ):
 
             award = request.validated["award"]
-            _contracts_values = request.registry.mongodb.contracts.list(
-                fields={"value"},
-                filters={
-                    "_id": {"$ne": after["id"]},
-                    "tender_id": after["tender_id"],
-                    "awardID": after["awardID"],
-                    "status": {"$ne": "cancelled"}
-                }
-            )
+            contracts_ids = [
+                i["id"]
+                for i in tender.get("contracts")
+                if i.get("status", "") != "cancelled"
+                   and i["awardID"] == after["awardID"]
+                   and i["id"] != after["id"]
+            ]
+
+            _contracts_values = []
+
+            if contracts_ids:
+                _contracts_values = request.registry.mongodb.contracts.list(
+                    fields={"value"},
+                    filters={"_id": {"$in": contracts_ids}}
+                )
+
             _contracts_values.append({"value": value})
 
             amount = sum([to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values])
