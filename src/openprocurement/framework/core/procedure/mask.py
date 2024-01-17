@@ -53,7 +53,6 @@ AGREEMENT_MASK_MAPPING = {
     "$.contracts[*].suppliers[*].contactPoint.name": MASK_STRING,
 
     # documents
-    "$..documents[*].documentType": MASK_STRING,
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 

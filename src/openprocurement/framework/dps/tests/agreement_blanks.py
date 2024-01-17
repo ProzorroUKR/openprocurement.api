@@ -5,6 +5,7 @@ from datetime import timedelta
 from ciso8601 import parse_datetime
 from freezegun import freeze_time
 
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.milestone import CONTRACT_BAN_DURATION
@@ -127,7 +128,8 @@ def create_agreement_config_test(self):
 
 def create_agreement_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -136,14 +138,11 @@ def create_agreement_config_restricted(self):
         response = self.activate_framework()
 
         framework = response.json["data"]
-        framework_owner = framework["owner"]
 
-        self.assertNotIn("config", framework)
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
-        # Change authorization so framework and submission have different owners
+    with change_auth(self.app, ("Basic", ("broker", ""))):
 
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
@@ -154,11 +153,9 @@ def create_agreement_config_restricted(self):
         submission = response.json["data"]
         qualification_id = submission["qualificationID"]
 
-        submission_owner = submission["owner"]
-        self.assertNotEqual(submission_owner, framework_owner)
-
     # Activate qualification
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         expected_config = {
             "restricted": True,
         }
@@ -186,7 +183,6 @@ def create_agreement_config_restricted(self):
         self.assertEqual(response.content_type, "application/json")
 
         agreement = response.json["data"]
-        self.assertNotIn("config", agreement)
         self.assertEqual(response.json["config"], expected_config)
 
         response = self.app.get("/agreements/{}".format(agreement_id))
@@ -194,15 +190,19 @@ def create_agreement_config_restricted(self):
         self.assertEqual(response.content_type, "application/json")
 
         agreement = response.json["data"]
-        self.assertNotIn("config", agreement)
         self.assertEqual(response.json["config"], expected_config)
 
-    # Check access (framework owner)
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    # Check access
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         # Check object
         response = self.app.get("/agreements/{}".format(agreement_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+        self.assertNotEqual(
+            response.json["data"]["contracts"][0]["suppliers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
 
         # Check listing
         response = self.app.get("/agreements?opt_fields=status")
@@ -211,140 +211,63 @@ def create_agreement_config_restricted(self):
 
         submissions = response.json["data"]
         self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+        self.assertEqual(
+            set(submissions[0].keys()),
+            {
+                "id",
+                "dateModified",
+                "status",
+            },
+        )
 
-    # Check access (submission owner)
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
+    # Check access (anonymous)
+    with change_auth(self.app, ("Basic", ("", ""))):
+
         # Check object
-        response = self.app.get("/agreements/{}".format(agreement_id), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/agreements/{}".format(agreement_id))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
+            response.json["data"]["contracts"][0]["suppliers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+
+        # Check listing
+        response = self.app.get("/agreements?opt_fields=status")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        submissions = response.json["data"]
+        self.assertEqual(len(submissions), 1)
+        self.assertEqual(
+            set(submissions[0].keys()),
+            {
+                "id",
+                "dateModified",
+                "status",
+            }
         )
 
         # Check object contracts
-        response = self.app.get("/agreements/{}/contracts".format(agreement_id), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/agreements/{}/contracts".format(agreement_id))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
+            response.json["data"][0]["suppliers"][0]["address"]["streetAddress"],
+            MASK_STRING,
         )
 
         # Check object contract
         response = self.app.get("/agreements/{}/contracts/{}".format(
             agreement_id,
             agreement["contracts"][0]["id"],
-        ), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
-        )
-
-        # Check object milestones
-        response = self.app.get("/agreements/{}/contracts/{}/milestones".format(
-            agreement_id,
-            agreement["contracts"][0]["id"],
-        ), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
-        )
-
-        # Check object milestones
-        response = self.app.get("/agreements/{}/contracts/{}/milestones/{}".format(
-            agreement_id,
-            agreement["contracts"][0]["id"],
-            agreement["contracts"][0]["milestones"][0]["id"],
-        ), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
-        )
-
-        # Check object milestones documents
-        response = self.app.get("/agreements/{}/contracts/{}/milestones/{}/documents".format(
-            agreement_id,
-            agreement["contracts"][0]["id"],
-            agreement["contracts"][0]["milestones"][0]["id"],
-        ), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
-        )
-
-        # Check listing
-        response = self.app.get("/agreements?opt_fields=status")
+        ))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
-
-    # Check access (anonymous)
-    with change_auth(self.app, ("Basic", ("", ""))):
-        # Check object
-        response = self.app.get("/agreements/{}".format(agreement_id), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for agreement object"
-            }]
+            response.json["data"]["suppliers"][0]["address"]["streetAddress"],
+            MASK_STRING,
         )
-
-        # Check listing
-        response = self.app.get("/agreements?opt_fields=status")
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "restricted"})
 
 
 def change_agreement(self):

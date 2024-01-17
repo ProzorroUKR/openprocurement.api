@@ -135,20 +135,18 @@ class FrameworksResource(FrameworkBaseResource):
 )
 class FrameworkSubmissionRequestResource(SubmissionsListResource):
     filter_key = "frameworkID"
-
-    def __init__(self, request, context=None):
-        super().__init__(request, context)
-        self.listing_default_fields = {
-            "dateModified",
-            "dateCreated",
-            "datePublished",
-            "id",
-            "date",
-            "status",
-            "qualificationID",
-            "frameworkID",
-            "tenderers",
-        }
+    listing_default_fields = {
+        "dateModified",
+        "dateCreated",
+        "datePublished",
+        "id",
+        "date",
+        "status",
+        "qualificationID",
+        "frameworkID",
+        "documents",
+        "tenderers",
+    }
 
 
 @resource(
@@ -158,16 +156,13 @@ class FrameworkSubmissionRequestResource(SubmissionsListResource):
 )
 class FrameworkQualificationRequestResource(QualificationsListResource):
     filter_key = "frameworkID"
-
-    def __init__(self, request, context=None):
-        super().__init__(request, context)
-        self.listing_default_fields = {
-            "dateModified",
-            "dateCreated",
-            "id",
-            "frameworkID",
-            "submissionID",
-            "status",
-            "documents",
-            "date",
-        }
+    listing_default_fields = {
+        "dateModified",
+        "dateCreated",
+        "id",
+        "frameworkID",
+        "submissionID",
+        "status",
+        "documents",
+        "date",
+    }

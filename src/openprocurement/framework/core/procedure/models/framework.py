@@ -164,7 +164,11 @@ class FrameworkConfig(Model):
 
     def validate_restrictedDerivatives(self, data, value):
         framework = get_request().validated.get("data")
-        if framework and framework.get("frameworkType") == DPS_TYPE:
+        if not framework:
+            return
+        if framework.get("frameworkType") == DPS_TYPE:
+            if value is None:
+                raise ValidationError("restrictedDerivatives is required for this framework type")
             if framework.get("procuringEntity", {}).get("kind") == "defense":
                 if value is False:
                     raise ValidationError("restrictedDerivatives must be true for defense procuring entity")
