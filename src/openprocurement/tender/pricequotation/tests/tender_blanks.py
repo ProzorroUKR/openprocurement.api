@@ -6,10 +6,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
-    CPV_BLOCK_FROM,
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     SANDBOX_MODE,
-    CPV_ITEMS_CLASS_FROM,
     PQ_MULTI_PROFILE_FROM,
 )
 from openprocurement.tender.pricequotation.tests.base import (
@@ -343,35 +340,17 @@ def create_tender_invalid(self):
     )
 
     data = self.initial_data["items"][0].pop("additionalClassifications")
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = self.initial_data["items"][0]["classification"]["id"]
-        self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
+    cpv_code = self.initial_data["items"][0]["classification"]["id"]
+    self.initial_data["items"][0]["classification"]["id"] = "99999999-9"
 
-    status = 422 if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM else 201
     response = self.app.post_json(request_path, {
         "data": self.initial_data,
         "config": self.initial_config,
-    }, status=status)
+    }, status=201)
     self.initial_data["items"][0]["additionalClassifications"] = data
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.initial_data["items"][0]["classification"]["id"] = cpv_code
-    if status == 201:
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.status, "201 Created")
-    else:
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"additionalClassifications": ["This field is required."]}],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
+    self.initial_data["items"][0]["classification"]["id"] = cpv_code
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.status, "201 Created")
 
     invalid_data = deepcopy(self.initial_data)
     del invalid_data["procuringEntity"]["contactPoint"]["telephone"]
@@ -419,12 +398,8 @@ def create_tender_invalid(self):
                      "Value must be one of ДК021 codes")
 
     cpv = self.initial_data["items"][0]["classification"]["id"]
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]["classification"]["scheme"] = "CPV"
     self.initial_data["items"][0]["classification"]["id"] = "00000000-0"
     response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
-    if get_now() < CPV_BLOCK_FROM:
-        self.initial_data["items"][0]["classification"]["scheme"] = "CPV"
     self.initial_data["items"][0]["classification"]["id"] = cpv
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")

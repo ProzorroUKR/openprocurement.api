@@ -8,8 +8,6 @@ from datetime import datetime, timedelta
 from freezegun import freeze_time
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
-    CPV_ITEMS_CLASS_FROM,
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
     TZ,
 )
 from openprocurement.api.context import set_now
@@ -336,8 +334,7 @@ def listing_moves_from_dts(self):
 
 
 def create_plan_invalid(self):
-    request_path = "/plans"
-    response = self.app.post(request_path, "data", status=415)
+    response = self.app.post("/plans", "data", status=415)
     self.assertEqual(response.status, "415 Unsupported Media Type")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -352,7 +349,7 @@ def create_plan_invalid(self):
         ],
     )
 
-    response = self.app.post(request_path, "data", content_type="application/json", status=422)
+    response = self.app.post("/plans", "data", content_type="application/json", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -361,7 +358,7 @@ def create_plan_invalid(self):
         [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
-    response = self.app.post_json(request_path, "data", status=422)
+    response = self.app.post_json("/plans", "data", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -369,7 +366,7 @@ def create_plan_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    response = self.app.post_json(request_path, {"not_data": {}}, status=422)
+    response = self.app.post_json("/plans", {"not_data": {}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -377,7 +374,7 @@ def create_plan_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    response = self.app.post_json(request_path, {"data": []}, status=422)
+    response = self.app.post_json("/plans", {"data": []}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -385,7 +382,7 @@ def create_plan_invalid(self):
         response.json["errors"], [{"description": "Data not available", "location": "body", "name": "data"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {"invalid_field": "invalid_value"}}, status=422)
+    response = self.app.post_json("/plans", {"data": {"invalid_field": "invalid_value"}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -393,7 +390,7 @@ def create_plan_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
-    response = self.app.post_json(request_path, {"data": {"budget": "invalid_value"}}, status=422)
+    response = self.app.post_json("/plans", {"data": {"budget": "invalid_value"}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -409,7 +406,9 @@ def create_plan_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"tender": {"procurementMethod": "invalid_value"}}}, status=422
+        "/plans",
+        {"data": {"tender": {"procurementMethod": "invalid_value"}}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -424,14 +423,12 @@ def create_plan_invalid(self):
     )
 
     initial_data = deepcopy(self.initial_data)
-    data = initial_data["tender"]
     initial_data["tender"] = {
         "procurementMethod": "open",
         "procurementMethodType": "reporting",
-        "tenderPeriod": data["tenderPeriod"],
+        "tenderPeriod": initial_data["tender"]["tenderPeriod"],
     }
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["tender"] = data
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -444,14 +441,13 @@ def create_plan_invalid(self):
         response.json["errors"],
     )
 
-    data = initial_data["tender"]
+    initial_data = deepcopy(self.initial_data)
     initial_data["tender"] = {
         "procurementMethod": "limited",
         "procurementMethodType": "belowThreshold",
-        "tenderPeriod": data["tenderPeriod"],
+        "tenderPeriod": initial_data["tender"]["tenderPeriod"],
     }
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["tender"] = data
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -465,7 +461,9 @@ def create_plan_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"tender": {"tenderPeriod": {"startDate": "invalid_value"}}}}, status=422
+        "/plans",
+        {"data": {"tender": {"tenderPeriod": {"startDate": "invalid_value"}}}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -484,7 +482,9 @@ def create_plan_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"tender": {"tenderPeriod": {"startDate": "9999-12-31T23:59:59.999999"}}}}, status=422
+        "/plans",
+        {"data": {"tender": {"tenderPeriod": {"startDate": "9999-12-31T23:59:59.999999"}}}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -500,101 +500,59 @@ def create_plan_invalid(self):
         ],
     )
 
+    initial_data = deepcopy(self.initial_data)
     additionalClassifications = [i.pop("additionalClassifications") for i in initial_data["items"]]
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = initial_data["classification"]["id"]
-        cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
-        initial_data["classification"]["id"] = "99999999-9"
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = "99999999-9"
-
-    if get_now() < NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM:
-        response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {"additionalClassifications": ["This field is required."]},
-                        {"additionalClassifications": ["This field is required."]},
-                        {"additionalClassifications": ["This field is required."]},
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-
+    cpv_code = initial_data["classification"]["id"]
+    cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
+    initial_data["classification"]["id"] = "99999999-9"
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = "99999999-9"
     for index, additionalClassification in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"] = additionalClassification
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        initial_data["classification"]["id"] = cpv_code
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = cpv_code
+    initial_data["classification"]["id"] = cpv_code
+
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = cpv_code
 
     additionalClassifications = [i["additionalClassifications"][0]["scheme"] for i in initial_data["items"]]
     for index, _ in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"][0]["scheme"] = "Не ДКПП"
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        cpv_code = initial_data["classification"]["id"]
-        cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
-        initial_data["classification"]["id"] = "99999999-9"
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = "99999999-9"
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
+    cpv_code = initial_data["classification"]["id"]
+    cpv_codes = [i["classification"]["id"] for i in initial_data["items"]]
+    initial_data["classification"]["id"] = "99999999-9"
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = "99999999-9"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+
     for index, data in enumerate(additionalClassifications):
         initial_data["items"][index]["additionalClassifications"][0]["scheme"] = data
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        initial_data["classification"]["id"] = cpv_code
-        for index, cpv_code in enumerate(cpv_codes):
-            initial_data["items"][index]["classification"]["id"] = cpv_code
+    initial_data["classification"]["id"] = cpv_code
+    for index, cpv_code in enumerate(cpv_codes):
+        initial_data["items"][index]["classification"]["id"] = cpv_code
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {
-                            "additionalClassifications": [
-                                "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
-                            ]
-                        }
-                        for _ in additionalClassifications
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-    else:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [
-                        {
-                            "additionalClassifications": [
-                                "One of additional classifications should be one of [ДКПП, NONE, ДК003, ДК015, ДК018]."
-                            ]
-                        }
-                        for _ in additionalClassifications
-                    ],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [
+                    {
+                        "additionalClassifications": [
+                            "One of additional classifications should be one of [ДК003, ДК015, ДК018, specialNorms]."
+                        ]
+                    }
+                    for _ in additionalClassifications
+                ],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
 
-    data = initial_data["procuringEntity"]["name"]
+    initial_data = deepcopy(self.initial_data)
     del initial_data["procuringEntity"]["name"]
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["procuringEntity"]["name"] = data
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -603,11 +561,10 @@ def create_plan_invalid(self):
         [{"description": {"name": ["This field is required."]}, "location": "body", "name": "procuringEntity"}],
     )
 
-    data = initial_data["budget"]
+    initial_data = deepcopy(self.initial_data)
     del initial_data["budget"]
     initial_data["tender"]["procurementMethodType"] = "belowThreshold"
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["budget"] = data
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -616,43 +573,15 @@ def create_plan_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "budget"}],
     )
 
-    data = initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "31519200-9"
-    data["classification"] = classification
-    initial_data["items"] = [initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["items"] = initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    if get_now() > CPV_ITEMS_CLASS_FROM:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["CPV class of items should be identical to root cpv"],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-    else:
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["CPV group of items be identical to root cpv"],
-                    "location": "body",
-                    "name": "items",
-                }
-            ],
-        )
-
-    classification_id = initial_data["classification"]["id"]
+    initial_data = deepcopy(self.initial_data)
+    initial_data["items"] = [
+        deepcopy(initial_data["items"][0]),
+        deepcopy(initial_data["items"][0]),
+    ]
     initial_data["classification"]["id"] = "33600000-6"
-    response = self.app.post_json(request_path, {"data": initial_data}, status=422)
-    initial_data["classification"]["id"] = classification_id
+    initial_data["items"][0]["classification"]["id"] = "33600000-6"
+    initial_data["items"][1]["classification"]["id"] = "31519200-9"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -660,29 +589,81 @@ def create_plan_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["CPV group of items be identical to root cpv"],
+                "description": ["CPV group of items should be identical"],
                 "location": "body",
                 "name": "items",
             }
         ],
     )
 
-    classification_id = initial_data["classification"]["id"]
+    initial_data = deepcopy(self.initial_data)
+    initial_data["items"] = [
+        deepcopy(initial_data["items"][0]),
+        deepcopy(initial_data["items"][0]),
+    ]
     initial_data["classification"]["id"] = "33600000-6"
-    item = initial_data["items"][0].copy()
-    data = initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "33610000-9"
-    data["classification"] = classification
-    data2 = initial_data["items"][0].copy()
-    classification = data2["classification"].copy()
-    classification["id"] = "33620000-2"
-    data2["classification"] = classification
-    initial_data["items"] = [data, data2]
-    response = self.app.post_json(request_path, {"data": initial_data})
-    initial_data["classification"]["id"] = classification_id
-    initial_data["items"] = [item]
-    self.assertEqual(response.status, "201 Created")
+    initial_data["items"][0]["classification"]["id"] = "31519200-9"
+    initial_data["items"][1]["classification"]["id"] = "31519200-9"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["CPV group of items should be identical to root cpv"],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
+
+    initial_data = deepcopy(self.initial_data)
+    initial_data["items"] = [
+        deepcopy(initial_data["items"][0]),
+        deepcopy(initial_data["items"][0]),
+    ]
+    initial_data["classification"]["id"] = "31519200-9"
+    initial_data["items"][0]["classification"]["id"] = "03222321-9"
+    initial_data["items"][1]["classification"]["id"] = "31519200-9"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["CPV class of items should be identical"],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
+
+    initial_data = deepcopy(self.initial_data)
+    initial_data["items"] = [
+        deepcopy(initial_data["items"][0]),
+        deepcopy(initial_data["items"][0]),
+    ]
+    initial_data["classification"]["id"] = "31519200-9"
+    initial_data["items"][0]["classification"]["id"] = "03222321-9"
+    initial_data["items"][1]["classification"]["id"] = "03222321-9"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["CPV class of items should be identical to root cpv"],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
 
 
 def create_plan_invalid_procurement_method_type(self):

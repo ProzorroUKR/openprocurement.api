@@ -47,8 +47,18 @@ DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USE
 
 TENDER_PERIOD_START_DATE_STALE_MINUTES = int(os.environ.get("TENDER_PERIOD_START_DATE_STALE_MINUTES", 10))
 
+CPV_PHARM_PRODUCTS = "33600000-6"
+CPV_NOT_CPV = "99999999-9"
+
+CPV_PREFIX_LENGTH_TO_NAME = {
+    3: "group",
+    4: "class",
+    5: "category",
+    6: "subcategory",
+}
+
 CPV_CODES = list(standards.load("classifiers/cpv_en.json"))
-CPV_CODES.append("99999999-9")
+CPV_CODES.append(CPV_NOT_CPV)
 DK_CODES = list(standards.load("classifiers/dk021_uk.json"))
 FUNDERS = [
     (i["identifier"]["scheme"], i["identifier"]["id"])
@@ -69,8 +79,7 @@ OTHER_CRITERIA = set(criterion["classification"]["id"] for criterion in standard
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
 REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
-ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДКПП", "NONE", "ДК003", "ДК015", "ДК018"]
-ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 = ["ДК003", "ДК015", "ДК018", "specialNorms"]
+ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДК003", "ДК015", "ДК018", "specialNorms"]
 
 INN_SCHEME = "INN"
 ATC_SCHEME = "ATC"
@@ -78,14 +87,9 @@ GMDN_2019_SCHEME = "GMDN"
 GMDN_2023_SCHEME = "GMDN-2023"
 UA_ROAD_SCHEME = "UA-ROAD"
 
-CPV_PHARM_PRODUCTS = "33600000-6"
-
 COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
-
-CPV_ITEMS_CLASS_FROM = datetime(2017, 1, 1, tzinfo=TZ)
-CPV_BLOCK_FROM = datetime(2017, 6, 2, tzinfo=TZ)
 
 TENDER_CONFIG_JSONSCHEMAS = {
     "aboveThreshold": standards.load(f"data_model/schema/TenderConfig/aboveThreshold.json"),
@@ -140,21 +144,13 @@ def parse_bool(value):
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 
+JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
+
 
 CONSTANTS_FILE_PATH = os.environ.get("CONSTANTS_FILE_PATH", get_default_constants_file_path())
 CONSTANTS_CONFIG = load_constants(CONSTANTS_FILE_PATH)
 
 BUDGET_PERIOD_FROM = get_constant(CONSTANTS_CONFIG, "BUDGET_PERIOD_FROM")
-
-# Set non required additionalClassification for classification_id 999999-9
-NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM = get_constant(
-    CONSTANTS_CONFIG, "NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM"
-)
-
-# Set INN additionalClassification validation required
-CPV_336_INN_FROM = get_constant(CONSTANTS_CONFIG, "CPV_336_INN_FROM")
-
-JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 
 # Set mainProcurementCategory required
 MPC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "MPC_REQUIRED_FROM")

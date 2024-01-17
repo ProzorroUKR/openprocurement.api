@@ -9,19 +9,15 @@ from openprocurement.api.procedure.types import ListType, URLType
 from openprocurement.api.constants import (
     UA_ROAD_SCHEME,
     UA_ROAD,
-    CPV_ITEMS_CLASS_FROM,
-    NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM,
-    ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     CPV_CODES,
     DK_CODES,
-    CPV_BLOCK_FROM,
     GMDN_2019_SCHEME,
     GMDN_2019,
     GMDN_2023_SCHEME,
     GMDN_2023,
+    CPV_NOT_CPV,
 )
-from openprocurement.api.procedure.utils import is_obj_const_active
 
 
 class Classification(Model):
@@ -59,37 +55,14 @@ class AdditionalClassification(Classification):
 
 
 def validate_scheme(obj, scheme):
-    if scheme != "ДК021" and is_obj_const_active(obj, CPV_BLOCK_FROM):
+    if scheme != "ДК021":
         raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
 
 
 def validate_additional_classifications(obj, data, items):
-    obj_from_2017 = is_obj_const_active(obj, CPV_ITEMS_CLASS_FROM)
-    not_cpv = data["classification"]["id"] == "99999999-9"
-    if (
-        not items and (
-            not obj_from_2017
-            or obj_from_2017
-            and not_cpv
-            and not is_obj_const_active(obj, NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM)
-        )
-    ):
-        raise ValidationError("This field is required.")
-    elif (
-        obj_from_2017
-        and not_cpv
-        and items
-        and not any(i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017 for i in items)
-    ):
-        raise ValidationError(
-            "One of additional classifications should be one of [{0}].".format(
-                ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES_2017)
-            )
-        )
-    elif (
-        not obj_from_2017
-        and items
-        and not any(i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items)
+    if data["classification"]["id"] == CPV_NOT_CPV and items and not any(
+        i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES
+        for i in items or []
     ):
         raise ValidationError(
             "One of additional classifications should be one of [{0}].".format(
@@ -103,15 +76,6 @@ def validate_items_uniq(items, *args):
         ids = [i.id for i in items]
         if len(ids) > len(set(ids)):
             raise ValidationError("Item id should be uniq for all items")
-
-
-def validate_cpv_group(items, *args):
-    if items:
-        if (
-            items[0].classification.id[:3] != "336"
-            and len({i.classification.id[:4] for i in items}) != 1
-        ):
-            raise ValidationError("CPV class of items should be identical")
 
 
 class Location(Model):

@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from schematics.exceptions import ValidationError
 
+from openprocurement.api.context import get_request
 from openprocurement.api.utils import handle_data_exceptions, raise_operation_error
 from openprocurement.api.validation import (
     validate_json_data,

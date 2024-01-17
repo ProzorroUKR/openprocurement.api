@@ -7,7 +7,6 @@ from openprocurement.tender.core.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
-from openprocurement.api.procedure.models.item import validate_cpv_group
 from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.metric import (
     PostMetric,
