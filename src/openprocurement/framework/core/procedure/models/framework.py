@@ -175,3 +175,6 @@ class FrameworkConfig(Model):
             else:
                 if value is True:
                     raise ValidationError("restrictedDerivatives must be false for non-defense procuring entity")
+        else:
+            if value is True:
+                raise ValidationError("restrictedDerivatives must be false for this framework type")

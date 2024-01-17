@@ -6,6 +6,8 @@ from openprocurement.api.procedure.validation import validate_input_data_from_re
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.framework.core.procedure.models.agreement import AgreementConfig
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.agreement import Agreement, PostAgreement
@@ -19,7 +21,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_data_documents,
     validate_accreditation_level,
     unless_administrator,
-    validate_item_owner,
+    validate_item_owner, validate_config_data,
 )
 
 
@@ -40,6 +42,11 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
         permission="create_agreement",
         validators=(
             validate_input_data(PostAgreement),
+            validate_config_data(
+                AgreementConfig,
+                serializer=AgreementConfigSerializer,
+                obj_name="agreement",
+            ),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="agreement",

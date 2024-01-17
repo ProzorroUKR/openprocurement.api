@@ -29,18 +29,6 @@ from openprocurement.tender.core.procedure.validation import (
 class ElectronicCatalogueAgreementResource(AgreementsResource):
     @json_view(
         content_type="application/json",
-        permission="create_agreement",
-        validators=(
-                validate_input_data(PostAgreement),
-                validate_framework,
-                validate_data_documents(route_key="agreement_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
         validators=(
             validate_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),

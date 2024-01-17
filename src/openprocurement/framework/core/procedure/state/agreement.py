@@ -6,6 +6,7 @@ from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement,
     AgreementChronographData,
 )
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.tender.core.procedure.state.base import BaseState
@@ -87,11 +88,11 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "transfer_token": transfer_token,
                 "frameworkDetails": framework_data.get("frameworkDetails"),
             }
-            agreement_config = {}
+            agreement_config = AgreementConfigSerializer({
+                "restricted": framework_config.get("restrictedDerivatives", False),
+            }).data
             if framework_config.get("test", False):
                 agreement_config["test"] = framework_config["test"]
-            if framework_config.get("restrictedDerivatives", False):
-                agreement_config["restricted"] = True
 
             request.validated["agreement_src"] = {}
             request.validated["agreement"] = agreement
