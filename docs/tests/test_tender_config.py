@@ -132,8 +132,8 @@ class TenderConfigCSVMixin:
         for rule, value in mapping.items():
             rows.append([rule, value])
 
-        with open(file_path, "w") as file_csv:
-            writer = csv.writer(file_csv)
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
             writer.writerow(headers)
             writer.writerows(rows)
 
