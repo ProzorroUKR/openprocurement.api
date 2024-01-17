@@ -1246,7 +1246,8 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit', 'quantity') in item"
+                "description": "Updated could be only ('unit', 'quantity') in item, "
+                               "description change forbidden",
             }
         ]
     )
@@ -1354,10 +1355,11 @@ def contract_items_change(self):
         "deliveryLocation",
         "quantity",
     )
+
     # try to change classification
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {"items": [{**old_item, 'description': 'тапочки для тараканів', "classification": {"id": "19433000-0", "description": "Cartons"}}]}},
+        {"data": {"items": [{**old_item, "classification": {"id": "19433000-0", "description": "Cartons"}}]}},
         status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1366,7 +1368,8 @@ def contract_items_change(self):
         [{
             "location": "body",
             "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item",
+            "description": f"Updated could be only {item_patch_fields} in item, "
+                           f"classification change forbidden",
         }],
     )
 
@@ -1392,7 +1395,8 @@ def contract_items_change(self):
         [{
             "location": "body",
             "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item",
+            "description": f"Updated could be only {item_patch_fields} in item, "
+                           f"additionalClassifications change forbidden",
         }],
     )
 

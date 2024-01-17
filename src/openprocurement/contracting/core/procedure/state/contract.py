@@ -74,7 +74,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                     if k not in item_patch_fields and before != after:
                         raise_operation_error(
                             get_request(),
-                            f"Updated could be only {item_patch_fields} in item"
+                            f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
                         )
 
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:

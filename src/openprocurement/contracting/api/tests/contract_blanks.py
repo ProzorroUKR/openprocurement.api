@@ -1174,7 +1174,8 @@ def contract_items_change(self):
         [{
             "location": "body",
             "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item",
+            "description": f"Updated could be only {item_patch_fields} in item, "
+                           f"classification change forbidden",
         }],
     )
 
@@ -1200,7 +1201,8 @@ def contract_items_change(self):
         [{
             "location": "body",
             "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item",
+            "description": f"Updated could be only {item_patch_fields} in item, "
+                           f"additionalClassifications change forbidden",
         }],
     )
 
