@@ -510,7 +510,12 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         if not self.should_validate_pre_selection_agreement:
             return
 
-        agreement = self.get_agreement(tender)
+        agreements = tender.get("agreements")
+
+        if not agreements:
+            return
+
+        agreement = self.get_agreement(agreements[0]["id"])
 
         if not agreement:
             return
