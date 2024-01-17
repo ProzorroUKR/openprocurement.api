@@ -9,4 +9,4 @@ hasPreSelectionAgreement,false,false
 tenderComplaints,true,true
 awardComplaints,true,true
 cancellationComplaints,true,true
-restricted,"false,true",false
+restricted,false,false

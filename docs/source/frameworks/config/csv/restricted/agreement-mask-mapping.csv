@@ -9,6 +9,5 @@ $.contracts[*].suppliers[*].address.countryName_ru,Приховано
 $.contracts[*].suppliers[*].contactPoint.telephone,Приховано
 $.contracts[*].suppliers[*].contactPoint.url,Приховано
 $.contracts[*].suppliers[*].contactPoint.name,Приховано
-$..documents[*].documentType,Приховано
 $..documents[*].title,Приховано
 $..documents[*].url,Приховано
