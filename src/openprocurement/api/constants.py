@@ -112,6 +112,11 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "simple.defense": standards.load(f"data_model/schema/TenderConfig/simple.defense.json"),
 }
 
+FRAMEWORK_CONFIG_JSONSCHEMAS = {
+    "electronicCatalogue": standards.load(f"data_model/schema/FrameworkConfig/electronicCatalogue.json"),
+    "dynamicPurchasingSystem": standards.load(f"data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
+}
+
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), "constants.ini")
 

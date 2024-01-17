@@ -2,6 +2,10 @@ from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 
+from jsonschema.exceptions import ValidationError
+from jsonschema.validators import validate
+
+from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import init_object
 from openprocurement.api.utils import raise_operation_error, context_unpack
@@ -12,6 +16,7 @@ from openprocurement.framework.core.constants import (
     SUBMISSION_STAND_STILL_DURATION,
     ENQUIRY_STAND_STILL_TIME,
 )
+from openprocurement.framework.core.procedure.context import get_object_config
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.procedure.utils import save_object, get_framework_unsuccessful_status_check_date
@@ -29,7 +34,33 @@ AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
 LOGGER = getLogger(__name__)
 
 
-class FrameworkState(BaseState, ChronographEventsMixing):
+class FrameworkConfigMixin:
+    configurations = (
+        "restrictedDerivatives",
+    )
+
+    def validate_config(self, data):
+        config = get_object_config("framework")
+        for config_name in self.configurations:
+            value = config.get(config_name)
+            framework_type = data.get("frameworkType")
+            config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
+            if not config_schema:
+                raise NotImplementedError
+            schema = config_schema["properties"][config_name]
+            try:
+                validate(value, schema)
+            except ValidationError as e:
+                raise_operation_error(
+                    self.request,
+                    e.message,
+                    status=422,
+                    location="body",
+                    name=config_name,
+                )
+
+
+class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
@@ -47,6 +78,7 @@ class FrameworkState(BaseState, ChronographEventsMixing):
         self.update_next_check(data)
 
     def on_post(self, data):
+        self.validate_config(data)
         data["date"] = get_now().isoformat()
         super().on_post(data)
 
