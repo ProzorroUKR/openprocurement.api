@@ -2,8 +2,15 @@ from hashlib import sha512
 from uuid import uuid4
 from typing import List, Dict
 
+from openprocurement.api.procedure.context import init_object
 from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
-from openprocurement.tender.core.procedure.context import get_request, get_tender, get_award, get_contract_config
+from openprocurement.tender.core.procedure.context import (
+    get_request,
+    get_tender,
+    get_award,
+    get_contract_config,
+    get_tender_config,
+)
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
 from openprocurement.api.utils import context_unpack, get_contract_by_id
@@ -203,6 +210,7 @@ def get_additional_contract_data(request, contract, tender, award):
 
 def save_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
+    tender_config = get_tender_config()
     if not is_new_contracting():
         return
     if not award:
@@ -214,8 +222,16 @@ def save_contracts_to_contracting(contracts, award=None):
             return
         contract.update(additional_contract_data)
         contract_data = PostContract(contract).serialize()
-        contract_data["config"] = ContractConfigSerializer({}).data
-        save_contract(request, contract=contract_data, contract_src={}, insert=True)
+        contract_data["config"] = {
+            "restricted": tender_config.get("restricted", False),
+        }
+        init_object(
+            "contract",
+            contract_data,
+            obj_src={},
+            config_serializer=ContractConfigSerializer,
+        )
+        save_contract(request, insert=True)
 
 
 def update_econtracts_statuses(contracts_ids, status):
@@ -227,7 +243,12 @@ def update_econtracts_statuses(contracts_ids, status):
     for i in contracts_ids:
         econtract = get_contract_by_id(request, i, raise_error=False)
         if econtract:
-            econtract_src = deepcopy(econtract)
+            init_object(
+                "contract",
+                econtract,
+                obj_src={},
+                config_serializer=ContractConfigSerializer,
+            )
             econtract["status"] = status
             econtract["date"] = get_now().isoformat()
-            save_contract(request, contract=econtract, contract_src=econtract_src)
+            save_contract(request)

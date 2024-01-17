@@ -21,7 +21,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_data_documents,
     validate_accreditation_level,
     unless_administrator,
-    validate_item_owner, validate_config_data,
+    validate_item_owner,
+    validate_config_data,
 )
 
 

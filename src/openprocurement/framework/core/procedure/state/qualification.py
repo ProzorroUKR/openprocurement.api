@@ -1,5 +1,6 @@
 from logging import getLogger
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import init_object
 from openprocurement.api.utils import generate_id
 from openprocurement.framework.core.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
@@ -73,14 +74,17 @@ class QualificationState(ChronographEventsMixing, BaseState):
             "mode": framework.get("mode"),
             "status": "pending",
             "date": get_now().isoformat(),
+            "config": {
+                "test": framework_config.get("test", False),
+                "restricted": framework_config.get("restrictedDerivatives", False),
+            },
         }
-        qualification_config = QualificationConfigSerializer({
-            "restricted": framework_config.get("restrictedDerivatives", False),
-        }).data
-        if framework_config.get("test", False):
-            qualification_config["test"] = framework_config["test"]
 
-        request.validated["qualification"] = qualification
-        request.validated["qualification_src"] = {}
-        request.validated["qualification_config"] = qualification_config
+        init_object(
+            "qualification",
+            qualification,
+            obj_src={},
+            config_serializer=QualificationConfigSerializer,
+        )
+
         return qualification

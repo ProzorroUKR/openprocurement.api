@@ -11,6 +11,7 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, TZ
+from openprocurement.api.procedure.context import init_object
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
@@ -19,6 +20,10 @@ from openprocurement.api.utils import (
     get_obj_by_id,
 )
 from openprocurement.api.validation import validate_json_data
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
+from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
+from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
+from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -251,14 +256,20 @@ def acceleratable(wrapped):
 
     return wrapper
 
+
+def get_framework_by_id(request, framework_id, raise_error=True):
+    if framework_id:
+        return get_obj_by_id(request, "frameworks", framework_id, raise_error)
+
+
 def get_submission_by_id(request, submission_id, raise_error=True):
     if submission_id:
         return get_obj_by_id(request, "submissions", submission_id, raise_error)
 
 
-def get_framework_by_id(request, framework_id, raise_error=True):
-    if framework_id:
-        return get_obj_by_id(request, "frameworks", framework_id, raise_error)
+def get_qualification_by_id(request, qualification_id, raise_error=True):
+    if qualification_id:
+        return get_obj_by_id(request, "qualifications", qualification_id, raise_error)
 
 
 def get_agreement_by_id(request, agreement_id, raise_error=True):
@@ -266,26 +277,24 @@ def get_agreement_by_id(request, agreement_id, raise_error=True):
         return get_obj_by_id(request, "agreements", agreement_id, raise_error)
 
 
+def request_fetch_framework(request, framework_id):
+    framework = get_submission_by_id(request, framework_id)
+    init_object("framework", framework, config_serializer=FrameworkConfigSerializer)
+
+
 def request_fetch_submission(request, submission_id):
-    submission = request.registry.mongodb.submissions.get(submission_id)
-    if not submission:
-        raise_operation_error(
-            request,
-            "submissionID must be one of existing submissions",
-        )
-    request.validated["submission"] = submission
-    request.validated["submission_src"] = deepcopy(submission)
+    submission = get_submission_by_id(request, submission_id)
+    init_object("submission", submission, config_serializer=SubmissionConfigSerializer)
+
+
+def request_fetch_qualification(request, qualification_id):
+    qualification = get_qualification_by_id(request, qualification_id)
+    init_object("qualification", qualification, config_serializer=QualificationConfigSerializer)
 
 
 def request_fetch_agreement(request, agreement_id):
-    agreement = request.registry.mongodb.agreements.get(agreement_id)
-    if not agreement:
-        raise_operation_error(
-            request,
-            "agreementID must be one of existing agreemens",
-        )
-    request.validated["agreement"] = agreement
-    request.validated["agreement_src"] = deepcopy(agreement)
+    agreement = get_agreement_by_id(request, agreement_id)
+    init_object("agreement", agreement, config_serializer=AgreementConfigSerializer)
 
 
 @acceleratable

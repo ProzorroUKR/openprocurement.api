@@ -8,6 +8,11 @@ from openprocurement.tender.core.procedure.serializers.config import TenderConfi
 
 def restricted_serializer(obj, value):
     if value is None:
+        # TODO:
+        #  now we need to pull this value from tender config on contracting bridge contract creatiion
+        #  when e-contracting will be enabled for all procedures:
+        #    return False
+
         tender_config = get_tender_config()
 
         if not tender_config:

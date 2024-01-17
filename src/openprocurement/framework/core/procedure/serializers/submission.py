@@ -30,6 +30,12 @@ class SubmissionSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
+def test_serializer(obj, value):
+    if value is False:
+        return None
+    return value
+
+
 def restricted_serializer(obj, value):
     if value is None:
         return False
@@ -38,5 +44,6 @@ def restricted_serializer(obj, value):
 
 class SubmissionConfigSerializer(BaseConfigSerializer):
     serializers = {
+        "test": test_serializer,
         "restricted": restricted_serializer,
     }

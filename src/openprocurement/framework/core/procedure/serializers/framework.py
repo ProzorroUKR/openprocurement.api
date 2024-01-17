@@ -28,6 +28,12 @@ class FrameworkSerializer(BaseUIDSerializer):
         self.private_fields = set(self.base_private_fields)
 
 
+def test_serializer(obj, value):
+    if value is False:
+        return None
+    return value
+
+
 def restricted_derivatives_serializer(obj, value):
     if value is None:
         return False
@@ -36,5 +42,6 @@ def restricted_derivatives_serializer(obj, value):
 
 class FrameworkConfigSerializer(BaseConfigSerializer):
     serializers = {
+        "test": test_serializer,
         "restrictedDerivatives": restricted_derivatives_serializer,
     }
