@@ -11,7 +11,7 @@ from uuid import uuid4
 
 import standards
 
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, set_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.contracting.api.tests.data import test_contract_data
@@ -2281,6 +2281,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         return response
 
     def test_docs_restricted(self):
+        set_now()
         request_path = '/tenders?opt_pretty=1'
 
         # Create agreement
@@ -2387,6 +2388,10 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         assert response.json["data"]["procuringEntity"]["name"] != MASK_STRING
 
         # Create masked tender
+        agreement_doc = self.mongodb.agreements.get(self.agreement_id)
+        agreement_doc["config"]["restricted"] = True
+        self.mongodb.agreements.save(agreement_doc)
+
         config["restricted"] = True
 
         with open(TARGET_DIR + 'restricted-true-tender-post.http', 'w') as self.app.file_obj:

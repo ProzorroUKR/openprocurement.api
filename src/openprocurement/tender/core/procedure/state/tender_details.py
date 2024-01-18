@@ -5,7 +5,7 @@ from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
 from openprocurement.api.procedure.context import init_object
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.framework.core.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.utils import get_agreement_by_id
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -103,6 +103,33 @@ class TenderConfigMixin(baseclass):
                     name=config_name,
                 )
 
+        self.validate_restricted_config(data, config)
+
+    def validate_restricted_config(self, data, config):
+        has_restricted_preselection_agreement = False
+        agreements = data.get("agreements")
+        if agreements:
+            agreement = self.get_agreement(data["agreements"][0]["id"])
+            if agreement:
+                agreement_config = get_object_config("agreement")
+                has_restricted_preselection_agreement = agreement_config.get("restricted") is True
+        if has_restricted_preselection_agreement is True and config.get("restricted") is False:
+            raise_operation_error(
+                self.request,
+                "Value must be True.",
+                status=422,
+                location="body",
+                name="restricted",
+            )
+        elif has_restricted_preselection_agreement is False and config.get("restricted") is True:
+            raise_operation_error(
+                self.request,
+                "Value must be False.",
+                status=422,
+                location="body",
+                name="restricted",
+            )
+
 
 class TenderDetailsMixing(TenderConfigMixin, baseclass):
     """
@@ -199,8 +226,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     def get_agreement(self, agreement_id):
         request = get_request()
         if "agreement" not in request.validated:
-            agreement = get_agreement_by_id(request, agreement_id)
-            init_object("agreement", agreement)
+            agreement = get_agreement_by_id(request, agreement_id, raise_error=False)
+            if agreement:
+                init_object("agreement", agreement)
         return get_object("agreement")
 
 
@@ -228,15 +256,15 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
             agreement = self.get_agreement(agreements[0]["id"])
 
+            if not agreement:
+                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
+
             tender_agreement_type_mapping = {
                 COMPETITIVE_ORDERING: DPS_TYPE
             }
 
             if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
                 raise_agreements_error("Agreement type mismatch.")
-
-            if not agreement:
-                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
             if self.is_agreement_not_active(agreement):
                 raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
