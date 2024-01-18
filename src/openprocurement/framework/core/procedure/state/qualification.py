@@ -1,7 +1,7 @@
 from logging import getLogger
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import generate_id, request_init_qualification
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_framework
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.api.procedure.state.base import BaseState
 
@@ -56,8 +56,7 @@ class QualificationState(ChronographEventsMixing, BaseState):
         when submission is activated
         """
         request = self.request
-        framework = get_object("framework")
-        framework_config = get_object_config("framework")
+        framework = get_framework()
 
         qualification = {
             "_id": generate_id(),
@@ -72,8 +71,8 @@ class QualificationState(ChronographEventsMixing, BaseState):
             "status": "pending",
             "date": get_now().isoformat(),
             "config": {
-                "test": framework_config.get("test", False),
-                "restricted": framework_config.get("restrictedDerivatives", False),
+                "test": framework["config"].get("test", False),
+                "restricted": framework["config"].get("restrictedDerivatives", False),
             },
         }
 

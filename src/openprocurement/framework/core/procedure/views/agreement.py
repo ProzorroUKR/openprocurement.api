@@ -11,7 +11,7 @@ from openprocurement.api.views.base import MongodbResourceListing, RestrictedRes
 from openprocurement.framework.core.procedure.mask import AGREEMENT_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_object, get_object_config, get_agreement
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.procedure.utils import set_ownership
@@ -84,7 +84,7 @@ class AgreementsResource(FrameworkBaseResource):
             )
             return {
                 "data": self.serializer_class(agreement).data,
-                "config": get_object_config("agreement"),
+                "config": agreement["config"],
                 "access": access,
             }
 
@@ -92,9 +92,10 @@ class AgreementsResource(FrameworkBaseResource):
         permission="view_framework",
     )
     def get(self):
+        agreement = get_agreement()
         return {
-            "data": self.serializer_class(get_object("agreement")).data,
-            "config": get_object_config("agreement"),
+            "data": self.serializer_class(agreement).data,
+            "config": agreement["config"],
         }
 
     def patch(self):
@@ -115,9 +116,10 @@ class AgreementsResource(FrameworkBaseResource):
                     f"Updated agreement {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
                 )
+        agreement = get_agreement()
         return {
-            "data": self.serializer_class(get_object("agreement")).data,
-            "config": get_object_config("agreement"),
+            "data": self.serializer_class(agreement).data,
+            "config": agreement["config"],
         }
 
 

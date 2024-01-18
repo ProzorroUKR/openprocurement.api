@@ -210,12 +210,12 @@ def validate_config_data(input_model, serializer=None, obj_name=None, default=No
     """
     default = default or {}
     def validate(request, **_):
-        config_name = f"{obj_name}_config" if obj_name else "config"
         config = request.json.get("config") or default
-        request.validated[config_name] = validate_data(request, input_model, config) or {}
+        config = validate_data(request, input_model, config) or {}
         if serializer:
-            request.validated[config_name] = serializer(request.validated[config_name]).data
-        return request.validated[config_name]
+            config = serializer(config).data
+        request.validated["data"]["config"] = config
+        return config
     return validate
 
 

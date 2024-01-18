@@ -50,18 +50,19 @@ def append_obj_revision(request, obj, patch, date):
     return append_revision(request, changed_obj, patch)
 
 
-def save_object(request, obj_name, modified: bool = True, insert: bool = False,
-                additional_obj_names="", raise_error_handler=False) -> bool:
+def save_object(
+    request,
+    obj_name,
+    modified: bool = True,
+    insert: bool = False,
+    additional_obj_names="",
+    raise_error_handler=False
+) -> bool:
     obj = request.validated[obj_name]
     patch = get_revision_changes(obj, request.validated[f"{obj_name}_src"])
     if patch:
         now = get_now()
         append_obj_revision(request, obj, patch, now)
-
-        config = request.validated.get(f"{obj_name}_config")
-        if config:
-            obj["config"] = config
-
         old_date_modified = obj.get("dateModified", now.isoformat())
 
         for i in additional_obj_names:

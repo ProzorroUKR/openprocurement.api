@@ -9,8 +9,10 @@ def get_object(obj_name) -> Union[dict, None]:
 
 
 def get_object_config(obj_name) -> Union[dict, None]:
-    request = get_request()
-    return request.validated.get(f"{obj_name}_config", {})
+    obj = get_object(obj_name)
+    if not obj:
+        return
+    return obj.get("config")
 
 
 def get_plan() -> Union[dict, None]:
@@ -31,3 +33,19 @@ def get_contract() -> Union[dict, None]:
 
 def get_contract_config() -> Union[dict, None]:
     return get_object_config("contract")
+
+
+def get_framework() -> Union[dict, None]:
+    return get_object("framework")
+
+
+def get_submission() -> Union[dict, None]:
+    return get_object("submission")
+
+
+def get_qualification() -> Union[dict, None]:
+    return get_object("qualification")
+
+
+def get_agreement() -> Union[dict, None]:
+    return get_object("agreement")
