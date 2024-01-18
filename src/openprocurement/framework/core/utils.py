@@ -277,24 +277,28 @@ def get_agreement_by_id(request, agreement_id, raise_error=True):
         return get_obj_by_id(request, "agreements", agreement_id, raise_error)
 
 
-def request_fetch_framework(request, framework_id):
-    framework = get_submission_by_id(request, framework_id)
-    init_object("framework", framework, config_serializer=FrameworkConfigSerializer)
+def request_fetch_framework(request, framework_id, raise_error=True):
+    framework = get_submission_by_id(request, framework_id, raise_error=raise_error)
+    if framework:
+        init_object("framework", framework, config_serializer=FrameworkConfigSerializer)
 
 
-def request_fetch_submission(request, submission_id):
-    submission = get_submission_by_id(request, submission_id)
-    init_object("submission", submission, config_serializer=SubmissionConfigSerializer)
+def request_fetch_submission(request, submission_id, raise_error=True):
+    submission = get_submission_by_id(request, submission_id, raise_error=raise_error)
+    if submission:
+        init_object("submission", submission, config_serializer=SubmissionConfigSerializer)
 
 
-def request_fetch_qualification(request, qualification_id):
-    qualification = get_qualification_by_id(request, qualification_id)
-    init_object("qualification", qualification, config_serializer=QualificationConfigSerializer)
+def request_fetch_qualification(request, qualification_id, raise_error=True):
+    qualification = get_qualification_by_id(request, qualification_id, raise_error=raise_error)
+    if qualification:
+        init_object("qualification", qualification, config_serializer=QualificationConfigSerializer)
 
 
-def request_fetch_agreement(request, agreement_id):
-    agreement = get_agreement_by_id(request, agreement_id)
-    init_object("agreement", agreement, config_serializer=AgreementConfigSerializer)
+def request_fetch_agreement(request, agreement_id, raise_error=True):
+    agreement = get_agreement_by_id(request, agreement_id, raise_error=raise_error)
+    if agreement:
+        init_object("agreement", agreement, config_serializer=AgreementConfigSerializer)
 
 
 @acceleratable

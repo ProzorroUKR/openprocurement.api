@@ -6,6 +6,7 @@ from openprocurement.api.utils import (
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.mask import mask_object_data
+from openprocurement.framework.core.utils import request_fetch_agreement
 from openprocurement.tender.core.procedure.context import (
     get_tender_config,
     get_tender,
@@ -86,6 +87,9 @@ class TendersResource(TenderBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
+        agreements = tender.get("agreements")
+        if agreements and "agreement" not in self.request.validated:
+            request_fetch_agreement(self.request, agreements[0]["id"], raise_error=False)
         access = set_ownership(tender, self.request)
         self.state.on_post(tender)
         self.request.validated["tender"] = tender

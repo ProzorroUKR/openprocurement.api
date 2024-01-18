@@ -107,12 +107,9 @@ class TenderConfigMixin(baseclass):
 
     def validate_restricted_config(self, data, config):
         has_restricted_preselection_agreement = False
-        agreements = data.get("agreements")
-        if agreements:
-            agreement = self.get_agreement(data["agreements"][0]["id"])
-            if agreement:
-                agreement_config = get_object_config("agreement")
-                has_restricted_preselection_agreement = agreement_config.get("restricted") is True
+        agreement_config = get_object_config("agreement")
+        if agreement_config:
+            has_restricted_preselection_agreement = agreement_config.get("restricted") is True
         if has_restricted_preselection_agreement is True and config.get("restricted") is False:
             raise_operation_error(
                 self.request,
@@ -254,7 +251,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if len(agreements) != 1:
                 raise_agreements_error("Exactly one agreement is expected.")
 
-            agreement = self.get_agreement(agreements[0]["id"])
+            agreement = get_object("agreement")
 
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
@@ -543,7 +540,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         if not agreements:
             return
 
-        agreement = self.get_agreement(agreements[0]["id"])
+        agreement = get_object("agreement")
 
         if not agreement:
             return
