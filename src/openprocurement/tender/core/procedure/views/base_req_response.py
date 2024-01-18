@@ -9,8 +9,7 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.serializers.req_response import RequirementResponseSerializer
-from openprocurement.tender.core.procedure.state.base import BaseState
-
+from openprocurement.api.procedure.state.base import BaseState
 
 LOGGER = getLogger(__name__)
 

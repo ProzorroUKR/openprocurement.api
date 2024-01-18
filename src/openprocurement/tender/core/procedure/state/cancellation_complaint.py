@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
 from openprocurement.api.procedure.utils import is_item_owner

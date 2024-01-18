@@ -1,8 +1,8 @@
 from logging import getLogger
 from pkg_resources import iter_entry_points
 
-from openprocurement.api.database import COLLECTION_CLASSES
 from openprocurement.contracting.core.database import ContractCollection
+from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
 from openprocurement.contracting.core.utils import ContractTypePredicate
 
 
@@ -13,9 +13,11 @@ def includeme(config):
     from openprocurement.contracting.core.utils import extract_contract_doc
 
     LOGGER.info("Init contracting.core plugin.")
-    COLLECTION_CLASSES["contracts"] = ContractCollection
+
+    config.registry.mongodb.add_collection("contracts", ContractCollection)
     config.add_request_method(extract_contract_doc, "contract_doc", reify=True)
     config.add_route_predicate("contractType", ContractTypePredicate)
+    config.add_config_serializer("contract", ContractConfigSerializer)
     config.scan("openprocurement.contracting.core.procedure.views")
 
     settings = config.get_settings()

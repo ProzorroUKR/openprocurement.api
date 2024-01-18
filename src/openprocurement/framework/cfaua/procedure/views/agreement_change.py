@@ -17,7 +17,7 @@ from openprocurement.framework.cfaua.procedure.validation import (
 )
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.validation import unless_administrator, validate_item_owner

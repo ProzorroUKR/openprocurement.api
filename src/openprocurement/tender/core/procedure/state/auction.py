@@ -2,7 +2,7 @@ from datetime import timedelta
 from logging import getLogger
 from typing import TYPE_CHECKING
 
-from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -15,8 +15,10 @@ if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
         TenderStateAwardingMixing,
         ChronographEventsMixing,
-        BaseState,
     )
+    from openprocurement.api.procedure.state.base import BaseState
+
+
     class baseclass(TenderStateAwardingMixing, ChronographEventsMixing, BaseState):
         pass
 else:

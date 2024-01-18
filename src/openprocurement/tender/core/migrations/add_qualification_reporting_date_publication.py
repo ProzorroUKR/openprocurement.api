@@ -2,7 +2,7 @@ from datetime import timedelta
 
 from gevent import monkey
 
-from openprocurement.api.utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE
 from openprocurement.tender.esco.constants import ESCO

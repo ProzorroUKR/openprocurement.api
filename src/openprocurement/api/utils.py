@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import re
+import requests
 from contextlib import contextmanager
-from decimal import Decimal
+from copy import deepcopy
 
 from jsonpointer import JsonPointerException
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from six import b
-import pytz
 from datetime import datetime
 from base64 import b64encode
 from cornice.resource import view
@@ -34,9 +33,201 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
 )
 from openprocurement.api.database import MongodbResourceConflict
-import requests
+
 
 json_view = partial(view, renderer="simplejson")
+
+
+def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):
+    if not obj_id:
+        return
+    collection = getattr(request.registry.mongodb, collection_name)
+    obj = collection.get(obj_id)
+    obj_name = collection_name[:-1]
+    if obj is None and raise_error:
+        request.errors.add("url", f"{obj_name}_id", "Not Found")
+        request.errors.status = 404
+        raise error_handler(request)
+    elif obj is None:
+        LOGGER.error(
+            f"{obj_name.capitalize()} {obj_id} not found",
+            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"})
+        )
+
+    return obj
+
+
+def get_plan_by_id(request, plan_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "plans", plan_id, raise_error)
+
+
+def get_tender_by_id(request, tender_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "tenders", tender_id, raise_error)
+
+
+def get_contract_by_id(request, contract_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "contracts", contract_id, raise_error)
+
+
+def get_framework_by_id(request, framework_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "frameworks", framework_id, raise_error)
+
+
+def get_submission_by_id(request, submission_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "submissions", submission_id, raise_error)
+
+
+def get_qualification_by_id(request, qualification_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "qualifications", qualification_id, raise_error)
+
+
+def get_agreement_by_id(request, agreement_id: str, raise_error: bool = True):
+    return get_obj_by_id(request, "agreements", agreement_id, raise_error)
+
+
+def request_init_object(request, obj_name, obj, obj_src=None):
+    if not obj:
+        return
+    request.validated[obj_name] = obj
+    if obj_src is not None:
+        request.validated[f"{obj_name}_src"] = obj_src
+    else:
+        request.validated[f"{obj_name}_src"] = deepcopy(request.validated[obj_name])
+    request.validated[f"{obj_name}_config"] = request.validated[obj_name].pop("config", None) or {}
+    config_serializer = request.registry.config_serializers.get(obj_name)
+    if config_serializer:
+        request.validated[f"{obj_name}_config"] = config_serializer(request.validated[f"{obj_name}_config"]).data
+    return request.validated[obj_name]
+
+
+def get_registry_object(registry, key, default=None):
+    if not hasattr(registry, key):
+        setattr(registry, key, default)
+    return getattr(registry, key)
+
+
+def register_config_serializer(config, obj_name, config_serializer):
+    registry_object = get_registry_object(config.registry, "config_serializers", default={})
+    registry_object[obj_name] = config_serializer
+
+
+def request_init_plan(request, plan, plan_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "plan",
+        plan,
+        obj_src=plan_src,
+    )
+
+
+def request_init_tender(request, tender, tender_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "tender",
+        tender,
+        obj_src=tender_src,
+    )
+
+
+def request_init_contract(request, contract, contract_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "contract",
+        contract,
+        obj_src=contract_src,
+    )
+
+
+def request_init_framework(request, framework, framework_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "framework",
+        framework,
+        obj_src=framework_src,
+    )
+
+
+def request_init_submission(request, submission, submission_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "submission",
+        submission,
+        obj_src=submission_src,
+    )
+
+
+def request_init_qualification(request, qualification, qualification_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "qualification",
+        qualification,
+        obj_src=qualification_src,
+    )
+
+
+def request_init_agreement(request, agreement, agreement_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "agreement",
+        agreement,
+        obj_src=agreement_src,
+    )
+
+
+def request_init_transfer(request, transfer, transfer_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "transfer",
+        transfer,
+        obj_src=transfer_src,
+    )
+
+def request_fetch_plan(request, plan_id, raise_error=True, force=False):
+    if should_fetch_object(request, "plan", force=force):
+        plan = get_submission_by_id(request, plan_id, raise_error=raise_error)
+        request_init_plan(request, plan)
+
+
+def request_fetch_tender(request, tender_id, raise_error=True, force=False):
+    if should_fetch_object(request, "tender", force=force):
+        tender = get_tender_by_id(request, tender_id, raise_error=raise_error)
+        request_init_tender(request, tender)
+
+
+def request_fetch_contract(request, contract_id, raise_error=True, force=False):
+    if should_fetch_object(request, "contract", force=force):
+        contract = get_contract_by_id(request, contract_id, raise_error=raise_error)
+        request_init_contract(request, contract)
+
+
+def request_fetch_framework(request, framework_id, raise_error=True, force=False):
+    if should_fetch_object(request, "framework", force=force):
+        framework = get_framework_by_id(request, framework_id, raise_error=raise_error)
+        request_init_framework(request, framework)
+
+
+def request_fetch_submission(request, submission_id, raise_error=True, force=False):
+    if should_fetch_object(request, "submission", force=force):
+        submission = get_submission_by_id(request, submission_id, raise_error=raise_error)
+        request_init_submission(request, submission)
+
+
+def request_fetch_qualification(request, qualification_id, raise_error=True, force=False):
+    if should_fetch_object(request, "qualification", force=force):
+        qualification = get_qualification_by_id(request, qualification_id, raise_error=raise_error)
+        request_init_qualification(request, qualification)
+
+
+def request_fetch_agreement(request, agreement_id, raise_error=True, force=False):
+    if should_fetch_object(request, "agreement", force=force):
+        agreement = get_agreement_by_id(request, agreement_id, raise_error=raise_error)
+        request_init_agreement(request, agreement)
+
+
+def should_fetch_object(request, obj_name, force=False):
+    if obj_name not in request.validated or force is True:
+        return True
+    return False
 
 
 def get_now():
@@ -190,21 +381,6 @@ def is_ua_road_classification(classification_id):
 def is_gmdn_classification(classification_id):
     return classification_id[:4] in GMDN_CPV_PREFIXES
 
-
-def to_decimal(value):
-    """
-    Convert other to Decimal.
-    """
-    if isinstance(value, Decimal):
-        return value
-    if isinstance(value, int) or isinstance(value, str):
-        return Decimal(value)
-    if isinstance(value, float):
-        return Decimal(repr(value))
-
-    raise TypeError("Unable to convert %s to Decimal" % value)
-
-
 @contextmanager
 def handle_data_exceptions(request):
     try:
@@ -311,13 +487,6 @@ def json_body(request):
     return request.json_body
 
 
-def parse_date(value, default_timezone=pytz.utc):
-    date = parse_datetime(value)
-    if not date.tzinfo:
-        date = default_timezone.localize(date)
-    return date
-
-
 def get_change_class(poly_model, data, _validation=False):
     rationale_type = data.get("rationaleType")
     rationale_type_class_name_mapping = {
@@ -341,30 +510,10 @@ def requested_fields_changes(request, fieldnames):
     return set(fieldnames) & set(changed_fields)
 
 
-def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):
-    collection = getattr(request.registry.mongodb, collection_name)
-    tender = collection.get(obj_id)
-    obj_name = collection_name[:-1]
-    if tender is None and raise_error:
-        request.errors.add("url", f"{obj_name}_id", "Not Found")
-        request.errors.status = 404
-        raise error_handler(request)
-    elif tender is None:
-        LOGGER.error(
-            f"{obj_name.capitalize()} {obj_id} not found",
-            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"})
-        )
-
-    return tender
-
-
-def get_tender_by_id(request, tender_id: str, raise_error: bool = True):
-    return get_obj_by_id(request, "tenders", tender_id, raise_error)
-
-
-def get_contract_by_id(request, contract_id: str, raise_error: bool = True):
-    return get_obj_by_id(request, "contracts", contract_id, raise_error)
-
-
 def get_child_items(parent, item_field, item_id):
     return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
+
+
+def register_mongodb_collection(config, collection_name, collection):
+    config.registry.mongodb
+

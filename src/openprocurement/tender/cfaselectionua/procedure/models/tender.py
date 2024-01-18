@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot

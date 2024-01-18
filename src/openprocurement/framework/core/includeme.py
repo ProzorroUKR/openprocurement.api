@@ -1,4 +1,3 @@
-from openprocurement.api.database import COLLECTION_CLASSES
 from openprocurement.framework.core.database import (
     FrameworkCollection,
     AgreementCollection,
@@ -8,6 +7,10 @@ from openprocurement.framework.core.database import (
 from logging import getLogger
 from pkg_resources import iter_entry_points
 
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
+from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
+from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
+from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.framework.core.procedure.utils import (
     extract_framework_doc,
     extract_submission_doc,
@@ -36,10 +39,10 @@ LOGGER = getLogger("openprocurement.framework.core")
 def includeme(config):
     LOGGER.info("Init framework.core plugin")
 
-    COLLECTION_CLASSES["frameworks"] = FrameworkCollection
-    COLLECTION_CLASSES["agreements"] = AgreementCollection
-    COLLECTION_CLASSES["submissions"] = SubmissionCollection
-    COLLECTION_CLASSES["qualifications"] = QualificationCollection
+    config.registry.mongodb.add_collection("frameworks", FrameworkCollection)
+    config.registry.mongodb.add_collection("agreements", AgreementCollection)
+    config.registry.mongodb.add_collection("submissions", SubmissionCollection)
+    config.registry.mongodb.add_collection("qualifications", QualificationCollection)
 
     config.add_request_method(extract_doc, "framework", reify=True)
     config.add_request_method(extract_doc, "submission", reify=True)
@@ -51,10 +54,6 @@ def includeme(config):
     config.add_request_method(extract_agreement_doc, "agreement_doc", reify=True)
 
     # framework frameworkType plugins support
-    config.registry.framework_frameworkTypes = {}
-    config.registry.submission_submissionTypes = {}
-    config.registry.qualification_qualificationTypes = {}
-    config.registry.agreement_agreementTypes = {}
     config.add_route_predicate("frameworkType", FrameworkTypePredicate)
     config.add_route_predicate("submissionType", SubmissionTypePredicate)
     config.add_route_predicate("qualificationType", QualificationTypePredicate)
@@ -67,6 +66,10 @@ def includeme(config):
     config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
     config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
     config.add_directive("add_agreement_agreementTypes", register_agreement_agreementType)
+    config.add_config_serializer("agreement", FrameworkConfigSerializer)
+    config.add_config_serializer("submission", SubmissionConfigSerializer)
+    config.add_config_serializer("qualification", QualificationConfigSerializer)
+    config.add_config_serializer("agreement", AgreementConfigSerializer)
     config.scan("openprocurement.framework.core.procedure.views")
 
     # search for plugins

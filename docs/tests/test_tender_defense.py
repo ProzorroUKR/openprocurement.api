@@ -5,7 +5,6 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.api.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
@@ -14,7 +13,6 @@ from openprocurement.tender.openua.tests.base import test_tender_openua_bids
 from tests.base.constants import (
     DOCS_URL,
     AUCTIONS_URL,
-    MOCK_DATETIME,
 )
 from tests.base.test import (
     DumpsWebTestApp,

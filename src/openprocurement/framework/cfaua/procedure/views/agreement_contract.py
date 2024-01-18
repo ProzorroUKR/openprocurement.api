@@ -3,7 +3,7 @@ from cornice.resource import resource
 from openprocurement.api.utils import json_view
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.serializers.contract import ContractSerializer
 from openprocurement.api.procedure.utils import get_items
 

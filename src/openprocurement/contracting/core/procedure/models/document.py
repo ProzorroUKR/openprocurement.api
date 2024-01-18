@@ -1,5 +1,5 @@
 from openprocurement.api.procedure.types import HashType
-from openprocurement.tender.core.procedure.context import get_contract
+from openprocurement.api.procedure.context import get_contract
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.document import BaseDocument
 from uuid import uuid4

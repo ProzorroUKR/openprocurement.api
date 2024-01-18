@@ -87,15 +87,15 @@ def main(global_config, **settings):
     config.add_renderer("jsonp", JSONP(param_name="opt_jsonp", serializer=json_dumps))
     config.add_renderer("prettyjsonp", JSONP(indent=4, param_name="opt_jsonp", serializer=json_dumps))
 
+    # mongodb
+    config.registry.mongodb = MongodbStore(settings)
+
     # search for plugins
     plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
     for entry_point in iter_entry_points("openprocurement.api.plugins"):
         if not plugins or entry_point.name in plugins:
             plugin = entry_point.load()
             plugin(config)
-
-    # mongodb
-    config.registry.mongodb = MongodbStore(settings)
 
     # Document Service key
     config.registry.docservice_url = settings.get("docservice_url")

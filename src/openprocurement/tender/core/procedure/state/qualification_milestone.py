@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.utils import raise_operation_error

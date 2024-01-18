@@ -7,10 +7,14 @@ from openprocurement.api.constants import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_BUYERS_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
 )
-from openprocurement.api.utils import to_decimal
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.context import get_request, get_now
-from openprocurement.api.procedure.utils import is_obj_const_active, get_cpv_prefix_length, get_cpv_uniq_prefixes
+from openprocurement.api.procedure.utils import (
+    is_obj_const_active,
+    get_cpv_prefix_length,
+    get_cpv_uniq_prefixes,
+    to_decimal,
+)
 from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification,

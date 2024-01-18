@@ -1,9 +1,7 @@
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.context import init_object
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
-from openprocurement.api.utils import get_tender_by_id
-from openprocurement.tender.core.procedure.context import get_tender_config
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
+from openprocurement.api.utils import get_tender_by_id, request_init_tender
+from openprocurement.api.procedure.context import get_tender_config
 
 
 def restricted_serializer(obj, value):
@@ -23,7 +21,7 @@ def restricted_serializer(obj, value):
             if tender is None:
                 return False
 
-            init_object("tender", tender, config_serializer=TenderConfigSerializer)
+            request_init_tender(request, tender)
             tender_config = get_tender_config()
 
         return tender_config["restricted"]

@@ -4,7 +4,8 @@ from copy import deepcopy
 from datetime import timedelta
 from freezegun import freeze_time
 
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import (
     TZ,
     ROUTE_PREFIX,

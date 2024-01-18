@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-from openprocurement.api.utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
     test_tender_below_author,

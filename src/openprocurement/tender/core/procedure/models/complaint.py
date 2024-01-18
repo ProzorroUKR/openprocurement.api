@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.validation import validate_related_lot
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now, get_request
 from schematics.types import StringType, MD5Type, BaseType, BooleanType
 from schematics.exceptions import ValidationError

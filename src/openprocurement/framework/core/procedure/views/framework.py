@@ -7,7 +7,7 @@ from openprocurement.api.utils import (
     update_logging_context,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.framework.core.procedure.context import get_object_config, get_object
+from openprocurement.api.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object

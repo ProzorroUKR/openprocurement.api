@@ -234,6 +234,9 @@ Content-Type: application/json
       }
     ],
     "id": "b7536ab0fbe34a1dafa73fe7943ff79c"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

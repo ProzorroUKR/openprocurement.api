@@ -1,11 +1,11 @@
 from typing import Union
 
-from openprocurement.api.context import thread_context
+from openprocurement.api.procedure.context import get_object
 
 
 def get_plan() -> Union[dict, None]:
-    return thread_context.request.validated.get("plan")
+    return get_object("plan")
 
 
 def get_milestone() -> Union[dict, None]:
-    return thread_context.request.validated.get("milestone")
+    return get_object("milestone")

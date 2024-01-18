@@ -1,9 +1,8 @@
 from logging import getLogger
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now, get_request
-from openprocurement.framework.core.procedure.context import get_object
-from openprocurement.tender.core.procedure.state.base import BaseState
-
+from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.state.base import BaseState
 
 LOGGER = getLogger(__name__)
 

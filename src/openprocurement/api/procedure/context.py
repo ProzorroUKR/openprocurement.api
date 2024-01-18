@@ -1,16 +1,33 @@
-from copy import deepcopy
+from typing import Union
 
 from openprocurement.api.context import get_request
 
 
-def init_object(obj_name, obj, obj_src=None, config_serializer=None):
+def get_object(obj_name) -> Union[dict, None]:
     request = get_request()
-    request.validated[obj_name] = obj
-    if obj_src is not None:
-        request.validated[f"{obj_name}_src"] = obj_src
-    else:
-        request.validated[f"{obj_name}_src"] = deepcopy(request.validated[obj_name])
-    request.validated[f"{obj_name}_config"] = request.validated[obj_name].pop("config", None) or {}
-    if config_serializer:
-        request.validated[f"{obj_name}_config"] = config_serializer(request.validated[f"{obj_name}_config"]).data
-    return request.validated[obj_name]
+    return request.validated.get(obj_name)
+
+
+def get_object_config(obj_name) -> Union[dict, None]:
+    request = get_request()
+    return request.validated.get(f"{obj_name}_config", {})
+
+
+def get_plan() -> Union[dict, None]:
+    return get_object("plan")
+
+
+def get_tender() -> Union[dict, None]:
+    return get_object("tender")
+
+
+def get_tender_config() -> Union[dict, None]:
+    return get_object_config("tender")
+
+
+def get_contract() -> Union[dict, None]:
+    return get_object("contract")
+
+
+def get_contract_config() -> Union[dict, None]:
+    return get_object_config("contract")

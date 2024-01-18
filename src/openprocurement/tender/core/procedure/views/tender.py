@@ -1,16 +1,12 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context,
+    update_logging_context, request_fetch_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.mask import mask_object_data
-from openprocurement.framework.core.utils import request_fetch_agreement
-from openprocurement.tender.core.procedure.context import (
-    get_tender_config,
-    get_tender,
-)
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,

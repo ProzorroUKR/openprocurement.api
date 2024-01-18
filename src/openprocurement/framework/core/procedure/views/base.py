@@ -1,6 +1,11 @@
-from openprocurement.api.procedure.context import init_object
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import context_unpack
+from openprocurement.api.utils import (
+    context_unpack,
+    get_framework_by_id,
+    request_init_object,
+    request_init_framework,
+    request_init_submission, request_init_qualification, request_init_agreement,
+)
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
@@ -12,7 +17,6 @@ from openprocurement.tender.core.procedure.serializers.document import DocumentS
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin, resolve_document
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.utils import get_framework_by_id
 from openprocurement.api.database import atomic_transaction
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
@@ -70,47 +74,40 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
             # getting framework, submission, qualification, agreement
             match_dict = request.matchdict
             if match_dict:
-                self.get_object_data_and_config(
+                self.fetch_object(
                     request,
                     match_dict,
-                    obj_name="framework",
-                    config_serializer=FrameworkConfigSerializer,
+                    "framework",
+                    request_init_framework,
                 )
-                self.get_object_data_and_config(
+                self.fetch_object(
                     request,
                     match_dict,
-                    obj_name="submission",
-                    config_serializer=SubmissionConfigSerializer,
+                    "submission",
+                    request_init_submission,
                 )
-                self.get_object_data_and_config(
+                self.fetch_object(
                     request,
                     match_dict,
-                    obj_name="qualification",
-                    config_serializer=QualificationConfigSerializer,
+                    "qualification",
+                    request_init_qualification,
                 )
-                self.get_object_data_and_config(
+                self.fetch_object(
                     request,
                     match_dict,
-                    obj_name="agreement",
-                    config_serializer=AgreementConfigSerializer,
+                    "agreement",
+                    request_init_agreement,
                 )
 
-    def get_object_data_and_config(self, request, match_dict, obj_name="framework", config_serializer=None):
+    @staticmethod
+    def fetch_object(request, match_dict, obj_name, obj_init_func):
         if match_dict.get(f"{obj_name}_id"):
-            init_object(
-                obj_name,
-                getattr(request, f"{obj_name}_doc"),
-                config_serializer=config_serializer,
-            )
+            obj_init_func(request, getattr(request, f"{obj_name}_doc"))
             if "frameworkID" in request.validated[obj_name]:
                 framework_doc = get_framework_by_id(request, request.validated[obj_name].get("frameworkID"))
                 model = request.framework_from_data(framework_doc, create=False)
                 framework = model(framework_doc)
-                init_object(
-                    "framework",
-                    framework.serialize(),
-                    config_serializer=FrameworkConfigSerializer,
-                )
+                request_init_framework(request, framework.serialize())
 
     def save_all_objects(self):
         logger = self.LOGGER

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 
 

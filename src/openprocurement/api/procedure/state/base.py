@@ -1,7 +1,7 @@
-import json
+import logging
 
 from openprocurement.api.context import get_now
-import logging
+
 
 logger = logging.getLogger(__name__)
 

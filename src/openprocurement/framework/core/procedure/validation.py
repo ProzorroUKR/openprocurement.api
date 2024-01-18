@@ -2,10 +2,9 @@ from copy import deepcopy
 
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import raise_operation_error, get_framework_by_id, get_agreement_by_id
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.framework.core.procedure.utils import is_framework_owner, is_tender_owner
-from openprocurement.framework.core.utils import get_framework_by_id, get_agreement_by_id
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

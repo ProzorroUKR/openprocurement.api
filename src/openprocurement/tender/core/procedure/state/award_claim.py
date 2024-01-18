@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_tender, get_award, get_request
+from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin

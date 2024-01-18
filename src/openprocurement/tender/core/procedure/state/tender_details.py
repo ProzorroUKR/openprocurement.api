@@ -4,9 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.procedure.context import init_object
-from openprocurement.framework.core.procedure.context import get_object, get_object_config
-from openprocurement.framework.core.utils import get_agreement_by_id
+from openprocurement.api.procedure.context import get_object, get_object_config, get_tender_config
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -19,7 +17,6 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender_config,
 )
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
@@ -30,7 +27,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
 )
 from openprocurement.api.utils import (
-    raise_operation_error,
+    raise_operation_error, get_agreement_by_id,
 )
 from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -219,14 +216,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     name="tenderPeriod.startDate"
                 )
         super().status_up(before, after, data)
-
-    def get_agreement(self, agreement_id):
-        request = get_request()
-        if "agreement" not in request.validated:
-            agreement = get_agreement_by_id(request, agreement_id, raise_error=False)
-            if agreement:
-                init_object("agreement", agreement)
-        return get_object("agreement")
 
 
     def validate_pre_selection_agreement(self, tender):

@@ -1,7 +1,6 @@
-from copy import deepcopy
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
-from openprocurement.api.procedure.context import init_object
+from openprocurement.api.utils import request_init_plan
 from openprocurement.api.views.base import BaseResource
 from openprocurement.planning.api.procedure.models.document import Document
 from openprocurement.planning.api.procedure.serializers.document import DocumentSerializer
@@ -43,7 +42,7 @@ class PlanBaseResource(BaseResource):
             # getting plan
             match_dict = request.matchdict
             if match_dict and match_dict.get("plan_id"):
-                init_object("plan", request.plan_doc)
+                request_init_plan(request, request.plan_doc)
 
 
 class BaseDocumentResource(PlanBaseResource, DocumentResourceMixin):

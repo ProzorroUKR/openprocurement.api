@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from mock import patch, MagicMock, call
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
 )

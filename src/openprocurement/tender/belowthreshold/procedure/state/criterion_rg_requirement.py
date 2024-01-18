@@ -2,7 +2,7 @@ from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.tender.belowthreshold.procedure.state.criterion import BaseBelowThresholdCriterionStateMixin
 from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementStateMixin
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.tender.core.procedure.validation import (
     base_validate_operation_ecriteria_objects,

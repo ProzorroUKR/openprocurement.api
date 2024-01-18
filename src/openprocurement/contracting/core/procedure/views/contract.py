@@ -11,7 +11,7 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.tender.core.procedure.context import get_contract_config
+from openprocurement.api.procedure.context import get_contract_config
 from openprocurement.tender.core.procedure.validation import unless_admins, validate_config_data
 from openprocurement.tender.core.procedure.validation import (
     validate_accreditation_level,

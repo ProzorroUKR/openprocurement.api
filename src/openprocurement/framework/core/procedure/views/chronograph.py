@@ -1,5 +1,5 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.framework.core.procedure.context import get_object_config
+from openprocurement.api.procedure.context import get_object_config
 from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource

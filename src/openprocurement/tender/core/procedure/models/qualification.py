@@ -2,7 +2,7 @@ from schematics.exceptions import ValidationError
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from uuid import uuid4
 from openprocurement.tender.core.procedure.models.req_response import (

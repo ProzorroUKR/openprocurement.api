@@ -2,8 +2,8 @@ from openprocurement.api.auth import ACCR_5, ACCR_1, ACCR_2
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender_config,
 )
+from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,

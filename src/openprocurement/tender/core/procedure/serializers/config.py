@@ -1,7 +1,7 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
-from openprocurement.framework.core.procedure.context import get_object_config
-from openprocurement.framework.core.utils import request_fetch_agreement
+from openprocurement.api.procedure.context import get_object_config
+from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_complaints import (
     award_complaints_populator,
     tender_complaints_populator,
@@ -13,7 +13,6 @@ from openprocurement.tender.core.migrations.add_config_min_bids_number import mi
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
 from openprocurement.tender.core.migrations.add_config_has_prequalification_field import has_prequalification_populator
 from openprocurement.tender.core.migrations.add_config_pre_selection import pre_selection_populator
-from openprocurement.tender.core.migrations.add_config_restricted import restricted_populator
 
 
 def has_auction_serializer(obj, value):

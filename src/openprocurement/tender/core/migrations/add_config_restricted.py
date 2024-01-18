@@ -1,6 +1,6 @@
 from gevent import monkey
 
-from openprocurement.framework.core.utils import get_agreement_by_id
+from openprocurement.api.utils import get_agreement_by_id
 
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)

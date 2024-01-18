@@ -1,5 +1,4 @@
 from datetime import timedelta
-from copy import deepcopy
 from functools import wraps
 from logging import getLogger
 from dateorro import (
@@ -11,19 +10,12 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, TZ
-from openprocurement.api.procedure.context import init_object
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
-    get_now,
-    raise_operation_error,
-    get_obj_by_id,
+    get_now, get_registry_object,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
-from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
-from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
-from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.tender.core.utils import ACCELERATOR_RE
 
 LOGGER = getLogger("openprocurement.framework.core")
@@ -126,28 +118,23 @@ class AgreementTypePredicate(object):
 
 
 def register_framework_frameworkType(config, model):
-    """Register a framework frameworkType.
-    :param config:
-        The pyramid configuration object that will be populated.
-    :param model:
-        The framework model class
-    """
-    config.registry.framework_frameworkTypes[model.frameworkType.default] = model
+    registry_object = get_registry_object(config.registry, "framework_frameworkTypes", default={})
+    registry_object[model.frameworkType.default] = model
 
 
 def register_submission_submissionType(config, model):
-    submission_type = model.submissionType.default
-    config.registry.submission_submissionTypes[submission_type] = model
+    registry_object = get_registry_object(config.registry, "submission_submissionTypes", default={})
+    registry_object[model.submissionType.default] = model
 
 
 def register_qualification_qualificationType(config, model):
-    qualification_type = model.qualificationType.default
-    config.registry.qualification_qualificationTypes[qualification_type] = model
+    registry_object = get_registry_object(config.registry, "qualification_qualificationTypes", default={})
+    registry_object[model.qualificationType.default] = model
 
 
 def register_agreement_agreementType(config, model):
-    agreement_type = model.agreementType.default
-    config.registry.agreement_agreementTypes[agreement_type] = model
+    registry_object = get_registry_object(config.registry, "agreement_agreementTypes", default={})
+    registry_object[model.agreementType.default] = model
 
 
 def object_from_data(request, data, obj_name, raise_error=True, create=True):
@@ -255,50 +242,6 @@ def acceleratable(wrapped):
         )
 
     return wrapper
-
-
-def get_framework_by_id(request, framework_id, raise_error=True):
-    if framework_id:
-        return get_obj_by_id(request, "frameworks", framework_id, raise_error)
-
-
-def get_submission_by_id(request, submission_id, raise_error=True):
-    if submission_id:
-        return get_obj_by_id(request, "submissions", submission_id, raise_error)
-
-
-def get_qualification_by_id(request, qualification_id, raise_error=True):
-    if qualification_id:
-        return get_obj_by_id(request, "qualifications", qualification_id, raise_error)
-
-
-def get_agreement_by_id(request, agreement_id, raise_error=True):
-    if agreement_id:
-        return get_obj_by_id(request, "agreements", agreement_id, raise_error)
-
-
-def request_fetch_framework(request, framework_id, raise_error=True):
-    framework = get_submission_by_id(request, framework_id, raise_error=raise_error)
-    if framework:
-        init_object("framework", framework, config_serializer=FrameworkConfigSerializer)
-
-
-def request_fetch_submission(request, submission_id, raise_error=True):
-    submission = get_submission_by_id(request, submission_id, raise_error=raise_error)
-    if submission:
-        init_object("submission", submission, config_serializer=SubmissionConfigSerializer)
-
-
-def request_fetch_qualification(request, qualification_id, raise_error=True):
-    qualification = get_qualification_by_id(request, qualification_id, raise_error=raise_error)
-    if qualification:
-        init_object("qualification", qualification, config_serializer=QualificationConfigSerializer)
-
-
-def request_fetch_agreement(request, agreement_id, raise_error=True):
-    agreement = get_agreement_by_id(request, agreement_id, raise_error=raise_error)
-    if agreement:
-        init_object("agreement", agreement, config_serializer=AgreementConfigSerializer)
 
 
 @acceleratable

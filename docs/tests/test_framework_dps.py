@@ -11,10 +11,8 @@ from tests.base.test import (
     MockWebTestMixin,
 )
 
-from openprocurement.api.utils import (
-    get_now,
-    parse_date,
-)
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
     BaseFrameworkWebTest, test_question_data,

@@ -1,12 +1,9 @@
 from logging import getLogger
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import init_object
-from openprocurement.api.utils import generate_id
-from openprocurement.framework.core.procedure.context import get_object, get_object_config
-from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
+from openprocurement.api.utils import generate_id, request_init_qualification
+from openprocurement.api.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.tender.core.procedure.state.base import BaseState
-
+from openprocurement.api.procedure.state.base import BaseState
 
 LOGGER = getLogger(__name__)
 
@@ -80,11 +77,6 @@ class QualificationState(ChronographEventsMixing, BaseState):
             },
         }
 
-        init_object(
-            "qualification",
-            qualification,
-            obj_src={},
-            config_serializer=QualificationConfigSerializer,
-        )
+        request_init_qualification(request, qualification, qualification_src={})
 
         return qualification

@@ -1,7 +1,6 @@
-from openprocurement.api.procedure.context import init_object
+from openprocurement.api.utils import request_init_object, request_fetch_agreement, request_init_tender
 from openprocurement.api.views.base import BaseResource
-from openprocurement.framework.core.utils import request_fetch_agreement
-from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
@@ -37,7 +36,7 @@ class TenderBaseResource(BaseResource):
             # getting tender
             match_dict = request.matchdict
             if match_dict and match_dict.get("tender_id"):
-                tender = init_object("tender", request.tender_doc, config_serializer=TenderConfigSerializer)
+                tender = request_init_tender(request, request.tender_doc)
                 tender_config = get_tender_config()
 
                 if request.method not in ("GET", "HEAD"):

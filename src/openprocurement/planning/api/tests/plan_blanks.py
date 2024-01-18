@@ -11,7 +11,8 @@ from openprocurement.api.constants import (
     TZ,
 )
 from openprocurement.api.context import set_now
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 
 from openprocurement.planning.api.constants import PROCEDURES
 from openprocurement.api.database import MongodbResourceConflict

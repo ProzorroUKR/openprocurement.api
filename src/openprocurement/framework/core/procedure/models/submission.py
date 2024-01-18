@@ -7,13 +7,12 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_framework_by_id
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.organization import (
     SubmissionBusinessOrganization,
     SubmissionBusinessOrganization,
 )
-from openprocurement.framework.core.utils import get_framework_by_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 
 

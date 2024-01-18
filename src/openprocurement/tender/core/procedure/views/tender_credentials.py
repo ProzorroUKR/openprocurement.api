@@ -1,5 +1,5 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.serializers.tender_credentials import TenderCredentialsSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from cornice.resource import resource

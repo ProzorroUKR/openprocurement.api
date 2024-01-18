@@ -5,7 +5,7 @@ from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.procedure.validation import validate_input_data_from_resolved_model
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.api.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.models.agreement import AgreementConfig
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.utils import save_object
@@ -61,7 +61,10 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
 
     @json_view(permission="view_agreement")
     def get(self):
-        return {"data": self.serializer_class(get_object("agreement")).data}
+        return {
+            "data": self.serializer_class(get_object("agreement")).data,
+            "config": get_object_config("agreement"),
+        }
 
     @json_view(
         content_type="application/json",
@@ -90,4 +93,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
                     f"Updated agreement {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
                 )
-        return {"data": self.serializer_class(get_object("agreement")).data}
+        return {
+            "data": self.serializer_class(get_object("agreement")).data,
+            "config": get_object_config("agreement"),
+        }

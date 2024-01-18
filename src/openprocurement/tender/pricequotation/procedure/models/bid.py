@@ -4,7 +4,8 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
 
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
 from openprocurement.api.procedure.types import ListType

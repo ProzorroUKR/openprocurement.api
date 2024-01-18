@@ -7,7 +7,8 @@ from jsonschema import validate
 import requests
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import parse_date, get_now
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,

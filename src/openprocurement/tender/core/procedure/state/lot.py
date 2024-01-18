@@ -1,10 +1,9 @@
 from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsState
 from openprocurement.tender.core.procedure.context import (
-    get_tender,
     get_request,
-    get_tender_config,
 )
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 
 
 class LotStateMixin:

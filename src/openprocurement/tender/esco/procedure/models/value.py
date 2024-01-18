@@ -8,7 +8,7 @@ from esculator import npv, escp
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType, DecimalType, StringDecimalType as StringDecimalType
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.utils import to_decimal
 

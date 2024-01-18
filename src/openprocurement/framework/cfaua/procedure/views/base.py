@@ -1,10 +1,8 @@
-from openprocurement.api.procedure.context import init_object
+from openprocurement.api.utils import request_init_agreement
 from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 
 
 class AgreementBaseResource(BaseResource):
@@ -34,4 +32,4 @@ class AgreementBaseResource(BaseResource):
             # getting agreement
             match_dict = request.matchdict
             if match_dict and match_dict.get("agreement_id"):
-                init_object("agreement", request.agreement_doc, config_serializer=AgreementConfigSerializer)
+                request_init_agreement(request, request.agreement_doc)

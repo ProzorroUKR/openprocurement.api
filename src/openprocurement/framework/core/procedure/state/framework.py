@@ -7,8 +7,7 @@ from jsonschema.validators import validate
 
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
-from openprocurement.api.procedure.context import init_object
-from openprocurement.api.utils import raise_operation_error, context_unpack
+from openprocurement.api.utils import raise_operation_error, context_unpack, get_agreement_by_id, request_init_object
 from openprocurement.framework.core.constants import (
     MIN_QUALIFICATION_DURATION,
     MAX_QUALIFICATION_DURATION,
@@ -16,18 +15,17 @@ from openprocurement.framework.core.constants import (
     SUBMISSION_STAND_STILL_DURATION,
     ENQUIRY_STAND_STILL_TIME,
 )
-from openprocurement.framework.core.procedure.context import get_object_config
+from openprocurement.api.procedure.context import get_object_config
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.procedure.utils import save_object, get_framework_unsuccessful_status_check_date
 from openprocurement.framework.core.utils import (
-    get_agreement_by_id,
     calculate_framework_date,
 )
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
 from openprocurement.framework.core.procedure.state.qualification import QualificationState
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity")
@@ -127,7 +125,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             agreement = get_agreement_by_id(request, agreement_id)
             model = get_request().agreement_from_data(agreement, create=False)
             agreement = model(agreement)
-            init_object("agreement", agreement.serialize(), config_serializer=AgreementConfigSerializer)
+            request_init_object(request, "agreement", agreement.serialize())
 
     def validate_framework_patch_status(self, data):
         framework_status = data.get("status")

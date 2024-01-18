@@ -1,16 +1,14 @@
 from logging import getLogger
 from hashlib import sha512
 from openprocurement.api.context import get_request, get_now
-from openprocurement.api.procedure.context import init_object
-from openprocurement.api.utils import generate_id, context_unpack
+from openprocurement.api.utils import generate_id, context_unpack, request_init_agreement
 from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement,
     AgreementChronographData,
 )
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.utils import generate_agreement_id
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 
 LOGGER = getLogger(__name__)
 
@@ -94,12 +92,7 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 },
             }
 
-            init_object(
-                "agreement",
-                agreement,
-                obj_src={},
-                config_serializer=AgreementConfigSerializer,
-            )
+            request_init_agreement(request, agreement, agreement_src={})
 
             # update framework
             request.validated["framework"]["agreementID"] = agreement['id']

@@ -1,5 +1,5 @@
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,

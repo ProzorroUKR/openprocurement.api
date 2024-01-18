@@ -4,7 +4,7 @@ from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.api.procedure.context import get_object
 
 
 @resource(

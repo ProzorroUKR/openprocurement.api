@@ -15,7 +15,8 @@ from openprocurement.historical.core.constants import (
     ACCREDITATION_LEVELS,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, json_view, context_unpack, parse_date
+from openprocurement.api.utils import error_handler, json_view, context_unpack
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.views.base import BaseResource
 
 

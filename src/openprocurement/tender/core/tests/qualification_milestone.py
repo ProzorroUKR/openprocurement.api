@@ -1,4 +1,5 @@
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date

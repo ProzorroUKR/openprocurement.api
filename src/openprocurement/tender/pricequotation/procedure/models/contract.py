@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.models.contract import (
 )
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

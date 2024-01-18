@@ -9,6 +9,7 @@ from bson.codec_options import CodecOptions
 from bson.decimal128 import Decimal128
 from decimal import Decimal
 from contextlib import contextmanager
+
 from openprocurement.api.context import get_now, get_db_session, get_request
 
 LOGGER = getLogger("{}.init".format(__name__))
@@ -44,7 +45,6 @@ type_registry = TypeRegistry([
     DecimalCodec(),
 ])
 codec_options = CodecOptions(type_registry=type_registry)
-COLLECTION_CLASSES = {}
 
 
 def get_public_modified():
@@ -55,6 +55,8 @@ def get_public_modified():
 class MongodbStore:
 
     def __init__(self, settings):
+        self.settings = settings
+
         db_name = os.environ.get("DB_NAME", settings["mongodb.db_name"])
         mongodb_uri = os.environ.get("MONGODB_URI", settings["mongodb.uri"])
         max_pool_size = int(os.environ.get("MONGODB_MAX_POOL_SIZE", settings["mongodb.max_pool_size"]))
@@ -86,10 +88,27 @@ class MongodbStore:
             codec_options=codec_options,
         )
 
-        # code related to specific packages, like:
-        # store.plans.get(uid) or store.tenders.save(doc) or store.tenders.count(filters)
-        for name, cls in COLLECTION_CLASSES.items():
-            setattr(self, name, cls(self, settings))
+    collections = {}
+
+    def __getattr__(self, name):
+        """
+        Used in code related to specific packages, like:
+        >>> store = MongodbStore(settings)
+        >>> store.add_collection("tenders", TenderCollection)
+        >>> store.add_collection("plans", PlanCollection)
+        >>> store.plans.get(uid)
+        >>> store.tenders.save(doc)
+        >>> store.tenders.count(filters)
+
+        :param name: collection name
+        :return: collection instance
+        """
+        if name in self.collections:
+            return self.collections[name]
+        raise AttributeError(f"MongodbStore has no attribute {name}")
+
+    def add_collection(self, name, cls):
+        self.collections[name] = cls(self, self.settings)
 
     def get_sequences_collection(self):
         return self.database.sequences

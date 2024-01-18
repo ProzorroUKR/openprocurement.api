@@ -2,8 +2,8 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender,
 )
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,

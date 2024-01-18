@@ -1,5 +1,4 @@
-from openprocurement.tender.core.procedure.state.base import BaseState
-
+from openprocurement.api.procedure.state.base import BaseState
 
 TRANSACTION_STATUS_MAP = {
     "0": "successful",

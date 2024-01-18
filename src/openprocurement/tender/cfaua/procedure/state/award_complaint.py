@@ -1,6 +1,6 @@
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.state.award_complaint import AwardComplaintStateMixin
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 
 
 class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):

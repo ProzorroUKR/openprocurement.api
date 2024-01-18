@@ -15,7 +15,7 @@ from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeThirdParty,
     ChangePartyWithdrawal,
 )
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

@@ -3,7 +3,8 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,

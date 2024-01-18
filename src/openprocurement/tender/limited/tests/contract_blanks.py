@@ -4,7 +4,8 @@ import time
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 

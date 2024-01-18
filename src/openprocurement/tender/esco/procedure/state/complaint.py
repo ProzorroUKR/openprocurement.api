@@ -11,8 +11,8 @@ from openprocurement.tender.esco.procedure.utils import get_bid_identifier, all_
 from openprocurement.api.utils import (
     get_uah_amount_from_value,
     raise_operation_error,
-    to_decimal,
 )
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.auth import extract_access_token
 from logging import getLogger
 

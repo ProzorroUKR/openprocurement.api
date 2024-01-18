@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
     ObjResponseMixin,
 )
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.serializable import serializable
 from uuid import uuid4

@@ -16,14 +16,13 @@ from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.utils import (
     apply_data_patch,
     append_revision,
-    get_revision_changes,
+    get_revision_changes, parse_date,
 )
 from openprocurement.api.utils import (
     handle_store_exceptions,
     context_unpack,
     raise_operation_error,
     get_first_revision_date,
-    parse_date,
     error_handler,
     get_child_items,
 )
@@ -38,8 +37,8 @@ from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUC
 from openprocurement.tender.core.procedure.context import (
     get_bid,
     get_request,
-    get_tender,
 )
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.utils import (
     QUICK,

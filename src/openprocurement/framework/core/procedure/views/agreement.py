@@ -11,7 +11,7 @@ from openprocurement.api.views.base import MongodbResourceListing, RestrictedRes
 from openprocurement.framework.core.procedure.mask import AGREEMENT_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
-from openprocurement.framework.core.procedure.context import get_object_config, get_object
+from openprocurement.api.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.procedure.utils import set_ownership
@@ -84,6 +84,7 @@ class AgreementsResource(FrameworkBaseResource):
             )
             return {
                 "data": self.serializer_class(agreement).data,
+                "config": get_object_config("agreement"),
                 "access": access,
             }
 

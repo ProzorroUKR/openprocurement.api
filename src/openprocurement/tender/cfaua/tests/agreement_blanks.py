@@ -3,6 +3,7 @@ from datetime import timedelta, datetime
 from isodate import duration_isoformat
 from uuid import uuid4
 
+import openprocurement.api.procedure.context
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period

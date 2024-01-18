@@ -5,8 +5,8 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender_config, get_tender,
 )
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.utils import (

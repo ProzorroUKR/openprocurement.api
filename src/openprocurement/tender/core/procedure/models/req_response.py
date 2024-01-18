@@ -14,7 +14,7 @@ from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.reference import Reference
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     get_criterion_requirement,
     bid_in_invalid_status,

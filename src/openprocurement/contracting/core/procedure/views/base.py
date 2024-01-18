@@ -1,11 +1,8 @@
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
-from openprocurement.api.procedure.context import init_object
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import get_tender_by_id
-from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
+from openprocurement.api.utils import get_tender_by_id, request_init_contract, request_init_tender
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 
 
 class ContractBaseResource(BaseResource):
@@ -44,11 +41,11 @@ class ContractBaseResource(BaseResource):
             if match_dict and match_dict.get("contract_id"):
 
                 contract_doc = request.contract_doc
-                init_object("contract", contract_doc, config_serializer=ContractConfigSerializer)
+                request_init_contract(request, contract_doc)
 
-                if "buyer" in contract_doc:
+                if "buyer" in contract_doc and request.method not in ("GET", "HEAD"):
                     tender_doc = get_tender_by_id(request, contract_doc["tender_id"])
-                    init_object("tender", tender_doc, config_serializer=TenderConfigSerializer)
+                    request_init_tender(request, tender_doc)
                     award = [
                         award for award in tender_doc.get("awards", [])
                         if award.get("id") == contract_doc.get("awardID")

@@ -202,6 +202,9 @@ Content-Type: application/json
     "numberOfContracts": 3,
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "b7536ab0fbe34a1dafa73fe7943ff79c"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

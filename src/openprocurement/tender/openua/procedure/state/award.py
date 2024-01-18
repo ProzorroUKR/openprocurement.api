@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import get_request, get_tender, get_tender_config
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState

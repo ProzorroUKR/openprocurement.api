@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import error_handler
-from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender_config
 
 
 def has_unanswered_questions(tender, filter_cancelled_lots=True):

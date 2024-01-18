@@ -18,9 +18,8 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS, FUNDERS,
 )
-from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner
+from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner, to_decimal
 from openprocurement.api.utils import (
-    to_decimal,
     raise_operation_error,
     handle_data_exceptions,
     error_handler,
@@ -48,7 +47,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
 from schematics.exceptions import ValidationError

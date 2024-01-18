@@ -7,7 +7,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.constants import PQ_CRITERIA_ID_FROM
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.unit import Unit as BaseUnit
 from openprocurement.tender.pricequotation.procedure.validation import (
     validate_value_type,

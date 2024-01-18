@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.context import get_tender, get_contract
+from openprocurement.api.procedure.context import get_tender, get_contract
 from schematics.types import StringType, MD5Type, FloatType
 from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError

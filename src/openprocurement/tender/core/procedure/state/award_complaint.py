@@ -2,7 +2,8 @@ from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwa
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
-from openprocurement.tender.core.procedure.context import get_award, get_tender
+from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
 from logging import getLogger
