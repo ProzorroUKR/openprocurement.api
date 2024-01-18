@@ -7,11 +7,7 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_signer_info_update_in_not_allowed_status,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    unless_administrator,
-)
-from openprocurement.tender.core.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_input_data, unless_administrator, unless_admins
 from openprocurement.contracting.econtract.procedure.models.organization import SignerInfo
 from openprocurement.contracting.econtract.procedure.state.signer_info import EContractSignerInfoState
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource

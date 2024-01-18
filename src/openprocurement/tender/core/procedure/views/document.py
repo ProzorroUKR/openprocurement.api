@@ -12,13 +12,11 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
-    validate_item_owner,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
     validate_data_model,
+    validate_input_data,
+    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.tender.core.procedure.utils import (
     delete_nones,

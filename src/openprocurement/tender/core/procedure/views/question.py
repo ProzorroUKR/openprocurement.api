@@ -14,10 +14,12 @@ from openprocurement.tender.core.procedure.models.question import (
     Question,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    validate_input_data,
+    validate_operation_with_lot_cancellation_in_pending,
+)
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
-    validate_operation_with_lot_cancellation_in_pending, validate_accreditation_level,
+    validate_input_data,
+    validate_item_owner, validate_accreditation_level,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

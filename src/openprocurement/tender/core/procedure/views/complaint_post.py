@@ -1,11 +1,9 @@
 from openprocurement.api.utils import json_view, update_logging_context
 from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
     validate_any,
     unless_reviewers,
-    validate_data_documents,
 )
+from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, validate_item_owner
 from openprocurement.tender.core.procedure.serializers.complaint_post import ComplaintPostSerializer
 from openprocurement.tender.core.procedure.state.complaint_post import ComplaintPostState
 from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost

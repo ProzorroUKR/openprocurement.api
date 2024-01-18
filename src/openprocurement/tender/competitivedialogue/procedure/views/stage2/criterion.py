@@ -8,12 +8,10 @@ from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion
 from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.competitivedialogue.procedure.state.criterion import CDCriterionState
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_item_owner,
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
     validate_input_data,
-    validate_patch_data_simple
+    validate_item_owner, unless_administrator, unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 

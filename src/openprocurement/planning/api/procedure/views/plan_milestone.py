@@ -6,11 +6,10 @@ from cornice.resource import resource
 from openprocurement.api.utils import json_view, update_logging_context, context_unpack
 from openprocurement.tender.core.procedure.utils import set_ownership
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_data_documents, validate_item_owner,
 )
 from openprocurement.planning.api.procedure.models.milestone import PostMilestone, PatchMilestone, Milestone
 from openprocurement.planning.api.procedure.serializers.milestone import MilestoneSerializer

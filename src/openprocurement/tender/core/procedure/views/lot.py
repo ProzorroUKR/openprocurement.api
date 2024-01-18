@@ -11,12 +11,14 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,
     validate_delete_lot_related_object,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner,
 )
 from openprocurement.tender.core.procedure.models.lot import Lot, PostLot, PatchLot
 from openprocurement.tender.core.procedure.state.lot import LotState

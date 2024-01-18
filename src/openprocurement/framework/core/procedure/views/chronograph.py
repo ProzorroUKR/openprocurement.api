@@ -4,7 +4,7 @@ from openprocurement.framework.core.procedure.models.framework import FrameworkC
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.tender.core.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_input_data
 
 
 class FrameworkChronographResource(FrameworkBaseResource):

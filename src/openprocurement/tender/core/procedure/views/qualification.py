@@ -11,14 +11,16 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data,
     validate_qualification_update_not_in_pre_qualification,
     validate_cancelled_qualification_update,
     validate_update_status_before_milestone_due_date,
     validate_operation_with_lot_cancellation_in_pending,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.api.utils import context_unpack
 

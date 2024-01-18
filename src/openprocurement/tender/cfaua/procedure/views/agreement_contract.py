@@ -1,8 +1,8 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.agreement import resolve_agreement

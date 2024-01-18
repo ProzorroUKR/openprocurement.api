@@ -4,13 +4,11 @@ from openprocurement.tender.core.procedure.serializers.document import DocumentS
 from openprocurement.contracting.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
     validate_data_model,
+    validate_input_data,
+    unless_admins, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.state.document import BaseDocumentState

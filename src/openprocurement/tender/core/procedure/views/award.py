@@ -8,10 +8,10 @@ from openprocurement.api.context import get_db_session
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
     validate_create_award_not_in_allowed_period,
     validate_create_award_only_for_active_lot,
 )
+from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.models.award import PostAward
 from pyramid.security import Allow, Everyone
 from logging import getLogger

@@ -1,8 +1,4 @@
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data,
     validate_update_award_in_not_allowed_status,
     validate_update_award_only_for_active_lots,
     validate_award_with_lot_cancellation_in_pending,
@@ -10,6 +6,12 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_status_before_milestone_due_date,
     validate_create_award_not_in_allowed_period,
     validate_create_award_only_for_active_lot,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.openeu.procedure.models.award import PatchAward, Award, PostAward

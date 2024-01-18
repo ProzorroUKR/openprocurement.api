@@ -8,11 +8,7 @@ from openprocurement.framework.core.procedure.validation import (
 )
 from openprocurement.framework.core.procedure.views.contract import AgreementContractsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_patch_data,
-    validate_item_owner,
-)
+from openprocurement.api.procedure.validation import validate_patch_data, validate_input_data, validate_item_owner
 
 
 @resource(

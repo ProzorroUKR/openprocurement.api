@@ -6,7 +6,8 @@ from openprocurement.tender.core.procedure.utils import (
     save_tender,
 )
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.core.procedure.validation import validate_view_bids, unless_item_owner
+from openprocurement.tender.core.procedure.validation import validate_view_bids
+from openprocurement.api.procedure.validation import unless_item_owner
 from openprocurement.tender.core.procedure.state.bid import BidState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger

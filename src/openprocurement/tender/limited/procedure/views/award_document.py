@@ -1,13 +1,10 @@
 from openprocurement.tender.core.procedure.views.award_document import BaseAwardDocumentResource
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
-    validate_item_owner,
-    unless_bots,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
     validate_data_model,
+    validate_input_data,
+    validate_item_owner, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.tender.limited.procedure.validation import (
     validate_award_document_add_not_in_pending,

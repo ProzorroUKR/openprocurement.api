@@ -2,11 +2,9 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.state.award_claim import BelowThresholdAwardClaimState
 from openprocurement.tender.core.procedure.models.claim import PostClaim
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
     validate_any_bid_owner,
-    validate_input_data,
-    validate_data_documents,
 )
+from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import AwardComplaintGetResource
 from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer

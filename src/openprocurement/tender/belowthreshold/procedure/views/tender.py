@@ -7,17 +7,19 @@ from openprocurement.tender.belowthreshold.procedure.models.tender import PostTe
 from openprocurement.tender.belowthreshold.procedure.state.tender_details import BelowThresholdTenderDetailsState
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
-    validate_data_documents,
-    validate_accreditation_level,
     validate_tender_status_allows_update,
     validate_item_quantity,
     validate_tender_guarantee,
-    validate_config_data,
     validate_input_data_from_resolved_model,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_config_data,
+    validate_input_data,
+    validate_data_documents,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 
@@ -38,11 +40,7 @@ class BelowThresholdTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(
-                TenderConfig,
-                serializer=TenderConfigSerializer,
-                obj_name="tender",
-            ),
+            validate_config_data(TenderConfig),
             validate_accreditation_level(
                 levels=(ACCR_1, ACCR_5),
                 kind_central_levels=(ACCR_5,),

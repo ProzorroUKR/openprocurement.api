@@ -4,10 +4,10 @@ from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context,
+    update_logging_context, request_init_framework,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_object, get_object_config, get_framework
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
@@ -62,15 +62,9 @@ class FrameworksResource(FrameworkBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"framework_id": "__new__"})
         framework = self.request.validated["data"]
-        framework_config = get_object_config("framework")
-        if framework_config.get("test"):
-            framework["mode"] = "test"
-        if framework.get("procuringEntity", {}).get("kind") == "defense":
-            framework_config["restrictedDerivatives"] = True
+        request_init_framework(self.request, framework, framework_src={})
         access = set_ownership(framework, self.request)
         self.state.on_post(framework)
-        self.request.validated["framework"] = framework
-        self.request.validated["framework_src"] = {}
         if save_object(self.request, "framework", insert=True):
             LOGGER.info(
                 f"Created framework {framework['_id']} ({framework['prettyID']})",
@@ -91,20 +85,22 @@ class FrameworksResource(FrameworkBaseResource):
             return {
                 "data": self.serializer_class(framework).data,
                 "access": access,
-                "config": get_object_config("framework"),
+                "config": framework["config"],
             }
 
     @json_view(permission="view_framework")
     def get(self):
+        framework = get_framework()
         return {
-            "data": self.serializer_class(get_object("framework")).data,
-            "config": get_object_config("framework"),
+            "data": self.serializer_class(framework).data,
+            "config": framework["config"],
         }
 
     def patch(self):
         updated = self.request.validated["data"]
+        framework = self.request.validated["framework"]
+        framework_src = self.request.validated["framework_src"]
         if self.request.authenticated_role == "chronograph":
-            framework = self.request.validated["framework"]
             self.state.check_status(framework)
             self.state.update_next_check(framework)
             if save_object(self.request, "framework"):
@@ -113,9 +109,7 @@ class FrameworksResource(FrameworkBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"})
                 )
         elif updated:
-            before = self.request.validated["framework_src"]
-            self.request.validated["framework"] = updated
-            self.state.on_patch(before, updated)
+            self.state.on_patch(framework_src, framework)
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     f"Updated framework {updated['_id']}",
@@ -123,8 +117,8 @@ class FrameworksResource(FrameworkBaseResource):
                 )
             self.state.after_patch(updated)
         return {
-            "data": self.serializer_class(get_object("framework")).data,
-            "config": get_object_config("framework"),
+            "data": self.serializer_class(framework).data,
+            "config": framework["config"],
         }
 
 

@@ -1,7 +1,7 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context, request_fetch_agreement,
+    update_logging_context, request_fetch_agreement, request_init_tender,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
@@ -83,13 +83,12 @@ class TendersResource(TenderBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
+        request_init_tender(self.request, tender, tender_src={})
         agreements = tender.get("agreements")
         if agreements and "agreement" not in self.request.validated:
             request_fetch_agreement(self.request, agreements[0]["id"], raise_error=False)
         access = set_ownership(tender, self.request)
         self.state.on_post(tender)
-        self.request.validated["tender"] = tender
-        self.request.validated["tender_src"] = {}
         if save_tender(self.request, insert=True):
             LOGGER.info(
                 "Created tender {} ({})".format(tender["_id"], tender["tenderID"]),
@@ -110,14 +109,15 @@ class TendersResource(TenderBaseResource):
                 tender_id=tender["_id"],
             )
             return {
-                "data": self.serializer_class(get_tender()).data,
-                "config": get_tender_config(),
+                "data": self.serializer_class(tender).data,
+                "config": tender["config"],
                 "access": access,
             }
 
     @json_view(permission="view_tender")
     def get(self):
-        data = self.serializer_class(get_tender()).data
+        tender = get_tender()
+        data = self.serializer_class(tender).data
         # convert to different schemas, for ex. OCDS-1.1
         # https://standard.open-contracting.org/latest/en/schema/release_package/
         schema = self.request.params.get("opt_schema", "")
@@ -135,22 +135,22 @@ class TendersResource(TenderBaseResource):
             return data
         return {
             "data": data,
-            "config": get_tender_config(),
+            "config": tender["config"],
         }
 
     def patch(self):
         updated = self.request.validated["data"]
+        tender = self.request.validated["tender"]
+        tender_src = self.request.validated["tender_src"]
         if updated:
-            before = self.request.validated["tender_src"]
-            self.state.validate_tender_patch(before, updated)
-            self.request.validated["tender"] = updated
-            self.state.on_patch(self.request.validated["tender_src"], updated)
+            self.state.validate_tender_patch(tender_src, tender)
+            self.state.on_patch(tender_src, tender)
             if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated tender {updated['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
                 )
         return {
-            "data": self.serializer_class(get_tender()).data,
-            "config": get_tender_config(),
+            "data": self.serializer_class(tender).data,
+            "config": tender["config"],
         }

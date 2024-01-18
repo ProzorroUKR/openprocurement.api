@@ -4,9 +4,9 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.validation import (
     validate_auction_tender_status,
     validate_auction_tender_non_lot,
-    validate_input_data,
     validate_active_lot,
 )
+from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import save_tender

@@ -11,13 +11,11 @@ from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.serializers.criterion import CriterionSerializer
 from openprocurement.tender.core.procedure.state.criterion import CriterionState
 from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
-from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_administrator,
 )
-
 
 LOGGER = getLogger(__name__)
 

@@ -1,11 +1,12 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    unless_admins,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_forbid_contract_action_after_date,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_admins,
 )
 from openprocurement.tender.limited.procedure.models.contract import (
     ReportingContract,

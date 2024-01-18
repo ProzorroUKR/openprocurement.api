@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_input_data_from_resolved_model
+from openprocurement.api.procedure.validation import (
+    validate_input_data_from_resolved_model,
+    validate_patch_data,
+    validate_input_data, validate_data_documents,
+)
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.validation import (
     validate_framework,
@@ -11,11 +15,6 @@ from openprocurement.framework.core.procedure.validation import (
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.agreement import PostAgreement, Agreement
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_patch_data,
-    validate_data_documents,
-)
 
 
 @resource(

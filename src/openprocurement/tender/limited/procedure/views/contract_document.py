@@ -2,15 +2,13 @@ from openprocurement.tender.core.procedure.views.contract_document import Tender
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    unless_admins,
-    validate_input_data,
-    validate_patch_data,
-    unless_bots,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
-    validate_data_model,
     validate_forbid_contract_action_after_date,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner, unless_admins, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.tender.limited.procedure.validation import (
     validate_document_operation_not_in_active,

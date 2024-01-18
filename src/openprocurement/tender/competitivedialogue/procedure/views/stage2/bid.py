@@ -6,10 +6,12 @@ from openprocurement.tender.competitivedialogue.procedure.validation import vali
 from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
 from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
 from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_data_documents,
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
+)
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_data_documents,
     validate_accreditation_level,
 )
 from openprocurement.api.utils import json_view

@@ -8,12 +8,10 @@ from openprocurement.framework.core.procedure.validation import (
 )
 from openprocurement.framework.core.procedure.views.document import CoreQualificationDocumentResource
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_data_model,
-    validate_upload_document,
-    update_doc_fields_on_put_document,
+    validate_input_data, validate_upload_document, update_doc_fields_on_put_document,
 )
 
 

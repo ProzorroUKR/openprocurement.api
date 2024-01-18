@@ -1,6 +1,7 @@
 from logging import getLogger
 from hashlib import sha512
 from openprocurement.api.context import get_request, get_now
+from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.utils import generate_id, context_unpack, request_init_agreement
 from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement,
@@ -59,8 +60,8 @@ class AgreementState(BaseState, ChronographEventsMixing):
 
     def create_agreement_if_not_exist(self):
         request = self.request
-        framework_config = request.validated["framework_config"]
-        framework_data = request.validated["framework"]
+        framework = get_framework()
+
         if "agreement" not in request.validated:
             now = get_now().isoformat()
             transfer = generate_id()
@@ -68,43 +69,43 @@ class AgreementState(BaseState, ChronographEventsMixing):
             agreement = {
                 "id": generate_id(),
                 "agreementID": generate_agreement_id(request),
-                "frameworkID": framework_data["_id"],
-                "agreementType": framework_data["frameworkType"],
+                "frameworkID": framework["_id"],
+                "agreementType": framework["frameworkType"],
                 "status": "active",
                 "period": {
                     "startDate": now,
-                    "endDate": framework_data.get("qualificationPeriod").get("endDate")
+                    "endDate": framework.get("qualificationPeriod").get("endDate")
                 },
-                "procuringEntity": framework_data.get("procuringEntity"),
-                "classification": framework_data.get("classification"),
-                "additionalClassifications": framework_data.get("additionalClassifications"),
+                "procuringEntity": framework.get("procuringEntity"),
+                "classification": framework.get("classification"),
+                "additionalClassifications": framework.get("additionalClassifications"),
                 "contracts": [],
-                "owner": framework_data["owner"],
-                "owner_token": framework_data["owner_token"],
-                "mode": framework_data.get("mode"),
+                "owner": framework["owner"],
+                "owner_token": framework["owner_token"],
+                "mode": framework.get("mode"),
                 "dateModified": now,
                 "date": now,
                 "transfer_token": transfer_token,
-                "frameworkDetails": framework_data.get("frameworkDetails"),
+                "frameworkDetails": framework.get("frameworkDetails"),
                 "config": {
-                    "test": framework_config.get("test", False),
-                    "restricted": framework_config.get("restrictedDerivatives", False),
+                    "test": framework["config"].get("test", False),
+                    "restricted": framework["config"].get("restrictedDerivatives", False),
                 },
             }
 
             request_init_agreement(request, agreement, agreement_src={})
 
             # update framework
-            request.validated["framework"]["agreementID"] = agreement['id']
+            framework["agreementID"] = agreement['id']
 
     def create_agreement_contract(self):
         request = self.request
         qualification = request.validated["qualification"]
         framework = request.validated["framework"]
-        agreement_data = request.validated["agreement"]
+        agreement = request.validated["agreement"]
         submission = request.validated["submission"]
 
-        if agreement_data["status"] != "active":
+        if agreement["status"] != "active":
             LOGGER.error(
                 f"Agreement {framework['agreementID']} is not active",
                 extra=context_unpack(
@@ -115,26 +116,26 @@ class AgreementState(BaseState, ChronographEventsMixing):
             return
 
         contract_id = generate_id()
-        first_milestone_data = {
+        first_milestone = {
             "id": generate_id(),
             "status": "scheduled",
             "type": "activation",
             "dueDate": framework.get("qualificationPeriod").get("endDate"),
             "dateModified": get_now().isoformat(),
         }
-        contract_data = {
+        contract = {
             "id": contract_id,
             "qualificationID": qualification["_id"],
             "submissionID": submission["_id"],
             "status": "active",
             "suppliers": submission["tenderers"],
-            "milestones": [first_milestone_data],
+            "milestones": [first_milestone],
             "date": get_now().isoformat(),
         }
 
-        if "contracts" not in agreement_data:
-            agreement_data["contracts"] = []
-        agreement_data["contracts"].append(contract_data)
+        if "contracts" not in agreement:
+            agreement["contracts"] = []
+        agreement["contracts"].append(contract)
 
         LOGGER.info(
             f"Updated agreement {framework['agreementID']} with contract {contract_id}",

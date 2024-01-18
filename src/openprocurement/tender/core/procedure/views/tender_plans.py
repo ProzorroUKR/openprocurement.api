@@ -10,10 +10,7 @@ from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-)
+from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)

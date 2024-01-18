@@ -72,8 +72,9 @@ class TenderConfigMixin(baseclass):
     )
 
     def validate_config(self, data):
+        config = get_tender_config()
         for config_name in self.configurations:
-            value = data["config"].get(config_name)
+            value = config.get(config_name)
 
             if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
                 raise_operation_error(
@@ -100,14 +101,14 @@ class TenderConfigMixin(baseclass):
                     name=config_name,
                 )
 
-        self.validate_restricted_config(data)
+        self.validate_restricted_config(data, config)
 
-    def validate_restricted_config(self, data):
+    def validate_restricted_config(self, data, config):
         has_restricted_preselection_agreement = False
         agreement_config = get_object_config("agreement")
         if agreement_config:
             has_restricted_preselection_agreement = agreement_config.get("restricted") is True
-        if has_restricted_preselection_agreement is True and data["config"].get("restricted") is False:
+        if has_restricted_preselection_agreement is True and config.get("restricted") is False:
             raise_operation_error(
                 self.request,
                 "Value must be True.",
@@ -115,7 +116,7 @@ class TenderConfigMixin(baseclass):
                 location="body",
                 name="restricted",
             )
-        elif has_restricted_preselection_agreement is False and data["config"].get("restricted") is True:
+        elif has_restricted_preselection_agreement is False and config.get("restricted") is True:
             raise_operation_error(
                 self.request,
                 "Value must be False.",

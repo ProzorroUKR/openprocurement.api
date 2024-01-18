@@ -7,9 +7,9 @@ from openprocurement.tender.openeu.procedure.models.auction import AuctionLotRes
 from openprocurement.tender.core.procedure.validation import (
     validate_auction_tender_status,
     validate_auction_tender_non_lot,
-    validate_input_data,
     validate_active_lot,
 )
+from openprocurement.api.procedure.validation import validate_input_data
 
 
 @resource(

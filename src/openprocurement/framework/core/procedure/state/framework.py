@@ -14,7 +14,7 @@ from openprocurement.framework.core.constants import (
     SUBMISSION_STAND_STILL_DURATION,
     ENQUIRY_STAND_STILL_TIME,
 )
-from openprocurement.api.procedure.context import get_framework
+from openprocurement.api.procedure.context import get_framework, get_object_config
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.procedure.utils import save_object, get_framework_unsuccessful_status_check_date
 from openprocurement.framework.core.utils import calculate_framework_date
@@ -74,6 +74,11 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
     def on_post(self, data):
         self.validate_config(data)
         data["date"] = get_now().isoformat()
+        framework_config = get_object_config("framework")
+        if framework_config.get("test"):
+            data["mode"] = "test"
+        if data.get("procuringEntity", {}).get("kind") == "defense":
+            framework_config["restrictedDerivatives"] = True
         super().on_post(data)
 
     def on_patch(self, before, after):

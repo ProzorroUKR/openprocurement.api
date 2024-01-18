@@ -1,8 +1,12 @@
 from openprocurement.api.utils import context_unpack, json_view
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.validation import unless_administrator, unless_admins
-from openprocurement.tender.core.procedure.validation import validate_input_data, validate_patch_data
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    unless_administrator,
+    unless_admins,
+)
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource

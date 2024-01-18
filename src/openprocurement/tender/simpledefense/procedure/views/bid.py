@@ -3,17 +3,17 @@ from openprocurement.tender.openuadefense.procedure.views.bid import TenderBidRe
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_period,
     validate_bid_operation_not_in_tendering,
-    validate_accreditation_level,
 )
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.simpledefense.procedure.models.bid import PostBid, PatchBid, Bid
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data,
-    validate_data_documents,
     validate_update_deleted_bid,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    validate_data_documents,
+    validate_item_owner, unless_administrator, validate_accreditation_level,
 )
 from openprocurement.api.utils import json_view
 from cornice.resource import resource

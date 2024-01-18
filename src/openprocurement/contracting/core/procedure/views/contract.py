@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.api.utils import context_unpack, json_view, request_init_contract
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
@@ -11,11 +11,12 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.api.procedure.context import get_contract_config
-from openprocurement.tender.core.procedure.validation import unless_admins, validate_config_data
-from openprocurement.tender.core.procedure.validation import (
-    validate_accreditation_level,
+from openprocurement.api.procedure.context import get_contract_config, get_contract
+from openprocurement.api.procedure.validation import (
+    validate_config_data,
     validate_input_data,
+    unless_admins,
+    validate_accreditation_level,
 )
 from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
@@ -53,11 +54,7 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
         permission="create_contract",
         validators=(
             validate_input_data(PostContract),
-            validate_config_data(
-                ContractConfig,
-                serializer=ContractConfigSerializer,
-                obj_name="contract",
-            ),
+            validate_config_data(ContractConfig),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="contract",
@@ -68,11 +65,8 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
     )
     def post(self):
         contract = self.request.validated["data"]
-
+        request_init_contract(self.request, contract, contract_src={})
         self.state.on_post(contract)
-
-        self.request.validated["contract"] = contract
-        self.request.validated["contract_src"] = {}
         if save_contract(self.request, insert=True):
             self.LOGGER.info(
                 f"Created contract {contract['_id']} ({contract['contractID']})",
@@ -85,7 +79,7 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
             self.request.response.status = 201
             return {
                 "data": self.serializer_class(contract).data,
-                "config": get_contract_config(),
+                "config": contract["config"],
                 "access": {"token": contract["owner_token"]},
             }
 
@@ -95,9 +89,10 @@ class ContractResource(ContractBaseResource):
 
     @json_view(permission="view_contract")
     def get(self):
+        contract = get_contract()
         return {
-            "data": self.serializer_class(self.request.validated["contract"]).data,
-            "config": get_contract_config(),
+            "data": self.serializer_class(contract).data,
+            "config": contract["config"],
         }
 
     @json_view(
@@ -108,8 +103,9 @@ class ContractResource(ContractBaseResource):
         """Contract Edit (partial)
         """
         updated = self.request.validated["data"]
+        contract = self.request.validated["contract"]
+        contract_src = self.request.validated["contract_src"]
         if updated:
-            self.request.validated["contract"] = updated
             self.state.on_patch(self.request.validated["contract_src"], updated)
             if save_contract(self.request):
                 self.LOGGER.info(
@@ -117,8 +113,8 @@ class ContractResource(ContractBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
                 )
                 return {
-                    "data": self.serializer_class(self.request.validated["contract"]).data,
-                    "config": get_contract_config(),
+                    "data": self.serializer_class(contract).data,
+                    "config": contract["config"],
                 }
 
 
@@ -147,6 +143,6 @@ class ContractCredentialsResource(ContractBaseResource):
             )
             return {
                 "data": self.serializer_class(contract).data,
-                "config": get_contract_config(),
+                "config": contract["config"],
                 "access": access,
             }

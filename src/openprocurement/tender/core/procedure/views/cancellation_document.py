@@ -3,14 +3,11 @@ from openprocurement.tender.core.procedure.views.cancellation import resolve_can
 from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
 from openprocurement.tender.core.procedure.state.cancellation_document import CancellationDocumentState
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
-    validate_item_owner,
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
     validate_data_model,
+    validate_input_data,
+    validate_item_owner, unless_admins, validate_upload_document, update_doc_fields_on_put_document,
 )
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 

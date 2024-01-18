@@ -5,13 +5,11 @@ from openprocurement.api.utils import json_view
 
 from openprocurement.contracting.econtract.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.contracting.econtract.procedure.state.document import EContractDocumentState
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
     validate_data_model,
+    validate_input_data,
+    unless_admins, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,

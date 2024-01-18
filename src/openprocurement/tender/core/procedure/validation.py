@@ -18,10 +18,10 @@ from openprocurement.api.constants import (
     UA_ROAD_CPV_PREFIXES,
     WORKING_DAYS, FUNDERS,
 )
-from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner, to_decimal
+from openprocurement.api.procedure.utils import is_item_owner, to_decimal
+from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
     raise_operation_error,
-    handle_data_exceptions,
     error_handler,
     requested_fields_changes,
     is_gmdn_classification,
@@ -29,15 +29,11 @@ from openprocurement.api.utils import (
     get_now,
 )
 from openprocurement.api.validation import (
-    validate_json_data,
-    _validate_accreditation_level,
-    _validate_accreditation_level_mode,
     validate_tender_first_revision_date,
 )
 from openprocurement.api.auth import extract_access_token
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.utils import (
-    delete_nones,
     get_contracts_values_related_to_patched_contract,
     find_item_by_id,
     tender_created_before,
@@ -46,7 +42,6 @@ from openprocurement.tender.core.procedure.utils import (
     find_lot,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
-from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
@@ -60,177 +55,6 @@ from datetime import timedelta
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
-
-
-def filter_list(input: list, filters: dict) -> list:
-    new_items = []
-    for item in input:
-        new_items.append(filter_dict(item, filters))
-    return new_items
-
-
-def filter_dict(data: dict, filter_data: dict):
-    new_data = {}
-    for field in filter_data:
-        if field not in data:
-            continue
-        elif isinstance(filter_data[field], set):
-            new_data[field] = {k: v for k, v in data[field].items() if k in filter_data[field]}
-        elif isinstance(filter_data[field], list):
-            new_data[field] = filter_list(data[field], filter_data[field][0])
-        elif isinstance(filter_data[field], dict):
-            new_data[field] = filter_dict(data[field], filter_data[field])
-        else:
-            new_data[field] = data[field]
-    return new_data
-
-
-def filter_whitelist(data: dict, filter_data: dict) -> None:
-    new_data = filter_dict(data, filter_data)
-    for field in new_data:
-        data[field] = new_data[field]
-
-
-def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
-    """
-    :param input_model: a model to validate data against
-    :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
-    :param filters: list of filter function that applied on valid data
-    :param none_means_remove: null values passed cause deleting saved values at those keys
-    :return:
-    """
-    def validate(request, **_):
-        request.validated["json_data"] = json_data = validate_json_data(request, allow_bulk=allow_bulk)
-        # now you can use context.get_json_data() in model validators to access the whole passed object
-        # instead of .__parent__.__parent__. Though it may not be valid
-        if not isinstance(json_data, list):
-            json_data = [json_data]
-
-        data = []
-        for input_data in json_data:
-            result = {}
-            if none_means_remove:
-                # if None is passed it should be added to the result
-                # None means that the field value is deleted
-                # IMPORTANT: input_data can contain more fields than are allowed to update
-                # validate_data will raise Rogue field error then
-                # NOTE: empty list does the same for list fields
-                for k, v in input_data.items():
-                    if v is None or isinstance(v, list) and len(v) == 0:
-                        result[k] = v
-            valid_data = validate_data(request, input_model, input_data)
-            if valid_data is not None:
-                result.update(valid_data)
-            data.append(result)
-
-        if filters:
-            data = [f(request, d) for f in filters for d in data]
-        request.validated["data"] = data if allow_bulk else data[0]
-        return request.validated["data"]
-
-    return validate
-
-
-def validate_patch_data(model, item_name):
-    """
-    Because api supports questionable requests like
-    PATCH /bids/uid {"parameters": [{}, {}, {"code": "new_code"}]}
-    where {}, {} and {"code": "new_code"} are invalid parameters and can't be validated.
-    We have to have this validator that
-    1) Validate requests data against simple patch model
-    (use validator validate_input_data(PatchModel) before this one)
-    2) Apply the patch on the saved data  (covered by this validator)
-    3) Validate patched data against the full model (covered by this validator)
-    In fact, the output of the second model is what should be sent to the api, to make everything simple
-    :param model:
-    :param item_name:
-    :return:
-    """
-    def validate(request, **_):
-        patch_data = request.validated["data"]
-        request.validated["data"] = data = apply_data_patch(request.validated[item_name], patch_data)
-        if data:
-            request.validated["data"] = validate_data(request, model, data)
-        return request.validated["data"]
-    return validate
-
-
-def validate_patch_data_simple(model, item_name):
-    """
-    Does same thing as validate_patch_data
-    but doesn't apply data recursively
-    :param model:
-    :param item_name:
-    :return:
-    """
-    def validate(request, **_):
-        patch_data = request.validated["data"]
-        data = deepcopy(request.validated[item_name])
-
-        # check if there are any changes
-        for f, v in patch_data.items():
-            if data.get(f) != v:
-                break
-        else:
-            request.validated["data"] = {}
-            return  # no changes
-
-        # TODO: move lots management to a distinct endpoint!
-        if "lots" in patch_data:
-            patch_lots = patch_data.pop("lots", None)
-            if patch_lots:
-                new_lots = []
-                for patch, lot_data in zip(patch_lots, data["lots"]):
-                    # if patch_lots is shorter, then some lots are going to be deleted
-                    # longer, then some lots are going to be added
-                    if lot_data is None:
-                        lot_data = patch  # new lot
-                    else:
-                        patch.pop("status", None)  # do not change lot status by tender patch
-                        lot_data.update(patch)
-                    new_lots.append(lot_data)
-                data["lots"] = new_lots
-            elif "lots" in data:
-                del data["lots"]
-
-        data.update(patch_data)
-        request.validated["data"] = validate_data(request, model, data)
-        return request.validated["data"]
-    return validate
-
-
-def validate_config_data(input_model, serializer=None, obj_name=None, default=None):
-    """
-    Simple way to validate config in request.validated["config"] against a provided model
-    the result is put back in request.validated["config"]
-    :param input_model:
-    :param obj_name:
-    :param default:
-    :return:
-    """
-    default = default or {}
-    def validate(request, **_):
-        config = request.json.get("config") or default
-        config = validate_data(request, input_model, config) or {}
-        if serializer:
-            config = serializer(config).data
-        request.validated["data"]["config"] = config
-        return config
-    return validate
-
-
-def validate_data_model(input_model):
-    """
-    Simple way to validate data in request.validated["data"] against a provided model
-    the result is put back in request.validated["data"]
-    :param input_model:
-    :return:
-    """
-    def validate(request, **_):
-        data = request.validated["data"]
-        request.validated["data"] = validate_data(request, input_model, data)
-        return request.validated["data"]
-    return validate
 
 
 def validate_item_operation_in_disallowed_tender_statuses(item_name, allowed_statuses):
@@ -248,53 +72,6 @@ def validate_item_operation_in_disallowed_tender_statuses(item_name, allowed_sta
                 f"Can't {OPERATIONS.get(request.method)} {item_name} in current ({tender['status']}) tender status",
             )
     return validate
-
-
-def validate_data(request, model, data, to_patch=False, collect_errors=False):
-    with handle_data_exceptions(request):
-        instance = model(data)
-        instance.validate()
-        data = instance.serialize()
-    return data
-
-
-def validate_data_documents(route_key="tender_id", uid_key="_id"):
-    def validate(request, **_):
-        data = request.validated["data"]
-        for key in data.keys():
-            if key == "documents" or "Documents" in key:
-                if data[key]:
-                    docs = []
-                    for document in data[key]:
-                        # some magic, yep
-                        # route_kwargs = {"bid_id": data["id"]}
-                        route_kwargs = {route_key: data[uid_key]}
-                        document = check_document_batch(request, document, key, route_kwargs)
-                        docs.append(document)
-
-                    # replacing documents in request.validated["data"]
-                    if docs:
-                        data[key] = docs
-        return data
-    return validate
-
-
-def validate_item_owner(item_name, token_field_name="owner_token"):
-    def validator(request, **_):
-        item = request.validated[item_name]
-        if not is_item_owner(request, item, token_field_name=token_field_name):
-            raise_operation_error(
-                request,
-                "Forbidden",
-                location="url",
-                name="permission"
-            )
-        else:
-            if item_name == "claim":
-                request.authenticated_role = "complaint_owner"  # we have complaint_owner is documents.author
-            else:
-                request.authenticated_role = f"{item_name}_owner"
-    return validator
 
 
 def validate_any_bid_owner(statuses=("active", "unsuccessful")):
@@ -347,39 +124,6 @@ def validate_contract_supplier():
     return validator
 
 
-def unless_item_owner(*validations, item_name):
-    def decorated(request, **_):
-        item = request.validated[item_name]
-        if not is_item_owner(request, item):
-            for validation in validations:
-                validation(request)
-    return decorated
-
-
-def unless_administrator(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "Administrator":
-            for validation in validations:
-                validation(request)
-    return decorated
-
-
-def unless_admins(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "admins":
-            for validation in validations:
-                validation(request)
-    return decorated
-
-
-def unless_bots(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "bots":
-            for validation in validations:
-                validation(request)
-    return decorated
-
-
 def unless_bots_or_auction(*validations):
     def decorated(request, **_):
         if request.authenticated_role not in ("bots", "auction"):
@@ -426,25 +170,6 @@ def validate_any(*validations):
         else:
             raise e
     return decorated
-
-
-def validate_accreditation_level(levels, item, operation, source="tender", kind_central_levels=None):
-    def validate(request, **_):
-        # operation
-        _validate_accreditation_level(request, levels, item, operation)
-
-        # real mode acc lvl
-        mode = request.validated[source].get("mode")
-        _validate_accreditation_level_mode(request, mode, item, operation)
-
-        # procuringEntity.kind = central
-        if kind_central_levels:
-            pe = request.validated[source].get("procuringEntity")
-            if pe:
-                kind = pe.get("kind")
-                if kind == "central":
-                    _validate_accreditation_level(request, kind_central_levels, item, operation)
-    return validate
 
 
 # bids
@@ -683,34 +408,6 @@ def validate_operation_ecriteria_objects_evidences(request, **_):
             raise_operation_error(request, "forbidden if contract not in status `pending`")
 
     base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-# documents
-def validate_upload_document(request, **_):
-    document = request.validated["data"]
-    delete_nones(document)
-
-    # validating and uploading magic
-    check_document(request, document)
-    document_route = request.matched_route.name.replace("collection_", "")
-    update_document_url(request, document, document_route, {})
-
-
-def update_doc_fields_on_put_document(request, **_):
-    """
-    PUT document means that we upload a new version, but some of the fields is taken from the base version
-    we have to copy these fields in this method and insert before document model validator
-    """
-    document = request.validated["data"]
-    prev_version = request.validated["document"]
-    json_data = request.validated["json_data"]
-
-    # here we update new document with fields from the previous version
-    force_replace = ("id", "author", "datePublished")
-    black_list = ("title", "format", "url", "dateModified", "hash")
-    for key, value in prev_version.items():
-        if key in force_replace or (key not in black_list and key not in json_data):
-            document[key] = value
 
 
 # for openua, openeu

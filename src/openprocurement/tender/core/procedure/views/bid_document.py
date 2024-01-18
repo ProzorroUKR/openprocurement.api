@@ -10,14 +10,8 @@ from openprocurement.tender.core.procedure.models.bid_document import (
     Document,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_patch_data,
-    validate_item_owner,
     validate_bid_document_operation_period,
     unless_allowed_by_qualification_milestone,
-    validate_upload_document,
-    update_doc_fields_on_put_document,
-    validate_data_model,
     validate_bid_document_operation_in_award_status,
     validate_bid_document_in_tender_status,
     validate_download_bid_document,
@@ -28,6 +22,12 @@ from openprocurement.tender.core.procedure.validation import (
     validate_view_bid_documents_allowed_in_bid_status,
     validate_view_financial_bid_documents_allowed_in_tender_status,
     validate_view_financial_bid_documents_allowed_in_bid_status,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
 )
 
 

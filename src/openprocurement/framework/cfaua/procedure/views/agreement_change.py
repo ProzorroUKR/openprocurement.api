@@ -5,7 +5,7 @@ from cornice.resource import resource
 from openprocurement.api.procedure.utils import apply_data_patch, get_items, set_item
 from openprocurement.api.procedure.validation import (
     validate_input_data_from_resolved_model,
-    validate_patch_data_from_resolved_model,
+    validate_patch_data_from_resolved_model, validate_item_owner, unless_administrator,
 )
 from openprocurement.api.utils import json_view, update_logging_context, context_unpack, raise_operation_error
 from openprocurement.framework.cfaua.procedure.state.change import ChangeState
@@ -20,7 +20,6 @@ from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.validation import unless_administrator, validate_item_owner
 
 
 def resolve_change(request):

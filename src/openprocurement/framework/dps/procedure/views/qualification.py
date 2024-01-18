@@ -11,11 +11,7 @@ from openprocurement.framework.core.procedure.views.qualification import Qualifi
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.qualification import Qualification
 from openprocurement.framework.dps.procedure.state.framework import DPSFrameworkState
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    unless_administrator,
-    validate_patch_data,
-)
+from openprocurement.api.procedure.validation import validate_patch_data, validate_input_data, unless_administrator
 
 
 @resource(

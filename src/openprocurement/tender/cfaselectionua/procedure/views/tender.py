@@ -7,17 +7,19 @@ from openprocurement.tender.cfaselectionua.procedure.models.tender import PostTe
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import CFASelectionTenderDetailsState
 from openprocurement.tender.cfaselectionua.procedure.validation import unless_selection_bot
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
-    validate_data_documents,
-    validate_accreditation_level,
     validate_tender_status_allows_update,
     validate_item_quantity,
     validate_tender_guarantee,
     validate_tender_change_status_with_cancellation_lot_pending,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
     validate_config_data,
+    validate_input_data,
+    validate_data_documents,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 from pyramid.security import Allow
@@ -46,11 +48,7 @@ class CFASelectionTenderResource(TendersResource):
         permission="create_tender",
         validators=(
             validate_input_data(PostTender),
-            validate_config_data(
-                TenderConfig,
-                serializer=TenderConfigSerializer,
-                obj_name="tender",
-            ),
+            validate_config_data(TenderConfig),
             validate_accreditation_level(
                 levels=(ACCR_1, ACCR_5),
                 kind_central_levels=(ACCR_5,),

@@ -1,11 +1,13 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data,
     validate_update_award_only_for_active_lots,
     validate_update_award_in_not_allowed_status,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.procedure.models.award import PatchAward, Award

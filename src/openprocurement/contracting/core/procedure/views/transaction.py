@@ -1,7 +1,6 @@
 from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.tender.core.procedure.validation import unless_bots, unless_admins
-from openprocurement.tender.core.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_input_data, unless_admins, unless_bots
 from openprocurement.api.procedure.utils import get_items
 from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource

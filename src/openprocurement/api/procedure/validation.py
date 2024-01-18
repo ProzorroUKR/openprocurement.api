@@ -2,7 +2,6 @@ from copy import deepcopy
 
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.context import get_request
 from openprocurement.api.utils import handle_data_exceptions, raise_operation_error
 from openprocurement.api.validation import (
     validate_json_data,
@@ -10,6 +9,8 @@ from openprocurement.api.validation import (
     _validate_accreditation_level_mode,
 )
 from openprocurement.api.procedure.utils import is_item_owner, apply_data_patch
+from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
+from openprocurement.tender.core.procedure.utils import delete_nones
 
 
 def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
@@ -52,7 +53,7 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
     return validate
 
 
-def validate_data(request, model, data, to_patch=False):
+def validate_data(request, model, data, to_patch=False, collect_errors=False):
     with handle_data_exceptions(request):
         instance = model(data)
         instance.validate()
@@ -69,8 +70,9 @@ def validate_data_model(input_model):
     """
     def validate(request, **_):
         data = request.validated["data"]
-        request.validated["data"] = validate_data(request, input_model, data)
-        return request.validated["data"]
+        data = validate_data(request, input_model, data)
+        request.validated["data"] = data
+        return data
     return validate
 
 
@@ -144,16 +146,21 @@ def unless_bots_or_auction(*validations):
     return decorated
 
 
-def validate_item_owner(item_name):
+def validate_item_owner(item_name, token_field_name="owner_token"):
     def validator(request, **_):
         item = request.validated[item_name]
-        if not is_item_owner(request, item):
+        if not is_item_owner(request, item, token_field_name=token_field_name):
             raise_operation_error(
                 request,
                 "Forbidden",
                 location="url",
                 name="permission"
             )
+        else:
+            if item_name == "claim":
+                request.authenticated_role = "complaint_owner"  # we have complaint_owner is documents.author
+            else:
+                request.authenticated_role = f"{item_name}_owner"
     return validator
 
 
@@ -173,11 +180,14 @@ def validate_patch_data(model, item_name):
     :return:
     """
     def validate(request, **_):
-        patch_data = request.validated["data"]
-        request.validated["data"] = data = apply_data_patch(request.validated[item_name], patch_data)
+        data_patch = request.validated["data"]
+        data_src = request.validated[item_name]
+        data = apply_data_patch(data_src, data_patch)
         if data:
-            request.validated["data"] = validate_data(request, model, data)
-        return request.validated["data"]
+            data = validate_data(request, model, data)
+            request.validated[item_name] = data
+        request.validated["data"] = data
+        return data
     return validate
 
 
@@ -212,6 +222,7 @@ def validate_patch_data_simple(model, item_name):
                     if lot_data is None:
                         lot_data = patch  # new lot
                     else:
+                        patch.pop("status", None)  # do not change lot status by tender patch
                         lot_data.update(patch)
                     new_lots.append(lot_data)
                 data["lots"] = new_lots
@@ -221,6 +232,24 @@ def validate_patch_data_simple(model, item_name):
         data.update(patch_data)
         request.validated["data"] = validate_data(request, model, data)
         return request.validated["data"]
+    return validate
+
+
+def validate_config_data(input_model, default=None):
+    """
+    Simple way to validate config in request.validated["config"] against a provided model
+    the result is put back in request.validated["config"]
+    :param input_model:
+    :param obj_name:
+    :param default:
+    :return:
+    """
+    default = default or {}
+    def validate(request, **_):
+        config = request.json.get("config") or default
+        config = validate_data(request, input_model, config) or {}
+        request.validated["data"]["config"] = config
+        return config
     return validate
 
 
@@ -281,3 +310,51 @@ def validate_parameters_uniq(parameters):
         codes = [param.get("code") for param in parameters]
         if [i for i in set(codes) if codes.count(i) > 1]:
             raise ValidationError("Parameter code should be uniq for all parameters")
+
+
+def validate_data_documents(route_key="tender_id", uid_key="_id"):
+    def validate(request, **_):
+        data = request.validated["data"]
+        for key in data.keys():
+            if key == "documents" or "Documents" in key:
+                if data[key]:
+                    docs = []
+                    for document in data[key]:
+                        # some magic, yep
+                        # route_kwargs = {"bid_id": data["id"]}
+                        route_kwargs = {route_key: data[uid_key]}
+                        document = check_document_batch(request, document, key, route_kwargs)
+                        docs.append(document)
+
+                    # replacing documents in request.validated["data"]
+                    if docs:
+                        data[key] = docs
+        return data
+    return validate
+
+
+def validate_upload_document(request, **_):
+    document = request.validated["data"]
+    delete_nones(document)
+
+    # validating and uploading magic
+    check_document(request, document)
+    document_route = request.matched_route.name.replace("collection_", "")
+    update_document_url(request, document, document_route, {})
+
+
+def update_doc_fields_on_put_document(request, **_):
+    """
+    PUT document means that we upload a new version, but some of the fields is taken from the base version
+    we have to copy these fields in this method and insert before document model validator
+    """
+    document = request.validated["data"]
+    prev_version = request.validated["document"]
+    json_data = request.validated["json_data"]
+
+    # here we update new document with fields from the previous version
+    force_replace = ("id", "author", "datePublished")
+    black_list = ("title", "format", "url", "dateModified", "hash")
+    for key, value in prev_version.items():
+        if key in force_replace or (key not in black_list and key not in json_data):
+            document[key] = value

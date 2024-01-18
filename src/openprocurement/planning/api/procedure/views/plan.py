@@ -20,13 +20,10 @@ from openprocurement.planning.api.procedure.serializers.plan import PlanSerializ
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 from openprocurement.tender.core.procedure.utils import set_ownership
-from openprocurement.tender.core.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_accreditation_level,
-    unless_administrator,
-    validate_item_owner,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_data_documents, validate_item_owner, unless_administrator, validate_accreditation_level,
 )
 
 LOGGER = getLogger(__name__)

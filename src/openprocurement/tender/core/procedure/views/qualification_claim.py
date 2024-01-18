@@ -10,11 +10,9 @@ from openprocurement.tender.core.procedure.state.qualification_claim import (
     QualificationClaimState,
 )
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
     validate_any_bid_owner,
-    validate_input_data,
-    validate_data_documents,
 )
+from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
 
 
 class QualificationClaimResource(BaseClaimResource):
