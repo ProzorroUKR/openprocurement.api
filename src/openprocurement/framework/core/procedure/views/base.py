@@ -103,7 +103,7 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
     def fetch_object(request, match_dict, obj_name, obj_init_func):
         if match_dict.get(f"{obj_name}_id"):
             obj_init_func(request, getattr(request, f"{obj_name}_doc"))
-            if "frameworkID" in request.validated[obj_name]:
+            if "frameworkID" in request.validated[obj_name] and request.method not in ("GET", "HEAD"):
                 framework_doc = get_framework_by_id(request, request.validated[obj_name].get("frameworkID"))
                 model = request.framework_from_data(framework_doc, create=False)
                 framework = model(framework_doc)
