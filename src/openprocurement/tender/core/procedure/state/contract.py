@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.context import (
     get_request,
     get_award,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     contracts_allow_to_complete,
@@ -111,8 +111,7 @@ class ContractStateMixing(baseclass):
         return True
 
     def check_lots_complaints(self, tender: dict, now: datetime) -> None:
-        config = get_tender_config()
-        awarding_order_enabled = config.get("hasAwardingOrder")
+        awarding_order_enabled = tender["config"]["hasAwardingOrder"]
         for lot in tender.get("lots", []):
             if lot.get("status") != "active":
                 continue

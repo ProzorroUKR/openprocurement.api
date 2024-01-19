@@ -1,6 +1,6 @@
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     dt_from_iso,
@@ -70,8 +70,8 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.always(tender)
 
     def validate_complaint_config(self):
-        config = get_tender_config()
-        if config.get(self.complaints_configuration) is False:
+        tender = get_tender()
+        if tender["config"][self.complaints_configuration] is False:
             raise_operation_error(
                 self.request,
                 "Can't add complaint as it is forbidden by configuration",

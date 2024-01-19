@@ -6,7 +6,7 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
@@ -194,7 +194,6 @@ class CancellationStateMixing(baseclass):
 
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
-        config = get_tender_config()
         if before == "draft" and after == "pending":
             if not cancellation["reason"] or not cancellation.get("documents"):
                 raise_operation_error(
@@ -204,7 +203,7 @@ class CancellationStateMixing(baseclass):
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            if config.get("cancellationComplaints") is True:
+            if tender["config"]["cancellationComplaints"] is True:
                 now = get_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
@@ -213,10 +212,23 @@ class CancellationStateMixing(baseclass):
             else:
                 self.set_object_status(cancellation, "active")
                 self.cancel(cancellation)
+
         # TODO: deprecated logic for belowThreshold, cfaselection, PQ and limited procedures
-        elif before in ("draft", "pending") and after == "active" and \
-                (config.get("cancellationComplaints") is False or self.use_deprecated_activation(cancellation, tender)):
-            if tender_created_after_2020_rules() and (not cancellation["reason"] or not cancellation.get("documents")):
+        elif (
+            before in ("draft", "pending")
+            and after == "active"
+            and (
+                tender["config"]["cancellationComplaints"] is False
+                or self.use_deprecated_activation(cancellation, tender)
+            )
+        ):
+            if (
+                tender_created_after_2020_rules()
+                and (
+                    not cancellation["reason"]
+                    or not cancellation.get("documents")
+                )
+            ):
                 raise_operation_error(
                     request,
                     "Fields reason, cancellationOf and documents must be filled "
@@ -226,8 +238,13 @@ class CancellationStateMixing(baseclass):
             self.cancel(cancellation)
         elif before == "draft" and after == "unsuccessful":
             pass
-        elif before == "pending" and after == "unsuccessful" \
-                and any(i["status"] == "satisfied" for i in cancellation.get("complaints", "")):
+        elif (
+            before == "pending" and after == "unsuccessful"
+            and any(
+                i["status"] == "satisfied"
+                for i in cancellation.get("complaints", "")
+            )
+        ):
             pass
         elif after == "active" and not tender_created_after_2020_rules():
             self.cancel(cancellation)

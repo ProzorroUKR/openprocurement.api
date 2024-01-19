@@ -1,5 +1,4 @@
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -46,7 +45,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco
         # TODO: Look at original validate_minimal_step in openprocurement.tender.core.procedure.state.tender
-        config = get_tender_config()
         minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
         for field in minimal_step_fields:
             if data.get(field) is None:

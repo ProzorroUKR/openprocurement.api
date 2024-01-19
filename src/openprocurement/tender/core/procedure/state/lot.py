@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.state.tender_details import TenderDet
 from openprocurement.tender.core.procedure.context import (
     get_request,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 
 
 class LotStateMixin:
@@ -63,8 +63,7 @@ class LotStateMixin:
         self.set_auction_period_should_start_after(tender, data)
 
     def set_auction_period_should_start_after(self, tender: dict, data: dict) -> None:
-        config = get_tender_config()
-        if config.get("hasAuction") is False:
+        if tender["config"]["hasAuction"] is False:
             return
 
         should_start_after = self.get_lot_auction_should_start_after(tender, data)

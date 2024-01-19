@@ -3,7 +3,6 @@ from openprocurement.tender.core.procedure.state.tender_details import TenderDet
 from openprocurement.tender.core.procedure.context import (
     get_request,
 )
-from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -204,10 +203,9 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def validate_minimal_step(self, data, before=None):
         # override to skip minimalStep required validation
         # it's not required for cfaselectionua in tender level
-        config = get_tender_config()
         kwargs = {
             "before": before,
-            "enabled": config.get("hasAuction") is True,
+            "enabled": data["config"].get("hasAuction") is True,
         }
         validate_field(data, "minimalStep", required=False, **kwargs)
 

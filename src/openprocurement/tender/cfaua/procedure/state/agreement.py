@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
@@ -50,7 +50,7 @@ class AgreementStateMixing:
                 raise_operation_error(request, "Can't sign agreement without all contracts.unitPrices.value.amount",
                                       status=422)
 
-            config = get_tender_config()
+            config = tender["config"]
             if sum(1 for c in agreement.get("contracts", "") if c["status"] == "active") < config.get("minBidsNumber"):
                 raise_operation_error(request, "Agreement don't reach minimum active contracts.", status=422)
 

@@ -1,6 +1,6 @@
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.tender.core.procedure.utils import save_tender
@@ -13,9 +13,10 @@ class TenderChronographResource(TenderBaseResource):
 
     @json_view(permission="chronograph")
     def get(self):
+        tender = get_tender()
         return {
-            "data": self.serializer_class(get_tender()).data,
-            "config": get_tender_config(),
+            "data": self.serializer_class(tender).data,
+            "config": tender["config"],
         }
 
     @json_view(
@@ -28,24 +29,28 @@ class TenderChronographResource(TenderBaseResource):
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update
+        
         data = self.request.validated["data"]
+        tender = self.request.validated["tender"]
+        tender_src = self.request.validated["tender_src"]
+        
         for lot in data.get("lots", ""):
             if "auctionPeriod" in lot and lot["auctionPeriod"] is None:
                 del lot["auctionPeriod"]
 
         # 2 apply passed data ( auctionPeriod.startDate )
-        updated = apply_data_patch(self.request.validated["tender"], data)
+        updated = apply_data_patch(tender, data)
         if updated:
-            self.request.validated["tender"] = updated
+            tender = self.request.validated["tender"] = updated
 
         # 3 we run all event handlers that should be run by now
-        self.state.run_time_events(self.request.validated["tender"])
+        self.state.run_time_events(tender)
 
         # 4 update tender state
         if updated:
-            self.state.on_patch(self.request.validated["tender_src"], updated)
+            self.state.on_patch(tender_src, tender)
         else:
-            self.state.always(self.request.validated["tender"])  # always updates next check and similar stuff
+            self.state.always(tender)  # always updates next check and similar stuff
 
         # 5 save
         if save_tender(self.request):
@@ -54,6 +59,6 @@ class TenderChronographResource(TenderBaseResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "tender_chronograph_patch"})
             )
         return {
-            "data": self.serializer_class(get_tender()).data,
-            "config": get_tender_config(),
+            "data": self.serializer_class(tender).data,
+            "config": tender["config"],
         }

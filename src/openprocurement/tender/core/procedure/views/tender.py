@@ -5,8 +5,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.mask import mask_object_data
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,

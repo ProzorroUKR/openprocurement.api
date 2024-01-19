@@ -2,7 +2,6 @@ from datetime import timedelta
 from logging import getLogger
 from typing import TYPE_CHECKING
 
-from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -28,8 +27,7 @@ else:
 class ShouldStartAfterMixing(baseclass):
 
     def calc_auction_periods(self, tender):
-        config = get_tender_config()
-        if config.get("hasAuction") is False:
+        if tender["config"]["hasAuction"] is False:
             return
 
         lots = tender.get("lots")
@@ -59,7 +57,7 @@ class ShouldStartAfterMixing(baseclass):
                     del tender["auctionPeriod"]
 
     def get_lot_auction_should_start_after(self, tender, lot):
-        allowed_statuses = self.get_auction_should_start_after_allowed_statuses()
+        allowed_statuses = self.get_auction_should_start_after_allowed_statuses(tender)
         if tender.get("status") not in allowed_statuses:
             return
 
@@ -83,7 +81,7 @@ class ShouldStartAfterMixing(baseclass):
         return self.get_should_start_after(tender)
 
     def get_auction_should_start_after(self, tender):
-        allowed_statuses = self.get_auction_should_start_after_allowed_statuses()
+        allowed_statuses = self.get_auction_should_start_after_allowed_statuses(tender)
         if tender.get("status") not in allowed_statuses:
             return
 
@@ -101,8 +99,7 @@ class ShouldStartAfterMixing(baseclass):
         return self.get_should_start_after(tender)
 
     def get_should_start_after(self, tender):
-        config = get_tender_config()
-        if config.get("hasPrequalification"):
+        if tender["config"]["hasPrequalification"]:
             qualification_period = tender.get("qualificationPeriod")
             if qualification_period and qualification_period.get("endDate"):
                 decision_dates = self.get_tender_qualification_complaints_decision_dates(tender)
@@ -116,8 +113,8 @@ class ShouldStartAfterMixing(baseclass):
             return normalize_should_start_after(start_after, tender).isoformat()
 
     @staticmethod
-    def get_auction_should_start_after_allowed_statuses():
-        if get_tender_config().get("hasPrequalification"):
+    def get_auction_should_start_after_allowed_statuses(tender):
+        if tender["config"]["hasPrequalification"]:
             return ("active.pre-qualification.stand-still", "active.auction")
         else:
             return ("active.tendering", "active.auction")

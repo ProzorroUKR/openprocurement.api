@@ -42,7 +42,7 @@ from openprocurement.tender.core.procedure.utils import (
     find_lot,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
 from schematics.exceptions import ValidationError
@@ -220,10 +220,9 @@ def validate_lotvalue_value(tender, related_lot, value):
     lot = find_lot(tender, related_lot)
     if lot and value:
         tender_lot_value = lot.get("value")
-        config = get_tender_config()
-        if config.get("valueCurrencyEquality"):
+        if tender["config"]["valueCurrencyEquality"]:
             validate_lot_value_currency(tender_lot_value, value)
-            if config.get("hasValueRestriction"):
+            if tender["config"]["hasValueRestriction"]:
                 validate_lot_value_amount(tender_lot_value, value)
         validate_lot_value_vat(tender_lot_value, value)
 
@@ -253,7 +252,7 @@ def validate_bid_value(tender, value):
         tender_value = tender.get("value")
         if not value:
             raise ValidationError("This field is required.")
-        config = get_tender_config()
+        config = get_tender()["config"]
         if config.get("valueCurrencyEquality"):
             if tender_value["currency"] != value.currency:
                 raise ValidationError("currency of bid should be identical to currency of value of tender")
@@ -271,7 +270,7 @@ def validate_related_lot(tender, related_lot):
 
 
 def validate_view_bid_document(request, **_):
-    config = get_tender_config()
+    config = get_tender()["config"]
     if config.get("hasPrequalification"):
         forbidden_tender_statuses = ("active.tendering",)
     else:
@@ -288,7 +287,7 @@ def validate_view_bid_document(request, **_):
 
 
 def validate_view_bids(request, **_):
-    config = get_tender_config()
+    config = get_tender()["config"]
     if config.get("hasPrequalification"):
         forbidden_tender_statuses = ("active.tendering",)
     else:

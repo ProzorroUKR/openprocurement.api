@@ -2,7 +2,7 @@ from schematics.types import DateTimeType
 
 from openprocurement.api.procedure.types import StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.api.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from schematics.exceptions import ValidationError
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.validation import validate_value_factory
@@ -12,7 +12,7 @@ from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 def validate_bid_value(tender, value):
     if not value:
         raise ValidationError("This field is required.")
-    config = get_tender_config()
+    config = get_tender()["config"]
     if config.get("valueCurrencyEquality"):
         if tender["value"].get("currency") != value.get("currency"):
             raise ValidationError("currency of bid should be identical to currency of value of tender")
