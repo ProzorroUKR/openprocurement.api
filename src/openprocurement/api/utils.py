@@ -90,7 +90,7 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         return
     config_serializer = get_config_serializer(request, obj_name)
     if config_serializer:
-        obj["config"] = config_serializer(obj["config"]).data
+        obj["config"] = config_serializer(obj.get("config", {})).data
     if obj_src is None:
         obj_src = deepcopy(obj)
     request.validated[obj_name] = obj
