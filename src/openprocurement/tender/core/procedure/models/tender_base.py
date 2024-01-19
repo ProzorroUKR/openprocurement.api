@@ -177,6 +177,9 @@ class BaseTender(PatchBaseTender):
     awards = BaseType()
     contracts = BaseType()
     cancellations = BaseType()
+
+    config = BaseType()
+
     numberOfBids = BaseType()  # deprecated
     _attachments = BaseType()  # deprecated
 

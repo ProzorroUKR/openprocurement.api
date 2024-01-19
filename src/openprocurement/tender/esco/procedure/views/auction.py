@@ -7,9 +7,9 @@ from cornice.resource import resource
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_auction_tender_status,
-    validate_input_data,
     validate_active_lot,
 )
+from openprocurement.api.procedure.validation import validate_input_data
 
 
 @resource(

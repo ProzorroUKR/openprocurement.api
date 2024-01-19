@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/f1fbb400833c48d7ad67197874b4b998/bids/ef6ae271c87f4446bff5378bdc22587b/requirement_responses?acc_token=8b99a067fc704e46a53bfc180665fe0a HTTP/1.0
+POST /api/2.5/tenders/1eb00fde4045437087f02f9ba74e3ced/bids/619b86cb234b4f519536dab1fcf3027f/requirement_responses?acc_token=8b99a067fc704e46a53bfc180665fe0a HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -9,14 +9,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "title": "Requirement response",
       "description": "some description",
       "requirement": {
-        "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
+        "id": "15d2ba1109184cb695b1d750c8bc5e66",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "evidences": [
         {
           "title": "Requirement response",
           "relatedDocument": {
-            "id": "653e302bf2b64ca09b743d65b78142f4",
+            "id": "3367c62610004e63bc05756d076023cf",
             "title": "name.doc"
           },
           "type": "document"
@@ -37,7 +37,7 @@ Content-Type: application/json
       "title": "Requirement response",
       "description": "some description",
       "requirement": {
-        "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
+        "id": "15d2ba1109184cb695b1d750c8bc5e66",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "evidences": [
@@ -45,14 +45,14 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "653e302bf2b64ca09b743d65b78142f4",
+            "id": "3367c62610004e63bc05756d076023cf",
             "title": "name.doc"
           },
-          "id": "d020da5ed0b04914ad46ceb324b6d245"
+          "id": "697c479299af40a58282ea49a8222a0e"
         }
       ],
       "value": "True",
-      "id": "0b94798b1a304d2f92d43b896012ad6f"
+      "id": "14d996c8acb847beb5471b7cb1d2e980"
     }
   ]
 }

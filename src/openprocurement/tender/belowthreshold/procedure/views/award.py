@@ -7,11 +7,11 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_award_only_for_active_lots,
     validate_update_award_status_before_milestone_due_date,
 )
-from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_admins,
 )
 from cornice.resource import resource
 from logging import getLogger

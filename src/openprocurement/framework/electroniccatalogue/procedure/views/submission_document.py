@@ -5,13 +5,10 @@ from openprocurement.framework.core.procedure.models.document import PostDocumen
 from openprocurement.framework.core.procedure.validation import validate_document_operation_in_not_allowed_period
 from openprocurement.framework.core.procedure.views.document import CoreSubmissionDocumentResource
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    validate_item_owner,
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_data_model,
-    validate_upload_document,
-    update_doc_fields_on_put_document,
+    validate_input_data, validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
 )
 
 

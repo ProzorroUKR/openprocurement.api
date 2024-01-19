@@ -6,18 +6,18 @@ from openprocurement.tender.core.procedure.contracting import add_contracts, sav
 from openprocurement.tender.core.procedure.context import (
     get_request,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
+    tender_created_after_2020_rules,
+    activate_bids,
+    calc_auction_end_time,
     is_new_contracting,
 )
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
-from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM
 
 
 def copy_class(cls, exclude_parent_class_names=None):
@@ -316,13 +316,11 @@ class ChronographEventsMixing(baseclass):
         return handler
 
     def tendering_end_handler(self, tender):
-        config = get_tender_config()
-
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
 
-        if config.get("hasPrequalification"):
+        if tender["config"]["hasPrequalification"]:
             handler = self.get_change_tender_status_handler("active.pre-qualification")
             handler(tender)
             tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
@@ -382,8 +380,7 @@ class ChronographEventsMixing(baseclass):
 
     def switch_to_auction_or_qualification(self, tender):
         if tender.get("status") not in ("unsuccessful", "active.qualification", "active.awarded"):
-            config = get_tender_config()
-            if config.get("hasAuction"):
+            if tender["config"]["hasAuction"]:
                 handler = self.get_change_tender_status_handler("active.auction")
                 handler(tender)
             else:
@@ -471,9 +468,7 @@ class ChronographEventsMixing(baseclass):
             self.cancel_tender(tender)
 
     def cancel_tender(self, tender):
-        config = get_tender_config()
-
-        if config.get("hasPrequalification"):
+        if tender["config"]["hasPrequalification"]:
             remove_bid_statuses = ("active.tendering",)
         else:
             remove_bid_statuses = ("active.tendering", "active.auction")
@@ -501,7 +496,6 @@ class ChronographEventsMixing(baseclass):
         self.set_contracts_cancelled(tender)
 
     def cancel_lot(self, tender, cancellation):
-        config = get_tender_config()
         # set cancelled lot status
         for lot in tender.get("lots", ""):
             if lot["id"] == cancellation["relatedLot"]:
@@ -564,7 +558,7 @@ class ChronographEventsMixing(baseclass):
         if tender["status"] == "active.auction" and all(
             i.get("auctionPeriod", {}).get("endDate")
             for i in tender.get("lots", "")
-            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > config.get("minBidsNumber")
+            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > tender["config"]["minBidsNumber"]
             and i["status"] == "active"
         ):
             self.add_next_award()
@@ -583,16 +577,14 @@ class ChronographEventsMixing(baseclass):
 
     @staticmethod
     def allowed_switch_to_awarding(tender):
-        config = get_tender_config()
-        if config.get("hasPrequalification") is False:
+        if tender["config"]["hasPrequalification"] is False:
             allowed_status = "active.tendering"
         else:
             allowed_status = "active.pre-qualification.stand-still"
         return tender["status"] == allowed_status
 
     def check_bids_number(self, tender):
-        config = get_tender_config()
-        min_bids_number = config.get("minBidsNumber")
+        min_bids_number = tender["config"]["minBidsNumber"]
         if tender.get("lots"):
             max_bid_number = 0
             for lot in tender["lots"]:
@@ -687,8 +679,7 @@ class ChronographEventsMixing(baseclass):
         ):
             return
 
-        config = get_tender_config()
-        awarding_order_enabled = config.get("hasAwardingOrder")
+        awarding_order_enabled = tender["config"]["hasAwardingOrder"]
         now = get_now().isoformat()
         for lot in tender["lots"]:
             if lot["status"] != "active":

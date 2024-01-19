@@ -1,5 +1,4 @@
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
@@ -34,11 +33,12 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
 
     def qualification_stand_still_handler(self, tender):
         statuses = set()
-        config = get_tender_config()
         for lot in tender.get("lots", ""):
-            active_awards_count = sum(1 for i in tender.get("awards", "")
-                                      if i["lotID"] == lot["id"] and i["status"] == "active")
-            if active_awards_count < config.get("minBidsNumber"):
+            active_awards_count = sum(
+                1 for i in tender.get("awards", "")
+                if i["lotID"] == lot["id"] and i["status"] == "active"
+            )
+            if active_awards_count < tender["config"]["minBidsNumber"]:
                 LOGGER.info(
                     "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                     extra=context_unpack(

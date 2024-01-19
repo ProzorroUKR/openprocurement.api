@@ -19,12 +19,10 @@ from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_req
     CDRequirementState,
 )
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_item_owner,
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
     validate_input_data,
-    validate_patch_data_simple
+    validate_item_owner, unless_administrator, unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 

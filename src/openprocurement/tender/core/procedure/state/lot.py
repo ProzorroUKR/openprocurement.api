@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.state.tender_details import TenderDet
 from openprocurement.tender.core.procedure.context import (
     get_request,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 
 
 class LotStateMixin:
@@ -15,9 +15,10 @@ class LotStateMixin:
         self.validate_cancellation_blocks(request, tender)
 
     def lot_on_post(self, data: dict) -> None:
+        request, tender = get_request(), get_tender()
         self.pre_save_validations(data)
         self.validate_minimal_step(data)
-        self.validate_lots_count(get_tender())
+        self.validate_lots_count(tender)
         self.set_lot_data(data)
         self.lot_always(data)
 
@@ -63,8 +64,7 @@ class LotStateMixin:
         self.set_auction_period_should_start_after(tender, data)
 
     def set_auction_period_should_start_after(self, tender: dict, data: dict) -> None:
-        config = get_tender_config()
-        if config.get("hasAuction") is False:
+        if tender["config"]["hasAuction"] is False:
             return
 
         should_start_after = self.get_lot_auction_should_start_after(tender, data)

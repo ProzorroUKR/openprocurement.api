@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.context import (
     get_request,
     get_award,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
@@ -205,7 +205,6 @@ def get_additional_contract_data(request, contract, tender, award):
 
 def save_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
-    tender_config = get_tender_config()
     if not is_new_contracting():
         return
     if not award:
@@ -216,11 +215,11 @@ def save_contracts_to_contracting(contracts, award=None):
         if not additional_contract_data:
             return
         contract.update(additional_contract_data)
-        contract_data = PostContract(contract).serialize()
-        contract_data["config"] = {
-            "restricted": tender_config.get("restricted", False),
+        contract = PostContract(contract).serialize()
+        contract["config"] = {
+            "restricted": tender["config"]["restricted"],
         }
-        request_init_contract(request, contract_data, contract_src={})
+        request_init_contract(request, contract, contract_src={})
         save_contract(request, insert=True)
 
 

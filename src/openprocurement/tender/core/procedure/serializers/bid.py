@@ -1,5 +1,5 @@
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
 from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
 from openprocurement.api.procedure.utils import is_item_owner
@@ -20,9 +20,10 @@ class BidSerializer(BaseSerializer):
 
     def __init__(self, data: dict):
         super().__init__(data)
-        config = get_tender_config()
 
-        if config.get("hasPrequalification"):
+        tender = get_tender()
+
+        if tender["config"]["hasPrequalification"]:
             # pre-qualification rules
             self.set_tender_with_pre_qualification_whitelist(data)
         else:

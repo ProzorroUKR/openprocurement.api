@@ -99,7 +99,13 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def save_tender(request, modified: bool = True, insert: bool = False, tender: dict = None, tender_src: dict = None) -> bool:
+def save_tender(
+    request,
+    modified: bool = True,
+    insert: bool = False,
+    tender: dict = None,
+    tender_src: dict = None,
+) -> bool:
     if tender is None:
         tender = request.validated["tender"]
     if tender_src is None:
@@ -109,11 +115,6 @@ def save_tender(request, modified: bool = True, insert: bool = False, tender: di
     if patch:
         now = get_now()
         append_tender_revision(request, tender, patch, now)
-
-        config = request.validated.get("tender_config")
-        if config:
-            tender["config"] = config
-
         old_date_modified = tender.get("dateModified", now.isoformat())
         with handle_store_exceptions(request):
             request.registry.mongodb.tenders.save(

@@ -1,5 +1,4 @@
-from openprocurement.api.context import get_request
-from openprocurement.api.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
@@ -35,11 +34,12 @@ class TenderBaseSerializer(BaseUIDSerializer):
 
     def __init__(self, data: dict):
         super().__init__(data)
-        config = get_tender_config()
+
+        tender = get_tender()
 
         self.private_fields = set(self.base_private_fields) | {"dialogue_token"}
 
-        if config.get("hasPrequalification"):
+        if tender["config"]["hasPrequalification"]:
             # if tender has pre-qualification bids are:
             # - fully private in: draft, active.enquiries, active.tendering
             # - partly private in: active.pre-qualification, active.pre-qualification.stand-still, active.auction

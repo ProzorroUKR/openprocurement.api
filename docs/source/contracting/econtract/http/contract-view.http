@@ -27,10 +27,10 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "9d0132ecdea04c5bbab926da6ea94e0a",
+    "tender_id": "fd45af80ad9f4574994f7f6254012693",
     "items": [
       {
-        "id": "d75459d9da8a4386b380198eca937030",
+        "id": "a23a71262ac642b88f2fdb69011d74b1",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -67,7 +67,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "909a48c29a3f448bbd498cc0f96259bd",
+        "id": "c8f30df33ae14c65b38931d68e63d757",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {

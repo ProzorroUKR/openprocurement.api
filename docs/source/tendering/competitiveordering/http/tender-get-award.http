@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/72de65d0bc9e41d5a8c4760d96e68f3c/awards/c2ab42232d6b4298b2829c0689312059 HTTP/1.0
+GET /api/2.5/tenders/dd959a2a6e0643ffa1e4d5f0bcf154ed/awards/c2ab42232d6b4298b2829c0689312059 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -52,7 +52,7 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "48da2da66507495895c97b7f0dc44ae2",
+    "bid_id": "9c12ee2b851c4bb898c3b0db724fb6bf",
     "lotID": "0e04ecea261746bc8fbcced833cde77c",
     "qualified": true,
     "eligible": true,

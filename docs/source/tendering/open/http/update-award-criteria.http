@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/documents/34b686207b9c4ae9a2788342300604b1?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
+PUT /api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/documents/6f66e09f98a042218e5e0edf0e73a429?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "34b686207b9c4ae9a2788342300604b1",
+    "id": "6f66e09f98a042218e5e0edf0e73a429",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria-2.pdf",

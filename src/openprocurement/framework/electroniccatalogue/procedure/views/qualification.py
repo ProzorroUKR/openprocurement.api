@@ -16,11 +16,7 @@ from openprocurement.framework.electroniccatalogue.procedure.state.framework imp
 from openprocurement.framework.electroniccatalogue.procedure.state.qualification import (
     ElectronicDialogueQualificationState,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    unless_administrator,
-    validate_patch_data,
-)
+from openprocurement.api.procedure.validation import validate_patch_data, validate_input_data, unless_administrator
 
 
 @resource(

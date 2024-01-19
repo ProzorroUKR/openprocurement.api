@@ -1,11 +1,13 @@
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data,
     validate_award_with_lot_cancellation_in_pending,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.tender.limited.procedure.models.award import (
     PostReportingAward, PatchReportingAward, ReportingAward,

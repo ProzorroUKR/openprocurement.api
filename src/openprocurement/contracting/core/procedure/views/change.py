@@ -1,8 +1,12 @@
 from openprocurement.api.utils import context_unpack, json_view
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.validation import unless_administrator, unless_admins
-from openprocurement.tender.core.procedure.validation import validate_input_data, validate_patch_data
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_input_data,
+    unless_administrator,
+    unless_admins,
+)
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
@@ -96,14 +100,14 @@ class ContractsChangesResource(ContractBaseResource):
     def patch(self):
         """ Contract change edit """
 
-        updated_change = self.request.validated["data"]
-        if updated_change:
+        updated = self.request.validated["data"]
+        if updated:
             change = self.request.validated["change"]
-            self.state.change_on_patch(change, updated_change)
-            set_item(self.request.validated["contract"], "changes", change["id"], updated_change)
+            self.state.change_on_patch(change, updated)
+            set_item(self.request.validated["contract"], "changes", change["id"], updated)
             if save_contract(self.request):
                 self.LOGGER.info(
                     f"Updated contract change {change['id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "contract_change_patch"}),
                 )
-                return {"data": self.serializer_class(updated_change).data}
+                return {"data": self.serializer_class(updated).data}

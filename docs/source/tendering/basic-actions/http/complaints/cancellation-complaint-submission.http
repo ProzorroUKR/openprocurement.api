@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/fb1eae1f48b24edc82315df57cc27bbd/cancellations/85187a20d3f94b90a50ca1939bab3080/complaints HTTP/1.0
+POST /api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fb1eae1f48b24edc82315df57cc27bbd/cancellations/85187a20d3f94b90a50ca1939bab3080/complaints/f48ffa8f4c65427bb9ce730ca625f838
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints/e64da7492d294ea194bee32ab3525f32
 
 {
   "data": {
@@ -65,7 +65,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fb1eae1f48b24edc
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "draft",
     "type": "complaint",
-    "id": "f48ffa8f4c65427bb9ce730ca625f838",
+    "id": "e64da7492d294ea194bee32ab3525f32",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "value": {

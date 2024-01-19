@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/78d4ab4039c8441d8cac856e90e3b82b HTTP/1.0
+GET /api/2.5/frameworks/7a229c4d310842c39ef98821651b267b HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -26,7 +26,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "bffc331018b943438e4c05ded15704d8",
+        "id": "6e3c9989ef844c53b6b202f3c5d3af28",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
@@ -36,7 +36,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "07c983b9206444d8b4b440f9ec3feb22",
+        "id": "1e3e5196731a48e48ca51152eb00c4ba",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -46,7 +46,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "07c983b9206444d8b4b440f9ec3feb22",
+        "id": "1e3e5196731a48e48ca51152eb00c4ba",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -96,8 +96,8 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "agreementID": "acca82c6bd0c40bb99ac3a85e97a0fa7",
-    "id": "78d4ab4039c8441d8cac856e90e3b82b"
+    "agreementID": "6d10ffd01e7a4ab8a94915d9f6eebbdb",
+    "id": "7a229c4d310842c39ef98821651b267b"
   },
   "config": {
     "restrictedDerivatives": false

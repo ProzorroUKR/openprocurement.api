@@ -4,11 +4,12 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_operation_qualification_requirement_response,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_administrator,
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.views.qualification_req_response import (

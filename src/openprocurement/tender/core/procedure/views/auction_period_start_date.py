@@ -4,9 +4,9 @@ from openprocurement.tender.core.procedure.models.auction import AuctionPeriodSt
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_for_put_action_period,
     validate_auction_period_start_date,
-    validate_lot_status_active,
-    validate_input_data
+    validate_lot_status_active
 )
+from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
 from pyramid.security import Allow
 from cornice.resource import resource

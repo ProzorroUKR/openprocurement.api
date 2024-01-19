@@ -7,7 +7,7 @@ from openprocurement.relocation.api.procedure.serializers.transfer import Transf
 from openprocurement.relocation.api.procedure.utils import set_ownership
 from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
 from openprocurement.relocation.api.procedure.utils import save_transfer
-from openprocurement.tender.core.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_input_data
 
 
 @resource(

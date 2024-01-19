@@ -12,6 +12,7 @@ from openprocurement.api.utils import (
     context_unpack,
     json_view,
     update_logging_context,
+    request_init_plan,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.api.views.base import MongodbResourceListing
@@ -20,13 +21,13 @@ from openprocurement.planning.api.procedure.serializers.plan import PlanSerializ
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 from openprocurement.tender.core.procedure.utils import set_ownership
-from openprocurement.tender.core.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_accreditation_level,
-    unless_administrator,
-    validate_item_owner,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_data_documents,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 
 LOGGER = getLogger(__name__)
@@ -73,7 +74,9 @@ class PlansResource(PlanBaseResource):
     @json_view(permission="view_plan")
     def get(self):
         plan = self.request.validated["plan"]
-        return {"data": self.serializer_class(plan).data}
+        return {
+            "data": self.serializer_class(plan).data,
+        }
 
     @json_view(
         content_type="application/json",
@@ -92,11 +95,9 @@ class PlansResource(PlanBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"plan_id": "__new__"})
         plan = self.request.validated["data"]
+        request_init_plan(self.request, plan, plan_src={})
         access = set_ownership(plan, self.request)
         self.state.on_post(plan)
-
-        self.request.validated["plan"] = plan
-        self.request.validated["plan_src"] = {}
         if save_plan(self.request, modified=True, insert=True):
             LOGGER.info(
                 "Created plan {} ({})".format(plan["_id"], plan["planID"]),
@@ -111,7 +112,10 @@ class PlansResource(PlanBaseResource):
             )
             self.request.response.status = 201
             self.request.response.headers["Location"] = self.request.route_url("Plans", plan_id=plan["_id"])
-            return {"data": self.serializer_class(plan).data, "access": access}
+            return {
+                "data": self.serializer_class(plan).data,
+                "access": access,
+            }
 
     @json_view(
         content_type="application/json",
@@ -126,14 +130,19 @@ class PlansResource(PlanBaseResource):
     )
     def patch(self):
         updated = self.request.validated["data"]
-        self.request.validated["plan"] = updated or self.request.validated["plan_src"]
-        self.state.on_patch(self.request.validated["plan_src"], self.request.validated["plan"])
-        if updated and save_plan(self.request):
-            self.LOGGER.info(
-                f"Updated plan {updated['_id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
-            )
-        return {"data": self.serializer_class(self.request.validated["plan"]).data}
+        plan = self.request.validated["plan"]
+        plan_src = self.request.validated["plan_src"]
+        if updated:
+            plan = self.request.validated["plan"] = updated
+            self.state.on_patch(plan_src, plan)
+            if save_plan(self.request):
+                self.LOGGER.info(
+                    f"Updated plan {updated['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
+                )
+        return {
+            "data": self.serializer_class(plan).data,
+        }
 
 
 @resource(

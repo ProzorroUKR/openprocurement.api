@@ -16,12 +16,6 @@ class Model(SchematicsModel):
 
     __parent__ = BaseType()
 
-    # def __getattribute__(self, name):
-    #     serializables = super(Model, self).__getattribute__("_serializables")
-    #     if name in serializables.adaptive_items:
-    #         return serializables[name](self)
-    #     return super(Model, self).__getattribute__(name)
-
     def __getitem__(self, name):
         try:
             return getattr(self, name)

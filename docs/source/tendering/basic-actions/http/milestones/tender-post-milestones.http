@@ -117,7 +117,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1db88d4ac034f3daabc3709de6544c3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fc330bfd80e44365b8a127c12bbf9a1a
 
 {
   "data": {
@@ -175,7 +175,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1db88d4ac034f3d
     ],
     "milestones": [
       {
-        "id": "e860242f8fb24929be9ae8e21cde09f3",
+        "id": "a9e3871f21ee40c1a8d2e096fe390c38",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -187,7 +187,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1db88d4ac034f3d
         "sequenceNumber": 0
       },
       {
-        "id": "8e05279f9f524fcda09d9c53fe2edfad",
+        "id": "56a863f66dfc4d46a033dd466795a172",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -232,7 +232,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d1db88d4ac034f3d
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "d1db88d4ac034f3daabc3709de6544c3"
+    "id": "fc330bfd80e44365b8a127c12bbf9a1a"
   },
   "config": {
     "hasAuction": true,

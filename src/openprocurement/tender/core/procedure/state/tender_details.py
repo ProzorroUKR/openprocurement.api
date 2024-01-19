@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.procedure.context import get_object, get_object_config, get_tender_config
+from openprocurement.api.procedure.context import get_object, get_agreement, get_tender
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -72,9 +72,8 @@ class TenderConfigMixin(baseclass):
     )
 
     def validate_config(self, data):
-        config = get_tender_config()
         for config_name in self.configurations:
-            value = config.get(config_name)
+            value = data["config"][config_name]
 
             if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
                 raise_operation_error(
@@ -101,14 +100,14 @@ class TenderConfigMixin(baseclass):
                     name=config_name,
                 )
 
-        self.validate_restricted_config(data, config)
+        self.validate_restricted_config(data)
 
-    def validate_restricted_config(self, data, config):
+    def validate_restricted_config(self, data):
         has_restricted_preselection_agreement = False
-        agreement_config = get_object_config("agreement")
-        if agreement_config:
-            has_restricted_preselection_agreement = agreement_config.get("restricted") is True
-        if has_restricted_preselection_agreement is True and config.get("restricted") is False:
+        agreement = get_agreement()
+        if agreement:
+            has_restricted_preselection_agreement = agreement["config"]["restricted"] is True
+        if has_restricted_preselection_agreement is True and data["config"]["restricted"] is False:
             raise_operation_error(
                 self.request,
                 "Value must be True.",
@@ -116,7 +115,7 @@ class TenderConfigMixin(baseclass):
                 location="body",
                 name="restricted",
             )
-        elif has_restricted_preselection_agreement is False and config.get("restricted") is True:
+        elif has_restricted_preselection_agreement is False and data["config"]["restricted"] is True:
             raise_operation_error(
                 self.request,
                 "Value must be False.",
@@ -235,8 +234,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 name="agreements",
             )
 
-        config = get_tender_config()
-        if config["hasPreSelectionAgreement"] is True:
+        if tender["config"]["hasPreSelectionAgreement"] is True:
             agreements = tender.get("agreements")
             if not agreements:
                 raise_agreements_error("This field is required.")
@@ -266,13 +264,13 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 raise_agreements_error(AGREEMENT_IDENTIFIER_MESSAGE)
 
     def set_mode_test(self, tender):
-        config = get_tender_config()
-        if config.get("test"):
+        if tender["config"].get("test"):
             tender["mode"] = "test"
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)
 
     def validate_lots_count(self, tender):
+        tender = get_tender()
         if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
             # TODO: consider using config
             max_lots_count = 1
@@ -465,18 +463,25 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             raise_operation_error(get_request(), f"Tender must contain {language_criterion} criterion")
 
     def validate_minimal_step(self, data, before=None):
-        config = get_tender_config()
+        """
+        Minimal step validation.
+        Minimal step should be required if tender has auction
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
         kwargs = {
             "before": before,
-            "enabled": config.get("hasAuction") is True,
+            "enabled": tender["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)
 
     def validate_submission_method(self, data, before=None):
-        config = get_tender_config()
         kwargs = {
             "before": before,
-            "enabled": config.get("hasAuction") is True,
+            "enabled": data["config"]["hasAuction"] is True,
         }
         validate_field(data, "submissionMethod", default="electronicAuction", **kwargs)
         validate_field(data, "submissionMethodDetails", required=False, **kwargs)
@@ -485,8 +490,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     @staticmethod
     def default_procurement_method(data):
-        config = get_tender_config()
-        if config["hasPreSelectionAgreement"] is True:
+        if data["config"]["hasPreSelectionAgreement"] is True:
             return PROCUREMENT_METHOD_SELECTIVE
         if data["procurementMethodType"] in SELECTIVE_PROCUREMENT_METHOD_TYPES:
             return PROCUREMENT_METHOD_SELECTIVE
@@ -631,8 +635,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     )
 
     def update_complaint_period(self, tender):
-        config = get_tender_config()
-        if config.get("tenderComplaints") is not True:
+        if tender["config"]["tenderComplaints"] is not True:
             return
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return

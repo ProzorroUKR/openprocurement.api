@@ -14,9 +14,9 @@ from openprocurement.framework.core.procedure.validation import (
 )
 from openprocurement.framework.core.procedure.views.milestone import AgreementContractMilestonesResource
 from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data,
+    validate_input_data,
     validate_data_documents,
     validate_item_owner,
 )

@@ -2,18 +2,17 @@ from openprocurement.tender.core.procedure.views.contract_document import Tender
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
     validate_contract_supplier,
 
-    validate_input_data,
-    validate_patch_data,
-    unless_bots,
-    update_doc_fields_on_put_document,
-    validate_upload_document,
-    validate_data_model,
     validate_role_for_contract_document_operation,
     validate_contract_document_status,
     validate_forbid_contract_action_after_date,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data,
+    validate_data_model,
+    validate_input_data,
+    unless_admins, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
 )
 from cornice.resource import resource
 

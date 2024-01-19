@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/384d9c08c2d249a5b4d44e16caea0ecc?acc_token=b5dc2b2245f14b5ea8fbc726e64fdfa9 HTTP/1.0
+GET /api/2.5/tenders/987f2601e8134d07aa066cb39ffaeb98/bids/6b9fd8e8f1a04f5baebe008754611b0e?acc_token=b5dc2b2245f14b5ea8fbc726e64fdfa9 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -31,7 +31,7 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "384d9c08c2d249a5b4d44e16caea0ecc",
+    "id": "6b9fd8e8f1a04f5baebe008754611b0e",
     "date": "2023-10-10T01:00:00+03:00",
     "parameters": [
       {
@@ -53,7 +53,7 @@ Content-Type: application/json
         "relatedLot": "50fc7d0cb4e3423491c35387a046af42",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9c3bab1d2b124303adb40303b401fef6_50fc7d0cb4e3423491c35387a046af42?key_for_bid=384d9c08c2d249a5b4d44e16caea0ecc"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/987f2601e8134d07aa066cb39ffaeb98_50fc7d0cb4e3423491c35387a046af42?key_for_bid=6b9fd8e8f1a04f5baebe008754611b0e"
       }
     ],
     "documents": [
@@ -64,7 +64,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e5d937aec73f4c07aec4e91e7de7d0c0?Signature=i1QFE0pwj%2BuQT99%2FY4GX2uZghCioK2WSMSpY6%2BMlXr1TETaF6FoXkWJE5ceSIenvOO9CMxJTx4kTn5aoga4JAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "874ffaf54521474db684e5e636a6816e",
+        "id": "b336781d876d47e281e111bf33ffd16b",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"

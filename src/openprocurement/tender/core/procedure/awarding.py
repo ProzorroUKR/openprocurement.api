@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.context import (
     get_request,
     get_bids_before_auction_results_context,
 )
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     filter_features,
     tender_created_after_2020_rules, activate_bids,
@@ -71,13 +71,12 @@ class TenderStateAwardingMixing(baseclass):
 
     def add_next_award(self):
         tender = get_tender()
-        config = get_tender_config()
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
         if "startDate" not in award_period:
             award_period["startDate"] = get_now().isoformat()
 
-        if config.get("hasAwardingOrder") is False:
+        if tender["config"]["hasAwardingOrder"] is False:
             self.generate_awards_without_awarding_order(tender)
             return
 

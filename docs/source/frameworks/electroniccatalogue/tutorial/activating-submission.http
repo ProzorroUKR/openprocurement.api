@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/660d637f7cf749888336a1412725caf8?acc_token=b30af78ba8964a839295518c1e083123 HTTP/1.0
+PATCH /api/2.5/submissions/5e1269d73d184f65bf1f889a1abc9974?acc_token=b30af78ba8964a839295518c1e083123 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -39,15 +39,15 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
+    "frameworkID": "7a229c4d310842c39ef98821651b267b",
     "status": "active",
     "dateModified": "2023-10-26T01:00:00+03:00",
     "date": "2023-10-26T01:00:00+03:00",
     "owner": "broker",
     "submissionType": "electronicCatalogue",
-    "qualificationID": "2efa97090edf4a269865f3d2a1e88247",
+    "qualificationID": "6fce332a98dc49939a6a6f0dc2fa33c6",
     "datePublished": "2023-10-26T01:00:00+03:00",
-    "id": "660d637f7cf749888336a1412725caf8"
+    "id": "5e1269d73d184f65bf1f889a1abc9974"
   },
   "config": {
     "restricted": false

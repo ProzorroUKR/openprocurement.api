@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9d0132ecdea04c5bbab926da6ea94e0a HTTP/1.0
+GET /api/2.5/tenders/fd45af80ad9f4574994f7f6254012693 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -48,7 +48,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d75459d9da8a4386b380198eca937030",
+        "id": "a23a71262ac642b88f2fdb69011d74b1",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -86,7 +86,7 @@ Content-Type: application/json
         "profile": "655360-30230000-889652-40000777"
       },
       {
-        "id": "909a48c29a3f448bbd498cc0f96259bd",
+        "id": "c8f30df33ae14c65b38931d68e63d757",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -126,16 +126,16 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "6bc4d9e93a484e9ca8d2e713a1a81559",
+        "id": "88ecb5322386442bb7ee14b818d44933",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "3fb726bdb017485a924a45e16f8bf05a",
+            "id": "9f3a626e98784117a876e07efdb71de9",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "2f180898e67441b78da9b86a17a2f89c",
+                "id": "3463e81fe3da481ebeeb6aab94a95a8d",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -145,16 +145,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "65c1cce79d534fa08145b7d012d4b367",
+        "id": "aeb123fbef604e2ab4d453073dcb8264",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "01b6b9acc732440f939a78e25968ff16",
+            "id": "0faa05cd34d243bfb995cd515f07d921",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "6e3b2ad4566c4b3da0aa256642a1c7a5",
+                "id": "37d8b3bd57654213b04a6c9549ab9472",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -168,16 +168,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "9946263621c541c9a5f65a1c35d63b95",
+        "id": "304d7e774fa149899ef60e6a6b157a09",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "20dea1176f6d4499a01930b5201d08a1",
+            "id": "1156a3796b1446f68d648bd1bd10095f",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "694ddf04516b441da56b9dbf47d8314e",
+                "id": "24819f3db06043d49c0db7b7617a383f",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -252,7 +252,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "3f7ccd0730224e95b566f1551881797b",
+        "id": "4a7557b056b54dc097f6f7e996a15cd0",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -283,23 +283,23 @@ Content-Type: application/json
         },
         "requirementResponses": [
           {
-            "id": "7d2f690ae07742538c086add5d5ea3b9",
+            "id": "05b3810cd9bc42ecb3683adee2f34302",
             "requirement": {
-              "id": "2f180898e67441b78da9b86a17a2f89c"
+              "id": "3463e81fe3da481ebeeb6aab94a95a8d"
             },
             "value": "Розчин для інфузій"
           },
           {
-            "id": "46db715a60f141feac1364df67ec6ffb",
+            "id": "c3ac1f8375a4481c9e5726c4a4a7f64b",
             "requirement": {
-              "id": "6e3b2ad4566c4b3da0aa256642a1c7a5"
+              "id": "37d8b3bd57654213b04a6c9549ab9472"
             },
             "value": 5
           },
           {
-            "id": "49f12bf9b6c846afab0dd18f5567e96a",
+            "id": "8888f3477614498d945c0869f444d9b6",
             "requirement": {
-              "id": "694ddf04516b441da56b9dbf47d8314e"
+              "id": "24819f3db06043d49c0db7b7617a383f"
             },
             "values": [
               "Відповідь1",
@@ -345,7 +345,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "3f7ccd0730224e95b566f1551881797b"
+        "bid_id": "4a7557b056b54dc097f6f7e996a15cd0"
       },
       {
         "id": "d3abee48154c47358abc7375a2191b78",
@@ -378,7 +378,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "3f7ccd0730224e95b566f1551881797b"
+        "bid_id": "4a7557b056b54dc097f6f7e996a15cd0"
       }
     ],
     "contracts": [
@@ -395,7 +395,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "9d0132ecdea04c5bbab926da6ea94e0a"
+    "id": "fd45af80ad9f4574994f7f6254012693"
   },
   "config": {
     "hasAuction": false,

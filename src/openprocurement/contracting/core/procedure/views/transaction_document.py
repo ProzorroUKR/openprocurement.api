@@ -4,11 +4,7 @@ from openprocurement.contracting.core.procedure.views.transaction import resolve
 from openprocurement.contracting.core.procedure.views.document import BaseDocumentResource
 from openprocurement.contracting.core.procedure.validation import validate_contract_owner
 from openprocurement.tender.core.procedure.views.document import resolve_document
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    unless_bots,
-    unless_admins,
-)
+from openprocurement.api.procedure.validation import validate_input_data, unless_admins, unless_bots
 from openprocurement.contracting.core.procedure.models.document import PostTransactionDocument
 
 

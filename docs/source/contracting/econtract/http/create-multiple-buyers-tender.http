@@ -216,7 +216,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458fadd47b11d492c960
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/14be9ab9e27d4db8aed4f62d015d0a56
 
 {
   "data": {
@@ -262,7 +262,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458f
     },
     "items": [
       {
-        "id": "2192f86160964a47851a8314ad1cef69",
+        "id": "087050d3cd8640b596f582e1adcc7ea3",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -300,7 +300,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458f
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "2c25eab4210b401ea38e8054075b5d58",
+        "id": "bf0da3be24d14ca4bdab0d904ef10be1",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -338,7 +338,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458f
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "cafef318cf174c7b959c3164bac532f3",
+        "id": "fc9234f0832e47c79752e76042c5f913",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -390,7 +390,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458f
         "sequenceNumber": 0
       },
       {
-        "id": "4591964639844c15954ba0112d18d49d",
+        "id": "a151c7cbe05e4c38bf110805ed7b7c47",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -436,7 +436,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/812c91961776458f
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "812c91961776458fadd47b11d492c960"
+    "id": "14be9ab9e27d4db8aed4f62d015d0a56"
   },
   "config": {
     "hasAuction": true,

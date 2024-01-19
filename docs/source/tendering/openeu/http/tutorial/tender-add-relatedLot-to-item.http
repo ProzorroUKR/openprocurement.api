@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
+PATCH /api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1?acc_token=e81ca7deac284bc5bbfb6eaacbdd43af HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "09a26e3c63a8438db51882f180691504",
+        "id": "f5e6103079974585b00660575d3220df",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -46,7 +46,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "f593b0ce6a334393bfba269562fa3ac9"
       },
       {
-        "id": "46f5ee38242a4bcebd131d3d8ec4e0f9",
+        "id": "44d8bbe028464413a13eebba93eadd41",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -147,7 +147,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "ad10025b49b240fc8d2320d035be1cbe",
+        "id": "e389e69c763f4938bb8d5be9318c8eb3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -199,7 +199,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "09a26e3c63a8438db51882f180691504",
+        "id": "f5e6103079974585b00660575d3220df",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -238,7 +238,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "46f5ee38242a4bcebd131d3d8ec4e0f9",
+        "id": "44d8bbe028464413a13eebba93eadd41",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -281,7 +281,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "id": "7d3cf7fb349c41a38c1e3c8e94f03fdc"
+    "id": "d919e3a12bf04f32b88a651dc10270d1"
   },
   "config": {
     "hasAuction": true,

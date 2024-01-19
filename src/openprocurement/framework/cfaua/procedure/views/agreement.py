@@ -2,12 +2,19 @@
 from cornice.resource import resource
 
 from openprocurement.api.auth import ACCR_3, ACCR_5
-from openprocurement.api.procedure.validation import validate_input_data_from_resolved_model
+from openprocurement.api.procedure.validation import (
+    validate_input_data_from_resolved_model,
+    validate_patch_data,
+    validate_config_data,
+    validate_input_data,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
+)
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.framework.core.procedure.models.agreement import AgreementConfig
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.agreement import Agreement, PostAgreement
@@ -15,15 +22,6 @@ from openprocurement.framework.cfaua.procedure.state.agreement import AgreementS
 from openprocurement.framework.cfaua.procedure.validation import validate_update_agreement_status
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource as BaseFrameworkAgreementResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_accreditation_level,
-    unless_administrator,
-    validate_item_owner,
-    validate_config_data,
-)
 
 
 @resource(
@@ -43,11 +41,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
         permission="create_agreement",
         validators=(
             validate_input_data(PostAgreement),
-            validate_config_data(
-                AgreementConfig,
-                serializer=AgreementConfigSerializer,
-                obj_name="agreement",
-            ),
+            validate_config_data(AgreementConfig),
             validate_accreditation_level(
                 levels=(ACCR_3, ACCR_5),
                 item="agreement",
@@ -61,9 +55,10 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
 
     @json_view(permission="view_agreement")
     def get(self):
+        agreement = get_agreement()
         return {
-            "data": self.serializer_class(get_object("agreement")).data,
-            "config": get_object_config("agreement"),
+            "data": self.serializer_class(agreement).data,
+            "config": agreement["config"],
         }
 
     @json_view(
@@ -80,20 +75,17 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
     )
     def patch(self):
         updated = self.request.validated["data"]
-        # May be we don't need this validation as "features" field is forbidden for patching
-        # if "features" in updated:
-        #     if apply_data_patch(self.request.validated["agreement"]["features"], updated["features"]):
-        #         self.request.errors.add("body", "features", "Can't change features")
-        #         self.request.errors.status = 403
-        #         raise error_handler(self.request)
+        agreement = self.request.validated["agreement"]
+        agreement_src = self.request.validated["agreement_src"]
         if updated:
-            self.request.validated["agreement"] = updated
+            agreement = self.request.validated["agreement"] = updated
+            self.state.on_patch(agreement_src, agreement)
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
-                    f"Updated agreement {updated['_id']}",
+                    f"Updated agreement {agreement['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
                 )
         return {
-            "data": self.serializer_class(get_object("agreement")).data,
-            "config": get_object_config("agreement"),
+            "data": self.serializer_class(agreement).data,
+            "config": agreement["config"],
         }

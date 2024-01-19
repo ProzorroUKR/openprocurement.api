@@ -19,11 +19,11 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "76e8c60cfb62437cb0cfcd110d0dc4a0",
+    "awardID": "e7818db48ced43fdb835d12196d87996",
     "contractID": "UA-2023-10-10-000001-a-2",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "c7d03b515def41539b8f383bf4bc3608",
+    "tender_id": "d1c99512210a440d8816081d0616ce15",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -55,7 +55,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "48e77976f2a9426c961ff8e0e8495029",
+        "id": "8bc6840649524204a2587e504710a015",
         "description": "портфелі",
         "quantity": 5.0,
         "relatedBuyer": "22222222222222222222222222222222",
@@ -93,7 +93,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "55835bec06fa415d8407e9a74411dc01",
+        "id": "7ce20f04e58e4e678aa1f591966d096c",
         "description": "портфелі",
         "quantity": 5.0,
         "relatedBuyer": "22222222222222222222222222222222",

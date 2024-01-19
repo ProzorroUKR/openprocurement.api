@@ -1,7 +1,5 @@
-from openprocurement.api.utils import request_init_object, request_fetch_agreement, request_init_tender
+from openprocurement.api.utils import request_fetch_agreement, request_init_tender
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.procedure.context import get_tender_config
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
@@ -37,10 +35,9 @@ class TenderBaseResource(BaseResource):
             match_dict = request.matchdict
             if match_dict and match_dict.get("tender_id"):
                 tender = request_init_tender(request, request.tender_doc)
-                tender_config = get_tender_config()
 
                 if request.method not in ("GET", "HEAD"):
-                    if tender_config.get("hasPreSelectionAgreement") is True:
+                    if tender["config"]["hasPreSelectionAgreement"] is True:
                         agreements = tender.get("agreements")
                         if agreements and "agreement" not in request.validated:
                             request_fetch_agreement(request, agreements[0]["id"], raise_error=False)

@@ -6,11 +6,12 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.req_response import RequirementResponse, PatchRequirementResponse
 from openprocurement.tender.core.procedure.state.req_response import QualificationReqResponseState
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_operation_qualification_requirement_response,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_administrator,
 )
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.views.base_req_response import (

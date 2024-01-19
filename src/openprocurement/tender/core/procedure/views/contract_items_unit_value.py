@@ -9,7 +9,7 @@ from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.state.contract import ContractState
 from openprocurement.tender.core.procedure.views.contract import resolve_contract
 from openprocurement.tender.core.procedure.models.contract_items_unit_value import Value
-from openprocurement.tender.core.procedure.validation import validate_input_data, validate_item_owner
+from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
 from pyramid.security import Allow, Everyone
 from copy import deepcopy
 from logging import getLogger

@@ -5,10 +5,7 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
 )
 from openprocurement.tender.limited.procedure.state.award_complaint import NegotiationAwardComplaintState
 from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_data_documents,
-)
+from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents
 from openprocurement.api.utils import json_view
 
 

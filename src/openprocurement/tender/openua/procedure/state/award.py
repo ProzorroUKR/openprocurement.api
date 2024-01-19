@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
@@ -14,8 +14,7 @@ class AwardState(AwardStateMixing, OpenUATenderState):
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
         tender = get_tender()
-        config = get_tender_config()
-        awarding_order_enabled = config.get("hasAwardingOrder")
+        awarding_order_enabled = tender["config"]["hasAwardingOrder"]
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":

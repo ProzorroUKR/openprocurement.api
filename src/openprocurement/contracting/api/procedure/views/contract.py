@@ -6,13 +6,10 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
     validate_contract_update_not_in_allowed_status
 )
-from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    unless_administrator,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    unless_administrator, unless_admins,
 )
 from openprocurement.contracting.api.procedure.models.contract import (
     PatchContract,

@@ -2,7 +2,7 @@ from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
@@ -47,8 +47,7 @@ class AwardStateMixing(baseclass):
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
         tender = get_tender()
-        config = get_tender_config()
-        awarding_order_enabled = config.get("hasAwardingOrder")
+        awarding_order_enabled = tender["config"]["hasAwardingOrder"]
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":

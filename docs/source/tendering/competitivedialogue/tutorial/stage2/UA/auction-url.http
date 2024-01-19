@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0653aa92786e43349c05b64015a57ee4 HTTP/1.0
+GET /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -18,7 +18,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
-        "id": "fde2eac7539f4c49bae0a3a76f110c85",
+        "id": "6f40008fdca541b18c836a50b22b9d92",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -53,16 +53,16 @@ Content-Type: application/json
                     "title": "Документальне підтвердження",
                     "description": "Довідка в довільній формі",
                     "type": "document",
-                    "id": "2a4153745a8b4b01a7abcaf07339cab1"
+                    "id": "8620bd08ef694dffbc8cc7bdd1eec313"
                   }
                 ],
                 "expectedValue": "true",
                 "status": "active",
-                "id": "e77b4840c8ac47578e0ee5948c97f4c2",
+                "id": "a5870102b094468a846315bd7b7a34ff",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "9d7c435d8b1f4d219837aaf5d86bea70"
+            "id": "771fc79df6ba4964a445809179365d97"
           },
           {
             "description": "Учасник юридична особа підтверджує, що",
@@ -72,11 +72,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "19bcb8d486e3426fa547a64d3e1808d8",
+                "id": "f6e974df65cb43018d5e5446e6867306",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "79434334ca8e431ebb6d1c5c78ed2e74"
+            "id": "cd6b103fda364053a003b426b5a89f6c"
           }
         ]
       },
@@ -89,7 +89,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
-        "id": "37026b4eadcd4d5da1c0fea80e3b3f4c",
+        "id": "e2bd0089575344a89c7bb09601443234",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -131,11 +131,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "6a74e80b8b964c3c89ffc346552ecbc3",
+                "id": "74e1d6d754004befbeae008fea89bf87",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "a408649555d74e51bf7d9fdeac556b64"
+            "id": "1240d0fff9c144aead02f7d84bfb2523"
           }
         ]
       },
@@ -148,7 +148,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
-        "id": "a7fc1ee515fb42eb9e8b1720db2c70fc",
+        "id": "61539cb59544434592336ed7dbd7bff7",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -180,7 +180,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "5ca9562d8d714c0a801afc29ca65d993",
+                "id": "724f649af70646b8a1919cc0be8a1a03",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -188,11 +188,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "ef1a5a1643fb493c839be27f910f22c3",
+                "id": "05af9bf5534a48178383a62e26cc89b9",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "fb0251269777449196989c3b875ac290"
+            "id": "bb2a9e37a7ad47658f3b21ab85fece53"
           }
         ]
       },
@@ -205,7 +205,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
-        "id": "f10e4b1d28a74461bc47e40531f593fa",
+        "id": "b2832d447bd14e9cbb1d5fa62831c4e6",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -227,11 +227,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "179e613be7e246c28d7bfddce5bc74e6",
+                "id": "10b27be5441848fb8a2eb3bdcd3f9ff5",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "61d67e3f213c4d43b98bf79954759814"
+            "id": "123ddf7104a34f95989f51147a61d3a6"
           }
         ]
       },
@@ -244,7 +244,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
-        "id": "82e5ba270aca45bab0805d5cd39fd91f",
+        "id": "334c5082e88945c4a448b32e5cb82c25",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -266,11 +266,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "3ce8807d13da45e8a69c97371d420f0b",
+                "id": "bac8dbb35a5547c8ba63e4dc15bdb526",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "abd922c941e94eb6b4c3bad329bc8489"
+            "id": "34c9460a6e6b4931b51d9d1a945a632f"
           },
           {
             "description": "Учасник підтверджує, що",
@@ -280,28 +280,28 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "d916734948dc44b78e7a5f216bebcbcf",
+                "id": "3c8cb9ed17994766adc66448c52bae27",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Сума існуючої заборгованості",
                 "dataType": "number",
                 "status": "active",
-                "id": "9240ff7dce99436eb7dbb47760dcd06b",
+                "id": "b1da693b2e9f4b00bb1fe1a64a61124c",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Характер існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "id": "657bb99935bb4ab7bb7e5990e06116ec",
+                "id": "ee75b1c9d7ba4818a4766282239f4480",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
                 "title": "Причина виникнення існуючої заборгованості",
                 "dataType": "string",
                 "status": "active",
-                "id": "554dbfaa9963432a9674980f88ac1c59",
+                "id": "fde83da2b2b24839984b1028f1b88a98",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -309,11 +309,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "d9a42eb6b1f5434f999d2869946c2529",
+                "id": "01df7690506f435f98fdd791b6144e21",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "527b6c83a6d44e128f7db9362cd0254a"
+            "id": "834a54bcc383416bb89cab74c1a7f9fb"
           }
         ]
       },
@@ -326,7 +326,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
-        "id": "6f32e3ad01c14ba7a98c8fb2cb479d02",
+        "id": "9a3964bba20c41898b5122dfd0df22e6",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -348,11 +348,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "c160ff0c1f6244a187e2fdd589cfc146",
+                "id": "3a2cc3d18788447f954295c119bdae3a",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "3e88c6b7d32447b084f648c8d9e585a5"
+            "id": "e7f86b43027848b3bf53b0843e0a6896"
           }
         ]
       },
@@ -365,7 +365,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
-        "id": "e8e220ea62524f62ad7368adf3bb7253",
+        "id": "2d90321529a940aa8e420b04faead5c6",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -390,15 +390,15 @@ Content-Type: application/json
                     "title": "Документальне підтвердження",
                     "description": "Довідка в довільній формі",
                     "type": "document",
-                    "id": "cf5b83d0add84fd5b48c7ef3cb170955"
+                    "id": "2747870bd6f649eba65af74ac81e3144"
                   }
                 ],
                 "status": "active",
-                "id": "829700138a7445a18a5e9254aaec963d",
+                "id": "d71a319a382840e3b52a8d906703e9f1",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "3347137993704863804e4dd325a2fdef"
+            "id": "1a473952682b49bbbbed6621ac769d78"
           }
         ]
       },
@@ -411,7 +411,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
-        "id": "7bc1dbdf2f2e4714b603a525274bb85b",
+        "id": "f804ff00c1ae42249ee001d4b6ef231d",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -432,11 +432,11 @@ Content-Type: application/json
                 "title": "Замовник має незаперечні докази того, що учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі",
                 "dataType": "boolean",
                 "status": "active",
-                "id": "6d8dcdaca43944d19de2415365e2556a",
+                "id": "015b70004a8b49778f544b5538329ecb",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "086116312e28431198271e47a6601292"
+            "id": "05239d5f47e44967ba85da2368205775"
           }
         ]
       },
@@ -449,7 +449,7 @@ Content-Type: application/json
           "scheme": " espd211",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
-        "id": "df1d96bf55544f888e57e78319f2bd0c",
+        "id": "5df3c471923941a68c27dd457c7d3dfe",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -510,7 +510,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "52eaa8fc0a5144c9995703ed3669da55",
+                "id": "b1c2ec696a6c4d29be771bfbbe797cd4",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -518,7 +518,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "cbc7b13dfa514e88a3728d86fdcc2fbe",
+                "id": "c71eb745abe54509bb93cf3b5b4b3075",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               },
               {
@@ -526,11 +526,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "30ad6df2331a4486b3b352dd54f94986",
+                "id": "6b77555e129d4a7fb9dbf7864d233859",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "9e8b261a7ccf435eae973f5068f6aa6e"
+            "id": "aedcbbafc5614df89658beb2be5ca223"
           }
         ]
       },
@@ -542,7 +542,7 @@ Content-Type: application/json
           "scheme": " ESPD211",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
-        "id": "1a52e305682642d593b10ac3f7abbb84",
+        "id": "20e0ccd963b24c7887a0b614b73c7e38",
         "legislation": [
           {
             "version": "2020-04-19",
@@ -563,11 +563,11 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "expectedValue": "true",
                 "status": "active",
-                "id": "712edd01506e4108a653b5a574f01985",
+                "id": "a3718eabe47a471bade694e246b4a45a",
                 "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ],
-            "id": "b7de44fe69eb436bb53ca6657832d7bc"
+            "id": "58d002f93c8848088f0dcf606444e438"
           }
         ]
       }
@@ -578,7 +578,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000016-a.2",
     "questions": [
       {
-        "id": "6209d63eb7724035bd2b642cb410fbf7",
+        "id": "ad448805cc1644b19f8610c78e0881d2",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -610,36 +610,36 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "caa914c83a5142a48dabb0c2ad168943",
+        "id": "22c3e7f4e0ce4bd5ba3c29bf2f8fc386",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0653aa92786e43349c05b64015a57ee4/documents/caa914c83a5142a48dabb0c2ad168943?download=8f0ed45b27a04c78ac7dcee9eeafa433",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/documents/22c3e7f4e0ce4bd5ba3c29bf2f8fc386?download=8f0ed45b27a04c78ac7dcee9eeafa433",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "3a7fb82c56634dad9fcedda70ebaa0dc",
+        "id": "0828ad7fc7394696b2775dac1eb3bfcc",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0653aa92786e43349c05b64015a57ee4/documents/3a7fb82c56634dad9fcedda70ebaa0dc?download=b6d7fbeb72c644d9ad3fabc3b7382b52",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/documents/0828ad7fc7394696b2775dac1eb3bfcc?download=b6d7fbeb72c644d9ad3fabc3b7382b52",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "3a7fb82c56634dad9fcedda70ebaa0dc",
+        "id": "0828ad7fc7394696b2775dac1eb3bfcc",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0653aa92786e43349c05b64015a57ee4/documents/3a7fb82c56634dad9fcedda70ebaa0dc?download=38ea000c35bb4535ac1b069ffa75e145",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/documents/0828ad7fc7394696b2775dac1eb3bfcc?download=38ea000c35bb4535ac1b069ffa75e145",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -681,7 +681,7 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2023-10-10T01:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0653aa92786e43349c05b64015a57ee4_9d95d7c5f19f4d24b17d650fe94a42f5"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c429ff66bfe7408592ede2909ac98702_9d95d7c5f19f4d24b17d650fe94a42f5"
       }
     ],
     "complaintPeriod": {
@@ -765,7 +765,7 @@ Content-Type: application/json
     "status": "active.auction",
     "items": [
       {
-        "id": "6a1f36e6f8b2481bae728c86d524d5c9",
+        "id": "62fd2faf1672406a8db6d59752ef5cce",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -806,7 +806,7 @@ Content-Type: application/json
     "auctionPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },
-    "id": "0653aa92786e43349c05b64015a57ee4"
+    "id": "c429ff66bfe7408592ede2909ac98702"
   },
   "config": {
     "hasAuction": true,

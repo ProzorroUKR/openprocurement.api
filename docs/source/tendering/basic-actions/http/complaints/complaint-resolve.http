@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/83795c19c7e04e7bb2e902af92d507e5 HTTP/1.0
+PATCH /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/1f9e8f05428c41fd9c397a731d8d4a09 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,13 +15,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "83795c19c7e04e7bb2e902af92d507e5",
+    "id": "1f9e8f05428c41fd9c397a731d8d4a09",
     "complaintID": "UA-2023-10-10-000001-a.5",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "satisfied",
     "documents": [
       {
-        "id": "b2e9fb1d8d5c46c3a18b6a781a03dd5a",
+        "id": "a96631aa035f46d183f9073c1eff1e10",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",

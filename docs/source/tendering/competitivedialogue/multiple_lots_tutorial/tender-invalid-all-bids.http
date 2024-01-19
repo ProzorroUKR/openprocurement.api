@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7/lots/2866b9eca86549469d19f5b13268d0af?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
+PATCH /api/2.5/tenders/0122f7569ef34718a69b5de8643cccfd/lots/21068d0f3d3849709ec8f44d8bd0c140?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,7 +22,7 @@ Content-Type: application/json
     "title": "Лот №2",
     "description": "Опис Лот №2",
     "status": "active",
-    "id": "2866b9eca86549469d19f5b13268d0af",
+    "id": "21068d0f3d3849709ec8f44d8bd0c140",
     "date": "2023-10-10T01:00:00+03:00",
     "value": {
       "amount": 400.0,

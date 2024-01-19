@@ -555,7 +555,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "e11eddbda0794b0da849c19d74ab06d8",
+        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -658,7 +658,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "e11eddbda0794b0da849c19d74ab06d8",
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
         "deliveryDate": {
           "startDate": "1111-11-11T00:00:00+02:00",
           "endDate": "1111-11-11T00:00:00+02:00"

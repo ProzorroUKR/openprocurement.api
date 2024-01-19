@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/70977f2395ad406daa456417f50dd237/bids/60441dfb078d49908974e0935d68bc6b/documents/cbbb99b23b7e47cd93f9b6aaa0a64359?acc_token=6dd6b053002e43938d257bd007d873c2 HTTP/1.0
+PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1/bids/de4909199c1440ca809e98f0538e3064/documents/d21dc81bb3944e39b39703c4cb3ddbe1?acc_token=6dd6b053002e43938d257bd007d873c2 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,12 +16,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "cbbb99b23b7e47cd93f9b6aaa0a64359",
+    "id": "d21dc81bb3944e39b39703c4cb3ddbe1",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "public-to-private.doc",
     "format": "application/msword",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/70977f2395ad406daa456417f50dd237/bids/60441dfb078d49908974e0935d68bc6b/documents/cbbb99b23b7e47cd93f9b6aaa0a64359?download=48945373accd4d29ba34ccdf21d9804a",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a450405f3c6840318420a210894cccb1/bids/de4909199c1440ca809e98f0538e3064/documents/d21dc81bb3944e39b39703c4cb3ddbe1?download=48945373accd4d29ba34ccdf21d9804a",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",

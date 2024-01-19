@@ -1,7 +1,7 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import get_tender_by_id, request_init_tender
-from openprocurement.api.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender
 
 
 def restricted_serializer(obj, value):
@@ -11,20 +11,24 @@ def restricted_serializer(obj, value):
         #  when e-contracting will be enabled for all procedures:
         #    return False
 
-        tender_config = get_tender_config()
+        tender = get_tender()
 
-        if not tender_config:
+        if not tender:
             request = get_request()
             contract = request.validated.get("contract") or request.validated.get("data")
+
+            if not contract:
+                return False
+
             tender = get_tender_by_id(request, contract["tender_id"], raise_error=False)
 
             if tender is None:
                 return False
 
             request_init_tender(request, tender)
-            tender_config = get_tender_config()
+            tender_config = get_tender()
 
-        return tender_config["restricted"]
+        return tender["config"]["restricted"]
 
     return value
 

@@ -1,10 +1,9 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.api.procedure.context import get_object_config
 from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.tender.core.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_input_data
 
 
 class FrameworkChronographResource(FrameworkBaseResource):
@@ -26,5 +25,5 @@ class FrameworkChronographResource(FrameworkBaseResource):
             )
         return {
             "data": self.serializer_class(framework).data,
-            "config": get_object_config("framework"),
+            "config": framework["config"],
         }

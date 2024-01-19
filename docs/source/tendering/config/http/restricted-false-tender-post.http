@@ -73,7 +73,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "e11eddbda0794b0da849c19d74ab06d8"
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       }
     ],
     "milestones": [
@@ -119,7 +119,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "amount": 5
         },
-        "id": "e11eddbda0794b0da849c19d74ab06d8"
+        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       }
     ]
   },
@@ -166,7 +166,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "e11eddbda0794b0da849c19d74ab06d8",
+        "id": "86393d2e4e8042efb3a7b0a7cdfe8d61",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -261,7 +261,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "e11eddbda0794b0da849c19d74ab06d8",
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61",
         "deliveryDate": {
           "startDate": "2023-10-12T01:00:00+03:00",
           "endDate": "2023-10-15T01:00:00+03:00"
@@ -303,8 +303,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "cbe1f8df5ec24fec85f5078758f7575f",
-    "transfer": "e1d612c80fe94a30a7092a8e982c729b"
+    "token": "af1e4a374fe0437f9b6d522c0e415a6e",
+    "transfer": "e11eddbda0794b0da849c19d74ab06d8"
   }
 }
 

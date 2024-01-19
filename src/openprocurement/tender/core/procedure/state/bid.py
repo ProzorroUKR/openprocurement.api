@@ -6,7 +6,7 @@ from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)
@@ -93,7 +93,6 @@ class BidState(BaseState):
         if self.request.authenticated_role == "Administrator":
             return
 
-        config = get_tender_config()
         allowed_status = "pending"
         status_before = before.get("status")
         status_after = after.get("status")
@@ -107,7 +106,6 @@ class BidState(BaseState):
             raise error_handler(self.request)
 
     def validate_status(self, data):
-        config = get_tender_config()
         allowed_statuses = ("draft", "pending")
         status = data.get("status")
         if status not in allowed_statuses:
@@ -120,12 +118,11 @@ class BidState(BaseState):
             raise error_handler(self.request)
 
     def validate_bid_vs_agreement(self, data):
-        config = get_tender_config()
+        tender = get_tender()
 
-        if not config["hasPreSelectionAgreement"]:
+        if not tender["config"]["hasPreSelectionAgreement"]:
             return
 
-        tender = get_tender()
         agreement = self.request.registry.mongodb.agreements.get(tender["agreements"][0]["id"])
         supplier_contract = get_supplier_contract(
             agreement["contracts"],

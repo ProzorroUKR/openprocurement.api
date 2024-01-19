@@ -7,10 +7,7 @@ from openprocurement.tender.limited.procedure.state.cancellation_complaints impo
     NegotiationCancellationComplaintState,
 )
 from openprocurement.tender.core.procedure.models.complaint import PostCancellationComplaint
-from openprocurement.tender.core.procedure.validation import (
-    validate_input_data,
-    validate_data_documents,
-)
+from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents
 from openprocurement.api.utils import json_view
 
 

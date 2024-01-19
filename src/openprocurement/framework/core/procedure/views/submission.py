@@ -6,9 +6,10 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     update_logging_context,
+    request_init_submission,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_submission
 from openprocurement.framework.core.procedure.mask import SUBMISSION_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.submission import SubmissionSerializer
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
@@ -63,16 +64,9 @@ class SubmissionsResource(FrameworkBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"submission_id": "__new__"})
         submission = self.request.validated["data"]
-        submission_config = get_object_config("submission")
-        framework_config = get_object_config("framework")
-        if framework_config.get("test", False):
-            submission_config["test"] = framework_config["test"]
-        if framework_config.get("restrictedDerivatives", False):
-            submission_config["restricted"] = True
+        request_init_submission(self.request, submission, submission_src={})
         access = set_ownership(submission, self.request)
         self.state.submission.on_post(submission)
-        self.request.validated["submission"] = submission
-        self.request.validated["submission_src"] = {}
         if save_object(self.request, "submission", insert=True):
             LOGGER.info(
                 f"Created submission {submission['_id']}",
@@ -92,29 +86,28 @@ class SubmissionsResource(FrameworkBaseResource):
             return {
                 "data": self.serializer_class(submission).data,
                 "access": access,
-                "config": get_object_config("submission"),
+                "config": submission["config"],
             }
 
     @json_view(
         permission="view_framework",
     )
     def get(self):
+        submission = get_submission()
         return {
-            "data": self.serializer_class(get_object("submission")).data,
-            "config": get_object_config("submission"),
+            "data": self.serializer_class(submission).data,
+            "config": submission["config"],
         }
 
     def patch(self):
         updated = self.request.validated["data"]
+        submission = self.request.validated["submission"]
+        submission_src = self.request.validated["submission_src"]
         if updated:
-            self.request.validated["submission"] = updated
-            before = self.request.validated["submission_src"]
-
-            self.state.submission.on_patch(before, updated)
-
-            # save all
+            submission = self.request.validated["submission"] = updated
+            self.state.submission.on_patch(submission_src, submission)
             self.save_all_objects()
         return {
-            "data": self.serializer_class(get_object("submission")).data,
-            "config": get_object_config("submission"),
+            "data": self.serializer_class(submission).data,
+            "config": submission["config"],
         }

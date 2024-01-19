@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
+PATCH /api/2.5/plans/f5782dd659684e2daf004df0a3b3d81e?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,7 +19,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "6d8d57fa440348488964090c842487fc",
+      "id": "c77a12f98cc643f9aa91888bc026dac5",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -58,7 +58,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "afc7b60818254482b3abc46c8002ebe0",
+          "id": "88ef03e7027447a4b70444b262521dec",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -80,11 +80,11 @@ Content-Type: application/json
         "description": "-"
       }
     ],
-    "tender_id": "8d436ed545324968b5c8dbd4012271d1",
+    "tender_id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "cc78c7eb1054477184275de99caf66e9",
+        "id": "8265d940677245ab849e78e617bd6f22",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -110,7 +110,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "200ac01f7be14904a310dc4fbbd7c6ee",
+        "id": "5835551f7912467eb9c29c9cc4c00fd9",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -135,7 +135,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-11T02:00:33+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "id": "b78458ab31b845d6a123d3029d6e7e68"
+    "id": "f5782dd659684e2daf004df0a3b3d81e"
   }
 }
 

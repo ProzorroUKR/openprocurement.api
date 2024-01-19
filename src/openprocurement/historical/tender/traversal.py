@@ -1,3 +1,4 @@
+from openprocurement.api.utils import request_init_tender
 from openprocurement.historical.core.utils import Root as BaseRoot
 from pyramid.security import Allow, Everyone
 
@@ -16,8 +17,7 @@ def historical_tender_factory(request):
         return root
     request.validated["tender_id"] = request.matchdict["doc_id"]
     doc = request.extract_doc_versioned("Tender")
-    request.validated["tender"] = doc
-    request.validated["tender_config"] = doc.pop("config", None) or {}
+    request_init_tender(request, doc)
     request.validated["id"] = request.matchdict["doc_id"]
     request.validated["tender_status"] = doc["status"]
 

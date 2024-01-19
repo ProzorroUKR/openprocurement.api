@@ -86,17 +86,15 @@ def get_agreement_by_id(request, agreement_id: str, raise_error: bool = True):
 
 
 def request_init_object(request, obj_name, obj, obj_src=None):
-    if not obj:
+    if obj is None:
         return
-    request.validated[obj_name] = obj
-    if obj_src is not None:
-        request.validated[f"{obj_name}_src"] = obj_src
-    else:
-        request.validated[f"{obj_name}_src"] = deepcopy(request.validated[obj_name])
-    request.validated[f"{obj_name}_config"] = request.validated[obj_name].pop("config", None) or {}
-    config_serializer = request.registry.config_serializers.get(obj_name)
+    config_serializer = get_config_serializer(request, obj_name)
     if config_serializer:
-        request.validated[f"{obj_name}_config"] = config_serializer(request.validated[f"{obj_name}_config"]).data
+        obj["config"] = config_serializer(obj.get("config", {})).data
+    if obj_src is None:
+        obj_src = deepcopy(obj)
+    request.validated[obj_name] = obj
+    request.validated[f"{obj_name}_src"] = obj_src
     return request.validated[obj_name]
 
 
@@ -109,6 +107,11 @@ def get_registry_object(registry, key, default=None):
 def register_config_serializer(config, obj_name, config_serializer):
     registry_object = get_registry_object(config.registry, "config_serializers", default={})
     registry_object[obj_name] = config_serializer
+
+
+def get_config_serializer(request, obj_name):
+    registry_object = get_registry_object(request.registry, "config_serializers", default={})
+    return registry_object.get(obj_name)
 
 
 def request_init_plan(request, plan, plan_src=None, raise_error=True):
@@ -512,8 +515,3 @@ def requested_fields_changes(request, fieldnames):
 
 def get_child_items(parent, item_field, item_id):
     return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
-
-
-def register_mongodb_collection(config, collection_name, collection):
-    config.registry.mongodb
-

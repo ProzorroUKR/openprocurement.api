@@ -104,7 +104,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "mainProcurementCategory": "services",
     "agreements": [
       {
-        "id": "adc832d48d1343a08a9a9d62e45ceb28"
+        "id": "567bbf54067e4d2094dec43e56743b59"
       }
     ],
     "lots": [
@@ -141,7 +141,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/72de65d0bc9e41d5a8c4760d96e68f3c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/dd959a2a6e0643ffa1e4d5f0bcf154ed
 
 {
   "data": {
@@ -149,7 +149,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/72de65d0bc9e41d5
     "title": "футляри до державних нагород",
     "agreements": [
       {
-        "id": "adc832d48d1343a08a9a9d62e45ceb28"
+        "id": "567bbf54067e4d2094dec43e56743b59"
       }
     ],
     "value": {
@@ -195,7 +195,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/72de65d0bc9e41d5
         "sequenceNumber": 0
       },
       {
-        "id": "a2b3df0720204e3f8c2bed91a3b7be16",
+        "id": "c624bf36e301489c92575be01a2905f3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -237,7 +237,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/72de65d0bc9e41d5
     },
     "items": [
       {
-        "id": "6bc3447928e14afbb995a90300312b27",
+        "id": "10f005977dd94b03a166229c68aef34a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -287,7 +287,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/72de65d0bc9e41d5
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "72de65d0bc9e41d5a8c4760d96e68f3c"
+    "id": "dd959a2a6e0643ffa1e4d5f0bcf154ed"
   },
   "config": {
     "hasAuction": true,

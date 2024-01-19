@@ -157,7 +157,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275b004cc812347895b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364ae37165578663a04
 
 {
   "data": {
@@ -181,7 +181,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275
     },
     "items": [
       {
-        "id": "ce1dc42026064c66a9152ad9755409f7",
+        "id": "047111adb9dd4faf882bf0981ecae32a",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -218,7 +218,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275
         }
       },
       {
-        "id": "f8d046e966e845c98d8c15ccd233005f",
+        "id": "386ee0c34e8e4ab694ac6953d2b34c9e",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -269,7 +269,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275
         "sequenceNumber": 0
       },
       {
-        "id": "8798236315914dacb235c929cf50b1b1",
+        "id": "089f8a38a633468ba169f6c0bfd1f9ac",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -315,7 +315,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/771d7fde7ae24275
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "771d7fde7ae24275b004cc812347895b"
+    "id": "7838682b871d4364ae37165578663a04"
   },
   "config": {
     "hasAuction": true,

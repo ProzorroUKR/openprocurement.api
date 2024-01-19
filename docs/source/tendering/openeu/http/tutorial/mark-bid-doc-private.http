@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/bids/d3e614b4092744cf9875c56f45ae93f9/documents/d8ea6a4b9436419abedec85fa14a03d2?acc_token=fde267da13974c2782fd1e5539862cd5 HTTP/1.0
+PATCH /api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/b04806c8aa4b48b0a8f4cc70a7c90406/documents/a5d48d3ad854499a8fa565529a3675b1?acc_token=fde267da13974c2782fd1e5539862cd5 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,12 +16,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "d8ea6a4b9436419abedec85fa14a03d2",
+    "id": "a5d48d3ad854499a8fa565529a3675b1",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal_top_secrets.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7d3cf7fb349c41a38c1e3c8e94f03fdc/bids/d3e614b4092744cf9875c56f45ae93f9/documents/d8ea6a4b9436419abedec85fa14a03d2?download=0529d526671941f9a44290ac0e5c9891",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/b04806c8aa4b48b0a8f4cc70a7c90406/documents/a5d48d3ad854499a8fa565529a3675b1?download=0529d526671941f9a44290ac0e5c9891",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "language": "uk",

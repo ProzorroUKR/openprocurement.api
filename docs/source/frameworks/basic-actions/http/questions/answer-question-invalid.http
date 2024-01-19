@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0/questions/75359f8d10fc4dfda58a4f3c7f18dc5a HTTP/1.0
+PATCH /api/2.5/frameworks/676ef3ed979f4dc8a98ced89957a8d0d/questions/44a0794ad1184a479f5bda8114251f01 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

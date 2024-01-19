@@ -36,6 +36,8 @@ def test_mask_tender_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
+        initial_data["config"] = test_tender_below_config
+
     app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
     id = initial_data['_id']
@@ -57,6 +59,8 @@ def test_mask_tender_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
+        initial_data["config"] = test_tender_below_config
+
     initial_data["config"] = test_tender_below_config
     app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
@@ -125,6 +129,8 @@ def test_mask_tender_skipped(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
+        initial_data["config"] = test_tender_below_config
+
     app.app.registry.mongodb.tenders.save(initial_data, insert=True)
 
     id = initial_data['_id']
@@ -141,6 +147,8 @@ def test_mask_tender_by_config_restricted(app):
     # Load initial db data
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_db_data = json.load(f)
+        initial_db_data["config"] = test_tender_below_config
+
     id = initial_db_data['_id']
 
     # Save to db

@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/cc9a8f71020a459188912858e360d70f/documents/200abe7079a047879bb0b885123952de?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+GET /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/documents/cbf1f425f5234b3584c2b0fd8b3f3232?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "200abe7079a047879bb0b885123952de",
+    "id": "cbf1f425f5234b3584c2b0fd8b3f3232",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
@@ -23,7 +23,7 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beda32f664fb459291d362e650147d5d?Signature=pcYNBP%2FAj04nzgykslGVmqMOd3wtV9PptoB5NuzsDBne78GS2HGn9hmq%2ByTIhaYOr%2Bdtv6mO63IBY8NkQ3jrAg%3D%3D&KeyID=a8968c46",
         "language": "uk",
-        "id": "200abe7079a047879bb0b885123952de",
+        "id": "cbf1f425f5234b3584c2b0fd8b3f3232",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }

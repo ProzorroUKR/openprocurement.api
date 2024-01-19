@@ -22,14 +22,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "02726caea29a421cb9362f258017d617",
+    "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
     "contractID": "UA-2023-01-01-000001-a-1",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
     "dateCreated": "2023-01-01T00:00:01+02:00",
     "items": [
       {
-        "id": "d49df131ea374b619446ee1fc18149b9",
+        "id": "b5ff13b59b7e4f2495ec32bda0e78958",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {
@@ -66,7 +66,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
+        "id": "64da1c2d32904c7780c7a080c03b9058",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {
@@ -103,7 +103,7 @@ Content-Type: application/json
         }
       }
     ],
-    "tender_id": "3e115ed14c174579bc5308c7e4a82d6a",
+    "tender_id": "9edb2de5d15247d485a377e07702bc83",
     "owner": "broker",
     "status": "active",
     "period": {
@@ -141,19 +141,19 @@ Content-Type: application/json
           "volumeCuts",
           "priceReduction"
         ],
-        "id": "a61dac7b90b3466db3c2022e0a30c889",
+        "id": "1a129a39cd1743cfabd30481bbd04c61",
         "status": "pending",
         "date": "2023-01-01T00:00:01+02:00"
       }
     ],
     "documents": [
       {
-        "relatedItem": "a61dac7b90b3466db3c2022e0a30c889",
-        "id": "f96a84b890ca404f819cc42ba432c37b",
+        "relatedItem": "1a129a39cd1743cfabd30481bbd04c61",
+        "id": "6d33a714149d4018b4bfe5b84d60ee97",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/f96a84b890ca404f819cc42ba432c37b?download=0d99c24f1f224e35ae9a11b101f38e20",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/e07c2e4ee19e43c5bce75b127566b232/documents/6d33a714149d4018b4bfe5b84d60ee97?download=0d99c24f1f224e35ae9a11b101f38e20",
         "documentOf": "change",
         "datePublished": "2023-01-01T00:00:01+02:00",
         "dateModified": "2023-01-01T00:00:01+02:00"

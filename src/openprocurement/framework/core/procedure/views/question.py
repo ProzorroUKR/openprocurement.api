@@ -1,4 +1,8 @@
-from openprocurement.api.procedure.validation import validate_item_owner
+from openprocurement.api.procedure.validation import (
+    validate_item_owner,
+    validate_patch_data_simple,
+    validate_input_data,
+)
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
@@ -10,7 +14,6 @@ from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.validation import validate_input_data, validate_patch_data_simple
 
 
 def resolve_question(request):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c11a2140a8964d45bebcd82401c7dd25?acc_token=4d8039c4e08d4c278190842955a84ce4 HTTP/1.0
+PATCH /api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37?acc_token=4d8039c4e08d4c278190842955a84ce4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "d1751c37d90a4d4096af1f13306e362d",
+        "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -32,7 +32,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       },
       {
-        "id": "408f12f4ea9d48dd9c0e00be974022d4",
+        "id": "f0a94f5146424cdeb3e9103add626234",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -132,7 +132,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "d1751c37d90a4d4096af1f13306e362d",
+        "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -157,7 +157,7 @@ Content-Type: application/json
         "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
       },
       {
-        "id": "408f12f4ea9d48dd9c0e00be974022d4",
+        "id": "f0a94f5146424cdeb3e9103add626234",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -196,7 +196,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "7228c251dcb748208e5b1061a649e787",
+        "id": "4d525299c60841739d84314aefa3e436",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -222,7 +222,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "id": "c11a2140a8964d45bebcd82401c7dd25"
+    "id": "552fdec279c740ab85e2b30af7a37d37"
   },
   "config": {
     "hasAuction": true,

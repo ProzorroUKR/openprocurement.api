@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c HTTP/1.0
+GET /api/2.5/tenders/5fd17b367a75453582bffe24ae83b896 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -34,7 +34,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "4b7cdf77c4b6449d8d98ccfd9402478c",
+        "id": "5913e805a15e4ee484617292a375c8c4",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -54,7 +54,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "8510e95265834e8c9049e3aaedee9eba",
+        "id": "e77f949c4e1c48808802b8d42ed135d8",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -130,7 +130,7 @@ Content-Type: application/json
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "0cabdf69621745b5b57212d59b3b388c"
+    "id": "5fd17b367a75453582bffe24ae83b896"
   },
   "config": {
     "hasAuction": true,

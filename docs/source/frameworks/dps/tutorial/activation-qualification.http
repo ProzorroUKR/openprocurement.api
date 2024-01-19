@@ -1,4 +1,4 @@
-PATCH /api/2.5/qualifications/8347573536014e65b2bf104c59c74291?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+PATCH /api/2.5/qualifications/37edcfe4b6484dee80eecfdb03a03a08?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,13 +15,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "submissionID": "a6664cead51b4e85898b46f5275efb36",
-    "frameworkID": "cc9a8f71020a459188912858e360d70f",
+    "submissionID": "d4a1ccc22a504cd1a535ce487642a321",
+    "frameworkID": "a00a3b5bdaa0437490c883e4482795b2",
     "status": "active",
     "date": "2023-10-26T01:00:00+03:00",
     "dateModified": "2023-10-26T01:00:00+03:00",
     "qualificationType": "dynamicPurchasingSystem",
-    "id": "8347573536014e65b2bf104c59c74291"
+    "id": "37edcfe4b6484dee80eecfdb03a03a08"
   },
   "config": {
     "restricted": false

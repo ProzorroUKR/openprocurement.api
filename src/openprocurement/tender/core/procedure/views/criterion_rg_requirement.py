@@ -24,11 +24,10 @@ from openprocurement.tender.core.procedure.models.criterion import (
     Requirement,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg import resolve_criterion, resolve_requirement_group
-from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_administrator,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

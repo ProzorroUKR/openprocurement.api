@@ -3,13 +3,10 @@ from cornice.resource import resource
 from openprocurement.api.utils import json_view
 from openprocurement.planning.api.procedure.serializers.document import DocumentSerializer
 from openprocurement.tender.core.procedure.documents import get_file
-from openprocurement.tender.core.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_upload_document,
-    validate_item_owner,
-    validate_input_data,
-    validate_data_model,
+from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
+    validate_data_model,
+    validate_input_data, validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource

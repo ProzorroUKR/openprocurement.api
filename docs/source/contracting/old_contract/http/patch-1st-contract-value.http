@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0346df4bd59945ed8016546ef54ca30e/contracts/a3909e513f7b49408e9a938e20301d1c?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
+PATCH /api/2.5/tenders/2343c5333e7842f1b795cb90219f10ad/contracts/a3909e513f7b49408e9a938e20301d1c?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "id": "a3909e513f7b49408e9a938e20301d1c",
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "2c61bd8e09c7490fab7aa19c6d9707e7",
+    "awardID": "f85b59f43cb6482297def313c11a7b5f",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "pending",
     "value": {
@@ -31,7 +31,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "079474c13eec458eb29f70c50d49c4d8",
+        "id": "8420297c9fe340acad5a04c8ac7cade7",
         "description": "телевізори",
         "unit": {
           "name": "кг",

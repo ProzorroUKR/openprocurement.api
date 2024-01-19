@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids HTTP/1.0
+POST /api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "f5585c247e854510bba989119bf55ea0"
+        "relatedLot": "5f416c4b1629461194116a3c41e574a8"
       }
     ]
   }
@@ -57,7 +57,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc980564940363d11b/bids/83f8ec8c73344860ad874831f3f22356
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/fbbd4a1c822c4ed68b03bece6303facd
 
 {
   "data": {
@@ -86,7 +86,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc
     ],
     "lotValues": [
       {
-        "relatedLot": "f5585c247e854510bba989119bf55ea0",
+        "relatedLot": "5f416c4b1629461194116a3c41e574a8",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
@@ -99,7 +99,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "146fe995775643a8a7369f2f93b0405a",
+        "id": "735f74e9bcb742c292a4153695abded0",
         "confidentiality": "public",
         "isDescriptionDecision": false,
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -111,7 +111,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "be09a47dbf204d5f8ff087112bbe45b1",
+        "id": "c4de4273b0614986845d84797ca9c9e2",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "isDescriptionDecision": false,
@@ -121,7 +121,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bdf767732b5740cc
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "83f8ec8c73344860ad874831f3f22356",
+    "id": "fbbd4a1c822c4ed68b03bece6303facd",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

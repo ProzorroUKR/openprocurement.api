@@ -2,13 +2,11 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.openua.procedure.views.contract import UAContractResource
 from openprocurement.tender.openeu.procedure.views.contract import EUContractResource
 from openprocurement.tender.core.procedure.validation import (
-    unless_admins,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_contract_supplier,
     validate_contract_input_data,
     validate_forbid_contract_action_after_date,
 )
+from openprocurement.api.procedure.validation import validate_patch_data_simple, validate_input_data, unless_admins
 from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.contract import (
     UAContract,

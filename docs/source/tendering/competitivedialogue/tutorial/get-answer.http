@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bdf767732b5740cc980564940363d11b/questions/aa84115da708457db17654a15fe1f906 HTTP/1.0
+GET /api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/questions/cbe8785943554db48b9305b9211a972c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "aa84115da708457db17654a15fe1f906",
+    "id": "cbe8785943554db48b9305b9211a972c",
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
     "date": "2023-10-10T01:00:00+03:00",

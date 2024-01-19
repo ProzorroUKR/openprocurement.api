@@ -16,7 +16,7 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDUAStage2TenderDetailsState,
     CDEUStage2TenderDetailsState,
 )
-from openprocurement.tender.core.procedure.validation import validate_accreditation_level
+from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.tender.esco.procedure.state.tender_details import ESCOTenderDetailsState
 from openprocurement.tender.limited.procedure.state.tender_details import (
     ReportingTenderDetailsState,

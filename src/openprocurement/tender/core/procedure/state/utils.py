@@ -1,7 +1,7 @@
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import error_handler
-from openprocurement.api.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender
 
 
 def has_unanswered_questions(tender, filter_cancelled_lots=True):
@@ -55,8 +55,11 @@ def awarding_is_unsuccessful(awards):
     If hasAwardingOrder is False, all awards are being checked. If there are no awards with statuses
     active or pending for tender/lot, than awarding is unsuccessful.
     """
-    config = get_tender_config()
-    awarding_order_enabled = config.get("hasAwardingOrder")
+    tender = get_tender()
+    awarding_order_enabled = tender["config"]["hasAwardingOrder"]
     awards_statuses = {award["status"] for award in awards}
-    return (awarding_order_enabled and awards and awards[-1]["status"] == "unsuccessful") or \
-           (awarding_order_enabled is False and not awards_statuses.intersection({"active", "pending"}))
+    return (
+        awarding_order_enabled and awards and awards[-1]["status"] == "unsuccessful"
+    ) or (
+        awarding_order_enabled is False and not awards_statuses.intersection({"active", "pending"})
+    )

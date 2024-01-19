@@ -2,11 +2,12 @@ from typing import Optional
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
-    unless_administrator,
-    validate_item_owner,
-    validate_input_data,
-    validate_patch_data_simple,
     validate_operation_award_requirement_response,
+)
+from openprocurement.api.procedure.validation import (
+    validate_patch_data_simple,
+    validate_input_data,
+    validate_item_owner, unless_administrator,
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.views.award_req_response import resolve_award, resolve_req_response

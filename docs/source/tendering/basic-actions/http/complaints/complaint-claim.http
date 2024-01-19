@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/5eb9c52c8ea14e99b29fa6f21a0e27ea?acc_token=88419507511c4b89b69714f72cc75754 HTTP/1.0
+PATCH /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/e6b8027e873d49fbb35f0c546f7518b7?acc_token=88419507511c4b89b69714f72cc75754 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,12 +15,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "5eb9c52c8ea14e99b29fa6f21a0e27ea",
+    "id": "e6b8027e873d49fbb35f0c546f7518b7",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:00+03:00",
     "documents": [
       {
-        "id": "17908597068b4c4c9cc2f1db6a3df114",
+        "id": "60256d73d83b4148a79aa23e64d74d00",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
