@@ -22,7 +22,7 @@ def includeme(config):
 
     config.add_route_predicate("procurementMethodType", ProcurementMethodTypePredicate)
     config.add_route_predicate("complaintType", ComplaintTypePredicate)
-    config.add_config_serializer("contract", TenderConfigSerializer)
+    config.add_config_serializer("tender", TenderConfigSerializer)
     config.scan("openprocurement.tender.core.procedure.views")
     config.scan("openprocurement.tender.core.subscribers")
 

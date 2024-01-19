@@ -16,6 +16,10 @@ def restricted_serializer(obj, value):
         if not tender:
             request = get_request()
             contract = request.validated.get("contract") or request.validated.get("data")
+
+            if not contract:
+                return False
+
             tender = get_tender_by_id(request, contract["tender_id"], raise_error=False)
 
             if tender is None:

@@ -11,12 +11,14 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_organization,
     test_tender_below_lots,
+    test_tender_below_config,
 )
 from openprocurement.historical.core.tests.tests import mock_doc
 
 
 test_data_with_revisions = deepcopy(mock_doc)
 test_data_with_revisions["doc_type"] = "Tender"
+test_data_with_revisions["config"] = test_tender_below_config
 
 
 class HistoricalTenderTestCase(BaseTenderWebTest):
