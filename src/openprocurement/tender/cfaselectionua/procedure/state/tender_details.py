@@ -1,4 +1,5 @@
 from openprocurement.api.auth import ACCR_5, ACCR_1, ACCR_2
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.context import (
     get_request,
@@ -201,11 +202,18 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 )
 
     def validate_minimal_step(self, data, before=None):
-        # override to skip minimalStep required validation
-        # it's not required for cfaselectionua in tender level
+        """
+        Override to skip minimalStep required validation.
+        It's not required for cfaselectionua in tender level.
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
         kwargs = {
             "before": before,
-            "enabled": data["config"]["hasAuction"] is True,
+            "enabled": tender["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", required=False, **kwargs)
 

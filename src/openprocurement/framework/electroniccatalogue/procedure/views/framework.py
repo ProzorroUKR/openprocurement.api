@@ -35,16 +35,16 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
         content_type="application/json",
         permission="create_framework",
         validators=(
-                validate_input_data(PostFramework),
-                validate_config_data(FrameworkConfig),
-                validate_accreditation_level(
-                    levels=(ACCR_1, ACCR_3, ACCR_5),
-                    kind_central_levels=(ACCR_5,),
-                    item="framework",
-                    operation="creation",
-                    source="data"
-                ),
-                validate_data_documents(route_key="framework_id"),
+            validate_input_data(PostFramework),
+            validate_config_data(FrameworkConfig),
+            validate_accreditation_level(
+                levels=(ACCR_1, ACCR_3, ACCR_5),
+                kind_central_levels=(ACCR_5,),
+                item="framework",
+                operation="creation",
+                source="data"
+            ),
+            validate_data_documents(route_key="framework_id"),
         ),
     )
     def collection_post(self):

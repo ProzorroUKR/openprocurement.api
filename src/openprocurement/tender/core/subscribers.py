@@ -8,7 +8,8 @@ from openprocurement.api.utils import update_logging_context
 @subscriber(ErrorDescriptorEvent)
 def tender_error_handler(event):
     if "tender" in event.request.validated:
-        event.params["TENDER_REV"] = event.request.validated["tender"]["_rev"]
+        if "_rev" in event.request.validated["tender"]:
+            event.params["TENDER_REV"] = event.request.validated["tender"]["_rev"]
         event.params["TENDERID"] = event.request.validated["tender"]["tenderID"]
         event.params["TENDER_STATUS"] = event.request.validated["tender"]["status"]
 
@@ -18,7 +19,8 @@ def extend_tender_logging_context(event):
     request = event.request
     if "tender" in request.validated:
         params = {}
-        params["TENDER_REV"] = request.validated["tender"]["_rev"]
+        if "_rev" in event.request.validated["tender"]:
+            params["TENDER_REV"] = request.validated["tender"]["_rev"]
         params["TENDERID"] = request.validated["tender"]["tenderID"]
         params["TENDER_STATUS"] = request.validated["tender"]["status"]
         params["TENDER_MODE"] = request.validated["tender"].get("mode")

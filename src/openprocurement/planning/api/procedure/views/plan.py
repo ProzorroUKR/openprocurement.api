@@ -76,7 +76,6 @@ class PlansResource(PlanBaseResource):
         plan = self.request.validated["plan"]
         return {
             "data": self.serializer_class(plan).data,
-            "config": plan["config"],
         }
 
     @json_view(
@@ -115,7 +114,6 @@ class PlansResource(PlanBaseResource):
             self.request.response.headers["Location"] = self.request.route_url("Plans", plan_id=plan["_id"])
             return {
                 "data": self.serializer_class(plan).data,
-                "config": plan["config"],
                 "access": access,
             }
 
@@ -144,7 +142,6 @@ class PlansResource(PlanBaseResource):
                 )
         return {
             "data": self.serializer_class(plan).data,
-            "config": plan["config"],
         }
 
 

@@ -14,7 +14,6 @@ from openprocurement.framework.core.constants import (
     SUBMISSION_STAND_STILL_DURATION,
     ENQUIRY_STAND_STILL_TIME,
 )
-from openprocurement.api.procedure.context import get_framework
 from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.framework.core.procedure.utils import save_object, get_framework_unsuccessful_status_check_date
 from openprocurement.framework.core.utils import calculate_framework_date
@@ -34,9 +33,8 @@ class FrameworkConfigMixin:
     )
 
     def validate_config(self, data):
-        framework = get_framework()
         for config_name in self.configurations:
-            value = framework["config"].get(config_name)
+            value = data["config"][config_name]
             framework_type = data.get("frameworkType")
             config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
             if not config_schema:

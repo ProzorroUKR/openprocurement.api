@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.procedure.context import get_object, get_agreement
+from openprocurement.api.procedure.context import get_object, get_agreement, get_tender
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -270,6 +270,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             set_mode_test_titles(tender)
 
     def validate_lots_count(self, tender):
+        tender = get_tender()
         if tender.get("procurementMethodType") == COMPETITIVE_ORDERING:
             # TODO: consider using config
             max_lots_count = 1
@@ -462,9 +463,18 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             raise_operation_error(get_request(), f"Tender must contain {language_criterion} criterion")
 
     def validate_minimal_step(self, data, before=None):
+        """
+        Minimal step validation.
+        Minimal step should be required if tender has auction
+
+        :param data: tender or lot
+        :param before: tender or lot
+        :return:
+        """
+        tender = get_tender()
         kwargs = {
             "before": before,
-            "enabled": data["config"]["hasAuction"] is True,
+            "enabled": tender["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)
 

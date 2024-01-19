@@ -15,9 +15,10 @@ class LotStateMixin:
         self.validate_cancellation_blocks(request, tender)
 
     def lot_on_post(self, data: dict) -> None:
+        request, tender = get_request(), get_tender()
         self.pre_save_validations(data)
         self.validate_minimal_step(data)
-        self.validate_lots_count(get_tender())
+        self.validate_lots_count(tender)
         self.set_lot_data(data)
         self.lot_always(data)
 

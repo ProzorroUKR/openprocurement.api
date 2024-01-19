@@ -66,7 +66,7 @@ def includeme(config):
     config.add_directive("add_submission_submissionTypes", register_submission_submissionType)
     config.add_directive("add_qualification_qualificationTypes", register_qualification_qualificationType)
     config.add_directive("add_agreement_agreementTypes", register_agreement_agreementType)
-    config.add_config_serializer("agreement", FrameworkConfigSerializer)
+    config.add_config_serializer("framework", FrameworkConfigSerializer)
     config.add_config_serializer("submission", SubmissionConfigSerializer)
     config.add_config_serializer("qualification", QualificationConfigSerializer)
     config.add_config_serializer("agreement", AgreementConfigSerializer)
