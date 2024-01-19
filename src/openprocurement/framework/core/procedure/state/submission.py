@@ -52,7 +52,7 @@ class SubmissionState(BaseState):
         data["framework_token"] = framework["owner_token"]
         if get_request().json["data"].get("status") == "draft":
             data["status"] = "draft"
-        if framework["config"].get("test", False):
-            data["test"] = framework["config"]["test"]
-        if framework["config"].get("restrictedDerivatives", False):
-            framework["config"]["restricted"] = True
+        data["config"] = {
+            "test": framework["config"].get("test", False),
+            "restricted": framework["config"]["restrictedDerivatives"],
+        }
