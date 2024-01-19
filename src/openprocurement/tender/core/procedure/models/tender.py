@@ -183,6 +183,7 @@ class Tender(BaseTender):
                           validators=[validate_items_uniq, validate_milestones])
 
     qualificationPeriod = ModelType(QualificationPeriod)
+    complaintPeriod = ModelType(Period)
     qualifications = BaseType()
     contractTemplateName = StringType()
 

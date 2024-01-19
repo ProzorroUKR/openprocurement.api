@@ -1366,6 +1366,10 @@ Content-Type: application/json
       "endDate": "2023-10-10T01:00:00+03:00",
       "reportingDatePublication": "2023-10-04T01:00:00+03:00"
     },
+    "complaintPeriod": {
+      "startDate": "2023-09-09T01:00:00+03:00",
+      "endDate": "2023-10-06T00:00:00+03:00"
+    },
     "qualifications": [
       {
         "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
@@ -1541,10 +1545,6 @@ Content-Type: application/json
       "endDate": "2023-09-30T01:00:00+03:00"
     },
     "status": "active.auction",
-    "complaintPeriod": {
-      "startDate": "2023-09-09T01:00:00+03:00",
-      "endDate": "2023-10-06T00:00:00+03:00"
-    },
     "next_check": "2023-10-10T01:42:00+03:00",
     "auctionPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"

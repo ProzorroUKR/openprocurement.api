@@ -231,13 +231,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/caa7964546884977
       "kind": "defense"
     },
     "tenderID": "UA-2023-10-21-000001-a",
-    "complaintPeriod": {
-      "startDate": "2023-10-21T01:00:02+03:00",
-      "endDate": "2023-11-01T00:00:00+02:00"
-    },
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
+    "complaintPeriod": {
+      "startDate": "2023-10-21T01:00:02+03:00",
+      "endDate": "2023-11-03T00:00:00+02:00"
+    },
     "date": "2023-10-21T01:00:02+03:00",
     "enquiryPeriod": {
       "startDate": "2023-10-21T01:00:02+03:00",

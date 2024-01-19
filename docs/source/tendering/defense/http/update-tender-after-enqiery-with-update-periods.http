@@ -146,6 +146,10 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2023-09-27T01:00:00+03:00",
+      "endDate": "2023-10-16T00:00:00+03:00"
+    },
     "status": "active.tendering",
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
@@ -219,10 +223,6 @@ Content-Type: application/json
         "availableLanguage": "uk"
       },
       "kind": "defense"
-    },
-    "complaintPeriod": {
-      "startDate": "2023-09-27T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
     },
     "id": "0cabdf69621745b5b57212d59b3b388c"
   },

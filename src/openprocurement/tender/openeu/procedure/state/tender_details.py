@@ -27,6 +27,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
+    complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
@@ -35,7 +36,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
         self.initialize_enquiry_period(tender)
-        self.update_complaint_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
@@ -43,7 +43,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         # bid invalidation rules
         if before["status"] == "active.tendering":
             self.validate_tender_period_extension(after)
-            self.update_complaint_period(after)
             self.invalidate_bids_data(after)
 
         elif after["status"] == "active.tendering":
@@ -56,13 +55,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
         self.validate_tender_language_criteria(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
         self.validate_related_lot_in_items(after)
-
-    @staticmethod
-    def update_complaint_period(tender):
-        if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
-            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            end_date = calculate_complaint_business_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender).isoformat()
-            tender["complaintPeriod"] = dict(startDate=tender["tenderPeriod"]["startDate"], endDate=end_date)
 
 
 class OpenEUTenderDetailsState(OpenEUTenderDetailsMixing, BaseOpenEUTenderState):

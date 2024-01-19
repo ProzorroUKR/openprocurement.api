@@ -8,7 +8,7 @@ from openprocurement.tender.openua.procedure.state.tender import OpenUATenderSta
 from openprocurement.tender.openua.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
+    ENQUIRY_STAND_STILL_TIME, COMPLAINT_SUBMIT_TIME,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -28,6 +28,7 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
+    complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     def initialize_enquiry_period(self, tender):  # openeu, openua
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])

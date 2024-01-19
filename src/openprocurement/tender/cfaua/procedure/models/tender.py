@@ -99,11 +99,6 @@ class PostTender(BasePostTender):
 
     status = StringType(choices=["draft"], default="draft")
 
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
-
     def validate_tenderPeriod(self, data, period):
         if period:
             validate_tender_period_start_date(data, period)
@@ -181,11 +176,6 @@ class Tender(BaseTender):
 
     auctionPeriod = ModelType(Period)
     awards = BaseType()
-
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     def validate_tenderPeriod(self, data, period):
         validate_tender_period_duration(data, period, TENDERING_DURATION)

@@ -1,9 +1,7 @@
 from schematics.validate import ValidationError
 from schematics.types import StringType
-from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 
-from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )
@@ -19,7 +17,6 @@ from openprocurement.tender.core.procedure.models.period import (
     PostPeriodStartEndRequired,
     PeriodStartEndRequired,
 )
-from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
     PatchTender as BasePatchTender,
@@ -27,12 +24,8 @@ from openprocurement.tender.core.procedure.models.tender import (
 )
 from openprocurement.tender.open.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST
-from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
-)
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
-    COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
     COMPETITIVE_ORDERING,
 )
@@ -66,13 +59,6 @@ class PostTender(BasePostTender):
         ModelType(PostMetric),
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
-
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        config = get_tender_config()
-        if config.get("tenderComplaints") is True:
-            end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-            return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
@@ -148,11 +134,6 @@ class Tender(BaseTender):
         ModelType(Metric),
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
-
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:

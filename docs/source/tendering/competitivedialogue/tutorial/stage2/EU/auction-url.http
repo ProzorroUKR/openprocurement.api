@@ -1020,8 +1020,8 @@ Content-Type: application/json
       "endDate": "2023-09-30T01:00:00+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-09-11T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
+      "startDate": "2023-09-09T01:00:00+03:00",
+      "endDate": "2023-10-06T00:00:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [

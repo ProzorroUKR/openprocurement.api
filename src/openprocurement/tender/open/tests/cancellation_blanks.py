@@ -2023,15 +2023,6 @@ def create_cancellation_in_award_complaint_period(self):
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    complaint_period = tender.get("complaintPeriod")
-    if complaint_period:
-        end_date = parse_date(complaint_period["endDate"])
-
-        self.assertGreater(get_now(), end_date)  # WTF why ??
-    # fixed by /openprocurement/tender/openua/tests/periods.py lines 55-58
-
     cancellation = dict(**test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(

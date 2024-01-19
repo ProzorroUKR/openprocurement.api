@@ -155,13 +155,6 @@ class EUTender(BaseTender):
 
 # === UA
 
-def get_tendering_end():
-    result = calculate_tender_business_date(
-        get_now(), TENDERING_DURATION_UA, get_data()
-    )
-    return result
-
-
 class PostUATender(UABasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
@@ -184,12 +177,6 @@ class PostUATender(UABasePostTender):
     @serializable(serialized_name="tenderID")
     def serialize_tender_id(self):
         return self.tenderID  # just return what have been passed
-
-    @serializable()
-    def complaintPeriod(self):
-        tender_end = get_tendering_end()
-        end_date = calculate_complaint_business_date(tender_end, -COMPLAINT_SUBMIT_TIME_UA, self)
-        return Period(dict(startDate=get_now(), endDate=end_date))
 
     def validate_awardCriteria(self, data, value):
         # for deactivate validation of awardCriteria from parent class

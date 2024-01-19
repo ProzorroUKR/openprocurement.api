@@ -1378,8 +1378,8 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-09-11T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
+      "startDate": "2023-09-09T01:00:00+03:00",
+      "endDate": "2023-10-06T00:00:00+03:00"
     },
     "next_check": "2023-10-16T00:00:00+03:00",
     "id": "7d3cf7fb349c41a38c1e3c8e94f03fdc"

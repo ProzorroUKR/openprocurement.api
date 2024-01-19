@@ -27,7 +27,8 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
 )
 from openprocurement.api.utils import (
-    raise_operation_error, get_agreement_by_id,
+    raise_operation_error,
+    get_agreement_by_id,
 )
 from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -156,6 +157,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
+    complaint_submit_time = timedelta(days=0)
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -170,6 +172,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.watch_value_meta_changes(tender)
+        self.update_complaint_period(tender)
         self.update_date(tender)
         super().on_post(tender)
 
@@ -187,6 +190,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
+        self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
 
@@ -625,6 +629,19 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                         location="body",
                         name="item.relatedLot"
                     )
+
+    def update_complaint_period(self, tender):
+        config = get_tender_config()
+        if config.get("tenderComplaints") is not True:
+            return
+        if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
+            return
+        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+        end_date = calculate_complaint_business_date(tendering_end, -self.complaint_submit_time, tender)
+        tender["complaintPeriod"] = {
+            "startDate": tender["tenderPeriod"]["startDate"],
+            "endDate": end_date.isoformat(),
+        }
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):
