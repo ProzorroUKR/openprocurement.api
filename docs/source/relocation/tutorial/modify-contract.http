@@ -117,6 +117,8 @@ Content-Type: application/json
     },
     "id": "2b264b733b7546749561d03ffa5e7971"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 
