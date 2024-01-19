@@ -5,10 +5,11 @@ from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context, request_fetch_submission, request_init_submission,
+    update_logging_context,
+    request_init_submission,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.api.procedure.context import get_object, get_object_config, get_submission
+from openprocurement.api.procedure.context import get_submission
 from openprocurement.framework.core.procedure.mask import SUBMISSION_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.submission import SubmissionSerializer
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
@@ -103,6 +104,7 @@ class SubmissionsResource(FrameworkBaseResource):
         submission = self.request.validated["submission"]
         submission_src = self.request.validated["submission_src"]
         if updated:
+            submission = self.request.validated["submission"] = updated
             self.state.submission.on_patch(submission_src, submission)
             self.save_all_objects()
         return {

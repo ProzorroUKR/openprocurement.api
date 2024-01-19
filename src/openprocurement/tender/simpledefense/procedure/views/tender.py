@@ -1,5 +1,4 @@
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.openuadefense.procedure.views.tender import AboveThresholdUADefenseTenderResource
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4

@@ -7,16 +7,14 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_config_data,
     validate_input_data,
-    validate_data_documents,
     validate_item_owner,
     unless_administrator,
     validate_accreditation_level,
 )
 from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
-from openprocurement.api.procedure.context import get_object, get_object_config, get_agreement
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.framework.core.procedure.models.agreement import AgreementConfig
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.agreement import Agreement, PostAgreement
@@ -77,13 +75,16 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
     )
     def patch(self):
         updated = self.request.validated["data"]
+        agreement = self.request.validated["agreement"]
+        agreement_src = self.request.validated["agreement_src"]
         if updated:
+            agreement = self.request.validated["agreement"] = updated
+            self.state.on_patch(agreement_src, agreement)
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
-                    f"Updated agreement {updated['_id']}",
+                    f"Updated agreement {agreement['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
                 )
-        agreement = get_agreement()
         return {
             "data": self.serializer_class(agreement).data,
             "config": agreement["config"],

@@ -5,13 +5,13 @@ from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context,
+    update_logging_context, request_init_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.framework.core.procedure.mask import AGREEMENT_MASK_MAPPING
 from openprocurement.framework.core.procedure.serializers.agreement import AgreementSerializer
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
-from openprocurement.api.procedure.context import get_object, get_object_config, get_agreement
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.procedure.utils import set_ownership
@@ -61,11 +61,10 @@ class AgreementsResource(FrameworkBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"agreement_id": "__new__"})
         agreement = self.request.validated["data"]
+        request_init_agreement(self.request, agreement, agreement_src={})
         self.state.on_post(agreement)
         access = set_ownership(agreement, self.request)
         self.state.on_post(agreement)
-        self.request.validated["agreement"] = agreement
-        self.request.validated["agreement_src"] = {}
         if save_object(self.request, "agreement", insert=True):
             LOGGER.info(
                 f"Created agreement {agreement['_id']} ({agreement['agreementID']})",
@@ -100,8 +99,9 @@ class AgreementsResource(FrameworkBaseResource):
 
     def patch(self):
         updated = self.request.validated["data"]
+        agreement = self.request.validated["agreement"]
+        agreement_src = self.request.validated["agreement_src"]
         if self.request.authenticated_role == "chronograph":
-            agreement = self.request.validated["agreement"]
             self.state.patch_statuses_by_chronograph(agreement)
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
@@ -109,14 +109,13 @@ class AgreementsResource(FrameworkBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_chronograph_patch"})
                 )
         elif updated:
-            self.request.validated["agreement"] = updated
-            self.state.on_patch(self.request.validated["agreement_src"], updated)
+            agreement = self.request.validated["agreement"] = updated
+            self.state.on_patch(agreement_src, agreement)
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
-                    f"Updated agreement {updated['_id']}",
+                    f"Updated agreement {agreement['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
                 )
-        agreement = get_agreement()
         return {
             "data": self.serializer_class(agreement).data,
             "config": agreement["config"],

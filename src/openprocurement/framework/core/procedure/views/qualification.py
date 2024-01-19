@@ -5,7 +5,7 @@ from openprocurement.api.utils import json_view, request_fetch_submission, reque
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.framework.core.procedure.mask import QUALIFICATION_MASK_MAPPING
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_qualification
 from openprocurement.framework.core.procedure.serializers.qualification import QualificationSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 
@@ -56,29 +56,30 @@ class QualificationsResource(FrameworkBaseResource):
         permission="view_framework",
     )
     def get(self):
+        qualification = get_qualification()
         return {
-            "data": self.serializer_class(get_object("qualification")).data,
-            "config": get_object_config("qualification"),
+            "data": self.serializer_class(qualification).data,
+            "config": qualification["config"],
         }
 
     def patch(self):
-        request = self.request
-        updated = request.validated["data"]
+        updated = self.request.validated["data"]
+        qualification = self.request.validated["qualification"]
+        qualification_src = self.request.validated["qualification_src"]
         if updated:
-            request.validated["qualification"] = updated
-            before = request.validated["qualification_src"]
+            qualification = self.request.validated["qualification"] = updated
 
             # fetch related data
-            request_fetch_submission(request, updated["submissionID"])
-            framework_data = request.validated["framework"]
-            if agreement_id := framework_data.get("agreementID"):
-                request_fetch_agreement(request, agreement_id)
+            request_fetch_submission(self.request, updated["submissionID"])
+            framework = self.request.validated["framework"]
+            if agreement_id := framework.get("agreementID"):
+                request_fetch_agreement(self.request, agreement_id)
 
-            self.state.qualification.on_patch(before, updated)
+            self.state.qualification.on_patch(qualification_src, qualification)
 
             # save all
             self.save_all_objects()
         return {
-            "data": self.serializer_class(get_object("qualification")).data,
-            "config": get_object_config("qualification"),
+            "data": self.serializer_class(qualification).data,
+            "config": qualification["config"],
         }

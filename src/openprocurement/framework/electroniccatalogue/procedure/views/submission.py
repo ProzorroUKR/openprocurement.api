@@ -2,7 +2,6 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.submission import SubmissionConfig, PatchSubmission
-from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.framework.core.procedure.validation import (
     validate_framework,
     validate_post_submission_with_active_contract,

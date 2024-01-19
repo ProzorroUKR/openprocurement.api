@@ -205,7 +205,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         # it's not required for cfaselectionua in tender level
         kwargs = {
             "before": before,
-            "enabled": data["config"].get("hasAuction") is True,
+            "enabled": data["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", required=False, **kwargs)
 

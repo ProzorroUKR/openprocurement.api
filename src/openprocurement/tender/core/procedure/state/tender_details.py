@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.procedure.context import get_object, get_object_config
+from openprocurement.api.procedure.context import get_object, get_agreement
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -73,7 +73,7 @@ class TenderConfigMixin(baseclass):
 
     def validate_config(self, data):
         for config_name in self.configurations:
-            value = data["config"].get(config_name)
+            value = data["config"][config_name]
 
             if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
                 raise_operation_error(
@@ -104,10 +104,10 @@ class TenderConfigMixin(baseclass):
 
     def validate_restricted_config(self, data):
         has_restricted_preselection_agreement = False
-        agreement_config = get_object_config("agreement")
-        if agreement_config:
-            has_restricted_preselection_agreement = agreement_config.get("restricted") is True
-        if has_restricted_preselection_agreement is True and data["config"].get("restricted") is False:
+        agreement = get_agreement()
+        if agreement:
+            has_restricted_preselection_agreement = agreement["config"]["restricted"] is True
+        if has_restricted_preselection_agreement is True and data["config"]["restricted"] is False:
             raise_operation_error(
                 self.request,
                 "Value must be True.",
@@ -115,7 +115,7 @@ class TenderConfigMixin(baseclass):
                 location="body",
                 name="restricted",
             )
-        elif has_restricted_preselection_agreement is False and data["config"].get("restricted") is True:
+        elif has_restricted_preselection_agreement is False and data["config"]["restricted"] is True:
             raise_operation_error(
                 self.request,
                 "Value must be False.",
@@ -464,14 +464,14 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     def validate_minimal_step(self, data, before=None):
         kwargs = {
             "before": before,
-            "enabled": data["config"].get("hasAuction") is True,
+            "enabled": data["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)
 
     def validate_submission_method(self, data, before=None):
         kwargs = {
             "before": before,
-            "enabled": data["config"].get("hasAuction") is True,
+            "enabled": data["config"]["hasAuction"] is True,
         }
         validate_field(data, "submissionMethod", default="electronicAuction", **kwargs)
         validate_field(data, "submissionMethodDetails", required=False, **kwargs)

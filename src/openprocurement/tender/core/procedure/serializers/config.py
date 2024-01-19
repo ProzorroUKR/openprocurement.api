@@ -1,6 +1,6 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
-from openprocurement.api.procedure.context import get_object_config
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_complaints import (
     award_complaints_populator,
@@ -105,10 +105,10 @@ def restricted_serializer(obj, value):
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
         agreements = tender.get("agreements")
-        if agreements and "agreement" not in request.validated:
+        if agreements:
             request_fetch_agreement(get_request(), agreements[0]["id"], raise_error=False)
-            agreement_config = get_object_config("agreement")
-            if agreement_config.get("restricted") is True:
+            agreement = get_agreement()
+            if agreement and agreement["config"]["restricted"] is True:
                 return True
         return False
     return value

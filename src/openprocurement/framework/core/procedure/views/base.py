@@ -2,15 +2,12 @@ from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import (
     context_unpack,
     get_framework_by_id,
-    request_init_object,
     request_init_framework,
-    request_init_submission, request_init_qualification, request_init_agreement,
+    request_init_submission,
+    request_init_qualification,
+    request_init_agreement,
 )
 from openprocurement.framework.core.procedure.models.document import Document
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
-from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
-from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
-from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.framework.core.procedure.state.document import BaseFrameworkDocumentState
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer

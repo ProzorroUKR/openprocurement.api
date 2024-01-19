@@ -1,7 +1,6 @@
 from openprocurement.api.utils import json_view
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_GROUP_NAME,

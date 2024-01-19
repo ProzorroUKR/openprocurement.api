@@ -5,13 +5,12 @@ from openprocurement.api.views.base import MongodbResourceListing, RestrictedRes
 from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.contracting.core.procedure.models.contract import ContractConfig
-from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.api.procedure.context import get_contract_config, get_contract
+from openprocurement.api.procedure.context import get_contract
 from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_input_data,
@@ -106,10 +105,11 @@ class ContractResource(ContractBaseResource):
         contract = self.request.validated["contract"]
         contract_src = self.request.validated["contract_src"]
         if updated:
-            self.state.on_patch(self.request.validated["contract_src"], updated)
+            contract = self.request.validated["contract"] = updated
+            self.state.on_patch(contract_src, contract)
             if save_contract(self.request):
                 self.LOGGER.info(
-                    f"Updated contract {updated['_id']}",
+                    f"Updated contract {contract['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
                 )
                 return {

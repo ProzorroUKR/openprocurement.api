@@ -1,5 +1,4 @@
 from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.api.procedure.context import get_object_config
 from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
@@ -26,5 +25,5 @@ class FrameworkChronographResource(FrameworkBaseResource):
             )
         return {
             "data": self.serializer_class(framework).data,
-            "config": get_object_config("framework"),
+            "config": framework["config"],
         }

@@ -12,7 +12,6 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.framework import FrameworkConfig
-from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
 from openprocurement.framework.core.procedure.validation import unless_administrator_or_chronograph
 from openprocurement.framework.core.procedure.views.framework import FrameworksResource
 from openprocurement.framework.dps.constants import DPS_TYPE

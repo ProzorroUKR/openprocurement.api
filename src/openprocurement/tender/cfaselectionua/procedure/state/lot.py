@@ -10,6 +10,6 @@ class TenderLotState(LotStateMixin, CFASelectionTenderDetailsState):
         # it's required for cfaselectionua in lot level
         kwargs = {
             "before": before,
-            "enabled": data["config"].get("hasAuction") is True,
+            "enabled": data["config"]["hasAuction"] is True,
         }
         validate_field(data, "minimalStep", **kwargs)

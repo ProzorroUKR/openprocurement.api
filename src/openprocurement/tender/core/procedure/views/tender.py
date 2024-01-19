@@ -1,7 +1,9 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context, request_fetch_agreement, request_init_tender,
+    update_logging_context,
+    request_fetch_agreement,
+    request_init_tender,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
@@ -142,6 +144,7 @@ class TendersResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
         if updated:
+            tender = self.request.validated["tender"] = updated
             self.state.validate_tender_patch(tender_src, tender)
             self.state.on_patch(tender_src, tender)
             if save_tender(self.request):

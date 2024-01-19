@@ -4,10 +4,11 @@ from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context, request_init_framework,
+    update_logging_context,
+    request_init_framework,
 )
-from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.api.procedure.context import get_object, get_object_config, get_framework
+from openprocurement.api.views.base import MongodbResourceListing
+from openprocurement.api.procedure.context import get_framework
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
@@ -109,10 +110,11 @@ class FrameworksResource(FrameworkBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"})
                 )
         elif updated:
+            framework = self.request.validated["framework"] = updated
             self.state.on_patch(framework_src, framework)
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
-                    f"Updated framework {updated['_id']}",
+                    f"Updated framework {framework['_id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"})
                 )
             self.state.after_patch(updated)

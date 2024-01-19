@@ -185,7 +185,6 @@ def validate_patch_data(model, item_name):
         data = apply_data_patch(data_src, data_patch)
         if data:
             data = validate_data(request, model, data)
-            request.validated[item_name] = data
         request.validated["data"] = data
         return data
     return validate

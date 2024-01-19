@@ -100,14 +100,14 @@ class ContractsChangesResource(ContractBaseResource):
     def patch(self):
         """ Contract change edit """
 
-        updated_change = self.request.validated["data"]
-        if updated_change:
+        updated = self.request.validated["data"]
+        if updated:
             change = self.request.validated["change"]
-            self.state.change_on_patch(change, updated_change)
-            set_item(self.request.validated["contract"], "changes", change["id"], updated_change)
+            self.state.change_on_patch(change, updated)
+            set_item(self.request.validated["contract"], "changes", change["id"], updated)
             if save_contract(self.request):
                 self.LOGGER.info(
                     f"Updated contract change {change['id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "contract_change_patch"}),
                 )
-                return {"data": self.serializer_class(updated_change).data}
+                return {"data": self.serializer_class(updated).data}
