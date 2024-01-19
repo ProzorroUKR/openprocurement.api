@@ -143,7 +143,7 @@ class ContractStateMixing(baseclass):
             ):
                 if (
                     "agreements" in tender and
-                    config["hasPreSelectionAgreement"] is False  # tender produces agreements
+                    tender["config"]["hasPreSelectionAgreement"] is False  # tender produces agreements
                 ):
                     allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
                 else:
