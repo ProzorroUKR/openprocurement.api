@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f1fbb400833c48d7ad67197874b4b998/bids/ef6ae271c87f4446bff5378bdc22587b?acc_token=8b99a067fc704e46a53bfc180665fe0a HTTP/1.0
+PATCH /api/2.5/tenders/1eb00fde4045437087f02f9ba74e3ced/bids/619b86cb234b4f519536dab1fcf3027f?acc_token=8b99a067fc704e46a53bfc180665fe0a HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,14 +10,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
+          "id": "15d2ba1109184cb695b1d750c8bc5e66",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "653e302bf2b64ca09b743d65b78142f4",
+              "id": "3367c62610004e63bc05756d076023cf",
               "title": "name.doc"
             },
             "type": "document"
@@ -40,7 +40,7 @@ Content-Type: application/json
         "title": "Requirement response",
         "description": "some description",
         "requirement": {
-          "id": "0bff33f561ca4d9fa1bb4c856e1d62a3",
+          "id": "15d2ba1109184cb695b1d750c8bc5e66",
           "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
         },
         "evidences": [
@@ -48,14 +48,14 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "653e302bf2b64ca09b743d65b78142f4",
+              "id": "3367c62610004e63bc05756d076023cf",
               "title": "name.doc"
             },
-            "id": "04292a682a4c433eb2d4f423d715378a"
+            "id": "a519e7caad93435a9412b5cb2b0750f6"
           }
         ],
         "value": "True",
-        "id": "6884800057554795b1959b093c23a86e"
+        "id": "a11d24140fef4267b6e7098a7db354f3"
       }
     ],
     "tenderers": [
@@ -83,7 +83,7 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
-    "id": "ef6ae271c87f4446bff5378bdc22587b",
+    "id": "619b86cb234b4f519536dab1fcf3027f",
     "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -93,14 +93,14 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "66a8223f6c464cda9d8aeafd23536554",
+        "relatedLot": "ab777668b8ff4f4a82faccf36709dd59",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "documents": [
       {
-        "id": "653e302bf2b64ca09b743d65b78142f4",
+        "id": "3367c62610004e63bc05756d076023cf",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

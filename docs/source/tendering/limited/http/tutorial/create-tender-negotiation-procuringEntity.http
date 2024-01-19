@@ -137,7 +137,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/df26af14d20e44a4a11a7ad4d6758698
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d9089b9620ea0bb9a
 
 {
   "data": {
@@ -178,7 +178,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/df26af14d20e44a4
     },
     "items": [
       {
-        "id": "5dddce287c2549f89da8fbbdaf26abf5",
+        "id": "24459bec4c87461598d771bb8626c8ea",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -248,7 +248,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/df26af14d20e44a4
         "sequenceNumber": 0
       },
       {
-        "id": "c7e0782d07d34a8ea72658dab2e1ccc9",
+        "id": "7f96196af29c4c89bc9c58b8070f95fa",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -265,7 +265,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/df26af14d20e44a4
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "df26af14d20e44a4a11a7ad4d6758698"
+    "id": "f082eef1f646440d9089b9620ea0bb9a"
   },
   "config": {
     "hasAuction": false,

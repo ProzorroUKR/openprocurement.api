@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/07f3bd11885c4509a40cd7825f1dfa3b HTTP/1.0
+GET /api/2.5/contracts/920546603e3a4398b81fb8f88c0c9af7 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -47,37 +47,37 @@ Content-Type: application/json
           "code": "KGM"
         },
         "deliveryAddress": {
-          "streetAddress": "Приховано",
-          "locality": "Приховано",
-          "region": "Приховано",
-          "postalCode": "Приховано",
-          "countryName": "Приховано"
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "1111-11-11T00:00:00+02:00",
-          "endDate": "1111-11-11T00:00:00+02:00"
+          "startDate": "2016-03-20T18:47:47.136678+02:00",
+          "endDate": "2016-03-23T18:47:47.136678+02:00"
         }
       }
     ],
     "suppliers": [
       {
-        "name": "Приховано",
+        "name": "ДКП «Книга»",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "Приховано",
+          "id": "00137226",
           "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "streetAddress": "Приховано",
-          "locality": "Приховано",
-          "region": "Приховано",
-          "postalCode": "Приховано",
-          "countryName": "Приховано"
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
         },
         "contactPoint": {
-          "name": "Приховано",
+          "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
-          "telephone": "Приховано"
+          "telephone": "+380322916930"
         }
       }
     ],
@@ -106,10 +106,8 @@ Content-Type: application/json
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "07f3bd11885c4509a40cd7825f1dfa3b"
+    "id": "920546603e3a4398b81fb8f88c0c9af7"
   },
-  "config": {
-    "restricted": true
-  }
+  "config": {}
 }
 

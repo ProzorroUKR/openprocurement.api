@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d129be7cbe054d18a179ea11a7141a52/bids/e147879859fb43caad2391bf20d0b032?acc_token=68c0f183a82143678b411345d129233c HTTP/1.0
+PATCH /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids/e1e5b10f2f544862978912218b1bcb35?acc_token=68c0f183a82143678b411345d129233c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e147879859fb43caad2391bf20d0b032",
+    "id": "e1e5b10f2f544862978912218b1bcb35",
     "date": "2023-09-20T01:00:01+03:00",
     "tenderers": [
       {
@@ -46,23 +46,23 @@ Content-Type: application/json
     },
     "requirementResponses": [
       {
-        "id": "d51e9d7a04d54963ba3140525616c364",
+        "id": "664cdc4af3b14a80890750ac88c5b5b6",
         "requirement": {
-          "id": "50f91892d16c4bc2bd0ed3622c37942b"
+          "id": "620397eaf9544635bb0366a1f65dae0e"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "71c540419c5c4211bcdc09948a69ce7f",
+        "id": "b6478bf929684a39884e346a57e2aeee",
         "requirement": {
-          "id": "21f2f298b75f4b049ede70d8f7cc27b1"
+          "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
         },
         "value": 5
       },
       {
-        "id": "bc07a4eb405b4c909809dd454dd29cf8",
+        "id": "b6e87f07d4dc4b989dec73c17059138f",
         "requirement": {
-          "id": "93fade2f51004ff597eebfb2a0dff304"
+          "id": "2c6c054563904e35ac6e25b6ec864228"
         },
         "values": [
           "Відповідь1",
@@ -73,7 +73,7 @@ Content-Type: application/json
     "status": "pending",
     "items": [
       {
-        "id": "3fe2d354a11b47e7a3e9109f595968cb",
+        "id": "e0171c9b08d34c71948f18a5f3504f5a",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",

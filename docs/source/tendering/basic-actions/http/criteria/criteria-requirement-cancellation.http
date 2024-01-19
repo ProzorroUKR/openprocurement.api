@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/105db8e43d7443dd82928beebb8543f5/criteria/c612538120a54e9aac421eca92351b3a/requirement_groups/a0ded70b651f4e0e9ea41d222830e455/requirements/abdbaa395c52425fa35d2e8505e6a321?acc_token=0f8789a0ad704200b65926ab1ef950da HTTP/1.0
+PUT /api/2.5/tenders/bbc1076896f8436b8dce0f56039ea075/criteria/bbd85fb6da144b0c984b26da09084968/requirement_groups/27abc4dcfca240b8a44a1f34b9db3b82/requirements/d6fa6b14c0074edea3282d9de0ce7357?acc_token=0f8789a0ad704200b65926ab1ef950da HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,13 +19,13 @@ Content-Type: application/json
       "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
       "dataType": "boolean",
       "expectedValue": "true",
-      "id": "abdbaa395c52425fa35d2e8505e6a321",
+      "id": "d6fa6b14c0074edea3282d9de0ce7357",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "cancelled",
       "dateModified": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "abdbaa395c52425fa35d2e8505e6a321",
+      "id": "d6fa6b14c0074edea3282d9de0ce7357",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "status": "cancelled",
       "dateModified": "2023-10-10T01:00:00+03:00"

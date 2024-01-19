@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/67a9b06d735b4578b3889ad775a65e21/posts?acc_token=1589d5502f3b4b24b31d29b42c14f3f3 HTTP/1.0
+POST /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/3131116986bb4f24a6bc60bd8b2b0b24/posts?acc_token=1589d5502f3b4b24b31d29b42c14f3f3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "b4ed529306f847689289a5b1aa6cc7bb",
+    "relatedPost": "83d9848c51594e758f9f0b771200bbf0",
     "documents": [
       {
         "title": "post_document_tender.pdf",
@@ -23,7 +23,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/67a9b06d735b4578b3889ad775a65e21/posts/1f6442a76124488d83e9893ed6199f74
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/3131116986bb4f24a6bc60bd8b2b0b24/posts/53ba68c7dbde471bb0f2e2a445e87077
 
 {
   "data": {
@@ -37,15 +37,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bff5dc599fd148b8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3a4ed86d11e9460393a63047c5920470?Signature=WtEhYfcozcKWsGWJ%2BuMeQe6hsm9eBGS%2BDJdVJ2BZzsvEtkiuktiRt0OtWrvVlPpLRPyoOMyYmXJXw5DcphfPAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "175f80ca65c74d36aa5b14f91ccc0b9c",
+        "id": "d6e4eec1f7474f7dab279ddcfc29e29a",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner"
       }
     ],
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "b4ed529306f847689289a5b1aa6cc7bb",
-    "id": "1f6442a76124488d83e9893ed6199f74",
+    "relatedPost": "83d9848c51594e758f9f0b771200bbf0",
+    "id": "53ba68c7dbde471bb0f2e2a445e87077",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "author": "tender_owner"
   }

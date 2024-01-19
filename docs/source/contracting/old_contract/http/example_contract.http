@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3e115ed14c174579bc5308c7e4a82d6a/contracts/e07c2e4ee19e43c5bce75b127566b232 HTTP/1.0
+GET /api/2.5/tenders/9edb2de5d15247d485a377e07702bc83/contracts/e07c2e4ee19e43c5bce75b127566b232 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "e07c2e4ee19e43c5bce75b127566b232",
-    "awardID": "02726caea29a421cb9362f258017d617",
+    "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
     "contractID": "UA-2023-01-01-000001-a-1",
     "status": "active",
     "value": {
@@ -20,7 +20,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d49df131ea374b619446ee1fc18149b9",
+        "id": "b5ff13b59b7e4f2495ec32bda0e78958",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -57,7 +57,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
+        "id": "64da1c2d32904c7780c7a080c03b9058",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",

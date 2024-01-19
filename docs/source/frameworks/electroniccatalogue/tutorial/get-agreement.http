@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/acca82c6bd0c40bb99ac3a85e97a0fa7 HTTP/1.0
+GET /api/2.5/agreements/6d10ffd01e7a4ab8a94915d9f6eebbdb HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-26-000001",
-    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
+    "frameworkID": "7a229c4d310842c39ef98821651b267b",
     "agreementType": "electronicCatalogue",
     "status": "active",
     "period": {
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "f4d06b8641d941b4b2926dc29a60a364",
-        "qualificationID": "84c2e9995d524c9fb29659e72404a185",
-        "submissionID": "d95643791311471fb3ae290c48641822",
+        "id": "835a18a5042142a1b24c75b5e938446e",
+        "qualificationID": "2efd8f11d2914763ab331e36e358d306",
+        "submissionID": "4693711d52b14347b47af79c501fbd5f",
         "status": "active",
         "suppliers": [
           {
@@ -81,7 +81,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "75b9e2dc1ea74c28bc692d06a81bdfd8",
+            "id": "c2fe71f3d39b44068cc0a2d10cfb61fc",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2023-12-09T01:00:00+03:00",
@@ -96,7 +96,7 @@ Content-Type: application/json
     "date": "2023-10-26T01:00:00+03:00",
     "next_check": "2023-12-09T01:00:00+03:00",
     "dateCreated": "2023-10-26T01:00:00+03:00",
-    "id": "acca82c6bd0c40bb99ac3a85e97a0fa7"
+    "id": "6d10ffd01e7a4ab8a94915d9f6eebbdb"
   },
   "config": {
     "restricted": false

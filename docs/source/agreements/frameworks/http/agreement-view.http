@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/617574663a03455d892ddd21b4a3d9c7 HTTP/1.0
+GET /api/2.5/agreements/6a527caaceb94ad398f77579768a6d67 HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-01-16-000001",
-    "frameworkID": "54770d4474694c37ac05a24bce2ee643",
+    "frameworkID": "bdc325ff871a4c518086e628e1dd113b",
     "agreementType": "electronicCatalogue",
     "status": "active",
     "period": {
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "a55dba12087948e994bc6090c541f74f",
-        "qualificationID": "379955e06270424e96f58271af95f135",
-        "submissionID": "c42b2d1e2b8b4e6590097344537c3683",
+        "id": "a2ac96f0669b459981b24978efb9c192",
+        "qualificationID": "cea184071f4b4f95b854eede0a95f34f",
+        "submissionID": "55914259c674436d9e80c86d5cc4fc19",
         "status": "active",
         "suppliers": [
           {
@@ -81,7 +81,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "4c23475167c7436ca594b2010e9e0a4b",
+            "id": "428d21a6c91445ca8785a53103c07905",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2023-05-01T00:00:00+02:00",
@@ -91,9 +91,9 @@ Content-Type: application/json
         "date": "2023-01-16T00:00:00+02:00"
       },
       {
-        "id": "ba89d9379cd1467aa8cbe2d9f6d634f6",
-        "qualificationID": "ed41098a781e44e59f96884a630233e5",
-        "submissionID": "3c4e23f2664e4213acbbc190dae8e2e4",
+        "id": "67143902200745ca9004a1b0a564b4aa",
+        "qualificationID": "a71870dfe19945ff859377d40e58a660",
+        "submissionID": "f0d1e4003bc84247a2ea1b972c8b2ea3",
         "status": "active",
         "suppliers": [
           {
@@ -121,7 +121,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "48f6924fcf4d4023b9d05584ecf90ec4",
+            "id": "659cb532d2ad40f1afd8b160f6bf230b",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2023-05-01T00:00:00+02:00",
@@ -136,7 +136,7 @@ Content-Type: application/json
     "date": "2023-01-16T00:00:00+02:00",
     "next_check": "2023-05-01T00:00:00+02:00",
     "dateCreated": "2023-01-16T00:00:00+02:00",
-    "id": "617574663a03455d892ddd21b4a3d9c7"
+    "id": "6a527caaceb94ad398f77579768a6d67"
   },
   "config": {
     "restricted": false

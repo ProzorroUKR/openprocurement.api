@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c41060021ebc4cccb8e66eda82f3c502/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+PATCH /api/2.5/tenders/076ef09c7f8e49a3bc7595e4b4cc1339/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -91,7 +91,7 @@ Content-Type: application/json
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "items": [
       {
-        "id": "2850ac78b96b415a8fb8e55025b7df25",
+        "id": "3dd461fd0d704443b8a7032d7c8741a5",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -130,7 +130,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "1d7584a0e494404f9634ddbb151ad270",
+        "id": "59b7ffa72994420ab99bb537ab9c0523",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "additionalClassifications": [
@@ -196,7 +196,7 @@ Content-Type: application/json
       }
     ],
     "status": "draft.stage2",
-    "id": "c41060021ebc4cccb8e66eda82f3c502"
+    "id": "076ef09c7f8e49a3bc7595e4b4cc1339"
   },
   "access": {
     "token": "7daf4a43d2eb4322865a73d28689213b",

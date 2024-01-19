@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/bids HTTP/1.0
+POST /api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "3fdae4595ce746318c81ada140ff94d7"
+        "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "87b8c90776524a309ee776907e5ef0b9"
+        "relatedLot": "6babb5c45e6043fe95ee9952851c712f"
       }
     ]
   }
@@ -52,7 +52,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3bab60ecf7d8d0700e/bids/6871385eac4d47868425d8293a3eeb9e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/bids/6301b71c37644207b496dd2cc689a465
 
 {
   "data": {
@@ -90,7 +90,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3b
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "3fdae4595ce746318c81ada140ff94d7",
+        "relatedLot": "f56fc2b8fdd44587baa8726a382e3e41",
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
@@ -100,12 +100,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a47e2c36bdc4f3b
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "87b8c90776524a309ee776907e5ef0b9",
+        "relatedLot": "6babb5c45e6043fe95ee9952851c712f",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "6871385eac4d47868425d8293a3eeb9e",
+    "id": "6301b71c37644207b496dd2cc689a465",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

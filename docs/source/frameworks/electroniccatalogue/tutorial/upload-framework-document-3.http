@@ -1,4 +1,4 @@
-PUT /api/2.5/frameworks/78d4ab4039c8441d8cac856e90e3b82b/documents/07c983b9206444d8b4b440f9ec3feb22?acc_token=797fdae523914449922546561e43242f HTTP/1.0
+PUT /api/2.5/frameworks/7a229c4d310842c39ef98821651b267b/documents/1e3e5196731a48e48ca51152eb00c4ba?acc_token=797fdae523914449922546561e43242f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "07c983b9206444d8b4b440f9ec3feb22",
+    "id": "1e3e5196731a48e48ca51152eb00c4ba",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",

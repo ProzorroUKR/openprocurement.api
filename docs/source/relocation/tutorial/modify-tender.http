@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/771d7fde7ae24275b004cc812347895b?acc_token=59c78f8d7a9f4dd9ba83db1835329029 HTTP/1.0
+PATCH /api/2.5/tenders/7838682b871d4364ae37165578663a04?acc_token=59c78f8d7a9f4dd9ba83db1835329029 HTTP/1.0
 Authorization: Bearer broker1
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,7 +43,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "ce1dc42026064c66a9152ad9755409f7",
+        "id": "047111adb9dd4faf882bf0981ecae32a",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -80,7 +80,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "f8d046e966e845c98d8c15ccd233005f",
+        "id": "386ee0c34e8e4ab694ac6953d2b34c9e",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -131,7 +131,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "8798236315914dacb235c929cf50b1b1",
+        "id": "089f8a38a633468ba169f6c0bfd1f9ac",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -170,7 +170,7 @@ Content-Type: application/json
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
       "endDate": "2023-10-17T01:00:00+03:00"
     },
-    "id": "771d7fde7ae24275b004cc812347895b"
+    "id": "7838682b871d4364ae37165578663a04"
   },
   "config": {
     "hasAuction": true,

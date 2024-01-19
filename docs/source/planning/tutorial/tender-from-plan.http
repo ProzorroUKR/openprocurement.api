@@ -1,4 +1,4 @@
-POST /api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68/tenders HTTP/1.0
+POST /api/2.5/plans/f5782dd659684e2daf004df0a3b3d81e/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -179,7 +179,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968b5c8dbd4012271d1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7f5e6c2aa6f54cc3a2f6589002f0d6ce
 
 {
   "data": {
@@ -203,7 +203,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968
     },
     "items": [
       {
-        "id": "b5d58780a97d487885e1dd0f77c51d7f",
+        "id": "5828ed46f9184580a3de1b95535f9df9",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -234,7 +234,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968
         }
       },
       {
-        "id": "40745c2eddbf4fb8815e5d104f4dfca6",
+        "id": "9db989db3ad44254a2a64b7d1874c3e9",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -265,7 +265,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968
         }
       },
       {
-        "id": "b556b78bc08c421386702fb2dc961f3e",
+        "id": "1bc5eb35f18a41bb9870224788b922d8",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -310,7 +310,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968
         "sequenceNumber": 0
       },
       {
-        "id": "9265260a40ef4ee98bba056f5f9a085a",
+        "id": "2803bbf7f8ea47759525c44ef0a52cd1",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -355,10 +355,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8d436ed545324968
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "8d436ed545324968b5c8dbd4012271d1",
+    "id": "7f5e6c2aa6f54cc3a2f6589002f0d6ce",
     "plans": [
       {
-        "id": "b78458ab31b845d6a123d3029d6e7e68"
+        "id": "f5782dd659684e2daf004df0a3b3d81e"
       }
     ]
   },

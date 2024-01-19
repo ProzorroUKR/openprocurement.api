@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids HTTP/1.0
+POST /api/2.5/tenders/987f2601e8134d07aa066cb39ffaeb98/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -65,7 +65,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303adb40303b401fef6/bids/ebccd6f195534cacb2e3dbcaa3e6f719
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/987f2601e8134d07aa066cb39ffaeb98/bids/72c98b2f0a3e408db442fc30989401c3
 
 {
   "data": {
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6f5d54d6f96e4f93bb84aaf2005ecd74?Signature=gWkknoOyOQh2cpnX6nZmhLZJrFxulp8qPlSiERXttONVOcfK8ZCL1ksm1AQp292iAQqY6uzphnL10nz8PEnlAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "3b77de1addd141a6a1c2dd2b6c063e6d",
+        "id": "51da0669d7ad42ee8c95e5b876154f5c",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -112,7 +112,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f7c465d3486b487db509f0e8482bcafd?Signature=Dt0bUdqRLCf5ENnzoOZDqA6XZdViV36%2BLgE4rzqjUtBbVG0krDrux7p3D7C45U3%2BZaqfHqB1ntI9LVS%2F6PoeCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "da17607d2ff14dc1afaeaf410803a542",
+        "id": "851ae1f030014218b07136f98c5d3b52",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -140,7 +140,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c3bab1d2b124303
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "ebccd6f195534cacb2e3dbcaa3e6f719",
+    "id": "72c98b2f0a3e408db442fc30989401c3",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

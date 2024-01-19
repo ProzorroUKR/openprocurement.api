@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/b78458ab31b845d6a123d3029d6e7e68?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
+PATCH /api/2.5/plans/f5782dd659684e2daf004df0a3b3d81e?acc_token=f6128957cf8546dcbc580ffab786e150 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "6d8d57fa440348488964090c842487fc",
+      "id": "c77a12f98cc643f9aa91888bc026dac5",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -70,7 +70,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "58cc1233f6cd477680efdf5a0e0bd14e",
+        "id": "0180d352682042269600b922e2f338a2",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -101,7 +101,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "7ab69427e0c44366b41130eed6ed5b27",
+        "id": "4a374644b9ce48b086c4c4348ab36ab1",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -132,7 +132,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "44b90266334f4064b8e590092d00c446",
+        "id": "853cef146bc04a87a7441c9cb10414fc",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -165,7 +165,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "200ac01f7be14904a310dc4fbbd7c6ee",
+        "id": "5835551f7912467eb9c29c9cc4c00fd9",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -190,7 +190,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "id": "b78458ab31b845d6a123d3029d6e7e68"
+    "id": "f5782dd659684e2daf004df0a3b3d81e"
   }
 }
 

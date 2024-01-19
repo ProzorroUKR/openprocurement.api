@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0346df4bd59945ed8016546ef54ca30e/contracts/12815f4d668b47e39d6e2f54466072b6?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
+PATCH /api/2.5/tenders/2343c5333e7842f1b795cb90219f10ad/contracts/12815f4d668b47e39d6e2f54466072b6?acc_token=86b6afeef75d4cc5bca2203834c94359 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "id": "12815f4d668b47e39d6e2f54466072b6",
     "buyerID": "22222222222222222222222222222222",
-    "awardID": "2c61bd8e09c7490fab7aa19c6d9707e7",
+    "awardID": "f85b59f43cb6482297def313c11a7b5f",
     "contractID": "UA-2023-01-01-000001-a-2",
     "status": "pending",
     "value": {
@@ -31,7 +31,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "4294a5e2b8f344439ad13adcb55dd22e",
+        "id": "9f282f0915654ed681b0eaf0b0440917",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -69,7 +69,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "27fada779c854db185fc6481651a3e84",
+        "id": "8fe6efc3450146c9ab2c96466cde01a4",
         "description": "портфелі",
         "unit": {
           "name": "кг",

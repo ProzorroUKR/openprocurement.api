@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0653aa92786e43349c05b64015a57ee4/documents HTTP/1.0
+GET /api/2.5/tenders/c429ff66bfe7408592ede2909ac98702/documents HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -15,13 +15,13 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8f0ed45b27a04c78ac7dcee9eeafa433?Signature=YhWQGUYgIXMXB5eoOGNo4vzqD83mlhfwIUmiCX%2BMGgsAXcLFAS%2FQ3gB%2BHWar%2B7U15OIfHWpQ0zGDRWp59YIcAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
-      "id": "caa914c83a5142a48dabb0c2ad168943",
+      "id": "22c3e7f4e0ce4bd5ba3c29bf2f8fc386",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "dateModified": "2023-10-10T01:00:00+03:00",
       "author": "tender_owner"
     },
     {
-      "id": "3a7fb82c56634dad9fcedda70ebaa0dc",
+      "id": "0828ad7fc7394696b2775dac1eb3bfcc",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "AwardCriteria-2.pdf",

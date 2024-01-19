@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1ee8633e845844849cfdd79e535391f7 HTTP/1.0
+GET /api/2.5/tenders/0122f7569ef34718a69b5de8643cccfd HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -39,7 +39,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "d6e3c176788c492dbdc82b03736d1eac",
+        "id": "b81f2856d0b04849810c73b463a23f4b",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -96,7 +96,7 @@ Content-Type: application/json
     "status": "active.tendering",
     "items": [
       {
-        "id": "b4fa3679ca1d43a0bd502459053208b4",
+        "id": "c3f9ef125fde41f2b0559a39a9527282",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
@@ -120,7 +120,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "ce878968f8764c5abbbf54f83211031a",
+        "relatedLot": "3d9bd8f913544205bad6df7a3843e883",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -135,7 +135,7 @@ Content-Type: application/json
         "description_en": "Services in school canteens"
       },
       {
-        "id": "92c0fc8deb6f434e880718e521d5140b",
+        "id": "ecdc7b89d8574bf293dec751fef6d3d2",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
@@ -159,7 +159,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "2866b9eca86549469d19f5b13268d0af",
+        "relatedLot": "21068d0f3d3849709ec8f44d8bd0c140",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -179,7 +179,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "ce878968f8764c5abbbf54f83211031a",
+        "id": "3d9bd8f913544205bad6df7a3843e883",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -196,7 +196,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "2866b9eca86549469d19f5b13268d0af",
+        "id": "21068d0f3d3849709ec8f44d8bd0c140",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -210,7 +210,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "1ee8633e845844849cfdd79e535391f7"
+    "id": "0122f7569ef34718a69b5de8643cccfd"
   },
   "config": {
     "hasAuction": false,

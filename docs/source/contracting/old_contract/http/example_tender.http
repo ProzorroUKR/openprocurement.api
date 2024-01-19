@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3e115ed14c174579bc5308c7e4a82d6a HTTP/1.0
+GET /api/2.5/tenders/9edb2de5d15247d485a377e07702bc83 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -28,7 +28,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d49df131ea374b619446ee1fc18149b9",
+        "id": "b5ff13b59b7e4f2495ec32bda0e78958",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -65,7 +65,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "ab0af98f0027422faee2b6aa1aaa5e88",
+        "id": "64da1c2d32904c7780c7a080c03b9058",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -116,7 +116,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "fbd8e5af79c34cf29c13a5b30e981f84",
+        "id": "31e847df585e459ea7536fbddde2c3f1",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -193,7 +193,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "7786ab11d9644d4ba286cfe6d4e0b9b1",
+        "id": "1042f73cdbae4eff933139f7bc153a62",
         "date": "2023-01-01T00:00:00+02:00"
       }
     ],
@@ -203,7 +203,7 @@ Content-Type: application/json
     },
     "awards": [
       {
-        "id": "02726caea29a421cb9362f258017d617",
+        "id": "d64f2e4a9a0e43a093a29c203ad56b71",
         "status": "active",
         "date": "2023-01-01T00:00:00+02:00",
         "value": {
@@ -234,7 +234,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "7786ab11d9644d4ba286cfe6d4e0b9b1",
+        "bid_id": "1042f73cdbae4eff933139f7bc153a62",
         "complaintPeriod": {
           "startDate": "2023-01-01T00:00:00+02:00",
           "endDate": "2023-01-01T00:00:00+02:00"
@@ -244,7 +244,7 @@ Content-Type: application/json
     "contracts": [
       {
         "id": "e07c2e4ee19e43c5bce75b127566b232",
-        "awardID": "02726caea29a421cb9362f258017d617",
+        "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
         "contractID": "UA-2023-01-01-000001-a-1",
         "status": "active",
         "value": {
@@ -255,7 +255,7 @@ Content-Type: application/json
         },
         "items": [
           {
-            "id": "d49df131ea374b619446ee1fc18149b9",
+            "id": "b5ff13b59b7e4f2495ec32bda0e78958",
             "description": "футляри до державних нагород",
             "unit": {
               "name": "кг",
@@ -292,7 +292,7 @@ Content-Type: application/json
             }
           },
           {
-            "id": "ab0af98f0027422faee2b6aa1aaa5e88",
+            "id": "64da1c2d32904c7780c7a080c03b9058",
             "description": "футляри до державних нагород",
             "unit": {
               "name": "кг",
@@ -360,7 +360,7 @@ Content-Type: application/json
       "startDate": "2022-12-21T00:00:00+02:00",
       "endDate": "2022-12-22T00:00:00+02:00"
     },
-    "id": "3e115ed14c174579bc5308c7e4a82d6a"
+    "id": "9edb2de5d15247d485a377e07702bc83"
   },
   "config": {
     "hasAuction": true,

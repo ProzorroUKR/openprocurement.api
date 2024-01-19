@@ -26,7 +26,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "9d0132ecdea04c5bbab926da6ea94e0a",
+    "tender_id": "fd45af80ad9f4574994f7f6254012693",
     "owner": "broker",
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
@@ -41,69 +41,69 @@ Content-Type: application/json
           "priceReduction"
         ],
         "dateSigned": "2023-10-10T01:00:00+03:00",
-        "id": "c0d5fd105c8a4a0e88aa900f348ad13f",
+        "id": "d578d3114cb24296894d4d4c604c01da",
         "status": "active",
         "date": "2023-10-09T22:00:00"
       }
     ],
     "documents": [
       {
-        "id": "c4e5d576f0e3439a87b379c9fe6e961a",
+        "id": "8bab0d7af5a64157a2c15757833cd8b3",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/c4e5d576f0e3439a87b379c9fe6e961a?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "f7cd5a18adbf4a8282dd6f58b2796ced",
+        "id": "08682b48035643a39d924df55eb915e0",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/f7cd5a18adbf4a8282dd6f58b2796ced?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "relatedItem": "c0d5fd105c8a4a0e88aa900f348ad13f",
-        "id": "f4d34012f91a45739344c22577709c03",
+        "relatedItem": "d578d3114cb24296894d4d4c604c01da",
+        "id": "4b37284d38a94a2b8d8ca1cc4e4ce542",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/f4d34012f91a45739344c22577709c03?download=34862599de094db7a8c9c37996ea4847",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/4b37284d38a94a2b8d8ca1cc4e4ce542?download=34862599de094db7a8c9c37996ea4847",
         "documentOf": "change",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "25e20a5dedc74de89f2a33394808acbe",
+        "id": "11e86d2a11894f42aa5c653c05cfa291",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/25e20a5dedc74de89f2a33394808acbe?download=cc4cd1ee0c1d481d806feb638548e63b",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/11e86d2a11894f42aa5c653c05cfa291?download=cc4cd1ee0c1d481d806feb638548e63b",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "5e0ef0c9aa174b85a687833132faba34",
+        "id": "c2a8719a164a4f9ab1f86536106f2498",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/5e0ef0c9aa174b85a687833132faba34?download=277f219d159f45e1a11923c8b637d463",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/c2a8719a164a4f9ab1f86536106f2498?download=277f219d159f45e1a11923c8b637d463",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "5e0ef0c9aa174b85a687833132faba34",
+        "id": "c2a8719a164a4f9ab1f86536106f2498",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/5e0ef0c9aa174b85a687833132faba34?download=c2fbdf60afd54cf3acdc89af698f87d2",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196/documents/c2a8719a164a4f9ab1f86536106f2498?download=c2fbdf60afd54cf3acdc89af698f87d2",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -166,7 +166,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "d75459d9da8a4386b380198eca937030",
+        "id": "a23a71262ac642b88f2fdb69011d74b1",
         "description": "Комп’ютерне обладнання",
         "quantity": 2.0,
         "classification": {
@@ -203,7 +203,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "909a48c29a3f448bbd498cc0f96259bd",
+        "id": "c8f30df33ae14c65b38931d68e63d757",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {

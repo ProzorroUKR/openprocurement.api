@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c HTTP/1.0
+GET /api/2.5/tenders/5fd17b367a75453582bffe24ae83b896 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
       {
-        "id": "7e5a6e91d54f472b8fa0b5bbc9c90b7d",
+        "id": "d419d5a2784947f989f85a96f9390e81",
         "author": {
           "name": "ДКП «Книга»",
           "identifier": {
@@ -46,36 +46,36 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "4bcf0dcade374f74821c7506c1cf0738",
+        "id": "53c2fa9b943a4c9e976b2461a55a5c57",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/4bcf0dcade374f74821c7506c1cf0738?download=652841daeeeb439495081421efd95a14",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/documents/53c2fa9b943a4c9e976b2461a55a5c57?download=652841daeeeb439495081421efd95a14",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "827d1c5f60a641c7aed04c30d709915a",
+        "id": "76a4bed05322478993d703fad4a917d3",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/827d1c5f60a641c7aed04c30d709915a?download=d3b3e9515e024fcfab143be97a3e7ec9",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/documents/76a4bed05322478993d703fad4a917d3?download=d3b3e9515e024fcfab143be97a3e7ec9",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
-        "id": "827d1c5f60a641c7aed04c30d709915a",
+        "id": "76a4bed05322478993d703fad4a917d3",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0cabdf69621745b5b57212d59b3b388c/documents/827d1c5f60a641c7aed04c30d709915a?download=69070d50771a4daca7c07e2513280022",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/documents/76a4bed05322478993d703fad4a917d3?download=69070d50771a4daca7c07e2513280022",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -120,7 +120,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "4b7cdf77c4b6449d8d98ccfd9402478c",
+        "id": "5913e805a15e4ee484617292a375c8c4",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -150,7 +150,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "8510e95265834e8c9049e3aaedee9eba",
+        "id": "e77f949c4e1c48808802b8d42ed135d8",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -210,8 +210,8 @@ Content-Type: application/json
       },
       "kind": "defense"
     },
-    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0cabdf69621745b5b57212d59b3b388c",
-    "id": "0cabdf69621745b5b57212d59b3b388c"
+    "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/5fd17b367a75453582bffe24ae83b896",
+    "id": "5fd17b367a75453582bffe24ae83b896"
   },
   "config": {
     "hasAuction": true,

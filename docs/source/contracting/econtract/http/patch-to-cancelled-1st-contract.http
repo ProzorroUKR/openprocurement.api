@@ -16,11 +16,11 @@ Content-Type: application/json
 {
   "data": {
     "buyerID": "11111111111111111111111111111111",
-    "awardID": "30b8ee14773941159bde312d7547c2d9",
+    "awardID": "b8fb3660bde84144b43165b9834128f5",
     "contractID": "UA-2023-10-10-000001-a-1",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tender_id": "812c91961776458fadd47b11d492c960",
+    "tender_id": "14be9ab9e27d4db8aed4f62d015d0a56",
     "owner": "broker",
     "status": "cancelled",
     "buyer": {
@@ -52,7 +52,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "2192f86160964a47851a8314ad1cef69",
+        "id": "087050d3cd8640b596f582e1adcc7ea3",
         "description": "телевізори",
         "quantity": 5.0,
         "relatedBuyer": "11111111111111111111111111111111",

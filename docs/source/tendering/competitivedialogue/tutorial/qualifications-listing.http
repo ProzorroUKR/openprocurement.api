@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/bdf767732b5740cc980564940363d11b/qualifications HTTP/1.0
+GET /api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,36 +9,36 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "e1aafdb9303b43a09a86c17466624039",
-      "bidID": "18ddc2a79e264e6babef6eb4927ca37c",
-      "lotID": "f5585c247e854510bba989119bf55ea0",
+      "id": "c1456197122f49bc93a789479f4486b2",
+      "bidID": "26d57975355f4df6bdb138430b2f0afb",
+      "lotID": "5f416c4b1629461194116a3c41e574a8",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "051703a2c0474462ac047925232d5263",
-      "bidID": "435ea64549ef412d97fd0dade8c4caa0",
-      "lotID": "f5585c247e854510bba989119bf55ea0",
+      "id": "fca6ed206e514922bfca53422e7f8bcc",
+      "bidID": "31ea2a030d6648adab0a5066fed0e405",
+      "lotID": "5f416c4b1629461194116a3c41e574a8",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "ef8db23b363942dbad2219ceac715e10",
-      "bidID": "6b002866124448bcb80cf359888c8799",
-      "lotID": "f5585c247e854510bba989119bf55ea0",
+      "id": "62315a382e3c47088856e21918afb39d",
+      "bidID": "701a197e186e4100a2bbd124d65d4312",
+      "lotID": "5f416c4b1629461194116a3c41e574a8",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,
       "eligible": false
     },
     {
-      "id": "d062aadde6a2467da5c243216822966d",
-      "bidID": "83f8ec8c73344860ad874831f3f22356",
-      "lotID": "f5585c247e854510bba989119bf55ea0",
+      "id": "1712cdc3b5ea4073a16aaaa51e2e04e8",
+      "bidID": "fbbd4a1c822c4ed68b03bece6303facd",
+      "lotID": "5f416c4b1629461194116a3c41e574a8",
       "status": "pending",
       "date": "2023-10-10T01:00:00+03:00",
       "qualified": false,

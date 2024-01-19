@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/cc9a8f71020a459188912858e360d70f/submissions HTTP/1.0
+GET /api/2.5/frameworks/a00a3b5bdaa0437490c883e4482795b2/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,14 +33,14 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "frameworkID": "cc9a8f71020a459188912858e360d70f",
+      "frameworkID": "a00a3b5bdaa0437490c883e4482795b2",
       "status": "complete",
       "dateCreated": "2023-10-26T01:00:00+03:00",
       "dateModified": "2023-10-26T01:00:00+03:00",
       "date": "2023-10-26T01:00:00+03:00",
-      "qualificationID": "7355d4d6d7be40e498047949f881afd3",
+      "qualificationID": "6dc22ab2c87f41bb91375ca71951687c",
       "datePublished": "2023-10-26T01:00:00+03:00",
-      "id": "2b702f1ce4024901b9c732fb064c9928"
+      "id": "aa0f24837b6742998f2341675f750248"
     },
     {
       "tenderers": [
@@ -67,14 +67,14 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "frameworkID": "cc9a8f71020a459188912858e360d70f",
+      "frameworkID": "a00a3b5bdaa0437490c883e4482795b2",
       "status": "complete",
       "dateCreated": "2023-10-26T01:00:00+03:00",
       "dateModified": "2023-10-26T01:00:00+03:00",
       "date": "2023-10-26T01:00:00+03:00",
-      "qualificationID": "8347573536014e65b2bf104c59c74291",
+      "qualificationID": "37edcfe4b6484dee80eecfdb03a03a08",
       "datePublished": "2023-10-26T01:00:00+03:00",
-      "id": "a6664cead51b4e85898b46f5275efb36"
+      "id": "d4a1ccc22a504cd1a535ce487642a321"
     }
   ],
   "next_page": {

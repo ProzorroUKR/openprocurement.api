@@ -216,7 +216,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed8016546ef54ca30e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2343c5333e7842f1b795cb90219f10ad
 
 {
   "data": {
@@ -262,7 +262,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed
     },
     "items": [
       {
-        "id": "079474c13eec458eb29f70c50d49c4d8",
+        "id": "8420297c9fe340acad5a04c8ac7cade7",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -300,7 +300,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "4294a5e2b8f344439ad13adcb55dd22e",
+        "id": "9f282f0915654ed681b0eaf0b0440917",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -338,7 +338,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "27fada779c854db185fc6481651a3e84",
+        "id": "8fe6efc3450146c9ab2c96466cde01a4",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -390,7 +390,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed
         "sequenceNumber": 0
       },
       {
-        "id": "8f49d2be8fb84bec99dabb9d11486700",
+        "id": "18593ba23f024c508a52897f628dbe1c",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -436,7 +436,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0346df4bd59945ed
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-01T00:00:00+02:00",
-    "id": "0346df4bd59945ed8016546ef54ca30e"
+    "id": "2343c5333e7842f1b795cb90219f10ad"
   },
   "config": {
     "hasAuction": true,

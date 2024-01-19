@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9e6e1afaf84849429e92a025c9aa46f4/complaints HTTP/1.0
+POST /api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -35,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "9e6e1afaf84849429e92a025c9aa46f4",
+        "relatedItem": "b1b9e2275509420b8a3759c55a76d2cc",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -60,7 +60,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9e6e1afaf84849429e92a025c9aa46f4/complaints/8b89838763734b9abbb2acc755fcf955
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints/accadb05292e48679b52c49abc1b7194
 
 {
   "data": {
@@ -91,10 +91,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9e6e1afaf8484942
     "type": "complaint",
     "objections": [
       {
-        "id": "cec26cdc72cf4d9e85c51fed54d3f9da",
+        "id": "ae0f012571694d5aab0dcd4bf0814229",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "9e6e1afaf84849429e92a025c9aa46f4",
+        "relatedItem": "b1b9e2275509420b8a3759c55a76d2cc",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -102,21 +102,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9e6e1afaf8484942
         },
         "requestedRemedies": [
           {
-            "id": "4b2edd70e90a442aa2f3942766644b91",
+            "id": "0e10a3e3de2f47de99a7d58ccb7e449c",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "f9fe9cfcad254faca16401cbd7f1e507",
+            "id": "11c8d7c71b0748b89093ee4e4257294f",
             "description": "test argument"
           }
         ],
         "relatesTo": "tender"
       }
     ],
-    "id": "8b89838763734b9abbb2acc755fcf955",
+    "id": "accadb05292e48679b52c49abc1b7194",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "value": {

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b319c6bb136b47a9842ec5a057906ae7 HTTP/1.0
+GET /api/2.5/tenders/3a30afeece164702acbcbd999c068e6c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -53,7 +53,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "d54fe9c381e341e78df8b794ca4a1c3b",
+        "id": "f8940cf415e64f08a9d6259db7146e2b",
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
@@ -93,16 +93,16 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "6f8a8cf226794c9c92291e15491f5d71",
+        "id": "852d1c7c0dac4281b448282ce4fda4ab",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "4642a2b64a874512918960883770ac88",
+            "id": "6d134dd3ce2a4997a25e5043af124258",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "fba56581f799493f92ff62d895d079d9",
+                "id": "f0f83e19edd941f9a8d146d638b5ad02",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValue": "Розчин для інфузій"
@@ -112,16 +112,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "0a429c221d6f45ff892cb19cbd88af9c",
+        "id": "d3a0fd015db14f1aae290c3ce8302a93",
         "title": "Доза діючої речовини",
         "description": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "85ab7a5cae874106a1505d71fd90a6ff",
+            "id": "db2dc0e37937449d8cabb64705d61a85",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "e00bbc2e375b4886bb3874ef12f8452d",
+                "id": "7edaf68d943b4d91b3bd12b0a599f0d1",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "unit": {
@@ -135,16 +135,16 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "a9cc2d1ab08c473f8916ea5355e93715",
+        "id": "842ff1e7b13a439da73e03cd68afdeb2",
         "title": "Форма випуску",
         "description": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "2e538a70bea9485f915e6f8b5df712a0",
+            "id": "1f9e1751f91a4ee1af35a80131477c5d",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "d12fbf26d8cc4335b4ede3b14b358f72",
+                "id": "88655f0a81744d3a865f958a550013e2",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "expectedValues": [
@@ -161,7 +161,7 @@ Content-Type: application/json
         ]
       }
     ],
-    "id": "b319c6bb136b47a9842ec5a057906ae7"
+    "id": "3a30afeece164702acbcbd999c068e6c"
   },
   "config": {
     "hasAuction": false,

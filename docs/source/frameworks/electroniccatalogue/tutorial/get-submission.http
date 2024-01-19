@@ -1,4 +1,4 @@
-GET /api/2.5/submissions/307a5eb4da8948faa46564921a9facf6 HTTP/1.0
+GET /api/2.5/submissions/7c37a548e4db48a0ac3c1b4d9ead2c5f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -32,7 +32,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "frameworkID": "78d4ab4039c8441d8cac856e90e3b82b",
+    "frameworkID": "7a229c4d310842c39ef98821651b267b",
     "status": "draft",
     "submissionType": "electronicCatalogue",
     "owner": "broker",
@@ -45,12 +45,12 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d9006a35da3b4389bf1be5cd34a3071a?Signature=i8SHbMgp8F%2BDTPKCmPFxk0f7CTww8xsbmAdwhOky%2FgyFcAIuTveMDAT69TBjFyLOOYgdCosl%2FL%2FQ6JWzoPq%2BCA%3D%3D&KeyID=a8968c46",
         "language": "uk",
-        "id": "90016b13615145eb89f20331f5935d66",
+        "id": "51eb561eb78c4fa49dad5d1097e9c7cc",
         "datePublished": "2023-10-26T01:00:00+03:00",
         "dateModified": "2023-10-26T01:00:00+03:00"
       }
     ],
-    "id": "307a5eb4da8948faa46564921a9facf6"
+    "id": "7c37a548e4db48a0ac3c1b4d9ead2c5f"
   },
   "config": {
     "restricted": false

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/61a4604114444820b7d85e6dc92c93b3/contracts HTTP/1.0
+GET /api/2.5/tenders/5355513b064e44ff8f887a6a465d7e42/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "243c5ce560a84d80b700742a581fe589",
       "buyerID": "11111111111111111111111111111111",
-      "awardID": "addb016aac704c2294f1c3eb498f1e8a",
+      "awardID": "c39fe08b74b94236bf6fba63e8c69db6",
       "contractID": "UA-2023-01-01-000001-a-1",
       "status": "cancelled",
       "value": {
@@ -22,7 +22,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "4e091c16b3374dceb1d05d57ae90e3bf",
+          "id": "c154fb08c91e441aa45cad2645ecde42",
           "description": "телевізори",
           "unit": {
             "name": "кг",
@@ -111,7 +111,7 @@ Content-Type: application/json
       ],
       "items": [
         {
-          "id": "5791c5ecb8264d1badcc2d7955877c62",
+          "id": "4232bc490b0543e7a8d79606cf3abab7",
           "description": "портфелі",
           "unit": {
             "name": "кг",
@@ -149,7 +149,7 @@ Content-Type: application/json
           "relatedBuyer": "22222222222222222222222222222222"
         },
         {
-          "id": "a96de68112fb4c45b7c23d49e6f6ddc3",
+          "id": "36aa122c69564dcbbdd0a93fd1fc8247",
           "description": "портфелі",
           "unit": {
             "name": "кг",
@@ -191,7 +191,7 @@ Content-Type: application/json
       "contractID": "UA-2023-01-01-000001-a-2",
       "id": "45672b610db747b8a84807aa1daf52b4",
       "status": "cancelled",
-      "awardID": "addb016aac704c2294f1c3eb498f1e8a",
+      "awardID": "c39fe08b74b94236bf6fba63e8c69db6",
       "date": "2023-01-01T00:00:01+02:00",
       "value": {
         "amount": 0,

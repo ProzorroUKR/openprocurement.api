@@ -1,4 +1,4 @@
-GET /api/2.5/agreements/e49ec78938b4480bbe88156f419f0445 HTTP/1.0
+GET /api/2.5/agreements/2c50602a5c214dfba111d06f8a79565f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-26-000001",
-    "frameworkID": "cc9a8f71020a459188912858e360d70f",
+    "frameworkID": "a00a3b5bdaa0437490c883e4482795b2",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -51,9 +51,9 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "2bf614cb504242828bcf830a5af8cf8d",
-        "qualificationID": "8347573536014e65b2bf104c59c74291",
-        "submissionID": "a6664cead51b4e85898b46f5275efb36",
+        "id": "209af725e14a4ede8edc1720b0f84d65",
+        "qualificationID": "37edcfe4b6484dee80eecfdb03a03a08",
+        "submissionID": "d4a1ccc22a504cd1a535ce487642a321",
         "status": "active",
         "suppliers": [
           {
@@ -81,7 +81,7 @@ Content-Type: application/json
         ],
         "milestones": [
           {
-            "id": "3e272419c35b478f92f2f71db74c5dbc",
+            "id": "75dd72d8712449c6b4ca3adb2dd7c11d",
             "status": "scheduled",
             "type": "activation",
             "dueDate": "2023-12-09T01:00:00+03:00",
@@ -96,7 +96,7 @@ Content-Type: application/json
     "date": "2023-10-26T01:00:00+03:00",
     "next_check": "2023-12-09T01:00:00+03:00",
     "dateCreated": "2023-10-26T01:00:00+03:00",
-    "id": "e49ec78938b4480bbe88156f419f0445"
+    "id": "2c50602a5c214dfba111d06f8a79565f"
   },
   "config": {
     "restricted": false

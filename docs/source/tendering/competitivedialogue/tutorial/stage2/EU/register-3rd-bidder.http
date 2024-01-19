@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/32fc15855e5d49b2bee16930210e1cc2/bids HTTP/1.0
+POST /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2bee16930210e1cc2/bids/ad6d96c1fc6340dfb53d205a82d87a52
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/dfbea1d5cde8498b86573738e05eb4dd
 
 {
   "data": {
@@ -131,7 +131,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/328d5b2129754795ab3332190744419e?Signature=%2BfJgYx%2F65LEAbnv6PrgVoI4evhRTul5iYRAJSEP%2B7DPnXuKdz5mV2PgArkfwjW07wnaef2b4jut7%2FQmJSwsbAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "3d9d0b3539524db4a63b4869f68a0a63",
+        "id": "56c3fed909d8445cb37ea7751dbd4936",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -142,7 +142,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "c0dd21c10e464246b91738c81e753429",
+        "id": "f517c12508414a2aae7349d26c323e7f",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -157,7 +157,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3717e8740203445a99d0ba3d4a388920?Signature=5XzSldetRi01hhDNbF3ofKcnB%2Fc1jFGE86GGgt2DyF2TfktCNcIZqt61IsSLouGAIO88F6wM4pPf5wjajYz5Cw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "ca723af2880e47ef800453bd2b251c25",
+        "id": "a0c5c0e1c0a44beaaeabc1ebae941565",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -171,7 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ac6b69cc8b348fe881ef329f6e3a668?Signature=nQOxpa2%2FmiCN108r4oO41TPcTWSk793in64eiJcAISpSe5bxBf%2BYlL2ewyvkzEekTNcM5YUIZwyg8r%2Fa%2FDCFAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "6780d6765a7e46f687b234c24008dbe1",
+        "id": "1de50eafee5642b4a4eaba3ec7cf29cc",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -185,14 +185,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32fc15855e5d49b2
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e7a65edca6534628ab1450eb548cf02a?Signature=id0UYGt9ByuxscHlNT85NVUGK8jqVIQwpgwwcyyzaOdWQ6%2BhjxCfiqJMLlUtkGArXop3vMHqBYoVSpc3nhRkAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "473eb283766046d4a0da2042bace24ce",
+        "id": "40a6659318324492a741b285d0787fb8",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
-    "id": "ad6d96c1fc6340dfb53d205a82d87a52",
+    "id": "dfbea1d5cde8498b86573738e05eb4dd",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids HTTP/1.0
+POST /api/2.5/tenders/c9f66fb872ea4fb9ae61feaf0933c01b/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -62,7 +62,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "years": 7
           }
         },
-        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71"
+        "relatedLot": "f71d1f65bf044639a5f93937d4fddc6f"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
@@ -95,7 +95,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "years": 9
           }
         },
-        "relatedLot": "f1212ee9eb8c4cc7ab7e8de0ebe21a39"
+        "relatedLot": "aaf17a73e8404d39916b9c992d5bae3a"
       }
     ]
   }
@@ -104,7 +104,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05/bids/cb6704293ed44f9aba53d6614537d344
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9f66fb872ea4fb9ae61feaf0933c01b/bids/76d3eb15e45a4b15859a9dc8b2cead68
 
 {
   "data": {
@@ -137,7 +137,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d
     "lotValues": [
       {
         "status": "pending",
-        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71",
+        "relatedLot": "f71d1f65bf044639a5f93937d4fddc6f",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -176,7 +176,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d
       },
       {
         "status": "pending",
-        "relatedLot": "f1212ee9eb8c4cc7ab7e8de0ebe21a39",
+        "relatedLot": "aaf17a73e8404d39916b9c992d5bae3a",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "currency": "UAH",
@@ -215,7 +215,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4442ee4f8a2f485d
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "cb6704293ed44f9aba53d6614537d344",
+    "id": "76d3eb15e45a4b15859a9dc8b2cead68",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {

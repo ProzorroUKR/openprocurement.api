@@ -1,4 +1,4 @@
-POST /api/2.5/agreements/617574663a03455d892ddd21b4a3d9c7/contracts/a55dba12087948e994bc6090c541f74f/milestones?acc_token=47f9fd2d63d44d3d9a5effcecf16fb82 HTTP/1.0
+POST /api/2.5/agreements/6a527caaceb94ad398f77579768a6d67/contracts/a2ac96f0669b459981b24978efb9c192/milestones?acc_token=47f9fd2d63d44d3d9a5effcecf16fb82 HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -40,7 +40,7 @@ Content-Type: application/json
       }
     ],
     "status": "scheduled",
-    "id": "024f656404ce4b839827bf7f6b465f0c",
+    "id": "cd5d86d574eb4a8d918cbd31d4b3ec6c",
     "dueDate": "2023-04-16T00:00:00+03:00",
     "dateModified": "2023-01-16T00:00:00+02:00"
   }

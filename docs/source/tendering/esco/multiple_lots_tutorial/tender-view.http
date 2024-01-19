@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4442ee4f8a2f485d8235daf1b0b21b05 HTTP/1.0
+GET /api/2.5/tenders/c9f66fb872ea4fb9ae61feaf0933c01b HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -59,7 +59,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "fceb64e35b7d4f3b86fc8c067b403d71",
+        "id": "f71d1f65bf044639a5f93937d4fddc6f",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
@@ -74,7 +74,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "f1212ee9eb8c4cc7ab7e8de0ebe21a39",
+        "id": "aaf17a73e8404d39916b9c992d5bae3a",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
@@ -88,7 +88,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "e025716c694a4213b88e400bf7aea57c",
+        "id": "6ddbb7da4ee64de08a3d8cf5d9f4dd15",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -110,10 +110,10 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "fceb64e35b7d4f3b86fc8c067b403d71"
+        "relatedLot": "f71d1f65bf044639a5f93937d4fddc6f"
       },
       {
-        "id": "62f7f0be52b948c88efcd6ce1b2a7fc3",
+        "id": "9268a2d304c142009c039a17de12f181",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "classification": {
@@ -135,7 +135,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f1212ee9eb8c4cc7ab7e8de0ebe21a39"
+        "relatedLot": "aaf17a73e8404d39916b9c992d5bae3a"
       }
     ],
     "milestones": [
@@ -152,7 +152,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "086b123db5734a05b1b8191857e3d2dc",
+        "id": "47095c6c25b240488e0bcf8fa49286a8",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -178,7 +178,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "id": "4442ee4f8a2f485d8235daf1b0b21b05"
+    "id": "c9f66fb872ea4fb9ae61feaf0933c01b"
   },
   "config": {
     "hasAuction": true,
