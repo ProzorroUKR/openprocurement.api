@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_lotvalue_value,
     validate_related_lot,
 )
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 
 
 class PostLotValue(Model):

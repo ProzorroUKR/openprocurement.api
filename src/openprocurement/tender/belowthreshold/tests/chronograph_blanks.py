@@ -1,6 +1,7 @@
 from datetime import timedelta
 from freezegun import freeze_time
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,

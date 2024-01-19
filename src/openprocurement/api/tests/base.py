@@ -1,11 +1,8 @@
 from contextlib import contextmanager
-from mock import patch
-from datetime import timedelta
 
 from paste.deploy.loadwsgi import loadapp
 from types import FunctionType
 from openprocurement.api.constants import VERSION, TWO_PHASE_COMMIT_FROM
-from openprocurement.api.database import COLLECTION_CLASSES
 from openprocurement.api.utils import get_now
 import webtest
 import unittest
@@ -94,7 +91,7 @@ class BaseWebTest(unittest.TestCase):
 
     @classmethod
     def clean_mongodb(cls):
-        for collection in COLLECTION_CLASSES.keys():
+        for collection in cls.mongodb.collections.keys():
             collection = getattr(cls.mongodb, collection, None)
             if collection:  # plugins are optional
                 collection.flush()

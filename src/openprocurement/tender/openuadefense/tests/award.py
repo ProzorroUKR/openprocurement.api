@@ -4,7 +4,8 @@ import unittest
 from parameterized import parameterized
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,

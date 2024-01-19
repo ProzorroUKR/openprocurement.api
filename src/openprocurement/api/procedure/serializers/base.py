@@ -1,4 +1,4 @@
-from openprocurement.api.utils import to_decimal
+from openprocurement.api.procedure.utils import to_decimal
 
 
 def evaluate_serializer(serializer, value, obj=None):
@@ -28,7 +28,6 @@ class BaseSerializer:
     serializers = {}
     private_fields = None
     whitelist = None
-    # defaults = None
 
     def __init__(self, data: dict):
         self._data = data
@@ -56,11 +55,7 @@ class BaseSerializer:
             elif isinstance(s, list) and len(s) == 0:  # and empty lists
                 continue
             data[k] = s
-        #
-        # if self.defaults:
-        #     for k, v in self.defaults.items():
-        #         if k not in data:
-        #             data[k] = v
+
         return data
 
     def serialize_value(self, key, value):

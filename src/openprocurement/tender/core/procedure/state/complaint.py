@@ -1,6 +1,6 @@
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_tender_config
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     dt_from_iso,

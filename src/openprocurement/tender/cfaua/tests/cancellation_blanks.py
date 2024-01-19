@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import jmespath
 
+import openprocurement.api.procedure.context
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth

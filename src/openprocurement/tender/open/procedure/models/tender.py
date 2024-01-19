@@ -3,7 +3,7 @@ from schematics.types import StringType
 from schematics.types.serializable import serializable
 from schematics.types.compound import ModelType, ListType
 
-from openprocurement.tender.core.procedure.context import get_tender_config
+from openprocurement.api.procedure.context import get_tender_config
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
 )

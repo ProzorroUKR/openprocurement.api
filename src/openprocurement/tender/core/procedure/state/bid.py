@@ -4,8 +4,9 @@ from decimal import Decimal
 from openprocurement.api.utils import error_handler, context_unpack, raise_operation_error
 from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
-from openprocurement.tender.core.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_request, get_tender_config, get_tender
+from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
 
 logger = logging.getLogger(__name__)

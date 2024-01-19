@@ -1,13 +1,13 @@
 from logging import getLogger
 from cornice.resource import resource
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
     update_logging_context,
 )
-from openprocurement.api.views.base import MongodbResourceListing, BaseResource
-from openprocurement.framework.core.procedure.context import get_object_config, get_object
+from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
+from openprocurement.api.procedure.context import get_object, get_object_config
 from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
@@ -26,24 +26,26 @@ LOGGER = getLogger(__name__)
     request_method=("GET",),
 )
 class FrameworksListResource(MongodbResourceListing):
+    listing_name = "Frameworks"
+    listing_default_fields = {
+        "dateModified",
+    }
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "id",
+        "title",
+        "prettyID",
+        "enquiryPeriod",
+        "period",
+        "qualificationPeriod",
+        "status",
+        "frameworkType",
+        "next_check",
+    }
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Frameworks"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {
-            "dateCreated",
-            "dateModified",
-            "id",
-            "title",
-            "prettyID",
-            "enquiryPeriod",
-            "period",
-            "qualificationPeriod",
-            "status",
-            "frameworkType",
-            "next_check",
-        }
         self.db_listing_method = request.registry.mongodb.frameworks.list
 
     def __acl__(self):
@@ -61,7 +63,6 @@ class FrameworksResource(FrameworkBaseResource):
         update_logging_context(self.request, {"framework_id": "__new__"})
         framework = self.request.validated["data"]
         framework_config = get_object_config("framework")
-        self._serialize_config(self.request, "framework", framework_config)
         if framework_config.get("test"):
             framework["mode"] = "test"
         if framework.get("procuringEntity", {}).get("kind") == "defense":
@@ -134,20 +135,18 @@ class FrameworksResource(FrameworkBaseResource):
 )
 class FrameworkSubmissionRequestResource(SubmissionsListResource):
     filter_key = "frameworkID"
-
-    def __init__(self, request, context=None):
-        super().__init__(request, context)
-        self.listing_default_fields = {
-            "dateModified",
-            "dateCreated",
-            "datePublished",
-            "id",
-            "date",
-            "status",
-            "qualificationID",
-            "frameworkID",
-            "tenderers",
-        }
+    listing_default_fields = {
+        "dateModified",
+        "dateCreated",
+        "datePublished",
+        "id",
+        "date",
+        "status",
+        "qualificationID",
+        "frameworkID",
+        "documents",
+        "tenderers",
+    }
 
 
 @resource(
@@ -157,16 +156,13 @@ class FrameworkSubmissionRequestResource(SubmissionsListResource):
 )
 class FrameworkQualificationRequestResource(QualificationsListResource):
     filter_key = "frameworkID"
-
-    def __init__(self, request, context=None):
-        super().__init__(request, context)
-        self.listing_default_fields = {
-            "dateModified",
-            "dateCreated",
-            "id",
-            "frameworkID",
-            "submissionID",
-            "status",
-            "documents",
-            "date",
-        }
+    listing_default_fields = {
+        "dateModified",
+        "dateCreated",
+        "id",
+        "frameworkID",
+        "submissionID",
+        "status",
+        "documents",
+        "date",
+    }

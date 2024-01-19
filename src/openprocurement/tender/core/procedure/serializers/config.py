@@ -1,16 +1,18 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
+from openprocurement.api.procedure.context import get_object_config
+from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_complaints import (
     award_complaints_populator,
     tender_complaints_populator,
     cancellation_complaints_populator,
 )
+from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
 from openprocurement.tender.core.migrations.add_config_min_bids_number import min_bids_number_populator
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
 from openprocurement.tender.core.migrations.add_config_has_prequalification_field import has_prequalification_populator
 from openprocurement.tender.core.migrations.add_config_pre_selection import pre_selection_populator
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 def has_auction_serializer(obj, value):
@@ -98,13 +100,21 @@ def cancellation_complaints_serializer(obj, value):
     return value
 
 
-class TenderConfigSerializer(BaseSerializer):
-    def __init__(self, data: dict):
-        super().__init__(data)
-        for field_name in self.serializers.keys():
-            if field_name not in self._data:
-                self._data[field_name] = None
+def restricted_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        agreements = tender.get("agreements")
+        if agreements and "agreement" not in request.validated:
+            request_fetch_agreement(get_request(), agreements[0]["id"], raise_error=False)
+            agreement_config = get_object_config("agreement")
+            if agreement_config.get("restricted") is True:
+                return True
+        return False
+    return value
 
+
+class TenderConfigSerializer(BaseConfigSerializer):
     serializers = {
         "hasAuction": has_auction_serializer,
         "hasAwardingOrder": has_awarding_order_serializer,
@@ -116,4 +126,5 @@ class TenderConfigSerializer(BaseSerializer):
         "tenderComplaints": tender_complaints_serializer,
         "awardComplaints": award_complaints_serializer,
         "cancellationComplaints": cancellation_complaints_serializer,
+        "restricted": restricted_serializer,
     }

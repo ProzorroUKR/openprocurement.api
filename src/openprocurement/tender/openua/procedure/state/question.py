@@ -1,6 +1,7 @@
 from openprocurement.api.auth import ACCR_4
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState

@@ -14,7 +14,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
 )
 from openprocurement.tender.core.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,

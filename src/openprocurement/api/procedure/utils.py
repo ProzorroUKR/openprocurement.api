@@ -1,7 +1,11 @@
 from datetime import datetime
+from decimal import Decimal
 from hashlib import sha512
 from logging import getLogger
 from uuid import uuid4
+
+import pytz
+from ciso8601 import parse_datetime
 from jsonpatch import make_patch, apply_patch
 
 from openprocurement.api.auth import extract_access_token
@@ -145,3 +149,24 @@ def get_cpv_prefix_length(classifications, default=4):
 
 def get_cpv_uniq_prefixes(classifications, prefix_length):
     return set(i["id"][:prefix_length] for i in classifications)
+
+
+def parse_date(value, default_timezone=pytz.utc):
+    date = parse_datetime(value)
+    if not date.tzinfo:
+        date = default_timezone.localize(date)
+    return date
+
+
+def to_decimal(value):
+    """
+    Convert other to Decimal.
+    """
+    if isinstance(value, Decimal):
+        return value
+    if isinstance(value, int) or isinstance(value, str):
+        return Decimal(value)
+    if isinstance(value, float):
+        return Decimal(repr(value))
+
+    raise TypeError("Unable to convert %s to Decimal" % value)

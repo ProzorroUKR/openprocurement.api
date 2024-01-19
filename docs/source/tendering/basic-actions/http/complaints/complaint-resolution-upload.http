@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/e7af1dc6707d433592a8cd927e02acd0/documents HTTP/1.0
+POST /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/83795c19c7e04e7bb2e902af92d507e5/documents HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "ComplaintResolution.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d88d09359eca46089444736125e42150?Signature=1mTF%2BpvOilDrh1ve42np6Fw3hSe%2F2MNEyzOQF8T1Tse4cR8Bc0i27%2FE7nsHCw0XTmBCSMsEY0c1LP4F%2FPTCqDg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=Bjcp2stkTCPXJh0jeFm7xcjO%2Bd1YXOA%2FYd5hDmZmtBoaVP1mzvOGuZWSAIaXjvwvkRWU%2FVrDz4g3pZOVW6REDw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,17 +15,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/e7af1dc6707d433592a8cd927e02acd0/documents/1c6422fc8d414b9cb6534964642de446
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/83795c19c7e04e7bb2e902af92d507e5/documents/b2e9fb1d8d5c46c3a18b6a781a03dd5a
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d88d09359eca46089444736125e42150?Signature=AOJvXhSL1tIQDaTegUVekr7dAkPABeF%2BZ0aPPSZ5Y5446GQkaEHNO12ICXIDvOSMxMko06SC9mLnzwFBIcdoBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=y2nY0tzn8KyDwg9YuaulyZnCDfozZ7TRTStPKv8qORYijdkzr3rmXQjcF%2FJAzVO06VtH7e%2ByWVWFI1SODaOkAA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "1c6422fc8d414b9cb6534964642de446",
+    "id": "b2e9fb1d8d5c46c3a18b6a781a03dd5a",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "aboveThresholdReviewers"

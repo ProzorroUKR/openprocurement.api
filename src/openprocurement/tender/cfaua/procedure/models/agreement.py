@@ -9,7 +9,7 @@ from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import AgreementContract
 from openprocurement.tender.cfaua.procedure.models.item import Item

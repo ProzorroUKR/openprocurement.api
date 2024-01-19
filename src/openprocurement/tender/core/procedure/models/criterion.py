@@ -25,7 +25,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_value_type,
     validate_object_id_uniq,
 )
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.identifier import LegislationIdentifier
 from logging import getLogger
 

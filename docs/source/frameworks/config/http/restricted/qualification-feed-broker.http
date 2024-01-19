@@ -1,0 +1,36 @@
+GET /api/2.5/qualifications?opt_fields=frameworkID,status,documents HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "frameworkID": "6fc8f6c72fdb427d9dfb18b6d9aba8fd",
+      "status": "pending",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "documents": [
+        {
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "укр.doc",
+          "format": "application/msword",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/264d8903584148fb89d77bbb7d18ce58/documents/65846ad03cd8431bbab6e33c489aa674?download=7b79a13cee8a432da99736d71b78fa04",
+          "language": "uk",
+          "id": "65846ad03cd8431bbab6e33c489aa674",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2023-10-10T01:00:00+03:00"
+        }
+      ],
+      "id": "264d8903584148fb89d77bbb7d18ce58"
+    }
+  ],
+  "next_page": {
+    "offset": 1696888800.0,
+    "path": "/api/2.5/qualifications?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0"
+  }
+}
+

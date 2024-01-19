@@ -7,7 +7,8 @@ from mock import MagicMock, call, patch
 from pyramid.exceptions import URLDecodeError
 from schematics.types import StringType
 
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
 from openprocurement.framework.core.tests.framework import Framework
 from openprocurement.framework.core.utils import (

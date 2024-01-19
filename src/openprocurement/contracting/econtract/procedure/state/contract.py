@@ -2,13 +2,13 @@ from logging import getLogger
 from datetime import datetime
 
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.api.utils import raise_operation_error, context_unpack, get_now, to_decimal
+from openprocurement.api.utils import raise_operation_error, context_unpack, get_now
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
 )
-from openprocurement.api.procedure.utils import get_items
+from openprocurement.api.procedure.utils import get_items, to_decimal
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
 from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractStateMixing

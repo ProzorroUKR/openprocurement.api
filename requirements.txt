@@ -34,6 +34,7 @@ sentry-sdk==1.10.1
 cornice==4.0.1
 WebOb==1.8.6
 jsonschema==4.17.3
+jsonpath-ng==1.6.0
 
 git+https://github.com/ProzorroUKR/request_id_middleware.git@0.1.2#egg=request_id_middleware
 git+https://github.com/ProzorroUKR/openprocurement.subscribers.serverid.git@2.0#egg=openprocurement.subscribers.serverid
@@ -49,4 +50,4 @@ git+https://github.com/ProzorroUKR/barbecue.git@0.2#egg=barbecue
 # https://github.com/ProzorroUKR/openprocurement.audit.api
 # https://github.com/ProzorroUKR/prozorro_tasks
 
-git+https://github.com/ProzorroUKR/standards.git@1.0.81#egg=standards
+git+https://github.com/ProzorroUKR/standards.git@a362a094081acd956978d3b778e4d649720c12a9#egg=standards

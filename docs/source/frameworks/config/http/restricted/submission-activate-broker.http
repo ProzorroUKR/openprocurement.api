@@ -1,0 +1,68 @@
+PATCH /api/2.5/submissions/5c92716ceb9243c3822cdd8bdc60c735?acc_token=dc7c4453beb54122b4a0186f0800f3ef HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        },
+        "scale": "micro"
+      }
+    ],
+    "documents": [
+      {
+        "id": "18d227b25f2b4100ab6f7e46f76557ff",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "укр.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/881d14f2c96d4d3f969444e886f17d19?Signature=%2BYSWeyuhx29OQCi9wPrrL402c21EiQtIUycwntSEUhH%2FmLNV53qa8lfDWokPNdAUo8tDJOuw1CH2BX58%2Be34AQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
+    "frameworkID": "6fc8f6c72fdb427d9dfb18b6d9aba8fd",
+    "status": "active",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "owner": "broker",
+    "submissionType": "dynamicPurchasingSystem",
+    "qualificationID": "264d8903584148fb89d77bbb7d18ce58",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "id": "5c92716ceb9243c3822cdd8bdc60c735"
+  },
+  "config": {
+    "restricted": true
+  }
+}
+

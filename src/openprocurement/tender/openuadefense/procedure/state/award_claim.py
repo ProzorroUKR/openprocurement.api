@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
 from openprocurement.api.context import get_now
 from openprocurement.api.constants import NO_DEFENSE_AWARD_CLAIMS_FROM

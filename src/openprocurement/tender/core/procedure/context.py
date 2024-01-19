@@ -1,47 +1,30 @@
 from typing import Union
 from openprocurement.api.context import get_request
-
-
-def get_tender() -> Union[dict, None]:
-    tender = get_request().validated.get("tender")
-    return tender
-
-
-def get_tender_config() -> Union[dict, None]:
-    tender = get_request().validated.get("tender_config", {})
-    return tender
+from openprocurement.api.procedure.context import get_object
 
 
 def get_award() -> Union[dict, None]:
-    award = get_request().validated.get("award")
-    return award
-
-
-def get_contract() -> Union[dict, None]:
-    contract = get_request().validated.get("contract")
-    return contract
+    return get_object("award")
 
 
 def get_cancellation() -> Union[dict, None]:
-    cancellation = get_request().validated.get("cancellation")
-    return cancellation
+    return get_object("cancellation")
 
 
 def get_bid() -> dict:
-    bid = get_request().validated.get("bid")
-    return bid
+    return get_object("bid")
 
 
 def get_document() -> dict:
-    return get_request().validated.get("document")
+    return get_object("document")
 
 
 def get_complaint() -> dict:
-    return get_request().validated.get("complaint")
+    return get_object("complaint")
 
 
 def get_post() -> dict:
-    return get_request().validated.get("post")
+    return get_object("post")
 
 
 def get_bids_before_auction_results_context():

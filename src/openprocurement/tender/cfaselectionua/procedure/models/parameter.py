@@ -1,4 +1,4 @@
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.types import StringDecimalType
 from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
 from openprocurement.tender.core.procedure.models.parameter import (

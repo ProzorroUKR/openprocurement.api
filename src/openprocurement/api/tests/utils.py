@@ -2,7 +2,8 @@
 from pytz import utc, timezone
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value, parse_date
+from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value
+from openprocurement.api.procedure.utils import parse_date
 from pyramid.testing import DummyRequest, testConfig
 from requests.exceptions import ConnectionError
 from datetime import datetime

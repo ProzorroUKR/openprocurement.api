@@ -7,7 +7,8 @@ from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants import ARTICLE_16, ARTICLE_17, OTHER_CRITERIA, VIOLATION_AMCU
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.tender.core.procedure.context import get_tender, get_complaint
+from openprocurement.tender.core.procedure.context import get_complaint
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import Argument
 from openprocurement.tender.core.procedure.models.complaint_objection_requested_remedy import RequestedRemedy
 

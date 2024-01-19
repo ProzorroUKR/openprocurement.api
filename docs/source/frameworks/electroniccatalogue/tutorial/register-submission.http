@@ -76,6 +76,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/307a5eb4da89
     "token": "680e74861490448a9177bf199cb6395b",
     "transfer": "2c7416d6b206452588a7e3956cad175d"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

@@ -4,7 +4,7 @@ from openprocurement.framework.cfaua.procedure.models.agreement import (
     PatchTerminatedAgreement,
     PatchAgreementByAdministrator,
 )
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 
 
 class AgreementState(BaseState):

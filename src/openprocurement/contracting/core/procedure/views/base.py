@@ -1,11 +1,8 @@
-from copy import deepcopy
-
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import get_tender_by_id
+from openprocurement.api.utils import get_tender_by_id, request_init_contract, request_init_tender
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 
 
 class ContractBaseResource(BaseResource):
@@ -42,15 +39,15 @@ class ContractBaseResource(BaseResource):
 
             match_dict = request.matchdict
             if match_dict and match_dict.get("contract_id"):
-                request.validated["contract_src"] = request.contract_doc
-                contract = request.validated["contract"] = deepcopy(request.validated["contract_src"])
-                if "buyer" in contract:
-                    request.validated["tender"] = get_tender_by_id(request, contract["tender_id"])
-                    self.request.validated["tender_src"] = deepcopy(request.validated["tender"])
-                    tender_config = request.validated["tender"].pop("config", None) or {}
-                    self.request.validated["tender_config"] = TenderConfigSerializer(tender_config).data
+
+                contract_doc = request.contract_doc
+                request_init_contract(request, contract_doc)
+
+                if "buyer" in contract_doc and request.method not in ("GET", "HEAD"):
+                    tender_doc = get_tender_by_id(request, contract_doc["tender_id"])
+                    request_init_tender(request, tender_doc)
                     award = [
-                        award for award in request.validated["tender"].get("awards", [])
-                        if award.get("id") == contract.get("awardID")
+                        award for award in tender_doc.get("awards", [])
+                        if award.get("id") == contract_doc.get("awardID")
                     ][0]
                     request.validated["award"] = award

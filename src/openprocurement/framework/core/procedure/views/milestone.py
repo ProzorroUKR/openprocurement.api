@@ -7,8 +7,7 @@ from openprocurement.api.utils import (
 from openprocurement.framework.core.procedure.serializers.milestone import MilestoneSerializer
 from openprocurement.framework.core.procedure.state.milestone import MilestoneState
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
-from openprocurement.framework.core.procedure.validation import validate_restricted_access
-from openprocurement.framework.core.procedure.context import get_object
+from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.utils import get_items, set_item
@@ -34,9 +33,6 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
             resolve_milestone(request)
 
     @json_view(
-        validators=(
-            validate_restricted_access("agreement")
-        ),
         permission="view_framework",
     )
     def collection_get(self):
@@ -45,9 +41,6 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         return {"data": data}
 
     @json_view(
-        validators=(
-            validate_restricted_access("agreement")
-        ),
         permission="view_framework",
     )
     def get(self):

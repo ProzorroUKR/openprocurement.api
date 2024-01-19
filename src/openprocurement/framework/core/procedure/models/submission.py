@@ -7,13 +7,12 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import get_now, get_framework_by_id
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.organization import (
     SubmissionBusinessOrganization,
     SubmissionBusinessOrganization,
 )
-from openprocurement.framework.core.utils import get_framework_by_id
 from openprocurement.framework.dps.constants import DPS_TYPE
 
 
@@ -32,7 +31,7 @@ class PostSubmission(Model):
     status = StringType(choices=["draft"], default="draft")
 
     def validate_frameworkID(self, data, value):
-        framework = get_framework_by_id(get_request(), value)
+        framework = get_framework_by_id(get_request(), value, raise_error=False)
         if not framework:
             raise ValidationError("frameworkID must be one of exists frameworks")
 
@@ -121,5 +120,5 @@ class SubmissionConfig(Model):
                 if value is True:
                     raise ValidationError("restricted must be false for non-defense procuring entity")
         else:
-            if value is not None:
-                raise ValidationError("restricted not allowed for this framework type")
+            if value is True:
+                raise ValidationError("restricted must be false for this framework type")

@@ -1,6 +1,6 @@
 from schematics.types import StringType
 
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue as BaseLotValue,
     PostLotValue as BasePostLotValue,

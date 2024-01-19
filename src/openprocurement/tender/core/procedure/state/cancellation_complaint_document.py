@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
-from openprocurement.tender.core.procedure.context import get_tender, get_cancellation
+from openprocurement.tender.core.procedure.context import get_cancellation
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 

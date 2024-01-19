@@ -3,11 +3,10 @@ from typing import TYPE_CHECKING
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.context import (
-    get_tender,
     get_request,
     get_award,
-    get_tender_config,
 )
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     get_contracts_values_related_to_patched_contract,
     contracts_allow_to_complete,
@@ -20,8 +19,8 @@ from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import (
     raise_operation_error,
     context_unpack,
-    to_decimal,
 )
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.constants import (
     UNIT_PRICE_REQUIRED_FROM,
     NEW_DEFENSE_COMPLAINTS_FROM,

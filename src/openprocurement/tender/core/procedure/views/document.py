@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.serializers.document import DocumentS
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.validation import (
     validate_input_data,

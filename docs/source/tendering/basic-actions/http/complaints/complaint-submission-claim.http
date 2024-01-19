@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints HTTP/1.0
+POST /api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c098daa4d4e4be1172b/complaints/2e09eb687f6e4ac1935bf3e59634e621
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/bff5dc599fd148b8bdc3e86b4f10c706/complaints/ab8d832478e04feb834e7d9b6e342545
 
 {
   "data": {
@@ -65,14 +65,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9d280cd53c4f4c09
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "id": "2e09eb687f6e4ac1935bf3e59634e621",
+    "id": "ab8d832478e04feb834e7d9b6e342545",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "dateSubmitted": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "5bea57fa8f134290bdfd4b6506b29c3a",
-    "transfer": "bcabfa4c460e494387190ee41cf2a177"
+    "token": "cb5abce229bc4c89b70bfc25517b1586",
+    "transfer": "6390bec769854a47bb3209a3a1a50366"
   }
 }
 

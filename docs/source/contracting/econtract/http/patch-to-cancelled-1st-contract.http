@@ -99,6 +99,9 @@ Content-Type: application/json
     "bid_owner": "broker",
     "date": "2023-10-10T01:00:01+03:00",
     "id": "baaae20021a74befa8c02cc7142fc2b9"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

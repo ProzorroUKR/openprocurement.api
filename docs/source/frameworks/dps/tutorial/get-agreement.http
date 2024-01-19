@@ -98,6 +98,8 @@ Content-Type: application/json
     "dateCreated": "2023-10-26T01:00:00+03:00",
     "id": "e49ec78938b4480bbe88156f419f0445"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

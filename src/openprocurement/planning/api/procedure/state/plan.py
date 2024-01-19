@@ -9,7 +9,7 @@ from openprocurement.api.context import get_request, get_now
 from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL, PROCEDURES
 from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.pricequotation.constants import PQ
 
 

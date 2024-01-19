@@ -14,10 +14,9 @@ from openprocurement.api.constants import (
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender,
-    get_tender_config,
     get_bids_before_auction_results_context,
 )
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     filter_features,
     tender_created_after_2020_rules, activate_bids,
@@ -36,8 +35,10 @@ if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
         ShouldStartAfterMixing,
         ChronographEventsMixing,
-        BaseState,
     )
+    from openprocurement.api.procedure.state.base import BaseState
+
+
     class baseclass(
         ShouldStartAfterMixing,
         ChronographEventsMixing,

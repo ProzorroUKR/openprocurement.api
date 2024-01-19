@@ -1,13 +1,12 @@
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context,
+    update_logging_context, request_fetch_agreement,
 )
-from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.tender.core.procedure.context import (
-    get_tender_config,
-    get_tender,
-)
+from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.api.mask import mask_object_data
+from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.utils import (
     set_ownership,
     save_tender,
@@ -15,7 +14,7 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.api.mask import mask_object_data
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from pyramid.security import (
     Allow,
     Everyone,
@@ -34,31 +33,32 @@ LOGGER = logging.getLogger(__name__)
     description="Tender listing",
     request_method=("GET",),  # all "GET /tenders" requests go here
 )
-class TendersListResource(MongodbResourceListing):
-    mask_required_fields = {"is_masked", "procuringEntity"}
+class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing):
+    listing_name = "Tenders"
+    listing_default_fields = {"dateModified"}
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "qualificationPeriod",
+        "auctionPeriod",
+        "awardPeriod",
+        "status",
+        "tenderID",
+        "lots",
+        "contracts",
+        "agreements",
+        "procuringEntity",
+        "procurementMethodType",
+        "procurementMethod",
+        "next_check",
+        "mode",
+        "stage2TenderID",
+    }
+    mask_deprecated_required_fields = {"is_masked", "procuringEntity"}
+    mask_mapping = TENDER_MASK_MAPPING
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
-        self.listing_name = "Tenders"
-        self.listing_default_fields = {"dateModified"}
-        self.listing_allowed_fields = {
-            "dateCreated",
-            "dateModified",
-            "qualificationPeriod",
-            "auctionPeriod",
-            "awardPeriod",
-            "status",
-            "tenderID",
-            "lots",
-            "contracts",
-            "agreements",
-            "procuringEntity",
-            "procurementMethodType",
-            "procurementMethod",
-            "next_check",
-            "mode",
-            "stage2TenderID",
-        }
         self.db_listing_method = request.registry.mongodb.tenders.list
 
     def __acl__(self):
@@ -68,16 +68,13 @@ class TendersListResource(MongodbResourceListing):
         return acl
 
     def db_fields(self, fields):
-        return fields | self.mask_required_fields
+        fields = super().db_fields(fields)
+        return fields | self.mask_deprecated_required_fields
 
     def filter_results_fields(self, results, fields):
-        all_fields = fields | {"id"}
         for r in results:
-            mask_object_data(self.request, r)
-            for k in list(r.keys()):
-                if k not in all_fields:
-                    del r[k]
-        return results
+            mask_object_data_deprecated(self.request, r)
+        return super().filter_results_fields(results, fields)
 
 
 class TendersResource(TenderBaseResource):
@@ -86,7 +83,9 @@ class TendersResource(TenderBaseResource):
     def collection_post(self):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
-        self._serialize_config(self.request, get_tender_config())
+        agreements = tender.get("agreements")
+        if agreements and "agreement" not in self.request.validated:
+            request_fetch_agreement(self.request, agreements[0]["id"], raise_error=False)
         access = set_ownership(tender, self.request)
         self.state.on_post(tender)
         self.request.validated["tender"] = tender

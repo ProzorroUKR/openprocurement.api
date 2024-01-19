@@ -1,5 +1,4 @@
 from datetime import timedelta
-from copy import deepcopy
 from functools import wraps
 from logging import getLogger
 from dateorro import (
@@ -14,8 +13,7 @@ from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, 
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
-    get_now,
-    raise_operation_error,
+    get_now, get_registry_object,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE
@@ -120,28 +118,23 @@ class AgreementTypePredicate(object):
 
 
 def register_framework_frameworkType(config, model):
-    """Register a framework frameworkType.
-    :param config:
-        The pyramid configuration object that will be populated.
-    :param model:
-        The framework model class
-    """
-    config.registry.framework_frameworkTypes[model.frameworkType.default] = model
+    registry_object = get_registry_object(config.registry, "framework_frameworkTypes", default={})
+    registry_object[model.frameworkType.default] = model
 
 
 def register_submission_submissionType(config, model):
-    submission_type = model.submissionType.default
-    config.registry.submission_submissionTypes[submission_type] = model
+    registry_object = get_registry_object(config.registry, "submission_submissionTypes", default={})
+    registry_object[model.submissionType.default] = model
 
 
 def register_qualification_qualificationType(config, model):
-    qualification_type = model.qualificationType.default
-    config.registry.qualification_qualificationTypes[qualification_type] = model
+    registry_object = get_registry_object(config.registry, "qualification_qualificationTypes", default={})
+    registry_object[model.qualificationType.default] = model
 
 
 def register_agreement_agreementType(config, model):
-    agreement_type = model.agreementType.default
-    config.registry.agreement_agreementTypes[agreement_type] = model
+    registry_object = get_registry_object(config.registry, "agreement_agreementTypes", default={})
+    registry_object[model.agreementType.default] = model
 
 
 def object_from_data(request, data, obj_name, raise_error=True, create=True):
@@ -249,43 +242,6 @@ def acceleratable(wrapped):
         )
 
     return wrapper
-
-
-def get_submission_by_id(request, submission_id):
-    if submission_id:
-        return request.registry.mongodb.submissions.get(submission_id)
-
-
-def get_framework_by_id(request, framework_id):
-    if framework_id:
-        return request.registry.mongodb.frameworks.get(framework_id)
-
-
-def get_agreement_by_id(request, agreement_id):
-    if agreement_id:
-        return request.registry.mongodb.agreements.get(agreement_id)
-
-
-def request_fetch_submission(request, submission_id):
-    submission = request.registry.mongodb.submissions.get(submission_id)
-    if not submission:
-        raise_operation_error(
-            request,
-            "submissionID must be one of existing submissions",
-        )
-    request.validated["submission"] = submission
-    request.validated["submission_src"] = deepcopy(submission)
-
-
-def request_fetch_agreement(request, agreement_id):
-    agreement = request.registry.mongodb.agreements.get(agreement_id)
-    if not agreement:
-        raise_operation_error(
-            request,
-            "agreementID must be one of existing agreemens",
-        )
-    request.validated["agreement"] = agreement
-    request.validated["agreement_src"] = deepcopy(agreement)
 
 
 @acceleratable

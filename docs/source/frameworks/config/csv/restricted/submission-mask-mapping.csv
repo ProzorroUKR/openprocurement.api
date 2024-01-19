@@ -1,0 +1,14 @@
+rule,value
+$.tenderers[*].address.streetAddress,Приховано
+$.tenderers[*].address.locality,Приховано
+$.tenderers[*].address.region,Приховано
+$.tenderers[*].address.postalCode,Приховано
+$.tenderers[*].address.countryName,Приховано
+$.tenderers[*].address.countryName_en,Hidden
+$.tenderers[*].address.countryName_ru,Приховано
+$.tenderers[*].contactPoint.telephone,Приховано
+$.tenderers[*].contactPoint.url,Приховано
+$.tenderers[*].contactPoint.name,Приховано
+$..documents[*].documentType,Приховано
+$..documents[*].title,Приховано
+$..documents[*].url,Приховано

@@ -8,6 +8,7 @@
         "hasPrequalification": false,
         "hasValueRestriction": false,
         "minBidsNumber": 1,
+        "restricted": false,
         "tenderComplaints": true,
         "valueCurrencyEquality": true
     },

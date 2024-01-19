@@ -3,7 +3,7 @@ from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.openeu.procedure.models.bid import (
     Bid as BaseBid,

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0e8a0b331d954b51a92db9190c9a0489/qualifications/27906d14e54649399f630d951d5c600e/complaints/50852866e4f141d08c407984a3b01227 HTTP/1.0
+PATCH /api/2.5/tenders/53abca43c14f4515b7f912c00c37cbd4/qualifications/be777a5b462c47b4a57628796c466162/complaints/cbc95d42d43c440bbc7346c5c66935d0 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,18 +17,18 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "50852866e4f141d08c407984a3b01227",
+    "id": "cbc95d42d43c440bbc7346c5c66935d0",
     "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:01+03:00",
     "status": "accepted",
     "documents": [
       {
-        "id": "072e7db0206e4085bd4d39634ced5d52",
+        "id": "00507402bd81472099cc04ab1e47eb8a",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/720538aa95fa4a9fad02f6420ef0cc22?Signature=zAiHb01B9tN7weejj6IgEYcRaBTqrMbjAh7Jhs4SuqTm%2Bo1rNJ95N2TGJ8xEUu2dNqr806Lsu8Q307ZXOOO1DQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4f4338770f5d44ce84251ce3d6a8f0a4?Signature=EwzKj917ojXxFNkQ4ZSk5IMQEcXsDa%2BhfkjgF84WKomRiP0BG%2FRGPFaXLSJwZgB5cBbPK5WI219Npt6B0xY4CA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "complaint_owner",
@@ -36,8 +36,8 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "8b38edcddb064ef3b0ed49cd5f49953a",
-    "bid_id": "4ce64dcce01b4e5d9cca9350dc21988d",
+    "relatedLot": "a88d14efdf394577ac81f7caf39ecabe",
+    "bid_id": "6e63953ca56f40c292f5012d6f2e8b21",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {

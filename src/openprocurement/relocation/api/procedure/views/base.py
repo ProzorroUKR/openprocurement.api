@@ -1,5 +1,6 @@
-from copy import deepcopy
 from pyramid.security import Allow, ALL_PERMISSIONS
+
+from openprocurement.api.utils import request_init_object, request_init_transfer
 from openprocurement.api.views.base import BaseResource
 
 
@@ -20,5 +21,4 @@ class TransferBaseResource(BaseResource):
         if not context:
             match_dict = request.matchdict
             if match_dict and match_dict.get("transfer_id"):
-                request.validated["transfer_src"] = request.transfer_doc
-                request.validated["transfer"] = deepcopy(request.validated["transfer_src"])
+                request_init_transfer(request, request.transfer_doc)

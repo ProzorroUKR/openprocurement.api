@@ -1,0 +1,26 @@
+PATCH /api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0/questions/75359f8d10fc4dfda58a4f3c7f18dc5a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "answer": "Таблицю додано в файлі"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "permission",
+      "description": "Forbidden"
+    }
+  ]
+}
+

@@ -1,4 +1,5 @@
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 

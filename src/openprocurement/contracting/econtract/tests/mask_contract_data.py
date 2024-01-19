@@ -2,14 +2,14 @@ from hashlib import sha224
 
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import singleton_app, app, change_auth
-from openprocurement.api.mask import mask_object_data
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from unittest.mock import patch, MagicMock
 from copy import deepcopy
 import json
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
     sha224("00000000".encode()).hexdigest(),
 ])
 def test_mask_function():
@@ -18,14 +18,14 @@ def test_mask_function():
     initial_data = deepcopy(data)
 
     request = MagicMock()
-    mask_object_data(request, data)
+    mask_object_data_deprecated(request, data)
 
     assert data["items"][0]["description"] == "00000000000000000000000000000000"
     assert data["_id"] == initial_data["_id"]
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
     sha224("00000000".encode()).hexdigest(),
 ])
 def test_mask_contract_by_identifier(app):
@@ -62,7 +62,7 @@ def test_mask_contract_by_identifier(app):
     assert data["mode"] == "test"
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_by_is_masked(app):
     set_now()
     with open(f"src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
@@ -131,9 +131,9 @@ def test_mask_contract_by_is_masked(app):
     assert "is_masked" not in app.app.registry.mongodb.contracts.get(id)
 
 
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask.MASK_IDENTIFIER_IDS", [])
-@patch("openprocurement.api.mask.MASK_OBJECT_DATA_SINGLE", True)
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
+@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [])
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_contract_skipped(app):
     set_now()
     with open(f"src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:

@@ -220,6 +220,7 @@ test_tender_below_config = {
     "tenderComplaints": False,
     "awardComplaints": False,
     "cancellationComplaints": False,
+    "restricted": False,
 }
 
 

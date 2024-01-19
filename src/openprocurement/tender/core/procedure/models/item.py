@@ -13,7 +13,7 @@ from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.unit import Unit
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_obj_const_active
 from schematics.types import (
     StringType,

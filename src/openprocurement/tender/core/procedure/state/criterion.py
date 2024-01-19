@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_id_uniq
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 

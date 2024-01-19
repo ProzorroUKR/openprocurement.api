@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_tender, get_complaint
+from openprocurement.tender.core.procedure.context import get_complaint
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.constants import POST_SUBMIT_TIME

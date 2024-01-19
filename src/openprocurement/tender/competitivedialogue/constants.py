@@ -22,6 +22,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
@@ -34,4 +35,5 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }

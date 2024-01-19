@@ -7,7 +7,7 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.reference import Reference
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import bid_in_invalid_status
 
 

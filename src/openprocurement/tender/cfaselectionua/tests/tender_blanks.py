@@ -2,7 +2,8 @@ from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import (
     ROUTE_PREFIX,
     SANDBOX_MODE,

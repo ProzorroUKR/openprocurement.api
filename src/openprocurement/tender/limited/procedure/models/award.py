@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.models.organization import (
     ContactLessBusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from schematics.types import StringType, MD5Type, BooleanType, BaseType
 from schematics.types.serializable import serializable
 

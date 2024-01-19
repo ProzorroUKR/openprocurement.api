@@ -8,7 +8,7 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.validation import base_validate_operation_ecriteria_objects
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.criterion import BaseCriterionStateMixin

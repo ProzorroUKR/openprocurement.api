@@ -2,6 +2,8 @@
 from logging import getLogger
 
 from openprocurement.api.mask import mask_object_data
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.utils import extract_path
 
@@ -33,7 +35,8 @@ def extract_contract_doc(request):
             request.errors.status = 404
             raise error_handler(request)
 
-        mask_object_data(request, doc)  # war time measures
+        mask_object_data_deprecated(request, doc)  # war time measures
+        mask_object_data(request, doc, CONTRACT_MASK_MAPPING)
 
         return doc
 

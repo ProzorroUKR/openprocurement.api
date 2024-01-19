@@ -6,9 +6,24 @@ import csv
 
 import os
 from copy import deepcopy
+from hashlib import sha512
+from uuid import uuid4
 
 import standards
 
+from openprocurement.api.context import get_now, set_now
+from openprocurement.api.mask import MASK_STRING
+from openprocurement.api.tests.base import change_auth
+from openprocurement.contracting.api.tests.data import test_contract_data
+from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.framework.dps.tests.base import (
+    test_framework_dps_data,
+    test_submission_data,
+    test_framework_dps_config,
+    test_submission_config,
+)
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.open.tests.base import test_tender_dps_config
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
@@ -16,6 +31,7 @@ from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
+    test_contract_guarantee_criteria,
 )
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 from tests.base.constants import (
@@ -99,6 +115,22 @@ class TenderConfigCSVMixin:
         for config_name, config_schema in schema["properties"].items():
             row = self.get_config_row(config_name, config_schema)
             rows.append(row)
+
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+    def write_config_mask_csv(self, mapping, file_path):
+        headers = [
+            "rule",
+            "value",
+        ]
+
+        rows = []
+
+        for rule, value in mapping.items():
+            rows.append([rule, value])
 
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
@@ -2158,3 +2190,293 @@ class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
                 config_name=config_name,
                 file_path=TARGET_CSV_DIR + f"{config_name}-values.csv",
             )
+
+
+
+class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_restricted_values_csv(self):
+        self.write_config_values_csv(
+            config_name="restricted",
+            file_path=TARGET_CSV_DIR + "restricted-values.csv",
+        )
+
+    def test_docs_restricted_tender_mask_mapping_csv(self):
+        self.write_config_mask_csv(
+            mapping=TENDER_MASK_MAPPING,
+            file_path=TARGET_CSV_DIR + "tender-mask-mapping.csv",
+        )
+
+    def test_docs_restricted_contract_mask_mapping_csv(self):
+        self.write_config_mask_csv(
+            mapping=CONTRACT_MASK_MAPPING,
+            file_path=TARGET_CSV_DIR + "contract-mask-mapping.csv",
+        )
+
+    def create_framework(self):
+        data = deepcopy(test_framework_dps_data)
+        data["qualificationPeriod"] = {
+            "endDate": (get_now() + datetime.timedelta(days=120)).isoformat()
+        }
+        response = self.app.post_json("/frameworks", {
+            "data": data,
+            "config": test_framework_dps_config,
+        })
+        self.framework_token = response.json["access"]["token"]
+        self.framework_id = response.json["data"]["id"]
+        return response
+
+    def get_framework(self):
+        url = "/frameworks/{}".format(self.framework_id)
+        response = self.app.get(url)
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        return response
+
+    def activate_framework(self):
+        response = self.app.patch_json(
+            "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
+            {"data": {"status": "active"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        return response
+
+    def create_submission(self):
+        data = deepcopy(test_submission_data)
+        data["frameworkID"] = self.framework_id
+        data["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        response = self.app.post_json("/submissions", {
+            "data": data,
+            "config": test_submission_config,
+        })
+        self.submission_id = response.json["data"]["id"]
+        self.submission_token = response.json["access"]["token"]
+        return response
+
+    def activate_submission(self):
+        response = self.app.patch_json(
+            "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.qualification_id = response.json["data"]["qualificationID"]
+        return response
+
+    def activate_qualification(self):
+        response = self.app.post_json(
+            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            {"data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }}
+        )
+        self.assertEqual(response.status, "201 Created")
+        response = self.app.patch_json(
+            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            {"data": {"status": "active"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        return response
+
+    def test_docs_restricted(self):
+        set_now()
+        request_path = '/tenders?opt_pretty=1'
+
+        # Create agreement
+
+        self.tick(datetime.timedelta(days=-15))
+
+        self.create_framework()
+        self.activate_framework()
+
+        # TODO: fix tick method
+        self.tick(datetime.timedelta(days=30))
+
+        self.create_submission()
+        self.activate_submission()
+        self.activate_qualification()
+
+        self.create_submission()
+        self.activate_submission()
+        self.activate_qualification()
+
+        self.create_submission()
+        self.activate_submission()
+        self.activate_qualification()
+
+        response = self.get_framework()
+        self.agreement_id = response.json["data"]["agreementID"]
+
+        # Generate criteria for tenders
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        for i in range(len(test_criteria_data)):
+            classification_id = test_criteria_data[i]['classification']['id']
+            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
+                del test_criteria_data[i]
+                break
+        test_criteria_data.extend(test_language_criteria)
+        test_criteria_data.extend(test_contract_guarantee_criteria)
+
+        # Creating tender
+
+        data = deepcopy(test_docs_tender_dps)
+        data["items"] = [data["items"][0]]
+        data["procurementMethodType"] = "competitiveOrdering"
+        data['procuringEntity']['identifier']['id'] = test_framework_dps_data['procuringEntity']['identifier']['id']
+
+        data['agreements'] = [{'id': self.agreement_id}]
+
+        lot = deepcopy(test_docs_lots[0])
+        lot['value'] = data['value']
+        lot['minimalStep'] = data['minimalStep']
+        lot['id'] = uuid4().hex
+
+        data['lots'] = [lot]
+
+        config = deepcopy(test_tender_dps_config)
+
+        for item in data['items']:
+            item['relatedLot'] = lot['id']
+            item['deliveryDate'] = {
+                "startDate": (get_now() + datetime.timedelta(days=2)).isoformat(),
+                "endDate": (get_now() + datetime.timedelta(days=5)).isoformat()
+            }
+            item['classification']['id'] = test_framework_dps_data['classification']['id']
+
+        # Create not masked tender
+        with open(TARGET_DIR + 'restricted-false-tender-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': data, 'config': config})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = tender["lots"][0]["id"]
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # add criteria
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_criteria_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.tendering"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # Get not masked tender
+        with change_auth(self.app, None):
+            with open(TARGET_DIR + 'restricted-false-tender-get-anon.http', 'w') as self.app.file_obj:
+                response = self.app.get('/tenders/{}'.format(tender_id))
+                self.assertEqual(response.status, '200 OK')
+
+        assert response.json["data"]["procuringEntity"]["name"] != MASK_STRING
+
+        # Create masked tender
+        agreement_doc = self.mongodb.agreements.get(self.agreement_id)
+        agreement_doc["config"]["restricted"] = True
+        self.mongodb.agreements.save(agreement_doc)
+
+        config["restricted"] = True
+
+        with open(TARGET_DIR + 'restricted-true-tender-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': data, 'config': config})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = tender["lots"][0]["id"]
+        with open(TARGET_DIR + 'tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                {"data": {"items": items}}
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        # add criteria
+
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token),
+            {'data': test_criteria_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+            {'data': {"status": "active.tendering"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # Get masked tender by anon (should be masked)
+        with change_auth(self.app, None):
+            with open(TARGET_DIR + 'restricted-true-tender-get-anon.http', 'w') as self.app.file_obj:
+                response = self.app.get('/tenders/{}'.format(tender_id))
+                self.assertEqual(response.status, '200 OK')
+
+        assert response.json["data"]["items"][0]["deliveryAddress"]["streetAddress"] == MASK_STRING
+
+        # Get not masked tender by broker (should not be masked)
+        with open(TARGET_DIR + 'restricted-true-tender-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender_id))
+            self.assertEqual(response.status, '200 OK')
+
+        assert response.json["data"]["procuringEntity"]["name"] != MASK_STRING
+
+        # Get feed by anon
+        with change_auth(self.app, None):
+            with open(TARGET_DIR + 'restricted-tender-feed-anon.http', 'w') as self.app.file_obj:
+                response = self.app.get('/tenders?opt_fields=procuringEntity')
+                self.assertEqual(response.status, '200 OK')
+
+        # Get feed by broker
+        with open(TARGET_DIR + 'restricted-tender-feed.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders?opt_fields=procuringEntity')
+            self.assertEqual(response.status, '200 OK')
+
+        # Create contract
+        data = deepcopy(test_contract_data)
+        data.update(
+            {
+                "dateSigned": get_now().isoformat(),
+                "id": uuid4().hex,
+                "tender_id": tender_id,
+                "tender_token": sha512(uuid4().hex.encode()).hexdigest()
+            }
+        )
+
+        with change_auth(self.app, ('Basic', ('contracting', ''))):
+            response = self.app.post_json('/contracts', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        contract = response.json['data']
+        contract_id = contract['id']
+
+        with change_auth(self.app, None):
+            with open(TARGET_DIR + 'restricted-true-contract-get-anon.http', 'w') as self.app.file_obj:
+                response = self.app.get('/contracts/{}'.format(contract_id))
+                self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'restricted-true-contract-get.http', 'w') as self.app.file_obj:
+            response = self.app.get('/contracts/{}'.format(contract_id))
+            self.assertEqual(response.status, '200 OK')

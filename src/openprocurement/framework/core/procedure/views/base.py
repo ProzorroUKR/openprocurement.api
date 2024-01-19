@@ -1,22 +1,28 @@
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import raise_operation_error, context_unpack
+from openprocurement.api.utils import (
+    context_unpack,
+    get_framework_by_id,
+    request_init_object,
+    request_init_framework,
+    request_init_submission, request_init_qualification, request_init_agreement,
+)
 from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
+from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
+from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
+from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.framework.core.procedure.state.document import BaseFrameworkDocumentState
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin, resolve_document
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.utils import get_framework_by_id
 from openprocurement.api.database import atomic_transaction
-from copy import deepcopy
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
 
-    serializer_config_class = BaseSerializer
     state_class = FrameworkState
 
     def __acl__(self):
@@ -68,32 +74,40 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
             # getting framework, submission, qualification, agreement
             match_dict = request.matchdict
             if match_dict:
-                self.get_object_data_and_config(request, match_dict, obj_name="framework")
-                self.get_object_data_and_config(request, match_dict, obj_name="submission")
-                self.get_object_data_and_config(request, match_dict, obj_name="qualification")
-                self.get_object_data_and_config(request, match_dict, obj_name="agreement")
+                self.fetch_object(
+                    request,
+                    match_dict,
+                    "framework",
+                    request_init_framework,
+                )
+                self.fetch_object(
+                    request,
+                    match_dict,
+                    "submission",
+                    request_init_submission,
+                )
+                self.fetch_object(
+                    request,
+                    match_dict,
+                    "qualification",
+                    request_init_qualification,
+                )
+                self.fetch_object(
+                    request,
+                    match_dict,
+                    "agreement",
+                    request_init_agreement,
+                )
 
-    def get_object_data_and_config(self, request, match_dict, obj_name="framework"):
+    @staticmethod
+    def fetch_object(request, match_dict, obj_name, obj_init_func):
         if match_dict.get(f"{obj_name}_id"):
-            request.validated[f"{obj_name}_src"] = getattr(request, f"{obj_name}_doc")
-            request.validated[obj_name] = deepcopy(request.validated[f"{obj_name}_src"])
-            object_config = request.validated[obj_name].pop("config", None) or {}
-            self._serialize_config(request, obj_name, object_config)
+            obj_init_func(request, getattr(request, f"{obj_name}_doc"))
             if "frameworkID" in request.validated[obj_name]:
-                framework = get_framework_by_id(request, request.validated[obj_name].get("frameworkID"))
-                if not framework:
-                    raise_operation_error(
-                        request,
-                        "frameworkID must be one of exists frameworks",
-                    )
-                model = request.framework_from_data(framework, create=False)
-                framework = model(framework)
-                request.validated["framework_src"] = framework.serialize()
-                request.validated["framework"] = deepcopy(request.validated["framework_src"])
-                request.validated["framework_config"] = framework.get("config") or {}
-
-    def _serialize_config(self, request, obj_name, config):
-        request.validated[f"{obj_name}_config"] = self.serializer_config_class(config).data
+                framework_doc = get_framework_by_id(request, request.validated[obj_name].get("frameworkID"))
+                model = request.framework_from_data(framework_doc, create=False)
+                framework = model(framework_doc)
+                request_init_framework(request, framework.serialize())
 
     def save_all_objects(self):
         logger = self.LOGGER

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
+from openprocurement.api.procedure.context import get_object, get_object_config, get_tender_config
 from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
@@ -16,7 +17,6 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import (
     get_request,
-    get_tender_config,
 )
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
@@ -27,14 +27,15 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
 )
 from openprocurement.api.utils import (
-    raise_operation_error,
+    raise_operation_error, get_agreement_by_id,
 )
 from openprocurement.api.constants import (
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_CONFIG_JSONSCHEMAS,
-    RELATED_LOT_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
+    RELATED_LOT_REQUIRED_FROM,
+    CPV_PREFIX_LENGTH_TO_NAME,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import (
@@ -66,6 +67,7 @@ class TenderConfigMixin(baseclass):
         "tenderComplaints",
         "awardComplaints",
         "cancellationComplaints",
+        "restricted",
     )
 
     def validate_config(self, data):
@@ -97,6 +99,30 @@ class TenderConfigMixin(baseclass):
                     location="body",
                     name=config_name,
                 )
+
+        self.validate_restricted_config(data, config)
+
+    def validate_restricted_config(self, data, config):
+        has_restricted_preselection_agreement = False
+        agreement_config = get_object_config("agreement")
+        if agreement_config:
+            has_restricted_preselection_agreement = agreement_config.get("restricted") is True
+        if has_restricted_preselection_agreement is True and config.get("restricted") is False:
+            raise_operation_error(
+                self.request,
+                "Value must be True.",
+                status=422,
+                location="body",
+                name="restricted",
+            )
+        elif has_restricted_preselection_agreement is False and config.get("restricted") is True:
+            raise_operation_error(
+                self.request,
+                "Value must be False.",
+                status=422,
+                location="body",
+                name="restricted",
+            )
 
 
 class TenderDetailsMixing(TenderConfigMixin, baseclass):
@@ -192,17 +218,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         super().status_up(before, after, data)
 
 
-    _agreement = None
-
-    def get_agreement(self, tender):
-        agreements = tender.get("agreements")
-        if not agreements:
-            return None
-        if not self._agreement:
-            self._agreement = self.request.registry.mongodb.agreements.get(agreements[0]["id"])
-        return self._agreement
-
-
     def validate_pre_selection_agreement(self, tender):
         if self.should_validate_pre_selection_agreement is False:
             return
@@ -225,7 +240,10 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if len(agreements) != 1:
                 raise_agreements_error("Exactly one agreement is expected.")
 
-            agreement = self.get_agreement(tender)
+            agreement = get_object("agreement")
+
+            if not agreement:
+                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
             tender_agreement_type_mapping = {
                 COMPETITIVE_ORDERING: DPS_TYPE
@@ -233,9 +251,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
             if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
                 raise_agreements_error("Agreement type mismatch.")
-
-            if not agreement:
-                raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
             if self.is_agreement_not_active(agreement):
                 raise_agreements_error(AGREEMENT_STATUS_MESSAGE)
@@ -509,7 +524,12 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         if not self.should_validate_pre_selection_agreement:
             return
 
-        agreement = self.get_agreement(tender)
+        agreements = tender.get("agreements")
+
+        if not agreements:
+            return
+
+        agreement = get_object("agreement")
 
         if not agreement:
             return

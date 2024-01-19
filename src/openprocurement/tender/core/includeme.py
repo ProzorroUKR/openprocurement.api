@@ -1,11 +1,12 @@
 from logging import getLogger
 from pkg_resources import iter_entry_points
+
+from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
 from openprocurement.tender.core.utils import (
     ProcurementMethodTypePredicate,
     ComplaintTypePredicate,
 )
 from openprocurement.tender.core.procedure.utils import extract_complaint_type, extract_tender_doc
-from openprocurement.api.database import COLLECTION_CLASSES
 from openprocurement.tender.core.database import TenderCollection
 
 LOGGER = getLogger("openprocurement.tender.core")
@@ -14,14 +15,14 @@ LOGGER = getLogger("openprocurement.tender.core")
 def includeme(config):
     LOGGER.info("Init tender.core plugin.")
 
-    COLLECTION_CLASSES["tenders"] = TenderCollection
+    config.registry.mongodb.add_collection("tenders", TenderCollection)
+
     config.add_request_method(extract_tender_doc, "tender_doc", reify=True)
     config.add_request_method(extract_complaint_type, "complaint_type", reify=True)
 
-    # tender procurementMethodType plugins support
-    config.registry.tender_procurementMethodTypes = {}
     config.add_route_predicate("procurementMethodType", ProcurementMethodTypePredicate)
     config.add_route_predicate("complaintType", ComplaintTypePredicate)
+    config.add_config_serializer("contract", TenderConfigSerializer)
     config.scan("openprocurement.tender.core.procedure.views")
     config.scan("openprocurement.tender.core.subscribers")
 

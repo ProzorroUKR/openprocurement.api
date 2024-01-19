@@ -1,5 +1,7 @@
 from copy import deepcopy
 from freezegun import freeze_time
+
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.constants import ROUTE_PREFIX
@@ -369,6 +371,7 @@ def patch_submission_pending_config_test(self):
     # Activate qualification
     expected_config = {
         "test": True,
+        "restricted": False,
     }
 
     response = self.activate_qualification()
@@ -390,7 +393,8 @@ def patch_submission_pending_config_test(self):
 
 def patch_submission_pending_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -399,14 +403,11 @@ def patch_submission_pending_config_restricted(self):
         response = self.activate_framework()
 
         framework = response.json["data"]
-        framework_owner = framework["owner"]
 
-        self.assertNotIn("config", framework)
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
-        # Change authorization so framework and submission have different owners
+    with change_auth(self.app, ("Basic", ("broker", ""))):
 
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
@@ -417,11 +418,9 @@ def patch_submission_pending_config_restricted(self):
         submission = response.json["data"]
         qualification_id = submission["qualificationID"]
 
-        submission_owner = submission["owner"]
-        self.assertNotEqual(submission_owner, framework_owner)
-
     # Activate qualification
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         expected_config = {
             "restricted": True,
         }
@@ -441,7 +440,6 @@ def patch_submission_pending_config_restricted(self):
         response = self.activate_qualification()
 
         qualification = response.json["data"]
-        self.assertNotIn("config", qualification)
         self.assertEqual(response.json["config"], expected_config)
 
         response = self.app.get("/qualifications/{}".format(qualification_id))
@@ -449,149 +447,126 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(response.content_type, "application/json")
 
         qualification = response.json["data"]
-        self.assertNotIn("config", qualification)
         self.assertEqual(response.json["config"], expected_config)
 
-    # Check access (framework owner)
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    # Check access
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+        self.assertNotEqual(
+            response.json["data"]["documents"][0]["url"],
+            MASK_STRING,
+        )
 
         # Check listing
         response = self.app.get("/qualifications?opt_fields=status")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         qualifications = response.json["data"]
         self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "status"})
+        self.assertEqual(
+            set(qualifications[0].keys()),
+            {
+                "id",
+                "dateModified",
+                "status",
+            },
+        )
 
+        # Check framework listing
         response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         qualifications = response.json["data"]
         self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {
-            "id",
-            "dateModified",
-            "status",
-            "submissionID",
-            "documents",
-            "date",
-            "frameworkID",
-            "dateCreated",
-        })
-
-    # Check access (submission owner)
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
-        # Check object
-        response = self.app.get("/qualifications/{}".format(qualification_id))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        # Check listing
-        response = self.app.get("/qualifications?opt_fields=status")
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        qualifications = response.json["data"]
-        self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {"id", "dateModified", "status"})
-
-        response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        qualifications = response.json["data"]
-        self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
-        self.assertEqual(set(qualifications[0].keys()), {
-            "id",
-            "dateModified",
-            "status",
-            "submissionID",
-            "documents",
-            "date",
-            "frameworkID",
-            "dateCreated",
-        })
+        self.assertEqual(
+            set(qualifications[0].keys()),
+            {
+                "id",
+                "dateModified",
+                "status",
+                "submissionID",
+                "documents",
+                "date",
+                "frameworkID",
+                "dateCreated",
+            },
+        )
+        self.assertNotEqual(
+            qualifications[0]["documents"][0]["url"],
+            MASK_STRING,
+        )
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
+
         # Check object
-        response = self.app.get("/qualifications/{}".format(qualification_id), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/qualifications/{}".format(qualification_id))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for qualification object"
-            }]
+            response.json["data"]["documents"][0]["url"],
+            MASK_STRING,
         )
 
         # Check object documents
-        response = self.app.get("/qualifications/{}/documents".format(qualification_id), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/qualifications/{}/documents".format(qualification_id))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for qualification object"
-            }]
+            response.json["data"][0]["url"],
+            MASK_STRING,
         )
 
         # Check object document
-        response = self.app.get("/qualifications/{}/documents".format(qualification_id, document["id"]), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/qualifications/{}/documents/{}".format(qualification_id, document["id"]))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for qualification object"
-            }]
+            response.json["data"]["url"],
+            MASK_STRING,
         )
 
         # Check listing
         response = self.app.get("/qualifications?opt_fields=status")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         qualifications = response.json["data"]
         self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
         self.assertEqual(
             set(qualifications[0].keys()),
-            {"id", "dateModified", "restricted"},
+            {
+                "id",
+                "dateModified",
+                "status",
+            },
         )
 
+        # Check framework listing
         response = self.app.get("/frameworks/{}/qualifications".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         qualifications = response.json["data"]
         self.assertEqual(len(qualifications), 1)
-        self.assertNotIn("config", qualifications[0])
-        self.assertNotIn("owner", qualifications[0])
         self.assertEqual(
             set(qualifications[0].keys()),
-            {"id", "dateModified", "dateCreated", "submissionID", "frameworkID", "restricted"},
+            {
+                "id",
+                "dateModified",
+                "status",
+                "submissionID",
+                "documents",
+                "date",
+                "frameworkID",
+                "dateCreated",
+            },
+        )
+        self.assertEqual(
+            qualifications[0]["documents"][0]["url"],
+            MASK_STRING,
         )
 
 

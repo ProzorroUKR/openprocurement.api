@@ -1,5 +1,5 @@
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 

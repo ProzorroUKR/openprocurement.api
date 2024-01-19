@@ -2,6 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.submission import SubmissionConfig, PatchSubmission
+from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
 from openprocurement.framework.core.procedure.validation import (
     validate_framework,
     validate_post_submission_with_active_contract,
@@ -42,7 +43,11 @@ class DPSSubmissionResource(SubmissionsResource):
         permission="create_submission",
         validators=(
                 validate_input_data(PostSubmission),
-                validate_config_data(SubmissionConfig, obj_name="submission"),
+                validate_config_data(
+                    SubmissionConfig,
+                    serializer=SubmissionConfigSerializer,
+                    obj_name="submission",
+                ),
                 validate_framework,
                 validate_operation_submission_in_not_allowed_period,
                 validate_action_in_not_allowed_framework_status("submission"),

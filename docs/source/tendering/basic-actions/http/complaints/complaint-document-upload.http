@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/3e9fa4304ddc4e36966c56bd986b4db6/documents?acc_token=79b1f65ea5944d6aa16734423bddd897 HTTP/1.0
+POST /api/2.5/tenders/9e6e1afaf84849429e92a025c9aa46f4/complaints/28533349dcd84d33a67093531cd4eb72/documents?acc_token=a4e7fad4785c4844941bc64b490c3693 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Evidence_Attachment.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31f24c650bf0450a9e351fcadad42d8f?Signature=WkWC%2FnbsDirdy2OJJqVImpjz56MEztquYoCTZUxxobz1w4J2BYl%2FyD%2BkhnChSp8fYOi7HJCQT%2B7CkZtFyLzIAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b26be5ae7c34fba94a90ded82ea8f77?Signature=0IdXIJEOEGO6woNI4j%2BghPe5wvrSKSO%2BC8QhuS%2BfzZVFQUykS1ErsD4ff6KaTyPnyeWEXKhts%2BwoxJr6XfrwAA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,17 +15,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b696346c4c21448992ec590d044c2b5c/complaints/3e9fa4304ddc4e36966c56bd986b4db6/documents/df202e6470d44ee6901d7a8ae43fe0b8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9e6e1afaf84849429e92a025c9aa46f4/complaints/28533349dcd84d33a67093531cd4eb72/documents/a7717d6fe3924f25989d4d1aecc88570
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "Evidence_Attachment.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31f24c650bf0450a9e351fcadad42d8f?Signature=Dn3KrTtqhhnkZg99w0%2B3e5lNXoGMTo0KYi1TMWQofS9n5JGPueLURYUn80rNe2L4bT7qY4PQX1q8VaLSbQk1DA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b26be5ae7c34fba94a90ded82ea8f77?Signature=BUNzCuzNDxlsQErN6J%2BpEczxECckQ3X21eWWljMmudrqUDGMOXlyLAhh%2BAWSFauQxp8nprIF%2FJtKWUBHtSVICw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "df202e6470d44ee6901d7a8ae43fe0b8",
+    "id": "a7717d6fe3924f25989d4d1aecc88570",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "author": "complaint_owner"

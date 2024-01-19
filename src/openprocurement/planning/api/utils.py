@@ -1,6 +1,6 @@
 from logging import getLogger
 from openprocurement.api.utils import get_now, error_handler
-from openprocurement.api.mask import mask_object_data
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 
 LOGGER = getLogger("openprocurement.planning.api")
 
@@ -28,6 +28,6 @@ def extract_plan_doc(request, plan_id=None):
         request.errors.status = 404
         raise error_handler(request)
 
-    mask_object_data(request, doc)  # war time measures
+    mask_object_data_deprecated(request, doc)  # war time measures
 
     return doc

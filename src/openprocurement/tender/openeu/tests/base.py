@@ -247,6 +247,7 @@ test_tender_openeu_config = {
     "tenderComplaints": True,
     "awardComplaints": True,
     "cancellationComplaints": True,
+    "restricted": False,
 }
 
 class BaseTenderWebTest(BaseTenderUAWebTest):

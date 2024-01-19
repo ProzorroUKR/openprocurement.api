@@ -3,7 +3,7 @@ from schematics.validate import ValidationError
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.validation import validate_milestones
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee

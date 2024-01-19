@@ -4,7 +4,8 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDUAStage2TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import validate_author
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.openua.procedure.state.question import UATenderQuestionStateMixin
 
 

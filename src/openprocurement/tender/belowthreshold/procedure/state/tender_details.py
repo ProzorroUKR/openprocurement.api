@@ -2,7 +2,8 @@ from openprocurement.api.auth import ACCR_1, ACCR_5, ACCR_2
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME, TENDERING_EXTRA_PERIOD
 from openprocurement.tender.belowthreshold.procedure.models.tender import PatchActiveTender, PatchTender
-from openprocurement.tender.core.procedure.context import get_request, get_tender
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.api.utils import raise_operation_error

@@ -4,6 +4,7 @@ from copy import deepcopy
 from datetime import timedelta
 from freezegun import freeze_time
 
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
@@ -500,7 +501,8 @@ def create_submission_config_test(self):
 
 def create_submission_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -509,15 +511,12 @@ def create_submission_config_restricted(self):
         response = self.activate_framework()
 
         framework = response.json["data"]
-        framework_owner = framework["owner"]
 
-        self.assertNotIn("config", framework)
         self.assertTrue(response.json["config"]["restrictedDerivatives"])
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
-        # Change authorization so framework and submission have different owners
+    with change_auth(self.app, ("Basic", ("broker", ""))):
 
         expected_config = {
             "restricted": True,
@@ -531,11 +530,7 @@ def create_submission_config_restricted(self):
         token = response.json["access"]["token"]
 
         submission = response.json["data"]
-        self.assertNotIn("config", submission)
         self.assertEqual(response.json["config"], expected_config)
-
-        submission_owner = submission["owner"]
-        self.assertNotEqual(submission_owner, framework_owner)
 
         response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
@@ -552,7 +547,6 @@ def create_submission_config_restricted(self):
         response = self.activate_submission()
 
         submission = response.json["data"]
-        self.assertNotIn("config", submission)
         self.assertEqual(response.json["config"], expected_config)
 
         response = self.app.get("/submissions/{}".format(submission["id"]))
@@ -560,77 +554,53 @@ def create_submission_config_restricted(self):
         self.assertEqual(response.content_type, "application/json")
 
         submission = response.json["data"]
-        self.assertNotIn("config", submission)
         self.assertEqual(response.json["config"], expected_config)
 
-    # Check access (framework owner)
-    with change_auth(self.app, ("Basic", ("broker1", ""))):
+    # Check access
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
-        # Check listing
-        response = self.app.get("/submissions?opt_fields=status")
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
-
-        response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
-        submissions = response.json["data"]
-        self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(
-            set(submissions[0].keys()), {
-                "id",
-                "dateModified",
-                "status",
-                "dateCreated",
-                "datePublished",
-                "frameworkID",
-                "tenderers",
-                "qualificationID",
-                "date",
-            }
+        self.assertNotEqual(
+            response.json["data"]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+        self.assertNotEqual(
+            response.json["data"]["documents"][0]["url"],
+            MASK_STRING,
         )
 
-    # Check access (submission owner)
-    with change_auth(self.app, ("Basic", ("broker2", ""))):
-        # Check object
-        response = self.app.get("/submissions/{}".format(submission["id"]))
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-
         # Check listing
-        response = self.app.get("/submissions?opt_fields=status")
+        response = self.app.get("/submissions?opt_fields=status,tenderers")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         submissions = response.json["data"]
         self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
-        self.assertEqual(set(submissions[0].keys()), {"id", "dateModified", "status"})
+        self.assertEqual(
+            set(submissions[0].keys()),
+            {
+                "id",
+                "dateModified",
+                "status",
+                "tenderers",
+            },
+        )
+        self.assertNotEqual(
+            submissions[0]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
 
+        # Check framework listing
         response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         submissions = response.json["data"]
         self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
         self.assertEqual(
-            set(submissions[0].keys()), {
+            set(submissions[0].keys()),
+            {
                 "id",
                 "dateModified",
                 "status",
@@ -640,75 +610,100 @@ def create_submission_config_restricted(self):
                 "tenderers",
                 "qualificationID",
                 "date",
-            }
+                "documents",
+            },
+        )
+        self.assertNotEqual(
+            submissions[0]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+        self.assertNotEqual(
+            submissions[0]["documents"][0]["url"],
+            MASK_STRING,
         )
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
+
         # Check object
-        response = self.app.get("/submissions/{}".format(submission["id"]), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/submissions/{}".format(submission["id"]))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for submission object"
-            }]
+            response.json["data"]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+        self.assertEqual(
+            response.json["data"]["documents"][0]["url"],
+            MASK_STRING,
         )
 
         # Check object documents
-        response = self.app.get("/submissions/{}/documents".format(submission["id"]), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/submissions/{}/documents".format(submission["id"]))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for submission object"
-            }]
+            response.json["data"][0]["url"],
+            MASK_STRING,
         )
 
         # Check object document
-        response = self.app.get("/submissions/{}/documents/{}".format(submission["id"], document["id"]), status=403)
-        self.assertEqual(response.status, "403 Forbidden")
+        response = self.app.get("/submissions/{}/documents/{}".format(submission["id"], document["id"]))
+        self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"],
-            [{
-                "location": "body",
-                "name": "data",
-                "description": "Access restricted for submission object"
-            }]
+            response.json["data"]["url"],
+            MASK_STRING,
         )
 
         # Check listing
-        response = self.app.get("/submissions?opt_fields=status")
+        response = self.app.get("/submissions?opt_fields=status,tenderers")
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         submissions = response.json["data"]
         self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
         self.assertEqual(
             set(submissions[0].keys()),
-            {"id", "dateModified", "restricted"},
+            {
+                "id",
+                "dateModified",
+                "status",
+                "tenderers"
+            },
+        )
+        self.assertEqual(
+            submissions[0]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
         )
 
+        # Check framework listing
         response = self.app.get("/frameworks/{}/submissions".format(self.framework_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-
         submissions = response.json["data"]
         self.assertEqual(len(submissions), 1)
-        self.assertNotIn("config", submissions[0])
-        self.assertNotIn("owner", submissions[0])
         self.assertEqual(
             set(submissions[0].keys()),
-            {"id", "dateModified", "dateCreated", "frameworkID", "qualificationID", "restricted"},
+            {
+                "id",
+                "dateModified",
+                "dateCreated",
+                "frameworkID",
+                "qualificationID",
+                "date",
+                "status",
+                "datePublished",
+                "tenderers",
+                "documents",
+            },
+        )
+        self.assertEqual(
+            submissions[0]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+        self.assertEqual(
+            submissions[0]["documents"][0]["url"],
+            MASK_STRING,
         )
 
 
@@ -773,17 +768,17 @@ def patch_submission_draft(self):
     }
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_patch_data},
-        status=403,
+        status=404,
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
         [{
-            'description': 'frameworkID must be one of exists frameworks',
-            'location': 'body',
-            'name': 'data'
+            "location": "url",
+            "name": "framework_id",
+            "description": "Not Found"
         }],
     )
 

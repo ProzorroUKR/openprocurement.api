@@ -2,7 +2,7 @@ from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.complaint import BaseComplaintStateMixin
 from openprocurement.tender.core.procedure.models.claim import (
     ClaimOwnerClaimDraft,

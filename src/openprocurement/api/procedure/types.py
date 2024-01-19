@@ -9,7 +9,7 @@ from schematics.types import DecimalType as BaseDecimalType, StringType, IntType
 from schematics.types.compound import ListType as BaseListType, ModelType as BaseModelType
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 
 
 class ListType(BaseListType):

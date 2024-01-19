@@ -1,0 +1,67 @@
+GET /api/2.5/tenders?opt_fields=procuringEntity HTTP/1.0
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "procuringEntity": {
+        "name": "ЗОСШ #10 м.Вінниці",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        },
+        "address": {
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/"
+        },
+        "kind": "special"
+      },
+      "id": "38bca89f7ba4477d97f553d576fd6994"
+    },
+    {
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "procuringEntity": {
+        "name": "ЗОСШ #10 м.Вінниці",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        },
+        "address": {
+          "streetAddress": "вул. Стахурського. 22",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21027",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Куца Світлана Валентинівна",
+          "telephone": "+380432465302",
+          "url": "http://sch10.edu.vn.ua/"
+        },
+        "kind": "special"
+      },
+      "id": "2b5eb9efd396490d8e3e662b7153c1ff"
+    }
+  ],
+  "next_page": {
+    "offset": 1696888800.0,
+    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0"
+  }
+}
+

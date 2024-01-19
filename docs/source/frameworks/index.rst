@@ -10,5 +10,6 @@ Contents:
 
    overview
    basic-actions/index
+   config/index
    dps/index
    electroniccatalogue/index

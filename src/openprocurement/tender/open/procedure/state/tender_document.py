@@ -1,6 +1,7 @@
 from openprocurement.tender.open.procedure.state.tender_details import OpenTenderDetailsState
 from openprocurement.tender.core.procedure.state.tender_document import TenderDocumentState
-from openprocurement.tender.core.procedure.context import get_tender, get_request
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner
 
 

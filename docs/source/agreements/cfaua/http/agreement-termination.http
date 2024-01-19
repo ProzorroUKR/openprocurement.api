@@ -274,6 +274,9 @@ Content-Type: application/json
     "tender_id": "182020ce4a0a4ce3a5ea0bbb29faed1f",
     "numberOfContracts": 3,
     "id": "b7536ab0fbe34a1dafa73fe7943ff79c"
+  },
+  "config": {
+    "restricted": false
   }
 }
 

@@ -1,0 +1,73 @@
+GET /api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2023-01-01-000001",
+    "title": "Узагальнена назва закупівлі",
+    "description": "Назва предмета закупівлі",
+    "status": "active",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "broker",
+    "date": "2023-01-01T00:00:00+02:00",
+    "dateCreated": "2023-01-01T00:00:00+02:00",
+    "dateModified": "2023-01-01T00:00:00+02:00",
+    "qualificationPeriod": {
+      "endDate": "2023-03-02T00:00:00+02:00",
+      "startDate": "2023-01-01T00:00:00+02:00"
+    },
+    "frameworkType": "dynamicPurchasingSystem",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "defense"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-14T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
+    },
+    "period": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-01-31T00:00:00+02:00"
+    },
+    "next_check": "2023-01-28T00:00:00+02:00",
+    "id": "841e178b585c4d04b57ae2de07487ac0"
+  },
+  "config": {
+    "restrictedDerivatives": true
+  }
+}
+

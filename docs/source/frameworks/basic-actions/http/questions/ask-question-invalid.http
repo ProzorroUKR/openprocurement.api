@@ -1,0 +1,48 @@
+POST /api/2.5/frameworks/841e178b585c4d04b57ae2de07487ac0/questions HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "title": "Калорійність",
+    "author": {
+      "address": {
+        "countryName": "Україна",
+        "locality": "м. Львів",
+        "postalCode": "79013",
+        "region": "Львівська область",
+        "streetAddress": "вул. Островського, 34"
+      },
+      "contactPoint": {
+        "email": "aagt@gmail.com",
+        "name": "Андрій Олексюк",
+        "telephone": "+380322916930"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+        "id": "00137226",
+        "uri": "http://www.sc.gov.ua/"
+      },
+      "name": "ДКП «Книга»"
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Question can be add only during the enquiry period: from (2023-01-01T00:00:00+02:00) to (2023-01-14T00:00:00+02:00)."
+    }
+  ]
+}
+

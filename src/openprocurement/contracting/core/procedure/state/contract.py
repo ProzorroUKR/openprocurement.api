@@ -4,9 +4,10 @@ from decimal import Decimal, ROUND_FLOOR
 from schematics.types import BaseType
 
 from openprocurement.api.context import get_request
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
-from openprocurement.api.utils import raise_operation_error, to_decimal
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.procedure.utils import to_decimal
 
 LOGGER = getLogger(__name__)
 

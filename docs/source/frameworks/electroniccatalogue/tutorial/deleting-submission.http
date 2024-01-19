@@ -59,6 +59,8 @@ Content-Type: application/json
     "submissionType": "electronicCatalogue",
     "id": "307a5eb4da8948faa46564921a9facf6"
   },
-  "config": {}
+  "config": {
+    "restricted": false
+  }
 }
 

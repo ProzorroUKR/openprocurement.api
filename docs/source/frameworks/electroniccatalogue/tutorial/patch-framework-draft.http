@@ -67,6 +67,8 @@ Content-Type: application/json
     },
     "id": "78d4ab4039c8441d8cac856e90e3b82b"
   },
-  "config": {}
+  "config": {
+    "restrictedDerivatives": false
+  }
 }
 

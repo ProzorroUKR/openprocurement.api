@@ -1,6 +1,6 @@
 from openprocurement.api.utils import error_handler
 from schematics.exceptions import ValidationError
-from openprocurement.tender.core.procedure.state.base import BaseState
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.models.req_response import validate_evidence_relatedDocument, validate_evidence_type
 
 

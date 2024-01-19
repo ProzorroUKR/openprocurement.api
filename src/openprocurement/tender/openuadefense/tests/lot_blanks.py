@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
 from copy import deepcopy
-from openprocurement.api.utils import get_now, parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import (
     RELEASE_2020_04_19,
     NEW_DEFENSE_COMPLAINTS_FROM,
