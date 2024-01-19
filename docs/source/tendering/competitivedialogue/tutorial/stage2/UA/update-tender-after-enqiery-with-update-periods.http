@@ -733,6 +733,10 @@ Content-Type: application/json
         }
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2023-09-12T01:00:00+03:00",
+      "endDate": "2023-10-14T00:00:00+03:00"
+    },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-12T01:00:00+03:00",
@@ -848,10 +852,6 @@ Content-Type: application/json
         }
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2023-09-12T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
-    },
     "id": "0653aa92786e43349c05b64015a57ee4"
   },
   "config": {

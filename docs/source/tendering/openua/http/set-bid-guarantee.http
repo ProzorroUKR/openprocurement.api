@@ -654,6 +654,10 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-22T00:00:00+03:00"
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -728,10 +732,6 @@ Content-Type: application/json
         }
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00"
-    },
     "id": "70977f2395ad406daa456417f50dd237"
   },
   "config": {

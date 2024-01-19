@@ -684,6 +684,10 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0653aa92786e43349c05b64015a57ee4_9d95d7c5f19f4d24b17d650fe94a42f5"
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2023-09-12T01:00:00+03:00",
+      "endDate": "2023-10-14T00:00:00+03:00"
+    },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
       "startDate": "2023-09-24T01:00:00+03:00",
@@ -799,10 +803,6 @@ Content-Type: application/json
         }
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2023-09-12T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
-    },
     "auctionPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00"
     },

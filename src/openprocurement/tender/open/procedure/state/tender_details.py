@@ -8,7 +8,7 @@ from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.tender.open.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME, COMPETITIVE_ORDERING,
+    ENQUIRY_STAND_STILL_TIME, COMPETITIVE_ORDERING, COMPLAINT_SUBMIT_TIME,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -23,6 +23,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
+    complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = False
 
     enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME

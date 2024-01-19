@@ -63,11 +63,6 @@ class PostTender(BasePostTender):
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
 
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
-
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:
             if data.get("features", []):
@@ -142,11 +137,6 @@ class Tender(BaseTender):
         ModelType(Metric),
         validators=[validate_metric_ids_uniq, validate_observation_ids_uniq],
     )
-
-    @serializable(type=ModelType(Period))
-    def complaintPeriod(self):
-        end_date = calculate_complaint_business_date(self.tenderPeriod.endDate, -COMPLAINT_SUBMIT_TIME, self)
-        return Period(dict(startDate=self.tenderPeriod.startDate, endDate=end_date))
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST:

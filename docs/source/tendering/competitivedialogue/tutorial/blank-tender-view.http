@@ -160,15 +160,15 @@ Content-Type: application/json
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
+    },
     "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-31T00:00:00+02:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
