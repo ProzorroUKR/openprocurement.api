@@ -1,11 +1,11 @@
 from openprocurement.api.views.base import BaseResource
 from openprocurement.api.utils import (
     context_unpack,
-    get_framework_by_id,
     request_init_framework,
     request_init_submission,
     request_init_qualification,
     request_init_agreement,
+    request_fetch_framework, request_fetch_agreement,
 )
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.state.document import BaseFrameworkDocumentState
@@ -100,11 +100,13 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
     def fetch_object(request, match_dict, obj_name, obj_init_func):
         if match_dict.get(f"{obj_name}_id"):
             obj_init_func(request, getattr(request, f"{obj_name}_doc"))
-            if "frameworkID" in request.validated[obj_name] and request.method not in ("GET", "HEAD"):
-                framework_doc = get_framework_by_id(request, request.validated[obj_name].get("frameworkID"))
-                model = request.framework_from_data(framework_doc, create=False)
-                framework = model(framework_doc)
-                request_init_framework(request, framework.serialize())
+            if request.method not in ("GET", "HEAD"):
+                if "frameworkID" in request.validated[obj_name]:
+                    framework_id = request.validated[obj_name].get("frameworkID")
+                    request_fetch_framework(request, framework_id)
+                if "agreementID" in request.validated[obj_name]:
+                    agreement_id = request.validated[obj_name].get("agreementID")
+                    request_fetch_agreement(request, agreement_id)
 
     def save_all_objects(self):
         logger = self.LOGGER

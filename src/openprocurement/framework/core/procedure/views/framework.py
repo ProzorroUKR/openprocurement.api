@@ -5,7 +5,7 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     update_logging_context,
-    request_init_framework,
+    request_init_framework, request_fetch_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.api.procedure.context import get_framework

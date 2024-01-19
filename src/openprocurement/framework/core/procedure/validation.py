@@ -2,7 +2,12 @@ from copy import deepcopy
 
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import raise_operation_error, get_framework_by_id, get_agreement_by_id
+from openprocurement.api.utils import (
+    raise_operation_error,
+    get_framework_by_id,
+    get_agreement_by_id,
+    request_init_framework,
+)
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.framework.core.procedure.utils import is_framework_owner, is_tender_owner
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -12,11 +17,7 @@ def validate_framework(request, item_name=None, **kwargs):
     data = request.validated["data"]
     previous_obj_framework_id = request.validated.get(item_name, {}).get("frameworkID")
     framework = get_framework_by_id(request, data.get("frameworkID", previous_obj_framework_id))
-    model = request.framework_from_data(framework, create=False)
-    framework = model(framework)
-    request.validated["framework_src"] = framework.serialize()
-    request.validated["framework"] = deepcopy(request.validated["framework_src"])
-    request.validated["framework_config"] = framework.get("config") or {}
+    request_init_framework(request, framework)
 
 
 def validate_submission_framework(request, **kwargs):
