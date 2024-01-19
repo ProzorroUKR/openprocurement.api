@@ -515,8 +515,3 @@ def requested_fields_changes(request, fieldnames):
 
 def get_child_items(parent, item_field, item_id):
     return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
-
-
-def register_mongodb_collection(config, collection_name, collection):
-    config.registry.mongodb
-
