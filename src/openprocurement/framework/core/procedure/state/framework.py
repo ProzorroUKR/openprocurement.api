@@ -80,7 +80,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
     def on_patch(self, before, after):
         self.validate_on_patch(after)
-        self.validate_agreement(after)
         self.validate_framework_patch_status(after)
         super().on_patch(before, after)
 
@@ -116,14 +115,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                 MIN_QUALIFICATION_DURATION,
                 MAX_QUALIFICATION_DURATION,
             )
-
-    def validate_agreement(self, data):
-        if agreement_id := data.get("agreementID"):
-            request = get_request()
-            agreement = get_agreement_by_id(request, agreement_id)
-            model = get_request().agreement_from_data(agreement, create=False)
-            agreement = model(agreement)
-            request_init_object(request, "agreement", agreement.serialize())
 
     def validate_framework_patch_status(self, data):
         framework_status = data.get("status")

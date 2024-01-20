@@ -5,16 +5,6 @@ import unittest
 from mock import MagicMock
 from openprocurement.framework.core.utils import AgreementTypePredicate
 from openprocurement.framework.core.tests.base import BaseAgreementTest
-from openprocurement.framework.core.utils import (
-    register_agreement_agreementType,
-)
-from schematics.types import StringType
-
-
-TEST_AGREEMENT = {
-    "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
-    "agreementType": "cfaua",
-}
 
 
 class AgreementsResourceTest(BaseAgreementTest):
@@ -78,21 +68,10 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
 
 
-class UtilsAgreementTest(BaseAgreementTest):
-    relative_to = os.path.dirname(__file__)
-
-    def test_register_agreement_agreementType(self):
-        config = MagicMock()
-        model = MagicMock()
-        agreementType = StringType(default="cfaua")
-        model.agreementType = agreementType
-        register_agreement_agreementType(config, model)
-
-
 class ResourcesAgreementTest(BaseAgreementTest):
     relative_to = os.path.dirname(__file__)
 
-    def test_IsAgreement(self):
+    def test_AgreementTypePredicate(self):
         config = MagicMock()
         request = MagicMock()
         context = MagicMock()
@@ -109,8 +88,7 @@ class ResourcesAgreementTest(BaseAgreementTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(AgreementsResourceTest))
-    suite.addTest(unittest.makeSuite(UtilsAgreementTest))
-    suite.addTest(unittest.makeSuite(ValidationAgreementTest))
+    suite.addTest(unittest.makeSuite(ResourcesAgreementTest))
     return suite
 
 

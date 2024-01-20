@@ -12,9 +12,6 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
 from openprocurement.framework.core.tests.framework import Framework
 from openprocurement.framework.core.utils import (
-    framework_from_data,
-    extract_doc,
-    register_framework_frameworkType,
     generate_framework_pretty_id,
     calculate_framework_date,
 )
@@ -23,58 +20,6 @@ from openprocurement.framework.core.utils import (
 class UtilsFrameworkTest(BaseFrameworkTest):
     relative_to = os.path.dirname(__file__)
     framework_data = deepcopy(test_framework_data)
-
-    @patch("openprocurement.framework.core.utils.decode_path_info")
-    def test_extract_doc(self, mocked_decode_path):
-        mocked_decode_path.side_effect = [
-            KeyError("Missing 'PATH_INFO'"),
-            UnicodeDecodeError("UTF-8", b"obj", 1, 10, "Hm..."),
-            "/",
-            "/api/2.3/frameworks/{}".format(self.framework_data["id"]),
-        ]
-        framework_data = deepcopy(self.framework_data)
-        framework_data["doc_type"] = "Framework"
-        request = MagicMock()
-        request.environ = {"PATH_INFO": "/"}
-        request.registry.framework_frameworkTypes.get.return_value = Framework
-        request.framework_from_data.return_value = framework_from_data(request, framework_data)
-        get_mock = MagicMock()
-        get_mock.get.return_value = None
-        request.registry.databases = {"frameworks": get_mock}
-
-        # Test with KeyError
-        self.assertIs(extract_doc(request), None)
-
-        # Test with UnicodeDecodeError
-        with self.assertRaises(URLDecodeError) as e:
-            extract_doc(request)
-        self.assertEqual(e.exception.encoding, "UTF-8")
-        self.assertEqual(e.exception.object, b"obj")
-        self.assertEqual(e.exception.start, 1)
-        self.assertEqual(e.exception.end, 10)
-        self.assertEqual(e.exception.reason, "Hm...")
-        self.assertIsInstance(e.exception, URLDecodeError)
-
-        # Test with path '/'
-        self.assertIs(extract_doc(request), None)
-
-        mocked_decode_path.side_effect = ["/api/2.5/frameworks/{}".format(self.framework_data["id"])] * 3
-
-        # Test with extract_doc_adapter return Framework object
-        request.registry.mongodb.frameworks.get.return_value = framework_data
-        framework = extract_doc(request)
-        serialized_framework = framework.serialize("draft")
-        self.assertIsInstance(framework, Framework)
-        for k in framework_data:
-            self.assertEqual(framework_data[k], serialized_framework[k])
-
-    def test_register_framework_type(self):
-        config = MagicMock()
-        model = MagicMock()
-        frameworkType = StringType(default="electronicCatalogue")
-        model.frameworkType = frameworkType
-        register_framework_frameworkType(config, model)
-
 
     def test_generate_framework_id(self):
         ctime = get_now()

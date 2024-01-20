@@ -28,20 +28,10 @@ Content-Type: application/json
     "date": "2023-01-01T00:00:00+02:00",
     "dateCreated": "2023-01-01T00:00:00+02:00",
     "dateModified": "2023-01-16T00:00:00+02:00",
-    "period": {
-      "startDate": "2022-12-31T23:00:00+02:00",
-      "endDate": "2023-04-01T00:00:00+03:00"
-    },
     "qualificationPeriod": {
-      "startDate": "2022-12-31T23:00:00+02:00",
-      "endDate": "2023-05-01T00:00:00+02:00"
+      "endDate": "2023-05-01T00:00:00+02:00",
+      "startDate": "2022-12-31T23:00:00+02:00"
     },
-    "enquiryPeriod": {
-      "startDate": "2022-12-31T23:00:00+02:00",
-      "endDate": "2023-01-14T00:00:00+02:00",
-      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
-    },
-    "next_check": "2023-01-28T00:00:00+02:00",
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
       "name": "Повна назва юридичної організації.",
@@ -64,6 +54,16 @@ Content-Type: application/json
       },
       "kind": "central"
     },
+    "enquiryPeriod": {
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2023-01-14T00:00:00+02:00",
+      "clarificationsUntil": "2023-01-19T00:00:00+02:00"
+    },
+    "period": {
+      "startDate": "2022-12-31T23:00:00+02:00",
+      "endDate": "2023-04-01T00:00:00+03:00"
+    },
+    "next_check": "2023-01-28T00:00:00+02:00",
     "agreementID": "6a527caaceb94ad398f77579768a6d67",
     "id": "bdc325ff871a4c518086e628e1dd113b"
   },
