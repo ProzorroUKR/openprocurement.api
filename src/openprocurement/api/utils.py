@@ -88,13 +88,13 @@ def get_agreement_by_id(request, agreement_id: str, raise_error: bool = True):
 def request_init_object(request, obj_name, obj, obj_src=None):
     if obj is None:
         return
-    config_serializer = get_config_serializer(request, obj_name)
-    if config_serializer:
-        obj["config"] = config_serializer(obj.get("config", {})).data
     if obj_src is None:
         obj_src = deepcopy(obj)
     request.validated[obj_name] = obj
     request.validated[f"{obj_name}_src"] = obj_src
+    config_serializer = get_config_serializer(request, obj_name)
+    if config_serializer:
+        obj["config"] = config_serializer(obj.get("config", {})).data
     return request.validated[obj_name]
 
 
