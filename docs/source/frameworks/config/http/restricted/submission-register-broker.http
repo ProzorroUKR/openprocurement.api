@@ -1,5 +1,5 @@
 POST /api/2.5/submissions HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -70,7 +70,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e7c60f18fc8
     "frameworkID": "08238232b095420687b4e273ae56d878",
     "status": "draft",
     "submissionType": "dynamicPurchasingSystem",
-    "owner": "broker",
+    "owner": "brokerr",
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "9e7c60f18fc848a2be97320340d21981"

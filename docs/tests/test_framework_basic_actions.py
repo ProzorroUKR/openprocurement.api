@@ -16,6 +16,7 @@ from tests.base.test import (
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
+    test_framework_dps_config,
     test_question_data,
     BaseFrameworkWebTest,
 )
@@ -23,6 +24,7 @@ from openprocurement.framework.dps.tests.base import (
 TARGET_DIR_QUESTIONS = 'docs/source/frameworks/basic-actions/http/questions/'
 
 test_framework_open_data = deepcopy(test_framework_dps_data)
+test_framework_open_config = deepcopy(test_framework_dps_config)
 
 
 class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
@@ -45,40 +47,37 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
         pass
 
     def test_docs(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+
         # empty frameworks listing
         data = deepcopy(self.initial_data)
         data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
-        data["procuringEntity"]["kind"] = "defense"
         response = self.app.get('/frameworks')
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
-        with change_auth(self.app, ("Basic", ("broker", ""))):
-            response = self.app.post_json(
-                '/frameworks', {
-                    'data': data,
-                    'config': {
-                        'restrictedDerivatives': True,
-                    }
-                }
-            )
-            self.assertEqual(response.status, '201 Created')
+        response = self.app.post_json(
+            '/frameworks', {
+                'data': data,
+                'config': test_framework_open_config
+            }
+        )
+        self.assertEqual(response.status, '201 Created')
 
-            framework = response.json['data']
-            self.framework_id = framework["id"]
-            owner_token = response.json['access']['token']
+        framework = response.json['data']
+        self.framework_id = framework["id"]
+        owner_token = response.json['access']['token']
 
-            response = self.app.patch_json(
-                '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
-            )
+        response = self.app.patch_json(
+            '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token), {'data': {"status": "active"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR_QUESTIONS + 'get-framework.http', 'w') as self.app.file_obj:
+            response = self.app.get('/frameworks/{}'.format(framework['id']))
             self.assertEqual(response.status, '200 OK')
 
-            with open(TARGET_DIR_QUESTIONS + 'get-framework.http', 'w') as self.app.file_obj:
-                response = self.app.get('/frameworks/{}'.format(framework['id']))
-                self.assertEqual(response.status, '200 OK')
-
         # Questions
-        self.app.authorization = ('Basic', ('broker', ''))
 
         with open(TARGET_DIR_QUESTIONS + 'ask-question.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

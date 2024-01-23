@@ -1,5 +1,5 @@
 GET /api/2.5/tenders?opt_fields=procuringEntity HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Host: public-api-sandbox.prozorro.gov.ua
 
 

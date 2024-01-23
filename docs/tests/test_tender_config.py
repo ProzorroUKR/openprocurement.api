@@ -2194,6 +2194,7 @@ class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
+    initial_auth = ("Basic", ("brokerr", ""))
 
     def test_docs_restricted_values_csv(self):
         self.write_config_values_csv(

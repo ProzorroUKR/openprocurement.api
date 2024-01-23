@@ -34,7 +34,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.database import MongodbResourceConflict
 
-
 json_view = partial(view, renderer="simplejson")
 
 
@@ -95,6 +94,11 @@ def request_init_object(request, obj_name, obj, obj_src=None):
     config_serializer = get_config_serializer(request, obj_name)
     if config_serializer:
         obj["config"] = config_serializer(obj.get("config", {})).data
+        # TODO:
+        #  maybe there is a better single place to do this
+        #  or just delete it when we do not need it anymore
+        from openprocurement.api.procedure.validation import validate_restricted_object_action
+        validate_restricted_object_action(request, obj_name, obj)
     return request.validated[obj_name]
 
 
@@ -515,3 +519,9 @@ def requested_fields_changes(request, fieldnames):
 
 def get_child_items(parent, item_field, item_id):
     return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
+
+
+def delete_nones(data: dict):
+    for k, v in tuple(data.items()):
+        if v is None:
+            del data[k]

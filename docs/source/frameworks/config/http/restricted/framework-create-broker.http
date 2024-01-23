@@ -1,5 +1,5 @@
 POST /api/2.5/frameworks HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -98,7 +98,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/08238232b0954
       "kind": "defense"
     },
     "prettyID": "UA-F-2023-10-10-000001",
-    "owner": "broker",
+    "owner": "brokerr",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",

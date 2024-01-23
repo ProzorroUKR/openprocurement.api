@@ -128,7 +128,7 @@ def create_agreement_config_test(self):
 
 def create_agreement_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
@@ -142,7 +142,7 @@ def create_agreement_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
@@ -154,7 +154,7 @@ def create_agreement_config_restricted(self):
         qualification_id = submission["qualificationID"]
 
     # Activate qualification
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         expected_config = {
             "restricted": True,
@@ -193,7 +193,7 @@ def create_agreement_config_restricted(self):
         self.assertEqual(response.json["config"], expected_config)
 
     # Check access
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         # Check object
         response = self.app.get("/agreements/{}".format(agreement_id))
@@ -218,6 +218,18 @@ def create_agreement_config_restricted(self):
                 "dateModified",
                 "status",
             },
+        )
+
+    # Check access (no accreditation for restricted)
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        # Check object
+        response = self.app.get("/agreements/{}".format(agreement_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["data"]["contracts"][0]["suppliers"][0]["address"]["streetAddress"],
+            MASK_STRING,
         )
 
     # Check access (anonymous)

@@ -27,7 +27,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
 
     def setUp(self):
         super(HistoricalTenderTestCase, self).setUp()
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 
     def _update_doc(self):
@@ -194,7 +194,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
     def setUp(self):
         super(TestGetHistoricalData, self).setUp()
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 
     def test_get_historical_data(self):
@@ -231,7 +231,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
         tendering_historical = self.app.get("/tenders/{}/historical".format(tender["id"]))
         self.assertEqual(tendering_historical.status, "200 OK")
@@ -275,7 +275,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
         auction_historical = self.app.get("/tenders/{}/historical".format(tender["id"]))
         self.assertEqual(auction_historical.status, "200 OK")
@@ -300,7 +300,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
         qualification_historical = self.app.get("/tenders/{}/historical".format(tender["id"]))
         self.assertEqual(qualification_historical.status, "200 OK")
@@ -327,7 +327,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
         awarded_historical = self.app.get("/tenders/{}/historical".format(tender["id"]))
         self.assertEqual(awarded_historical.status, "200 OK")
@@ -354,7 +354,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
         complete_historical = self.app.get("/tenders/{}/historical".format(tender["id"]))
         self.assertEqual(complete_historical.status, "200 OK")

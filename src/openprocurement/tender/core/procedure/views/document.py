@@ -1,6 +1,6 @@
 from typing import Type
 
-from openprocurement.api.utils import json_view
+from openprocurement.api.utils import json_view, delete_nones
 from openprocurement.api.utils import (
     context_unpack,
     update_file_content_type,
@@ -19,7 +19,6 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
 )
 from openprocurement.tender.core.procedure.utils import (
-    delete_nones,
     save_tender,
 )
 from openprocurement.api.procedure.utils import get_items, set_item

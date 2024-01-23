@@ -1,5 +1,5 @@
 GET /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -531,7 +531,7 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000002-a",
-    "owner": "broker",
+    "owner": "brokerr",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
     "agreements": [

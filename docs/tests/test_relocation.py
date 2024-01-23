@@ -51,7 +51,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             }
         )
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         with open('docs/source/relocation/tutorial/create-tender.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders?opt_pretty=1', {
@@ -122,7 +122,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['description'], 'broker1 now can change the tender')
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         response = self.app.post_json('/transfers', {"data": {}})
         self.assertEqual(response.status, '201 Created')
@@ -153,7 +153,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
                 "dateSigned": get_now().isoformat(),
                 "id": uuid4().hex,
                 "tender_id": uuid4().hex,
-                "tender_token": sha512(test_tender_token.encode()).hexdigest()
+                "tender_token": sha512(test_tender_token.encode()).hexdigest(),
+                "owner": "brokerx",
             }
         )
         tender_token = data['tender_token']
@@ -162,10 +163,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         response = self.app.post_json('/contracts', {'data': data})
         self.assertEqual(response.status, '201 Created')
         contract = response.json['data']
-        self.assertEqual('broker', contract['owner'])
+        self.assertEqual('brokerx', contract['owner'])
         contract_id = contract['id']
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
         with open('docs/source/relocation/tutorial/get-contract-credentials.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/contracts/{}/credentials?acc_token={}'.format(contract_id, tender_token),
@@ -230,7 +231,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         with open('docs/source/relocation/tutorial/get-used-contract-transfer.http', 'w') as self.app.file_obj:
             response = self.app.get('/transfers/{}'.format(transfer['id']))
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         response = self.app.post_json('/transfers', {"data": {}})
         self.assertEqual(response.status, '201 Created')
@@ -268,7 +269,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             }
         )
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         with open('docs/source/relocation/tutorial/create-plan.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/plans?opt_pretty=1', {"data": data})
@@ -338,7 +339,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
             self.assertEqual(response.status, '200 OK')
             self.assertEqual(response.json['data']['budget']['description'], 'broker1 now can change the plan')
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         response = self.app.post_json('/transfers', {"data": {}})
         self.assertEqual(response.status, '201 Created')
@@ -369,7 +370,8 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
                 "dateSigned": get_now().isoformat(),
                 "id": uuid4().hex,
                 "tender_id": uuid4().hex,
-                "tender_token": sha512(test_tender_token.encode()).hexdigest()
+                "tender_token": sha512(test_tender_token.encode()).hexdigest(),
+                "owner": "brokerx",
             }
         )
         tender_token = data['tender_token']
@@ -378,10 +380,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         response = self.app.post_json('/agreements', {'data': data})
         self.assertEqual(response.status, '201 Created')
         agreement = response.json['data']
-        self.assertEqual('broker', agreement['owner'])
+        self.assertEqual('brokerx', agreement['owner'])
         agreement_id = agreement['id']
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
         with open('docs/source/relocation/tutorial/get-agreement-credentials.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/agreements/{}/credentials?acc_token={}'.format(agreement_id, tender_token),
@@ -447,7 +449,7 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
         with open('docs/source/relocation/tutorial/get-used-agreement-transfer.http', 'w') as self.app.file_obj:
             response = self.app.get('/transfers/{}'.format(transfer['id']))
 
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ('Basic', ('brokerx', ''))
 
         response = self.app.post_json('/transfers', {"data": {}})
         self.assertEqual(response.status, '201 Created')

@@ -1,5 +1,5 @@
 GET /api/2.5/submissions/9e7c60f18fc848a2be97320340d21981 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -48,7 +48,7 @@ Content-Type: application/json
     "status": "active",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "date": "2023-10-10T01:00:00+03:00",
-    "owner": "broker",
+    "owner": "brokerr",
     "submissionType": "dynamicPurchasingSystem",
     "qualificationID": "8e3a5dc35d454c998240d46d1abc2579",
     "datePublished": "2023-10-10T01:00:00+03:00",

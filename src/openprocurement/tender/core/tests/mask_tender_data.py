@@ -157,7 +157,7 @@ def test_mask_tender_by_config_restricted(app):
     # Get not masked data
     response = app.get(f"/tenders/{id}")
     assert response.status_code == 200
-    data = response.json["data"]
+    actual_data = response.json["data"]
 
     # Mask data
     db_data = app.app.registry.mongodb.tenders.get(id)
@@ -195,14 +195,23 @@ def test_mask_tender_by_config_restricted(app):
     masked_document_data = response.json["data"]
     assert masked_document_data == masked_document
 
-    # Broker allowed to see masked data
+    # Broker (with no accreditation for restricted) not allowed to see masked data
     with change_auth(app, ("Basic", ("broker", ""))):
         response = app.get(f"/tenders/{id}")
     assert response.status_code == 200
+    masked_data = response.json["data"]
+    actual_data["dateCreated"] = masked_data["dateCreated"]
+    actual_data["dateModified"] = masked_data["dateModified"]
+    assert masked_data == expected_masked_data
+
+    # Broker (with accreditation for restricted) allowed to see masked data
+    with change_auth(app, ("Basic", ("brokerr", ""))):
+        response = app.get(f"/tenders/{id}")
+    assert response.status_code == 200
     unmasked_data = response.json["data"]
-    data["dateCreated"] = unmasked_data["dateCreated"]
-    data["dateModified"] = unmasked_data["dateModified"]
-    assert unmasked_data == data
+    actual_data["dateCreated"] = unmasked_data["dateCreated"]
+    actual_data["dateModified"] = unmasked_data["dateModified"]
+    assert unmasked_data == actual_data
 
     # Feed is masked
     response = app.get(f"/tenders?mode=_all_&opt_fields=procuringEntity")
@@ -210,9 +219,9 @@ def test_mask_tender_by_config_restricted(app):
     masked_feed_data = response.json["data"][0]
     assert masked_feed_data["procuringEntity"] == expected_masked_data["procuringEntity"]
 
-    # Broker allowed to see masked data in feed
-    with change_auth(app, ("Basic", ("broker", ""))):
+    # Broker (with accreditation for restricted) allowed to see masked data in feed
+    with change_auth(app, ("Basic", ("brokerr", ""))):
         response = app.get(f"/tenders?mode=_all_&opt_fields=procuringEntity")
     assert response.status_code == 200
     unmasked_feed_data = response.json["data"][0]
-    assert unmasked_feed_data["procuringEntity"] == data["procuringEntity"]
+    assert unmasked_feed_data["procuringEntity"] == actual_data["procuringEntity"]
