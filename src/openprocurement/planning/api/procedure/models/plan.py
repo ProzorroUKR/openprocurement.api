@@ -30,7 +30,7 @@ from openprocurement.planning.api.procedure.models.cancellation import (
 from openprocurement.planning.api.procedure.models.document import Document
 from openprocurement.planning.api.procedure.models.item import Item, CPVClassification
 from openprocurement.planning.api.procedure.models.milestone import PatchMilestone, Milestone
-from openprocurement.planning.api.procedure.models.organization import PlanOrganization
+from openprocurement.planning.api.procedure.models.organization import PlanOrganization, BuyerOrganization
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
@@ -63,7 +63,7 @@ class PostPlan(Model):
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
     items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
-    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
+    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(PostCancellation)
     documents = ListType(ModelType(PostDocument, required=True))
     rationale = ModelType(RationaleObject)
@@ -91,7 +91,7 @@ class PatchPlan(Model):
     tender_id = MD5Type()
     mode = StringType(choices=["test"])
     items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
-    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
+    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(PatchCancellation)
     milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_items_uniq])
     rationale = ModelType(RationaleObject)
@@ -114,7 +114,7 @@ class Plan(Model):
     planID = StringType()
     mode = StringType(choices=["test"])
     items = ListType(ModelType(Item, required=True), validators=[validate_items_uniq])
-    buyers = ListType(ModelType(PlanOrganization, required=True), min_size=1, max_size=1)
+    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
     cancellation = ModelType(Cancellation)
     documents = ListType(ModelType(Document, required=True))
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])

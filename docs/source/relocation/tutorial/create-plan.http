@@ -129,6 +129,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова, 11, корпус 1"
         },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
         "kind": "general"
       }
     ],
@@ -323,7 +327,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/7c7db9c9432746d19f
           "postalCode": "01220",
           "countryName": "Україна"
         },
-        "kind": "general"
+        "kind": "general",
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
       }
     ],
     "planID": "UA-P-2023-10-10-000001-a",
