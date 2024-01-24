@@ -1,0 +1,166 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-24 20:15+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "Основні компоненти коду"
+msgstr ""
+
+msgid "Даний документ описує розділеня відповідальності компонент, але не виключає наявних невідповідностей у існуючому коді (ТехБорг)"
+msgstr ""
+
+msgid "Middlewares"
+msgstr ""
+
+msgid "Код який виконуєтся для кожного запиту до сервіса на початку і наприкінці обробки запита, тобто до view і після."
+msgstr ""
+
+msgid "Що робить middleware:"
+msgstr ""
+
+msgid "Загальні речі які робить кожен запит вашого застосунку (зберігає в контекст якісь куки, шось логує, шось рахує)"
+msgstr ""
+
+msgid "Що НЕ робить middleware:"
+msgstr ""
+
+msgid "Ніякої бізнес логіки або чогось специфічого тільки для частини views"
+msgstr ""
+
+msgid "Views"
+msgstr ""
+
+msgid "Клас з методами або функції, що викликає WSGI application для обробки http запита клієнта."
+msgstr ""
+
+msgid "Що робить view:"
+msgstr ""
+
+msgid "Працює з БД"
+msgstr ""
+
+msgid "Перевіряє авторизацію (Authorization header)"
+msgstr ""
+
+msgid "Перевіряє формат переданих даних (Models)"
+msgstr ""
+
+msgid "Викликає код бізнес логіки  (State Classes)"
+msgstr ""
+
+msgid "Викликає серіалізатор для формату відповіді (Serializes)"
+msgstr ""
+
+msgid "Що НЕ робить view:"
+msgstr ""
+
+msgid "Не реалізує жодної бізнес логіки (Однакові для всіх типів процедур)"
+msgstr ""
+
+msgid "Views є таким собі ключовим хабом, який збирає до купи різні компоненти системи. Розбиратись з якимось фукнціоналом буде краще починаючи з них."
+msgstr ""
+
+msgid "Приклад:"
+msgstr ""
+
+msgid "Database"
+msgstr ""
+
+msgid "Код компонент Database інкапсулює роботу з базами даних таким чином, що при переході, скажемо, з MongoDB на PostgreSQL необхідно лише міняти код цих компонент."
+msgstr ""
+
+msgid "Database НЕ імплементує бізнес логіки! (Для цього є StateClasses)"
+msgstr ""
+
+msgid "Виклики компоненти Database відбуваются тільки з Views!"
+msgstr ""
+
+msgid "Serializers, StateClasses не мають робити запити до БД, зробить їх заздалегіть і покладіть в конекст запиту (він для цього існує)."
+msgstr ""
+
+msgid "Таким чином робимо більш наглядною роботу з БД, що буже важливо. Наприклад, коли ми працюємо читаємо і пишемо декілька об'єктів в БД треба контролювати атомарність/конкурентність всіх або частини операцій, що просто неможливо коли запити розкидані по всьому коду."
+msgstr ""
+
+msgid "Models"
+msgstr ""
+
+msgid "Код який валідує структуру та формат переданих даних."
+msgstr ""
+
+msgid "Треба бути уважним, бо деякі перевірки даних насправді краще робити в StateClasses."
+msgstr ""
+
+msgid "Приклади, що описує/валідує Models"
+msgstr ""
+
+msgid "Структуру даних"
+msgstr ""
+
+msgid "Формат, тип полів"
+msgstr ""
+
+msgid "Обов'яковість полів, якщо вона не залежить від бізнес процесів"
+msgstr ""
+
+msgid "Приклади, що  НЕ описує/валідує Models"
+msgstr ""
+
+msgid "Зміна даних в об'єкті з одних на інші"
+msgstr ""
+
+msgid "Context"
+msgstr ""
+
+msgid "Дані які зберігаются в межах одного запиту, реалізований на `threading.local()` або аналогах."
+msgstr ""
+
+msgid "Приклади таких даних:"
+msgstr ""
+
+msgid "Бізнесовий час запиту `get_now()`"
+msgstr ""
+
+msgid "Значення `X-Request-ID`"
+msgstr ""
+
+msgid "`get_request()`"
+msgstr ""
+
+msgid "Сесія роботи з БД `get_db_session()`"
+msgstr ""
+
+msgid "Важливо: Об'єкти контекст запиту `get_tender()`, `get_bid()`, etc що посилаются на відповідний ключ в `request.validated`, використовуются лише в межах рефакторінгу (для зручності)."
+msgstr ""
+
+msgid "В наступних версіях стейт класи та функції проботи з БД мають працювати ЯВНО з цими об'єктами!"
+msgstr ""
+
+msgid "Serializers"
+msgstr ""
+
+msgid "Класси або функції, які приймають структуру з БД і повертають форматований/фільтрований об'єкт-відповідь, який безпосередньо конвертуєтся до json-строки і надсилаєтся в тілі http відповіді."
+msgstr ""
+
+msgid "Серіалізатори також приховують та маскують дані, що визначаєтся бізнес правилами. Таким чином серіалізатори реалізують бізнес логіку, що не дуже добре. Краще мати різні серіалізатори, які керуются кодом, що визначає бізнес логіку."
+msgstr ""
+
+msgid "StateClasses"
+msgstr ""
+
+msgid "Класи що визначають бізнес логіку проведеня тендерів/планів/контрактів  etc, фактично реалізуючи BPMN та sequence діаграми надані БА. StateClasses можуть управляти/визначати модель даних, необхідний для кожної дії, та серіалізатор відповіді (напр. повний або неповний)"
+msgstr ""
+
