@@ -5,7 +5,7 @@
     "title_en": "[TESTING] ",
     "title_ru": "[ТЕСТИРОВАНИЕ] ",
     "dateSigned": "2022-06-01T13:52:55.463116+03:00",
-    "dateModified": "2024-01-17T13:30:46.876968+02:00",
+    "dateModified": "2024-01-24T17:34:48.272971+02:00",
     "items": [
         {
             "id": "2dc54675d6364e2baffbc0f8e74432ac",
@@ -64,7 +64,7 @@
             "scale": "Приховано",
             "contactPoint": {
                 "name": "Приховано",
-                "email": "factory@example.com",
+                "email": "Приховано",
                 "telephone": "Приховано"
             }
         }
@@ -96,6 +96,6 @@
         "valueAddedTaxIncluded": false,
         "amountNet": 475000
     },
-    "dateCreated": "2024-01-17T13:30:46.854901+02:00",
+    "dateCreated": "2024-01-24T17:34:48.260600+02:00",
     "id": "de579eadfab54a26b3be28b1232eea6a"
 }

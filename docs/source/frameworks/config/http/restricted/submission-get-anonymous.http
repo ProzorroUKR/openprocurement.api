@@ -26,7 +26,7 @@ Content-Type: application/json
         "contactPoint": {
           "name": "Приховано",
           "telephone": "Приховано",
-          "email": "soleksuk@gmail.com"
+          "email": "Приховано"
         },
         "scale": "micro"
       }
