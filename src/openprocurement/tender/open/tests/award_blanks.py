@@ -688,6 +688,13 @@ def patch_tender_award_unsuccessful_complaint_first(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
 
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 1)
+    contract = response.json["data"][0]
+    self.assertEqual(contract["status"], "pending")
+
     bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award1["id"], bid_token),
@@ -740,6 +747,11 @@ def patch_tender_award_unsuccessful_complaint_first(self):
     self.assertEqual(response.content_type, "application/json")
     # self.assertIn("Location", response.headers)
     # new_award_location = response.headers["Location"]
+
+    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -884,7 +896,12 @@ def patch_tender_award_unsuccessful_complaint_third(self):
     self.assertEqual(response.content_type, "application/json")
     award3 = response.json["data"]
 
-    # import pdb; pdb.set_trace()
+    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(len(response.json["data"]), 1)
+    contract = response.json["data"][0]
+    self.assertEqual(contract["status"], "pending")
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -964,6 +981,11 @@ def patch_tender_award_unsuccessful_complaint_third(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
+
+    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")

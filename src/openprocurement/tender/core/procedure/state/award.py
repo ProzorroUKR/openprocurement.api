@@ -5,7 +5,11 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
@@ -58,8 +62,7 @@ class AwardStateMixing(baseclass):
                 award["complaintPeriod"]["endDate"] = now
 
             self.set_award_complaints_cancelled(award)
-            contracts_ids = self.set_award_contracts_cancelled(award)
-            update_econtracts_statuses(contracts_ids, after)
+            self.cancel_award(award)
             self.add_next_award()
 
         elif before == "pending" and after == "unsuccessful":
@@ -117,15 +120,22 @@ class AwardStateMixing(baseclass):
                 # skip different lot awards
                 if i.get("lotID") != award.get("lotID"):
                     continue
-                self.cancel_award(i)
+                self.cancel_award_with_complaint_period(i)
         else:
-            self.cancel_award(award)
+            self.cancel_award_with_complaint_period(award)
         self.add_next_award()
 
     @staticmethod
-    def is_available_to_cancel_award(award):
+    def is_available_to_cancel_award(award, include_awards_ids=None):
+        if not include_awards_ids:
+            include_awards_ids = []
         is_created_after = tender_created_after(QUALIFICATION_AFTER_COMPLAINT_FROM)
-        return is_created_after and award["status"] in ("pending", "active") or not is_created_after
+        return (
+                is_created_after
+                and award["status"] in ("pending", "active")
+                or not is_created_after
+                or award["id"] in include_awards_ids
+        )
 
     @staticmethod
     def check_active_awards(current_award, tender):
@@ -140,7 +150,7 @@ class AwardStateMixing(baseclass):
                     name="awards",
                 )
 
-    def cancel_award(self, award):
+    def cancel_award_with_complaint_period(self, award):
         now = get_now().isoformat()
         # update complaintPeriod.endDate if there is a need
         if award.get("complaintPeriod") and (
@@ -148,8 +158,12 @@ class AwardStateMixing(baseclass):
                 or award["complaintPeriod"]["endDate"] > now
         ):
             award["complaintPeriod"]["endDate"] = now
-        self.set_object_status(award, "cancelled")
+
         self.set_award_complaints_cancelled(award)
+        self.cancel_award(award)
+
+    def cancel_award(self, award):
+        self.set_object_status(award, "cancelled")
         contracts_ids = self.set_award_contracts_cancelled(award)
         update_econtracts_statuses(contracts_ids, "cancelled")
 

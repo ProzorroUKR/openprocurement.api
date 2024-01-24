@@ -36,8 +36,7 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
         elif before == "pending" and after == "unsuccessful":
             pass
         elif before == "active" and after == "cancelled":
-            contracts_ids = self.set_award_contracts_cancelled(award)
-            update_econtracts_statuses(contracts_ids, after)
+            self.cancel_award(award)
         else:  # any other state transitions are forbidden
             raise_operation_error(
                 get_request(),
@@ -74,14 +73,11 @@ class NegotiationAwardState(ReportingAwardState):
                         if period:
                             if not period.get("endDate") or period["endDate"] > now.isoformat():
                                 period["endDate"] = now.isoformat()
-                        self.set_object_status(i, "cancelled")
-                        contracts_ids = self.set_award_contracts_cancelled(i)
-                        update_econtracts_statuses(contracts_ids, after)
+                        self.cancel_award(i)
             else:
                 if award["complaintPeriod"]["endDate"] > now.isoformat():
                     award["complaintPeriod"]["endDate"] = now.isoformat()
-                contracts_ids = self.set_award_contracts_cancelled(award)
-                update_econtracts_statuses(contracts_ids, after)
+                self.cancel_award(award)
         else:  # any other state transitions are forbidden
             raise_operation_error(
                 get_request(),
