@@ -1203,6 +1203,7 @@ def create_plan_invalid_buyers(self):
                     "legalName": "ДП Державне Управління Справами",
                 },
                 "name": "new_name123",
+                "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
             }
         )
 
@@ -1233,6 +1234,7 @@ def create_plan_invalid_buyers(self):
                 },
                 "name": "new_name123",
                 "address": {"countryName": "Ірландія"},
+                "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
                 "kind": "defense"
             }
         )

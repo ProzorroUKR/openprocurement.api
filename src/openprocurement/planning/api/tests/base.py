@@ -69,6 +69,7 @@ test_plan_data = {
                 "locality": "м. Київ",
                 "streetAddress": "вул. Банкова, 11, корпус 1",
             },
+            "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000"},
             "kind": "general",
         }
     ],
