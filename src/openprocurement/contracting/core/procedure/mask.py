@@ -45,8 +45,21 @@ CONTRACT_MASK_MAPPING = {
 
     # suppliers.contactPoint
     "$.suppliers[*].contactPoint.telephone": MASK_STRING,
+    "$.suppliers[*].contactPoint.email": MASK_STRING,
+    "$.suppliers[*].contactPoint.faxNumber": MASK_STRING,
     "$.suppliers[*].contactPoint.url": MASK_STRING,
     "$.suppliers[*].contactPoint.name": MASK_STRING,
+    "$.suppliers[*].contactPoint.name_en": MASK_STRING_EN,
+    "$.suppliers[*].contactPoint.name_ru": MASK_STRING,
+
+    # suppliers.additionalContactPoints
+    "$.suppliers[*].additionalContactPoints[*].telephone": MASK_STRING,
+    "$.suppliers[*].additionalContactPoints[*].email": MASK_STRING,
+    "$.suppliers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$.suppliers[*].additionalContactPoints[*].url": MASK_STRING,
+    "$.suppliers[*].additionalContactPoints[*].name": MASK_STRING,
+    "$.suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$.suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
 
     # suppliers.scale
     "$.suppliers[*].scale": MASK_STRING,

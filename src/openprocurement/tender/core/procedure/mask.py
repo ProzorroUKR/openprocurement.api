@@ -49,6 +49,15 @@ TENDER_MASK_MAPPING = {
     "$.bids[*].tenderers[*].contactPoint.name_en": MASK_STRING_EN,
     "$.bids[*].tenderers[*].contactPoint.name_ru": MASK_STRING,
 
+    # bids.tenderers.additionalContactPoints
+    "$.bids[*].tenderers[*].additionalContactPoints[*].telephone": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].email": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].url": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].name": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$.bids[*].tenderers[*].additionalContactPoints[*].name_ru": MASK_STRING,
+
     # bids.tenderers.scale
     "$.bids[*].tenderers[*].scale": MASK_STRING,
 
@@ -88,6 +97,15 @@ TENDER_MASK_MAPPING = {
     "$.awards[*].suppliers[*].contactPoint.name": MASK_STRING,
     "$.awards[*].suppliers[*].contactPoint.name_en": MASK_STRING_EN,
     "$.awards[*].suppliers[*].contactPoint.name_ru": MASK_STRING,
+
+    # awards.suppliers.additionalContactPoints
+    "$.awards[*].suppliers[*].additionalContactPoints[*].telephone": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].email": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].url": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].name": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$.awards[*].suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
 
     # bids.tenderers.scale
     "$.awards[*].suppliers[*].scale": MASK_STRING,
@@ -137,6 +155,15 @@ TENDER_MASK_MAPPING = {
     "$.contracts[*].suppliers[*].contactPoint.name": MASK_STRING,
     "$.contracts[*].suppliers[*].contactPoint.name_en": MASK_STRING_EN,
     "$.contracts[*].suppliers[*].contactPoint.name_ru": MASK_STRING,
+
+    # contracts.suppliers.additionalContactPoints
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].telephone": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].email": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].url": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].name": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
 
     # contracts.suppliers.scale
     "$.contracts[*].suppliers[*].scale": MASK_STRING,
@@ -226,6 +253,15 @@ TENDER_MASK_MAPPING = {
     "$..complaints[*].author.contactPoint.name_en": MASK_STRING_EN,
     "$..complaints[*].author.contactPoint.name_ru": MASK_STRING,
 
+    # complaints.author.additionalContactPoints
+    "$..complaints[*].author.additionalContactPoints[*].telephone": MASK_STRING,
+    "$..complaints[*].author.additionalContactPoints[*].email": MASK_STRING,
+    "$..complaints[*].author.additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$..complaints[*].author.additionalContactPoints[*].url": MASK_STRING,
+    "$..complaints[*].author.additionalContactPoints[*].name": MASK_STRING,
+    "$..complaints[*].author.additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$..complaints[*].author.additionalContactPoints[*].name_ru": MASK_STRING,
+
     # questions
     "$..questions[*].title": MASK_STRING,
     "$..questions[*].description": MASK_STRING,
@@ -259,5 +295,14 @@ TENDER_MASK_MAPPING = {
     "$..questions[*].author.contactPoint.name": MASK_STRING,
     "$..questions[*].author.contactPoint.name_en": MASK_STRING_EN,
     "$..questions[*].author.contactPoint.name_ru": MASK_STRING,
+
+    # complaints.author.additionalContactPoints
+    "$..questions[*].author.additionalContactPoints[*].telephone": MASK_STRING,
+    "$..questions[*].author.additionalContactPoints[*].email": MASK_STRING,
+    "$..questions[*].author.additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$..questions[*].author.additionalContactPoints[*].url": MASK_STRING,
+    "$..questions[*].author.additionalContactPoints[*].name": MASK_STRING,
+    "$..questions[*].author.additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$..questions[*].author.additionalContactPoints[*].name_ru": MASK_STRING,
 
 }
