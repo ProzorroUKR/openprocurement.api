@@ -21,7 +21,7 @@ msgid "Configuration"
 msgstr "Конфігурація"
 
 msgid "You can configure tender with config block of POST request."
-msgstr "Ви можете налаштувати тендер з допомогою блоку конфігурації у POST запиті."
+msgstr "Ви можете налаштувати тендер за допомогою блоку конфігурації у POST запиті."
 
 msgid "Contents:"
 msgstr "Зміст:"
