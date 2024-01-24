@@ -4,7 +4,6 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
-from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
 from openprocurement.api.utils import raise_operation_error
 
 
@@ -31,18 +30,15 @@ class AwardState(AwardStateMixing, OpenUATenderState):
                         if period:
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
-                        if self.is_available_to_cancel_award(i):
-                            self.set_object_status(i, "cancelled")
-                            contracts_ids = self.set_award_contracts_cancelled(i)
-                            update_econtracts_statuses(contracts_ids, after)
+                        if self.is_available_to_cancel_award(i, [award["id"]]):
+                            self.cancel_award(i)
                 self.add_next_award()
 
             else:
                 if award["complaintPeriod"]["endDate"] > now:
                     award["complaintPeriod"]["endDate"] = now
-                contracts_ids = self.set_award_contracts_cancelled(award)
+                self.cancel_award(award)
                 self.add_next_award()
-                update_econtracts_statuses(contracts_ids, after)
 
         elif (
             before == "unsuccessful" and after == "cancelled"
@@ -74,7 +70,6 @@ class AwardState(AwardStateMixing, OpenUATenderState):
                 if period:
                     if not period.get("endDate") or period["endDate"] > now:
                         period["endDate"] = now
-                if self.is_available_to_cancel_award(i):
-                    self.set_object_status(i, "cancelled")
-                    self.set_award_contracts_cancelled(i)
+                if self.is_available_to_cancel_award(i, [award["id"]]):
+                    self.cancel_award(i)
         self.add_next_award()

@@ -8,7 +8,6 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
-    update_econtracts_statuses,
 )
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
@@ -86,18 +85,15 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                         if not new_defence_complaints and period:
                             if not period.get("endDate") or period["endDate"] > now:
                                 period["endDate"] = now
-                        if self.is_available_to_cancel_award(i):
-                            self.set_object_status(i, "cancelled")
-                            contracts_ids = self.set_award_contracts_cancelled(i)
-                            update_econtracts_statuses(contracts_ids, after)
-                self.add_next_award()
+                        if self.is_available_to_cancel_award(i, [award["id"]]):
+                            self.cancel_award(i)
 
+                self.add_next_award()
             else:
                 if not new_defence_complaints and award["complaintPeriod"]["endDate"] > now:
                     award["complaintPeriod"]["endDate"] = now
-                contracts_ids = self.set_award_contracts_cancelled(award)
+                self.cancel_award(award)
                 self.add_next_award()
-                update_econtracts_statuses(contracts_ids, after)
         elif (
             before == "unsuccessful" and after == "cancelled"
             and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
@@ -117,9 +113,8 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                         if not period.get("endDate") or period["endDate"] > now:
                             period["endDate"] = now
 
-                    if self.is_available_to_cancel_award(i):
-                        self.set_object_status(i, "cancelled")
-                        self.set_award_contracts_cancelled(i)
+                    if self.is_available_to_cancel_award(i, [award["id"]]):
+                        self.cancel_award(i)
             self.add_next_award()
 
         else:  # any other state transitions are forbidden
