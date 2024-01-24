@@ -52,7 +52,7 @@ Let's see what listing of tenders reveals us:
 .. http:example:: tutorial/initial-tender-listing.http
    :code:
 
-We don't see internal `id` of tender, because tender appears in the listing from `active.enquiries` status.
+We don't see internal `id` of tender, because tender appears in the listing from ``active.enquiries`` status.
 
 You can add additional :ref:`ContactPoint` and set several :ref:`Item`. Also you can create tender with :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`).
 

@@ -92,8 +92,8 @@ When contract in `pending` status buyer can update those fields:
 * `implementation`
 
 
-Setting  contract value
-~~~~~~~~~~~~~~~~~~~~~~~
+Setting contract value
+~~~~~~~~~~~~~~~~~~~~~~
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 

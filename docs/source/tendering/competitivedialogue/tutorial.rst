@@ -58,7 +58,7 @@ Let's see what listing of tenders reveals us:
 .. http:example:: tutorial/tender-listing-no-auth.http
    :code:
 
-We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status.
+We don't see internal `id` of tender, because tender appears in the listing from ``active.tendering`` status.
 
 Tender can contain several different lots. We can add lot using the following way:
 
