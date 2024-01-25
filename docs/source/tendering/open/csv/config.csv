@@ -6,7 +6,7 @@ valueCurrencyEquality,true,true
 hasPrequalification,false,false
 minBidsNumber,1,1
 hasPreSelectionAgreement,false,false
-tenderComplaints,true,true
-awardComplaints,true,true
-cancellationComplaints,true,true
+hasTenderComplaints,true,true
+hasAwardComplaints,true,true
+hasCancellationComplaints,true,true
 restricted,false,false

@@ -628,9 +628,9 @@ Content-Type: application/json
     "hasPrequalification": true,
     "minBidsNumber": 3,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": true,
-    "awardComplaints": true,
-    "cancellationComplaints": true,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
     "restricted": false
   }
 }

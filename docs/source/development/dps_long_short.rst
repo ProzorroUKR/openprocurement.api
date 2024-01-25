@@ -167,11 +167,11 @@ First iteration - DPS Short
 
 Для цього будуть використанні наступні конфіги - параметри, що визначають наявність або відсутність у закупівлі оскарження в тендері:
 
-* tenderComplaints - оскарження умов ТД
+* hasTenderComplaints - оскарження умов ТД
 
-* awardComplaints - оскарження рішення по кваліфікації
+* hasAwardComplaints - оскарження рішення по кваліфікації
 
-* cancellationComplaints - оскарження скасування тендеру
+* hasCancellationComplaints - оскарження скасування тендеру
 
 Запитання/вимоги як функціонал лишаються та відбувається за процесом, притаманним ВТО.
 
@@ -196,9 +196,9 @@ First iteration - DPS Short
         ...
       },
       "config": {
-         "tenderComplaints": false,
-         "awardComplaints": false,
-         "cancellationComplaints": false,
+         "hasTenderComplaints": false,
+         "hasAwardComplaints": false,
+         "hasCancellationComplaints": false,
          ...
       }
     }
