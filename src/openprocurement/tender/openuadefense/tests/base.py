@@ -79,9 +79,9 @@ test_tender_openuadefense_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": True,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 

@@ -87,9 +87,9 @@ test_tender_cfaua_config = {
     "hasPrequalification": True,
     "minBidsNumber": 3,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": True,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 

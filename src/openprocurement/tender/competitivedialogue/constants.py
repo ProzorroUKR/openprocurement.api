@@ -19,9 +19,9 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "hasPrequalification": True,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": True,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
@@ -32,8 +32,8 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "hasPrequalification": False,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": True,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }

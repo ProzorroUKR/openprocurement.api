@@ -26,7 +26,9 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
 
 
-def tender_complaints_populator(tender):
+def has_tender_complaints_populator(tender):
+    if tender.get("config", {}).get("tenderComplaints") is not None:
+        return tender["config"]["tenderComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
         BELOW_THRESHOLD,
@@ -41,7 +43,9 @@ def tender_complaints_populator(tender):
     return True
 
 
-def award_complaints_populator(tender):
+def has_award_complaints_populator(tender):
+    if tender.get("config", {}).get("awardComplaints") is not None:
+        return tender["config"]["awardComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
         BELOW_THRESHOLD,
@@ -56,7 +60,9 @@ def award_complaints_populator(tender):
     return True
 
 
-def cancellation_complaints_populator(tender):
+def has_cancellation_complaints_populator(tender):
+    if tender.get("config", {}).get("cancellationComplaints") is not None:
+        return tender["config"]["cancellationComplaints"]
     pmt = tender.get("procurementMethodType")
     if pmt in (
         BELOW_THRESHOLD,
@@ -76,28 +82,36 @@ def run(env, args):
 
     collection = env["registry"].mongodb.tenders.collection
 
-    logger.info("Updating tenders with tenderComplaints, awardComplaints, cancellationComplaints field")
+    logger.info("Updating tenders with hasTenderComplaints, hasAwardComplaints, hasCancellationComplaints field")
 
     log_every = 100000
     count = 0
 
     cursor = collection.find(
-        {"config.tenderComplaints": {"$exists": False}},
+        {"config.hasTenderComplaints": {"$exists": False}},
         {"config": 1, "procurementMethodType": 1},
         no_cursor_timeout=True,
     )
     cursor.batch_size(args.b)
     try:
         for tender in cursor:
-            if tender.get("config", {}).get("tenderComplaints") is None:
+            if tender.get("config", {}).get("hasTenderComplaints") is None:
                 try:
                     collection.update_one(
                         {"_id": tender["_id"]},
-                        {"$set": {
-                            "config.tenderComplaints": tender_complaints_populator(tender),
-                            "config.awardComplaints": award_complaints_populator(tender),
-                            "config.cancellationComplaints": cancellation_complaints_populator(tender),
-                        }}
+                        {
+                            "$set": {
+                                "config.hasTenderComplaints": has_tender_complaints_populator(tender),
+                                "config.hasAwardComplaints": has_award_complaints_populator(tender),
+                                "config.hasCancellationComplaints": has_cancellation_complaints_populator(tender),
+                            },
+                            # delete previous config fields
+                            "$unset": {
+                                "config.tenderComplaints": '',
+                                "config.awardComplaints": '',
+                                "config.cancellationComplaints": '',
+                            }
+                        }
                     )
                     count += 1
                     if count % log_every == 0:

@@ -77,9 +77,9 @@ test_tender_reporting_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": False,
-    "awardComplaints": False,
-    "cancellationComplaints": False,
+    "hasTenderComplaints": False,
+    "hasAwardComplaints": False,
+    "hasCancellationComplaints": False,
     "restricted": False,
 }
 
@@ -91,9 +91,9 @@ test_tender_negotiation_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": False,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": False,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 
@@ -105,9 +105,9 @@ test_tender_negotiation_quick_config = {
     "hasPrequalification": False,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": False,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": False,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 
