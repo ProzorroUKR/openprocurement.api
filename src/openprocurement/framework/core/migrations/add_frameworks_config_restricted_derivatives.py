@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
 
 
-def restricted_populator(tender):
+def restricted_populator(framework):
     return False
 
 
@@ -24,9 +24,9 @@ def run(env, args):
 
     logger.info("Starting migration: %s", migration_name)
 
-    collection = env["registry"].mongodb.tenders.collection
+    collection = env["registry"].mongodb.frameworks.collection
 
-    logger.info("Updating tenders with restricted field")
+    logger.info("Updating frameworks with restricted field")
 
     log_every = 100000
     count = 0
@@ -38,19 +38,19 @@ def run(env, args):
     )
     cursor.batch_size(args.b)
     try:
-        for tender in cursor:
-            if tender.get("config", {}).get("restricted") is None:
+        for framework in cursor:
+            if framework.get("config", {}).get("restrictedDerivatives") is None:
                 collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": {"config.restricted": restricted_populator(tender)}}
+                    {"_id": framework["_id"]},
+                    {"$set": {"config.restrictedDerivatives": restricted_populator(framework)}}
                 )
                 count += 1
                 if count % log_every == 0:
-                    logger.info(f"Updating tenders with restricted field: updated {count} tenders")
+                    logger.info(f"Updating frameworks with restricted field: updated {count} frameworks")
     finally:
         cursor.close()
 
-    logger.info(f"Updating tenders with restricted field finished: updated {count} tenders")
+    logger.info(f"Updating frameworks with restricted field finished: updated {count} frameworks")
 
     logger.info(f"Successful migration: {migration_name}")
 
