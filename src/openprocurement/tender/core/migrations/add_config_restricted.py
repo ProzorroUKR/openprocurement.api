@@ -1,4 +1,5 @@
 from gevent import monkey
+from pymongo.errors import OperationFailure
 
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
@@ -40,13 +41,16 @@ def run(env, args):
     try:
         for tender in cursor:
             if tender.get("config", {}).get("restricted") is None:
-                collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": {"config.restricted": restricted_populator(tender)}}
-                )
-                count += 1
-                if count % log_every == 0:
-                    logger.info(f"Updating tenders with restricted field: updated {count} tenders")
+                try:
+                    collection.update_one(
+                        {"_id": tender["_id"]},
+                        {"$set": {"config.restricted": restricted_populator(tender)}}
+                    )
+                    count += 1
+                    if count % log_every == 0:
+                        logger.info(f"Updating tenders with restricted field: updated {count} tenders")
+                except OperationFailure as e:
+                    logger.warning(f"Skip updating tender {tender['_id']}. Details: {e}")
     finally:
         cursor.close()
 

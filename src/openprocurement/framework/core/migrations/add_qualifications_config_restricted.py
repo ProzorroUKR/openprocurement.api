@@ -1,4 +1,5 @@
 from gevent import monkey
+from pymongo.errors import OperationFailure
 
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
@@ -40,13 +41,16 @@ def run(env, args):
     try:
         for qualification in cursor:
             if qualification.get("config", {}).get("restricted") is None:
-                collection.update_one(
-                    {"_id": qualification["_id"]},
-                    {"$set": {"config.restricted": restricted_populator(qualification)}}
-                )
-                count += 1
-                if count % log_every == 0:
-                    logger.info(f"Updating qualifications with restricted field: updated {count} qualifications")
+                try:
+                    collection.update_one(
+                        {"_id": qualification["_id"]},
+                        {"$set": {"config.restricted": restricted_populator(qualification)}}
+                    )
+                    count += 1
+                    if count % log_every == 0:
+                        logger.info(f"Updating qualifications with restricted field: updated {count} qualifications")
+                except OperationFailure as e:
+                    logger.warning(f"Skip updating qualification {qualification['_id']}. Details: {e}")
     finally:
         cursor.close()
 
