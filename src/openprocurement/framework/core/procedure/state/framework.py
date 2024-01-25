@@ -34,7 +34,7 @@ class FrameworkConfigMixin:
 
     def validate_config(self, data):
         for config_name in self.configurations:
-            value = data["config"][config_name]
+            value = data["config"].get(config_name)
             framework_type = data.get("frameworkType")
             config_schema = FRAMEWORK_CONFIG_JSONSCHEMAS.get(framework_type)
             if not config_schema:

@@ -73,7 +73,7 @@ class TenderConfigMixin(baseclass):
 
     def validate_config(self, data):
         for config_name in self.configurations:
-            value = data["config"][config_name]
+            value = data["config"].get(config_name)
 
             if value is None and TENDER_CONFIG_OPTIONALITY.get(config_name, True) is False:
                 raise_operation_error(
