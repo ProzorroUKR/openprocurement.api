@@ -65,9 +65,9 @@ test_tender_esco_config = {
     "hasPrequalification": True,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": False,
-    "tenderComplaints": True,
-    "awardComplaints": True,
-    "cancellationComplaints": True,
+    "hasTenderComplaints": True,
+    "hasAwardComplaints": True,
+    "hasCancellationComplaints": True,
     "restricted": False,
 }
 

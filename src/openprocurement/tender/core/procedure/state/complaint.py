@@ -45,7 +45,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
     draft_patch_model = DraftPatchComplaint
-    complaints_configuration = "tenderComplaints"
+    complaints_configuration = "hasTenderComplaints"
 
     # POST
     def validate_complaint_on_post(self, complaint):

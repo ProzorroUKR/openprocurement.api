@@ -1593,7 +1593,7 @@ def create_tender_dps(self):
 def create_tender_dps_invalid_config(self):
     data = self.initial_data.copy()
     data.update({"procurementMethodType": "competitiveOrdering"})
-    for config_name in ("tenderComplaints", "awardComplaints", "cancellationComplaints"):
+    for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
         config = deepcopy(self.initial_config)
         config.update({config_name: True})
         response = self.app.post_json(

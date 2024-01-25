@@ -2185,7 +2185,7 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
 class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
 
     def test_docs_has_pre_selection_agreement_values_csv(self):
-        for config_name in ("tenderComplaints", "awardComplaints", "cancellationComplaints"):
+        for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
             self.write_config_values_csv(
                 config_name=config_name,
                 file_path=TARGET_CSV_DIR + f"{config_name}-values.csv",
