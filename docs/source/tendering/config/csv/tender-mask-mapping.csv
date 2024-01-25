@@ -1,6 +1,6 @@
 rule,value
-$.items[*].deliveryDate.startDate,1111-11-11T00:00:00+02:00
-$.items[*].deliveryDate.endDate,1111-11-11T00:00:00+02:00
+$.items[*].deliveryDate.startDate,1970-01-01T03:00:00+03:00
+$.items[*].deliveryDate.endDate,1970-01-01T03:00:00+03:00
 $.items[*].deliveryAddress.streetAddress,Приховано
 $.items[*].deliveryAddress.locality,Приховано
 $.items[*].deliveryAddress.region,Приховано
@@ -70,8 +70,8 @@ $.awards[*].suppliers[*].additionalContactPoints[*].name,Приховано
 $.awards[*].suppliers[*].additionalContactPoints[*].name_en,Hidden
 $.awards[*].suppliers[*].additionalContactPoints[*].name_ru,Приховано
 $.awards[*].suppliers[*].scale,Приховано
-$.contracts[*].items[*].deliveryDate.startDate,1111-11-11T00:00:00+02:00
-$.contracts[*].items[*].deliveryDate.endDate,1111-11-11T00:00:00+02:00
+$.contracts[*].items[*].deliveryDate.startDate,1970-01-01T03:00:00+03:00
+$.contracts[*].items[*].deliveryDate.endDate,1970-01-01T03:00:00+03:00
 $.contracts[*].items[*].deliveryAddress.streetAddress,Приховано
 $.contracts[*].items[*].deliveryAddress.locality,Приховано
 $.contracts[*].items[*].deliveryAddress.region,Приховано
