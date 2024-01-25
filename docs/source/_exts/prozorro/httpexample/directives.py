@@ -28,7 +28,7 @@ class HTTPExample(CodeBlock):
                     list(map(str.rstrip, fp.readlines())), response)
 
         # Enable 'http' language for http part
-        self.arguments = []
+        self.arguments = ['http']
 
         # split the request and optional response in the content.
         # The separator is two empty lines followed by a line starting with
@@ -62,7 +62,7 @@ class HTTPExample(CodeBlock):
         # Wrap and render main directive as 'http-example-http'
         klass = 'http-example-http'
         container = nodes.container('', classes=[klass])
-        container.append(nodes.caption('', 'BBBBB' if response_content else 'Example'))
+        container.append(nodes.caption('', 'Request' if response_content else 'Example'))
         container.extend(super(HTTPExample, self).run())
 
         # Init result node list
@@ -76,7 +76,7 @@ class HTTPExample(CodeBlock):
 
             block = CodeBlock(
                 'code-block',
-                [],
+                ['http'],
                 options,
                 response_content,
                 self.lineno,
