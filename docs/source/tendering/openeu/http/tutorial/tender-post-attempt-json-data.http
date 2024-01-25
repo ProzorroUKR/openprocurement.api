@@ -151,9 +151,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasPrequalification": true,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": true,
-    "awardComplaints": true,
-    "cancellationComplaints": true,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
     "restricted": false
   }
 }
@@ -340,9 +340,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
     "hasPrequalification": true,
     "minBidsNumber": 2,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": true,
-    "awardComplaints": true,
-    "cancellationComplaints": true,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
     "restricted": false
   },
   "access": {
