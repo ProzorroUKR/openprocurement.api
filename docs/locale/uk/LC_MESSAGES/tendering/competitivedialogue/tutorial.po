@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-05 12:52+0100\n"
+"POT-Creation-Date: 2024-01-24 21:13+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.11.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -69,6 +69,9 @@ msgstr ""
 msgid "cancellationComplaints"
 msgstr ""
 
+msgid "restricted"
+msgstr ""
+
 msgid "The set of possible configuration values for `competitiveDialogueUA`:"
 msgstr "Набір можливих значень конфігурації для :`competitiveDialogueUA`"
 
@@ -102,8 +105,8 @@ msgstr "Ми бачимо ту ж відповідь, що і після ств�
 msgid "Let's see what listing of tenders reveals us:"
 msgstr "Подивимось, що показує список закупівель:"
 
-msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
-msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active.tendering"
+msgid "We don't see internal `id` of tender, because tender appears in the listing from ``active.tendering`` status."
+msgstr "Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу ``active.tendering``"
 
 msgid "Tender can contain several different lots. We can add lot using the following way:"
 msgstr "Закупівля може складатись із декількох лотів. Можна створити лот таким чином:"
@@ -338,25 +341,3 @@ msgstr "Другий етап EU"
 
 msgid "Stage2 UA"
 msgstr "Другий етап UA"
-
-#~ msgid "Exploring basic rules"
-#~ msgstr "Базові правила"
-
-#~ msgid "Let's try exploring the `/tenders` endpoint:"
-#~ msgstr "Подивимось як працює точка входу `/tenders`:"
-
-#~ msgid "Just invoking it reveals empty set."
-#~ msgstr "При виклику видає пустий набір."
-
-#~ msgid "Now let's attempt creating some tender:"
-#~ msgstr "Спробуймо створити нову закупівлю:"
-
-#~ msgid "Error states that the only accepted Content-Type is `application/json`."
-#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-#~ msgid "Let's satisfy the Content-type requirement:"
-#~ msgstr "Задовільнимо вимогу типу вмісту:"
-
-#~ msgid "Error states that no `data` has been found in JSON body."
-#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
-

@@ -57,9 +57,10 @@ Award confirmation:
 
 The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days and for **negotiation.quick** is 5 days.
 
+.. _settingcontractvalue:
 
-Setting  contract value
------------------------
+Setting contract value
+----------------------
 
 By default contract value is set based on the award, but there is a possibility to set custom contract value.
 

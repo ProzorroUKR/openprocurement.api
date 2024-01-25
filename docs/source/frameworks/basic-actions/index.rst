@@ -8,6 +8,4 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   restricted
    questions
-

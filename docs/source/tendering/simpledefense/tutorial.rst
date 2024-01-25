@@ -1,4 +1,4 @@
-.. _defense_tutorial:
+.. _simpledefense_tutorial:
 
 Tutorial
 ========
