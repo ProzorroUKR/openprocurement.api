@@ -203,7 +203,7 @@ class CancellationStateMixing(baseclass):
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            if tender["config"]["cancellationComplaints"] is True:
+            if tender["config"]["hasCancellationComplaints"] is True:
                 now = get_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
@@ -218,7 +218,7 @@ class CancellationStateMixing(baseclass):
             before in ("draft", "pending")
             and after == "active"
             and (
-                tender["config"]["cancellationComplaints"] is False
+                tender["config"]["hasCancellationComplaints"] is False
                 or self.use_deprecated_activation(cancellation, tender)
             )
         ):

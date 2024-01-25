@@ -25,7 +25,7 @@ LOGGER = getLogger(__name__)
 class CancellationComplaintStateMixin(ComplaintStateMixin):
     tender_complaint_submit_time = timedelta(days=4)
     update_allowed_tender_statuses = None
-    complaints_configuration = "cancellationComplaints"
+    complaints_configuration = "hasCancellationComplaints"
 
     def complaint_on_post(self, complaint):
         request = self.request

@@ -65,9 +65,9 @@ class TenderConfigMixin(baseclass):
         "hasPrequalification",
         "minBidsNumber",
         "hasPreSelectionAgreement",
-        "tenderComplaints",
-        "awardComplaints",
-        "cancellationComplaints",
+        "hasTenderComplaints",
+        "hasAwardComplaints",
+        "hasCancellationComplaints",
         "restricted",
     )
 
@@ -635,7 +635,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     )
 
     def update_complaint_period(self, tender):
-        if tender["config"]["tenderComplaints"] is not True:
+        if tender["config"]["hasTenderComplaints"] is not True:
             return
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return

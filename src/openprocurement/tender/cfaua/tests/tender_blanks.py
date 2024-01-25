@@ -482,7 +482,7 @@ def create_tender_invalid_config(self):
         [{"description": "4 is greater than the maximum of 3", "location": "body", "name": "minBidsNumber"}],
     )
 
-    config.update({"minBidsNumber": 3, "tenderComplaints": False})
+    config.update({"minBidsNumber": 3, "hasTenderComplaints": False})
     response = self.app.post_json(
         request_path,
         {
@@ -496,7 +496,7 @@ def create_tender_invalid_config(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "False is not one of [True]", "location": "body", "name": "tenderComplaints"}],
+        [{"description": "False is not one of [True]", "location": "body", "name": "hasTenderComplaints"}],
     )
 
 

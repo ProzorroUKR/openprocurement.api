@@ -3,9 +3,9 @@ from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_complaints import (
-    award_complaints_populator,
-    tender_complaints_populator,
-    cancellation_complaints_populator,
+    has_award_complaints_populator,
+    has_tender_complaints_populator,
+    has_cancellation_complaints_populator,
 )
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
@@ -76,27 +76,27 @@ def pre_selection_serializer(obj, value):
     return value
 
 
-def tender_complaints_serializer(obj, value):
-    if value is None and TENDER_CONFIG_OPTIONALITY["tenderComplaints"] is True:
+def has_tender_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasTenderComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
-        return tender_complaints_populator(tender)
+        return has_tender_complaints_populator(tender)
     return value
 
 
-def award_complaints_serializer(obj, value):
-    if value is None and TENDER_CONFIG_OPTIONALITY["awardComplaints"] is True:
+def has_award_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasAwardComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
-        return award_complaints_populator(tender)
+        return has_award_complaints_populator(tender)
     return value
 
 
-def cancellation_complaints_serializer(obj, value):
-    if value is None and TENDER_CONFIG_OPTIONALITY["cancellationComplaints"] is True:
+def has_cancellation_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasCancellationComplaints"] is True:
         request = get_request()
         tender = request.validated.get("tender") or request.validated.get("data")
-        return cancellation_complaints_populator(tender)
+        return has_cancellation_complaints_populator(tender)
     return value
 
 
@@ -123,8 +123,8 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasPrequalification": has_prequalification_serializer,
         "minBidsNumber": min_bids_number_serializer,
         "hasPreSelectionAgreement": pre_selection_serializer,
-        "tenderComplaints": tender_complaints_serializer,
-        "awardComplaints": award_complaints_serializer,
-        "cancellationComplaints": cancellation_complaints_serializer,
+        "hasTenderComplaints": has_tender_complaints_serializer,
+        "hasAwardComplaints": has_award_complaints_serializer,
+        "hasCancellationComplaints": has_cancellation_complaints_serializer,
         "restricted": restricted_serializer,
     }

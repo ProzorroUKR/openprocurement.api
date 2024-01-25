@@ -218,9 +218,9 @@ class TenderConfig(Model):
     hasPrequalification = BooleanType()
     minBidsNumber = IntType(min_value=0)
     hasPreSelectionAgreement = BooleanType()
-    tenderComplaints = BooleanType()
-    awardComplaints = BooleanType()
-    cancellationComplaints = BooleanType()
+    hasTenderComplaints = BooleanType()
+    hasAwardComplaints = BooleanType()
+    hasCancellationComplaints = BooleanType()
     restricted = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
