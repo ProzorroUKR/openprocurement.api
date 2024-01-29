@@ -257,17 +257,18 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
             self.submission_document = self.mongodb.submissions.get(self.submission_id)
             self.submission_document_patch = {}
 
-    def create_submission(self, data=None, config=None):
+    def create_submission(self, data=None, config=None, status=201):
         data = data if data is not None else deepcopy(self.initial_submission_data)
         config = config if config is not None else deepcopy(self.initial_submission_config)
         data["frameworkID"] = self.framework_id
         response = self.app.post_json("/submissions", {
             "data": data,
             "config": config,
-        })
-        self.submission_id = response.json["data"]["id"]
-        self.submission_token = response.json["access"]["token"]
-        self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
+        }, status=status)
+        if status == 201:
+            self.submission_id = response.json["data"]["id"]
+            self.submission_token = response.json["access"]["token"]
+            self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
         return response
 
     def activate_submission(self):

@@ -4,7 +4,7 @@ from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_1
 from openprocurement.api.utils import error_handler
 from openprocurement.api.validation import (
     validate_json_data,
-    _validate_accreditation_level_owner,
+    validate_accreditation_level_owner,
 )
 from openprocurement.tender.belowthreshold.procedure.state.tender_details import BelowThresholdTenderDetailsState
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import CFASelectionTenderDetailsState
@@ -112,7 +112,7 @@ def validate_agreement_transfer_accreditation_level(request, **kwargs):
 
 
 def validate_owner_accreditation_level(request, obj):
-    _validate_accreditation_level_owner(request, obj["owner"], "ownership", "ownership", "change")
+    validate_accreditation_level_owner(request, obj["owner"], "ownership", "ownership", "change")
 
 
 def validate_tender_owner_accreditation_level(request, **kwargs):

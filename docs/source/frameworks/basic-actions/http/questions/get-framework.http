@@ -52,7 +52,7 @@ Content-Type: application/json
         "telephone": "+0440000000",
         "email": "aa@aa.com"
       },
-      "kind": "defense"
+      "kind": "general"
     },
     "enquiryPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
@@ -67,7 +67,7 @@ Content-Type: application/json
     "id": "676ef3ed979f4dc8a98ced89957a8d0d"
   },
   "config": {
-    "restrictedDerivatives": true
+    "restrictedDerivatives": false
   }
 }
 

@@ -3,14 +3,14 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.api.validation import (
-    _validate_accreditation_level,
+    validate_accreditation_level_base,
     OPERATIONS,
 )
 from openprocurement.contracting.core.procedure.utils import is_tender_owner, is_contract_owner, is_bid_owner
 
 
 def _validate_contract_accreditation_level(request, model):
-    _validate_accreditation_level(request, model.create_accreditations, "contract", "creation")
+    validate_accreditation_level_base(request, model.create_accreditations, "contract", "creation")
 
 
 # changes

@@ -92,7 +92,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'framework-create-broker.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     '/frameworks', {
@@ -117,7 +117,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         # Submissions
 
         # Create by Broker
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'submission-register-broker.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
                     '/submissions',
@@ -137,7 +137,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         self.submission1_token = response.json["access"]["token"]
 
         # Add Submission document
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             response = self.app.post_json(
                 '/submissions/{}/documents?acc_token={}'.format(self.submission1_id, self.submission1_token),
                 {
@@ -152,7 +152,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             )
 
         # Activate Submission
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'submission-activate-broker.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/submissions/{}?acc_token={}'.format(self.submission1_id, self.submission1_token),
@@ -164,7 +164,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
 
 
         # Check by Broker, can see submissions
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'submission-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/submissions?opt_fields=frameworkID,status,documents')
                 self.assertEqual(response.status, '200 OK')
@@ -186,7 +186,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         # Qualification
 
         # Add Qualification document
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             response = self.app.post_json(
                 '/qualifications/{}/documents?acc_token={}'.format(self.qualification1_id, owner_token),
                 {
@@ -201,7 +201,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             )
 
         # Check by Broker, can see qualifications
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'qualification-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/qualifications?opt_fields=frameworkID,status,documents')
                 self.assertEqual(response.status, '200 OK')
@@ -221,7 +221,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                 self.assertEqual(response.status, '200 OK')
 
         # Activate Qualifications
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'qualification-activate-broker.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/qualifications/{}?acc_token={}'.format(self.qualification1_id, owner_token),
@@ -238,7 +238,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                 self.agreement_id = response.json["data"]["agreementID"]
 
         # Check by Broker
-        with change_auth(self.app, ("Basic", ("broker", ""))):
+        with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'agreement-feed-broker.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements?opt_fields=status,procuringEntity')
                 self.assertEqual(response.status, '200 OK')

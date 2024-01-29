@@ -501,7 +501,7 @@ def create_submission_config_test(self):
 
 def create_submission_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
@@ -515,8 +515,27 @@ def create_submission_config_restricted(self):
         self.assertTrue(response.json["config"]["restrictedDerivatives"])
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
-    # Create and activate submission
+    # Fail to create submission (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = True
+
+        response = self.create_submission(config=config, status=403)
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "url",
+                "name": "accreditation",
+                "description": "Broker Accreditation level does not permit framework restricted data access"
+            }],
+        )
+
+    # Create submission
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         expected_config = {
             "restricted": True,
@@ -531,6 +550,29 @@ def create_submission_config_restricted(self):
 
         submission = response.json["data"]
         self.assertEqual(response.json["config"], expected_config)
+
+    # Fail to modify submission (no accreditation for restricted)
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        response = self.app.patch_json(
+            f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
+            {"data": {}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "url",
+                "name": "accreditation",
+                "description": "Broker Accreditation level does not permit submission restricted data access"
+            }],
+        )
+
+    # Activate submission
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
@@ -557,7 +599,7 @@ def create_submission_config_restricted(self):
         self.assertEqual(response.json["config"], expected_config)
 
     # Check access
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]))
@@ -619,6 +661,22 @@ def create_submission_config_restricted(self):
         )
         self.assertNotEqual(
             submissions[0]["documents"][0]["url"],
+            MASK_STRING,
+        )
+
+    # Check access (no accreditation for restricted)
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        # Check object
+        response = self.app.get("/submissions/{}".format(submission["id"]))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["data"]["tenderers"][0]["address"]["streetAddress"],
+            MASK_STRING,
+        )
+        self.assertEqual(
+            response.json["data"]["documents"][0]["url"],
             MASK_STRING,
         )
 

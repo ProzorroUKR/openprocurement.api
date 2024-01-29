@@ -93,12 +93,6 @@ def set_ownership(item, request, with_transfer=True):
     return access
 
 
-def delete_nones(data: dict):
-    for k, v in tuple(data.items()):
-        if v is None:
-            del data[k]
-
-
 def save_tender(
     request,
     modified: bool = True,

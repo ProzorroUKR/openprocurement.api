@@ -1,5 +1,5 @@
 PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=3299f029fac04e368056c8c69a976cf1 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -185,7 +185,7 @@ Content-Type: application/json
       }
     ],
     "tenderID": "UA-2023-10-10-000002-a",
-    "owner": "broker",
+    "owner": "brokerr",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",

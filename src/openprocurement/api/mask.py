@@ -1,5 +1,6 @@
 from jsonpath_ng import parse
 
+from openprocurement.api.auth import ACCR_RESTRICTED
 
 MASK_STRING = "Приховано"
 MASK_STRING_EN = "Hidden"
@@ -8,7 +9,6 @@ MASK_INTEGER = 0
 MASK_DATE = '1970-01-01T03:00:00+03:00'
 
 EXCLUDED_ROLES = (
-    "brokers",
     "chronograph",
     "auction",
     "bots",
@@ -30,12 +30,18 @@ def mask_object_data(request, data, mask_mapping):
         # Nothing to mask
         return
 
-    if not data.get("config", {}).get("restricted", False):
+    config_restricted = data.get("config", {}).get("restricted", False)
+    if config_restricted is not True:
         # Masking only enabled if restricted is True
         return
 
     if request.authenticated_role in EXCLUDED_ROLES:
         # Masking is not required for these roles
+        return
+
+    if request.authenticated_role == "brokers" and request.check_accreditations((ACCR_RESTRICTED,)):
+        # Masking is not required for brokers with accreditation
+        # that allows access to restricted data
         return
 
     mask_data(data, mask_mapping)

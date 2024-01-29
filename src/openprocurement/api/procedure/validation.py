@@ -2,15 +2,15 @@ from copy import deepcopy
 
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.utils import handle_data_exceptions, raise_operation_error
+from openprocurement.api.auth import ACCR_RESTRICTED
+from openprocurement.api.utils import handle_data_exceptions, raise_operation_error, delete_nones
 from openprocurement.api.validation import (
     validate_json_data,
-    _validate_accreditation_level,
-    _validate_accreditation_level_mode,
+    validate_accreditation_level_base,
+    validate_accreditation_level_mode,
 )
 from openprocurement.api.procedure.utils import is_item_owner, apply_data_patch
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
-from openprocurement.tender.core.procedure.utils import delete_nones
 
 
 def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
@@ -255,11 +255,11 @@ def validate_config_data(input_model, default=None):
 def validate_accreditation_level(levels, item, operation, source="tender", kind_central_levels=None):
     def validate(request, **kwargs):
         # operation
-        _validate_accreditation_level(request, levels, item, operation)
+        validate_accreditation_level_base(request, levels, item, operation)
 
         # real mode acc lvl
         mode = request.validated[source].get("mode")
-        _validate_accreditation_level_mode(request, mode, item, operation)
+        validate_accreditation_level_mode(request, mode, item, operation)
 
         # procuringEntity.kind = central
         if kind_central_levels:
@@ -267,7 +267,8 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
             if pe:
                 kind = pe.get("kind")
                 if kind == "central":
-                    _validate_accreditation_level(request, kind_central_levels, item, operation)
+                    validate_accreditation_level_base(request, kind_central_levels, item, operation)
+
     return validate
 
 
@@ -357,3 +358,29 @@ def update_doc_fields_on_put_document(request, **_):
     for key, value in prev_version.items():
         if key in force_replace or (key not in black_list and key not in json_data):
             document[key] = value
+
+def validate_restricted_object_action(request, obj_name, obj):
+    if request.method in ("GET", "HEAD"):
+        # Skip validation.
+        # Data will be masked for requests with no access to restricted object
+        return
+
+    if all([
+        obj["config"].get("restricted", False) is False,
+        obj["config"].get("restrictedDerivatives", False) is False
+    ]):
+        # Skip validation.
+        # It's not a restricted object
+        return
+
+    if request.authenticated_role != "brokers":
+        # Skip validation.
+        # Only brokers can have restrictions on access to restricted objects
+        return
+
+    validate_accreditation_level_base(
+        request,
+        (ACCR_RESTRICTED,),
+        obj_name,
+        "restricted data access",
+    )

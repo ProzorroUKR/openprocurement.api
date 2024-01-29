@@ -393,7 +393,7 @@ def patch_submission_pending_config_test(self):
 
 def patch_submission_pending_config_restricted(self):
     # Create framework
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
@@ -407,7 +407,7 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(framework["procuringEntity"]["kind"], "defense")
 
     # Create and activate submission
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
@@ -418,8 +418,28 @@ def patch_submission_pending_config_restricted(self):
         submission = response.json["data"]
         qualification_id = submission["qualificationID"]
 
-    # Activate qualification
+    # Fail to modify qualification (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        response = self.app.patch_json(
+            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            {"data": {}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{
+                "location": "url",
+                "name": "accreditation",
+                "description": "Broker Accreditation level does not permit qualification restricted data access"
+            }],
+        )
+
+    # Activate qualification
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         expected_config = {
             "restricted": True,
@@ -450,7 +470,7 @@ def patch_submission_pending_config_restricted(self):
         self.assertEqual(response.json["config"], expected_config)
 
     # Check access
-    with change_auth(self.app, ("Basic", ("broker", ""))):
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id))
@@ -497,6 +517,18 @@ def patch_submission_pending_config_restricted(self):
         )
         self.assertNotEqual(
             qualifications[0]["documents"][0]["url"],
+            MASK_STRING,
+        )
+
+    # Check access (no accreditation for restricted)
+    with change_auth(self.app, ("Basic", ("broker", ""))):
+
+        # Check object
+        response = self.app.get("/qualifications/{}".format(qualification_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["data"]["documents"][0]["url"],
             MASK_STRING,
         )
 

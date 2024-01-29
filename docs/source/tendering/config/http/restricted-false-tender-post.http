@@ -1,5 +1,5 @@
 POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -276,7 +276,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",
-    "owner": "broker",
+    "owner": "brokerr",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",

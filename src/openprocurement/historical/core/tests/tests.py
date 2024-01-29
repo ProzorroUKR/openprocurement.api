@@ -115,7 +115,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.config.set_authentication_policy(self.authn_policy)
         self.config.scan("openprocurement.historical.core.tests.utils")
         self.app = TestApp(self.config.make_wsgi_app())
-        self.app.authorization = ("Basic", ("broker", ""))
+        self.app.authorization = ("Basic", ("brokerh", ""))
 
     def tearDown(self):
         testing.tearDown()

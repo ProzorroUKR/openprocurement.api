@@ -1,5 +1,5 @@
 POST /api/2.5/tenders/7838682b871d4364ae37165578663a04/ownership HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerx
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 

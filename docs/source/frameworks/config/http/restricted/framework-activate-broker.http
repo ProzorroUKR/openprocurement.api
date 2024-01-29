@@ -1,5 +1,5 @@
 PATCH /api/2.5/frameworks/08238232b095420687b4e273ae56d878?acc_token=e8b68517319b4d4699c42692c138e6a0 HTTP/1.0
-Authorization: Bearer broker
+Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -31,7 +31,7 @@ Content-Type: application/json
         "description": "папір і картон гофровані, паперова й картонна тара"
       }
     ],
-    "owner": "broker",
+    "owner": "brokerr",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
