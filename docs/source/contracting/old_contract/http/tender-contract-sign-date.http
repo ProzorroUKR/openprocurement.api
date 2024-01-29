@@ -1,0 +1,17 @@
+PATCH /api/2.5/tenders/9edb2de5d15247d485a377e07702bc83/contracts/e07c2e4ee19e43c5bce75b127566b232?acc_token=b335e5d31c7b4c8291d7a477b18ec529 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "dateSigned": "2023-01-01T00:00:01+02:00"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+null
+

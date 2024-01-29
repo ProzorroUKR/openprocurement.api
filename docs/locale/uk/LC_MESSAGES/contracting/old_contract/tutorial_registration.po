@@ -1,0 +1,128 @@
+#
+# Zoriana Zaiats <sorenabell@quintagroup.com>, 2017.
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-29 19:12+0200\n"
+"PO-Revision-Date: 2017-07-25 15:20+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.11.0\n"
+
+msgid "Tutorial (registration)"
+msgstr "Туторіал (Реєстрація угоди)"
+
+msgid "This tutorial describes how to work with regular contracting in tender system."
+msgstr "Цей туторіал описує як працювати з регулярними угодами в системі закупівель."
+
+msgid "Contract will be created in the tender system after award activation."
+msgstr "Угода буде створена в системі закупівель після активації рішення про визначення переможця."
+
+msgid "Setting contract value"
+msgstr "Встановлення вартості угоди"
+
+msgid "Let's see the created contract with next request:"
+msgstr "Переглянемо створений контракт використовуючи наступний запит:"
+
+msgid "By default contract value `amount` and `amountNet` is set based on the award value `amount`, but there is a possibility to set custom contract value."
+msgstr "За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
+
+msgid "You can update value `amount` and `amountNet` following next rules:"
+msgstr "Ви можете встановити нові значення для полів `amount` та `amountNet` керуючись наступними правилами:"
+
+msgid "`valueAddedTaxIncluded`"
+msgstr ""
+
+msgid "`Validation`"
+msgstr ""
+
+msgid "`contract`"
+msgstr ""
+
+msgid "`award`"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "true/false"
+msgstr ""
+
+msgid "Amount should be greater than amountNet and differ by no more than 20%"
+msgstr ""
+
+msgid "Amount should be less or equal to awarded amount"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "AmountNet should be less or equal to awarded amount"
+msgstr ""
+
+msgid "Amount and amountNet should be equal"
+msgstr ""
+
+msgid "Let's set contract contract value with next request:"
+msgstr "Встановимо нові значення для поля `value` використовуючи наступний запит:"
+
+msgid "`200 OK` response was returned. The value was modified successfully."
+msgstr "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
+
+msgid "Setting contract signature date"
+msgstr "Встановлення дати підписання угоди"
+
+msgid "There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field."
+msgstr "Є можливість встановити дату підписання угоди. Для цього вставте відповідну дату в поле `dateSigned`."
+
+msgid "If this date is not set, it will be auto-generated on the date of contract registration."
+msgstr "Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації угоди."
+
+msgid "Setting contract validity period"
+msgstr "Встановлення терміну дії угоди"
+
+msgid "Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`."
+msgstr "Встановлення терміну дії угоди необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії."
+
+msgid "Uploading contract documentation"
+msgstr "Завантаження документів щодо укладання угоди"
+
+msgid "You can upload contract documents. Let's upload contract document:"
+msgstr "Спробуємо завантажити документ пов’язаний з угодою:"
+
+msgid "`201 Created` response code and `Location` header confirm document was added."
+msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано."
+
+msgid "Let's see the list of contract documents:"
+msgstr "Переглянемо список завантажених документів:"
+
+msgid "We can add another contract document:"
+msgstr "Тепер спробуємо додати ще один документ щодо укладанням угоди:"
+
+msgid "`201 Created` response code and `Location` header confirm second document was uploaded."
+msgstr "Код відповіді `201 Created`та заголовок `Location` підтверджують, що ще один документ було додано."
+
+msgid "Let's see the list of all added contract documents:"
+msgstr "Тепер переглянемо знову усі документи пов’язані із укладанням угоди:"
+
+msgid "Set contract signature date"
+msgstr "Встановити дату підписання угоди"
+
+msgid "There is a possibility to set custom contract signature date. If the date is not set it will be generated on contract registration."
+msgstr "Є можливість встановити дату підписання договору. Якщо дата не встановлена, то вона буде згенерована під час реєстрації договору"
+
+msgid "Contract registration"
+msgstr "Реєстрація угоди"
+
+msgid "Completing contract"
+msgstr "Завершення угоди"
+
+msgid "When the tender is completed, contract (that has been created in the tender system) is transferred to the contract system **automatically**."
+msgstr "Коли закупівля завершена, угода (яка була створена в системі закупівель) **автоматично** переноситься в систему угод."
+
+msgid "Read more about working with regular contracting in contracting system in :ref:`old_contracting_tutorial` section."
+msgstr "Дізнайтеся більше про роботу з регулярними угодами в системі угод в розділі :ref:`old_contracting_tutorial`."

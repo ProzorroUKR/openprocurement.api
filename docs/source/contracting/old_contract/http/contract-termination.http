@@ -22,6 +22,7 @@ Content-Type: application/json
   "data": {
     "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
     "contractID": "UA-2023-01-01-000001-a-1",
+    "contractNumber": "contract #13111",
     "dateSigned": "2023-01-01T00:00:01+02:00",
     "dateModified": "2023-01-01T00:00:01+02:00",
     "dateCreated": "2023-01-01T00:00:01+02:00",
@@ -146,6 +147,28 @@ Content-Type: application/json
       }
     ],
     "documents": [
+      {
+        "language": "uk",
+        "id": "e0dbb5b1ba48444caa87e74919f15684",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_first_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fd05000cea6644509133d7a55a6d0eb6?Signature=BGFjPoS7Fy6SJmiIpVychi4qX2I%2FLWV1%2Bq5Hj2XRrdRyYCMhO2KkHlHjL5DS8QqeV38n2bjWlho1wM03cTe6AQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
+      {
+        "language": "uk",
+        "id": "a5eda0ad89cd4f5eb58da1a4840c0239",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "contract_second_document.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b57c09aa077422282cf6ef8753e3812?Signature=loqXGLRZ6q7oNmHis9gM8i0hhPHnbyFLL8%2FuhAi2fzy85szHT3mTZKW4RNCOVszftzu7ATdFx89ccnO0RmaUBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "datePublished": "2023-01-01T00:00:01+02:00",
+        "dateModified": "2023-01-01T00:00:01+02:00"
+      },
       {
         "relatedItem": "1a129a39cd1743cfabd30481bbd04c61",
         "id": "6d33a714149d4018b4bfe5b84d60ee97",

@@ -20,7 +20,7 @@ msgstr ""
 "Generated-By: Babel 2.12.1\n"
 
 msgid "EContracting API interface to OpenProcurement database"
-msgstr "EContracting API для реєстрації даних пов’язаних з договором"
+msgstr "Е-Контрактінг API для реєстрації даних пов’язаних з договором"
 
 msgid "Contents:"
 msgstr "Зміст"

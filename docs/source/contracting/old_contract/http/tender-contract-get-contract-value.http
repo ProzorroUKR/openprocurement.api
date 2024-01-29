@@ -8,21 +8,29 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e07c2e4ee19e43c5bce75b127566b232",
-    "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
-    "contractID": "UA-2023-01-01-000001-a-1",
-    "contractNumber": "contract #13111",
-    "status": "active",
-    "period": {
-      "startDate": "2023-01-01T00:00:01+02:00",
-      "endDate": "2024-01-01T00:00:01+02:00"
-    },
-    "value": {
-      "amount": 238.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
-    },
+    "suppliers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "scale": "micro",
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
+      }
+    ],
     "items": [
       {
         "id": "b5ff13b59b7e4f2495ec32bda0e78958",
@@ -99,55 +107,17 @@ Content-Type: application/json
         }
       }
     ],
-    "suppliers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00037256",
-          "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "scale": "micro",
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        }
-      }
-    ],
-    "date": "2023-01-01T00:00:01+02:00",
-    "documents": [
-      {
-        "id": "e0dbb5b1ba48444caa87e74919f15684",
-        "datePublished": "2023-01-01T00:00:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fd05000cea6644509133d7a55a6d0eb6?Signature=BGFjPoS7Fy6SJmiIpVychi4qX2I%2FLWV1%2Bq5Hj2XRrdRyYCMhO2KkHlHjL5DS8QqeV38n2bjWlho1wM03cTe6AQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "language": "uk"
-      },
-      {
-        "id": "a5eda0ad89cd4f5eb58da1a4840c0239",
-        "datePublished": "2023-01-01T00:00:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "contract_second_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b57c09aa077422282cf6ef8753e3812?Signature=loqXGLRZ6q7oNmHis9gM8i0hhPHnbyFLL8%2FuhAi2fzy85szHT3mTZKW4RNCOVszftzu7ATdFx89ccnO0RmaUBg%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2023-01-01T00:00:01+02:00",
-        "language": "uk"
-      }
-    ],
-    "dateSigned": "2023-01-01T00:00:01+02:00"
+    "contractID": "UA-2023-01-01-000001-a-1",
+    "id": "e07c2e4ee19e43c5bce75b127566b232",
+    "status": "pending",
+    "awardID": "d64f2e4a9a0e43a093a29c203ad56b71",
+    "date": "2023-01-01T00:00:00+02:00",
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 500.0
+    }
   }
 }
 
