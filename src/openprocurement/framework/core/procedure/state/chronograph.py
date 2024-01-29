@@ -67,7 +67,7 @@ class ChronographEventsMixing:
             data["status"] = "terminated"
             for contract in data["contracts"]:
                 for milestone in contract["milestones"]:
-                    if milestone["status"] == "scheduled":
+                    if milestone.get("status", "scheduled") == "scheduled":
                         milestone["status"] = (
                             "met" if milestone.get("dueDate") and dt_from_iso(milestone["dueDate"]) <= now else "notMet"
                         )
