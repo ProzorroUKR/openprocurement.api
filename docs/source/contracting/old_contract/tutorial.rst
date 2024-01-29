@@ -21,7 +21,7 @@ Contract is transferred from the tender system by an automated process.
 Creating contract
 -----------------
 
-Let's say that we have conducted tender and it has ``complete`` status. When the tender is completed,  contract (that has been created in the tender system) is transferred to the contract system **automatically**.
+Let's say that we have conducted tender and it has ``complete`` status. When the tender is completed, contract (that has been created in the tender system) is transferred to the contract system **automatically**.
 
 *Brokers (eMalls) can't create contracts in the contract system.*
 

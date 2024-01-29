@@ -1,7 +1,7 @@
 .. _old_contracting:
 
-Old Contracting API interface to OpenProcurement database
-=========================================================
+Regular Contracting API interface to OpenProcurement database
+=============================================================
 
 Contents:
 
@@ -9,5 +9,6 @@ Contents:
    :maxdepth: 2
 
    overview
+   tutorial_registration
    tutorial
 
