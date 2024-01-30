@@ -21,6 +21,7 @@ from openprocurement.tender.core.procedure.models.criterion import Criterion, va
 from openprocurement.tender.core.procedure.models.organization import Buyer
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
+from openprocurement.tender.core.procedure.models.review_request import ReviewRequest
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_unique,
     validate_funders_ids, validate_object_id_uniq,
@@ -41,6 +42,12 @@ def validate_plans(data, value):
             raise ValidationError("The list should not contain duplicates")
         if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
             raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")
+
+
+def validate_inspector(data, value):
+    if value:
+        if not data.get("funders"):
+            raise ValidationError("Inspector couldn't exist without funders")
 
 
 class CommonBaseTender(Model):
@@ -115,6 +122,7 @@ class PostBaseTender(CommonBaseTender):
 
     status = StringType(choices=["draft"], default="draft")
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
+    inspector = ModelType(Organization)
 
     def validate_buyers(self, data, value):
         if data.get("procuringEntity", {}).get("kind", "") == "central" and not value:
@@ -128,6 +136,9 @@ class PostBaseTender(CommonBaseTender):
         if value is None:
             if tender_created_after(MPC_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
+
+    def validate_inspector(self, data, value):
+        validate_inspector(data, value)
 
 
 class BaseTender(PatchBaseTender):
@@ -167,6 +178,8 @@ class BaseTender(PatchBaseTender):
     mainProcurementCategory = StringType(choices=["goods", "services", "works"])
     buyers = ListType(ModelType(Buyer, required=True))
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
+    inspector = ModelType(Organization)
+    reviewRequests = ListType(ModelType(ReviewRequest, required=True))
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
 
@@ -190,3 +203,6 @@ class BaseTender(PatchBaseTender):
 
     def validate_questions(self, data, questions):
         validate_questions_related_items(data, questions)
+
+    def validate_inspector(self, data, value):
+        validate_inspector(data, value)

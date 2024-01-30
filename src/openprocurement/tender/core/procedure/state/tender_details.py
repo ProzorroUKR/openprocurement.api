@@ -190,6 +190,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
+        self.validate_patch_fields_with_exist_inspector_review_request(after)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         super().on_patch(before, after)
@@ -642,6 +643,19 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),
         }
+
+    def validate_patch_fields_with_exist_inspector_review_request(self, after: dict):
+        allowed_patch_fields = ("tenderPeriod",)
+        json_data = self.request.validated["json_data"]
+
+        if after.get("reviewRequests") and "approved" not in after["reviewRequests"][-1]:
+            for i in json_data.keys():
+                if i not in allowed_patch_fields:
+                    raise_operation_error(
+                        get_request(),
+                        f"With unanswered review request can be patched only {allowed_patch_fields} fields",
+                        status=422,
+                    )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

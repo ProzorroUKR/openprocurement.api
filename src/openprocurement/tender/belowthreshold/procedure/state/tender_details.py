@@ -3,7 +3,7 @@ from datetime import timedelta
 from openprocurement.api.auth import ACCR_1, ACCR_5, ACCR_2
 from openprocurement.api.context import get_now
 from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME, TENDERING_EXTRA_PERIOD
-from openprocurement.tender.belowthreshold.procedure.models.tender import PatchActiveTender, PatchTender
+from openprocurement.tender.belowthreshold.procedure.models.tender import PatchActiveTender, PatchDraftTender, PatchTender
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
@@ -85,8 +85,10 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     def get_patch_data_model(self):
         tender = get_tender()
-        if tender.get("status") == "active.tendering":
+        if tender.get("status", "") == "active.tendering":
             return PatchActiveTender
+        elif tender.get("status", "") in ("draft", "active.enquiries"):
+            return PatchDraftTender
         return PatchTender
 
 

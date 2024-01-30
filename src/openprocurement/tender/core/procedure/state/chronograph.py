@@ -85,6 +85,9 @@ class ChronographEventsMixing(baseclass):
         yield from self.complaint_events(tender)
         yield from self.cancellation_events(tender)
 
+        if self.is_waiting_on_inspector_approved(tender):
+            return
+
         if not self.cancellation_blocks_tender(tender):
             status = tender["status"]
             lots = tender.get("lots")
@@ -894,3 +897,19 @@ class ChronographEventsMixing(baseclass):
         if not tender.get("lots"):
             return
         tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])
+
+    @staticmethod
+    def is_waiting_on_inspector_approved(tender: dict) -> bool:
+        status = tender["status"]
+        if status not in ("active.enquiries", "active.awarded") or not tender.get("inspector"):
+            return False
+
+        rev_reqs = tender.get("reviewRequests", [])
+
+        return (
+            not rev_reqs
+            or rev_reqs[-1]["tenderStatus"] != status
+            or not rev_reqs[-1].get("approved")
+        )
+
+
