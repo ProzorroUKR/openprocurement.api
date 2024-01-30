@@ -37,6 +37,7 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self.criterion_always(after)
 
     def criterion_always(self, data: dict) -> None:
+        self.validate_action_with_exist_inspector_review_request()
         self.invalidate_bids()
 
     def validate_on_post(self, data: dict) -> None:

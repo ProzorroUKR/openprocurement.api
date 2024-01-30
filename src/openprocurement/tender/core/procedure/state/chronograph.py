@@ -19,6 +19,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
     is_new_contracting,
     tender_created_after_2020_rules,
+    check_is_tender_waiting_on_inspector_approved,
 )
 
 LOGGER = getLogger(__name__)
@@ -59,6 +60,9 @@ class ChronographEventsMixing:
     def get_events(self, tender):
         yield from self.complaint_events(tender)
         yield from self.cancellation_events(tender)
+
+        if check_is_tender_waiting_on_inspector_approved(tender):
+            return
 
         if not self.cancellation_blocks_tender(tender):
             status = tender["status"]

@@ -109,6 +109,15 @@ test_tender_below_data = {
     "procurementMethodType": "belowThreshold",
     "milestones": test_tender_below_milestones,
 }
+
+funder = deepcopy(test_tender_below_organization)
+del funder["scale"]
+funder["identifier"]["id"] = "44000"
+funder["identifier"]["scheme"] = "XM-DAC"
+
+test_tender_below_with_inspector_data = deepcopy(test_tender_below_data)
+test_tender_below_with_inspector_data.update({"funders": [funder], "inspector": funder})
+
 if SANDBOX_MODE:
     test_tender_below_data["procurementMethodDetails"] = "quick, accelerator=1440"
 

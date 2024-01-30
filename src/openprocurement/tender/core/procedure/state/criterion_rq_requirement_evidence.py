@@ -23,6 +23,7 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
     def evidence_always(self, data: dict) -> None:
         self._validate_change_requirement_objects()
         self._validate_for_language_criterion()
+        self.validate_action_with_exist_inspector_review_request()
         self.invalidate_bids()
 
     def _validate_for_language_criterion(self):

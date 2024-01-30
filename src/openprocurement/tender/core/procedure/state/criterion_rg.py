@@ -25,6 +25,7 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
     def requirement_group_always(self, data: dict) -> None:
         self.invalidate_bids()
         self._validate_requirements_data(data)
+        self.validate_action_with_exist_inspector_review_request()
 
     def validate_on_post(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]

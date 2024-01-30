@@ -501,3 +501,14 @@ def is_multi_currency_tender(check_funders=False):
     # But anyway multi currency can be only in belowThreshold, competitiveOrdering and new contracting
     if tender := get_tender():
         return tender["config"]["valueCurrencyEquality"] is False and (tender.get("funders") or not check_funders)
+
+
+def check_is_tender_waiting_on_inspector_approved(tender: dict, lot_id=None) -> bool:
+    status = tender["status"]
+    if status not in ("active.enquiries", "active.qualification", "active.awarded") or not tender.get("inspector"):
+        return False
+    rev_reqs = tender.get("reviewRequests", [])
+    if lot_id:
+        rev_reqs = [i for i in rev_reqs if i.get("lotID") == lot_id]
+
+    return not rev_reqs or rev_reqs[-1]["tenderStatus"] != status or not rev_reqs[-1].get("approved")

@@ -2,6 +2,7 @@ from datetime import datetime
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
+from typing import Optional
 
 from schematics.types import BaseType
 
@@ -26,6 +27,7 @@ from openprocurement.tender.core.procedure.utils import (
     is_multi_currency_tender,
     tender_created_after,
     tender_created_in,
+    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
 
@@ -286,6 +288,9 @@ class ContractStateMixing:
             self.contract_status_up(before["status"], after["status"], after)
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
+            self.validate_activate_contract_with_review_request(
+                self.request, self.request.validated["tender"], after, self.request.validated["award"].get("lotID")
+            )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
         if after.get("value", {}) != before.get("value", {}):
@@ -461,6 +466,16 @@ class ContractStateMixing:
                 else:
                     if amount != amount_net:
                         raise_operation_error(request, "Amount and amountNet should be equal", name="value")
+
+    @staticmethod
+    def validate_activate_contract_with_review_request(
+        request, tender: dict, after: dict, lot_id: Optional[str] = None
+    ) -> None:
+        if check_is_tender_waiting_on_inspector_approved(tender, lot_id):
+            raise_operation_error(
+                request,
+                f"Can't update contract to {after['status']} till inspector approve",
+            )
 
 
 class ContractState(ContractStateMixing, TenderState):

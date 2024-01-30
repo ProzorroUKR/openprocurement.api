@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMi
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
+from openprocurement.tender.core.procedure.reviewing_request import ReviewRequestBlockMixin
 from openprocurement.tender.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
@@ -18,6 +19,7 @@ class TenderState(
     CancellationBlockMixing,
     TenderStateAwardingMixing,
     ChronographEventsMixing,
+    ReviewRequestBlockMixin,
     BaseState,
 ):
     contract_model = Contract

@@ -17,6 +17,12 @@ The set of possible configuration values:
 
 You can look for more details in :ref:`config` section.
 
+
+Tender with inspector
+---------------------
+
+You can get info here: :ref:`inspector_tutorial`
+
 Creating tender
 ---------------
 
@@ -369,5 +375,5 @@ Upload new version of the document
 Activating the request and cancelling tender
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. http:example:: http/tutorial/active-cancellation.http
+.. http:example:: http/tutorial/create-tender-funders.http
    :code:

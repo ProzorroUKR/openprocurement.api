@@ -82,6 +82,12 @@ msgstr ""
 msgid "You can look for more details in :ref:`config` section."
 msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
+msgid "Tender with inspector"
+msgstr "Закупівля з контролером"
+
+msgid "You can get info here: :ref:`inspector_tutorial`"
+msgstr "Ви можете отримати інформацію тут: :ref:`inspector_tutorial`"
+
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 

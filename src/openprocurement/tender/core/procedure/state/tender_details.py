@@ -177,6 +177,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
+        self.validate_action_with_exist_inspector_review_request(("tenderPeriod",))
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
