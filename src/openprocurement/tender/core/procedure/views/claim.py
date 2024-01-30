@@ -137,13 +137,7 @@ class BaseClaimResource(TenderBaseResource):
 
 class TenderClaimResource(BaseClaimResource):
     state_class = TenderClaimState
-
-    @property
-    def serializer_class(self):
-        if self.request.method == "POST":
-            return ComplaintSerializer
-        else:
-            return TenderComplaintSerializer
+    serializer_class = TenderComplaintSerializer
 
     def __init__(self, request, context=None):
         super().__init__(request, context)

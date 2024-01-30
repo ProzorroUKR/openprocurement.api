@@ -26,7 +26,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True
@@ -49,7 +48,6 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True

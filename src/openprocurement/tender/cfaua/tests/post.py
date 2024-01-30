@@ -24,7 +24,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderComplaintPostResourceTest(
     BaseTenderContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True

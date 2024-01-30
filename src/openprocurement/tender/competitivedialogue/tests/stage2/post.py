@@ -29,7 +29,6 @@ from copy import deepcopy
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True
@@ -56,7 +55,6 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True

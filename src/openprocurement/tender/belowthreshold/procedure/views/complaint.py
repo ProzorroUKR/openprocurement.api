@@ -21,7 +21,7 @@ class BelowThresholdTenderClaimAndComplaintGetResource(BaseTenderComplaintGetRes
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType="belowThreshold",
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Tender claims",
 )

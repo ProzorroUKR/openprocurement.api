@@ -65,19 +65,12 @@ def question_blocking(self):
 
 def claim_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
+    # as POST claim already doesn't work, create claim via database just to test old tenders
+    tender = self.mongodb.tenders.get(self.tender_id)
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim_data
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    self.assertEqual(complaint["relatedLot"], self.initial_lots[0]["id"])
+    tender["complaints"] = [claim_data]
+    self.mongodb.tenders.save(tender)
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     response = self.check_chronograph()
@@ -158,19 +151,13 @@ def next_check_value_with_unanswered_question(self):
 
 def next_check_value_with_unanswered_claim(self):
     self.app.authorization = ("Basic", ("broker", ""))
+    # as POST claim already doesn't work, create claim via database just to test old tenders
+    tender = self.mongodb.tenders.get(self.tender_id)
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
     claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim_data
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    self.assertEqual(complaint["relatedLot"], self.initial_lots[0]["id"])
+    tender["complaints"] = [claim_data]
+    self.mongodb.tenders.save(tender)
 
     self.set_status(self.question_claim_block_status, extra={"status": "active.tendering"})
     response = self.check_chronograph()

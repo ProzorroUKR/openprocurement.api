@@ -25,7 +25,6 @@ from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_lots,
 )
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_complaint,
     switch_to_auction,
     pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
@@ -135,7 +134,6 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     author_data = test_tender_below_author
     docservice = True
 
-    test_switch_to_complaint = snitch(switch_to_complaint)
     test_switch_qualification_complaints_draft = snitch(switch_qualification_complaints_draft)
     test_switch_tender_after_cancellation_unsuccessful = snitch(switch_tender_after_cancellation_unsuccessful)
 

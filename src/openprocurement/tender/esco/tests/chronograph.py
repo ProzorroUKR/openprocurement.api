@@ -14,7 +14,6 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_lots,
 )
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_complaint,
     switch_to_auction,
     pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
@@ -76,18 +75,6 @@ class TenderLotAuctionPeriodResourceTest(BaseESCOContentWebTest):
     test_set_auction_period = snitch(set_auction_period_lot)
 
 
-class TenderComplaintSwitchResourceTest(BaseESCOContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_esco_bids
-    author_data = test_tender_below_author
-
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_tender_esco_lots
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderSwitchPreQualificationResourceTest))
@@ -98,8 +85,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
     suite.addTest(unittest.makeSuite(TenderAuctionPeriodResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
     return suite
 
 

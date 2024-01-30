@@ -33,7 +33,7 @@ class CD2EUTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue stage2 EU claims",
 )
@@ -71,7 +71,7 @@ class CD2UATenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType=STAGE_2_UA_TYPE,
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue stage2 UA claims",
 )

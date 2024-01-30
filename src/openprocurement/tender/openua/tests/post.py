@@ -346,7 +346,6 @@ class ComplaintPostResourceMixin(object):
 class TenderComplaintPostResourceTest(
     BaseTenderUAContentWebTest,
     ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
     TenderComplaintPostResourceMixin
 ):
     docservice = True

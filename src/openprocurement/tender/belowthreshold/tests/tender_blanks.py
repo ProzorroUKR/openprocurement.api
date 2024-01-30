@@ -2534,29 +2534,6 @@ def invalid_tender_conditions(self):
     owner_token = self.tender_token = response.json["access"]["token"]
     # switch to active.tendering
     self.set_status(self.primary_tender_status)
-    # create compaint
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(tender_id),
-        {
-            "data": test_tender_below_claim
-        },
-    )
-    complaint_id = response.json["data"]["id"]
-    complaint_owner_token = response.json["access"]["token"]
-    # answering claim
-    self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(tender_id, complaint_id, owner_token),
-        {"data": {"status": "answered", "resolutionType": "resolved", "resolution": "I will cancel the tender"}},
-    )
-    # satisfying resolution
-    self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(tender_id, complaint_id, complaint_owner_token),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
-
-    set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
-    if get_now() > RELEASE_2020_04_19 and set_complaint_period_end:
-        set_complaint_period_end()
 
     # cancellation
     cancellation = dict(**test_tender_below_cancellation)

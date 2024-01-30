@@ -64,46 +64,6 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.auction")
 
 
-def claim_blocking(self):
-    claim = deepcopy(test_tender_below_claim)
-    claim["relatedLot"] = self.initial_lots[0]["id"]
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint = response.json["data"]
-    self.assertEqual(complaint["relatedLot"], self.initial_lots[0]["id"])
-
-    self.set_status("active.auction", extra={"status": "active.tendering"})
-    response = self.check_chronograph()
-
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-
-    # cancel lot
-    cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
-    response = self.app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
-    )
-
-    cancellation_id = response.json["data"]["id"]
-    if RELEASE_2020_04_19 < get_now():
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
-
-    self.check_chronograph()
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertEqual(response.json["data"]["status"], "active.auction")
-
-
 def next_check_value_with_unanswered_question(self):
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
@@ -136,57 +96,6 @@ def next_check_value_with_unanswered_question(self):
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
     )
-    cancellation_id = response.json["data"]["id"]
-
-    if RELEASE_2020_04_19 < get_now():
-        activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
-    else:
-        response = self.app.get("/tenders/{}".format(self.tender_id))
-        self.assertIn("next_check", response.json["data"])
-        self.assertEqual(
-            parse_date(response.json["data"]["next_check"]),
-            parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-        )
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.auction")
-    self.assertIn("next_check", response.json["data"])
-    self.assertGreater(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
-    )
-
-
-def next_check_value_with_unanswered_claim(self):
-    claim = deepcopy(test_tender_below_claim)
-    claim["relatedLot"] = self.initial_lots[0]["id"]
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    complaint = response.json["data"]
-    self.assertEqual(complaint["relatedLot"], self.initial_lots[0]["id"])
-
-    self.set_status("active.auction", extra={"status": "active.tendering"})
-    orig_auth = self.app.authorization
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-    self.assertNotIn("next_check", response.json["data"])
-
-    self.app.authorization = orig_auth
-    cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
-    response = self.app.post_json(
-        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
-    )
-
     cancellation_id = response.json["data"]["id"]
 
     if RELEASE_2020_04_19 < get_now():

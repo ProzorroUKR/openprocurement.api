@@ -5,9 +5,6 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_author,
-)
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
@@ -15,8 +12,6 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_features_data,
 )
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
-    # TenderComplaintSwitchResourceTest
-    switch_to_complaint,
     # TenderSwitchAuctionResourceTest
     switch_to_auction,
     # TenderSwitchPreQualificationResourceTest
@@ -83,18 +78,6 @@ class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
-
-
-class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_cfaua_bids
-    author_data = test_tender_below_author
-
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_tender_cfaua_lots
 
 
 class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):

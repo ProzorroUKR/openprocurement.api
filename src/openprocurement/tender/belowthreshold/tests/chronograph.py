@@ -19,10 +19,6 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     reset_auction_period,
     set_auction_period_lot_separately,
     switch_to_auction_with_non_auction_lot,
-    switch_to_ignored_on_complete,
-    switch_from_pending_to_ignored,
-    switch_from_pending,
-    switch_to_complaint,
     award_switch_to_ignored_on_complete,
     award_switch_from_pending_to_ignored,
     award_switch_from_pending,
@@ -136,18 +132,6 @@ class TenderLotNoAuctionResourceTest(TenderContentWebTest):
     test_switch_to_auction_with_non_auction_lot = snitch(switch_to_auction_with_non_auction_lot)
 
 
-class TenderComplaintSwitchResourceTest(TenderContentWebTest):
-    initial_status = "active.enquiries"
-    test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
-    test_switch_from_pending_to_ignored = snitch(switch_from_pending_to_ignored)
-    test_switch_from_pending = snitch(switch_from_pending)
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_tender_below_lots
-
-
 class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
@@ -210,9 +194,7 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))

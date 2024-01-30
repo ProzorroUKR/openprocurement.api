@@ -30,8 +30,6 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
     switch_to_auction as switch_to_auction_eu,
     # TenderStage2EUSwitchPreQualificationResourceTest
     pre_qual_switch_to_auction as switch_to_auction_pre_qual,
-    # TenderStage2EUComplaintSwitchResourceTest
-    switch_to_complaint as switch_to_complaint_eu,
 )
 
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -76,15 +74,6 @@ class TenderStage2EUSwitchUnsuccessfulResourceTest(BaseCompetitiveDialogEUStage2
     initial_lots = test_tender_cd_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_eu)
-
-
-class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_bids
-    author_data = test_tender_cd_author  # TODO: change attribute identifier
-    initial_lots = test_tender_cd_lots
-
-    test_switch_to_complaint = snitch(switch_to_complaint_eu)
 
 
 class TenderStage2UASwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -159,7 +148,6 @@ def suite():
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchPreQualificationResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchAuctionResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2EUSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintSwitchResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UASwitch0BidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UASwitch1BidResourceTest))
     suite.addTest(unittest.makeSuite(TenderStage2UASwitchAuctionResourceTest))

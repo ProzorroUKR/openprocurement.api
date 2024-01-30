@@ -27,7 +27,7 @@ class CDEUTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType=CD_EU_TYPE,
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue EU claims",
 )
@@ -67,7 +67,7 @@ class CDUATenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType=CD_UA_TYPE,
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue UA claims",
 )

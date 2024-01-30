@@ -3,7 +3,6 @@ from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 
 
 class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState):
-    create_allowed_tender_statuses = ("active.enquiries",)
     update_allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",

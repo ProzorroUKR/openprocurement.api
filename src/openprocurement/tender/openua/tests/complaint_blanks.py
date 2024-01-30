@@ -3,8 +3,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
-    test_tender_below_draft_claim,
     test_tender_below_complaint,
     test_tender_below_author,
     test_tender_below_draft_complaint,
@@ -26,74 +24,6 @@ def create_tender_complaint(self):
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]
     self.assertEqual(complaint["status"], "draft")
-
-    claim_data = deepcopy(test_tender_below_claim)
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim_data
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    self.assertEqual(complaint["author"]["name"], self.test_author["name"])
-    self.assertIn("id", complaint)
-    self.assertIn(complaint["id"], response.headers["Location"])
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "answered"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "answered", "resolutionType": "invalid", "resolution": "spam 100% " * 3}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "answered")
-    self.assertEqual(response.json["data"]["resolutionType"], "invalid")
-    self.assertEqual(response.json["data"]["resolution"], "spam 100% " * 3)
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "resolved")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"status": "cancelled", "cancellationReason": "reason"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint in current (resolved) status")
-
-    self.set_status("unsuccessful")
-
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add complaint in current (unsuccessful) tender status"
-    )
 
 
 def patch_tender_complaint(self):
@@ -128,87 +58,6 @@ def patch_tender_complaint(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["errors"][0]["description"],
                          "Can't update complaint from draft to cancelled status")
-
-    claim_data = deepcopy(test_tender_below_draft_claim)
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "cancelled", "cancellationReason": "reason"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from draft to cancelled status")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"title": "claim title"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["title"], "claim title")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"status": "claim"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "claim")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"resolution": "changing rules"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["resolution"], "changing rules")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "answered", "resolutionType": "resolved", "resolution": "resolution text" * 2}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "answered")
-    self.assertEqual(response.json["data"]["resolutionType"], "resolved")
-    self.assertEqual(response.json["data"]["resolution"], "resolution text" * 2)
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"satisfied": False}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["satisfied"], False)
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"status": "resolved"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint from answered to resolved status")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"status": "pending"}},
-        status=403
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update complaint from answered to pending status"
-    )
 
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
@@ -315,17 +164,6 @@ def patch_tender_complaint(self):
         self.assertEqual(
             response.json["errors"][0]["description"], "Can't update complaint from pending to stopping status"
         )
-
-    claim_data = deepcopy(test_tender_below_draft_claim)
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
 
     # create complaint
     complaint_data = deepcopy(test_tender_below_draft_complaint)
@@ -619,113 +457,6 @@ def mistaken_status_tender_complaint(self):
     self.assertEqual(response.json["errors"][0]["description"],
                      "Can't update complaint from pending to mistaken status")
 
-    claim_data = deepcopy(test_tender_below_draft_claim)
-    claim_data["status"] = "claim"
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    complaint_id = complaint["id"]
-    owner_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "mistaken"}},
-        status=403,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update complaint from claim to mistaken status"
-    )
-
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    complaint_id = complaint["id"]
-    owner_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "cancelled", "cancellationReason": "reason"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "mistaken"}},
-        status=403,
-    )
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update complaint in current (cancelled) status"
-    )
-
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    complaint_id = complaint["id"]
-    owner_token = response.json["access"]["token"]
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, self.tender_token),
-        {"data": {"status": "answered", "resolution": "sdaghjg jgjh gjhg gjh", "resolutionType": "invalid"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "mistaken"}},
-        status=403,
-    )
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update complaint from answered to mistaken status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "resolved", "tendererAction": "sdad sadas da", "satisfied": True}},
-        status=422
-    )
-    self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "tendererAction", "description": "Rogue field"}
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "resolved", "satisfied": True}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint_id, owner_token),
-        {"data": {"status": "mistaken"}},
-        status=403,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't update complaint in current (resolved) status"
-    )
-
 
 def review_tender_stopping_complaint(self):
     if get_now() < RELEASE_2020_04_19:
@@ -773,80 +504,6 @@ def review_tender_stopping_complaint(self):
     else:
         pass
         # This test exist in patch_tender_complaint method
-
-
-# TenderLotAwardComplaintResourceTest
-
-
-def create_tender_lot_complaint(self):
-    claim_data = deepcopy(test_tender_below_claim)
-    claim_data["relatedLot"] = self.initial_lots[0]["id"]
-    claim_data["author"] = getattr(self, "test_author", test_tender_below_author)
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim_data
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    complaint = response.json["data"]
-    owner_token = response.json["access"]["token"]
-    self.assertEqual(complaint["author"]["name"], self.test_author["name"])
-    self.assertIn("id", complaint)
-    self.assertIn(complaint["id"], response.headers["Location"])
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "answered"}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "resolutionType"}],
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-        {"data": {"status": "answered", "resolutionType": "invalid", "resolution": "spam 100% " * 3}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "answered")
-    self.assertEqual(response.json["data"]["resolutionType"], "invalid")
-    self.assertEqual(response.json["data"]["resolution"], "spam 100% " * 3)
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"satisfied": True, "status": "resolved"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "resolved")
-
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
-        {"data": {"status": "cancelled", "cancellationReason": "reason"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update complaint in current (resolved) status")
-
-    self.set_status("unsuccessful")
-
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": claim_data},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add complaint in current (unsuccessful) tender status"
-    )
 
 
 # TenderComplaintDocumentResourceTest

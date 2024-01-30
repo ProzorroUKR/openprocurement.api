@@ -2,7 +2,7 @@
 
 import unittest
 
-from openprocurement.tender.belowthreshold.tests import auction, award, bid, document, tender, question, complaint
+from openprocurement.tender.belowthreshold.tests import auction, award, bid, document, tender, question
 
 
 def suite():
@@ -10,7 +10,6 @@ def suite():
     suite.addTest(auction.suite())
     suite.addTest(award.suite())
     suite.addTest(bid.suite())
-    suite.addTest(complaint.suite())
     suite.addTest(document.suite())
     suite.addTest(question.suite())
     suite.addTest(tender.suite())

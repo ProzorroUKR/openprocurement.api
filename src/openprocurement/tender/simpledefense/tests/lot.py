@@ -22,6 +22,8 @@ from openprocurement.tender.openua.tests.lot_blanks import (
     # TenderLotFeatureBidderResourceTest
     create_tender_bidder_feature_invalid,
     create_tender_bidder_feature,
+    claim_blocking,
+    next_check_value_with_unanswered_claim,
 )
 
 from openprocurement.tender.simpledefense.tests.base import (
@@ -32,9 +34,7 @@ from openprocurement.tender.simpledefense.tests.base import (
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
     # TenderLotEdgeCasesTest
     question_blocking,
-    claim_blocking,
     next_check_value_with_unanswered_question,
-    next_check_value_with_unanswered_claim,
     # TenderLotProcessTest
     one_lot_1bid,
     two_lot_1bid_0com_1can,
