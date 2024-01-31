@@ -501,7 +501,6 @@ def _extract_resource(request, matchdict, parent_resource, resource_name):
     return None
 
 
-
 def get_supplier_contract(contracts, tenderers):
     for contract in contracts:
         if contract["status"] == "active":
@@ -509,3 +508,16 @@ def get_supplier_contract(contracts, tenderers):
                 for tenderer in tenderers:
                     if supplier["identifier"]["id"] == tenderer["identifier"]["id"]:
                         return contract
+
+
+def check_is_tender_waiting_on_inspector_approved(tender: dict) -> bool:
+    status = tender["status"]
+    if status not in ("active.enquiries", "active.awarded") or not tender.get("inspector"):
+        return False
+    rev_reqs = tender.get("reviewRequests", [])
+
+    return (
+        not rev_reqs
+        or rev_reqs[-1]["tenderStatus"] != status
+        or not rev_reqs[-1].get("approved")
+    )

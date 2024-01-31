@@ -65,6 +65,11 @@ class EContractState(
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
+            self.validate_activate_contract_with_review_request(
+                self.request,
+                self.request.validated["tender"],
+                data,
+            )
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
         tender = request.validated["tender"]

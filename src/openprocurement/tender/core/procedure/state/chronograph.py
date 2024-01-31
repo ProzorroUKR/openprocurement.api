@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after_2020_rules, activate_bids, calc_auction_end_time,
     is_new_contracting,
+    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
@@ -85,7 +86,7 @@ class ChronographEventsMixing(baseclass):
         yield from self.complaint_events(tender)
         yield from self.cancellation_events(tender)
 
-        if self.is_waiting_on_inspector_approved(tender):
+        if check_is_tender_waiting_on_inspector_approved(tender):
             return
 
         if not self.cancellation_blocks_tender(tender):
@@ -897,19 +898,4 @@ class ChronographEventsMixing(baseclass):
         if not tender.get("lots"):
             return
         tender["yearlyPaymentsPercentageRange"] = min(i["yearlyPaymentsPercentageRange"] for i in tender["lots"])
-
-    @staticmethod
-    def is_waiting_on_inspector_approved(tender: dict) -> bool:
-        status = tender["status"]
-        if status not in ("active.enquiries", "active.awarded") or not tender.get("inspector"):
-            return False
-
-        rev_reqs = tender.get("reviewRequests", [])
-
-        return (
-            not rev_reqs
-            or rev_reqs[-1]["tenderStatus"] != status
-            or not rev_reqs[-1].get("approved")
-        )
-
 

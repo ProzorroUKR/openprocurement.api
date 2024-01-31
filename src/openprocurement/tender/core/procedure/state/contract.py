@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_in,
     tender_created_after,
+    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.validation import OPERATIONS
@@ -325,6 +326,11 @@ class ContractStateMixing(baseclass):
             self.contract_status_up(before["status"], after["status"], after)
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
+            self.validate_activate_contract_with_review_request(
+                self.request,
+                self.request.validated["tender"],
+                after,
+            )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
         if after.get("value", {}) != before.get("value", {}):
@@ -521,6 +527,14 @@ class ContractStateMixing(baseclass):
                 else:
                     if amount != amount_net:
                         raise_operation_error(request, "Amount and amountNet should be equal", name="value")
+
+    @staticmethod
+    def validate_activate_contract_with_review_request(request, tender: dict, after: dict) -> None:
+        if check_is_tender_waiting_on_inspector_approved(tender):
+            raise_operation_error(
+                request,
+                f"Can't update contract to {after['status']} till inspector approve",
+            )
 
 
 class ContractState(ContractStateMixing, TenderState):
