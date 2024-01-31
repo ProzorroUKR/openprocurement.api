@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "ComplaintResolution.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=Bjcp2stkTCPXJh0jeFm7xcjO%2Bd1YXOA%2FYd5hDmZmtBoaVP1mzvOGuZWSAIaXjvwvkRWU%2FVrDz4g3pZOVW6REDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/58f9d67e04944faa910186f868189357?Signature=Sz4Mq5QzxrCbk4fmeuhIXV8%2FKQxjBpJVpeU77IlUm7%2BxOH02lPTaDOeqjTVGMCRIac4S1I%2BEkhBJCH1omlJtCw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -22,7 +22,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=y2nY0tzn8KyDwg9YuaulyZnCDfozZ7TRTStPKv8qORYijdkzr3rmXQjcF%2FJAzVO06VtH7e%2ByWVWFI1SODaOkAA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/58f9d67e04944faa910186f868189357?Signature=bTyysxLgmSxwOJ2mbeKuyIt9n0Kc0GIDrLYtNInWgPLwFyGb0nhul1wcwlTI5Lh7pZFnS9JPCG0ax9wWPt1LAQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
     "id": "a96631aa035f46d183f9073c1eff1e10",

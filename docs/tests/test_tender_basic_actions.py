@@ -7,6 +7,7 @@ from uuid import uuid4
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -127,54 +128,34 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         self.set_status("active.tendering")
 
-        with open(TARGET_DIR + 'complaints/claim-submission.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id),
-                {'data': claim})
-            self.assertEqual(response.status, '201 Created')
-
-        complaint_token = response.json['access']['token']
-        complaint_id = response.json['data']['id']
-
-        with open(TARGET_DIR + 'complaints/complaint-submission-upload.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(self.tender_id, complaint_id,
-                                                                          complaint_token),
-                {"data": {
-                    "title": "Complaint_Attachment.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }},
-            )
-            self.assertEqual(response.status, '201 Created')
-
-        with open(TARGET_DIR + 'complaints/complaint-claim.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint_id, complaint_token),
-                {"data": {"status": "claim"}})
-            self.assertEqual(response.status, '200 OK')
-
-        claim_data = {'data': claim.copy()}
-        claim_data['data']['status'] = 'claim'
-        with open(TARGET_DIR + 'complaints/complaint-submission-claim.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders/{}/complaints'.format(self.tender_id), claim_data)
-            self.assertEqual(response.status, '201 Created')
-
-        complaint2_token = response.json['access']['token']
-        complaint2_id = response.json['data']['id']
+        # as POST claim already doesn't work, create claim via database, as PATCH is still working
+        tender_from_db = self.mongodb.tenders.get(tender["id"])
+        claim_data = deepcopy(claim)
+        claim_data["dateSubmitted"] = claim_data["date"]= get_now().isoformat()
+        claim_data["status"] = claim_data["type"] = "claim"
+        claim_data["owner"] = "broker"
+        claim_token = uuid4().hex
+        claim_data["owner_token"] = claim_token
+        complaint2_id = uuid4().hex
+        claim_data["id"] = complaint2_id
+        claim_number = calculate_total_complaints(tender) + 1
+        claim_data["complaintID"] = f"{tender['tenderID']}.{claim_number}"
+        tender_from_db["complaints"] = [claim_data]
+        self.mongodb.tenders.save(tender_from_db)
 
         complaint_data = {'data': complaint.copy()}
 
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
 
-        response = self.app.post_json(
-            '/tenders/{}/complaints'.format(self.tender_id), claim_data)
-        self.assertEqual(response.status, '201 Created')
-        complaint4_id = response.json['data']['id']
-        complaint4_token = response.json['access']['token']
+        tender_from_db = self.mongodb.tenders.get(tender["id"])
+        claim_data_2 = deepcopy(claim_data)
+        complaint4_id = uuid4().hex
+        claim_data_2["id"] = complaint4_id
+        claim_number = calculate_total_complaints(tender) + 1
+        claim_data_2["complaintID"] = f"{tender['tenderID']}.{claim_number}"
+        tender_from_db["complaints"].append(claim_data_2)
+        self.mongodb.tenders.save(tender_from_db)
 
         with open(TARGET_DIR + 'complaints/complaint-submission.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -218,7 +199,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'complaints/complaint-satisfy.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, complaint2_token),
+                '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint2_id, claim_token),
                 {"data": {
                     "satisfied": True,
                     "status": "resolved"
@@ -228,7 +209,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         if get_now() < RELEASE_2020_04_19:
             with open(TARGET_DIR + 'complaints/complaint-escalate.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
-                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, complaint4_token),
+                    '/tenders/{}/complaints/{}?acc_token={}'.format(self.tender_id, complaint4_id, claim_token),
                     {"data": {
                         "satisfied": False,
                         "status": "pending"

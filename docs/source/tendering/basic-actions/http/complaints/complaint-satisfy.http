@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/f3953d53ae224d82af8bb7c2b94f8628?acc_token=cb5abce229bc4c89b70bfc25517b1586 HTTP/1.0
+PATCH /api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/b0ca3342dd464a43b104d344564afa80?acc_token=1f291f37598140739b4bfaa87f7f0374 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "f3953d53ae224d82af8bb7c2b94f8628",
-    "complaintID": "UA-2023-10-10-000001-a.2",
+    "id": "b0ca3342dd464a43b104d344564afa80",
+    "complaintID": "UA-2023-10-10-000001-a.1",
     "date": "2023-10-10T01:00:00+03:00",
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
