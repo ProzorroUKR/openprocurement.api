@@ -3,7 +3,7 @@ from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.validation import validate_input_data
-from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.utils import save_tender, check_is_tender_waiting_on_inspector_approved
 from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
 from openprocurement.tender.core.procedure.serializers.chronograph import ChronographSerializer
 
@@ -25,9 +25,17 @@ class TenderChronographResource(TenderBaseResource):
         )
     )
     def patch(self):
+
+        if check_is_tender_waiting_on_inspector_approved(self.request.validated["tender"]):
+            return {
+                "data": self.serializer_class(get_tender()).data,
+                "config": get_tender_config(),
+            }
+
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update
+
         data = self.request.validated["data"]
         for lot in data.get("lots", ""):
             if "auctionPeriod" in lot and lot["auctionPeriod"] is None:

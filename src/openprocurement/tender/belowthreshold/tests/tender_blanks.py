@@ -1818,7 +1818,7 @@ def tender_inspector(self):
             "location": "body",
             "name": "inspector",
             "description": [
-                "inspector couldn't exist without funders"
+                "Inspector couldn't exist without funders"
             ]
         }]
     )
@@ -1850,7 +1850,7 @@ def tender_inspector(self):
             "location": "body",
             "name": "inspector",
             "description": [
-                "inspector couldn't exist without funders"
+                "Inspector couldn't exist without funders"
             ]
         }]
     )
