@@ -504,3 +504,10 @@ def get_supplier_contract(contracts, tenderers):
                 for tenderer in tenderers:
                     if supplier["identifier"]["id"] == tenderer["identifier"]["id"]:
                         return contract
+
+
+def extract_document_id(request):
+    path = extract_path(request)
+    if "documents" in path:
+        matchdict = matchdict_from_path(path, root_resource="documents")
+        return matchdict.get("document_id")

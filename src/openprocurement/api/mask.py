@@ -44,4 +44,10 @@ def mask_object_data(request, data, mask_mapping):
         # that allows access to restricted data
         return
 
+    from openprocurement.tender.core.procedure.utils import extract_document_id
+
+    if extract_document_id(request) and request.params and request.params.get("download"):
+        # Masking is not required when non-authorized user download document by link
+        return
+
     mask_data(data, mask_mapping)
