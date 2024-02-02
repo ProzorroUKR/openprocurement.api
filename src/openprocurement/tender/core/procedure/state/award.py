@@ -8,6 +8,7 @@ from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.validation import validate_object_action_with_inspector
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
 from openprocurement.api.utils import raise_operation_error
@@ -30,6 +31,8 @@ class AwardStateMixing(baseclass):
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
+        validate_object_action_with_inspector(self.request, 'award', self.request.validated["tender"])
+
         if before["status"] != award["status"]:
             if award["status"] in ("active", "unsuccessful"):
                 if not award.get("complaintPeriod"):

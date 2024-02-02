@@ -512,7 +512,7 @@ def get_supplier_contract(contracts, tenderers):
 
 def check_is_tender_waiting_on_inspector_approved(tender: dict) -> bool:
     status = tender["status"]
-    if status not in ("active.enquiries", "active.awarded") or not tender.get("inspector"):
+    if status not in ("active.enquiries", "active.qualification") or not tender.get("inspector"):
         return False
     rev_reqs = tender.get("reviewRequests", [])
 

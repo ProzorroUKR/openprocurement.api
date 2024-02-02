@@ -1,0 +1,136 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-12-11 23:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.0\n"
+
+msgid "EContract Change"
+msgstr ""
+
+msgid "This section describes the new workflow for making changes to active contracts."
+msgstr ""
+
+msgid "Contract"
+msgstr ""
+
+msgid "Imagine you already have active contract with all needed information:"
+msgstr ""
+
+msgid "Creating change"
+msgstr ""
+
+msgid "Both buyer and supplier can make changes to the active contract."
+msgstr ""
+
+msgid "When creating a change, you need to fill in three mandatory fields (in the old behavior there were only two: `rationale`, `rationaleTypes`):"
+msgstr ""
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, cause of changes"
+msgstr ""
+
+msgid "rationaleTypes"
+msgstr ""
+
+msgid "list, types of change"
+msgstr ""
+
+msgid "modifications"
+msgstr ""
+
+msgid "object, field that could be changed in contract"
+msgstr ""
+
+msgid "`modifications` is a new structure that represents fields that the user wants to update in the contract, these fields are of the same type as the corresponding fields in the contract:"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "string, required"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "buyer"
+msgstr ""
+
+msgid ":ref:`EContractOrganization`"
+msgstr ""
+
+msgid "suppliers"
+msgstr ""
+
+msgid "List of :ref:`EContractOrganization` objects"
+msgstr ""
+
+msgid "items"
+msgstr ""
+
+msgid "List of :ref:`Item` objects"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`ContractValue` object"
+msgstr ""
+
+msgid "After explaining new structure, let's create change:"
+msgstr ""
+
+msgid "Activating change"
+msgstr ""
+
+msgid "In previous flow after creation contract change you need to set `dateSigned` to activate contract, in new flow for activating change supplier and buyer should add signature document with extension `.p7s` and documentType `contractChangeSignature` to change object."
+msgstr ""
+
+msgid "Buyer add document to change:"
+msgstr ""
+
+msgid "Supplier add document:"
+msgstr ""
+
+msgid "After adding signature documents we have possibility to activate change:"
+msgstr ""
+
+msgid "After activation, a new `previousValues` field appears, which contains information about the previous values of changed fields in the contract."
+msgstr ""
+
+msgid "Also after activation, changes from the `modifications` field are applied to the contract:"
+msgstr ""
+
+msgid "Conclusion"
+msgstr ""
+
+msgid "Change can create both a buyer and a supplier."
+msgstr ""
+
+msgid "Two fields will be added to `Change`: `modifications` - changes that will be applied after activation and `previousValues`: auto-generated field for storing history."
+msgstr ""
+
+msgid "For activating `Change` buyer and supplier must sign this change by adding signature documents to the change."
+msgstr ""
+
+msgid "After activating `Change` all modifications will be applied to the contract."
+msgstr ""
+

@@ -49,7 +49,11 @@ from openprocurement.tender.core.utils import calculate_tender_business_date, ca
 from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
 from openprocurement.api.procedure.context import get_tender, get_tender_config
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
+from openprocurement.tender.core.procedure.utils import (
+    get_criterion_requirement,
+    is_new_contracting,
+    check_is_tender_waiting_on_inspector_approved,
+)
 from schematics.exceptions import ValidationError
 from pyramid.httpexceptions import HTTPError
 from copy import deepcopy
@@ -1875,3 +1879,16 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
         ids = [i["id"] for i in objs]
         if ids and len(set(ids)) != len(ids):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
+
+
+def validate_object_action_with_inspector(request, item_name: str, tender: dict) -> None:
+    rev_reqs = tender.get("reviewRequests", "")
+    if not rev_reqs:
+        return
+
+    last_rev_req = rev_reqs[-1]
+    if last_rev_req["tenderStatus"] == tender["status"] and "approved" not in last_rev_req:
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} {item_name} while exist unanswered review request",
+        )

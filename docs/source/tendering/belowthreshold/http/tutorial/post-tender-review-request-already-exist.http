@@ -1,0 +1,22 @@
+POST /api/2.5/tenders/2cc7efffa1ea490481faf7840ec12469/review_requests?acc_token=ae6fe916e0db4b65966bad37e333cadb HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Disallowed create review request while existing another unanswered review request"
+    }
+  ]
+}
+

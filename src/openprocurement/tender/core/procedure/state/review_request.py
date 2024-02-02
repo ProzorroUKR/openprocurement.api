@@ -30,7 +30,7 @@ class ReviewRequestStateMixin:
 
     @staticmethod
     def validate_post_in_tender_status(tender: dict) -> None:
-        allowed_post_statuses = ("active.enquiries", "active.awarded")
+        allowed_post_statuses = ("active.enquiries", "active.qualification")
         if tender["status"] not in allowed_post_statuses:
             raise_operation_error(
                 get_request(),

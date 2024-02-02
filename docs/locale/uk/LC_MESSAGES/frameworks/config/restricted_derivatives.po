@@ -1,0 +1,217 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-02 13:12+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.0\n"
+
+msgid "restrictedDerivatives"
+msgstr ""
+
+msgid "Create Framework with restricted access"
+msgstr ""
+
+msgid "First create framework with restricted access by `Broker`. To do this, we need to set ``restricted_derivatives`` field to ``true`` in ``config`` section of framework creation request."
+msgstr ""
+
+msgid "This framework by itself is visible to everyone in public API."
+msgstr ""
+
+msgid "For `ProcuringEntity` with `defense` kind ``restricted_derivatives`` field will be set to ``true`` automatically."
+msgstr ""
+
+msgid "The second step is moving the framework to `active` status:"
+msgstr ""
+
+msgid "Create and activate Submissions with restricted access"
+msgstr ""
+
+msgid "After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`."
+msgstr ""
+
+msgid "Let's register submission:"
+msgstr ""
+
+msgid "You can see that ``restricted`` field was set to ``true`` in ``config`` section of submission creation response."
+msgstr ""
+
+msgid "Next activate submission:"
+msgstr ""
+
+msgid "Request submissions with restricted access"
+msgstr ""
+
+msgid "Let's check submissions:"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "Let's get submission with anonymous request:"
+msgstr ""
+
+msgid "We can see that some of it's fields are masked."
+msgstr ""
+
+msgid "Let's check submission feed with anonymous request:"
+msgstr ""
+
+msgid "Broker"
+msgstr ""
+
+msgid "But if we will make a request with `broker` token, we will see that corresponding fields are not longer masked:"
+msgstr ""
+
+msgid "Let's check submission feed for broker:"
+msgstr ""
+
+msgid "Request Qualifications with restricted access"
+msgstr ""
+
+msgid "Let's check qualification:"
+msgstr ""
+
+msgid "Let's qualification with anonymous request:"
+msgstr ""
+
+msgid "Let's check qualification feed with anonymous request:"
+msgstr ""
+
+msgid "Let's check qualification feed for broker:"
+msgstr ""
+
+msgid "Activate Qualifications with restricted access"
+msgstr ""
+
+msgid "Let's check current framework"
+msgstr ""
+
+msgid "Let's activate qualification:"
+msgstr ""
+
+msgid "You can see that `agreementID` appeared in current framework, so let's check that agreement."
+msgstr ""
+
+msgid "Request Agreement with restricted access"
+msgstr ""
+
+msgid "Let's check agreement:"
+msgstr ""
+
+msgid "Let's get agreement with anonymous request:"
+msgstr ""
+
+msgid "Let's check agreement feed with anonymous request:"
+msgstr ""
+
+msgid "Let's check agreement feed for broker:"
+msgstr ""
+
+msgid "Masking rules"
+msgstr ""
+
+msgid "Rules are made of JSONPath expressions. For more info read `JSONPath specification <https://goessner.net/articles/JsonPath/>`_."
+msgstr ""
+
+msgid "Rules for submission masking:"
+msgstr ""
+
+msgid "rule"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid "$.tenderers[*].address.streetAddress"
+msgstr ""
+
+msgid "Приховано"
+msgstr ""
+
+msgid "$.tenderers[*].address.locality"
+msgstr ""
+
+msgid "$.tenderers[*].address.region"
+msgstr ""
+
+msgid "$.tenderers[*].address.postalCode"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName_en"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName_ru"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.telephone"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.url"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.name"
+msgstr ""
+
+msgid "$..documents[*].documentType"
+msgstr ""
+
+msgid "$..documents[*].title"
+msgstr ""
+
+msgid "$..documents[*].url"
+msgstr ""
+
+msgid "Rules for qualification masking:"
+msgstr ""
+
+msgid "Rules for agreement masking:"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.streetAddress"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.locality"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.region"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.postalCode"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.telephone"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.url"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.name"
+msgstr ""
+
