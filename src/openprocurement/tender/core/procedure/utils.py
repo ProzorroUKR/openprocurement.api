@@ -39,7 +39,7 @@ from openprocurement.tender.core.procedure.context import (
     get_request,
 )
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING, SIGN_DOC_MASK_MAPPING, mask_sign_doc_data
 from openprocurement.tender.core.utils import (
     QUICK,
     calculate_tender_date,
@@ -473,6 +473,7 @@ def extract_tender_doc(request):
         # wartime measures
         mask_object_data_deprecated(request, doc)
         mask_object_data(request, doc, TENDER_MASK_MAPPING)
+        mask_object_data(request, doc, SIGN_DOC_MASK_MAPPING, mask_func=mask_sign_doc_data)
 
         return doc
 
