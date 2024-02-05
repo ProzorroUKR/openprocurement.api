@@ -15,7 +15,7 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.mask import TENDER_FEED_MASK_MAPPING
 from pyramid.security import (
     Allow,
     Everyone,
@@ -56,7 +56,7 @@ class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing
         "stage2TenderID",
     }
     mask_deprecated_required_fields = {"is_masked", "procuringEntity"}
-    mask_mapping = TENDER_MASK_MAPPING
+    mask_mapping = TENDER_FEED_MASK_MAPPING
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
