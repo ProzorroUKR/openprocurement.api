@@ -3,6 +3,7 @@ from openprocurement.api.mask import (
     MASK_STRING_EN,
     MASK_NUMBER,
     MASK_DATE,
+    mask_data,
 )
 
 TENDER_MASK_MAPPING = {
@@ -372,3 +373,15 @@ TENDER_FEED_MASK_MAPPING = {
     "$.contracts[*].documents[*].title": MASK_STRING,
     "$.contracts[*].documents[*].url": MASK_STRING,
 }
+
+SIGN_DOC_MASK_MAPPING = {
+    # documents
+    "$.title": MASK_STRING,
+    "$.url": MASK_STRING,
+}
+
+
+def mask_sign_doc_data(data, mask_mapping):
+    for doc in data.get("documents", []):
+        if doc.get("documentType") == "notice" or doc["title"] == "sign.p7s":
+            mask_data(doc, mask_mapping)

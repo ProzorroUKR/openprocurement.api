@@ -25,7 +25,7 @@ def mask_data(data, mask_mapping):
         jsonpath_expr.update(data, replacement_value)
 
 
-def mask_object_data(request, data, mask_mapping):
+def mask_object_data(request, data, mask_mapping, mask_func=mask_data):
     if not mask_mapping:
         # Nothing to mask
         return
@@ -50,4 +50,4 @@ def mask_object_data(request, data, mask_mapping):
         # Masking is not required when non-authorized user download document by link
         return
 
-    mask_data(data, mask_mapping)
+    mask_func(data, mask_mapping)
