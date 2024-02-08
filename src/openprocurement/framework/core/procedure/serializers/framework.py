@@ -6,6 +6,7 @@ from openprocurement.api.procedure.serializers.config import BaseConfigSerialize
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
+from openprocurement.framework.core.procedure.serializers.question import QuestionSerializer
 
 
 class FrameworkSerializer(BaseUIDSerializer):
@@ -26,6 +27,7 @@ class FrameworkSerializer(BaseUIDSerializer):
     }
     serializers = {
         "documents": ListSerializer(DocumentSerializer),
+        "questions": ListSerializer(QuestionSerializer),
     }
 
     def __init__(self, data: dict):

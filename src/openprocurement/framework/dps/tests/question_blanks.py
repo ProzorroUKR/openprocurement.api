@@ -307,6 +307,7 @@ def get_framework_question(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
+    self.assertEqual(set(question["author"]), {"hash"})
     request_path = f"/frameworks/{self.framework_id}/questions/{question['id']}"
 
     response = self.app.get(request_path)

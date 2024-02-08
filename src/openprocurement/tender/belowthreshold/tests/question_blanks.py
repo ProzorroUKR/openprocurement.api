@@ -259,7 +259,6 @@ def create_tender_question(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], test_tender_below_organization["name"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
@@ -388,7 +387,8 @@ def get_tender_question(self):
     response = self.app.get("/tenders/{}/questions/{}".format(self.tender_id, question["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"]), {"id", "date", "title", "description", "questionOf"})
+    self.assertEqual(set(response.json["data"]), set(["id", "date", "title", "description", "questionOf", "author"]))
+    self.assertEqual(set(response.json["data"]["author"]), {"hash"})
 
     self.set_status("active.qualification")
 
@@ -428,7 +428,8 @@ def get_tender_questions(self):
     response = self.app.get("/tenders/{}/questions".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"][0]), {"id", "date", "title", "description", "questionOf"})
+    self.assertEqual(set(response.json["data"][0]), set(["id", "date", "title", "description", "questionOf", "author"]))
+    self.assertEqual(set(response.json["data"][0]["author"]), {"hash"})
 
     self.set_status("active.qualification")
 
@@ -510,7 +511,6 @@ def lot_create_tender_question(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], self.author_data["name"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 

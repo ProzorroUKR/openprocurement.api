@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.question import QuestionSerializer
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
@@ -34,6 +35,7 @@ class CFAUATenderSerializer(TenderBaseSerializer):
         "features": ListSerializer(FeatureSerializer),
         "agreements": ListSerializer(AgreementSerializer),
         "guarantee": GuaranteeSerializer,
+        "questions": ListSerializer(QuestionSerializer),
     }
 
     def __init__(self, data: dict):

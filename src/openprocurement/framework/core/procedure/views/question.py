@@ -14,6 +14,7 @@ from openprocurement.framework.core.procedure.models.question import (
 from openprocurement.framework.core.procedure.state.question import QuestionState
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
+from openprocurement.framework.core.procedure.serializers.question import QuestionSerializer
 
 
 def resolve_question(request):
@@ -25,7 +26,7 @@ def resolve_question(request):
 
 
 class CoreQuestionResource(FrameworkBaseResource):
-    serializer_class = BaseSerializer
+    serializer_class = QuestionSerializer
     state_class = QuestionState
 
     def __init__(self, request, context=None):

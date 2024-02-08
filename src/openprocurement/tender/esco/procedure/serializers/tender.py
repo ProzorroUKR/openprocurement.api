@@ -11,6 +11,7 @@ from openprocurement.tender.core.procedure.serializers.complaint import (
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.question import QuestionSerializer
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
@@ -34,4 +35,5 @@ class ESCOTenderSerializer(TenderBaseSerializer):
         "NBUdiscountRate": decimal_serializer,
         "lots": ListSerializer(LotSerializer),
         "awards": ListSerializer(AwardSerializer),
+        "questions": ListSerializer(QuestionSerializer),
     }
