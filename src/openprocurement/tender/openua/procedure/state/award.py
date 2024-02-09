@@ -40,11 +40,7 @@ class AwardState(AwardStateMixing, OpenUATenderState):
                 self.cancel_award(award)
                 self.add_next_award()
 
-        elif (
-            before == "unsuccessful"
-            and after == "cancelled"
-            and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
-        ):
+        elif before == "unsuccessful" and after == "cancelled" and self.has_considered_award_complaints(award, tender):
             self.award_status_up_from_unsuccessful_to_cancelled(award, tender, awarding_order_enabled)
 
         else:  # any other state transitions are forbidden

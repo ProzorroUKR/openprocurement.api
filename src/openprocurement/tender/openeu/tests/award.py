@@ -22,6 +22,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_organization,
 )
+from openprocurement.tender.open.tests.award import (
+    Tender2LotAwardQualificationAfterComplaintMixin,
+    TenderAwardQualificationAfterComplaintMixin,
+)
 from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_award_unsuccessful_complaint_first,
     patch_tender_award_unsuccessful_complaint_second,
@@ -63,7 +67,7 @@ from openprocurement.tender.openua.tests.award_blanks import (
     "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
     get_now() - timedelta(days=1),
 )
-class TenderAwardQualificationAfterComplaint(BaseTenderContentWebTest):
+class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseTenderContentWebTest):
     initial_status = "active.tendering"
     initial_bids = test_tender_openeu_three_bids
     initial_lots = test_tender_openeu_lots
@@ -212,6 +216,33 @@ class Tender2LotAwardComplaintResourceTest(
     TenderLotAwardComplaintResourceTest, Tender2LotAwardComplaintResourceTestMixin
 ):
     initial_lots = 2 * test_tender_openeu_lots
+
+
+class Tender2LotAwardQualificationAfterComplaintResourceTest(
+    BaseTenderContentWebTest, Tender2LotAwardQualificationAfterComplaintMixin
+):
+    initial_bids = test_tender_openeu_bids
+    initial_lots = 2 * test_tender_openeu_lots
+    initial_status = "active.qualification"
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super(Tender2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
 
 class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):

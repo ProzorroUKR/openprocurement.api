@@ -33,6 +33,9 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award_blanks import
     put_tender_award_complaint_document,
 )
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.award import (
+    Tender2LotAwardQualificationAfterComplaintMixin,
+)
 from openprocurement.tender.openeu.tests.award import (
     Tender2LotAwardComplaintResourceTestMixin,
     Tender2LotAwardResourceTestMixin,
@@ -490,6 +493,34 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
         self.award_id = award["id"]
 
 
+class TenderStage2EU2LotAwardQualificationAfterComplaintResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    Tender2LotAwardQualificationAfterComplaintMixin,
+):
+    initial_bids = test_tender_bids
+    initial_lots = 2 * test_tender_cd_lots
+    initial_status = "active.qualification"
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super(TenderStage2EU2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+
 # UA
 
 
@@ -637,6 +668,34 @@ class TenderStage2UA2LotAwardDocumentResourceTest(
 ):
     initial_lots = deepcopy(2 * test_tender_cd_lots)
     docservice = True
+
+
+class TenderStage2UA2LotAwardQualificationAfterComplaintResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    Tender2LotAwardQualificationAfterComplaintMixin,
+):
+    initial_bids = test_tender_bids
+    initial_lots = 2 * test_tender_cd_lots
+    initial_status = "active.qualification"
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super(TenderStage2UA2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
 
 
 def suite():

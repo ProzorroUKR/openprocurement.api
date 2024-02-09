@@ -34,6 +34,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.award import (
+    Tender2LotAwardQualificationAfterComplaintMixin,
+)
 from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
@@ -191,6 +194,13 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
 
     test_create_tender_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lots_award_complaint)
+
+
+class Tender2LotAwardQualificationAfterComplaintResourceTest(
+    Tender2LotAwardQualificationAfterComplaintMixin,
+    TenderAwardPendingResourceTestCase,
+):
+    initial_lots = 2 * test_tender_below_lots
 
 
 class TenderAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTestCase):

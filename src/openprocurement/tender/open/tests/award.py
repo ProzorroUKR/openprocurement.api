@@ -26,6 +26,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.award_blanks import (
+    another_award_for_one_lot_has_considered_complaint,
+    another_award_has_considered_complaint,
+    any_award_has_not_considered_complaint,
+    any_lot_award_has_not_considered_complaint,
+    award_for_another_lot_has_considered_complaint,
+    award_has_resolved_complaint,
+    award_has_satisfied_complaint,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
     check_tender_award_complaint_period_dates,
@@ -46,6 +53,8 @@ from openprocurement.tender.open.tests.award_blanks import (
     get_award_requirement_response_evidence,
     get_tender_award,
     last_award_unsuccessful_next_check,
+    lot_award_has_resolved_complaint,
+    lot_award_has_satisfied_complaint,
     patch_award_requirement_response,
     patch_award_requirement_response_evidence,
     patch_tender_award,
@@ -125,11 +134,18 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
 
 
+class TenderAwardQualificationAfterComplaintMixin(object):
+    test_award_has_satisfied_complaint = snitch(award_has_satisfied_complaint)
+    test_award_has_resolved_complaint = snitch(award_has_resolved_complaint)
+    test_any_award_has_non_considered_complaint = snitch(any_award_has_not_considered_complaint)
+    test_another_award_has_considered_complaint = snitch(another_award_has_considered_complaint)
+
+
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
     get_now() - timedelta(days=1),
 )
-class TenderAwardQualificationAfterComplaint(BaseTenderUAContentWebTest):
+class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_open_three_bids
@@ -194,6 +210,20 @@ class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase)
     test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
     test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
     test_patch_tender_award_unsuccessful_complaint_third = snitch(patch_tender_award_unsuccessful_complaint_third)
+
+
+class Tender2LotAwardQualificationAfterComplaintMixin(object):
+    test_lot_award_has_satisfied_complaint = snitch(lot_award_has_satisfied_complaint)
+    test_lot_award_has_resolved_complaint = snitch(lot_award_has_resolved_complaint)
+    test_any_lot_award_has_not_considered_complaint = snitch(any_lot_award_has_not_considered_complaint)
+    test_another_award_for_one_lot_has_considered_complaint = snitch(another_award_for_one_lot_has_considered_complaint)
+    test_award_for_another_lot_has_considered_complaint = snitch(award_for_another_lot_has_considered_complaint)
+
+
+class Tender2LotAwardQualificationAfterComplaintResourceTest(
+    Tender2LotAwardQualificationAfterComplaintMixin, TenderAwardPendingResourceTestCase
+):
+    initial_lots = 2 * test_tender_below_lots
 
 
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):

@@ -91,11 +91,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     award["complaintPeriod"]["endDate"] = now
                 self.cancel_award(award)
                 self.add_next_award()
-        elif (
-            before == "unsuccessful"
-            and after == "cancelled"
-            and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
-        ):
+        elif before == "unsuccessful" and after == "cancelled" and self.has_considered_award_complaints(award, tender):
             if tender["status"] == "active.awarded":
                 self.set_object_status(tender, "active.qualification")
                 if "endDate" in tender["awardPeriod"]:
