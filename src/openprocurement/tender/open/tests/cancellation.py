@@ -53,6 +53,8 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     bot_patch_tender_cancellation_complaint,
     create_tender_dps_lot_cancellation_complaint,
     patch_tender_dps_lot_cancellation,
+    cancellation_lot_during_qualification_after_first_winner_chosen,
+    cancellation_lot_during_qualification_before_winner_chosen,
 )
 
 
@@ -131,6 +133,19 @@ class TenderAwardsCancellationResourceTest(
 
     test_cancellation_active_award = snitch(cancellation_active_award)
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
+
+
+class TenderLotsCancellationQualificationResourceTest(BaseTenderUAContentWebTest):
+    initial_lots = 2 * test_tender_below_lots
+    initial_status = "active.auction"
+    initial_bids = test_tender_open_bids
+
+    test_cancellation_lot_during_qualification_after_first_winner_chosen = snitch(
+        cancellation_lot_during_qualification_after_first_winner_chosen
+    )
+    test_cancellation_lot_during_qualification_before_winner_chosen = snitch(
+        cancellation_lot_during_qualification_before_winner_chosen
+    )
 
 
 class TenderCancellationComplaintResourceTest(

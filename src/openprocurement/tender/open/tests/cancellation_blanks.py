@@ -301,6 +301,130 @@ def cancellation_unsuccessful_award(self):
         activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
 
+def cancellation_lot_during_qualification_after_first_winner_chosen(self):
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get(f"/tenders/{self.tender_id}/auction")
+        auction_bids_data = response.json["data"]["bids"]
+        for i in self.initial_lots:
+            self.app.post_json(
+                f"/tenders/{self.tender_id}/auction/{i['id']}",
+                {"data": {"bids": [
+                        {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                        for b in auction_bids_data]}}
+            )
+
+    # there are two pending awards for two active lots
+    # let's make award for the first lot a winner
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.get(f"/tenders/{self.tender_id}/awards")
+        self.assertEqual(len(response.json["data"]), 2)
+        self.assertEqual(response.json["data"][0]["status"], "pending")
+        self.assertEqual(response.json["data"][1]["status"], "pending")
+        award_id = [
+            i["id"] for i in response.json["data"] if i["status"] == "pending" and i["lotID"] == self.initial_lots[0]["id"]
+        ][0]
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+
+        self.set_all_awards_complaint_period_end()
+
+    # cancel the second lot which has pending award
+    cancellation = dict(**test_tender_below_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[1]["id"],
+    })
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
+        {"data": cancellation},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertEqual(cancellation["status"], "draft")
+
+    activate_cancellation_after_2020_04_19(self, cancellation["id"])
+
+    # complaintPeriod is over, that's why second lot become 'cancelled', award for this lot stays 'pending'
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["lots"][1]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["awards"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
+    # tender goes to 'active.awarded' as already has the winner for active lot, another lot is cancelled
+    self.assertEqual(response.json["data"]["status"], "active.awarded")
+
+
+def cancellation_lot_during_qualification_before_winner_chosen(self):
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get(f"/tenders/{self.tender_id}/auction")
+        auction_bids_data = response.json["data"]["bids"]
+        for i in self.initial_lots:
+            self.app.post_json(
+                f"/tenders/{self.tender_id}/auction/{i['id']}",
+                {"data": {"bids": [
+                        {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                        for b in auction_bids_data]}}
+            )
+
+    # there are two pending awards for two active lots
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.get(f"/tenders/{self.tender_id}/awards")
+        self.assertEqual(len(response.json["data"]), 2)
+        self.assertEqual(response.json["data"][0]["status"], "pending")
+        self.assertEqual(response.json["data"][1]["status"], "pending")
+
+    # cancel the second lot which has pending award
+    cancellation = dict(**test_tender_below_cancellation)
+    cancellation.update({
+        "cancellationOf": "lot",
+        "relatedLot": self.initial_lots[1]["id"],
+    })
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
+        {"data": cancellation},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertEqual(cancellation["status"], "draft")
+
+    activate_cancellation_after_2020_04_19(self, cancellation["id"])
+
+    # complaintPeriod is over, that's why second lot become 'cancelled', award for this lot stays 'pending'
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["lots"][1]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["awards"][0]["status"], "pending")
+    self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
+    # tender stays at 'active.qualification' as doesn't have the winner for active lot, another lot is cancelled
+    self.assertEqual(response.json["data"]["status"], "active.qualification")
+
+    # let's make award for the first lot a winner
+    award_id = [
+        i["id"] for i in response.json["data"]["awards"] if i["lotID"] == self.initial_lots[0]["id"]
+    ][0]
+    self.app.patch_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )
+
+    self.set_all_awards_complaint_period_end()
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["lots"][1]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["awards"][0]["status"], "active")
+    self.assertEqual(response.json["data"]["awards"][1]["status"], "pending")
+    # tender goes to 'active.awarded' as already has the winner for active lot, another lot is cancelled
+    self.assertEqual(response.json["data"]["status"], "active.awarded")
+
+
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation_before_19_04_2020(self):
     cancellation = dict(**test_tender_below_cancellation)

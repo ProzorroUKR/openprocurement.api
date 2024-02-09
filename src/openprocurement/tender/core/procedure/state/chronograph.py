@@ -555,11 +555,17 @@ class ChronographEventsMixing(baseclass):
             self.get_change_tender_status_handler("complete")(tender)
 
         # need to add next award ?
-        if tender["status"] == "active.auction" and all(
-            i.get("auctionPeriod", {}).get("endDate")
-            for i in tender.get("lots", "")
-            if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > tender["config"]["minBidsNumber"]
-            and i["status"] == "active"
+        if (
+            tender["status"] == "active.qualification"
+            or (
+                tender["status"] == "active.auction"
+                and all(
+                    i.get("auctionPeriod", {}).get("endDate")
+                    for i in tender.get("lots", "")
+                    if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > tender["config"]["minBidsNumber"]
+                    and i["status"] == "active"
+                )
+            )
         ):
             self.add_next_award()
 
