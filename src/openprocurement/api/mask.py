@@ -63,4 +63,11 @@ def mask_object_data(request, data, mask_mapping, mask_func=mask_data):
         # Masking is not required when non-authorized user download document by link
         return
 
+    # Extract revisions before masking
+    revisions = data.pop("revisions", None)
+
+    # Mask data
     mask_func(data, mask_mapping)
+
+    # Restore revisions after masking
+    data["revisions"] = revisions
