@@ -3,9 +3,10 @@ from openprocurement.api.mask import (
     MASK_STRING_EN,
     MASK_NUMBER,
     MASK_DATE,
+    compile_mask_mapping,
 )
 
-CONTRACT_MASK_MAPPING = {
+CONTRACT_MASK_MAPPING = compile_mask_mapping({
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -80,4 +81,4 @@ CONTRACT_MASK_MAPPING = {
     # documents
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
-}
+})

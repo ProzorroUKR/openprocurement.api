@@ -4,9 +4,10 @@ from openprocurement.api.mask import (
     MASK_NUMBER,
     MASK_DATE,
     mask_data,
+    compile_mask_mapping,
 )
 
-TENDER_MASK_MAPPING = {
+TENDER_MASK_MAPPING = compile_mask_mapping({
 
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
@@ -306,11 +307,11 @@ TENDER_MASK_MAPPING = {
     "$..questions[*].author.additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$..questions[*].author.additionalContactPoints[*].name_ru": MASK_STRING,
 
-}
+})
 
 
 # TODO: this is for quick temporary optimization, think how to optimize it in the future
-TENDER_FEED_MASK_MAPPING = {
+TENDER_FEED_MASK_MAPPING = compile_mask_mapping({
     # contracts.items.deliveryDate
     "$.contracts[*].items[*].deliveryDate.startDate": MASK_DATE,
     "$.contracts[*].items[*].deliveryDate.endDate": MASK_DATE,
@@ -372,13 +373,13 @@ TENDER_FEED_MASK_MAPPING = {
     # contracts.documents
     "$.contracts[*].documents[*].title": MASK_STRING,
     "$.contracts[*].documents[*].url": MASK_STRING,
-}
+})
 
-SIGN_DOC_MASK_MAPPING = {
+SIGN_DOC_MASK_MAPPING = compile_mask_mapping({
     # documents
     "$.title": MASK_STRING,
     "$.url": MASK_STRING,
-}
+})
 
 
 def mask_sign_doc_data(data, mask_mapping):

@@ -19,10 +19,23 @@ EXCLUDED_ROLES = (
     "Administrator",
 )
 
+
 def mask_data(data, mask_mapping):
-    for json_path, replacement_value in mask_mapping.items():
-        jsonpath_expr = parse(json_path)
-        jsonpath_expr.update(data, replacement_value)
+    for rule in mask_mapping.values():
+        rule["expr"].update(data, rule["value"])
+
+
+def compile_mask_mapping(mask_mapping):
+    """
+    Pre-compile the JSONPath expressions in the mask mapping for efficient reuse.
+    """
+    compiled_mapping = {}
+    for path, value in mask_mapping.items():
+        compiled_mapping[path] = {
+            "value": value,
+            "expr": parse(path),
+        }
+    return compiled_mapping
 
 
 def mask_object_data(request, data, mask_mapping, mask_func=mask_data):

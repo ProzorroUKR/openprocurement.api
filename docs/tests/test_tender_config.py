@@ -123,14 +123,14 @@ class TenderConfigCSVMixin:
 
     def write_config_mask_csv(self, mapping, file_path):
         headers = [
-            "rule",
+            "path",
             "value",
         ]
 
         rows = []
 
-        for rule, value in mapping.items():
-            rows.append([rule, value])
+        for path, rule in mapping.items():
+            rows.append([path, rule["value"]])
 
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
