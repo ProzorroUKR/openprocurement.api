@@ -1,4 +1,4 @@
-rule,value
+path,value
 $.items[*].deliveryDate.startDate,1970-01-01T03:00:00+03:00
 $.items[*].deliveryDate.endDate,1970-01-01T03:00:00+03:00
 $.items[*].deliveryAddress.streetAddress,Приховано
