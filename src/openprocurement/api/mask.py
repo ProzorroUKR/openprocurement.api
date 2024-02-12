@@ -1,4 +1,4 @@
-from jsonpath_ng import parse
+from jsonpath_ng.ext import parse
 
 from openprocurement.api.auth import ACCR_RESTRICTED
 

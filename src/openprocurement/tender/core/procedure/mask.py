@@ -3,7 +3,6 @@ from openprocurement.api.mask import (
     MASK_STRING_EN,
     MASK_NUMBER,
     MASK_DATE,
-    mask_data,
     compile_mask_mapping,
 )
 
@@ -21,6 +20,15 @@ TENDER_MASK_MAPPING = compile_mask_mapping({
     "$.items[*].deliveryAddress.countryName": MASK_STRING,
     "$.items[*].deliveryAddress.countryName_en": MASK_STRING_EN,
     "$.items[*].deliveryAddress.countryName_ru": MASK_STRING,
+
+    # documents
+    # Note: title should be masked last, so we can still use it to identify the document
+    # documents - notice
+    "$.documents[?(@.documentType=='notice')].url": MASK_STRING,
+    "$.documents[?(@.documentType=='notice')].title": MASK_STRING,
+    # documents - sign.p7s
+    "$.documents[?(@.title=='sign.p7s')].url": MASK_STRING,
+    "$.documents[?(@.title=='sign.p7s')].title": MASK_STRING,
 
     # bids.tenderers
     "$.bids[*].tenderers[*].name": MASK_STRING,
@@ -374,15 +382,3 @@ TENDER_FEED_MASK_MAPPING = compile_mask_mapping({
     "$.contracts[*].documents[*].title": MASK_STRING,
     "$.contracts[*].documents[*].url": MASK_STRING,
 })
-
-SIGN_DOC_MASK_MAPPING = compile_mask_mapping({
-    # documents
-    "$.title": MASK_STRING,
-    "$.url": MASK_STRING,
-})
-
-
-def mask_sign_doc_data(data, mask_mapping):
-    for doc in data.get("documents", []):
-        if doc.get("documentType") == "notice" or doc["title"] == "sign.p7s":
-            mask_data(doc, mask_mapping)
