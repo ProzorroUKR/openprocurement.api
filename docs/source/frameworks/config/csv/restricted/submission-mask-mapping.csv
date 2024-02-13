@@ -13,6 +13,5 @@ $.tenderers[*].contactPoint.url,Приховано
 $.tenderers[*].contactPoint.name,Приховано
 $.tenderers[*].contactPoint.name_en,Hidden
 $.tenderers[*].contactPoint.name_ru,Приховано
-$..documents[*].documentType,Приховано
 $..documents[*].title,Приховано
 $..documents[*].url,Приховано

@@ -1,8 +1,6 @@
 from openprocurement.api.mask import (
     MASK_STRING,
     MASK_STRING_EN,
-    MASK_NUMBER,
-    MASK_DATE,
 )
 
 SUBMISSION_MASK_MAPPING = {
@@ -26,7 +24,6 @@ SUBMISSION_MASK_MAPPING = {
     "$.tenderers[*].contactPoint.name_ru": MASK_STRING,
 
     # documents
-    "$..documents[*].documentType": MASK_STRING,
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 
