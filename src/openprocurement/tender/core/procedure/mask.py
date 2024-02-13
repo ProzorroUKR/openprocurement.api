@@ -3,10 +3,10 @@ from openprocurement.api.mask import (
     MASK_STRING_EN,
     MASK_NUMBER,
     MASK_DATE,
-    mask_data,
+    compile_mask_mapping,
 )
 
-TENDER_MASK_MAPPING = {
+TENDER_MASK_MAPPING = compile_mask_mapping({
 
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
@@ -20,6 +20,15 @@ TENDER_MASK_MAPPING = {
     "$.items[*].deliveryAddress.countryName": MASK_STRING,
     "$.items[*].deliveryAddress.countryName_en": MASK_STRING_EN,
     "$.items[*].deliveryAddress.countryName_ru": MASK_STRING,
+
+    # documents
+    # Note: title should be masked last, so we can still use it to identify the document
+    # documents - notice
+    "$.documents[?(@.documentType=='notice')].url": MASK_STRING,
+    "$.documents[?(@.documentType=='notice')].title": MASK_STRING,
+    # documents - sign.p7s
+    "$.documents[?(@.title=='sign.p7s')].url": MASK_STRING,
+    "$.documents[?(@.title=='sign.p7s')].title": MASK_STRING,
 
     # bids.tenderers
     "$.bids[*].tenderers[*].name": MASK_STRING,
@@ -306,82 +315,4 @@ TENDER_MASK_MAPPING = {
     "$..questions[*].author.additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$..questions[*].author.additionalContactPoints[*].name_ru": MASK_STRING,
 
-}
-
-
-# TODO: this is for quick temporary optimization, think how to optimize it in the future
-TENDER_FEED_MASK_MAPPING = {
-    # contracts.items.deliveryDate
-    "$.contracts[*].items[*].deliveryDate.startDate": MASK_DATE,
-    "$.contracts[*].items[*].deliveryDate.endDate": MASK_DATE,
-
-    # contracts.items.deliveryAddress
-    "$.contracts[*].items[*].deliveryAddress.streetAddress": MASK_STRING,
-    "$.contracts[*].items[*].deliveryAddress.locality": MASK_STRING,
-    "$.contracts[*].items[*].deliveryAddress.region": MASK_STRING,
-    "$.contracts[*].items[*].deliveryAddress.postalCode": MASK_STRING,
-    "$.contracts[*].items[*].deliveryAddress.countryName": MASK_STRING,
-    "$.contracts[*].items[*].deliveryAddress.countryName_en": MASK_STRING_EN,
-    "$.contracts[*].items[*].deliveryAddress.countryName_ru": MASK_STRING,
-
-    # contracts.items.deliveryLocation
-    "$.contracts[*].items[*].deliveryLocation.latitude": MASK_NUMBER,
-    "$.contracts[*].items[*].deliveryLocation.longitude": MASK_NUMBER,
-
-    # contracts.suppliers
-    "$.contracts[*].suppliers[*].name": MASK_STRING,
-    "$.contracts[*].suppliers[*].name_en": MASK_STRING_EN,
-    "$.contracts[*].suppliers[*].name_ru": MASK_STRING,
-
-    # contracts.suppliers.identifier
-    "$.contracts[*].suppliers[*].identifier.id": MASK_STRING,
-    "$.contracts[*].suppliers[*].identifier.legalName": MASK_STRING,
-    "$.contracts[*].suppliers[*].identifier.legalName_en": MASK_STRING_EN,
-    "$.contracts[*].suppliers[*].identifier.legalName_ru": MASK_STRING,
-
-    # contracts.suppliers.address
-    "$.contracts[*].suppliers[*].address.streetAddress": MASK_STRING,
-    "$.contracts[*].suppliers[*].address.locality": MASK_STRING,
-    "$.contracts[*].suppliers[*].address.region": MASK_STRING,
-    "$.contracts[*].suppliers[*].address.postalCode": MASK_STRING,
-    "$.contracts[*].suppliers[*].address.countryName": MASK_STRING,
-    "$.contracts[*].suppliers[*].address.countryName_en": MASK_STRING_EN,
-    "$.contracts[*].suppliers[*].address.countryName_ru": MASK_STRING,
-
-    # contracts.suppliers.contactPoint
-    "$.contracts[*].suppliers[*].contactPoint.telephone": MASK_STRING,
-    "$.contracts[*].suppliers[*].contactPoint.email": MASK_STRING,
-    "$.contracts[*].suppliers[*].contactPoint.faxNumber": MASK_STRING,
-    "$.contracts[*].suppliers[*].contactPoint.url": MASK_STRING,
-    "$.contracts[*].suppliers[*].contactPoint.name": MASK_STRING,
-    "$.contracts[*].suppliers[*].contactPoint.name_en": MASK_STRING_EN,
-    "$.contracts[*].suppliers[*].contactPoint.name_ru": MASK_STRING,
-
-    # contracts.suppliers.additionalContactPoints
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].telephone": MASK_STRING,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].email": MASK_STRING,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].url": MASK_STRING,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].name": MASK_STRING,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
-    "$.contracts[*].suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-
-    # contracts.suppliers.scale
-    "$.contracts[*].suppliers[*].scale": MASK_STRING,
-
-    # contracts.documents
-    "$.contracts[*].documents[*].title": MASK_STRING,
-    "$.contracts[*].documents[*].url": MASK_STRING,
-}
-
-SIGN_DOC_MASK_MAPPING = {
-    # documents
-    "$.title": MASK_STRING,
-    "$.url": MASK_STRING,
-}
-
-
-def mask_sign_doc_data(data, mask_mapping):
-    for doc in data.get("documents", []):
-        if doc.get("documentType") == "notice" or doc["title"] == "sign.p7s":
-            mask_data(doc, mask_mapping)
+})

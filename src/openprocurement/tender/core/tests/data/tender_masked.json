@@ -6,7 +6,55 @@
     "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
     "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
     "date": "2021-11-08T16:59:10.235391+02:00",
-    "dateModified": "2024-01-25T16:04:28.871726+02:00",
+    "dateModified": "2024-02-12T14:31:57.819539+02:00",
+    "documents": [
+        {
+            "id": "602efa3d8ffe418f85e15166c3c0715e",
+            "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
+            "title": "d-6eae07c9eiusuCIbNX.doc",
+            "format": "text/plain",
+            "url": "http://ds.k8s.prozorro.gov.ua/get/cfd8d5c53d934a2b9cf9ad50dd01b996?Signature=%2Fv2NOgrZEOBXgl99sQ2QxaBwCFDEMMyQ6Rh2RiMJWHFCq0ZNOGAzIVnETm6o9FDWbUALt9Gsogx93Bdj9j5LBg%3D%3D&KeyID=a8968c46",
+            "datePublished": "2021-11-08T16:55:38.669219+02:00",
+            "dateModified": "2021-11-08T16:55:38.669231+02:00",
+            "author": "tender_owner",
+            "documentOf": "tender"
+        },
+        {
+            "id": "2b7e5a2a7b7b424fb52bfcf5327efd29",
+            "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
+            "title": "Приховано",
+            "format": "application/pkcs7-signature",
+            "url": "Приховано",
+            "datePublished": "2021-11-08T16:55:38.669219+02:00",
+            "dateModified": "2021-11-08T16:55:38.669231+02:00",
+            "author": "tender_owner",
+            "documentOf": "tender"
+        },
+        {
+            "id": "2b7e5a2a7b7b424fb52bfcf5327efd29",
+            "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
+            "title": "Приховано",
+            "documentType": "notice",
+            "format": "application/pkcs7-signature",
+            "url": "Приховано",
+            "datePublished": "2021-11-08T16:55:38.669219+02:00",
+            "dateModified": "2021-11-08T16:55:38.669231+02:00",
+            "author": "tender_owner",
+            "documentOf": "tender"
+        },
+        {
+            "id": "602efa3d8ffe418f85e15166c3c0715e",
+            "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
+            "title": "Приховано",
+            "documentType": "notice",
+            "format": "application/pkcs7-signature",
+            "url": "Приховано",
+            "datePublished": "2021-11-08T16:55:38.669219+02:00",
+            "dateModified": "2021-11-08T16:55:38.669231+02:00",
+            "author": "tender_owner",
+            "documentOf": "tender"
+        }
+    ],
     "tenderID": "UA-2021-11-08-000045-a",
     "owner": "test.quintagroup.com",
     "mainProcurementCategory": "services",
@@ -792,6 +840,6 @@
         "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
-    "dateCreated": "2024-01-25T16:04:28.852199+02:00",
+    "dateCreated": "2024-02-12T14:31:57.801459+02:00",
     "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
 }

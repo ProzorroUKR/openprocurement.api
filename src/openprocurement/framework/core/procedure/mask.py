@@ -1,9 +1,10 @@
 from openprocurement.api.mask import (
     MASK_STRING,
     MASK_STRING_EN,
+    compile_mask_mapping,
 )
 
-SUBMISSION_MASK_MAPPING = {
+SUBMISSION_MASK_MAPPING = compile_mask_mapping({
 
     # tenderers.address
     "$.tenderers[*].address.streetAddress": MASK_STRING,
@@ -27,17 +28,17 @@ SUBMISSION_MASK_MAPPING = {
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 
-}
+})
 
-QUALIFICATION_MASK_MAPPING = {
+QUALIFICATION_MASK_MAPPING = compile_mask_mapping({
 
     # documents
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 
-}
+})
 
-AGREEMENT_MASK_MAPPING = {
+AGREEMENT_MASK_MAPPING = compile_mask_mapping({
 
     # contracts.suppliers.address
     "$.contracts[*].suppliers[*].address.streetAddress": MASK_STRING,
@@ -70,4 +71,4 @@ AGREEMENT_MASK_MAPPING = {
     "$..documents[*].title": MASK_STRING,
     "$..documents[*].url": MASK_STRING,
 
-}
+})
