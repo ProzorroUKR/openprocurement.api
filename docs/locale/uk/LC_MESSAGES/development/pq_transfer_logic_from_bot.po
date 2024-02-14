@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-30 16:59+0100\n"
+"POT-Creation-Date: 2024-02-14 13:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -91,8 +91,11 @@ msgstr "Якщо є проблема з підключенням до елект
 msgid "Successful scenario"
 msgstr "Успішний сценарій"
 
-msgid "If PQ procedure matches all requirements, it will be switched to `active.tendering` status and `shortListedFirms` will be added to procedure from ProZorro e-Catalogues database:"
-msgstr "Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`, а `shortListedFirms` буде додано до процедури з бази електронних каталогів ProZorro:"
+msgid "If PQ procedure matches all requirements, it will be switched to `active.tendering`:"
+msgstr "Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`:"
+
+msgid "There will not be `shortlistedFirms` field in procedure anymore. During bid creation/activation there will be validation that `bid.tenderers` is a member of agreement."
+msgstr "В процедурі більше не буде поля `shortlistedFirms`. Під час подання/активації біда буде працювати валідація, що `bid.tenderers` має бути вказаний в договорі як кваліфікований постачальник."
 
 msgid "Conclusion"
 msgstr "Висновки"
