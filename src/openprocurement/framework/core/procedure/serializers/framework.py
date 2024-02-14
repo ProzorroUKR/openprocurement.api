@@ -3,10 +3,12 @@ from openprocurement.api.procedure.serializers.base import (
     ListSerializer,
 )
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.framework.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
-from openprocurement.framework.core.procedure.serializers.question import QuestionSerializer
 
 
 class FrameworkSerializer(BaseUIDSerializer):

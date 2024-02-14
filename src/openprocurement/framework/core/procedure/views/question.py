@@ -11,10 +11,12 @@ from openprocurement.framework.core.procedure.models.question import (
     PostQuestion,
     Question,
 )
+from openprocurement.framework.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
 from openprocurement.framework.core.procedure.state.question import QuestionState
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.serializers.question import QuestionSerializer
 
 
 def resolve_question(request):

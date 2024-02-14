@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "id": "98f0b83be00647dbbc556ef130e6f0f6",
     "author": {
-      "hash": "bf3c9555a38608379464d0fdab9fe5c7"
+      "hash": "5ec2375b55ef1d54e6a4dd5acb33f094"
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",

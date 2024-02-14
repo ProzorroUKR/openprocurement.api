@@ -11,7 +11,9 @@ from openprocurement.tender.core.procedure.serializers.complaint import (
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
-from openprocurement.tender.core.procedure.serializers.question import QuestionSerializer
+from openprocurement.tender.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
