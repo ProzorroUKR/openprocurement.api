@@ -11,24 +11,15 @@ from openprocurement.tender.cfaua.constants import (
 PERIODS = {
     "active.tendering": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION - QUESTIONS_STAND_STILL
-            },
-            "tenderPeriod": {
-                "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION
-            },
+            "enquiryPeriod": {"startDate": -timedelta(days=1), "endDate": TENDERING_DURATION - QUESTIONS_STAND_STILL},
+            "tenderPeriod": {"startDate": -timedelta(days=1), "endDate": TENDERING_DURATION},
         },
         "end": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
                 "endDate": -QUESTIONS_STAND_STILL,
             },
-            "tenderPeriod": {
-                "startDate": -TENDERING_DURATION - timedelta(days=1),
-                "endDate":  timedelta()
-            },
+            "tenderPeriod": {"startDate": -TENDERING_DURATION - timedelta(days=1), "endDate": timedelta()},
         },
         "enquiry_end": {
             "enquiryPeriod": {

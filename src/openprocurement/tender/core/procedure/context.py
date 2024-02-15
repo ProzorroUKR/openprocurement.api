@@ -36,5 +36,6 @@ def get_bids_before_auction_results_context():
     if "bids_before_auction" not in get_request().validated:
         tender = get_request().validated["tender"]
         from openprocurement.tender.core.procedure.utils import get_bids_before_auction_results
+
         get_request().validated["bids_before_auction"] = get_bids_before_auction_results(tender)
     return get_request().validated["bids_before_auction"]

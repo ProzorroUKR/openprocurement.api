@@ -24,4 +24,3 @@ class PatchContract(BasePatchContract):
 
 class PatchContractSupplier(BasePatchContractSupplier):
     pass
-

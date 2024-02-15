@@ -100,17 +100,20 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
         self.requirement_title = requirement["title"]
 
         request_path = "/tenders/{}/qualifications/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.qualification_id, self.tender_token)
+            self.tender_id, self.qualification_id, self.tender_token
+        )
 
-        rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": True,
-        }]
+        rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": self.requirement_id,
+                    "title": self.requirement_title,
+                },
+                "value": True,
+            }
+        ]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")
@@ -121,13 +124,16 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
         self.app.authorization = ("Basic", ("bot", ""))
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.tender_token),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+                self.tender_id, self.qualification_id, self.tender_token
+            ),
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -158,7 +164,6 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
 
 
 class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
-
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
@@ -200,6 +205,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_patch_qualification_document = snitch(patch_qualification_document)
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
+
 
 class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
     docservice = True
@@ -312,7 +318,6 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
 

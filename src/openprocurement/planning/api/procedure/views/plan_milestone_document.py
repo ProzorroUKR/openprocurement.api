@@ -6,7 +6,10 @@ from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_data_model,
-    validate_input_data, validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+    validate_input_data,
+    validate_item_owner,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.planning.api.procedure.serializers.document import DocumentSerializer
 from openprocurement.planning.api.procedure.state.plan_milestone_document import PlanMilestoneDocumentState

@@ -55,18 +55,15 @@ test_lots = [
 ]
 
 test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_reporting_data, test_tender_reporting_data["items"][0],
-    test_tender_below_organization
+    test_tender_reporting_data, test_tender_reporting_data["items"][0], test_tender_below_organization
 )
 
 test_tender_negotiation_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_data, test_tender_negotiation_data["items"][0],
-    test_tender_below_organization
+    test_tender_negotiation_data, test_tender_negotiation_data["items"][0], test_tender_below_organization
 )
 
 test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0],
-    test_tender_below_organization
+    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0], test_tender_below_organization
 )
 
 test_tender_reporting_config = {
@@ -122,11 +119,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_auth = ("Basic", ("broker", ""))
     primary_tender_status = "active"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
-        "complete"
-    )  # status, in which operations with tender documents (adding, updating) are forbidden
+        "complete"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "complete"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "complete"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
 
     periods = {}
 

@@ -7,7 +7,13 @@ from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 
 
-TENDERS_WITHOUT_CRITERIA = ["aboveThresholdUA.defense", "simple.defense", "reporting", "negotiation", "negotiation.quick"]
+TENDERS_WITHOUT_CRITERIA = [
+    "aboveThresholdUA.defense",
+    "simple.defense",
+    "reporting",
+    "negotiation",
+    "negotiation.quick",
+]
 
 
 def add_criteria(self, tender_id=None, tender_token=None, criteria=test_exclusion_criteria):

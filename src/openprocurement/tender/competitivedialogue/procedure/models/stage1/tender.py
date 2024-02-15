@@ -18,13 +18,14 @@ from openprocurement.tender.core.procedure.utils import validate_features_custom
 from openprocurement.api.procedure.models.base import Model
 
 
-class BotPatchTender(Model): # "competitive_dialogue": whitelist("status", "stage2TenderID"),
+class BotPatchTender(Model):  # "competitive_dialogue": whitelist("status", "stage2TenderID"),
     id = StringType()
     stage2TenderID = StringType()  # TODO: move to a distinct endpoint
     status = StringType(choices=["complete"])
 
 
 # === EU
+
 
 class PostEUTender(BasePostTender):
     procurementMethodType = StringType(choices=[CD_EU_TYPE], default=CD_EU_TYPE)
@@ -82,7 +83,7 @@ class EUTender(BaseTender):
             "active.stage2.pending",
             "active.stage2.waiting",
         ],
-        required=True
+        required=True,
     )
     items = ListType(
         ModelType(Item, required=True),
@@ -101,6 +102,7 @@ class EUTender(BaseTender):
 
 
 # === UA
+
 
 class PostUATender(PostEUTender):
     procurementMethodType = StringType(choices=[CD_UA_TYPE], default=CD_UA_TYPE)

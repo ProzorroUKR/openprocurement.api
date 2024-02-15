@@ -102,11 +102,7 @@ def test_set_buyers(app, request_tender_data, request_tender_config):
         {
             "id": uuid4().hex,
             "name": "Державне управління справами",
-            "identifier": {
-                "scheme": "UA-EDR",
-                "id": "00037256",
-                "uri": "http://www.dus.gov.ua/"
-            },
+            "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
         }
     ]
     for item in test_data["items"]:
@@ -123,6 +119,7 @@ def test_central_kind_buyers_required(app, request_tender_data, request_tender_c
     test_data["procuringEntity"]["kind"] = "central"
 
     response = app.post_json("/tenders", {"data": test_data, "config": request_tender_config}, status=422)
-    assert response.json == {"status": "error", "errors": [
-        {"location": "body", "name": "buyers", "description": ["This field is required."]}
-    ]}
+    assert response.json == {
+        "status": "error",
+        "errors": [{"location": "body", "name": "buyers", "description": ["This field is required."]}],
+    }

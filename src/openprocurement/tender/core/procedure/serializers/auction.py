@@ -51,7 +51,6 @@ class AuctionBidSerializer(BaseSerializer):
 
 
 class AuctionSerializer(BaseSerializer):
-
     serializers = {
         "bids": ListSerializer(AuctionBidSerializer),
         "features": ListSerializer(FeatureSerializer),
@@ -77,11 +76,14 @@ class AuctionSerializer(BaseSerializer):
             # "value",
             # "submissionMethodDetails",
             # "submissionMethodDetails",
-            "id", "status",
+            "id",
+            "status",
             # "status" actually expected to be returned from auction post in the tests
             # the reason that test had worked is tender.status role had been used, not "auction_view". It was quite a bug
-            "title", "title_en",
-            "description", "description_en",
+            "title",
+            "title_en",
+            "description",
+            "description_en",
             "procurementMethodType",
             # "procuringEntity",
         }

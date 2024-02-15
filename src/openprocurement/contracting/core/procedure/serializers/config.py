@@ -32,6 +32,7 @@ def restricted_serializer(obj, value):
 
     return value
 
+
 class ContractConfigSerializer(BaseConfigSerializer):
     serializers = {
         "restricted": restricted_serializer,

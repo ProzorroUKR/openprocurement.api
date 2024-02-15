@@ -23,4 +23,3 @@ class CDEUDefenseCancellationResource(EUCancellationResource):
 )
 class CDUADefenseCancellationResource(EUCancellationResource):
     pass
-

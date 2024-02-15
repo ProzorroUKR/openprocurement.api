@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.models.auction import (
     AuctionResults as BaseAuctionResults,
     LotResult as BaseLotResult,
     BidLotResult as BaseBidLotResult,
-    AuctionLotResults as BaseAuctionLotResults
+    AuctionLotResults as BaseAuctionLotResults,
 )
 
 

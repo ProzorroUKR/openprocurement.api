@@ -47,7 +47,7 @@ class PatchBid(ESCOMixin, BasePatchBid):
     lotValues = ListType(ModelType(PatchLotValue, required=True))
 
     def validate_value(self, data, value):
-        return   # will be validated at Bid model
+        return  # will be validated at Bid model
 
 
 class PostBid(ESCOMixin, BasePostBid):

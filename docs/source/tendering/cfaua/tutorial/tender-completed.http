@@ -716,7 +716,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "032d97a4cc414cf5ba9e7c9437899ac7",
+        "id": "b5da67b11f7643f78cdf909b0d5c4595",
         "date": "2023-10-10T01:00:00+03:00",
         "documents": [
           {
@@ -833,7 +833,7 @@ Content-Type: application/json
             "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=032d97a4cc414cf5ba9e7c9437899ac7"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=b5da67b11f7643f78cdf909b0d5c4595"
           }
         ],
         "selfQualified": true
@@ -976,7 +976,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "d541c05743244541b944c5a9fd51637c",
+        "id": "5d3dc5765f7b493e88a8cf48097c37b1",
         "date": "2023-10-10T01:00:00+03:00",
         "lotValues": [
           {
@@ -988,7 +988,7 @@ Content-Type: application/json
             "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=d541c05743244541b944c5a9fd51637c"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=5d3dc5765f7b493e88a8cf48097c37b1"
           }
         ],
         "selfQualified": true
@@ -1130,10 +1130,10 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "b238b0d24c6e40b78d0f58ba1fa489ad",
+        "id": "4812f5c2e01041e9b8a8969467bc02a3",
         "documents": [
           {
-            "id": "238f29be724140168bbc61e60be3fd47",
+            "id": "5c60f4da8bed4e8fa19b42288951e60c",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1145,7 +1145,7 @@ Content-Type: application/json
             "confidentiality": "public"
           },
           {
-            "id": "1bb2683797354be2b5c51fa8c188cebf",
+            "id": "1bcfeae774094497ad385822d9185cd7",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -1159,7 +1159,7 @@ Content-Type: application/json
         ],
         "eligibilityDocuments": [
           {
-            "id": "3f3e17b0deb64330ba540c46f6ae271e",
+            "id": "42dea9644f674ca0b336285ba42454d0",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -1310,11 +1310,11 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+        "id": "d36d4d7ab1d54578b92e72a7bf21354e",
         "date": "2023-10-10T01:00:00+03:00",
         "documents": [
           {
-            "id": "0bfd9cf8793a4475ba8663ab8f0ccc4a",
+            "id": "3780d916d7914dc9b981d1aceac1cb1a",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1326,7 +1326,7 @@ Content-Type: application/json
             "confidentiality": "public"
           },
           {
-            "id": "e5cdb689ba3f4cf99ae481cd262e1a66",
+            "id": "be256222ff60413da8a6c4e1f14972c4",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -1340,7 +1340,7 @@ Content-Type: application/json
         ],
         "financialDocuments": [
           {
-            "id": "708541a1da1145aba5a8d449c887d5bb",
+            "id": "f3b54a0258a24e0784d5f03d4fd9e2a0",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "financial_doc.pdf",
@@ -1354,7 +1354,7 @@ Content-Type: application/json
         ],
         "eligibilityDocuments": [
           {
-            "id": "460d83000e2a422196c4b503b33d4bda",
+            "id": "535d4215c62b4575b98a4838d2819c16",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -1368,7 +1368,7 @@ Content-Type: application/json
         ],
         "qualificationDocuments": [
           {
-            "id": "031f5a7c6570478f985e69643fda8038",
+            "id": "930066851c32485c9e88e1006b0a61d8",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "qualification_document.pdf",
@@ -1390,7 +1390,7 @@ Content-Type: application/json
             "relatedLot": "9dea7e57fca24c0fa6c43f752611342d",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=fb7351e7fb3b44e3ad41b5646d2cac65"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/30730028a07b4aee97ed094ebd250c58_9dea7e57fca24c0fa6c43f752611342d?key_for_bid=d36d4d7ab1d54578b92e72a7bf21354e"
           }
         ],
         "selfQualified": true
@@ -1511,7 +1511,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "fbbb064fb0ca4e51bc1e7ec7665d3496",
-        "bidID": "032d97a4cc414cf5ba9e7c9437899ac7",
+        "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1520,7 +1520,7 @@ Content-Type: application/json
       },
       {
         "id": "3a049b1a7357476e9a5d69269f9c3567",
-        "bidID": "d541c05743244541b944c5a9fd51637c",
+        "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1529,7 +1529,7 @@ Content-Type: application/json
       },
       {
         "id": "32d7247464d94a83aac69196b8f8ad52",
-        "bidID": "b238b0d24c6e40b78d0f58ba1fa489ad",
+        "bidID": "4812f5c2e01041e9b8a8969467bc02a3",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1538,7 +1538,7 @@ Content-Type: application/json
       },
       {
         "id": "fde93f7cacc14fc99caf75c038df4222",
-        "bidID": "fb7351e7fb3b44e3ad41b5646d2cac65",
+        "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1724,7 +1724,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+        "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true
@@ -1762,7 +1762,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "d541c05743244541b944c5a9fd51637c",
+        "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true
@@ -1800,7 +1800,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "032d97a4cc414cf5ba9e7c9437899ac7",
+        "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true
@@ -1837,7 +1837,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+        "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "complaintPeriod": {
           "startDate": "2023-10-10T01:00:00+03:00",
@@ -1876,7 +1876,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+        "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true,
@@ -1918,7 +1918,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "d541c05743244541b944c5a9fd51637c",
+        "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true,
@@ -1960,7 +1960,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "032d97a4cc414cf5ba9e7c9437899ac7",
+        "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
         "lotID": "9dea7e57fca24c0fa6c43f752611342d",
         "qualified": true,
         "eligible": true,
@@ -2102,7 +2102,7 @@ Content-Type: application/json
               }
             ],
             "awardID": "17926cab98b04e68b692d616e25a0cef",
-            "bidID": "fb7351e7fb3b44e3ad41b5646d2cac65",
+            "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
             "date": "2023-10-10T01:00:00+03:00"
           },
           {
@@ -2151,7 +2151,7 @@ Content-Type: application/json
               }
             ],
             "awardID": "6d5e25fb6e5243279b55e008e9d8aa0d",
-            "bidID": "d541c05743244541b944c5a9fd51637c",
+            "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
             "date": "2023-10-10T01:00:00+03:00"
           },
           {
@@ -2200,7 +2200,7 @@ Content-Type: application/json
               }
             ],
             "awardID": "dd9e029509ec4b5f850710a23e5d17a9",
-            "bidID": "032d97a4cc414cf5ba9e7c9437899ac7",
+            "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
             "date": "2023-10-10T01:00:00+03:00"
           }
         ],

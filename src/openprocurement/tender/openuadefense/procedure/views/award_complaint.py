@@ -44,4 +44,3 @@ class OpenUADefenseTenderAwardClaimResource(AwardClaimResource):
 )
 class OpenUADefenseAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = OpenUADefenseAwardComplaintState
-

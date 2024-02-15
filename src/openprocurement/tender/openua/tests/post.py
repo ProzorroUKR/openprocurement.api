@@ -52,58 +52,53 @@ class TenderComplaintPostResourceMixin(object):
         return result
 
     def patch_complaint(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/complaints/{}".format(
-            self.tender_id, self.complaint_id)
+        url = "/tenders/{}/complaints/{}".format(self.tender_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def post_post(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/complaints/{}/posts".format(
-            self.tender_id, self.complaint_id)
+        url = "/tenders/{}/complaints/{}/posts".format(self.tender_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def patch_post(self, data, status=200):
-        url = "/tenders/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/posts/{}".format(self.tender_id, self.complaint_id, self.post_id)
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def get_posts(self, status=200):
-        url = "/tenders/{}/complaints/{}/posts".format(
-            self.tender_id, self.complaint_id)
+        url = "/tenders/{}/complaints/{}/posts".format(self.tender_id, self.complaint_id)
         return self.app.get(url, status=status)
 
     def get_post(self, status=200):
-        url = "/tenders/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/posts/{}".format(self.tender_id, self.complaint_id, self.post_id)
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(self.tender_id, self.complaint_id, self.post_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
         url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.complaint_id, self.post_id, self.document_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
-        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.complaint_id, self.post_id)
+        url = "/tenders/{}/complaints/{}/posts/{}/documents".format(self.tender_id, self.complaint_id, self.post_id)
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
         url = "/tenders/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.complaint_id, self.post_id, self.document_id
+        )
         return self.app.get(url, status=status)
 
 
@@ -118,7 +113,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
 
     def post_claim(self, status=201):
         url = "/tenders/{}/qualifications/{}/complaints?acc_token={}".format(
-            self.tender_id, self.qualification_id,  list(self.initial_bids_tokens.values())[0]
+            self.tender_id, self.qualification_id, list(self.initial_bids_tokens.values())[0]
         )
         result = self.app.post_json(url, {"data": self.claim_data}, status=status)
         self.complaint_id = result.json["data"]["id"]
@@ -126,57 +121,66 @@ class TenderQualificationComplaintPostResourceMixin(object):
 
     def patch_complaint(self, data, acc_token=None, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id)
+            self.tender_id, self.qualification_id, self.complaint_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def post_post(self, data, acc_token=None, status=201):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts".format(
-            self.tender_id, self.qualification_id, self.complaint_id)
+            self.tender_id, self.qualification_id, self.complaint_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def patch_post(self, data, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        )
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def get_posts(self, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts".format(
-            self.tender_id, self.qualification_id, self.complaint_id)
+            self.tender_id, self.qualification_id, self.complaint_id
+        )
         return self.app.get(url, status=status)
 
     def get_post(self, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        )
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id
+        )
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
         url = "/tenders/{}/qualifications/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.qualification_id, self.complaint_id, self.post_id, self.document_id
+        )
         return self.app.get(url, status=status)
 
 
@@ -198,58 +202,61 @@ class TenderAwardComplaintPostResourceMixin(object):
         return result
 
     def patch_complaint(self, data, acc_token=None, status=200):
-        url = "/tenders/{}/awards/{}/complaints/{}".format(
-            self.tender_id, self.award_id, self.complaint_id)
+        url = "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def post_post(self, data, acc_token=None, status=201):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts".format(
-            self.tender_id, self.award_id, self.complaint_id)
+        url = "/tenders/{}/awards/{}/complaints/{}/posts".format(self.tender_id, self.award_id, self.complaint_id)
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def patch_post(self, data, status=200):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id
+        )
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def get_posts(self, status=200):
-        url = "/tenders/{}/awards/{}/complaints/{}/posts".format(
-            self.tender_id, self.award_id, self.complaint_id)
+        url = "/tenders/{}/awards/{}/complaints/{}/posts".format(self.tender_id, self.award_id, self.complaint_id)
         return self.app.get(url, status=status)
 
     def get_post(self, status=200):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id
+        )
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id
+        )
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
         url = "/tenders/{}/awards/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.award_id, self.complaint_id, self.post_id, self.document_id
+        )
         return self.app.get(url, status=status)
 
 
@@ -263,57 +270,66 @@ class TenderCancellationComplaintPostResourceMixin(object):
 
     def patch_complaint(self, data, acc_token=None, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id)
+            self.tender_id, self.cancellation_id, self.complaint_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def post_post(self, data, acc_token=None, status=201):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts".format(
-            self.tender_id, self.cancellation_id, self.complaint_id)
+            self.tender_id, self.cancellation_id, self.complaint_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def patch_post(self, data, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        )
         return self.app.patch_json(url, {"data": data}, status=status)
 
     def get_posts(self, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts".format(
-            self.tender_id, self.cancellation_id, self.complaint_id)
+            self.tender_id, self.cancellation_id, self.complaint_id
+        )
         return self.app.get(url, status=status)
 
     def get_post(self, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        )
         return self.app.get(url, status=status)
 
     def post_post_document(self, data, acc_token=None, status=201):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.post_json(url, {"data": data}, status=status)
 
     def put_post_document(self, data, acc_token=None, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id
+        )
         if acc_token:
             url = "{}?acc_token={}".format(url, acc_token)
         return self.app.put_json(url, {"data": data}, status=status)
 
     def get_post_documents(self, status=200, params=None):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id
+        )
         if params:
             url = "{}?{}".format(url, "&".join(["{}={}".format(k, v) for k, v in params.items()]))
         return self.app.get(url, status=status)
 
     def get_post_document(self, status=200):
         url = "/tenders/{}/cancellations/{}/complaints/{}/posts/{}/documents/{}".format(
-            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id)
+            self.tender_id, self.cancellation_id, self.complaint_id, self.post_id, self.document_id
+        )
         return self.app.get(url, status=status)
 
 
@@ -344,19 +360,14 @@ class ComplaintPostResourceMixin(object):
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderUAContentWebTest,
-    ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
-    TenderComplaintPostResourceMixin
+    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
 
     def setUp(self):
         super(TenderComplaintPostResourceTest, self).setUp()
         response = self.app.post_json(
-            "/tenders/{}/complaints".format(
-                self.tender_id
-            ),
+            "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
@@ -369,7 +380,7 @@ class TenderAwardComplaintPostResourceTest(
     BaseTenderUAContentWebTest,
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
-    TenderAwardComplaintPostResourceMixin
+    TenderAwardComplaintPostResourceMixin,
 ):
     docservice = True
     initial_status = "active.qualification"
@@ -381,11 +392,13 @@ class TenderAwardComplaintPostResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"]
-                }}
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
 
         award = response.json["data"]
@@ -393,14 +406,8 @@ class TenderAwardComplaintPostResourceTest(
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.patch_json(
-                "/tenders/{}/awards/{}".format(
-                    self.tender_id, self.award_id
-                ),
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }}
+                "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
 
         # Create complaint for award
@@ -418,9 +425,7 @@ class TenderAwardComplaintPostResourceTest(
 
 @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
-    BaseTenderUAContentWebTest,
-    ComplaintPostResourceMixin,
-    TenderCancellationComplaintPostResourceMixin
+    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
 
@@ -430,9 +435,7 @@ class TenderCancellationComplaintPostResourceTest(
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -446,26 +449,24 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, self.cancellation_id, self.tender_token
             ),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.app.patch_json(
-            "/tenders/{}/cancellations/{}?acc_token={}".format(
-                self.tender_id, self.cancellation_id, self.tender_token
-            ),
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, self.cancellation_id, self.tender_token),
             {"data": {"status": "pending"}},
         )
 
         # Create complaint for cancellation
 
         response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/complaints".format(
-                self.tender_id, self.cancellation_id
-            ),
+            "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id),
             {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]

@@ -39,9 +39,7 @@ from openprocurement.tender.openuadefense.tests.base import (
 
 
 class TenderCancellationResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
@@ -65,10 +63,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
-class TenderCancellationComplaintResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderCancellationComplaintResourceTestMixin
-):
+class TenderCancellationComplaintResourceTest(BaseTenderUAContentWebTest, TenderCancellationComplaintResourceTestMixin):
     initial_bids = test_tender_openuadefense_bids
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -79,9 +74,7 @@ class TenderCancellationComplaintResourceTest(
         self.set_complaint_period_end()
 
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -92,10 +85,7 @@ class TenderCancellationComplaintResourceTest(
     test_access_create_tender_cancellation_complaint = snitch(access_create_tender_cancellation_complaint)
 
 
-class TenderCancellationDocumentResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderCancellationDocumentResourceTestMixin
-):
+class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
 

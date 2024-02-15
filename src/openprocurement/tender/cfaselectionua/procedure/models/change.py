@@ -103,4 +103,3 @@ class ChangePartyWithdrawal(Change):
     modifications = ListType(
         ModelType(ContractModification, required=True),
     )
-

@@ -48,9 +48,7 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_lots(self):
@@ -80,9 +78,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def patch_tender_currency(self):
@@ -114,8 +110,12 @@ def patch_tender_currency(self):
     # update tender currency
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"currency": "GBP", "amount": tender["value"]["amount"]},
-                  "minimalStep": {"currency": "GBP", "amount": tender["minimalStep"]["amount"]}}},
+        {
+            "data": {
+                "value": {"currency": "GBP", "amount": tender["value"]["amount"]},
+                "minimalStep": {"currency": "GBP", "amount": tender["minimalStep"]["amount"]},
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     # log currency is updated too
@@ -154,10 +154,12 @@ def patch_tender_currency(self):
     # try to update lot minimalStep currency and lot value currency in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {
-            "value": {**lot["value"], "currency": "USD"},
-            "minimalStep": {**lot["minimalStep"], "currency": "USD"},
-        }},
+        {
+            "data": {
+                "value": {**lot["value"], "currency": "USD"},
+                "minimalStep": {**lot["minimalStep"], "currency": "USD"},
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -175,14 +177,20 @@ def patch_tender_lot(self):
 
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {"minimalStep": {**lot["minimalStep"], "amount": 35.0}}}, status=422
+        {"data": {"minimalStep": {**lot["minimalStep"], "amount": 35.0}}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
-          "location": "body", "name": "minimalStep"}]
+        [
+            {
+                "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+                "location": "body",
+                "name": "minimalStep",
+            }
+        ],
     )
 
     response = self.app.patch_json(
@@ -225,9 +233,7 @@ def patch_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, lot["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -267,8 +273,12 @@ def patch_tender_vat(self):
     # update tender VAT
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
-                  "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]}}},
+        {
+            "data": {
+                "value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
+                "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     # log VAT is updated too
@@ -307,10 +317,12 @@ def patch_tender_vat(self):
     # try to update minimalStep VAT and value VAT in single request
     response = self.app.patch_json(
         "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-        {"data": {
-            "value": {**lot["value"], "valueAddedTaxIncluded": True},
-            "minimalStep": {**lot["minimalStep"], "valueAddedTaxIncluded": True},
-        }},
+        {
+            "data": {
+                "value": {**lot["value"], "valueAddedTaxIncluded": True},
+                "minimalStep": {**lot["minimalStep"], "valueAddedTaxIncluded": True},
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     # but the value stays unchanged
@@ -742,9 +754,9 @@ def one_lot_3bid_1del(self):
         if bid.get("status", "active") == "active":
             for lot_index, lot_bid in enumerate(bid["lotValues"]):
                 if lot_bid["relatedLot"] == lot_id and lot_bid.get("status", "active") == "active":
-                    data["data"]["bids"][bid_index]["lotValues"][lot_index][
-                        "participationUrl"
-                    ] = "https://tender.auction.url/for_bid/{}".format(bid["id"])
+                    data["data"]["bids"][bid_index]["lotValues"][lot_index]["participationUrl"] = (
+                        "https://tender.auction.url/for_bid/{}".format(bid["id"])
+                    )
                     break
 
     response = self.app.patch_json("/tenders/{}/auction/{}".format(tender_id, lot_id), data)
@@ -902,9 +914,9 @@ def one_lot_3bid_1un(self):
         if bid.get("status", "active") == "active":
             for lot_index, lot_bid in enumerate(bid["lotValues"]):
                 if lot_bid["relatedLot"] == lot_id and lot_bid.get("status", "active") == "active":
-                    data["data"]["bids"][bid_index]["lotValues"][lot_index][
-                        "participationUrl"
-                    ] = "https://tender.auction.url/for_bid/{}".format(bid["id"])
+                    data["data"]["bids"][bid_index]["lotValues"][lot_index]["participationUrl"] = (
+                        "https://tender.auction.url/for_bid/{}".format(bid["id"])
+                    )
                     break
 
     response = self.app.patch_json("/tenders/{}/auction/{}".format(tender_id, lot_id), data)
@@ -1184,11 +1196,13 @@ def proc_1lot_1can(self):
     # cancel lot
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": lot_id,
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -1214,9 +1228,15 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'description': [
-            {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}],
-          'location': 'body', 'name': 'lots'}],
+        [
+            {
+                'description': [
+                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
+                ],
+                'location': 'body',
+                'name': 'lots',
+            }
+        ],
     )
 
     tender_data = deepcopy(self.initial_data)
@@ -1327,7 +1347,7 @@ def tender_lot_guarantee(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], tender_token),
-        {"data": {"guarantee": {"currency": "GBP", "amount": 20}}}
+        {"data": {"guarantee": {"currency": "GBP", "amount": 20}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn("guarantee", response.json["data"])
@@ -1356,7 +1376,7 @@ def tender_lot_guarantee(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], tender_token),
-        {"data": {"guarantee": {"amount": 55, "currency": "GBP"}}}
+        {"data": {"guarantee": {"amount": 55, "currency": "GBP"}}},
     )
     self.assertEqual(response.json["data"]["guarantee"]["amount"], 20)
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
@@ -1396,7 +1416,6 @@ def tender_lot_guarantee(self):
 
 
 def question_blocking(self):
-
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),
@@ -1422,11 +1441,13 @@ def question_blocking(self):
 
     # cancel lot
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -1446,9 +1467,7 @@ def claim_blocking(self):
     claim_data["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim_data
-        },
+        {"data": claim_data},
     )
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]
@@ -1462,11 +1481,13 @@ def claim_blocking(self):
 
     # cancel lot
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -1509,7 +1530,7 @@ def tender_features_invalid(self):
                 "title": "Потужність всмоктування",
                 "enum": [{"value": 0.1, "title": "До 1000 Вт"}, {"value": 0.15, "title": "Більше 1000 Вт"}],
             }
-        ]
+        ],
     }
 
     response = self.app.patch_json(request_path, {"data": data}, status=422)
@@ -1633,12 +1654,14 @@ def one_lot_1bid(self):
 def tender_lot_document(self):
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

@@ -36,11 +36,7 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
         tender = get_tender()
         qualification = self.request.validated["qualification"]
         lot_id = qualification.get("lotID")
-        if lot_id and any(
-            lot.get("status") != "active"
-            for lot in tender.get("lots", [])
-            if lot["id"] == lot_id
-        ):
+        if lot_id and any(lot.get("status") != "active" for lot in tender.get("lots", []) if lot["id"] == lot_id):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")
 

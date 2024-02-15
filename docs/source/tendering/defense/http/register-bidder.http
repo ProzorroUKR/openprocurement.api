@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/bids/06f2567220044d888fd89ce8ed583b34
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/bids/ca0b06136e7e4e7d89a15fbafaaacc72
 
 {
   "data": {
@@ -78,12 +78,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a754535
     "selfEligible": true,
     "selfQualified": true,
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "06f2567220044d888fd89ce8ed583b34",
+    "id": "ca0b06136e7e4e7d89a15fbafaaacc72",
     "date": "2023-10-10T01:00:01+03:00"
   },
   "access": {
-    "token": "a6961b269f624e39aabccf7327530788",
-    "transfer": "b8bb0e1e51b3488b802d96ee04ecf6e2"
+    "token": "99140c538ad5473daa1b0c0e6b41d226",
+    "transfer": "67cb3c5d5558455480f8b6a036216269"
   }
 }
 

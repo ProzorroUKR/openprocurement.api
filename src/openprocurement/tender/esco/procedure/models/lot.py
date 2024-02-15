@@ -26,7 +26,6 @@ from openprocurement.tender.esco.procedure.constants import (
 
 
 class LotSerializersMixin(LotGuaranteeSerializerMixin):
-
     @serializable(serialized_name="fundingKind")
     def lot_fundingKind(self):
         return self.get_tender().get("fundingKind", "other")
@@ -116,4 +115,3 @@ class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
 
     auctionPeriod = ModelType(LotAuctionPeriod)
     auctionUrl = URLType()
-

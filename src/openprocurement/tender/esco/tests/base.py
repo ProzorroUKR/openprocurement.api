@@ -94,7 +94,7 @@ class BaseESCOWebTest(BaseTenderWebTest):
 
 
 class BaseESCOContentWebTest(BaseESCOWebTest):
-    """ ESCO Content Test """
+    """ESCO Content Test"""
 
     initialize_initial_data = True
     initial_status = "active.tendering"

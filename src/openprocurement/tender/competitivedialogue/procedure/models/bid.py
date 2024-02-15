@@ -28,7 +28,6 @@ class PatchBid(PatchObjResponsesMixin, BaseBid):
 
 
 class PostBid(PostBidResponsesMixin, BaseBid):
-
     @serializable
     def id(self):
         return uuid4().hex

@@ -137,7 +137,11 @@ class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
     docservice = True
     initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_status = "active.tendering"
-    bid_data_wo_docs = {"tenderers": [test_tender_cfaselectionua_organization], "value": {"amount": 500}, "documents": []}
+    bid_data_wo_docs = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "value": {"amount": 500},
+        "documents": [],
+    }
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
     test_create_tender_bid_with_document = snitch(create_tender_bid_with_document)

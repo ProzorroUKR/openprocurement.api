@@ -23,9 +23,7 @@ def create_tender_bid_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     request_path = "/tenders/{}/bids".format(self.tender_id)
     response = self.app.post(request_path, "data", status=415)
@@ -180,22 +178,14 @@ def create_tender_bid_invalid(self):
                 "name": "lotValues",
                 "description": [
                     {
-                        "relatedLot": [
-                            "This field is required."
-                        ],
+                        "relatedLot": ["This field is required."],
                         "value": {
-                            "yearlyPaymentsPercentage": [
-                                "This field is required."
-                            ],
-                            "annualCostsReduction": [
-                                "This field is required."
-                            ],
-                            "contractDuration": [
-                                "This field is required."
-                            ]
-                        }
+                            "yearlyPaymentsPercentage": ["This field is required."],
+                            "annualCostsReduction": ["This field is required."],
+                            "contractDuration": ["This field is required."],
+                        },
                     }
-                ]
+                ],
             }
         ],
     )
@@ -219,18 +209,12 @@ def create_tender_bid_invalid(self):
                 "description": [
                     {
                         "value": {
-                            "yearlyPaymentsPercentage": [
-                                "This field is required."
-                            ],
-                            "annualCostsReduction": [
-                                "This field is required."
-                            ],
-                            "contractDuration": [
-                                "This field is required."
-                            ]
+                            "yearlyPaymentsPercentage": ["This field is required."],
+                            "annualCostsReduction": ["This field is required."],
+                            "contractDuration": ["This field is required."],
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -258,7 +242,7 @@ def create_tender_bid_invalid(self):
                             "contractDuration": {"years": ["Int value should be less than 15."]},
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -287,7 +271,7 @@ def create_tender_bid_invalid(self):
                             "contractDuration": {"days": ["max contract duration 15 years"]},
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -316,7 +300,7 @@ def create_tender_bid_invalid(self):
                             "contractDuration": {"days": ["min contract duration 1 day"]},
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -325,7 +309,6 @@ def create_tender_bid_invalid(self):
         "yearlyPaymentsPercentage": 0,
         "contractDuration": {"years": 12},
         "annualCostsReduction": [100] * 21,
-
     }
     response = self.app.post_json(
         request_path,
@@ -349,7 +332,7 @@ def create_tender_bid_invalid(self):
                             ],
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -376,7 +359,7 @@ def create_tender_bid_invalid(self):
                 "name": "lotValues",
                 "description": [
                     {"value": {"annualCostsReduction": ["annual costs reduction should be set for 21 period"]}}
-                ]
+                ],
             }
         ],
     )
@@ -402,9 +385,7 @@ def create_tender_bid_invalid(self):
             {
                 "location": "body",
                 "name": "lotValues",
-                "description": [
-                    {"value": ["currency of bid should be identical to currency of minValue of lot"]}
-                ]
+                "description": [{"value": ["currency of bid should be identical to currency of minValue of lot"]}],
             }
         ],
     )
@@ -431,10 +412,12 @@ def create_tender_bid_invalid(self):
                 "location": "body",
                 "name": "lotValues",
                 "description": [
-                    {"value": [
-                        "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
-                    ]}
-                ]
+                    {
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
+                        ]
+                    }
+                ],
             }
         ],
     )
@@ -472,14 +455,16 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     bid_data = {
         "selfQualified": True,
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-        "lotValues": [{
-            "relatedLot": self.tender_lots[0]["id"],
-            "value": {
-                "yearlyPaymentsPercentage": 0.6,
-                "contractDuration": {"years": 12},
-                "annualCostsReduction": [100] * 21,
-            },
-        }],
+        "lotValues": [
+            {
+                "relatedLot": self.tender_lots[0]["id"],
+                "value": {
+                    "yearlyPaymentsPercentage": 0.6,
+                    "contractDuration": {"years": 12},
+                    "annualCostsReduction": [100] * 21,
+                },
+            }
+        ],
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid_data["selfEligible"] = True
@@ -506,7 +491,7 @@ def create_tender_bid_invalid_funding_kind_budget(self):
                             ]
                         }
                     }
-                ]
+                ],
             }
         ],
     )
@@ -522,14 +507,20 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.8)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 def create_tender_bid(self):
     data = deepcopy(self.test_bids_data[0])
     data.update(
         {
-            "value": None, "parameters": None, "documents": None,
-            "financialDocuments": None, "eligibilityDocuments": None, "qualificationDocuments": None,
+            "value": None,
+            "parameters": None,
+            "documents": None,
+            "financialDocuments": None,
+            "eligibilityDocuments": None,
+            "qualificationDocuments": None,
         }
     )
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})
@@ -550,7 +541,8 @@ def create_tender_bid(self):
     )
     self.assertEqual(
         bid["lotValues"][0]["value"]["annualCostsReduction"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"]),
+        self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"],
+    ),
     self.assertEqual(
         bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
         self.test_bids_data[0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
@@ -600,14 +592,15 @@ def create_tender_bid(self):
 
 def create_tender_bid_lot(self):
     data = deepcopy(self.test_bids_data[0])
-    data["lotValues"] = [{
-        "value": data["value"],
-        "relatedLot": self.initial_lots[0]["id"]
-    }]
+    data["lotValues"] = [{"value": data["value"], "relatedLot": self.initial_lots[0]["id"]}]
     data.update(
         {
-            "value": None, "parameters": None, "documents": None,
-            "financialDocuments": None, "eligibilityDocuments": None, "qualificationDocuments": None,
+            "value": None,
+            "parameters": None,
+            "documents": None,
+            "financialDocuments": None,
+            "eligibilityDocuments": None,
+            "qualificationDocuments": None,
         }
     )
 
@@ -620,16 +613,10 @@ def create_tender_bid_lot(self):
     self.assertIn(bid["id"], response.headers["Location"])
     value = bid["lotValues"][0]["value"]
     expected_value = self.test_bids_data[0]["value"]
-    self.assertEqual(
-        value["contractDuration"]["years"], self.test_bids_data[0]["value"]["contractDuration"]["years"]
-    )
-    self.assertEqual(
-        value["contractDuration"]["days"], self.test_bids_data[0]["value"]["contractDuration"]["days"]
-    )
+    self.assertEqual(value["contractDuration"]["years"], self.test_bids_data[0]["value"]["contractDuration"]["years"])
+    self.assertEqual(value["contractDuration"]["days"], self.test_bids_data[0]["value"]["contractDuration"]["days"])
     self.assertEqual(value["annualCostsReduction"], self.test_bids_data[0]["value"]["annualCostsReduction"])
-    self.assertEqual(
-        value["yearlyPaymentsPercentage"], self.test_bids_data[0]["value"]["yearlyPaymentsPercentage"]
-    )
+    self.assertEqual(value["yearlyPaymentsPercentage"], self.test_bids_data[0]["value"]["yearlyPaymentsPercentage"])
     expected_bid_amount = round(
         float(
             to_decimal(
@@ -680,19 +667,19 @@ def create_tender_bid_31_12(self):
     self.assertIn("lotValues", bid)
     self.assertEqual(
         bid["lotValues"][0]["value"]["contractDuration"]["years"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["contractDuration"]["years"]
+        self.test_bids_data[0]["lotValues"][0]["value"]["contractDuration"]["years"],
     )
     self.assertEqual(
         bid["lotValues"][0]["value"]["contractDuration"]["days"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["contractDuration"]["days"]
+        self.test_bids_data[0]["lotValues"][0]["value"]["contractDuration"]["days"],
     )
     self.assertEqual(
         bid["lotValues"][0]["value"]["annualCostsReduction"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"]
+        self.test_bids_data[0]["lotValues"][0]["value"]["annualCostsReduction"],
     )
     self.assertEqual(
         bid["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-        self.test_bids_data[0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"]
+        self.test_bids_data[0]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
     )
     self.assertIn("amount", response.json["data"]["lotValues"][0]["value"])
     self.assertIn("amountPerformance", response.json["data"]["lotValues"][0]["value"])
@@ -704,7 +691,7 @@ def create_tender_bid_31_12(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["data"]["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
-        data["lotValues"][0]["value"]["yearlyPaymentsPercentage"]
+        data["lotValues"][0]["value"]["yearlyPaymentsPercentage"],
     )
     self.assertIn("amount", response.json["data"]["lotValues"][0]["value"])
     self.assertIn("amountPerformance", response.json["data"]["lotValues"][0]["value"])
@@ -717,11 +704,11 @@ def create_tender_bid_31_12(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["data"]["lotValues"][0]["value"]["contractDuration"]["years"],
-        data["lotValues"][0]["value"]["contractDuration"]["years"]
+        data["lotValues"][0]["value"]["contractDuration"]["years"],
     )
     self.assertEqual(
         response.json["data"]["lotValues"][0]["value"]["contractDuration"]["days"],
-        data["lotValues"][0]["value"]["contractDuration"]["days"]
+        data["lotValues"][0]["value"]["contractDuration"]["days"],
     )
     self.assertIn("amount", response.json["data"]["lotValues"][0]["value"])
     self.assertIn("amountPerformance", response.json["data"]["lotValues"][0]["value"])
@@ -760,11 +747,7 @@ def patch_tender_bid(self):
             {
                 "location": "body",
                 "name": "lotValues",
-                "description": [{
-                    "value": [
-                        "currency of bid should be identical to currency of minValue of lot"
-                    ]
-                }]
+                "description": [{"value": ["currency of bid should be identical to currency of minValue of lot"]}],
             }
         ],
     )
@@ -786,11 +769,13 @@ def patch_tender_bid(self):
             {
                 "location": "body",
                 "name": "lotValues",
-                "description": [{
-                    "value": [
-                        "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
-                    ]
-                }]
+                "description": [
+                    {
+                        "value": [
+                            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of lot"
+                        ]
+                    }
+                ],
             }
         ],
     )
@@ -840,8 +825,7 @@ def patch_tender_bid(self):
     # checking that annualCostsReduction change affected npv and escp
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertNotEqual(
-        response.json["data"]["lotValues"][0]["value"]["amountPerformance"],
-        self.expected_bid_amount_performance
+        response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
     )
 
     lot_values[0]["value"] = {"yearlyPaymentsPercentage": 0.91111}
@@ -875,9 +859,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     for status in ("invalid", "active", "unsuccessful", "deleted", "draft"):
         response = self.app.patch_json(
@@ -924,7 +906,6 @@ def patch_tender_bid(self):
 
 
 def delete_tender_bidder(self):
-
     bid_data = deepcopy(self.test_bids_data[0])
 
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
@@ -943,12 +924,14 @@ def delete_tender_bidder(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid["id"], doc_resource, bid_token),
-            {"data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -972,9 +955,7 @@ def delete_tender_bidder(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     # create new bid
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
@@ -1042,8 +1023,10 @@ def delete_tender_bidder(self):
     with change_auth(self.app, ("Basic", ("auction", ""))):
         response = self.app.get("/tenders/{}/auction".format(self.tender_id))
         auction_bids_data = response.json["data"]["bids"]
-        response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                      {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+        response = self.app.post_json(
+            "/tenders/{}/auction".format(self.tender_id),
+            {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}},
+        )
         self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -1121,13 +1104,19 @@ def bid_Administrator_change(self):
     self.app.authorization = ("Basic", ("administrator", ""))
 
     bid_data = deepcopy(test_tender_esco_bids[0])
-    bid_data.update({
-        "lotValues": [{"value": {
-            "annualCostsReduction": [300] * 21,
-            "yearlyPaymentsPercentage": 0.8,
-            "contractDuration": {"years": 8},
-        }}]
-    })
+    bid_data.update(
+        {
+            "lotValues": [
+                {
+                    "value": {
+                        "annualCostsReduction": [300] * 21,
+                        "yearlyPaymentsPercentage": 0.8,
+                        "contractDuration": {"years": 8},
+                    }
+                }
+            ]
+        }
+    )
     bid_data["tenderers"][0]["identifier"]["id"] = "00000000"
 
     response = self.app.patch_json(
@@ -1158,12 +1147,14 @@ def bids_activation_on_tender_documents(self):
 
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1217,12 +1208,14 @@ def bids_invalidation_on_tender_change(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, bid_id, doc_resource, token),
-            {"data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1273,7 +1266,7 @@ def bids_invalidation_on_tender_change(self):
     # switch to active.pre-qualification.stand-still
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "active.pre-qualification.stand-still"}}
+        {"data": {"status": "active.pre-qualification.stand-still"}},
     )
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
@@ -1286,8 +1279,9 @@ def bids_invalidation_on_tender_change(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     auction_bids_data = response.json["data"]["bids"]
-    response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                  {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+    response = self.app.post_json(
+        "/tenders/{}/auction".format(self.tender_id), {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}}
+    )
     self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -1362,7 +1356,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.json["data"]["status"], "deleted")
 
     bid_data["lotValues"][0]["value"] = {
-        "annualCostsReduction":  [950] * 21,
+        "annualCostsReduction": [950] * 21,
         "yearlyPaymentsPercentage": 0.9,
         "contractDuration": {"years": 10},
     }
@@ -1387,7 +1381,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     # switch to active.pre-qualification.stand-still
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "active.pre-qualification.stand-still"}}
+        {"data": {"status": "active.pre-qualification.stand-still"}},
     )
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
@@ -1400,8 +1394,10 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     with change_auth(self.app, ("Basic", ("auction", ""))):
         response = self.app.get("/tenders/{}/auction".format(self.tender_id))
         auction_bids_data = response.json["data"]["bids"]
-        response = self.app.post_json("/tenders/{}/auction".format(self.tender_id),
-                                      {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}})
+        response = self.app.post_json(
+            "/tenders/{}/auction".format(self.tender_id),
+            {"data": {"bids": [{"id": b["id"]} for b in auction_bids_data]}},
+        )
         self.assertEqual(response.status, "200 OK")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -1420,14 +1416,16 @@ def create_tender_bid_no_scale_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
         "data": {
-            "lotValues": [{
-                "relatedLot": self.tender_lots[0]["id"],
-                "value": {
-                    "annualCostsReduction": [950] * 21,
-                    "yearlyPaymentsPercentage": 0.9,
-                    "contractDuration": {"years": 10},
+            "lotValues": [
+                {
+                    "relatedLot": self.tender_lots[0]["id"],
+                    "value": {
+                        "annualCostsReduction": [950] * 21,
+                        "yearlyPaymentsPercentage": 0.9,
+                        "contractDuration": {"years": 10},
+                    },
                 }
-            }],
+            ],
             "tenderers": [{key: value for key, value in self.author_data.items() if key != "scale"}],
         }
     }
@@ -1515,12 +1513,14 @@ def patch_and_put_document_into_invalid_bid(self):
     for doc_resource in ["documents", "financial_documents", "eligibility_documents", "qualification_documents"]:
         response = self.app.post_json(
             "/tenders/{}/bids/{}/{}?acc_token={}".format(self.tender_id, self.bid_id, doc_resource, self.bid_token),
-            {"data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
 
         self.assertEqual(response.status, "201 Created")
@@ -1559,11 +1559,13 @@ def patch_and_put_document_into_invalid_bid(self):
             "/tenders/{}/bids/{}/{}/{}?acc_token={}".format(
                 self.tender_id, self.bid_id, doc_resource, doc_id, self.bid_token
             ),
-            {"data": {
-                "title": "u[dated.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "u[dated.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "200 OK")

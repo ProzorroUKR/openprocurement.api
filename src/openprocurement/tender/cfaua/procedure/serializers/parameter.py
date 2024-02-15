@@ -5,4 +5,3 @@ class ParameterSerializer(BaseSerializer):
     serializers = {
         "value": decimal_serializer,
     }
-

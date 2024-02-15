@@ -24,4 +24,3 @@ class CD2EUDefenseCancellationResource(EUCancellationResource):
 )
 class CD2UADefenseCancellationResource(UACancellationResource):
     pass
-

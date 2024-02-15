@@ -5,4 +5,3 @@ class GuaranteeSerializer(BaseSerializer):
     serializers = {
         "amount": decimal_serializer,
     }
-

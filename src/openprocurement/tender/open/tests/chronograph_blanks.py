@@ -15,9 +15,7 @@ def switch_to_complaint(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": claim_data
-            },
+            {"data": claim_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
@@ -85,9 +83,14 @@ def switch_to_unsuccessful_lot(self):
         for lot in response.json["data"]["lots"]:
             response = self.app.post_json(
                 "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
-                {"data": {"bids": [
-                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                    for b in auction_bids_data]}}
+                {
+                    "data": {
+                        "bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                            for b in auction_bids_data
+                        ]
+                    }
+                },
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -119,8 +122,7 @@ def set_auction_period_lot(self):
     self.assertIn("shouldStartAfter", item["auctionPeriod"])
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
     self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        parse_date(response.json["data"]["next_check"]), parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
 
     start_date = "9999-01-01T00:00:00+00:00"

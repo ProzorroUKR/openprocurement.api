@@ -6,4 +6,3 @@ from openprocurement.tender.belowthreshold.procedure.state.cancellation import B
 
 class BTCancellationDocumentState(CancellationDocumentStateMixing, BelowThresholdCancellationState):
     pass
-

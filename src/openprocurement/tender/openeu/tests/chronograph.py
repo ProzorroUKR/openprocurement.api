@@ -81,7 +81,7 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
             del lot_values[0]["status"]
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
-                {"data": {"lotValues": bid["lotValues"][:1]}}
+                {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -154,7 +154,13 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
             award = response.json["data"]
             self.award_id = award["id"]

@@ -39,6 +39,7 @@ def validate_ownership_data(request, **kwargs):
         raise error_handler(request)
     request.validated["ownership_data"] = data
 
+
 def validate_tender_transfer_accreditation_level(request, **kwargs):
     state_mapping = {
         "belowThreshold": BelowThresholdTenderDetailsState,
@@ -86,6 +87,7 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
         kind_central_levels=kind_central_levels,
     )(request, **kwargs)
 
+
 def validate_contract_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
         levels=(ACCR_3, ACCR_5),
@@ -94,6 +96,7 @@ def validate_contract_transfer_accreditation_level(request, **kwargs):
         source="contract",
     )(request, **kwargs)
 
+
 def validate_plan_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
         levels=(ACCR_1, ACCR_3, ACCR_5),
@@ -101,6 +104,7 @@ def validate_plan_transfer_accreditation_level(request, **kwargs):
         operation="change",
         source="plan",
     )(request, **kwargs)
+
 
 def validate_agreement_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(

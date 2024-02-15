@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/06d81f1ef029473d9006a65dbbad815c?acc_token=74c83964c8d5430297b700027b46fe51 HTTP/1.0
+GET /api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/526b7a685a8b4427b01d99ca0954cec5?acc_token=0821de66310b4994a87dd835d467997f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -145,7 +145,7 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "06d81f1ef029473d9006a65dbbad815c",
+    "id": "526b7a685a8b4427b01d99ca0954cec5",
     "date": "2023-10-10T01:00:00+03:00",
     "lotValues": [
       {
@@ -157,7 +157,7 @@ Content-Type: application/json
         "relatedLot": "48bd8a7458e346f1beeb61941fa097f0",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1ee782bb9bb14b8e92d250a14317d067_48bd8a7458e346f1beeb61941fa097f0?key_for_bid=06d81f1ef029473d9006a65dbbad815c"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1ee782bb9bb14b8e92d250a14317d067_48bd8a7458e346f1beeb61941fa097f0?key_for_bid=526b7a685a8b4427b01d99ca0954cec5"
       }
     ],
     "selfQualified": true,
@@ -169,18 +169,18 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13b7a37e7fcb4e3c89c6012bb35fbe35?Signature=%2BVgDpYFt8ROko6jp3pcCiLuavdVU0ACe67dPgUWQn98xSPsF1jSvtjv0kZBtfwA7RzZ97Nv%2BW9RzSArbzTflBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "58f1de578985429ab423d0ecfd98436c",
+        "id": "0d3e182d67494cb39c1a2d4b4a10889e",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       },
       {
-        "id": "518dfc1ea24d40f88292a87777fef96c",
+        "id": "56c214236e3141e6a60f319cfcc7d6a1",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/06d81f1ef029473d9006a65dbbad815c/documents/518dfc1ea24d40f88292a87777fef96c?download=223e4b63a6f54e16bbbcccd903732318",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e92d250a14317d067/bids/526b7a685a8b4427b01d99ca0954cec5/documents/56c214236e3141e6a60f319cfcc7d6a1?download=223e4b63a6f54e16bbbcccd903732318",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -196,7 +196,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b49141e9b54435fa839b33155b0ad4c?Signature=0m0bjjv%2FE4KW7WfTEwAg0WZoNillo4GBUkWt5RKqlgk%2BYSOP84wpxfeG%2FYW2m8Bhduo3epAux0lRCZmrIb38Ag%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "84e52c2cb04c4abba56ae2876436e66e",
+        "id": "6394b28d2f8c481b8a08bd1a02a0ad08",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -208,7 +208,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4217b439967f4358be4477c7a01fcf02?Signature=fT10tQJXs1FqPvafKQ50cOalNgAZ5Eq7PM1jkms2BP%2B8nzo62zp66HanQtnT3m03cHXAvlliNN551YfKH%2FHACQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "500ca42e76c94180aa3e82ea1e03ac7f",
+        "id": "59590fdfc2d84c459afa4a7b8940139e",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -222,7 +222,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0df47249712b48d281e049c4337b9342?Signature=oarUFrP5FbC9WzdRUJSAvPP5yy0r0%2FVXsVzdk3X05PGjX00oQHK9R5PKjPKLgL7uclBBBcO84gfM6Hgx4qg3Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "a0b2490683d7435ea71683519dcd0385",
+        "id": "43a2faa366a64b6c93b51e8cd07d7da1",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"

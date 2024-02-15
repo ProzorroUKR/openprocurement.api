@@ -5,7 +5,8 @@ from pyramid.security import Allow, Everyone
 from openprocurement.api.utils import (
     json_view,
     context_unpack,
-    update_logging_context, request_init_agreement,
+    update_logging_context,
+    request_init_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.framework.core.procedure.mask import AGREEMENT_MASK_MAPPING
@@ -106,7 +107,7 @@ class AgreementsResource(FrameworkBaseResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     "Updated agreement by chronograph",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_chronograph_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_chronograph_patch"}),
                 )
         elif updated:
             agreement = self.request.validated["agreement"] = updated
@@ -114,7 +115,7 @@ class AgreementsResource(FrameworkBaseResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement {agreement['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"}),
                 )
         return {
             "data": self.serializer_class(agreement).data,
@@ -125,15 +126,14 @@ class AgreementsResource(FrameworkBaseResource):
 @resource(
     name="Agreements by classificationID",
     path="/agreements_by_classification/{classification_id}",
-    description="Agreements filter classification"
+    description="Agreements filter classification",
 )
 class AgreementFilterByClassificationResource(FrameworkBaseResource):
-
     @json_view(permission="view_framework")
     def get(self):
         classification_id = self.request.matchdict.get("classification_id")
         if "-" in classification_id:
-            classification_id = classification_id[:classification_id.find("-")]
+            classification_id = classification_id[: classification_id.find("-")]
         additional_classifications = self.request.params.get("additional_classifications", "")
 
         if additional_classifications.lower() == "none":
@@ -144,7 +144,8 @@ class AgreementFilterByClassificationResource(FrameworkBaseResource):
         results = self.request.registry.mongodb.agreements.list_by_classification_id(classification_id)
         if isinstance(additional_classifications, set):
             results = [
-                x for x in results
+                x
+                for x in results
                 if {i['id'] for i in x.get("additionalClassifications", "")} == additional_classifications
             ]
 

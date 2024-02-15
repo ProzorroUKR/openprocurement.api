@@ -60,9 +60,10 @@ def validate_scheme(obj, scheme):
 
 
 def validate_additional_classifications(obj, data, items):
-    if data["classification"]["id"] == CPV_NOT_CPV and items and not any(
-        i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES
-        for i in items or []
+    if (
+        data["classification"]["id"] == CPV_NOT_CPV
+        and items
+        and not any(i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items or [])
     ):
         raise ValidationError(
             "One of additional classifications should be one of [{0}].".format(

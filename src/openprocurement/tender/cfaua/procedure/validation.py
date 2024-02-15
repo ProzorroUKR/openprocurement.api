@@ -33,11 +33,7 @@ def validate_lot_count(request, **_):
     lots_count = len(request.validated["tender"].get("lots", ""))
 
     if request.method == "DELETE" and lots_count <= LOTS_MIN_SIZE:
-        raise_operation_error(
-            request, f"Lots count in tender cannot be less than {LOTS_MAX_SIZE} items"
-        )
+        raise_operation_error(request, f"Lots count in tender cannot be less than {LOTS_MAX_SIZE} items")
 
     elif request.method == "POST" and lots_count >= LOTS_MAX_SIZE:
-        raise_operation_error(
-            request, f"Lots count in tender cannot be more than {LOTS_MAX_SIZE} items"
-        )
+        raise_operation_error(request, f"Lots count in tender cannot be more than {LOTS_MAX_SIZE} items")

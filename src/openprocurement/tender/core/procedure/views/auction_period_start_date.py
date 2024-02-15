@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.models.auction import AuctionPeriodSt
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_for_put_action_period,
     validate_auction_period_start_date,
-    validate_lot_status_active
+    validate_lot_status_active,
 )
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
@@ -26,9 +26,9 @@ class TenderAuctionPeriodResource(TenderBaseResource):
         content_type="application/json",
         permission="edit_action_period",
         validators=(
-                validate_tender_status_for_put_action_period,
-                validate_input_data(AuctionPeriodStartDate),
-                validate_auction_period_start_date,
+            validate_tender_status_for_put_action_period,
+            validate_input_data(AuctionPeriodStartDate),
+            validate_auction_period_start_date,
         ),
     )
     def collection_put(self):

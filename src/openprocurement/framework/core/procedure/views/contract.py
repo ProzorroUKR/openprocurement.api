@@ -50,6 +50,6 @@ class AgreementContractsResource(FrameworkBaseResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement contract {self.request.validated['contract']['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_contract_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_contract_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

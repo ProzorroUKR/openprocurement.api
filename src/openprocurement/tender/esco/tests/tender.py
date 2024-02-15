@@ -81,7 +81,8 @@ class TenderESCOTest(BaseESCOWebTest):
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-    """ ESCO tender test """
+    """ESCO tender test"""
+
     docservice = True
     initialize_initial_data = False
     initial_data = test_tender_esco_data

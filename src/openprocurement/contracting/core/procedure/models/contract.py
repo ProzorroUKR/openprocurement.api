@@ -69,7 +69,8 @@ class BasePatchContract(Model):
 
 
 class BaseContract(Model):
-    """ Contract """
+    """Contract"""
+
     _id = StringType(deserialize_from=['id', 'doc_id'])
     _rev = StringType()
     doc_type = StringType()
@@ -122,7 +123,6 @@ class BaseContract(Model):
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
             return self.amountPaid
-
 
 
 class ContractConfig(Model):

@@ -53,16 +53,14 @@ class BaseCoreWebTest(BaseWebTest):
             for period in self.periods[status][startend]:
                 self.framework_document_patch.update({period: {}})
                 for date in self.periods[status][startend][period]:
-                    self.framework_document_patch[period][date] = (self.calculate_period_date(
-                        date, period, startend, status
-                    )).isoformat()
+                    self.framework_document_patch[period][date] = (
+                        self.calculate_period_date(date, period, startend, status)
+                    ).isoformat()
 
     def calculate_period_date(self, date, period, startend, status):
         framework = self.framework_class(self.framework_document)
         period_date_item = self.periods[status][startend][period][date]
-        return calculate_framework_date(
-            self.now, period_date_item, framework, working_days=False
-        )
+        return calculate_framework_date(self.now, period_date_item, framework, working_days=False)
 
     def save_changes(self):
         if self.framework_document_patch:
@@ -71,7 +69,6 @@ class BaseCoreWebTest(BaseWebTest):
             self.mongodb.frameworks.save(Framework(self.framework_document))
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
-
 
     def get_auth(self, role=None):
         if role:

@@ -28,9 +28,7 @@ LOGGER = getLogger(__name__)
 
 
 class FrameworkConfigMixin:
-    configurations = (
-        "restrictedDerivatives",
-    )
+    configurations = ("restrictedDerivatives",)
 
     def validate_config(self, data):
         for config_name in self.configurations:
@@ -126,14 +124,16 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
         end_date = data["qualificationPeriod"]["endDate"]
 
-        agreement_data.update({
-            "period": {
-                "startDate": agreement_data["period"]["startDate"],
-                "endDate": end_date,
-            },
-            "procuringEntity": data["procuringEntity"],
-            "contracts": agreement_data["contracts"],
-        })
+        agreement_data.update(
+            {
+                "period": {
+                    "startDate": agreement_data["period"]["startDate"],
+                    "endDate": end_date,
+                },
+                "procuringEntity": data["procuringEntity"],
+                "contracts": agreement_data["contracts"],
+            }
+        )
         for contract in agreement_data["contracts"]:
             for milestone in contract["milestones"]:
                 if milestone["type"] == "activation":
@@ -148,7 +148,6 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                 ),
             )
 
-
     def validate_qualification_period_duration(self, data, min_duration, max_duration):
         qualification_period = data.get("qualificationPeriod")
         if qualification_start := qualification_period.get("startDate"):
@@ -156,32 +155,21 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         else:
             start_date = get_now()
 
-        qualification_period_min_end_date = calculate_framework_date(
-            start_date,
-            timedelta(days=min_duration),
-            data
-        )
+        qualification_period_min_end_date = calculate_framework_date(start_date, timedelta(days=min_duration), data)
         qualification_period_max_end_date = calculate_framework_date(
-            start_date,
-            timedelta(days=max_duration),
-            data,
-            ceil=True
+            start_date, timedelta(days=max_duration), data, ceil=True
         )
         if qualification_period_min_end_date > dt_from_iso(qualification_period["endDate"]):
             raise_operation_error(
                 get_request(),
                 "qualificationPeriod must be at least "
-                "{min_duration} full calendar days long".format(
-                    min_duration=min_duration
-                )
+                "{min_duration} full calendar days long".format(min_duration=min_duration),
             )
         if qualification_period_max_end_date < dt_from_iso(qualification_period["endDate"]):
             raise_operation_error(
                 get_request(),
                 "qualificationPeriod must be less than "
-                "{max_duration} full calendar days long".format(
-                    max_duration=max_duration
-                )
+                "{max_duration} full calendar days long".format(max_duration=max_duration),
             )
 
     def calculate_framework_periods(self, data):
@@ -195,11 +183,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             enquiry_period_end_date = dt_from_iso(enquiry_end)
         else:
             enquiry_period_end_date = calculate_framework_date(
-                enquiry_period_start_date,
-                timedelta(days=ENQUIRY_PERIOD_DURATION),
-                data,
-                working_days=True,
-                ceil=True
+                enquiry_period_start_date, timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True
             )
 
         clarifications_until = calculate_framework_date(

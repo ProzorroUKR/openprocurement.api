@@ -123,7 +123,6 @@ class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-
     test_tender_status_change = snitch(tender_status_change)
     test_single_award_tender = snitch(single_award_tender)
     test_multiple_awards_tender = snitch(multiple_awards_tender)

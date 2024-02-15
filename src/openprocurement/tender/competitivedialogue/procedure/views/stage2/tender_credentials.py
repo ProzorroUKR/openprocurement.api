@@ -23,16 +23,13 @@ class CD2EUCredentialsResource(TenderBaseResource):
 
     @json_view(
         permission="edit_tender",
-        validators=(
-            validate_dialogue_owner,
-        )
+        validators=(validate_dialogue_owner,),
     )
     def patch(self):
         tender = self.request.validated["tender"]
         if tender["status"] != "draft.stage2":
             raise_operation_error(
-                self.request,
-                f"Can't generate credentials in current ({tender['status']}) contract status"
+                self.request, f"Can't generate credentials in current ({tender['status']}) contract status"
             )
 
         access = set_ownership(tender, self.request)

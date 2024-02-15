@@ -21,10 +21,8 @@ class Tender(Model):
         plan = get_plan()
         method = tender.get("procurementMethod")
         if is_obj_const_active(plan, PLAN_ADDRESS_KIND_REQUIRED_FROM) and method == "":
-            procurement_method_types = ("centralizedProcurement", )
-        else :
+            procurement_method_types = ("centralizedProcurement",)
+        else:
             procurement_method_types = PROCEDURES[method]
         if procurement_method_type not in procurement_method_types:
-            raise ValidationError(
-                "Value must be one of {!r}.".format(procurement_method_types)
-            )
+            raise ValidationError("Value must be one of {!r}.".format(procurement_method_types))

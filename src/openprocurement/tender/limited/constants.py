@@ -1,5 +1,3 @@
-
-
 REPORTING = "reporting"
 NEGOTIATION = "negotiation"
 NEGOTIATION_QUICK = "negotiation.quick"

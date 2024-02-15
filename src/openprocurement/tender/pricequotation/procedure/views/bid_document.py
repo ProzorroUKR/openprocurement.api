@@ -18,6 +18,7 @@ from openprocurement.tender.pricequotation.constants import PQ
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
+
 @resource(
     name=f"{PQ}:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",

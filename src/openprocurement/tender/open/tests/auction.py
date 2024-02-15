@@ -80,8 +80,12 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_open_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]]
+        self.initial_bids[0]["parameters"] = [
+            {"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]
+        ]
+        self.initial_bids[1]["parameters"] = [
+            {"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]
+        ]
         super(TenderFeaturesMultilotAuctionResourceTest, self).setUp()
 
 

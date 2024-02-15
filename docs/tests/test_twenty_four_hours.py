@@ -61,10 +61,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         # valid creation
-        request_data = {
-            "code": "24h",
-            "description": "One ring to bring them all and in the darkness bind them"
-        }
+        request_data = {"code": "24h", "description": "One ring to bring them all and in the darkness bind them"}
         with open(TARGET_DIR + '24hours/award-milestone-post.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/awards/{}/milestones?acc_token={}".format(
@@ -78,18 +75,14 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + '24hours/award-patch.http', 'w') as self.app.file_obj:
             self.app.patch_json(
-                "/tenders/{}/awards/{}?acc_token={}".format(
-                    self.tender_id, self.award_id, self.tender_token
-                ),
+                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
-                status=403
+                status=403,
             )
 
         # try upload documents
         response = self.app.get(
-            "/tenders/{}/awards/{}?acc_token={}".format(
-                self.tender_id, self.award_id, self.tender_token
-            )
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token)
         )
         context = response.json["data"]
         bid_id = context.get("bid_id")
@@ -97,9 +90,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + '24hours/post-doc.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                    self.tender_id, bid_id, bid_token
-                ),
+                "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
                 {
                     "data": {
                         "title": "укр.doc",
@@ -108,7 +99,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         "format": "application/msword",
                     }
                 },
-                status=201
+                status=201,
             )
 
         with open(TARGET_DIR + '24hours/put-doc.http', 'w') as self.app.file_obj:
@@ -124,7 +115,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         "format": "application/msword",
                     }
                 },
-                status=200
+                status=200,
             )
 
         # qualification milestone creation

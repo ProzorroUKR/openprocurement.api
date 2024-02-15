@@ -6,7 +6,6 @@ from openprocurement.tender.core.procedure.views.complaint_post_document import 
 
 
 class BaseAwardComplaintPostDocumentResource(BaseComplaintPostDocumentResource):
-
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
         resolve_award(request)

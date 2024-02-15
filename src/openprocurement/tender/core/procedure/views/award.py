@@ -33,7 +33,6 @@ def resolve_award(request):
 
 
 class TenderAwardResource(TenderBaseResource):
-
     serializer_class = AwardSerializer
     state_class = AwardState
 
@@ -41,7 +40,6 @@ class TenderAwardResource(TenderBaseResource):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "edit_award"),
-
             (Allow, "g:admins", "create_award"),
             (Allow, "g:admins", "edit_award"),
         ]
@@ -74,9 +72,7 @@ class TenderAwardResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender award {award['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_award_create"},
-                                     {"award_id": award["id"]}),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_create"}, {"award_id": award["id"]}),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
@@ -116,7 +112,6 @@ class TenderAwardResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender award {}".format(award["id"]),
-                    extra=context_unpack(self.request,
-                                         {"MESSAGE_ID": "tender_award_patch"}),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

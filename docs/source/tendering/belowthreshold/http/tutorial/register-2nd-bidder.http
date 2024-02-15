@@ -57,7 +57,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459cbaa950a15be70946/bids/15f595f956a544be9866d4470cd7ba3a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459cbaa950a15be70946/bids/9a6691c52a6e40478d3057022922c776
 
 {
   "data": {
@@ -94,7 +94,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cf174abb36e944eb8ca48f1afe8eb4d2?Signature=nhY11nzZvoAKjFc3a%2FPpyp9%2BxrzoIXCWAYyrTlcJ%2FVzF6BLISq%2FmFK7mkqMFMxpbHQrYyJ%2B0DcVJExrJdvE1DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "1b593519f9724f4fa0ab5f9acc3bf068",
+        "id": "b57bff4881434c139ba83f203f41d9dc",
         "confidentiality": "public",
         "datePublished": "2023-10-16T01:00:02+03:00",
         "dateModified": "2023-10-16T01:00:02+03:00"
@@ -106,7 +106,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fa5035ab921b4fb2888800987217ada4?Signature=9meqwsW99XL5YpmHvnJQjExFMu2X6to3Wor7h88g%2F%2FV5eb6%2FfKI%2B872U0tVny68LXkJ0GMTjT2raZPL%2BOC%2BXAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "37c6a6e8ddef48ef9335a81862a7987b",
+        "id": "6dedbd358d08409eac7efb40cb71f63d",
         "confidentiality": "public",
         "datePublished": "2023-10-16T01:00:02+03:00",
         "dateModified": "2023-10-16T01:00:02+03:00"
@@ -124,12 +124,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
         "date": "2023-10-16T01:00:02+03:00"
       }
     ],
-    "id": "15f595f956a544be9866d4470cd7ba3a",
+    "id": "9a6691c52a6e40478d3057022922c776",
     "date": "2023-10-16T01:00:02+03:00"
   },
   "access": {
-    "token": "439cc37c864b4e2a886bf3ab89aad7af",
-    "transfer": "81da1d0484664b9781147946e3e989a2"
+    "token": "db886e7c3bb649edb5893b47afcb0f05",
+    "transfer": "0056a47dd1314de1b805b11d8cb1089f"
   }
 }
 

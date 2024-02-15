@@ -66,7 +66,6 @@ class TenderEUBidQualificationDocumentResource(BaseTenderBidQualificationDocumen
     update_model_class = CDPatchDocument
 
 
-
 @resource(
     name="{}:Tender Bid Documents".format(CD_UA_TYPE),
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",

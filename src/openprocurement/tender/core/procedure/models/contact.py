@@ -4,6 +4,7 @@ from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
 
+
 class ContactPoint(BaseContactPoint):
     def validate_email(self, contact_point, email):
         validate_email(contact_point, email)

@@ -32,8 +32,6 @@ class BelowThresholdAwardClaimAndComplaintGetResource(AwardComplaintGetResource)
     complaintType="claim",
     description="Tender award claims",
 )
-
-
 class BelowThresholdAwardClaimResource(AwardClaimResource):
     state_class = BelowThresholdAwardClaimState
 
@@ -41,9 +39,7 @@ class BelowThresholdAwardClaimResource(AwardClaimResource):
         content_type="application/json",
         permission="create_claim",
         validators=(
-            unless_admins(
-                validate_any_bid_owner()
-            ),
+            unless_admins(validate_any_bid_owner()),
             validate_input_data(PostClaim),
             validate_data_documents(route_key="claim", uid_key="id"),
         ),

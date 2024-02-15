@@ -75,7 +75,6 @@ def validate_max_agreement_duration_period(value):
         )
 
 
-
 class PostTender(BasePostTender):
     procurementMethodType = StringType(choices=[CFA_UA], default=CFA_UA)
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -90,8 +89,13 @@ class PostTender(BasePostTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-    lots = ListType(ModelType(PostTenderLot, required=True), required=True,
-                    min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])
+    lots = ListType(
+        ModelType(PostTenderLot, required=True),
+        required=True,
+        min_size=LOTS_MIN_SIZE,
+        max_size=LOTS_MAX_SIZE,
+        validators=[validate_lots_uniq],
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
     enquiryPeriod = ModelType(EnquiryPeriod)
@@ -120,8 +124,12 @@ class PatchTender(BasePatchTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-    lots = ListType(ModelType(PatchTenderLot, required=True),
-                    min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])
+    lots = ListType(
+        ModelType(PatchTenderLot, required=True),
+        min_size=LOTS_MIN_SIZE,
+        max_size=LOTS_MAX_SIZE,
+        validators=[validate_lots_uniq],
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
     enquiryPeriod = ModelType(EnquiryPeriod)
@@ -151,8 +159,13 @@ class Tender(BaseTender):
         min_size=1,
         validators=[validate_items_uniq, validate_classification_id],
     )
-    lots = ListType(ModelType(Lot, required=True), required=True,
-                    min_size=LOTS_MIN_SIZE, max_size=LOTS_MAX_SIZE, validators=[validate_lots_uniq])
+    lots = ListType(
+        ModelType(Lot, required=True),
+        required=True,
+        min_size=LOTS_MIN_SIZE,
+        max_size=LOTS_MAX_SIZE,
+        validators=[validate_lots_uniq],
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
 
     enquiryPeriod = ModelType(EnquiryPeriod)

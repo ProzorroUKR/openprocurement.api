@@ -12,18 +12,18 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
-
     @staticmethod
     def validate_cancellation_document_allowed(request, _, cancellation):
         if tender_created_after_2020_rules():
             status = cancellation["status"]
             if status == "draft":
                 pass
-            elif status == "pending" and any(i.get("status") == "satisfied"
-                                             for i in cancellation.get("complaints", "")):
+            elif status == "pending" and any(
+                i.get("status") == "satisfied" for i in cancellation.get("complaints", "")
+            ):
                 raise_operation_error(
                     request,
-                    f"Document can't be {OPERATIONS.get(request.method)} in current({status}) cancellation status"
+                    f"Document can't be {OPERATIONS.get(request.method)} in current({status}) cancellation status",
                 )
 
     def validate_document_post(self, data):

@@ -42,7 +42,7 @@ class DumpsWebTestApp(BaseTestApp):
     def write_request(self, req):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
             host = req.host_url
-            url = req.url[len(host):]
+            url = req.url[len(host) :]
             parts = ['%s %s %s' % (req.method, url, req.http_version)]
 
             headerlist = self.filter_headerlist(req.headers.items())
@@ -58,11 +58,7 @@ class DumpsWebTestApp(BaseTestApp):
                 except ValueError:
                     parts.append(req.body.decode('utf8'))
                 else:
-                    parts.append(json.dumps(
-                        obj,
-                        indent=self.indent,
-                        ensure_ascii=self.ensure_ascii
-                    ))
+                    parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
                 parts.append('')
 
@@ -93,11 +89,7 @@ class DumpsWebTestApp(BaseTestApp):
                 except ValueError:
                     pass
                 else:
-                    parts.append(json.dumps(
-                        obj,
-                        indent=self.indent,
-                        ensure_ascii=self.ensure_ascii
-                    ))
+                    parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
                     parts.append('')
 
@@ -116,9 +108,7 @@ class DumpsWebTestApp(BaseTestApp):
             'content-length',
             'set-cookie',
         )
-        exclude_prefixes = (
-            'x-',
-        )
+        exclude_prefixes = ('x-',)
         filtered_headerlist = []
         for k, v in headerlist:
             if k.lower() in exclude_headers:
@@ -157,9 +147,11 @@ class DumpsWebTestApp(BaseTestApp):
             lines.extend(
                 [
                     b'--' + boundary,
-                    b'Content-Disposition: form-data; ' +
-                    b'name="' + key + b'"; filename="' + filename + b'"',
-                    b'Content-Type: ' + fcontent, b'', value]
+                    b'Content-Disposition: form-data; ' + b'name="' + key + b'"; filename="' + filename + b'"',
+                    b'Content-Type: ' + fcontent,
+                    b'',
+                    value,
+                ]
             )
 
         for key, value in params:
@@ -181,12 +173,7 @@ class DumpsWebTestApp(BaseTestApp):
             else:
                 if isinstance(value, text_type):
                     value = value.encode('utf8')
-                lines.extend(
-                    [
-                        b'--' + boundary,
-                        b'Content-Disposition: form-data; name="' + key + b'"',
-                        b'', value]
-                )
+                lines.extend([b'--' + boundary, b'Content-Disposition: form-data; name="' + key + b'"', b'', value])
 
         for file_info in files:
             _append_file(file_info)
@@ -208,9 +195,7 @@ class DumpsWebTestApp(BaseTestApp):
     def set_authorization(self, value):
         self.authorization_value = value
         if value is not None:
-            invalid_value = (
-                "You should use a value like ('Basic', ('user', 'password'))"
-            )
+            invalid_value = "You should use a value like ('Basic', ('user', 'password'))"
             if isinstance(value, (list, tuple)) and len(value) == 2:
                 authtype, val = value
                 if authtype == 'Basic' and val and isinstance(val, (list, tuple)):
@@ -246,10 +231,7 @@ class MockWebTestMixin(object):
     def setUpMock(self):
         self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
         self.uuid_patch.start()
-        self.db_now_path = mock.patch(
-            'openprocurement.api.database.get_public_modified',
-            lambda: get_now().timestamp()
-        )
+        self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified', lambda: get_now().timestamp())
         self.db_now_path.start()
         self.freezer = freeze_time(self.freezing_datetime)
         self.freezer.start()
@@ -272,15 +254,19 @@ class MockWebTestMixin(object):
             for whitelist_item in self.whitelist:
                 found = re.search(whitelist_item, path)
                 if found:
-                    return path[found.span()[0]:]
+                    return path[found.span()[0] :]
 
         stack = traceback.extract_stack()
-        return [(trim_path(item[0]), item[2], item[3]) for item in stack if all(
-            [
-                any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
-                all([re.search(pattern, item[0]) is None for pattern in self.blacklist])
-            ]
-        )]
+        return [
+            (trim_path(item[0]), item[2], item[3])
+            for item in stack
+            if all(
+                [
+                    any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
+                    all([re.search(pattern, item[0]) is None for pattern in self.blacklist]),
+                ]
+            )
+        ]
 
     def count(self, name):
         if self.uuid_counters is None:

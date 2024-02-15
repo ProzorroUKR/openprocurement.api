@@ -27,7 +27,6 @@ class TenderQuestionResourceTestMixin(object):
 
 
 class TenderQuestionResourceTest(TenderContentWebTest, TenderQuestionResourceTestMixin):
-
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 

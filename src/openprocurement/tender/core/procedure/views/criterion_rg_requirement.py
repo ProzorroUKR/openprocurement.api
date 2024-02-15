@@ -8,7 +8,7 @@ from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import context_unpack, json_view,  get_now
+from openprocurement.api.utils import context_unpack, json_view, get_now
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
     RequirementSerializer,
@@ -27,7 +27,8 @@ from openprocurement.tender.core.procedure.views.criterion_rg import resolve_cri
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -48,9 +49,7 @@ def resolve_requirement(request: Request) -> None:
 
 
 def validate_resolve_requirement_input_data(
-        default_model: object,
-        exclusion_model: object,
-        none_means_remove: bool = False
+    default_model: object, exclusion_model: object, none_means_remove: bool = False
 ) -> callable:
     def validate(request, **kwargs):
         criterion = request.validated["criterion"]
@@ -59,11 +58,11 @@ def validate_resolve_requirement_input_data(
         if classification_id.startswith("CRITERION.EXCLUSION") or classification_id in CRITERION_LIFE_CYCLE_COST_IDS:
             input_model = exclusion_model
         return validate_input_data(input_model, none_means_remove=none_means_remove)(request, **kwargs)
+
     return validate
 
 
 class BaseRequirementResource(TenderBaseResource):
-
     def __acl__(self) -> List[Tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
@@ -86,13 +85,12 @@ class BaseRequirementResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PostRequirement),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(PostRequirement),
         ),
         permission="create_requirement",
     )
     def collection_post(self) -> Optional[dict]:
-
         requirement = self.request.validated["data"]
         requirement_group = self.request.validated["requirement_group"]
 
@@ -138,9 +136,9 @@ class BaseRequirementResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )
@@ -160,18 +158,14 @@ class BaseRequirementResource(TenderBaseResource):
                 f"Updated requirement group requirement {requirement_group['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_group_requirement_patch"}),
             )
-            return {"data":  self.serializer_class(updated_requirement).data}
+            return {"data": self.serializer_class(updated_requirement).data}
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_resolve_requirement_input_data(
-                    PutRequirement,
-                    PutExclusionLccRequirement,
-                    none_means_remove=True
-                ),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_resolve_requirement_input_data(PutRequirement, PutExclusionLccRequirement, none_means_remove=True),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )
@@ -186,11 +180,10 @@ class BaseRequirementResource(TenderBaseResource):
             or requirement == updated_requirement
             or (requirement["status"] == "cancelled" and updated_requirement["status"] != "active")
         ):
-            return {"data": (self.serializer_class(requirement).data, )}
+            return {"data": (self.serializer_class(requirement).data,)}
 
         now = get_now().isoformat()
         if updated_requirement.get("status") != "cancelled":
-
             updated_requirement["datePublished"] = now
             if "dateModified" in updated_requirement:
                 del updated_requirement["dateModified"]
@@ -207,7 +200,9 @@ class BaseRequirementResource(TenderBaseResource):
                 f"New version of requirement {requirement['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_group_requirement_put"}),
             )
-            return {"data": (
-                self.serializer_class(updated_requirement).data,
-                PutCancelledRequirementSerializer(requirement).data,
-            )}
+            return {
+                "data": (
+                    self.serializer_class(updated_requirement).data,
+                    PutCancelledRequirementSerializer(requirement).data,
+                )
+            }

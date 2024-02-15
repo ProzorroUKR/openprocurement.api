@@ -15,10 +15,7 @@ def patch_tender_contract(self):
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contract = response.json["data"][0]
 
-    self.assertEqual(
-        to_decimal(contract["value"]["amountNet"]),
-        self.expected_contract_amount
-    )
+    self.assertEqual(to_decimal(contract["value"]["amountNet"]), self.expected_contract_amount)
     tender = self.mongodb.tenders.get(self.tender_id)
 
     old_tender_date_modified = tender["dateModified"]
@@ -44,11 +41,10 @@ def patch_tender_contract(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"items": items, "suppliers": fake_suppliers_data}},
-        status=422
+        status=422,
     )
     self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "suppliers", "description": "Rogue field"}
+        response.json["errors"][0], {"location": "body", "name": "suppliers", "description": "Rogue field"}
     )
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
@@ -135,9 +131,7 @@ def patch_tender_contract(self):
     else:
         with change_auth(self.app, ("Basic", ("bot", ""))):
             response = self.app.patch_json(
-                "/tenders/{}/awards/{}/complaints/{}".format(
-                    self.tender_id, self.award_id, complaint["id"]
-                ),
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
                 {"data": {"status": "pending"}},
             )
 
@@ -208,10 +202,7 @@ def patch_tender_contract(self):
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
             ),
-            {"data": {
-                "status": "invalid",
-                "rejectReason": "buyerViolationsCorrected"
-            }},
+            {"data": {"status": "invalid", "rejectReason": "buyerViolationsCorrected"}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -248,38 +239,24 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json("/tenders/some_id/contracts/some_id", {"data": {"status": "active"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(
-        to_decimal(response.json["data"]["value"]["amountPerformance"]),
-        self.expected_contract_amountPerformance
+        to_decimal(response.json["data"]["value"]["amountPerformance"]), self.expected_contract_amountPerformance
     )
-    self.assertEqual(
-        to_decimal(response.json["data"]["value"]["amount"]),
-        self.expected_contract_amount
-    )
-    self.assertNotEqual(
-        response.json["data"]["value"]["amountNet"],
-        response.json["data"]["value"]["amount"]
-    )
-    self.assertEqual(
-        to_decimal(response.json["data"]["value"]["amountNet"]),
-        self.expected_contract_amount - 1
-    )
+    self.assertEqual(to_decimal(response.json["data"]["value"]["amount"]), self.expected_contract_amount)
+    self.assertNotEqual(response.json["data"]["value"]["amountNet"], response.json["data"]["value"]["amount"])
+    self.assertEqual(to_decimal(response.json["data"]["value"]["amountNet"]), self.expected_contract_amount - 1)
 
 
 def patch_econtract(self):
@@ -287,10 +264,7 @@ def patch_econtract(self):
     response = self.app.get(f"/contracts/{contract_id}")
     contract = response.json["data"]
 
-    self.assertEqual(
-        to_decimal(contract["value"]["amountNet"]),
-        self.expected_contract_amount
-    )
+    self.assertEqual(to_decimal(contract["value"]["amountNet"]), self.expected_contract_amount)
     tender = self.mongodb.tenders.get(self.tender_id)
 
     # old_tender_date_modified = tender["dateModified"]
@@ -311,11 +285,10 @@ def patch_econtract(self):
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": items, "suppliers": fake_suppliers_data}},
-        status=422
+        status=422,
     )
     self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "suppliers", "description": "Rogue field"}
+        response.json["errors"][0], {"location": "body", "name": "suppliers", "description": "Rogue field"}
     )
 
     response = self.app.get(f"/contracts/{contract_id}")
@@ -402,9 +375,7 @@ def patch_econtract(self):
     else:
         with change_auth(self.app, ("Basic", ("bot", ""))):
             response = self.app.patch_json(
-                "/tenders/{}/awards/{}/complaints/{}".format(
-                    self.tender_id, self.award_id, complaint["id"]
-                ),
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
                 {"data": {"status": "pending"}},
             )
 
@@ -475,10 +446,7 @@ def patch_econtract(self):
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
             ),
-            {"data": {
-                "status": "invalid",
-                "rejectReason": "buyerViolationsCorrected"
-            }},
+            {"data": {"status": "invalid", "rejectReason": "buyerViolationsCorrected"}},
         )
         self.assertEqual(response.status, "200 OK")
 

@@ -6,7 +6,8 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_admins,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.tender.limited.procedure.models.contract import (
     ReportingContract,
@@ -52,9 +53,7 @@ class ReportingContractResource(TenderContractResource):
         permission="edit_contract",
         validators=(
             validate_forbid_contract_action_after_date("contract"),
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(ReportingPatchContract),
             validate_patch_data_simple(ReportingContract, item_name="contract"),
         ),
@@ -89,9 +88,7 @@ class NegotiationContractResource(ReportingContractResource):
         permission="edit_contract",
         validators=(
             validate_forbid_contract_action_after_date("contract"),
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(NegotiationPatchContract),
             validate_patch_data_simple(NegotiationContract, item_name="contract"),
         ),

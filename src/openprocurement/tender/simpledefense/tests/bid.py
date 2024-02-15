@@ -128,12 +128,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -156,12 +158,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.put_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -173,12 +177,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")

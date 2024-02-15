@@ -29,7 +29,6 @@ class BelowThresholdRequirementStateMixin(
 
 
 class BelowThresholdRequirementState(BelowThresholdRequirementStateMixin, BelowThresholdTenderState):
-
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
         self._validate_ids_uniq()

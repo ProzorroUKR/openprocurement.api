@@ -53,7 +53,7 @@ class CFASelectionTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -65,14 +65,12 @@ class CFASelectionTenderResource(TendersResource):
         content_type="application/json",
         validators=(
             unless_selection_bot(  # TODO: make a distinct endpoint for unless_selection_bot
-                unless_administrator(
-                    validate_item_owner("tender")
-                )
+                unless_administrator(validate_item_owner("tender"))
             ),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
-                    "draft.pending",   # only selection_bot can update here ?
+                    "draft.pending",  # only selection_bot can update here ?
                     "active.enquiries",
                     "active.tendering",
                     "active.pre-qualification",  # state class only allows status change  pre-qualification.stand-still

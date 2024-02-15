@@ -2,10 +2,12 @@ from jinja2 import FileSystemLoader, Environment
 
 from openprocurement.api.constants import BASE_DIR
 
-loader = FileSystemLoader([
-    BASE_DIR + '/src/openprocurement/api/templates',
-    BASE_DIR + '/src/openprocurement/tender/core/templates',
-])
+loader = FileSystemLoader(
+    [
+        BASE_DIR + '/src/openprocurement/api/templates',
+        BASE_DIR + '/src/openprocurement/tender/core/templates',
+    ]
+)
 env = Environment(loader=loader)
 
 

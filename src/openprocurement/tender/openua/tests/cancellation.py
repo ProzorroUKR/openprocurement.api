@@ -47,7 +47,6 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
 
 
 class TenderCancellationComplaintResourceTestMixin:
-
     test_create_tender_cancellation_complaint = snitch(create_tender_cancellation_complaint)
     test_patch_tender_cancellation_complaint = snitch(patch_tender_cancellation_complaint)
     test_get_tender_cancellation_complaints = snitch(get_tender_cancellation_complaints)
@@ -72,9 +71,7 @@ class TenderAwardsCancellationResourceTestMixin:
 
 
 class TenderCancellationResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_status = "active.tendering"
     test_create_tender_cancellation = snitch(create_tender_cancellation)
@@ -99,10 +96,7 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     # test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 
-class TenderAwardsCancellationResourceTest(
-    BaseTenderUAContentWebTest,
-    TenderAwardsCancellationResourceTestMixin
-):
+class TenderAwardsCancellationResourceTest(BaseTenderUAContentWebTest, TenderAwardsCancellationResourceTestMixin):
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.auction"
     initial_bids = test_tender_openua_bids
@@ -111,9 +105,7 @@ class TenderAwardsCancellationResourceTest(
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 
-class TenderCancellationComplaintResourceTest(
-    BaseTenderUAContentWebTest, TenderCancellationComplaintResourceTestMixin
-):
+class TenderCancellationComplaintResourceTest(BaseTenderUAContentWebTest, TenderCancellationComplaintResourceTestMixin):
     initial_bids = test_tender_openua_bids
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -122,9 +114,7 @@ class TenderCancellationComplaintResourceTest(
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -132,12 +122,12 @@ class TenderCancellationComplaintResourceTest(
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]
 
-    test_access_create_tender_cancellation_complaint = snitch(access_create_tender_cancellation_complaint,)
+    test_access_create_tender_cancellation_complaint = snitch(
+        access_create_tender_cancellation_complaint,
+    )
 
 
-class TenderCancellationDocumentResourceTest(
-    BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin
-):
+class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
 

@@ -6,6 +6,7 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.question 
     CDStage1TenderQuestionState,
 )
 
+
 @resource(
     name=f"{CD_EU_TYPE}:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",
@@ -15,6 +16,7 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.question 
 )
 class Stage1EUTenderQuestionResource(TenderQuestionResource):
     state_class = CDStage1TenderQuestionState
+
 
 @resource(
     name=f"{CD_UA_TYPE}:Tender Questions",

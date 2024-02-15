@@ -117,10 +117,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
         super(TenderLotFeatureBidderResourceTest, self).setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
-        items[0].update(
-            relatedLot=self.lot_id,
-            id="1"
-        )
+        items[0].update(relatedLot=self.lot_id, id="1")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {

@@ -44,11 +44,13 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -69,9 +71,7 @@ def claim_blocking(self):
     claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim
-        },
+        {"data": claim},
     )
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]
@@ -85,11 +85,13 @@ def claim_blocking(self):
 
     # cancel lot
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -127,11 +129,13 @@ def next_check_value_with_unanswered_question(self):
     self.assertNotIn("next_check", response.json["data"])
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -145,14 +149,13 @@ def next_check_value_with_unanswered_question(self):
         self.assertIn("next_check", response.json["data"])
         self.assertEqual(
             parse_date(response.json["data"]["next_check"]),
-            parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+            parse_date(response.json["data"]["tenderPeriod"]["endDate"]),
         )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
     self.assertIn("next_check", response.json["data"])
     self.assertGreater(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        parse_date(response.json["data"]["next_check"]), parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
 
 
@@ -161,9 +164,7 @@ def next_check_value_with_unanswered_claim(self):
     claim["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": claim
-        },
+        {"data": claim},
     )
     self.assertEqual(response.status, "201 Created")
     complaint = response.json["data"]
@@ -177,11 +178,13 @@ def next_check_value_with_unanswered_claim(self):
 
     self.app.authorization = orig_auth
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.initial_lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.initial_lots[0]["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -196,14 +199,13 @@ def next_check_value_with_unanswered_claim(self):
         self.assertIn("next_check", response.json["data"])
         self.assertEqual(
             parse_date(response.json["data"]["next_check"]),
-            parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+            parse_date(response.json["data"]["tenderPeriod"]["endDate"]),
         )
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
     self.assertIn("next_check", response.json["data"])
     self.assertGreater(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        parse_date(response.json["data"]["next_check"]), parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
 
 
@@ -226,8 +228,7 @@ def one_lot_1bid(self):
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -296,11 +297,13 @@ def two_lot_1bid_0com_1can(self):
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": lot_id,
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
@@ -695,10 +698,17 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
 
     # posting auction results
     self.app.authorization = ("Basic", ("auction", ""))
-    self.app.post_json("/tenders/{}/auction/{}".format(tender_id, lot_id),
-                       {"data": {"bids": [
-                            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                            for b in auction_bids_data]}})
+    self.app.post_json(
+        "/tenders/{}/auction/{}".format(tender_id, lot_id),
+        {
+            "data": {
+                "bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data
+                ]
+            }
+        },
+    )
 
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))

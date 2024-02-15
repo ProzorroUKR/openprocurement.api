@@ -10,11 +10,7 @@ def post_tender_1lot_auction_not_changed(self):
     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
 
-    data = [
-        {
-            "lotValues": [{"value": b["lotValues"][0]["value"]}]
-        } for b in self.initial_bids
-    ]
+    data = [{"lotValues": [{"value": b["lotValues"][0]["value"]}]} for b in self.initial_bids]
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, response.json["data"]["lots"][0]["id"]),
         {"data": {"bids": data}},
@@ -126,10 +122,7 @@ def tender_go_to_awarded_with_one_lot(self):
     auction_lot_data = response.json["data"]["lots"]
     if auction_lot_data:
         for lot in auction_lot_data:
-            auction_bids_data = [
-                {"lotValues": [{"value": b["lotValues"][0]["value"]}]}
-                for b in auction_bids_data
-            ]
+            auction_bids_data = [{"lotValues": [{"value": b["lotValues"][0]["value"]}]} for b in auction_bids_data]
             response = self.app.post_json(
                 "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": {"bids": auction_bids_data}}
             )
@@ -360,8 +353,11 @@ def post_tender_lot_auction(self):
         self.assertLessEqual(len(tender["awards"]), max_awards)
 
     tender_bids = [
-        b for b in sorted(self.mongodb.tenders.get(self.tender_id)["bids"],
-                          key=lambda b: (float(b["lotValues"][0]["value"]["amount"]), b["date"]))
+        b
+        for b in sorted(
+            self.mongodb.tenders.get(self.tender_id)["bids"],
+            key=lambda b: (float(b["lotValues"][0]["value"]["amount"]), b["date"]),
+        )
     ]
     for x in list(range(self.min_bids_number))[:max_awards]:
         self.assertEqual(tender["awards"][x]["bid_id"], tender_bids[x]["id"])

@@ -40,41 +40,25 @@ now = get_now()
 test_framework_electronic_catalogue_data = {
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {
-        "contactPoint": {
-            "telephone": "+0440000000",
-            "name": "Назва організації(ЦЗО)",
-            "email": "aa@aa.com"
-        },
-        "identifier": {
-            "scheme": "UA-EDR",
-            "id": active_cpb_id,
-            "legalName": "Назва організації(ЦЗО)"
-        },
+        "contactPoint": {"telephone": "+0440000000", "name": "Назва організації(ЦЗО)", "email": "aa@aa.com"},
+        "identifier": {"scheme": "UA-EDR", "id": active_cpb_id, "legalName": "Назва організації(ЦЗО)"},
         "kind": "central",
         "address": {
             "countryName": "Україна",
             "postalCode": "01220",
             "region": "м. Київ",
             "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ"
+            "locality": "м. Київ",
         },
-        "name": "Повна назва юридичної організації."
+        "name": "Повна назва юридичної організації.",
     },
     "additionalClassifications": [
-        {
-            "scheme": "ДК003",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-        }
+        {"scheme": "ДК003", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "classification": {
-        "scheme": "ДК021",
-        "description": "Mustard seeds",
-        "id": "03111600-8"
-    },
+    "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()}
+    "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()},
 }
 
 test_framework_electronic_catalogue_config = {
@@ -88,7 +72,7 @@ test_electronicCatalogue_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00",
     },
     {
         "hash": "md5:00000000000000000000000000000000",
@@ -96,7 +80,7 @@ test_electronicCatalogue_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b648",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00",
     },
     {
         "hash": "md5:00000000000000000000000000000000",
@@ -104,8 +88,8 @@ test_electronicCatalogue_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b643",
-        "dateModified": "2020-09-08T01:00:00+03:00"
-    }
+        "dateModified": "2020-09-08T01:00:00+03:00",
+    },
 ]
 
 tenderer = {
@@ -116,14 +100,14 @@ tenderer = {
         "legalName": "Державне управління справами",
         "scheme": "UA-EDR",
         "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
+        "uri": "http://www.dus.gov.ua/",
     },
     "address": {
         "countryName": "Україна",
         "postalCode": "01220",
         "region": "м. Київ",
         "locality": "м. Київ",
-        "streetAddress": "вул. Банкова, 11, корпус 1"
+        "streetAddress": "вул. Банкова, 11, корпус 1",
     },
     "contactPoint": {
         "name": "Державне управління справами",
@@ -131,7 +115,7 @@ tenderer = {
         "telephone": "+0440000000",
         "email": "aa@aa.com",
     },
-    "scale": "micro"
+    "scale": "micro",
 }
 
 test_submission_data = {
@@ -139,9 +123,7 @@ test_submission_data = {
     "submissionType": "electronicCatalogue",
 }
 
-ban_milestone_data = {
-    "type": "ban"
-}
+ban_milestone_data = {"type": "ban"}
 
 ban_milestone_data_with_documents = {
     "type": "ban",
@@ -152,11 +134,10 @@ ban_milestone_data_with_documents = {
             "format": "application/msword",
             "datePublished": "2020-09-08T01:00:00+03:00",
             "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-            "dateModified": "2020-09-08T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00",
         }
-    ]
+    ],
 }
-
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -178,10 +159,11 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
         config = config if data is not None else deepcopy(self.initial_config)
 
         response = self.app.post_json(
-            "/frameworks", {
+            "/frameworks",
+            {
                 "data": data,
                 "config": config,
-            }
+            },
         )
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
@@ -192,7 +174,7 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
         with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
             response = self.app.patch_json(
                 "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-                {"data": {"status": "active"}}
+                {"data": {"status": "active"}},
             )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
@@ -254,11 +236,12 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         config = config if data is not None else deepcopy(self.initial_submission_config)
         data["frameworkID"] = self.framework_id
         response = self.app.post_json(
-            "/submissions", {
+            "/submissions",
+            {
                 "data": data,
                 "config": config,
-            }
-            )
+            },
+        )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
         self.assertEqual(response.json["data"]["submissionType"], self.framework_type)
@@ -277,12 +260,14 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     def activate_qualification(self):
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {"data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         response = self.app.patch_json(
@@ -306,6 +291,7 @@ class SubmissionContentWebTest(BaseSubmissionContentWebTest):
     def setUp(self):
         super(SubmissionContentWebTest, self).setUp()
         self.create_submission()
+
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
@@ -374,7 +360,7 @@ class MilestoneContentWebTest(AgreementContentWebTest):
     def create_milestone(self):
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
-            {"data": self.initial_milestone_data}
+            {"data": self.initial_milestone_data},
         )
         self.assertEqual(response.status, "201 Created")
         return response

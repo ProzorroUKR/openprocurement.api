@@ -37,11 +37,7 @@ test_tender_openuadefense_data["items"] = [
         "additionalClassifications": [
             {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
         ],
-        "unit": {
-            "name": "item",
-            "code": "KGM",
-            "value": {"amount": 6}
-        },
+        "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
         "quantity": 5,
         "deliveryDate": {
             "startDate": (now + timedelta(days=2)).isoformat(),
@@ -63,8 +59,12 @@ test_tender_openuadefense_features_data["procurementMethodType"] = "aboveThresho
 test_tender_openuadefense_features_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
 del test_tender_openuadefense_features_data["enquiryPeriod"]
 test_tender_openuadefense_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_openuadefense_features_data["items"][0]["deliveryDate"] = test_tender_openuadefense_data["items"][0]["deliveryDate"]
-test_tender_openuadefense_features_data["items"][0]["deliveryAddress"] = test_tender_openuadefense_data["items"][0]["deliveryAddress"]
+test_tender_openuadefense_features_data["items"][0]["deliveryDate"] = test_tender_openuadefense_data["items"][0][
+    "deliveryDate"
+]
+test_tender_openuadefense_features_data["items"][0]["deliveryAddress"] = test_tender_openuadefense_data["items"][0][
+    "deliveryAddress"
+]
 
 test_tender_openuadefense_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_openuadefense_bids:
@@ -98,8 +98,8 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     forbidden_lot_actions_status = (
-        "active.auction"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
 
     periods = PERIODS
 

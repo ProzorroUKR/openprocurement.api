@@ -41,7 +41,7 @@ QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
 
 
 class ProcurementMethodTypePredicate(object):
-    """ Route predicate factory for procurementMethodType route predicate. """
+    """Route predicate factory for procurementMethodType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -83,7 +83,7 @@ class ProcurementMethodTypePredicate(object):
 
 
 class ComplaintTypePredicate(object):
-    """ Route predicate factory for complaintType route predicate. """
+    """Route predicate factory for complaintType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -95,7 +95,6 @@ class ComplaintTypePredicate(object):
 
     def __call__(self, context, request):
         return request.complaint_type == self.val
-
 
 
 def get_tender_accelerator(context):
@@ -113,6 +112,7 @@ def acceleratable(wrapped):
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
         return wrapped(date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=calendar)
+
     return wrapper
 
 

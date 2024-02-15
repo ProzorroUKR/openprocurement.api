@@ -17,7 +17,6 @@ class BaseDocumentStateMixing:
 
 
 class BaseDocumentState(BaseDocumentStateMixing, TenderState):
-
     def validate_document_author(self, document):
         if self.request.authenticated_role != document["author"]:
             raise_operation_error(
@@ -26,4 +25,3 @@ class BaseDocumentState(BaseDocumentStateMixing, TenderState):
                 location="url",
                 name="role",
             )
-

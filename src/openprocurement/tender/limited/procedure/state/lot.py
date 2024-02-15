@@ -7,7 +7,6 @@ from openprocurement.tender.limited.procedure.state.tender_details import Negoti
 
 
 class NegotiationLotState(LotStateMixin, NegotiationTenderDetailsState):
-
     def lot_on_patch(self, before: dict, after: dict) -> None:
         super(NegotiationLotState, self).lot_on_patch(after, before)
         self.validate_update_lot_with_cancellations(after)
@@ -20,7 +19,8 @@ class NegotiationLotState(LotStateMixin, NegotiationTenderDetailsState):
             return
 
         if [
-            cancellation for cancellation in get_tender().get("cancellations", "")
+            cancellation
+            for cancellation in get_tender().get("cancellations", "")
             if cancellation.get("relatedLot") == data["id"]
         ]:
             raise_operation_error(self.request, "Can't update lot that have active cancellation")

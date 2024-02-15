@@ -8,5 +8,6 @@ from openprocurement.tender.core.procedure.state.award_claim import AwardClaimSt
 class CDUAStage2AwardClaimState(AwardClaimStateMixin, CDUAStage2TenderState):
     pass
 
+
 class CDEUStage2AwardClaimState(AwardClaimStateMixin, CDEUStage2TenderState):
     pass

@@ -29,4 +29,3 @@ class OpenUACancellationClaimAndComplaintGetResource(CancellationComplaintGetRes
 )
 class OpenUACancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = OpenUACancellationComplaintState
-

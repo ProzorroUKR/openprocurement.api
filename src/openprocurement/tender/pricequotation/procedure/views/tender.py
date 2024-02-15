@@ -23,7 +23,10 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_config_data,
-    validate_input_data, validate_data_documents, validate_item_owner, validate_accreditation_level,
+    validate_input_data,
+    validate_data_documents,
+    validate_item_owner,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 from pyramid.security import Allow
@@ -66,7 +69,7 @@ class PriceQuotationTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),

@@ -4,7 +4,6 @@ from openprocurement.contracting.api.procedure.state.contract import ContractSta
 
 
 class ChangeState(ContractState):
-
     def change_on_post(self, data):
         self.change_always(data)
 

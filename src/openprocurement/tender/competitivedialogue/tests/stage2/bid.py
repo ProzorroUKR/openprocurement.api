@@ -184,7 +184,6 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-
     initial_status = "active.tendering"
     initial_data = test_tender_cdua_stage2_data
     test_bids_data = test_bids_stage2
@@ -219,7 +218,8 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
 
 
 class TenderStage2UABidDocumentWithDSResourceTest(
-    TenderUABidDocumentWithDSResourceTestMixin, BaseCDUAStage2BidContentWebTest,
+    TenderUABidDocumentWithDSResourceTestMixin,
+    BaseCDUAStage2BidContentWebTest,
 ):
     pass
 

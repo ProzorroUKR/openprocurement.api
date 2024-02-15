@@ -44,4 +44,3 @@ class OpenUATenderClaimResource(TenderClaimResource):
 )
 class OpenUATenderComplaintResource(TenderComplaintResource):
     state_class = OpenUATenderComplaintState
-

@@ -19,7 +19,8 @@ def get_agreement_next_check(data):
     if data["status"] == "active":
         milestone_due_dates = [
             milestone["dueDate"]
-            for contract in data.get("contracts", []) for milestone in contract.get("milestones", [])
+            for contract in data.get("contracts", [])
+            for milestone in contract.get("milestones", [])
             if milestone.get("dueDate") and milestone["status"] == "scheduled"
         ]
         if milestone_due_dates:
@@ -29,7 +30,6 @@ def get_agreement_next_check(data):
 
 
 class AgreementState(BaseState, ChronographEventsMixing):
-
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework
@@ -72,10 +72,7 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "frameworkID": framework["_id"],
                 "agreementType": framework["frameworkType"],
                 "status": "active",
-                "period": {
-                    "startDate": now,
-                    "endDate": framework.get("qualificationPeriod").get("endDate")
-                },
+                "period": {"startDate": now, "endDate": framework.get("qualificationPeriod").get("endDate")},
                 "procuringEntity": framework.get("procuringEntity"),
                 "classification": framework.get("classification"),
                 "additionalClassifications": framework.get("additionalClassifications"),

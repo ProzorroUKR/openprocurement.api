@@ -6,7 +6,6 @@ from openprocurement.api.procedure.utils import is_item_owner
 
 
 class BelowThresholdTenderDocumentState(TenderDocumentState):
-
     def document_on_post(self, data):
         super().document_on_post(data)
         self.invalidate_bids_data()

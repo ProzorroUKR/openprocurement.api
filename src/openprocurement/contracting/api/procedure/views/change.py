@@ -11,5 +11,6 @@ from openprocurement.contracting.core.procedure.views.change import ContractsCha
     description="Contracts Changes",
 )
 class GeneralContractsChangesResource(ContractsChangesResource):
-    """ Contract changes resource """
+    """Contract changes resource"""
+
     pass

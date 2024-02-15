@@ -38,18 +38,12 @@ class TenderCDUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogU
     test_lots_data = test_tender_below_lots
 
 
-class TenderCDEUCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseCompetitiveDialogEUContentWebTest
-):
+class TenderCDEUCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseCompetitiveDialogEUContentWebTest):
     initial_data = test_tender_cdeu_data
     test_lots_data = test_tender_below_lots
 
 
-class TenderCDUACriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseCompetitiveDialogUAContentWebTest
-):
+class TenderCDUACriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_data = test_tender_cdua_data
     test_lots_data = test_tender_below_lots
 

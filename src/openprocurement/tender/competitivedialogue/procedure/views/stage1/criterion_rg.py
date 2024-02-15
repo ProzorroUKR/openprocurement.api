@@ -11,10 +11,12 @@ from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_
 class BaseCDRequirementGroupResource(BaseRequirementGroupResource):
     def __acl__(self) -> List[Tuple[str, str, str]]:
         acl = super().__acl__()
-        acl.extend([
-            (Allow, "g:competitive_dialogue", "create_rg"),
-            (Allow, "g:competitive_dialogue", "edit_rg"),
-        ])
+        acl.extend(
+            [
+                (Allow, "g:competitive_dialogue", "create_rg"),
+                (Allow, "g:competitive_dialogue", "edit_rg"),
+            ]
+        )
         return acl
 
 

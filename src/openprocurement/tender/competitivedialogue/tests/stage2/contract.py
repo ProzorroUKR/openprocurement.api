@@ -128,12 +128,14 @@ class TenderStage2EUContractDocumentResourceTest(
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {
-                "suppliers": [supplier_info],
-                "status": "pending",
-                "bid_id": self.bids[0]["id"],
-                "lotID": self.initial_lots[0]["id"],
-            }},
+            {
+                "data": {
+                    "suppliers": [supplier_info],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -203,9 +205,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
@@ -269,12 +269,14 @@ class TenderStage2UAContractDocumentResourceTest(
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {
-                "suppliers": [test_tender_cd_tenderer],
-                "status": "pending",
-                "bid_id": self.bids[0]["id"],
-                "lotID": self.initial_lots[0]["id"],
-            }},
+            {
+                "data": {
+                    "suppliers": [test_tender_cd_tenderer],
+                    "status": "pending",
+                    "bid_id": self.bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -310,6 +312,7 @@ class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2C
         auth = self.app.authorization
         TenderStage2EUContractResourceTest.create_award(self)
         self.app.authorization = auth
+
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 

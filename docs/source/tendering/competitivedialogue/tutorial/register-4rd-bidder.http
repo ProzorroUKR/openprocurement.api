@@ -57,7 +57,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/fbbd4a1c822c4ed68b03bece6303facd
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/19275a9d05654013b82b1d96a4d035f6
 
 {
   "data": {
@@ -99,7 +99,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/512e62ad72064144a492ddadd0c8df6f?Signature=jowdtY2DvSznH4xF0PR4itAaLc1gBn4qAjnxkvLwn4e7WieDPO%2Fv4jwtUcgQhtwIfMXehOy%2FUjRzg9R22JdAAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "735f74e9bcb742c292a4153695abded0",
+        "id": "a7e0aedf87d145878ea880ddd51ac126",
         "confidentiality": "public",
         "isDescriptionDecision": false,
         "datePublished": "2023-10-10T01:00:00+03:00",
@@ -111,7 +111,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "c4de4273b0614986845d84797ca9c9e2",
+        "id": "f8b358824b8c48b3a091cf482fc7fe44",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "isDescriptionDecision": false,
@@ -121,12 +121,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27
     ],
     "selfQualified": true,
     "status": "draft",
-    "id": "fbbd4a1c822c4ed68b03bece6303facd",
+    "id": "19275a9d05654013b82b1d96a4d035f6",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "dbbb4c1ad4b7483d8937e50b1172220f",
-    "transfer": "1d631923ec0b425c9cbae2fabf97a06c"
+    "token": "38fef278119a47b1a4f3a65a126aba36",
+    "transfer": "c25a66f0bae6420892ddc24843ebed87"
   }
 }
 

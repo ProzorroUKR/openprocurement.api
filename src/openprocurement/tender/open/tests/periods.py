@@ -37,7 +37,7 @@ PERIODS = {
             "auctionPeriod": {
                 "startDate": timedelta(days=2),
             },
-        }
+        },
     },
     "active.auction": {
         "start": {
@@ -112,5 +112,5 @@ PERIODS = {
                 "endDate": -timedelta(days=7),
             },
         }
-    }
+    },
 }

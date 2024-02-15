@@ -56,9 +56,7 @@ class TenderCancellationDocumentResourceTestMixin(object):
 
 
 class TenderCancellationResourceTest(
-    TenderContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_status = "active.tendering"
     initial_bids = test_tender_below_bids

@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractDocumentResourceTestMixin,
     # EContract
     TenderEcontractResourceTestMixin,
-    TenderEContractMultiBuyersResourceTestMixin
+    TenderEContractMultiBuyersResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_status_by_owner,

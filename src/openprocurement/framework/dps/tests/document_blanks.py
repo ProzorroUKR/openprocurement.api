@@ -22,9 +22,7 @@ def get_document_by_id(self):
 
 def create_framework_document_forbidden(self):
     response = self.app.post(
-        "/frameworks/{}/documents".format(self.framework_id),
-        upload_files=[("file", "укр.doc", b"content")],
-        status=403
+        "/frameworks/{}/documents".format(self.framework_id), upload_files=[("file", "укр.doc", b"content")], status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -36,7 +34,7 @@ def create_framework_document_forbidden(self):
         response = self.app.post(
             "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
             upload_files=[("file", "укр.doc", b"content")],
-            status=403
+            status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
@@ -48,12 +46,14 @@ def create_framework_document_forbidden(self):
 def create_framework_document(self):
     response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        {"data": {
-            "title": "name1.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "name1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -75,7 +75,7 @@ def create_framework_document_json_bulk(self):
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
-                }
+                },
             ]
         },
     )
@@ -106,9 +106,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
     response = self.app.post(
         "/frameworks/some_id/documents", status=404, upload_files=[("file", "name.doc", b"content")]
@@ -116,18 +114,14 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
     response = self.app.put(
         "/frameworks/some_id/documents/some_id", status=404, upload_files=[("file", "name.doc", b"content2")]
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
     response = self.app.put(
         "/frameworks/{}/documents/some_id".format(self.framework_id),
@@ -137,36 +131,32 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
     response = self.app.get("/frameworks/some_id/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
     response = self.app.get("/frameworks/{}/documents/some_id".format(self.framework_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
 
 def put_contract_document(self):
     response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -177,12 +167,14 @@ def put_contract_document(self):
 
     response = self.app.put_json(
         "/frameworks/{}/documents/{}?acc_token={}".format(self.framework_id, doc_id, self.framework_token),
-        {"data": {
-            "title": "name name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -208,12 +200,14 @@ def put_contract_document(self):
 
     response = self.app.post_json(
         "/frameworks/{}/documents?acc_token={}".format(self.framework_id, self.framework_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

@@ -52,7 +52,6 @@ def get_version_from_date(request, doc, revisions):
 
 
 def extract_doc(request, doc_type):
-
     doc_id = request.matchdict["doc_id"]
     if doc_id is None:
         return404(request, "url", "{}_id".format(doc_type.lower()))  # pragma: no cover
@@ -204,7 +203,10 @@ class APIHistoricalResource(BaseResource):
         super(APIHistoricalResource, self).__init__(request, context)
         self.resource = request.context.doc_type.lower()
 
-    @json_view(permission="view_historical", validators=(validate_accreditation,))
+    @json_view(
+        permission="view_historical",
+        validators=(validate_accreditation,),
+    )
     def get(self):
         route = get_route(self.request)
         if route is None:

@@ -27,11 +27,7 @@ def save_plan(request, modified: bool = True, insert: bool = False) -> bool:
                 insert=insert,
             )
             LOGGER.info(
-                "Saved plan {}: dateModified {} -> {}".format(
-                    plan["_id"],
-                    old_date_modified,
-                    plan["dateModified"]
-                ),
+                "Saved plan {}: dateModified {} -> {}".format(plan["_id"], old_date_modified, plan["dateModified"]),
                 extra=context_unpack(
                     request,
                     {"MESSAGE_ID": "save_plan"},

@@ -73,10 +73,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_organization)
-    initial_bids = test_bids_data = [
-        test_tender_openeu_bids[0]
-        for i in range(3)
-    ]
+    initial_bids = test_bids_data = [test_tender_openeu_bids[0] for i in range(3)]
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -126,8 +123,12 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_openeu_features_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_openeu_features_data["features"]]
+        self.initial_bids[0]["parameters"] = [
+            {"code": i["code"], "value": 0.1} for i in test_tender_openeu_features_data["features"]
+        ]
+        self.initial_bids[1]["parameters"] = [
+            {"code": i["code"], "value": 0.15} for i in test_tender_openeu_features_data["features"]
+        ]
         super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 

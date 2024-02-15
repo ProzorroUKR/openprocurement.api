@@ -51,8 +51,10 @@ def validate_features(data, features):
 
 def validate_tender_period(data, period):
     if (
-        period and period.startDate
-        and data.get("enquiryPeriod") and data.get("enquiryPeriod").endDate
+        period
+        and period.startDate
+        and data.get("enquiryPeriod")
+        and data.get("enquiryPeriod").endDate
         and period.startDate < data.get("enquiryPeriod").endDate
     ):
         raise ValidationError("period should begin after enquiryPeriod")
@@ -71,13 +73,17 @@ class PostTender(PostBaseTender):
     status = StringType(choices=["draft"], default="draft")
 
     agreements = ListType(ModelType(AgreementUUID, required=True), required=True, min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
+    lots = ListType(
+        ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     guarantee = ModelType(PostGuarantee)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
@@ -127,14 +133,13 @@ class PatchTender(PatchBaseTender):
     )
 
     # agreements = ListType(ModelType(Agreement, required=True), min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+    )
+    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1, validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
@@ -164,18 +169,22 @@ class Tender(BaseTender):
             "active.pre-qualification",
             "active.qualification",
         ],
-        required=True
+        required=True,
     )
 
     agreements = ListType(ModelType(Agreement, required=True), required=True, min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(Lot, required=True), min_size=1, max_size=1, required=True,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
+    lots = ListType(
+        ModelType(Lot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     tenderPeriod = ModelType(PeriodEndRequired)
     enquiryPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable

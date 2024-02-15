@@ -1,6 +1,7 @@
 from openprocurement.tender.core.procedure.validation import (
     base_validate_operation_ecriteria_objects,
-    check_requirements_active, validate_object_id_uniq,
+    check_requirements_active,
+    validate_object_id_uniq,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
@@ -76,9 +77,9 @@ class CriterionStateMixin(BaseCriterionStateMixin):
 
             for existed_criterion in criteria:
                 if (
-                        new_criterion.get("relatesTo") == existed_criterion["relatesTo"]
-                        and new_criterion.get("relatedItem") == existed_criterion.get("relatedItem")
-                        and new_criterion["classification"]["id"] == existed_criterion["classification"]["id"]
+                    new_criterion.get("relatesTo") == existed_criterion["relatesTo"]
+                    and new_criterion.get("relatedItem") == existed_criterion.get("relatedItem")
+                    and new_criterion["classification"]["id"] == existed_criterion["classification"]["id"]
                 ):
                     raise_operation_error(self.request, "Criteria are not unique")
 
@@ -96,10 +97,9 @@ class CriterionStateMixin(BaseCriterionStateMixin):
             return
 
         for existed_criterion in criteria:
-            if (
-                    after.get("relatesTo") == existed_criterion["relatesTo"]
-                    and after.get("relatedItem", "") == existed_criterion.get("relatedItem", "")
-            ):
+            if after.get("relatesTo") == existed_criterion["relatesTo"] and after.get(
+                "relatedItem", ""
+            ) == existed_criterion.get("relatedItem", ""):
                 if updated_criterion_classification == existed_criterion["classification"]["id"]:
                     if check_requirements_active(existed_criterion):
                         raise_operation_error(self.request, "Criteria are not unique")

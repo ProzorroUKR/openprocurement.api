@@ -7,10 +7,7 @@ PERIODS = {
                 "startDate": timedelta(),
                 "endDate": timedelta() + timedelta(days=13),
             },
-            "tenderPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta() + timedelta(days=16)
-            },
+            "tenderPeriod": {"startDate": timedelta(), "endDate": timedelta() + timedelta(days=16)},
         },
         "enquiry_end": {
             "enquiryPeriod": {
@@ -32,7 +29,7 @@ PERIODS = {
                 "startDate": -timedelta(days=14),
                 "endDate": timedelta(days=1),
             },
-            "auctionPeriod": {"startDate": timedelta(days=2)}
+            "auctionPeriod": {"startDate": timedelta(days=2)},
         },
     },
     "active.auction": {
@@ -92,5 +89,5 @@ PERIODS = {
                 "endDate": -timedelta(days=7),
             },
         }
-    }
+    },
 }

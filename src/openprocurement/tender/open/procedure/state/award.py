@@ -41,15 +41,14 @@ class AwardState(AwardStateMixing, OpenTenderState):
                 self.add_next_award()
 
         elif (
-            before == "unsuccessful" and after == "cancelled"
-            and any(i["status"] == "satisfied"
-                    for i in award.get("complaints", ""))
+            before == "unsuccessful"
+            and after == "cancelled"
+            and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
         ):
             self.award_status_up_from_unsuccessful_to_cancelled(award, tender)
 
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
 
@@ -73,4 +72,3 @@ class AwardState(AwardStateMixing, OpenTenderState):
                 if self.is_available_to_cancel_award(i, [award["id"]]):
                     self.cancel_award(i)
         self.add_next_award()
-

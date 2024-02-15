@@ -15,8 +15,6 @@ from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.pricequotation.constants import PQ
 
 
-
-
 def validate_update_contract_value(request, name="value", attrs=("currency",), **kwargs):
     data = request.validated["data"]
     value = data.get(name)
@@ -48,7 +46,7 @@ def validate_update_contract_value_amount(request, name="value", **kwargs):
         if not (amount == 0 and amount_net == 0):
             if tax_included:
                 amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                if (amount < amount_net or amount > amount_max):
+                if amount < amount_net or amount > amount_max:
                     raise_operation_error(
                         request,
                         "Amount should be equal or greater than amountNet and differ by "
@@ -59,6 +57,7 @@ def validate_update_contract_value_amount(request, name="value", **kwargs):
                 if amount != amount_net:
                     raise_operation_error(request, "Amount and amountNet should be equal", name=name)
 
+
 def validate_contract_items_unit_value_amount(request, contract, **kwargs):
     items_unit_value_amount = []
     for item in contract.items:
@@ -68,17 +67,13 @@ def validate_contract_items_unit_value_amount(request, contract, **kwargs):
                     raise_operation_error(
                         request, "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
                     )
-                items_unit_value_amount.append(
-                    to_decimal(item.quantity) * to_decimal(item.unit.value.amount)
-                )
+                items_unit_value_amount.append(to_decimal(item.quantity) * to_decimal(item.unit.value.amount))
 
     if items_unit_value_amount and contract.value:
         calculated_value = sum(items_unit_value_amount)
 
         if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(contract.value.amount):
-            raise_operation_error(
-                request, "Total amount of unit values can't be greater than contract.value.amount"
-            )
+            raise_operation_error(request, "Total amount of unit values can't be greater than contract.value.amount")
 
 
 def validate_tender_matches_plan(request, **kwargs):
@@ -127,9 +122,7 @@ def validate_tender_plan_procurement_method_type(request, **kwargs):
         request.errors.add(
             "body",
             "procurementMethodType",
-            "procurementMethodType doesn't match: {} != {}".format(
-                plan.tender.procurementMethodType, tender_type
-            ),
+            "procurementMethodType doesn't match: {} != {}".format(plan.tender.procurementMethodType, tender_type),
         )
         request.errors.status = 422
         raise error_handler(request)
@@ -142,7 +135,6 @@ def validate_plan_budget_breakdown(request, **kwargs):
         request.errors.add("body", "budget.breakdown", "Plan should contain budget breakdown")
         request.errors.status = 422
         raise error_handler(request)
-
 
 
 def validate_tender_plan_data(request, **kwargs):

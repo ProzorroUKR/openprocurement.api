@@ -57,13 +57,9 @@ class BaseContractState(BaseState, ContractStateMixing):
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):
             if None in (item_before, item_after):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change items list length"
-                )
+                raise_operation_error(get_request(), "Can't change items list length")
             else:
                 for k in item_before.keys() | item_after.keys():
-
                     before, after = item_before.get(k), item_after.get(k)
                     if not before and not after:  # [] or None check
                         continue
@@ -99,13 +95,14 @@ class BaseContractState(BaseState, ContractStateMixing):
             calculated_value = sum(items_unit_value_amount)
 
             if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(
-                    contract["value"]["amount"]):
+                contract["value"]["amount"]
+            ):
                 raise_operation_error(
                     get_request(), "Total amount of unit values can't be greater than contract.value.amount"
                 )
 
     @staticmethod
-    def validate_update_contracting_value_identical(request, before,  after):
+    def validate_update_contracting_value_identical(request, before, after):
         value = after.get("value")
         paid_data = request.validated["json_data"].get("amountPaid")
         for attr in ("currency",):
@@ -120,18 +117,10 @@ class BaseContractState(BaseState, ContractStateMixing):
     @staticmethod
     def validate_update_contract_value_net_required(request, before, after, name="value"):
         value = after.get(name)
-        if value and (
-                before.get(name) != after.get(name) or
-                before.get("status") != after.get("status")
-        ):
+        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status")):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
-                raise_operation_error(
-                    request,
-                    {"amountNet": BaseType.MESSAGES["required"]},
-                    status=422,
-                    name=name
-                )
+                raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
 
     def validate_update_contract_paid_amount(self, request, before, after):
         value = after.get("value")
@@ -150,6 +139,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                 f"AmountPaid {attr} can`t be greater than value {attr}",
                 name="amountPaid",
             )
+
     @staticmethod
     def validate_terminate_contract_without_amountPaid(request, before, after):
         if after.get("status", "active") == "terminated" and not after.get("amountPaid"):

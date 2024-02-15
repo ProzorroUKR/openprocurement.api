@@ -27,7 +27,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 
 
@@ -177,7 +179,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     description="Tender bidder eligibility documents",
 )
 class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
-    """ Tender Bid Eligibility Documents """
+    """Tender Bid Eligibility Documents"""
 
     container = "eligibilityDocuments"
 
@@ -190,7 +192,7 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
     description="Tender bidder financial documents",
 )
 class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
-    """ Tender Bid Financial Documents """
+    """Tender Bid Financial Documents"""
 
     container = "financialDocuments"
 
@@ -219,7 +221,6 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         validators=(
             validate_item_owner("bid"),
             validate_input_data(PostDocument, allow_bulk=True),
-
             unless_allowed_by_qualification_milestone(
                 validate_bid_financial_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
@@ -236,7 +237,6 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         validators=(
             validate_item_owner("bid"),
             validate_input_data(PostDocument),
-
             unless_allowed_by_qualification_milestone(
                 validate_bid_financial_document_in_tender_status,
                 validate_bid_document_operation_in_award_status,
@@ -244,10 +244,8 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
             validate_bid_document_operation_period,
             validate_bid_document_operation_in_bid_status,
             validate_update_bid_document_confidentiality,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
-
             validate_data_model(Document),
         ),
         permission="edit_bid",
@@ -283,7 +281,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
     description="Tender bidder qualification documents",
 )
 class BaseTenderBidQualificationDocumentResource(BaseTenderBidDocumentResource):
-    """ Tender Bid Qualification Documents """
+    """Tender Bid Qualification Documents"""
 
     container = "qualificationDocuments"
 

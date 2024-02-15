@@ -19,7 +19,8 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, validate_accreditation_level,
+    validate_item_owner,
+    validate_accreditation_level,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -53,25 +54,21 @@ class TenderQuestionResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def collection_get(self):
-        """List questions
-        """
+        """List questions"""
         tender = self.request.validated["tender"]
         data = tuple(self.serializer_class(question).data for question in tender.get("questions", []))
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
-        """Retrieving the question
-        """
+        """Retrieving the question"""
         data = self.serializer_class(self.request.validated["question"]).data
         return {"data": data}
 
     @json_view(
         content_type="application/json",
         permission="create_question",
-        validators=(
-            validate_input_data(PostQuestion),
-        ),
+        validators=(validate_input_data(PostQuestion),),
     )
     def collection_post(self):
         update_logging_context(self.request, {"question_id": "__new__"})
@@ -116,8 +113,7 @@ class TenderQuestionResource(TenderBaseResource):
         permission="edit_question",
     )
     def patch(self):
-        """Patch a question
-        """
+        """Patch a question"""
         updated = self.request.validated["data"]
         if updated:
             question = self.request.validated["question"]

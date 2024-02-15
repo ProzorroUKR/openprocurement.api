@@ -27,17 +27,13 @@ def get_tender_agreement(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.get("/tenders/some_id/agreements/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_agreements(self):
@@ -53,9 +49,7 @@ def get_tender_agreements(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def patch_tender_agreement_datesigned(self):
@@ -101,9 +95,13 @@ def patch_tender_agreement_datesigned(self):
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {"status": "active",
-                  "dateSigned": tender["awardPeriod"]["endDate"],
-                  "period": test_tender_cfaua_agreement_period}},
+        {
+            "data": {
+                "status": "active",
+                "dateSigned": tender["awardPeriod"]["endDate"],
+                "period": test_tender_cfaua_agreement_period,
+            }
+        },
         status=422,
     )
     self.assertEqual(
@@ -210,9 +208,9 @@ def patch_tender_agreement_datesigned(self):
         response.json["errors"],
         [
             {
-                "description": ["Agreement period can't be greater than {}.".format(
-                    duration_isoformat(MAX_AGREEMENT_PERIOD)
-                )],
+                "description": [
+                    "Agreement period can't be greater than {}.".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                ],
                 "location": "body",
                 "name": "period",
             }
@@ -340,12 +338,14 @@ def agreement_cancellation(self):
 def create_tender_agreement_document(self):
     response = self.app.post_json(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -373,9 +373,7 @@ def create_tender_agreement_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}])
 
     response = self.app.get(
         "/tenders/{}/agreements/{}/documents/{}?download={}".format(self.tender_id, self.agreement_id, doc_id, key)
@@ -395,12 +393,14 @@ def create_tender_agreement_document(self):
 
     response = self.app.post_json(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -413,12 +413,14 @@ def create_tender_agreement_document(self):
 def put_tender_agreement_document(self):
     response = self.app.post_json(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -429,12 +431,14 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -459,12 +463,14 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -485,12 +491,14 @@ def put_tender_agreement_document(self):
         "/tenders/{}/agreements/{}/documents/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, doc_id, self.tender_token
         ),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -503,12 +511,14 @@ def put_tender_agreement_document(self):
 def patch_tender_agreement_document(self):
     response = self.app.post_json(
         "/tenders/{}/agreements/{}/documents?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -562,17 +572,9 @@ def patch_tender_agreement(self):
     self.assertCountEqual(
         response.json["errors"],
         [
-            {
-                "location": "body",
-                "name": "items",
-                "description": "Rogue field"
-            },
-            {
-                "location": "body",
-                "name": "agreementID",
-                "description": "Rogue field"
-            },
-        ]
+            {"location": "body", "name": "items", "description": "Rogue field"},
+            {"location": "body", "name": "agreementID", "description": "Rogue field"},
+        ],
     )
 
     response = self.app.patch_json(
@@ -676,17 +678,13 @@ def patch_tender_agreement(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.patch_json("/tenders/some_id/agreements/some_id", {"data": {"status": "active"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, agreement["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -712,7 +710,6 @@ def patch_tender_agreement(self):
 
 
 def patch_tender_agreement_unsuccessful(self):
-
     self.set_status("active.awarded")
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
@@ -755,69 +752,61 @@ def patch_tender_agreement_unsuccessful(self):
 def not_found(self):
     response = self.app.post_json(
         "/tenders/some_id/agreements/some_id/documents?acc_token={}".format(self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.post_json(
         "/tenders/{}/agreements/some_id/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.get("/tenders/some_id/agreements/some_id/documents", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/agreements/some_id/documents".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.get("/tenders/some_id/agreements/some_id/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/agreements/some_id/documents/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.get(
         "/tenders/{}/agreements/{}/documents/some_id".format(self.tender_id, self.agreement_id), status=404
@@ -825,9 +814,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
 
 # Agreement contracts
@@ -852,9 +839,7 @@ def get_tender_agreement_contracts(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
 
 def get_tender_agreement_contract(self):
@@ -883,9 +868,7 @@ def get_tender_agreement_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
 
 def patch_tender_agreement_contract(self):
@@ -904,13 +887,16 @@ def patch_tender_agreement_contract(self):
         ),
         {
             "data": {
-                "unitPrices": [{
-                    "relatedItem": related_item,
-                    "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
-                }, {
-                    "relatedItem": uuid4().hex,
-                    "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
-                }]
+                "unitPrices": [
+                    {
+                        "relatedItem": related_item,
+                        "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    },
+                    {
+                        "relatedItem": uuid4().hex,
+                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    },
+                ]
             }
         },
         status=422,
@@ -930,18 +916,27 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{
-            "relatedItem": uuid4().hex,
-            "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
-        }]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "relatedItem": uuid4().hex,
+                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    }
+                ]
+            }
+        },
         status=422,
     )
     self.assertEqual(
-        response.json["errors"], [{
-            "description": "All relatedItem values doesn't match with contract.",
-            "location": "body",
-            "name": "data",
-        }],
+        response.json["errors"],
+        [
+            {
+                "description": "All relatedItem values doesn't match with contract.",
+                "location": "body",
+                "name": "data",
+            }
+        ],
     )
 
     response = self.app.patch_json(
@@ -957,10 +952,16 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{
-            "value": {"amount": 60, "currency": "RUB", "valueAddedTaxIncluded": False},
-            "relatedItem": related_item,
-        }]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "value": {"amount": 60, "currency": "RUB", "valueAddedTaxIncluded": False},
+                        "relatedItem": related_item,
+                    }
+                ]
+            }
+        },
         status=422,
     )
     self.assertEqual(
@@ -978,10 +979,16 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{
-            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False},
-            "relatedItem": related_item,
-        }]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False},
+                        "relatedItem": related_item,
+                    }
+                ]
+            }
+        },
         status=422,
     )
     self.assertEqual(
@@ -999,10 +1006,16 @@ def patch_tender_agreement_contract(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{
-            "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "relatedItem": related_item,
-        }]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "relatedItem": related_item,
+                    }
+                ]
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
@@ -1050,10 +1063,16 @@ def patch_lots_agreement_contract_unit_prices(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, self.agreement_id, self.contract_id, self.tender_token
         ),
-        {"data": {"unitPrices": [{
-            "value": {"amount": 79.968, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "relatedItem": related_item,
-        }]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "value": {"amount": 79.968, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "relatedItem": related_item,
+                    }
+                ]
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -1068,10 +1087,16 @@ def patch_lots_agreement_contract_unit_prices(self):
         "/tenders/{}/agreements/{}/contracts/{}?acc_token={}".format(
             self.tender_id, agreement["id"], contract["id"], self.tender_token
         ),
-        {"data": {"unitPrices": [
-            {"value": {"amount": 79.97, "currency": "UAH", "valueAddedTaxIncluded": True},
-             "relatedItem": related_item}
-        ]}},
+        {
+            "data": {
+                "unitPrices": [
+                    {
+                        "value": {"amount": 79.97, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "relatedItem": related_item,
+                    }
+                ]
+            }
+        },
         status=422,
     )
     self.assertEqual(

@@ -7,8 +7,8 @@ from openprocurement.api.constants import COORDINATES_REG_EXP
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import parse_date
 
-class ConstantsTestCase(unittest.TestCase):
 
+class ConstantsTestCase(unittest.TestCase):
     def test_coordinates_reg_exp(self):
         self.assertEqual("1", COORDINATES_REG_EXP.match("1").group())
         self.assertEqual("1.1234567890", COORDINATES_REG_EXP.match("1.1234567890").group())
@@ -35,7 +35,6 @@ class ConstantsTestCase(unittest.TestCase):
 
 
 class HealthTestBase(BaseWebTest):
-
     def test_constants_view(self):
         response = self.app.get("/constants", status=200)
         self.assertEqual(response.status, "200 OK")

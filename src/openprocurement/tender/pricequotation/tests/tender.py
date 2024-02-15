@@ -4,8 +4,7 @@ from unittest.mock import patch
 from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_criteria_1, \
-    test_tender_pq_short_profile
+from openprocurement.tender.pricequotation.tests.data import test_tender_pq_criteria_1, test_tender_pq_short_profile
 from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
@@ -17,11 +16,9 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     listing,
     listing_draft,
     listing_changes,
-
     one_valid_bid_tender,
     one_invalid_bid_tender,
     first_bid_tender,
-
     create_tender,
     create_tender_draft,
     create_tender_generated,
@@ -29,7 +26,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_with_inn,
     create_tender_draft_with_criteria,
     create_tender_draft_with_criteria_expected_values,
-
     invalid_tender_conditions,
     patch_tender,
     patch_tender_by_pq_bot_before_multiprofile,
@@ -88,10 +84,14 @@ class TenderResourceTestMixin:
     test_create_tender_config_test = snitch(create_tender_config_test)
 
 
-
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-       get_now() + timedelta(days=1))
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_pq_data
@@ -121,9 +121,14 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-       get_now() - timedelta(days=1))
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() - timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() - timedelta(days=1),
+)
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() - timedelta(days=1),
+)
 class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_pq_data
@@ -133,8 +138,10 @@ class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_short_profile['criteria']))
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderProcessTest(TenderContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))

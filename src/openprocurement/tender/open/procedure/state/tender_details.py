@@ -8,7 +8,9 @@ from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 from openprocurement.tender.open.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME, COMPETITIVE_ORDERING, COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+    COMPETITIVE_ORDERING,
+    COMPLAINT_SUBMIT_TIME,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -26,7 +28,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = False
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     required_exclusion_criteria = {
@@ -71,9 +73,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     def initialize_enquiry_period(self, tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
         end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
-        clarifications_until = calculate_clarif_business_date(
-            end_date, self.enquiry_stand_still_timedelta,  tender
-        )
+        clarifications_until = calculate_clarif_business_date(end_date, self.enquiry_stand_still_timedelta, tender)
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"] = dict(
             startDate=tender["tenderPeriod"]["startDate"],

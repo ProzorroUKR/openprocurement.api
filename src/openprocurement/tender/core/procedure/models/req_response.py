@@ -23,7 +23,8 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.validation import (
-    validate_value_type, validate_object_id_uniq,
+    validate_value_type,
+    validate_object_id_uniq,
 )
 
 LOGGER = getLogger(__name__)
@@ -37,6 +38,7 @@ class ExtendPeriod(Period):
 
 
 # ECriteria
+
 
 class BaseRequirementResponse(Model):
     title = StringType()
@@ -132,8 +134,8 @@ def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[d
             for req in reversed(group.get("requirements", "")):
                 if req["id"] == requirement_id:
                     if (
-                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM) and
-                        req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
+                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM)
+                        and req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
                     ):
                         continue
                     return req, group, criteria
@@ -144,11 +146,8 @@ def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[d
 
 # Validations ---
 
-def validate_req_response_requirement(
-        req_response: dict,
-        parent_obj_name: str = "bid"
-) -> None:
 
+def validate_req_response_requirement(req_response: dict, parent_obj_name: str = "bid") -> None:
     # Finding out what the f&#ck is going on
     # parent is mist be Bid
     requirement_ref = req_response.get("requirement") or {}
@@ -173,27 +172,31 @@ def validate_req_response_requirement(
     source = criterion.get("source", "tenderer")
     available_parents = source_map.get(source)
     if available_parents and parent_obj_name.lower() not in available_parents:
-        raise ValidationError([{
-            "requirement": [f"Requirement response in {parent_obj_name} "
-                            f"can't have requirement criteria with source: {source}"]
-        }])
+        raise ValidationError(
+            [
+                {
+                    "requirement": [
+                        f"Requirement response in {parent_obj_name} "
+                        f"can't have requirement criteria with source: {source}"
+                    ]
+                }
+            ]
+        )
 
 
 def validate_req_response_related_tenderer(parent_data: dict, req_response: dict) -> None:
-
     related_tenderer = req_response.get("relatedTenderer")
 
     if related_tenderer and related_tenderer["id"] not in [
-        organization["identifier"]["id"]
-        for organization in parent_data.get("tenderers", "")
+        organization["identifier"]["id"] for organization in parent_data.get("tenderers", "")
     ]:
         raise ValidationError([{"relatedTenderer": ["relatedTenderer should be one of bid tenderers"]}])
 
 
 def validate_req_response_evidences_relatedDocument(
-        parent_data: dict,
-        req_response: dict,
-        parent_obj_name: str,
+    parent_data: dict,
+    req_response: dict,
+    parent_obj_name: str,
 ) -> None:
     for evidence in req_response.get("evidences", ""):
         error = validate_evidence_relatedDocument(parent_data, evidence, parent_obj_name, raise_error=False)
@@ -202,19 +205,19 @@ def validate_req_response_evidences_relatedDocument(
 
 
 def validate_evidence_relatedDocument(
-        parent_data: dict,
-        evidence: dict,
-        parent_obj_name: str,
-        raise_error: bool = True,
+    parent_data: dict,
+    evidence: dict,
+    parent_obj_name: str,
+    raise_error: bool = True,
 ) -> List[dict]:
     related_doc = evidence.get("relatedDocument")
     if related_doc:
         doc_id = related_doc["id"]
         if (
-                not is_doc_id_in_container(parent_data, "documents", doc_id) and
-                not is_doc_id_in_container(parent_data, "financialDocuments", doc_id) and
-                not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id) and
-                not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
+            not is_doc_id_in_container(parent_data, "documents", doc_id)
+            and not is_doc_id_in_container(parent_data, "financialDocuments", doc_id)
+            and not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id)
+            and not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
         ):
             error_msg = [{"relatedDocument": [f"relatedDocument.id should be one of {parent_obj_name} documents"]}]
             if not raise_error:
@@ -283,6 +286,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
     """
     this model is used to update "full" data during patch and post requests
     """
+
     def validate_selfEligible(self, data: dict, value: Optional[bool]):
         tender = get_tender()
         if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
@@ -315,7 +319,9 @@ class PostBidResponsesMixin(ObjResponseMixin):
                         break
                 else:
                     continue
-            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
+            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith(
+                "GUARANTEE"
+            ):
                 continue
             if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 active_requirements = [
@@ -350,5 +356,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
             rg_id = list(group_answered_requirement_ids.keys())[0]
             if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
                 raise ValidationError("Inside requirement group must get answered all of requirements")
+
 
 # --- requirementResponses mixin

@@ -57,7 +57,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
-
     test_author = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
 

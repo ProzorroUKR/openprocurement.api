@@ -17,7 +17,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = True
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     period_working_day = True
 

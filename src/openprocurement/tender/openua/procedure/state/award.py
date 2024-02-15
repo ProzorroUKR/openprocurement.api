@@ -41,15 +41,14 @@ class AwardState(AwardStateMixing, OpenUATenderState):
                 self.add_next_award()
 
         elif (
-            before == "unsuccessful" and after == "cancelled"
-            and any(i["status"] == "satisfied"
-                    for i in award.get("complaints", ""))
+            before == "unsuccessful"
+            and after == "cancelled"
+            and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
         ):
             self.award_status_up_from_unsuccessful_to_cancelled(award, tender, awarding_order_enabled)
 
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
 

@@ -28,7 +28,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks imp
 
 
 class CompetitiveDialogUAQuestionResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderQuestionResourceTestMixin):
-
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
@@ -43,7 +42,6 @@ class CompetitiveDialogUAQLotQuestionResourceTest(BaseCompetitiveDialogUAContent
 
 
 class CompetitiveDialogEUQuestionResourceTest(BaseCompetitiveDialogEUContentWebTest):
-
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author

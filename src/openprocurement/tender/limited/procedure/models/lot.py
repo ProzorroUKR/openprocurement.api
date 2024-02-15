@@ -44,4 +44,3 @@ class PatchTenderLot(BasePatchTenderLot, TenderLotMixin):
 
 class Lot(BaseLot, TenderLotMixin, LotValueSerializerMixin):
     value = ModelType(Value, required=True)
-

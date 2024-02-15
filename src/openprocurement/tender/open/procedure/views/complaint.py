@@ -45,4 +45,3 @@ class OpenTenderClaimResource(TenderClaimResource):
 )
 class OpenTenderComplaintResource(TenderComplaintResource):
     state_class = OpenTenderComplaintState
-

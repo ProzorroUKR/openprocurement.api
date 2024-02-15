@@ -31,7 +31,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     patch_tender_cancellation,
     access_create_tender_cancellation_complaint,
     activate_cancellation,
-    create_tender_cancellation_with_cancellation_lots
+    create_tender_cancellation_with_cancellation_lots,
 )
 from openprocurement.tender.cfaua.tests.cancellation_blanks import (
     # Cancellation tender
@@ -66,9 +66,7 @@ one_lot_restriction = True
 
 
 class TenderCancellationResourceTest(
-    BaseTenderContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    BaseTenderContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
@@ -88,9 +86,7 @@ class TenderLotCancellationResourceTest(BaseTenderContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
-class TenderCancellationComplaintResourceTest(
-    BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin
-):
+class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCancellationComplaintResourceTestMixin):
     initial_lots = test_tender_cfaua_lots
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -102,9 +98,7 @@ class TenderCancellationComplaintResourceTest(
         self.set_complaint_period_end()
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -116,7 +110,6 @@ class TenderCancellationComplaintResourceTest(
 
 
 class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
-
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):

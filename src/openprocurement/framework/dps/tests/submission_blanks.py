@@ -25,10 +25,11 @@ def listing(self):
     for i in tenderer_ids:
         data["tenderers"][0]["identifier"]["id"] = i
         response = self.app.post_json(
-            "/submissions", {
+            "/submissions",
+            {
                 "data": data,
                 "config": self.initial_submission_config,
-            }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -93,8 +94,8 @@ def listing(self):
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
-        [i["dateModified"]
-         for i in response.json["data"]], sorted([i["dateModified"] for i in submissions], reverse=True)
+        [i["dateModified"] for i in response.json["data"]],
+        sorted([i["dateModified"] for i in submissions], reverse=True),
     )
 
     response = self.app.get("/submissions?descending=1&limit=2")
@@ -128,10 +129,11 @@ def listing_changes(self):
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().isoformat()
         response = self.app.post_json(
-            "/submissions", {
+            "/submissions",
+            {
                 "data": data,
                 "config": self.initial_submission_config,
-            }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -197,8 +199,8 @@ def listing_changes(self):
     self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
     self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in submissions]))
     self.assertEqual(
-        [i["dateModified"]
-         for i in response.json["data"]], sorted([i["dateModified"] for i in submissions], reverse=True)
+        [i["dateModified"] for i in response.json["data"]],
+        sorted([i["dateModified"] for i in submissions], reverse=True),
     )
 
     response = self.app.get("/submissions?feed=changes&descending=1&limit=2")
@@ -234,10 +236,11 @@ def listing_draft(self):
         data["tenderers"][0]["identifier"]["id"] = i
         offset = get_now().isoformat()
         response = self.app.post_json(
-            "/submissions", {
+            "/submissions",
+            {
                 "data": data,
                 "config": self.initial_submission_config,
-            }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -250,10 +253,11 @@ def listing_draft(self):
         submissions.append(response.json["data"])
         # Draft submissions
         response = self.app.post_json(
-            "/submissions", {
+            "/submissions",
+            {
                 "data": data,
                 "config": self.initial_submission_config,
-            }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -284,10 +288,14 @@ def create_submission_after_period_ends(self):
     data = deepcopy(self.initial_submission_data)
     data["frameworkID"] = self.framework_id
     with freeze_time((period_end_date + timedelta(days=1)).isoformat()):
-        response = self.app.post_json("/submissions", {
-            "data": data,
-            "config": self.initial_submission_config,
-        }, status=403)
+        response = self.app.post_json(
+            "/submissions",
+            {
+                "data": data,
+                "config": self.initial_submission_config,
+            },
+            status=403,
+        )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["status"], "error")
@@ -336,7 +344,7 @@ def create_submission_draft_invalid(self):
     data = {
         "frameworkID": self.framework_id,
         "invalid_field": "invalid_value",
-        "submissionType": self.initial_submission_data["submissionType"]
+        "submissionType": self.initial_submission_data["submissionType"],
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -367,11 +375,13 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': ['frameworkID must be one of exists frameworks'],
-            'location': 'body',
-            'name': 'frameworkID',
-        }],
+        [
+            {
+                'description': ['frameworkID must be one of exists frameworks'],
+                'location': 'body',
+                'name': 'frameworkID',
+            }
+        ],
     )
 
     data = deepcopy(self.initial_submission_data)
@@ -384,18 +394,19 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description':
-                [
+        [
+            {
+                'description': [
                     {
                         'address': ['This field is required.'],
                         'contactPoint': ['This field is required.'],
                         'name': ['This field is required.'],
                     }
                 ],
-            'location': 'body',
-            'name': 'tenderers',
-        }],
+                'location': 'body',
+                'name': 'tenderers',
+            }
+        ],
     )
 
     data = deepcopy(self.initial_submission_data)
@@ -411,31 +422,36 @@ def create_submission_draft_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'location': 'body',
-            'name': 'tenderers',
-            'description': [{
-                'address': {
-                    'postalCode': ['This field is required.'],
-                    'region': ['This field is required.'],
-                    'streetAddress': ['This field is required.'],
-                    'locality': ['This field is required.'],
-                },
-                'contactPoint': {
-                    'email': ['This field is required.'],
-                }
-            }]
-        }],
+        [
+            {
+                'location': 'body',
+                'name': 'tenderers',
+                'description': [
+                    {
+                        'address': {
+                            'postalCode': ['This field is required.'],
+                            'region': ['This field is required.'],
+                            'streetAddress': ['This field is required.'],
+                            'locality': ['This field is required.'],
+                        },
+                        'contactPoint': {
+                            'email': ['This field is required.'],
+                        },
+                    }
+                ],
+            }
+        ],
     )
 
 
 def create_submission_draft(self):
     data = self.initial_submission_data
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -527,11 +543,13 @@ def create_submission_config_restricted(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{
-                "location": "url",
-                "name": "accreditation",
-                "description": "Broker Accreditation level does not permit framework restricted data access"
-            }],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit framework restricted data access",
+                }
+            ],
         )
 
     # Create submission
@@ -564,11 +582,13 @@ def create_submission_config_restricted(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{
-                "location": "url",
-                "name": "accreditation",
-                "description": "Broker Accreditation level does not permit submission restricted data access"
-            }],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit submission restricted data access",
+                }
+            ],
         )
 
     # Activate submission
@@ -576,12 +596,14 @@ def create_submission_config_restricted(self):
 
         response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-            {"data": {
-                "title": "name name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         document = response.json["data"]
@@ -722,12 +744,7 @@ def create_submission_config_restricted(self):
         self.assertEqual(len(submissions), 1)
         self.assertEqual(
             set(submissions[0].keys()),
-            {
-                "id",
-                "dateModified",
-                "status",
-                "tenderers"
-            },
+            {"id", "dateModified", "status", "tenderers"},
         )
         self.assertEqual(
             submissions[0]["tenderers"][0]["address"]["streetAddress"],
@@ -768,10 +785,11 @@ def create_submission_config_restricted(self):
 def patch_submission_draft(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -797,35 +815,38 @@ def patch_submission_draft(self):
     error_fields = [field["name"] for field in response.json["errors"]]
     self.assertListEqual(sorted(error_fields), list(submission_invalid_patch_data.keys()))
     submission_patch_data = {
-        "tenderers": [{
-            "name": "Оновленна назва",
-            "name_en": "Updated name",
-            "identifier": {
-                "legalName_en": "dus.gov.ua",
-                "legalName": "Оновлено",
-                "scheme": "UA-EDR",
-                "id": "00037260",
-                "uri": "http://www.dus.gov.ua/"
-            },
-            "address": {
-                "countryName": "Україна",
-                "postalCode": "01229",
-                "region": "м. Київ",
-                "locality": "м. Київ",
-                "streetAddress": "вул. Андрія Малишка, 11, корпус 1"
-            },
-            "contactPoint": {
-                "name": "Оновлена назва",
-                "name_en": "State administration",
-                "telephone": "+0440000001",
-                "email": "someemaill@test.com",
-            },
-            "scale": "micro"
-        }],
+        "tenderers": [
+            {
+                "name": "Оновленна назва",
+                "name_en": "Updated name",
+                "identifier": {
+                    "legalName_en": "dus.gov.ua",
+                    "legalName": "Оновлено",
+                    "scheme": "UA-EDR",
+                    "id": "00037260",
+                    "uri": "http://www.dus.gov.ua/",
+                },
+                "address": {
+                    "countryName": "Україна",
+                    "postalCode": "01229",
+                    "region": "м. Київ",
+                    "locality": "м. Київ",
+                    "streetAddress": "вул. Андрія Малишка, 11, корпус 1",
+                },
+                "contactPoint": {
+                    "name": "Оновлена назва",
+                    "name_en": "State administration",
+                    "telephone": "+0440000001",
+                    "email": "someemaill@test.com",
+                },
+                "scale": "micro",
+            }
+        ],
         "frameworkID": "0" * 32,
     }
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": submission_patch_data},
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": submission_patch_data},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -833,11 +854,7 @@ def patch_submission_draft(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "url",
-            "name": "framework_id",
-            "description": "Not Found"
-        }],
+        [{"location": "url", "name": "framework_id", "description": "Not Found"}],
     )
 
     del submission_patch_data["frameworkID"]
@@ -863,10 +880,11 @@ def patch_submission_draft(self):
 def patch_submission_draft_to_active(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -876,8 +894,7 @@ def patch_submission_draft_to_active(self):
     self.assertNotIn("qualificationID", submission)
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token),
-        {"data": {"status": "active"}}
+        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -888,10 +905,11 @@ def patch_submission_draft_to_active(self):
     self.assertEqual(len(response.json["data"]["qualificationID"]), 32)
 
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -899,8 +917,7 @@ def patch_submission_draft_to_active(self):
     token = response.json["access"]["token"]
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token),
-        {"data": {"status": "deleted"}}
+        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "deleted"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -909,10 +926,11 @@ def patch_submission_draft_to_active(self):
 def patch_submission_draft_to_active_invalid(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -929,10 +947,11 @@ def patch_submission_draft_to_active_invalid(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -949,21 +968,24 @@ def patch_submission_draft_to_active_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': 'Tenderer already have active submission for framework %s' % self.framework_id,
-            'location': 'body',
-            'name': 'data',
-        }]
+        [
+            {
+                'description': 'Tenderer already have active submission for framework %s' % self.framework_id,
+                'location': 'body',
+                'name': 'data',
+            }
+        ],
     )
 
 
 def patch_submission_active(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -982,36 +1004,42 @@ def patch_submission_active(self):
     data["tenderers"][0]["name"] = "Updated name"
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {}},
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": {}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': "Can't update submission in current (active) status",
-            'location': 'body',
-            'name': 'data',
-        }]
+        [
+            {
+                'description': "Can't update submission in current (active) status",
+                'location': 'body',
+                'name': 'data',
+            }
+        ],
     )
 
     statuses = ("active", "draft", "deleted", "complete")
 
     for status in statuses:
         response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": status}},
+            "/submissions/{}?acc_token={}".format(submission["id"], token),
+            {"data": {"status": status}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{
-                'description': "Can't update submission in current (active) status",
-                'location': 'body',
-                'name': 'data',
-            }]
+            [
+                {
+                    'description': "Can't update submission in current (active) status",
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
         )
 
 
@@ -1020,10 +1048,11 @@ def patch_submission_active_fast(self):
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1058,10 +1087,11 @@ def patch_submission_active_fast(self):
 def patch_submission_draft_to_deleted(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1081,10 +1111,11 @@ def patch_submission_draft_to_deleted(self):
 def patch_submission_deleted(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1104,46 +1135,53 @@ def patch_submission_deleted(self):
     data.pop("submissionType", None)
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": data},
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'description': "Can't update submission in current (deleted) status",
-            'location': 'body',
-            'name': 'data',
-        }]
+        [
+            {
+                'description': "Can't update submission in current (deleted) status",
+                'location': 'body',
+                'name': 'data',
+            }
+        ],
     )
 
     statuses = ("active", "draft", "deleted", "complete")
 
     for status in statuses:
         response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": status}},
+            "/submissions/{}?acc_token={}".format(submission["id"], token),
+            {"data": {"status": status}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{
-                'description': "Can't update submission in current (deleted) status",
-                'location': 'body',
-                'name': 'data',
-            }]
+            [
+                {
+                    'description': "Can't update submission in current (deleted) status",
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
         )
 
 
 def patch_submission_complete(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1171,28 +1209,32 @@ def patch_submission_complete(self):
 
     for status in statuses:
         response = self.app.patch_json(
-            "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": status}},
+            "/submissions/{}?acc_token={}".format(submission["id"], token),
+            {"data": {"status": status}},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{
-                'description': "Can't update submission in current (complete) status",
-                'location': 'body',
-                'name': 'data',
-            }]
+            [
+                {
+                    'description': "Can't update submission in current (complete) status",
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
         )
 
 
 def submission_fields(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1228,10 +1270,11 @@ def get_submission(self):
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
@@ -1259,10 +1302,11 @@ def date_submission(self):
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
@@ -1300,10 +1344,11 @@ def dateModified_submission(self):
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
@@ -1357,10 +1402,11 @@ def datePublished_submission(self):
 
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     submission = response.json["data"]
@@ -1416,10 +1462,11 @@ def submission_not_found(self):
 def submission_token_invalid(self):
     data = deepcopy(self.initial_submission_data)
     response = self.app.post_json(
-        "/submissions", {
+        "/submissions",
+        {
             "data": data,
             "config": self.initial_submission_config,
-        }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     submission_id = response.json["data"]["id"]
@@ -1428,21 +1475,23 @@ def submission_token_invalid(self):
         "/submissions/{}?acc_token={}".format(submission_id, "fake token"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}]
-    )
+    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
 
     response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(submission_id, "токен з кирилицею"), {"data": {}}, status=422,
+        "/submissions/{}?acc_token={}".format(submission_id, "токен з кирилицею"),
+        {"data": {}},
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [
+        response.json["errors"],
+        [
             {
-                'location': 'body', 'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+                'location': 'body',
+                'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
-        ]
+        ],
     )
 
 
@@ -1468,7 +1517,7 @@ def create_submission_document_forbidden(self):
     response = self.app.post(
         "/submissions/{}/documents".format(self.submission_id),
         upload_files=[("file", "укр.doc", b"content")],
-        status=403
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -1480,7 +1529,7 @@ def create_submission_document_forbidden(self):
         response = self.app.post(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
             upload_files=[("file", "укр.doc", b"content")],
-            status=403
+            status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
@@ -1521,7 +1570,7 @@ def create_submission_document_json_bulk(self):
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
-                }
+                },
             ]
         },
     )
@@ -1558,12 +1607,14 @@ def document_not_found(self):
 
     response = self.app.post_json(
         "/submissions/some_id/documents",
-        {"data": {
-            "title": "name1.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1574,12 +1625,14 @@ def document_not_found(self):
     )
     response = self.app.put_json(
         "/submissions/some_id/documents/some_id",
-        {"data": {
-            "title": "name1.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -1591,20 +1644,20 @@ def document_not_found(self):
 
     response = self.app.put_json(
         "/submissions/{}/documents/some_id".format(self.submission_id),
-        {"data": {
-            "title": "name1.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name1.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
     response = self.app.get("/submissions/some_id/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -1618,20 +1671,20 @@ def document_not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "document_id"}])
 
 
 def put_submission_document(self):
     response = self.app.post_json(
         "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1643,12 +1696,14 @@ def put_submission_document(self):
     with freeze_time((get_now() + timedelta(days=1)).isoformat()):
         response = self.app.put_json(
             "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-            {"data": {
-                "title": "name name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -1674,12 +1729,14 @@ def put_submission_document(self):
 
         response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
-             {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -1694,12 +1751,14 @@ def put_submission_document(self):
         self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
     response = self.app.put_json(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        {"data": {
-            "title": "name name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1725,12 +1784,14 @@ def put_submission_document(self):
     self.set_submission_status("complete")
     response = self.app.put_json(
         "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
-        {"data": {
-            "title": "name name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1772,12 +1833,14 @@ def put_submission_document_fast(self):
                 self.submission_id,
                 self.submission_token,
             ),
-            {"data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
     self.set_submission_status("complete")
 
@@ -1795,12 +1858,14 @@ def put_submission_document_fast(self):
                 doc_id,
                 self.submission_token,
             ),
-            {"data": {
-                "title": "name name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

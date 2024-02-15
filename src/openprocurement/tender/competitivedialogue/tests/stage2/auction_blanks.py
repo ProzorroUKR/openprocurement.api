@@ -51,8 +51,10 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 'auctionUrl', 'description': 'Rogue field'},
-         {'location': 'body', 'name': 'bids', 'description': {'participationUrl': 'Rogue field'}}]
+        [
+            {'location': 'body', 'name': 'auctionUrl', 'description': 'Rogue field'},
+            {'location': 'body', 'name': 'bids', 'description': {'participationUrl': 'Rogue field'}},
+        ],
     )
 
     del patch_data["bids"][0]["participationUrl"]
@@ -69,9 +71,13 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{"description": [{"participationUrl": ["url should be posted for each lot of bid"]}],
-          "location": "body",
-          "name": "bids"}],
+        [
+            {
+                "description": [{"participationUrl": ["url should be posted for each lot of bid"]}],
+                "location": "body",
+                "name": "bids",
+            }
+        ],
     )
     auctionUrl = patch_data.pop("auctionUrl")
     patch_data["lots"] = [{"auctionUrl": auctionUrl}, {"auctionUrl": auctionUrl}]
@@ -130,8 +136,10 @@ def patch_tender_with_lots_auction(self):
 
     patch_data = {
         "lots": [{"auctionUrl": f"http://example.com/{l['id']}"} for l in self.initial_lots],
-        "bids": [{"lotValues": [{"participationUrl": f"http://example.com/{l['relatedLot']}"}
-                                for l in b["lotValues"]]} for b in self.initial_bids]
+        "bids": [
+            {"lotValues": [{"participationUrl": f"http://example.com/{l['relatedLot']}"} for l in b["lotValues"]]}
+            for b in self.initial_bids
+        ],
     }
     for lot in self.lots:
         response = self.app.patch_json("/tenders/{}/auction/{}".format(self.tender_id, lot["id"]), {"data": patch_data})
@@ -150,14 +158,15 @@ def patch_tender_with_lots_auction(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": self.lots[0]["id"],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": self.lots[0]["id"],
+        }
+    )
 
     if RELEASE_2020_04_19 > get_now():
-
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -171,9 +180,7 @@ def patch_tender_with_lots_auction(self):
             bid["lotValues"] = [bid["lotValues"][1]]
 
         self.app.authorization = ("Basic", ("auction", ""))
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=403
-        )
+        response = self.app.patch_json(f"/tenders/{self.tender_id}/auction/{lot_id}", {"data": patch_data}, status=403)
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["errors"][0]["description"], "Can update auction urls only in active lot status")
@@ -265,10 +272,18 @@ def post_tender_auction_feature(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], ["Auction bids should be identical to the tender bids"])
 
-    patch_data = {"bids": [
-        {"id": self.initial_bids[0]["id"], "lotValues": [{"relatedLot": self.initial_lots[0]["id"], "value": {"amount": 11111}}]},
-        {"id": self.initial_bids[1]["id"], "lotValues": [{"relatedLot": self.initial_lots[0]["id"], "value": {"amount": 2222}}]},
-    ]}
+    patch_data = {
+        "bids": [
+            {
+                "id": self.initial_bids[0]["id"],
+                "lotValues": [{"relatedLot": self.initial_lots[0]["id"], "value": {"amount": 11111}}],
+            },
+            {
+                "id": self.initial_bids[1]["id"],
+                "lotValues": [{"relatedLot": self.initial_lots[0]["id"], "value": {"amount": 2222}}],
+            },
+        ]
+    }
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
         {"data": patch_data},

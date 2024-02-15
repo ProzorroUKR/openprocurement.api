@@ -61,63 +61,55 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 '/frameworks/{}?acc_token={}'.format(framework['id'], owner_token),
                 {
                     'data': {
-                        "procuringEntity": {
-                            "contactPoint": {
-                                "telephone": "+0440000001"
-                            }
-                        },
-                        "title": "updated in draft status"
+                        "procuringEntity": {"contactPoint": {"telephone": "+0440000001"}},
+                        "title": "updated in draft status",
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'upload-framework-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/frameworks/{}/documents?acc_token={}'.format(
-                    framework['id'], owner_token
-                ),
-                {"data": {
-                    "title": "framework.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token),
+                {
+                    "data": {
+                        "title": "framework.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         with open(TARGET_DIR + 'framework-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/frameworks/{}/documents?acc_token={}'.format(
-                    framework['id'], owner_token
-                )
-            )
+            response = self.app.get('/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token))
 
         with open(TARGET_DIR + 'upload-framework-document-2.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/frameworks/{}/documents?acc_token={}'.format(
-                    framework['id'], owner_token
-                ),
-                {"data": {
-                    "title": "framework_additional_docs.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/frameworks/{}/documents?acc_token={}'.format(framework['id'], owner_token),
+                {
+                    "data": {
+                        "title": "framework_additional_docs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-framework-document-3.http', 'w') as self.app.file_obj:
             response = self.app.put_json(
-                '/frameworks/{}/documents/{}?acc_token={}'.format(
-                    framework['id'], doc_id, owner_token
-                ),
-                {"data": {
-                    "title": "framework_additional_docs.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/frameworks/{}/documents/{}?acc_token={}'.format(framework['id'], doc_id, owner_token),
+                {
+                    "data": {
+                        "title": "framework_additional_docs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         with open(TARGET_DIR + 'get-framework-document-3.http', 'w') as self.app.file_obj:
@@ -141,7 +133,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                         "tenderers": [test_docs_tenderer],
                         "frameworkID": self.framework_id,
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -151,12 +143,14 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         with open(TARGET_DIR + 'upload-submission-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/submissions/{}/documents?acc_token={}'.format(self.submission_id, self.submission_token),
-                {"data": {
-                    "title": "submission_docs.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                {
+                    "data": {
+                        "title": "submission_docs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -191,7 +185,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
@@ -217,24 +211,20 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
 
         with open(TARGET_DIR + 'upload-qualification-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/qualifications/{}/documents?acc_token={}'.format(
-                    self.qualification_id, owner_token
-                ),
-                {"data": {
-                    "title": "qualification.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/qualifications/{}/documents?acc_token={}'.format(self.qualification_id, owner_token),
+                {
+                    "data": {
+                        "title": "qualification.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
             self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'qualification-documents.http', 'w') as self.app.file_obj:
-            response = self.app.get(
-                '/qualifications/{}/documents'.format(
-                    self.qualification_id, owner_token
-                )
-            )
+            response = self.app.get('/qualifications/{}/documents'.format(self.qualification_id, owner_token))
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'get-qualification-documents.http', 'w') as self.app.file_obj:
@@ -259,7 +249,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                     "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
@@ -317,17 +307,11 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
                 {
                     'data': {
                         "procuringEntity": {
-                            "contactPoint": {
-                                "telephone": "+0440000002",
-                                "name": "зміна",
-                                "email": "ab@aa.com"
-                            }
+                            "contactPoint": {"telephone": "+0440000002", "name": "зміна", "email": "ab@aa.com"}
                         },
                         "description": "Назва предмета закупівлі1",
-                        "qualificationPeriod": {
-                            "endDate": new_endDate
-                        }
+                        "qualificationPeriod": {"endDate": new_endDate},
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '200 OK')

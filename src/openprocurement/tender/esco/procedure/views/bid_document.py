@@ -17,6 +17,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
+
 @resource(
     name="esco:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",

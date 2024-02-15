@@ -5,7 +5,6 @@ from openprocurement.api.views.base import BaseResource
 
 
 class TransferBaseResource(BaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, "g:brokers", "view_transfer"),

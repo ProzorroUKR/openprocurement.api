@@ -11,13 +11,15 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
 from openprocurement.tender.core.procedure.views.base_req_response import (
     BaseReqResponseResource,
     resolve_req_response,
 )
+
 
 @resource(
     name="Qualification Requirement Response",
@@ -38,9 +40,9 @@ class QualificationReqResponseResource(BaseReqResponseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_operation_qualification_requirement_response,
-                validate_input_data(RequirementResponse, allow_bulk=True),
+            unless_administrator(validate_item_owner("tender")),
+            validate_operation_qualification_requirement_response,
+            validate_input_data(RequirementResponse, allow_bulk=True),
         ),
         permission="create_req_response",
     )
@@ -58,10 +60,10 @@ class QualificationReqResponseResource(BaseReqResponseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_operation_qualification_requirement_response,
-                validate_input_data(PatchRequirementResponse),
-                validate_patch_data_simple(RequirementResponse, "requirement_response"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_operation_qualification_requirement_response,
+            validate_input_data(PatchRequirementResponse),
+            validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",
     )
@@ -70,8 +72,8 @@ class QualificationReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_operation_qualification_requirement_response
+            unless_administrator(validate_item_owner("tender")),
+            validate_operation_qualification_requirement_response,
         ),
         permission="edit_req_response",
     )

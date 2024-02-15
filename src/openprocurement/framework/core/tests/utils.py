@@ -28,7 +28,10 @@ class UtilsFrameworkTest(BaseFrameworkTest):
 
         framework_id = generate_framework_pretty_id(request)
         tid = "UA-F-{:04}-{:02}-{:02}-{:06}".format(
-            ctime.year, ctime.month, ctime.day, 103,
+            ctime.year,
+            ctime.month,
+            ctime.day,
+            103,
         )
         self.assertEqual(tid, framework_id)
 

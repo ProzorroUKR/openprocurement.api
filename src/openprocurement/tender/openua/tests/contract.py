@@ -85,9 +85,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
@@ -147,7 +145,13 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]

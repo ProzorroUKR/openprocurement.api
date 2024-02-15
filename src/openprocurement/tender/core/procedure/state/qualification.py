@@ -8,7 +8,6 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(TenderState):
-
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()
         if lot_id:

@@ -45,4 +45,3 @@ class SimpleDefenseTenderAwardClaimResource(AwardClaimResource):
 )
 class SimpleDefenseAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = SimpleDefenseAwardComplaintState
-

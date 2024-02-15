@@ -75,8 +75,8 @@ class NegotiationQuickCancellationComplaintWriteResource(CancellationComplaintWr
         content_type="application/json",
         permission="create_complaint",
         validators=(
-                validate_input_data(PostCancellationComplaint),
-                validate_data_documents(route_key="complaint_id", uid_key="id"),
+            validate_input_data(PostCancellationComplaint),
+            validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )
     def collection_post(self):

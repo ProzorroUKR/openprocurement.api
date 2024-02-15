@@ -13,19 +13,21 @@ from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_
 class BaseCDEligibleEvidenceResource(BaseEligibleEvidenceResource):
     def __acl__(self) -> List[Tuple[str, str, str]]:
         acl = super().__acl__()
-        acl.extend([
-            (Allow, "g:competitive_dialogue", "create_requirement"),
-            (Allow, "g:competitive_dialogue", "edit_requirement"),
-        ])
+        acl.extend(
+            [
+                (Allow, "g:competitive_dialogue", "create_requirement"),
+                (Allow, "g:competitive_dialogue", "edit_requirement"),
+            ]
+        )
         return acl
 
 
 @resource(
     name="{}:Requirement Eligible Evidence".format(CD_EU_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue EU requirement evidence",
 )
@@ -36,9 +38,9 @@ class CDEUEligibleEvidenceResource(BaseCDEligibleEvidenceResource):
 @resource(
     name="{}:Requirement Eligible Evidence".format(CD_UA_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA requirement evidence",
 )

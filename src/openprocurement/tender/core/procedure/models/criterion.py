@@ -54,10 +54,7 @@ class CriterionClassification(BaseClassification):
 
     @staticmethod
     def _validate_lcc_id(code, tender):
-        if (
-            code in CRITERION_LIFE_CYCLE_COST_IDS
-            and tender["awardCriteria"] != AWARD_CRITERIA_LIFE_CYCLE_COST
-        ):
+        if code in CRITERION_LIFE_CYCLE_COST_IDS and tender["awardCriteria"] != AWARD_CRITERIA_LIFE_CYCLE_COST:
             raise ValidationError(f"{code} is available only with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
 
 
@@ -81,10 +78,7 @@ class BaseEligibleEvidence(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    type = StringType(
-        choices=["document", "statement"],
-        default="statement"
-    )
+    type = StringType(choices=["document", "statement"], default="statement")
     relatedDocument = ModelType(Reference)
 
 
@@ -104,6 +98,7 @@ class PatchEligibleEvidence(BaseEligibleEvidence):
 
 # ---- Requirement
 
+
 class ReqStatuses:
     ACTIVE = "active"
     CANCELLED = "cancelled"
@@ -117,9 +112,9 @@ class BaseRequirement(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    dataType = StringType(required=True,
-                          choices=["string", "number", "integer", "boolean", "date-time"],
-                          default="boolean")
+    dataType = StringType(
+        required=True, choices=["string", "number", "integer", "boolean", "date-time"], default="boolean"
+    )
     minValue = StringType()
     maxValue = StringType()
     period = ModelType(ExtendPeriod)
@@ -130,10 +125,13 @@ class BaseRequirement(Model):
     )
     relatedFeature = MD5Type()
     expectedValue = StringType()
-    status = StringType(choices=[
-        ReqStatuses.ACTIVE,
-        ReqStatuses.CANCELLED,
-    ], default=ReqStatuses.DEFAULT)
+    status = StringType(
+        choices=[
+            ReqStatuses.ACTIVE,
+            ReqStatuses.CANCELLED,
+        ],
+        default=ReqStatuses.DEFAULT,
+    )
 
 
 class PostRequirement(BaseRequirement):
@@ -206,10 +204,13 @@ class RequirementForeign(PostRequirement):
 
 
 class Requirement(RequirementForeign):
-    status = StringType(choices=[
-        ReqStatuses.ACTIVE,
-        ReqStatuses.CANCELLED,
-    ])
+    status = StringType(
+        choices=[
+            ReqStatuses.ACTIVE,
+            ReqStatuses.CANCELLED,
+        ]
+    )
+
 
 # ---- Requirement
 
@@ -219,11 +220,9 @@ class BaseRequirementGroup(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    requirements = ListType(ModelType(
-        RequirementForeign,
-        required=True,
-        validators=[validate_requirement_values]
-    ), min_size=1)
+    requirements = ListType(
+        ModelType(RequirementForeign, required=True, validators=[validate_requirement_values]), min_size=1
+    )
 
 
 class RequirementGroup(BaseRequirementGroup):
@@ -232,6 +231,7 @@ class RequirementGroup(BaseRequirementGroup):
 
 class PatchRequirementGroup(BaseRequirementGroup):
     pass
+
 
 # Requirement Group ----
 
@@ -313,6 +313,7 @@ class PatchCriterion(BaseCriterion):
     title = StringType(min_length=1)
     classification = ModelType(CriterionClassification)
 
+
 # Criterion ----
 
 
@@ -320,10 +321,13 @@ def validate_criteria_requirement_id_uniq(criteria, *_) -> None:
     if criteria:
         req_ids = [req["id"] for c in criteria for rg in c["requirementGroups"] for req in rg["requirements"]]
         if get_first_revision_date(get_tender(), default=get_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
-            req_ids = [req["id"]
-                       for c in criteria
-                       for rg in c["requirementGroups"]
-                       for req in rg["requirements"] if req["status"] == ReqStatuses.DEFAULT]
+            req_ids = [
+                req["id"]
+                for c in criteria
+                for rg in c["requirementGroups"]
+                for req in rg["requirements"]
+                if req["status"] == ReqStatuses.DEFAULT
+            ]
         if req_ids and len(set(req_ids)) != len(req_ids):
             raise ValidationError("Requirement id should be uniq for all requirements in tender")
 

@@ -9,7 +9,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    unless_bots,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.tender.cfaua.procedure.validation import validate_award_document_tender_not_in_allowed_status
 from openprocurement.tender.openua.procedure.validation import validate_accepted_complaints
@@ -25,7 +28,6 @@ from cornice.resource import resource
     description="Tender award documents",
 )
 class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
-
     @json_view(
         validators=(
             unless_bots(validate_item_owner("tender")),
@@ -47,7 +49,6 @@ class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
             validate_accepted_complaints,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

@@ -11,8 +11,11 @@ from openprocurement.tender.core.procedure.models.period import (
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
 from openprocurement.tender.core.procedure.models.lot import (
-    PostTenderLot, PatchTenderLot, Lot,
-    validate_lots_uniq, validate_minimal_step_limits
+    PostTenderLot,
+    PatchTenderLot,
+    Lot,
+    validate_lots_uniq,
+    validate_minimal_step_limits,
 )
 
 from openprocurement.tender.core.procedure.models.item import (
@@ -102,12 +105,15 @@ class PostTender(PostBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(Period)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
         if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
@@ -148,12 +154,12 @@ class PatchTender(PatchBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
-    items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+    )
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
         if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
@@ -175,12 +181,15 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(TenderAuctionPeriod)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)
@@ -224,11 +233,13 @@ class TenderConfig(Model):
     restricted = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
-        if value is False and any([
-            data.get("hasAuction"),
-            data.get("hasAwardingOrder"),
-            data.get("hasValueRestriction"),
-        ]):
+        if value is False and any(
+            [
+                data.get("hasAuction"),
+                data.get("hasAwardingOrder"),
+                data.get("hasValueRestriction"),
+            ]
+        ):
             raise ValidationError(
                 "valueCurrencyEquality can be False only if "
                 "hasAuction=False and "

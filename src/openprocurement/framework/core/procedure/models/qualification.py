@@ -10,11 +10,7 @@ from openprocurement.framework.core.procedure.models.document import Document
 class PatchQualification(Model):
     documents = ListType(ModelType(Document, required=True), default=list())
     status = StringType(
-        choices=[
-            "pending",
-            "active",
-            "unsuccessful"
-        ],
+        choices=["pending", "active", "unsuccessful"],
         default="pending",
     )
 
@@ -24,11 +20,7 @@ class Qualification(RootModel):
     submissionID = StringType(required=True)
     frameworkID = StringType(required=True)
     status = StringType(
-        choices=[
-            "pending",
-            "active",
-            "unsuccessful"
-        ],
+        choices=["pending", "active", "unsuccessful"],
         default="pending",
     )
 

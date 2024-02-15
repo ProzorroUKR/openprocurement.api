@@ -27,4 +27,3 @@ class SubmissionBusinessOrganization(BaseBusinessOrganization):
 class ContractBusinessOrganization(BaseBusinessOrganization):
     contactPoint = ModelType(BaseContactPoint, required=True)
     address = ModelType(Address, required=True)
-

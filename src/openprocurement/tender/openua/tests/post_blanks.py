@@ -16,33 +16,35 @@ RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
 def create_complaint_post_release_forbidden(self):
     # try in draft
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        }, status=403)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            },
+            status=403,
+        )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Forbidden"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
 def create_complaint_post_status_forbidden(self):
     # try in draft
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        }, status=403)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            },
+            status=403,
+        )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't submit or edit post in current (draft) complaint status"
+        response.json["errors"][0]["description"], "Can't submit or edit post in current (draft) complaint status"
     )
 
 
@@ -56,27 +58,33 @@ def create_complaint_post_review_date_forbidden(self):
 
     # make complaint status accepted
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint({
-            "status": "accepted",
-            "reviewDate": get_now().isoformat(),
-            "reviewPlace": "some",
-        }, self.complaint_owner_token)
+        response = self.patch_complaint(
+            {
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            },
+            self.complaint_owner_token,
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        }, status=403)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            },
+            status=403,
+        )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate"
+        "Can submit or edit post not later than 3 full business days before reviewDate",
     )
 
 
@@ -89,16 +97,18 @@ def create_complaint_post_claim_forbidden(self):
 
     # try in claim
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        }, status=403)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            },
+            status=403,
+        )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't submit or edit post in current (claim) complaint type"
+        response.json["errors"][0]["description"], "Can't submit or edit post in current (claim) complaint type"
     )
 
 
@@ -112,11 +122,13 @@ def create_complaint_post_complaint_owner(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "aboveThresholdReviewers")
@@ -124,12 +136,15 @@ def create_complaint_post_complaint_owner(self):
     post = response.json["data"]
 
     # create answer by complaint owner
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.complaint_owner_token)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.complaint_owner_token,
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "complaint_owner")
@@ -145,11 +160,13 @@ def create_complaint_post_tender_owner(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "tender_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "tender_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "aboveThresholdReviewers")
@@ -157,12 +174,15 @@ def create_complaint_post_tender_owner(self):
     post = response.json["data"]
 
     # create answer by complaint owner
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.tender_token)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.tender_token,
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "tender_owner")
@@ -178,11 +198,14 @@ def create_complaint_post_validate_recipient(self):
 
     # create post by reviewer with invalid recipient
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "aboveThresholdReviewers",
-        }, status=422)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "aboveThresholdReviewers",
+            },
+            status=422,
+        )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -190,11 +213,13 @@ def create_complaint_post_validate_recipient(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "aboveThresholdReviewers")
@@ -202,12 +227,16 @@ def create_complaint_post_validate_recipient(self):
     post = response.json["data"]
 
     # create answer by complaint owner invalid recipient
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "complaint_owner",
-        "relatedPost": post["id"]
-    }, acc_token=self.complaint_owner_token, status=422)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "complaint_owner",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.complaint_owner_token,
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -224,11 +253,13 @@ def create_complaint_post_validate_related_post(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "tender_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "tender_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "aboveThresholdReviewers")
@@ -236,12 +267,16 @@ def create_complaint_post_validate_related_post(self):
     post = response.json["data"]
 
     # create answer by complaint owner invalid recipient
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"]
-    }, acc_token=self.complaint_owner_token, status=422)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.complaint_owner_token,
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -249,58 +284,77 @@ def create_complaint_post_validate_related_post(self):
 
     # create answer by complaint owner invalid recipient
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "aboveThresholdReviewers",
-            "relatedPost": post["id"]
-        }, acc_token=self.complaint_owner_token, status=422)
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "aboveThresholdReviewers",
+                "relatedPost": post["id"],
+            },
+            acc_token=self.complaint_owner_token,
+            status=422,
+        )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn("relatedPost can't have the same author.", str(response.json["errors"]))
 
     # create answer by complaint owner invalid recipient
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": "some_id"
-    }, acc_token=self.complaint_owner_token, status=422)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": "some_id",
+        },
+        acc_token=self.complaint_owner_token,
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn("relatedPost should be one of posts.", str(response.json["errors"]))
 
     # create answer by tender owner without related post
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-    }, acc_token=self.tender_token, status=422)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertIn("This field is required.", str(response.json["errors"]))
 
     # create answer by tender owner
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.tender_token)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.tender_token,
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["author"], "tender_owner")
 
     # create answer by tender owner invalid recipient
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.tender_token, status=422)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.tender_token,
+        status=422,
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -317,11 +371,13 @@ def patch_complaint_post(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -330,9 +386,7 @@ def patch_complaint_post(self):
 
     # try patch post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_post({
-            "title": "Test"
-        }, status=405)
+        response = self.patch_post({"title": "Test"}, status=405)
     self.assertEqual(response.status, "405 Method Not Allowed")
     self.assertEqual(response.content_type, "text/plain")
 
@@ -347,11 +401,13 @@ def get_complaint_post(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -363,8 +419,7 @@ def get_complaint_post(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"]),
-        set(["id", "title", "description", "author", "recipient", "datePublished"])
+        set(response.json["data"]), set(["id", "title", "description", "author", "recipient", "datePublished"])
     )
 
     self.post_id = "some_id"
@@ -373,14 +428,7 @@ def get_complaint_post(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "description": "Not Found",
-            "location": "url",
-            "name": "post_id"
-        }]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "post_id"}])
 
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
@@ -393,11 +441,13 @@ def get_complaint_posts(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -407,8 +457,7 @@ def get_complaint_posts(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"][0]),
-        set(["id", "title", "description", "author", "recipient", "datePublished"])
+        set(response.json["data"][0]), set(["id", "title", "description", "author", "recipient", "datePublished"])
     )
 
 
@@ -422,17 +471,21 @@ def get_tender_complaint_post_document_json(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-            "documents": [{
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }],
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+                "documents": [
+                    {
+                        "title": "name.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                ],
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -442,12 +495,14 @@ def get_tender_complaint_post_document_json(self):
 
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -484,12 +539,14 @@ def get_tender_complaint_post_document_json(self):
 
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -502,12 +559,14 @@ def get_tender_complaint_post_document_json(self):
     self.document_id = document["id"]
 
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.put_post_document({
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.put_post_document(
+            {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     document = response.json["data"]
@@ -555,11 +614,13 @@ def create_tender_complaint_post_document_json(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -569,91 +630,106 @@ def create_tender_complaint_post_document_json(self):
 
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     post = response.json["data"]
 
     # create document by complaint_owner
-    response = self.post_post_document({
-        "title": "укр.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, acc_token=self.complaint_owner_token, status=403)
+    response = self.post_post_document(
+        {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        acc_token=self.complaint_owner_token,
+        status=403,
+    )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can add document only by post author"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can add document only by post author")
 
     # create document by tender_owner
-    response = self.post_post_document({
-        "title": "укр.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, acc_token=self.tender_token, status=403)
+    response = self.post_post_document(
+        {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        acc_token=self.tender_token,
+        status=403,
+    )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can add document only by post author"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can add document only by post author")
 
     # make complaint status accepted
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint({
-            "status": "accepted",
-            "reviewDate": get_now().isoformat(),
-            "reviewPlace": "some",
-        }, self.complaint_owner_token)
+        response = self.patch_complaint(
+            {
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            },
+            self.complaint_owner_token,
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
     # create document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }, status=403)
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            },
+            status=403,
+        )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate"
+        "Can submit or edit post not later than 3 full business days before reviewDate",
     )
 
     # change complaint reviewDate
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint({
-            "reviewDate": calculate_tender_business_date(
-                get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
-            ).isoformat(),
-        }, self.complaint_owner_token)
+        response = self.patch_complaint(
+            {
+                "reviewDate": calculate_tender_business_date(
+                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
+                ).isoformat(),
+            },
+            self.complaint_owner_token,
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -668,11 +744,13 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -681,12 +759,15 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
     self.post_id = post["id"]
 
     # create post by complaint_owner
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.complaint_owner_token)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.complaint_owner_token,
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -695,12 +776,15 @@ def create_tender_complaint_post_by_complaint_owner_document_json(self):
     self.post_id = post["id"]
 
     # create document by complaint_owner
-    response = self.post_post_document({
-        "title": "укр.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, acc_token=self.complaint_owner_token)
+    response = self.post_post_document(
+        {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        acc_token=self.complaint_owner_token,
+    )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -716,11 +800,13 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "tender_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "tender_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -729,12 +815,15 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
     self.post_id = post["id"]
 
     # create post by tender_owner
-    response = self.post_post({
-        "title": "Lorem ipsum",
-        "description": "Lorem ipsum dolor sit amet",
-        "recipient": "aboveThresholdReviewers",
-        "relatedPost": post["id"],
-    }, acc_token=self.tender_token)
+    response = self.post_post(
+        {
+            "title": "Lorem ipsum",
+            "description": "Lorem ipsum dolor sit amet",
+            "recipient": "aboveThresholdReviewers",
+            "relatedPost": post["id"],
+        },
+        acc_token=self.tender_token,
+    )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -743,12 +832,15 @@ def create_tender_complaint_post_by_tender_owner_document_json(self):
     self.post_id = post["id"]
 
     # create document by tender_owner
-    response = self.post_post_document({
-        "title": "укр.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, acc_token=self.tender_token)
+    response = self.post_post_document(
+        {
+            "title": "укр.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        acc_token=self.tender_token,
+    )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -764,11 +856,13 @@ def put_tender_complaint_document_json(self):
 
     # create post by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post({
-            "title": "Lorem ipsum",
-            "description": "Lorem ipsum dolor sit amet",
-            "recipient": "complaint_owner",
-        })
+        response = self.post_post(
+            {
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet",
+                "recipient": "complaint_owner",
+            }
+        )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -778,12 +872,14 @@ def put_tender_complaint_document_json(self):
 
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.post_post_document({
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.post_post_document(
+            {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -793,78 +889,91 @@ def put_tender_complaint_document_json(self):
     self.document_id = document["id"]
 
     # put document by complaint_owner
-    response = self.put_post_document({
-        "title": "name.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, status=403, acc_token=self.complaint_owner_token)
+    response = self.put_post_document(
+        {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        status=403,
+        acc_token=self.complaint_owner_token,
+    )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can update document only author"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
     # put document by tender_owner
-    response = self.put_post_document({
-        "title": "name.doc",
-        "url": self.generate_docservice_url(),
-        "hash": "md5:" + "0" * 32,
-        "format": "application/msword",
-    }, status=403, acc_token=self.tender_token)
+    response = self.put_post_document(
+        {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+        },
+        status=403,
+        acc_token=self.tender_token,
+    )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can update document only author"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
     # make complaint status accepted
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint({
-            "status": "accepted",
-            "reviewDate": get_now().isoformat(),
-            "reviewPlace": "some",
-        }, self.complaint_owner_token)
+        response = self.patch_complaint(
+            {
+                "status": "accepted",
+                "reviewDate": get_now().isoformat(),
+                "reviewPlace": "some",
+            },
+            self.complaint_owner_token,
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.put_post_document({
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }, status=403)
+        response = self.put_post_document(
+            {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            },
+            status=403,
+        )
 
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Can submit or edit post not later than 3 full business days before reviewDate"
+        "Can submit or edit post not later than 3 full business days before reviewDate",
     )
 
     # change complaint reviewDate
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.patch_complaint({
-            "reviewDate": calculate_tender_business_date(
-                get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
-            ).isoformat(),
-        }, self.complaint_owner_token)
+        response = self.patch_complaint(
+            {
+                "reviewDate": calculate_tender_business_date(
+                    get_now(), POST_SUBMIT_TIME + timedelta(days=1), {}, True
+                ).isoformat(),
+            },
+            self.complaint_owner_token,
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "accepted")
 
     # put document by reviewer
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
-        response = self.put_post_document({
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        })
+        response = self.put_post_document(
+            {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

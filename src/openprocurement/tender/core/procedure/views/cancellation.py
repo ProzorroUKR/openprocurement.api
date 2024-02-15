@@ -7,7 +7,9 @@ from openprocurement.tender.core.procedure.models.cancellation import PostCancel
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_data_documents, validate_item_owner, unless_admins,
+    validate_data_documents,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.tender.core.procedure.state.cancellation import CancellationState
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
@@ -27,7 +29,6 @@ def resolve_cancellation(request):
 
 
 class BaseCancellationResource(TenderBaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
@@ -51,7 +52,7 @@ class BaseCancellationResource(TenderBaseResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(PostCancellation),
-        )
+        ),
     )
     def collection_post(self):
         tender = self.request.validated["tender"]
@@ -68,9 +69,9 @@ class BaseCancellationResource(TenderBaseResource):
         if save_tender(self.request):
             LOGGER.info(
                 "Created tender cancellation {}".format(cancellation["id"]),
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_cancellation_create"},
-                                     {"cancellation_id": cancellation["id"]}),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": "tender_cancellation_create"}, {"cancellation_id": cancellation["id"]}
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
@@ -103,7 +104,7 @@ class BaseCancellationResource(TenderBaseResource):
             unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchCancellation),
             validate_patch_data_simple(Cancellation, item_name="cancellation"),
-        )
+        ),
     )
     def patch(self):
         updated = self.request.validated["data"]
@@ -118,4 +119,3 @@ class BaseCancellationResource(TenderBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_cancellation_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}
-

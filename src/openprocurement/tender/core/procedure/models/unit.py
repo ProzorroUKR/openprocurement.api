@@ -8,7 +8,6 @@ from openprocurement.api.procedure.context import get_tender
 
 
 class Unit(BaseUnit):
-
     def validate_code(self, unit, code):
         if is_obj_const_active(get_tender(), UNIT_CODE_REQUIRED_FROM):
             validate_code(unit, code)

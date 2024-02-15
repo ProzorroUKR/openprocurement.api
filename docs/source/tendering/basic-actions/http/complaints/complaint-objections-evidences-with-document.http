@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints/b265f5154e324ed88f04c1c2f343fb51?acc_token=a4e7fad4785c4844941bc64b490c3693 HTTP/1.0
+PATCH /api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints/accadb05292e48679b52c49abc1b7194?acc_token=3249b93eba9d4119831a7f3708450101 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -34,7 +34,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             ]
           }
         ],
-        "id": "3a57ec04a39f489baef34bb83a8fb7c3"
+        "id": "ae731fe27f904e038913c411b3673dc4"
       }
     ]
   }
@@ -46,7 +46,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b265f5154e324ed88f04c1c2f343fb51",
+    "id": "accadb05292e48679b52c49abc1b7194",
     "complaintID": "UA-2023-10-10-000001-a.2",
     "date": "2023-10-10T01:00:00+03:00",
     "status": "draft",
@@ -90,7 +90,7 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "3a57ec04a39f489baef34bb83a8fb7c3",
+        "id": "ae731fe27f904e038913c411b3673dc4",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",

@@ -36,9 +36,7 @@ from openprocurement.tender.openuadefense.tests.chronograph_blanks import (
 )
 
 
-
 class TenderSwitch0BidResourceTest(BaseSimpleDefContentWebTest):
-
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_belowthreshold)
 
     test_set_auction_period = snitch(set_auction_period_0bid)

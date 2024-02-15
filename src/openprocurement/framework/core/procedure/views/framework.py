@@ -5,7 +5,8 @@ from openprocurement.api.utils import (
     json_view,
     context_unpack,
     update_logging_context,
-    request_init_framework, request_fetch_agreement,
+    request_init_framework,
+    request_fetch_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing
 from openprocurement.api.procedure.context import get_framework
@@ -107,7 +108,7 @@ class FrameworksResource(FrameworkBaseResource):
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     "Updated framework by chronograph",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"}),
                 )
         elif updated:
             framework = self.request.validated["framework"] = updated
@@ -115,7 +116,7 @@ class FrameworksResource(FrameworkBaseResource):
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     f"Updated framework {framework['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
                 )
             self.state.after_patch(updated)
         return {

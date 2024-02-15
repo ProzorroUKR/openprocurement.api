@@ -42,7 +42,7 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
                 kind_central_levels=(ACCR_5,),
                 item="framework",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(route_key="framework_id"),
         ),
@@ -53,9 +53,7 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator_or_chronograph(
-                validate_item_owner("framework")
-            ),
+            unless_administrator_or_chronograph(validate_item_owner("framework")),
             validate_input_data_from_resolved_model(),
             validate_patch_data(Framework, item_name="framework"),
         ),

@@ -93,14 +93,12 @@ def post_tender_auction(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"],
-        ["Number of auction results did not match the number of tender bids"]
+        response.json["errors"][0]["description"], ["Number of auction results did not match the number of tender bids"]
     )
 
     update_patch_data(self, patch_data, key="lotValues", start=-2, interval=-1)
 
-    patch_data["bids"] = [{"lotValues": [{"value": {"amount": n}}]}
-                          for n, b in enumerate(self.initial_bids)]
+    patch_data["bids"] = [{"lotValues": [{"value": {"amount": n}}]} for n, b in enumerate(self.initial_bids)]
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, self.initial_lots[0]["id"]),
         {"data": patch_data},
@@ -130,10 +128,10 @@ def post_tender_auction(self):
 def post_tender_auction_not_changed(self):
     self.app.authorization = ("Basic", ("auction", ""))
     lot_id = self.initial_lots[0]["id"]
-    response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot_id),
-                                  {"data": {"bids": [
-                                      {"lotValues": [{"value": bid["value"]}]}
-                                      for bid in self.test_bids_data]}})
+    response = self.app.post_json(
+        "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
+        {"data": {"bids": [{"lotValues": [{"value": bid["value"]}]} for bid in self.test_bids_data]}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -145,12 +143,7 @@ def post_tender_auction_not_changed(self):
 def post_tender_auction_reversed(self):
     self.app.authorization = ("Basic", ("auction", ""))
     lot_id = self.initial_lots[0]["id"]
-    patch_data = {
-        "bids": [
-            {"lotValues": [{"value": bid["value"]}]}
-            for bid in self.test_bids_data
-        ]
-    }
+    patch_data = {"bids": [{"lotValues": [{"value": bid["value"]}]} for bid in self.test_bids_data]}
 
     response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot_id), {"data": patch_data})
     self.assertEqual(response.status, "200 OK")
@@ -239,10 +232,12 @@ def post_tender_auction_feature(self):
 
     update_patch_data(self, patch_data, key="value", start=-2, interval=-1)
 
-    patch_data = {"bids": [
-        {"lotValues": [{"value": {"amount": 11111}}]},
-        {"lotValues": [{"value": {"amount": 2222}}]},
-    ]}
+    patch_data = {
+        "bids": [
+            {"lotValues": [{"value": {"amount": 11111}}]},
+            {"lotValues": [{"value": {"amount": 2222}}]},
+        ]
+    }
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
         {"data": patch_data},
@@ -253,8 +248,7 @@ def post_tender_auction_feature(self):
     self.assertIn("features", tender)
     self.assertIn("parameters", tender["bids"][0])
     self.assertEqual(
-        tender["bids"][0]["lotValues"][0]["value"]["amount"],
-        patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
+        tender["bids"][0]["lotValues"][0]["value"]["amount"], patch_data["bids"][0]["lotValues"][0]["value"]["amount"]
     )
     self.assertEqual(
         tender["bids"][1]["lotValues"][0]["value"]["amount"],

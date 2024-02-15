@@ -8,7 +8,8 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.views.bid_req_response import resolve_bid, resolve_req_response
@@ -20,7 +21,6 @@ from openprocurement.tender.core.procedure.state.req_response_evidence import Bi
 
 
 class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
-
     state_class = BidReqResponseEvidenceState
     parent_obj_name = "bid"
 
@@ -34,30 +34,36 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_objects_evidences,
-                validate_input_data(Evidence),
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_objects_evidences,
+            validate_input_data(Evidence),
         ),
         permission="create_rr_evidence",
     )
     def collection_post(self) -> Optional[dict]:
         return super().collection_post()
 
-    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
+    @json_view(
+        permission="view_tender",
+        validators=(validate_view_requirement_responses,),
+    )
     def collection_get(self) -> dict:
         return super().collection_get()
 
-    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
+    @json_view(
+        permission="view_tender",
+        validators=(validate_view_requirement_responses,),
+    )
     def get(self) -> dict:
         return super().get()
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_objects_evidences,
-                validate_input_data(PatchEvidence),
-                validate_patch_data_simple(Evidence, "evidence"),
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_objects_evidences,
+            validate_input_data(PatchEvidence),
+            validate_patch_data_simple(Evidence, "evidence"),
         ),
         permission="edit_rr_evidence",
     )
@@ -66,8 +72,8 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_objects_evidences,
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_objects_evidences,
         ),
         permission="edit_rr_evidence",
     )

@@ -21,19 +21,17 @@ class TenderChronographResource(TenderBaseResource):
 
     @json_view(
         permission="chronograph",
-        validators=(
-            validate_input_data(TenderChronographData),
-        )
+        validators=(validate_input_data(TenderChronographData),),
     )
     def patch(self):
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update
-        
+
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
-        
+
         for lot in data.get("lots", ""):
             if "auctionPeriod" in lot and lot["auctionPeriod"] is None:
                 del lot["auctionPeriod"]
@@ -56,7 +54,7 @@ class TenderChronographResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated tender by chronograph",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_chronograph_patch"})
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_chronograph_patch"}),
             )
         return {
             "data": self.serializer_class(tender).data,

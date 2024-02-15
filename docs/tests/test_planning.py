@@ -53,10 +53,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         del test_docs_plan_data['budget']['breakdown']
 
         with open(TARGET_DIR + 'create-plan.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/plans?opt_pretty=1',
-                {'data': test_docs_plan_data}
-            )
+            response = self.app.post_json('/plans?opt_pretty=1', {'data': test_docs_plan_data})
             self.assertEqual(response.status, '201 Created')
 
         plan = response.json['data']
@@ -65,8 +62,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'patch-plan-status-scheduled.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"status": "scheduled"}}
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"status": "scheduled"}}
             )
             self.assertEqual(response.json["data"]["status"], "scheduled")
 
@@ -81,35 +77,25 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
                 {
-                    'data':
-                        {
-                            "items": [
-                                {
-                                    "description": "Насіння овочевих культур",
-                                    "classification": {
-                                        "scheme": "ДК021",
-                                        "description": "Vegetable seeds",
-                                        "id": "03111700-9"
-                                    },
-                                    "additionalClassifications": [
-                                        {
-                                            "scheme": "ДКПП",
-                                            "id": "01.13.6",
-                                            "description": "Насіння овочевих культур"
-                                        }
-                                    ],
-                                    "deliveryDate": {
-                                        "endDate": "2016-06-01T23:06:30.023018+03:00"
-                                    },
-                                    "unit": {
-                                        "code": "KGM",
-                                        "name": "кг"
-                                    },
-                                    "quantity": 5000
-                                }
-                            ]
-                        }
-                }
+                    'data': {
+                        "items": [
+                            {
+                                "description": "Насіння овочевих культур",
+                                "classification": {
+                                    "scheme": "ДК021",
+                                    "description": "Vegetable seeds",
+                                    "id": "03111700-9",
+                                },
+                                "additionalClassifications": [
+                                    {"scheme": "ДКПП", "id": "01.13.6", "description": "Насіння овочевих культур"}
+                                ],
+                                "deliveryDate": {"endDate": "2016-06-01T23:06:30.023018+03:00"},
+                                "unit": {"code": "KGM", "name": "кг"},
+                                "quantity": 5000,
+                            }
+                        ]
+                    }
+                },
             )
 
         with open(TARGET_DIR + 'plan-listing-after-patch.http', 'w') as self.app.file_obj:
@@ -123,11 +109,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
 
         with open(TARGET_DIR + 'tender-from-plan-validation.http', 'w') as self.app.file_obj:
-            self.app.post_json(
-                '/plans/{}/tenders'.format(plan['id']),
-                {'data': test_docs_tender_openeu},
-                status=422
-            )
+            self.app.post_json('/plans/{}/tenders'.format(plan['id']), {'data': test_docs_tender_openeu}, status=422)
 
         test_docs_tender_below["items"] = test_docs_plan_data["items"]
         test_docs_tender_below["procuringEntity"]["identifier"] = test_docs_plan_data["procuringEntity"]["identifier"]
@@ -138,15 +120,14 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
             self.app.post_json(
                 '/plans/{}/tenders'.format(plan['id']),
                 {'data': test_docs_tender_below, 'config': test_tender_below_config},
-                status=422
+                status=422,
             )
 
         budget = deepcopy(test_docs_plan_data['budget'])
         budget['breakdown'] = test_breakdown
         with open(TARGET_DIR + 'patch-plan-breakdown.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(plan['id'], owner_token),
-                {'data': {"budget": budget}}
+                '/plans/{}?acc_token={}'.format(plan['id'], owner_token), {'data': {"budget": budget}}
             )
 
         with open(TARGET_DIR + 'tender-from-plan.http', 'w') as self.app.file_obj:
@@ -166,13 +147,13 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                             "identifier": {
                                 "scheme": "UA-EDR",
                                 "id": "111983",
-                                "legalName": "ДП Державне Управління Справами"
+                                "legalName": "ДП Державне Управління Справами",
                             },
-                            "name": "ДУС"
+                            "name": "ДУС",
                         }
                     }
                 },
-                status=422
+                status=422,
             )
 
         with open(TARGET_DIR + 'get-complete-plan.http', 'w') as self.app.file_obj:
@@ -185,11 +166,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'complete-plan-rationale.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(plan["id"], owner_token),
-                {
-                    'data': {
-                        'rationale': {"description": rationale}
-                    }
-                },
+                {'data': {'rationale': {"description": rationale}}},
             )
         self.assertEqual(response.json["data"]["rationale"]["description"], rationale)
 
@@ -204,7 +181,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'complete-plan-manually.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/plans/{}?acc_token={}'.format(response.json['data']['id'], response.json['access']['token']),
-                {'data': {"status": "complete"}}
+                {'data': {"status": "complete"}},
             )
             self.assertEqual(response.json["data"]["status"], "complete")
 
@@ -226,7 +203,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                             "reason_en": "Reason of the cancellation",
                         }
                     }
-                }
+                },
             )
         self.assertEqual(response.json["data"]["status"], "scheduled")
 
@@ -240,6 +217,6 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                             "status": "active",
                         }
                     }
-                }
+                },
             )
         self.assertEqual(response.json["data"]["status"], "cancelled")

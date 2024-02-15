@@ -50,7 +50,7 @@ def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool 
     elif obj is None:
         LOGGER.error(
             f"{obj_name.capitalize()} {obj_id} not found",
-            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"})
+            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"}),
         )
 
     return obj
@@ -98,6 +98,7 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         #  maybe there is a better single place to do this
         #  or just delete it when we do not need it anymore
         from openprocurement.api.procedure.validation import validate_restricted_object_action
+
         validate_restricted_object_action(request, obj_name, obj)
     return request.validated[obj_name]
 
@@ -189,6 +190,7 @@ def request_init_transfer(request, transfer, transfer_src=None, raise_error=True
         obj_src=transfer_src,
     )
 
+
 def request_fetch_plan(request, plan_id, raise_error=True, force=False):
     if should_fetch_object(request, "plan", force=force):
         plan = get_submission_by_id(request, plan_id, raise_error=raise_error)
@@ -239,6 +241,7 @@ def should_fetch_object(request, obj_name, force=False):
 
 def get_now():
     return datetime.now(TZ)
+
 
 def set_parent(item, parent):
     if hasattr(item, "__parent__") and item.__parent__ is None:
@@ -305,6 +308,7 @@ def raise_operation_error(request, message, status=403, location="body", name="d
 
 def update_file_content_type(request):  # XXX TODO
     pass
+
 
 def request_params(request):
     try:
@@ -388,6 +392,7 @@ def is_ua_road_classification(classification_id):
 def is_gmdn_classification(classification_id):
     return classification_id[:4] in GMDN_CPV_PREFIXES
 
+
 @contextmanager
 def handle_data_exceptions(request):
     try:
@@ -447,19 +452,11 @@ def get_currency_rates(request):
     try:
         resp = requests.get(base_url, **kwargs)
     except requests.exceptions.RequestException as e:
-        raise raise_operation_error(
-            request,
-            "Error while getting data from bank.gov.ua: {}".format(e),
-            status=409
-        )
+        raise raise_operation_error(request, "Error while getting data from bank.gov.ua: {}".format(e), status=409)
     try:
         return resp.json()
     except ValueError:
-        raise raise_operation_error(
-            request,
-            "Failure of decoding data from bank.gov.ua",
-            status=409
-        )
+        raise raise_operation_error(request, "Failure of decoding data from bank.gov.ua", status=409)
 
 
 def get_uah_amount_from_value(request, value, logging_params):
@@ -472,20 +469,15 @@ def get_uah_amount_from_value(request, value, logging_params):
                 break
         else:
             raise raise_operation_error(
-                request,
-                "Couldn't find currency {} on bank.gov.ua".format(currency),
-                status=422
+                request, "Couldn't find currency {} on bank.gov.ua".format(currency), status=422
             )
 
         amount *= currency_rate
         LOGGER.info(
             "Converting {} {} into {} UAH using rate {}".format(
-                value["amount"], value["currency"],
-                amount, currency_rate
+                value["amount"], value["currency"], amount, currency_rate
             ),
-            extra=context_unpack(
-                request, {"MESSAGE_ID": "complaint_exchange_rate"}, logging_params
-            ),
+            extra=context_unpack(request, {"MESSAGE_ID": "complaint_exchange_rate"}, logging_params),
         )
     return amount
 
@@ -500,7 +492,7 @@ def get_change_class(poly_model, data, _validation=False):
         "taxRate": "ChangeTaxRate",
         "itemPriceVariation": "ChangeItemPriceVariation",
         "partyWithdrawal": "ChangePartyWithdrawal",
-        "thirdParty": "ChangeThirdParty"
+        "thirdParty": "ChangeThirdParty",
     }
     _class_name = rationale_type_class_name_mapping.get(rationale_type)
     if not _class_name:

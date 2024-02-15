@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.views.document import resolve_documen
 
 
 class PlanBaseResource(BaseResource):
-
     state_class = PlanState
 
     def __acl__(self):

@@ -1,7 +1,8 @@
 from openprocurement.tender.competitivedialogue.procedure.utils import (
     prepare_shortlistedFirms,
     prepare_author,
-    prepare_bid_identifier, get_item_by_id,
+    prepare_bid_identifier,
+    get_item_by_id,
 )
 from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.core.procedure.validation import OPERATIONS
@@ -21,6 +22,7 @@ def unless_cd_bridge(*validations):
         if request.authenticated_role != "competitive_dialogue":
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -37,43 +39,29 @@ def validate_cd2_allowed_patch_fields(request, **_):
 
         for f in changes:
             if f not in tender_whitelist and tender.get(f) != changes[f]:
-                return raise_operation_error(
-                    request,
-                    "Field change's not allowed",
-                    location="body",
-                    name=f,
-                    status=422
-                )
+                return raise_operation_error(request, "Field change's not allowed", location="body", name=f, status=422)
 
         items = changes.get("items")
         if items:
             before_items = tender["items"]
             if len(items) != len(before_items):
-                return raise_operation_error(
-                    request,
-                    "List size change's not allowed",
-                    location="body",
-                    name="items"
-                )
+                return raise_operation_error(request, "List size change's not allowed", location="body", name="items")
 
             item_whitelist = {"deliveryDate"}
             for a, b in zip(items, before_items):
                 for f in a:
                     if f not in item_whitelist and a[f] != b[f]:
                         return raise_operation_error(
-                            request,
-                            "Field change's not allowed",
-                            location="body",
-                            name=f"items.{f}",
-                            status=422
+                            request, "Field change's not allowed", location="body", name=f"items.{f}", status=422
                         )
 
 
 def validate_lot_operation_for_stage2(request, **_):
     raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))
 
+
 def validate_author(request, tender, obj, obj_name):
-    """ Compare author key and key from shortlistedFirms """
+    """Compare author key and key from shortlistedFirms"""
     shortlisted_firms = tender["shortlistedFirms"]
     firms_keys = prepare_shortlistedFirms(shortlisted_firms)
     author_key = prepare_author(obj)
@@ -88,9 +76,7 @@ def validate_author(request, tender, obj, obj_name):
         if author_key in firm:  # if we found legal firm then check another complaint
             break
     else:  # we didn't find legal firm, then return error
-        error_message = "Author can't {} {}".format(
-            "create" if request.method == "POST" else "patch", obj_name
-        )
+        error_message = "Author can't {} {}".format("create" if request.method == "POST" else "patch", obj_name)
         request.errors.add("body", "author", error_message)
         request.errors.status = 403
         raise error_handler(request)

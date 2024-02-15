@@ -15,9 +15,7 @@ def no_items_contract_change(self):
     self.assertNotIn("items", contract)
     tender_token = data["tender_token"]
 
-    response = self.app.patch_json(
-        f"/contracts/{contract['id']}/credentials?acc_token={tender_token}", {"data": ""}
-    )
+    response = self.app.patch_json(f"/contracts/{contract['id']}/credentials?acc_token={tender_token}", {"data": ""})
     self.assertEqual(response.status, "200 OK")
     token = response.json["access"]["token"]
 
@@ -62,9 +60,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.get(f"/contracts/{self.contract['id']}/changes")
     self.assertEqual(response.status, "200 OK")
@@ -74,19 +70,13 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}])
 
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}/changes/some_id", {"data": {}}, status=404
-    )
+    response = self.app.patch_json(f"/contracts/{self.contract['id']}/changes/some_id", {"data": {}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}])
 
 
 def get_change(self):
@@ -204,13 +194,10 @@ def create_change_invalid(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {"data": {"changes": [{"rationale": "penguin", "rationaleTypes": ["volumeCuts"]}]}},
-        status=422
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [{"location": "body", "name": "changes", "description": "Rogue field"}]
-    )
+    self.assertEqual(response.json["errors"], [{"location": "body", "name": "changes", "description": "Rogue field"}])
 
     response = self.app.get(f"/contracts/{self.contract['id']}?acc_token={self.contract_token}")
     self.assertEqual(response.status, "200 OK")
@@ -401,16 +388,12 @@ def patch_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
         {"data": {"id": "1234" * 8}},
-        status=422
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "id",
-            "description": "Rogue field"
-        }],
+        [{"location": "body", "name": "id", "description": "Rogue field"}],
     )
 
     self.app.authorization = None
@@ -955,7 +938,6 @@ def patch_change_after_contract_is_already_terminated(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
-
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",

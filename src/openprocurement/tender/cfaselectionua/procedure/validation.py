@@ -8,14 +8,17 @@ def unless_selection_bot(*validations):
         if request.authenticated_role != "agreement_selection":
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
 def validate_document_operation_in_not_allowed_period(request, **_):
     tender_status = request.validated["tender"]["status"]
     if (
-        request.authenticated_role != "auction" and tender_status not in ("draft", "draft.pending", "active.enquiries")
-        or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
+        request.authenticated_role != "auction"
+        and tender_status not in ("draft", "draft.pending", "active.enquiries")
+        or request.authenticated_role == "auction"
+        and tender_status not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(
             request,

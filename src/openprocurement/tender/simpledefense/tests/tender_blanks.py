@@ -290,9 +290,9 @@ def create_tender_invalid(self):
             {
                 u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
                 u'location': u'body',
-                u'name': u'procuringEntity'
+                u'name': u'procuringEntity',
             }
-        ]
+        ],
     )
 
     data = self.initial_data["items"][0].copy()

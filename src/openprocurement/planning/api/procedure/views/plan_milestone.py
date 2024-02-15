@@ -9,7 +9,8 @@ from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_data_documents, validate_item_owner,
+    validate_data_documents,
+    validate_item_owner,
 )
 from openprocurement.planning.api.procedure.models.milestone import PostMilestone, PatchMilestone, Milestone
 from openprocurement.planning.api.procedure.serializers.milestone import MilestoneSerializer

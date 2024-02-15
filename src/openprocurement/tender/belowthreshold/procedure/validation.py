@@ -15,14 +15,12 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
         ):
             raise_operation_error(
                 request,
-                f"Can't {OPERATIONS.get(request.method)} document "
-                f"in current ({tender['status']}) tender status"
+                f"Can't {OPERATIONS.get(request.method)} document " f"in current ({tender['status']}) tender status",
             )
     elif tender["status"] not in ("active.tendering", "active.qualification"):
         raise_operation_error(
             request,
-            f"Can't {OPERATIONS.get(request.method)} document "
-            f"in current ({tender['status']}) tender status"
+            f"Can't {OPERATIONS.get(request.method)} document " f"in current ({tender['status']}) tender status",
         )
 
 
@@ -30,12 +28,15 @@ def validate_bid_document_operation_in_not_allowed_tender_status(request, **_):
 def validate_document_operation_in_not_allowed_period(request, **_):
     tender_status = request.validated["tender"]["status"]
     if (
-        request.authenticated_role != "auction" and tender_status not in (
+        request.authenticated_role != "auction"
+        and tender_status
+        not in (
             "draft",
             "active.enquiries",
             "active.tendering",
         )
-        or request.authenticated_role == "auction" and tender_status not in ("active.auction", "active.qualification")
+        or request.authenticated_role == "auction"
+        and tender_status not in ("active.auction", "active.qualification")
     ):
         raise_operation_error(
             request,

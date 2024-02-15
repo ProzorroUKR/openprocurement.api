@@ -36,18 +36,13 @@ class NegotiationCancellationStateMixing(CancellationStateMixing):
         if tender.get("lots") and not cancellation.get("relatedLot"):
             for lot in tender.get("lots"):
                 if lot["status"] == "complete":
-                    raise_operation_error(
-                        request,
-                        "Can't perform cancellation, if there is at least one complete lot"
-                    )
+                    raise_operation_error(request, "Can't perform cancellation, if there is at least one complete lot")
 
     @staticmethod
     def use_deprecated_activation(cancellation, tender):
         lot_id = cancellation.get("relatedLot")
         if not any(
-            i["status"] == "active"
-            for i in tender.get("awards", [])
-            if i.get("lotID") == lot_id or lot_id is None
+            i["status"] == "active" for i in tender.get("awards", []) if i.get("lotID") == lot_id or lot_id is None
         ):
             return True
 

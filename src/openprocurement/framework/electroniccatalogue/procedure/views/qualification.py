@@ -33,13 +33,13 @@ class ElectronicCatalogueQualificationResource(QualificationsResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(
-                    validate_framework_owner("qualification"),
-                ),
-                validate_input_data(PatchQualification),
-                validate_update_qualification_in_not_allowed_status,
-                validate_action_in_not_allowed_framework_status("qualification"),
-                validate_patch_data(Qualification, item_name="qualification"),
+            unless_administrator(
+                validate_framework_owner("qualification"),
+            ),
+            validate_input_data(PatchQualification),
+            validate_update_qualification_in_not_allowed_status,
+            validate_action_in_not_allowed_framework_status("qualification"),
+            validate_patch_data(Qualification, item_name="qualification"),
         ),
         permission="edit_qualification",
     )

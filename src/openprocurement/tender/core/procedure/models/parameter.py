@@ -20,8 +20,7 @@ class Parameter(Model):
             tender = get_tender()
             for feature in tender.get("features", ""):
                 if data["code"] == feature["code"]:
-                    if not any(float(e["value"]) == value
-                               for e in feature["enum"]):
+                    if not any(float(e["value"]) == value for e in feature["enum"]):
                         raise ValidationError("value should be one of feature value.")
 
 

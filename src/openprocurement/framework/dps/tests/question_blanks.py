@@ -17,9 +17,7 @@ def create_question_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
     response = self.app.post(request_path, "data", content_type="application/json", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -155,8 +153,7 @@ def create_question_check_framework_status(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't add question in current (draft) framework status"
+        response.json["errors"][0]["description"], "Can't add question in current (draft) framework status"
     )
 
     self.activate_framework()
@@ -234,10 +231,7 @@ def patch_framework_question(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Forbidden"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Forbidden")
 
     response = self.app.patch_json(
         f"{request_path}?acc_token={self.framework_token}",
@@ -246,14 +240,7 @@ def patch_framework_question(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"][0],
-        {
-            "location": "body",
-            "name": "answer",
-            "description": [
-                "This field is required."
-            ]
-        }
+        response.json["errors"][0], {"location": "body", "name": "answer", "description": ["This field is required."]}
     )
 
     response = self.app.patch_json(
@@ -262,19 +249,12 @@ def patch_framework_question(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0],
-        {
-            "location": "body",
-            "name": "test",
-            "description": "Rogue field"
-        }
-    )
+    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "test", "description": "Rogue field"})
 
     response = self.app.get(f"/frameworks/{self.framework_id}")
     framework = response.json["data"]
     with freeze_time(
-            (dt_from_iso(framework["enquiryPeriod"]["clarificationsUntil"]) + timedelta(minutes=1)).isoformat()
+        (dt_from_iso(framework["enquiryPeriod"]["clarificationsUntil"]) + timedelta(minutes=1)).isoformat()
     ):
         response = self.app.patch_json(
             f"{request_path}?acc_token={self.framework_token}",
@@ -288,11 +268,10 @@ def patch_framework_question(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Allowed to update question only before enquiryPeriod.clarificationsUntil"
-            }
+                "description": "Allowed to update question only before enquiryPeriod.clarificationsUntil",
+            },
         )
     with freeze_time((dt_from_iso(framework["enquiryPeriod"]["endDate"]) + timedelta(days=1)).isoformat()):
-
         response = self.app.patch_json(
             f"{request_path}?acc_token={self.framework_token}",
             {"data": {"answer": "answer"}},
@@ -308,17 +287,13 @@ def patch_framework_question(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}])
 
     response = self.app.patch_json("/frameworks/some_id/questions/some_id", {"data": {"answer": "answer"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
 
 def get_framework_question(self):
@@ -336,23 +311,19 @@ def get_framework_question(self):
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"],  question)
+    self.assertEqual(response.json["data"], question)
 
     response = self.app.get(f"/frameworks/{self.framework_id}/questions/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}])
 
     response = self.app.get("/frameworks/some_id/questions/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])
 
 
 def get_framework_questions(self):
@@ -391,6 +362,4 @@ def get_framework_questions(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "framework_id"}])

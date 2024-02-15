@@ -96,8 +96,13 @@ class TenderNegotiationCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -106,7 +111,7 @@ class TenderNegotiationCancellationResourceTest(
 
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
 
@@ -118,8 +123,7 @@ class TenderNegotiationCancellationResourceTest(
 
 
 class TenderNegotiationQuickCancellationResourceTest(
-    TenderNegotiationCancellationResourceTest,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderNegotiationCancellationResourceTest, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_config = test_tender_negotiation_quick_config
 
@@ -127,8 +131,13 @@ class TenderNegotiationQuickCancellationResourceTest(
         super(TenderNegotiationCancellationResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -137,7 +146,7 @@ class TenderNegotiationQuickCancellationResourceTest(
 
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
 
@@ -145,10 +154,7 @@ class TenderNegotiationQuickCancellationResourceTest(
     valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
 
 
-class TenderCancellationDocumentResourceTest(
-    BaseTenderContentWebTest,
-    TenderCancellationDocumentResourceTestMixin
-):
+class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     initial_data = test_tender_reporting_data
 
     def setUp(self):
@@ -179,8 +185,13 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -189,15 +200,13 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
 
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -217,8 +226,13 @@ class TenderNegotiationCancellationComplaintResourceTest(
         super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -227,15 +241,13 @@ class TenderNegotiationCancellationComplaintResourceTest(
 
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
 
         # create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},

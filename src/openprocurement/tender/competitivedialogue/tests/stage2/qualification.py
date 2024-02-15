@@ -69,7 +69,6 @@ for test_bid in test_tender_bids:
 
 
 class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTest):
-
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -91,7 +90,6 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
 
 
 class TenderStage2EUQualificationResourceTest(TenderQualificationBaseTestCase):
-
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
@@ -135,7 +133,6 @@ class TenderStage2EUQualificationDocumentWithDSResourceTest(TenderStage2EUQualif
 
 
 class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderStage2EUQualificationComplaintResourceTest, self).setUp()
 
@@ -172,7 +169,6 @@ class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTe
 
 
 class TenderStage2EULotQualificationComplaintResourceTest(TenderStage2EUQualificationComplaintResourceTest):
-
     initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
 
@@ -189,7 +185,6 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
 
 
 class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderStage2EUQualificationComplaintDocumentResourceTest, self).setUp()
 

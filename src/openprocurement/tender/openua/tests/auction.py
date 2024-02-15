@@ -43,10 +43,7 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourc
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
     docservice = True
     initial_status = "active.auction"
-    initial_bids = [
-        test_tender_openua_bids[0]
-        for i in range(3)
-    ]
+    initial_bids = [test_tender_openua_bids[0] for i in range(3)]
     initial_lots = test_tender_below_lots
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
@@ -70,8 +67,12 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openua_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]]
+        self.initial_bids[0]["parameters"] = [
+            {"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]
+        ]
+        self.initial_bids[1]["parameters"] = [
+            {"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]
+        ]
         super(TenderFeaturesAuctionResourceTest, self).setUp()
 
 

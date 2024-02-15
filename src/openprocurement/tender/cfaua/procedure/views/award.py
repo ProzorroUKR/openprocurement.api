@@ -32,9 +32,7 @@ class UATenderAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchAward),
             validate_patch_data(Award, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,

@@ -1,15 +1,19 @@
 def is_test():
     import sys
     import os
-    return any([
-        "test" in sys.argv[0],
-        "setup.py" in sys.argv[0],
-        "PYTEST_XDIST_WORKER" in os.environ,
-    ])
+
+    return any(
+        [
+            "test" in sys.argv[0],
+            "setup.py" in sys.argv[0],
+            "PYTEST_XDIST_WORKER" in os.environ,
+        ]
+    )
 
 
 if not is_test():
     import gevent.monkey
+
     gevent.monkey.patch_all()
 
 import os
@@ -58,9 +62,7 @@ def main(global_config, **settings):
         LOGGER.info("Init sentry sdk for {}".format(dsn))
         sentry_sdk.init(
             dsn=dsn,
-            integrations=[
-                LoggingIntegration(level=None, event_level=None),
-                PyramidIntegration()],
+            integrations=[LoggingIntegration(level=None, event_level=None), PyramidIntegration()],
             send_default_pii=True,
             request_bodies="always",
             environment=settings.get("sentry.environment", None),
@@ -113,9 +115,7 @@ def main(global_config, **settings):
     config.registry.docservice_key = signer
     verifier = signer.verify_key
 
-    config.registry.keyring = {
-        verifier.encode(encoder=HexEncoder)[:8].decode(): verifier
-    }
+    config.registry.keyring = {verifier.encode(encoder=HexEncoder)[:8].decode(): verifier}
     dockeys = settings.get('dockeys', '')
     for key in dockeys.split('\0'):
         if key:

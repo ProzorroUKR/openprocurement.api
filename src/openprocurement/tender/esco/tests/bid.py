@@ -106,8 +106,10 @@ bid_amount = round(
 )
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_status = "active.tendering"
@@ -165,8 +167,10 @@ class TenderBidFeaturesResourceTest(BaseESCOContentWebTest):
     test_features_bid_invalid = snitch(features_bid_invalid)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
@@ -230,10 +234,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
 
     def setUp(self):
         bid_data = deepcopy(test_tender_esco_bids[0])
-        bid_data.update({
-            "tenderers": [test_tender_below_organization],
-            "documents": []
-        })
+        bid_data.update({"tenderers": [test_tender_below_organization], "documents": []})
 
         self.bid_data_wo_docs = bid_data
 

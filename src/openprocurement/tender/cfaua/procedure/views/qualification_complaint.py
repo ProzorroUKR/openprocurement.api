@@ -45,4 +45,3 @@ class CFAUATenderQualificationClaimResource(QualificationClaimResource):
 )
 class CFAUAQualificationComplaintWriteResource(QualificationComplaintWriteResource):
     state_class = CFAUAQualificationComplaintState
-

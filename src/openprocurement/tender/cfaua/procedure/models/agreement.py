@@ -57,8 +57,7 @@ class Agreement(Model):
     def validate_dateSigned(self, data, value):
         if value:
             award_ids = [c["awardID"] for c in data["contracts"]]
-            award = next(i for i in get_tender().get("awards", [])
-                         if i["id"] in award_ids)
+            award = next(i for i in get_tender().get("awards", []) if i["id"] in award_ids)
             complaint_period = award.get("complaintPeriod")
             if (
                 complaint_period
@@ -81,4 +80,6 @@ class Agreement(Model):
 
             calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
             if value.endDate > calculated_end_date:
-                raise ValidationError(f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}.")
+                raise ValidationError(
+                    f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}."
+                )

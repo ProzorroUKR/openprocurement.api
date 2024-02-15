@@ -26,14 +26,13 @@ def resolve_bid(request):
 
 
 class TenderBidResource(TenderBaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_bid"),
             (Allow, "g:brokers", "edit_bid"),
             (Allow, "g:Administrator", "edit_bid"),  # wtf ???
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
         return acl
 
@@ -75,9 +74,7 @@ class TenderBidResource(TenderBaseResource):
 
     @json_view(
         permission="view_tender",
-        validators=(
-            validate_view_bids,
-        )
+        validators=(validate_view_bids,),
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
@@ -90,9 +87,9 @@ class TenderBidResource(TenderBaseResource):
         validators=(
             unless_item_owner(
                 validate_view_bids,
-                item_name="bid"
+                item_name="bid",
             ),
-        )
+        ),
     )
     def get(self):
         # data depends on tender status

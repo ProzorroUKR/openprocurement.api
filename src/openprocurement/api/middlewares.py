@@ -12,6 +12,7 @@ class DBSessionCookieMiddleware:
     Passes cluster_time & operation_time between requests of a client
     to provide casual consistency 
     """
+
     def __init__(self, handler, registry):
         self.handler = handler
         self.registry = registry

@@ -15,10 +15,8 @@ class BaseAwardDocumentResource(BaseDocumentResource):
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "upload_award_documents"),
             (Allow, "g:brokers", "edit_award_documents"),
-
             (Allow, "g:admins", "upload_award_documents"),
             (Allow, "g:admins", "edit_award_documents"),
-
             (Allow, "g:bots", "upload_award_documents"),
         ]
         return acl

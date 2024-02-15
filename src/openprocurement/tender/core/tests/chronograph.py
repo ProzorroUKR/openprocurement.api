@@ -36,15 +36,16 @@ def switch_tender_complaints_draft(self):
     # that is not the case in a real tender.
     # The test only worked
     # because complaintPeriod.endDate had been recalculated (serializable) during complaint post!
-    self.assertLessEqual(parse_date(response.json["data"].get("next_check")),
-                         parse_date(tender_data["complaintPeriod"]["endDate"]))
+    self.assertLessEqual(
+        parse_date(response.json["data"].get("next_check")), parse_date(tender_data["complaintPeriod"]["endDate"])
+    )
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
     start_date = get_now() - timedelta(days=40)
-    tender["complaintPeriod"] = dict(   # tenderPeriod was here before, must be a mistake
+    tender["complaintPeriod"] = dict(  # tenderPeriod was here before, must be a mistake
         startDate=start_date.isoformat(),
-        endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat()
+        endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat(),
     )
     self.mongodb.tenders.save(tender)
 
@@ -88,8 +89,7 @@ def switch_tender_cancellation_complaints_draft(self):
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["cancellations"][0]["complaintPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=30)).isoformat(),
-        endDate=(get_now() - timedelta(days=20)).isoformat()
+        startDate=(get_now() - timedelta(days=30)).isoformat(), endDate=(get_now() - timedelta(days=20)).isoformat()
     )
     self.mongodb.tenders.save(tender)
 
@@ -115,9 +115,7 @@ def switch_qualification_complaints_draft(self):
     # activate qualifications
     for qualification in qualifications:
         response = self.app.patch_json(
-            "/tenders/{}/qualifications/{}?acc_token={}".format(
-                self.tender_id, qualification["id"], self.tender_token
-            ),
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
         self.assertEqual(response.status, "200 OK")
@@ -141,15 +139,13 @@ def switch_qualification_complaints_draft(self):
     # get tender and check next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(
-        parse_date(response.json["data"].get("next_check")),
-        parse_date(tender["qualificationPeriod"]["endDate"])
+        parse_date(response.json["data"].get("next_check")), parse_date(tender["qualificationPeriod"]["endDate"])
     )
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["qualificationPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=20)).isoformat(),
-        endDate=(get_now() - timedelta(days=10)).isoformat()
+        startDate=(get_now() - timedelta(days=20)).isoformat(), endDate=(get_now() - timedelta(days=10)).isoformat()
     )
     self.mongodb.tenders.save(tender)
 
@@ -189,8 +185,7 @@ def switch_award_complaints_draft(self):
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["awards"][0]["complaintPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=20)).isoformat(),
-        endDate=(get_now() - timedelta(days=10)).isoformat()
+        startDate=(get_now() - timedelta(days=20)).isoformat(), endDate=(get_now() - timedelta(days=10)).isoformat()
     )
     self.mongodb.tenders.save(tender)
 
@@ -211,21 +206,25 @@ def switch_tender_after_cancellation_unsuccessful(self):
     # cancellation
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/cancellations?acc_token={self.tender_token}",
-        {"data": {
-            "reason": "cancellation reason",
-            "cancellationOf": "tender",
-            "reasonType": "noDemand",
-        }},
+        {
+            "data": {
+                "reason": "cancellation reason",
+                "cancellationOf": "tender",
+                "reasonType": "noDemand",
+            }
+        },
     )
     cancellation_id = response.json["data"]["id"]
     self.app.post_json(
         f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/documents?acc_token={self.tender_token}",
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={self.tender_token}",
@@ -250,11 +249,13 @@ def switch_tender_after_cancellation_unsuccessful(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
-            {"data": {
-                "status": "accepted",
-                "reviewDate": get_now().isoformat(),
-                "reviewPlace": "there",
-            }},
+            {
+                "data": {
+                    "status": "accepted",
+                    "reviewDate": get_now().isoformat(),
+                    "reviewPlace": "there",
+                }
+            },
         )
         self.assertEqual("accepted", response.json["data"]["status"])
 

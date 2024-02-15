@@ -698,7 +698,7 @@ Content-Type: application/json
             "id": "4a931ec247ca40779a4b6a4d186b8274"
           }
         ],
-        "id": "26d57975355f4df6bdb138430b2f0afb",
+        "id": "bef46d74750b4f74b30d46b87c69df0c",
         "tenderers": [
           {
             "name": "ДКП «Школяр»",
@@ -725,7 +725,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
-            "id": "28d10c2e29b844df9b4b0b86d584595e",
+            "id": "a7a69098c804461aa8380adf5771905e",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.pdf",
@@ -738,12 +738,12 @@ Content-Type: application/json
             "isDescriptionDecision": false
           },
           {
-            "id": "045e6d3d3ce4432580e1fa0def14e637",
+            "id": "443d1bc006e84ddeb2e2e42daa2830cb",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/26d57975355f4df6bdb138430b2f0afb/documents/045e6d3d3ce4432580e1fa0def14e637?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/bef46d74750b4f74b30d46b87c69df0c/documents/443d1bc006e84ddeb2e2e42daa2830cb?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -751,12 +751,12 @@ Content-Type: application/json
             "isDescriptionDecision": true
           },
           {
-            "id": "a2243913601146efa48bd82c994a5612",
+            "id": "bf5c6b2858994bc08ed99aaf624d12c7",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/26d57975355f4df6bdb138430b2f0afb/documents/a2243913601146efa48bd82c994a5612?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/bef46d74750b4f74b30d46b87c69df0c/documents/bf5c6b2858994bc08ed99aaf624d12c7?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -880,7 +880,7 @@ Content-Type: application/json
             "id": "da4ba93c05364a4d8b50c0b0c24f87a2"
           }
         ],
-        "id": "31ea2a030d6648adab0a5066fed0e405",
+        "id": "b63db23cfe7147aba4fde01651dc573b",
         "tenderers": [
           {
             "name": "ДКП «Книга»",
@@ -1020,7 +1020,7 @@ Content-Type: application/json
             "id": "cdeefaf109a240b49bb30177090544ab"
           }
         ],
-        "id": "701a197e186e4100a2bbd124d65d4312",
+        "id": "92792dd21bd04f89a7dda4ce96a0ca4b",
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1160,7 +1160,7 @@ Content-Type: application/json
             "id": "81754987ad0446959a71b037d7707ce9"
           }
         ],
-        "id": "fbbd4a1c822c4ed68b03bece6303facd",
+        "id": "19275a9d05654013b82b1d96a4d035f6",
         "tenderers": [
           {
             "name": "«Кенгуру»",
@@ -1186,7 +1186,7 @@ Content-Type: application/json
         ],
         "documents": [
           {
-            "id": "735f74e9bcb742c292a4153695abded0",
+            "id": "a7e0aedf87d145878ea880ddd51ac126",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1199,12 +1199,12 @@ Content-Type: application/json
             "isDescriptionDecision": false
           },
           {
-            "id": "c4de4273b0614986845d84797ca9c9e2",
+            "id": "f8b358824b8c48b3a091cf482fc7fe44",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/fbbd4a1c822c4ed68b03bece6303facd/documents/c4de4273b0614986845d84797ca9c9e2?download=0949e250dfc14f529d528e285cbde095",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/bids/19275a9d05654013b82b1d96a4d035f6/documents/f8b358824b8c48b3a091cf482fc7fe44?download=0949e250dfc14f529d528e285cbde095",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -1336,8 +1336,8 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "c1456197122f49bc93a789479f4486b2",
-        "bidID": "26d57975355f4df6bdb138430b2f0afb",
+        "id": "69b68d4fd6384baaa5dcc325d89b2137",
+        "bidID": "bef46d74750b4f74b30d46b87c69df0c",
         "lotID": "5f416c4b1629461194116a3c41e574a8",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1345,8 +1345,8 @@ Content-Type: application/json
         "eligible": true
       },
       {
-        "id": "fca6ed206e514922bfca53422e7f8bcc",
-        "bidID": "31ea2a030d6648adab0a5066fed0e405",
+        "id": "b6950f13fd8e47a29630f0cd44b63da4",
+        "bidID": "b63db23cfe7147aba4fde01651dc573b",
         "lotID": "5f416c4b1629461194116a3c41e574a8",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1354,8 +1354,8 @@ Content-Type: application/json
         "eligible": true
       },
       {
-        "id": "62315a382e3c47088856e21918afb39d",
-        "bidID": "701a197e186e4100a2bbd124d65d4312",
+        "id": "0f5c997d2c934d32b787bf0539157426",
+        "bidID": "92792dd21bd04f89a7dda4ce96a0ca4b",
         "lotID": "5f416c4b1629461194116a3c41e574a8",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
@@ -1363,8 +1363,8 @@ Content-Type: application/json
         "eligible": false
       },
       {
-        "id": "1712cdc3b5ea4073a16aaaa51e2e04e8",
-        "bidID": "fbbd4a1c822c4ed68b03bece6303facd",
+        "id": "fea726b3ec3e47bbb71500fa120b5ede",
+        "bidID": "19275a9d05654013b82b1d96a4d035f6",
         "lotID": "5f416c4b1629461194116a3c41e574a8",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",

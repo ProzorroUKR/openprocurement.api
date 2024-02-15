@@ -9,7 +9,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    unless_admins, validate_upload_document, update_doc_fields_on_put_document,
+    unless_admins,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
@@ -56,11 +58,11 @@ class EContractDocumentResource(ContractDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_admins(validate_contract_owner),
-                validate_input_data(PatchDocument, none_means_remove=True),
-                validate_patch_data(Document, item_name="document"),
-                validate_contract_document_operation_not_in_allowed_contract_status,
-                validate_add_document_to_active_change,
+            unless_admins(validate_contract_owner),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data(Document, item_name="document"),
+            validate_contract_document_operation_not_in_allowed_contract_status,
+            validate_add_document_to_active_change,
         ),
         permission="edit_contract_documents",
     )

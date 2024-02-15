@@ -275,7 +275,7 @@ def test_cancel_compatibility_completed_plan(app):
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["id"], acc_token),
-        {"data": {"cancellation": {"reason": "Because it's possible", "status": "active"}}}
+        {"data": {"cancellation": {"reason": "Because it's possible", "status": "active"}}},
     )
     assert response.status == "200 OK"
     assert response.json["data"]["status"] == "cancelled"  # cancelled !
@@ -309,10 +309,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     classification["description"] = "bla"
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
-        {"data": {
-            "classification": classification,
-            "rationale": {"description": "hello, 123#"}
-        }},
+        {"data": {"classification": classification, "rationale": {"description": "hello, 123#"}}},
         status=403,
     )
     assert response.json == {
@@ -328,9 +325,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
 
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan_id, acc_token),
-        {"data": {
-            "rationale": {"description": "hello, 123#"}
-        }},
+        {"data": {"rationale": {"description": "hello, 123#"}}},
     )
     assert response.json["data"]["classification"]["description"] != "bla"
     assert response.json["data"]["rationale"]["description"] == "hello, 123#"
@@ -448,8 +443,8 @@ def test_fail_complete_manually(app, value):
                     "closeFrameworkAgreementUA, priceQuotation, reporting, negotiation, negotiation.quick."
                 ),
                 'location': 'body',
-                'name': 'kind'
-             }
+                'name': 'kind',
+            }
         ]
         test_data["procuringEntity"]["kind"] = "defense"
 
@@ -475,9 +470,7 @@ def test_fail_complete_manually(app, value):
     }
 
 
-@pytest.mark.parametrize(
-    "value", [("open", "belowThreshold"), ("limited", "reporting")]
-)
+@pytest.mark.parametrize("value", [("open", "belowThreshold"), ("limited", "reporting")])
 def test_success_complete_manually(app, value):
     procurement_method, procurement_method_type = value
     app.authorization = ("Basic", ("broker", "broker"))

@@ -23,7 +23,8 @@ from openprocurement.tender.core.procedure.models.organization import Organizati
 from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_unique,
-    validate_funders_ids, validate_object_id_uniq,
+    validate_funders_ids,
+    validate_object_id_uniq,
 )
 from openprocurement.api.constants import (
     MPC_REQUIRED_FROM,
@@ -72,8 +73,7 @@ class CommonBaseTender(Model):
     procurementMethodRationale_en = StringType()
     procurementMethodRationale_ru = StringType()
     funders = ListType(
-        ModelType(Organization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(Organization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
     plans = ListType(ModelType(PlanRelation, required=True))
     is_masked = BooleanType()

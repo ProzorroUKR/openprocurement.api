@@ -4,4 +4,3 @@ from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidSt
 
 class TenderLotState(LotInvalidationBidStateMixin, OpenTenderDetailsState):
     pass
-

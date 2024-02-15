@@ -10,7 +10,6 @@ LOGGER = getLogger(__name__)
 
 
 class QuestionState(BaseState):
-
     def validate_question_on_post(self):
         self.validate_framework_question_operation_not_in_allowed_status()
         self.validate_framework_question_operation_not_in_enquiry_period()
@@ -26,7 +25,7 @@ class QuestionState(BaseState):
             raise_operation_error(
                 get_request(),
                 f"Can't {OPERATIONS.get(get_request().method)} question in current "
-                f"({get_request().validated['framework']['status']}) framework status"
+                f"({get_request().validated['framework']['status']}) framework status",
             )
 
     def validate_framework_question_operation_not_in_enquiry_period(self):

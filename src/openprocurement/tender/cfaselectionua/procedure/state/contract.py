@@ -16,7 +16,7 @@ class CFASelectionContractStateMixing:
         return False
 
     def check_cfaseslectionua_award_lot_complaints(
-            self, tender: dict, lot_id: str, lot_awards: list, now: datetime
+        self, tender: dict, lot_id: str, lot_awards: list, now: datetime
     ) -> bool:
         return True
 

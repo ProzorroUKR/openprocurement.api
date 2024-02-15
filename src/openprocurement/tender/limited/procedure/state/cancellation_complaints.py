@@ -7,7 +7,6 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class NegotiationCancellationComplaintState(CancellationComplaintStateMixin, NegotiationTenderState):
-
     def validate_post_cancellation_complaint_permission(self):
         pass
 

@@ -50,15 +50,14 @@ def create_tender_bidder_invalid(self):
     # Field 'value' doesn't exists on first stage
     bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
 
-    response = self.app.post_json(
-        request_path,
-        {"data": bid_data},
-        status=422
-    )
+    response = self.app.post_json(request_path, {"data": bid_data}, status=422)
     self.assertEqual(
         response.json,
-        {"status": "error", "errors": [
-            {"location": "body", "name": "lotValues", "description": {"value": "Rogue field"}}]})
+        {
+            "status": "error",
+            "errors": [{"location": "body", "name": "lotValues", "description": {"value": "Rogue field"}}],
+        },
+    )
 
 
 def patch_tender_bidder(self):
@@ -123,6 +122,7 @@ def patch_tender_bidder(self):
 
 # CompetitiveDialogueEULotFeatureBidderResourceTest
 
+
 def create_tender_with_features_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
@@ -183,8 +183,7 @@ def one_lot_0bid(self):
     items = deepcopy(tender["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -224,8 +223,7 @@ def one_lot_2bid_1unqualified(self):
     items = deepcopy(tender["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -296,8 +294,7 @@ def one_lot_2bid(self):
     items = deepcopy(tender["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # create bid
@@ -589,11 +586,13 @@ def two_lot_2can(self):
     # cancel every lot
     for lot_id in lots:
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "status": "active",
-            "cancellationOf": "lot",
-            "relatedLot": lot_id,
-        })
+        cancellation.update(
+            {
+                "status": "active",
+                "cancellationOf": "lot",
+                "relatedLot": lot_id,
+            }
+        )
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
             {"data": cancellation},
@@ -660,11 +659,13 @@ def two_lot_2bid_0com_1can(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": lots[0],
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lots[0],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},

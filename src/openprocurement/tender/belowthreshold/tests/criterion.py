@@ -41,10 +41,7 @@ class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, TenderContentWebTest):
     test_patch_criteria_rg = snitch(patch_criteria_rg)
 
 
-class TenderCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    TenderContentWebTest
-):
+class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, TenderContentWebTest):
     initial_data = test_tender_below_data
     test_lots_data = test_tender_below_lots
     initial_status = "draft"

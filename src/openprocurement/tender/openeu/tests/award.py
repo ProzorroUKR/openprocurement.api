@@ -45,8 +45,7 @@ from openprocurement.tender.openeu.tests.award_blanks import (
     create_tender_award_invalid,
     get_tender_award,
     patch_tender_award_active,
-    check_tender_award_complaint_period_dates
-
+    check_tender_award_complaint_period_dates,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
@@ -84,7 +83,6 @@ class TenderAwardQualificationAfterComplaint(BaseTenderContentWebTest):
 
 
 class TenderLotAwardResourceTestMixin(object):
-
     test_create_tender_award = snitch(create_tender_lot_award)
     test_patch_tender_award = snitch(patch_tender_lot_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
@@ -117,7 +115,6 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
 
 
 class Tender2LotAwardResourceTestMixin(object):
-
     test_create_tender_award = snitch(create_tender_2lot_award)
     test_patch_tender_award = snitch(patch_tender_2lot_award)
 
@@ -165,7 +162,6 @@ class TenderAwardComplaintResourceTest(
 
 
 class TenderLotAwardComplaintResourceTestMixin(object):
-
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
@@ -208,7 +204,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
 
 
 class Tender2LotAwardComplaintResourceTestMixin(object):
-
     test_create_tender_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lots_award_complaint)
 
@@ -231,7 +226,13 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -306,7 +307,13 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]

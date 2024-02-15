@@ -56,7 +56,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                     "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_1_id = response.json["data"]["id"]
         self.submission_1_token = response.json["access"]["token"]
@@ -71,7 +71,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                     "tenderers": [local_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_2_id = response.json["data"]["id"]
         self.submission_2_token = response.json["access"]["token"]

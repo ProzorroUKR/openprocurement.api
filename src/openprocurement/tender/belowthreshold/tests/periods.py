@@ -5,10 +5,7 @@ from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_
 PERIODS = {
     "active.enquiries": {
         "start": {
-            "enquiryPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=9)
-            },
+            "enquiryPeriod": {"startDate": timedelta(), "endDate": timedelta(days=9)},
             "tenderPeriod": {
                 "startDate": timedelta(days=9),
                 "endDate": timedelta(days=18),
@@ -22,10 +19,7 @@ PERIODS = {
                 "endDate": timedelta(),
                 "clarificationsUntil": timedelta() + ENQUIRY_STAND_STILL_TIME,
             },
-            "tenderPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=7)
-            },
+            "tenderPeriod": {"startDate": timedelta(), "endDate": timedelta(days=7)},
         },
     },
     "active.auction": {
@@ -35,13 +29,8 @@ PERIODS = {
                 "endDate": -timedelta(days=7),
                 "clarificationsUntil": -timedelta(days=7) + ENQUIRY_STAND_STILL_TIME,
             },
-            "tenderPeriod": {
-                "startDate": -timedelta(days=7),
-                "endDate": timedelta()
-            },
-            "auctionPeriod": {
-                "startDate": timedelta()
-            },
+            "tenderPeriod": {"startDate": -timedelta(days=7), "endDate": timedelta()},
+            "auctionPeriod": {"startDate": timedelta()},
         }
     },
     "active.qualification": {
@@ -54,13 +43,8 @@ PERIODS = {
                 "startDate": -timedelta(days=8),
                 "endDate": -timedelta(days=1),
             },
-            "auctionPeriod": {
-                "startDate": -timedelta(days=1),
-                "endDate": timedelta()
-            },
-            "awardPeriod": {
-                "startDate": timedelta()
-            },
+            "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
+            "awardPeriod": {"startDate": timedelta()},
         }
     },
     "active.awarded": {
@@ -73,14 +57,8 @@ PERIODS = {
                 "startDate": -timedelta(days=8),
                 "endDate": -timedelta(days=1),
             },
-            "auctionPeriod": {
-                "startDate": -timedelta(days=1),
-                "endDate": timedelta()
-            },
-            "awardPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta()
-            },
+            "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
+            "awardPeriod": {"startDate": timedelta(), "endDate": timedelta()},
         }
     },
     "complete": {
@@ -102,5 +80,5 @@ PERIODS = {
                 "endDate": -timedelta(days=10),
             },
         }
-    }
+    },
 }

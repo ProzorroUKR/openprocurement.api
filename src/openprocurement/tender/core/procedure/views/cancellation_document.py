@@ -7,7 +7,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_admins, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    unless_admins,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
@@ -43,7 +46,6 @@ class CancellationDocumentResource(BaseDocumentResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(PostDocument),
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

@@ -124,9 +124,14 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
         for lot_id in self.initial_lots:
             response = self.app.post_json(
                 "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
-                {"data": {"bids": [
-                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                    for b in auction_bids_data]}}
+                {
+                    "data": {
+                        "bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                            for b in auction_bids_data
+                        ]
+                    }
+                },
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
@@ -167,12 +172,14 @@ class TenderAwardPendingResourceTestCase(TenderContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -216,7 +223,6 @@ class TenderAwardComplaintDocumentResourceTest(
     TenderAwardActiveResourceTestCase,
     TenderAwardComplaintDocumentResourceTestMixin,
 ):
-
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
         # Create complaint for award

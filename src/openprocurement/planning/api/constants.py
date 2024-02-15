@@ -27,9 +27,7 @@ PROCEDURES = {
         ESCO,
         CFA_UA,
     ),
-    "selective": (
-        PQ,
-    ),
+    "selective": (PQ,),
     "limited": (
         REPORTING,
         NEGOTIATION,
@@ -37,9 +35,7 @@ PROCEDURES = {
     ),
 }
 
-MULTI_YEAR_BUDGET_PROCEDURES = (
-    CFA_UA,
-)
+MULTI_YEAR_BUDGET_PROCEDURES = (CFA_UA,)
 MULTI_YEAR_BUDGET_MAX_YEARS = 4
 
 BREAKDOWN_OTHER = "other"
@@ -49,5 +45,7 @@ CENTRAL_PROCUREMENT_APPROVE_TIME = timedelta(days=20)
 PROCURING_ENTITY_STANDSTILL = timedelta(days=2)
 
 MILESTONE_APPROVAL_TITLE = "Підготовка до проведення процедури"
-MILESTONE_APPROVAL_DESCRIPTION = "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "\
-                                 "товарів, послуг (крім поточного ремонту) в інтересах замовників"
+MILESTONE_APPROVAL_DESCRIPTION = (
+    "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "
+    "товарів, послуг (крім поточного ремонту) в інтересах замовників"
+)

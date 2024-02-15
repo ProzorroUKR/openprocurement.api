@@ -128,11 +128,7 @@ class TendersResource(TenderBaseResource):
                 plan = self.request.registry.mongodb.plans.get(plan_id)
             else:
                 plan = None
-            data = ocds_format_tender(
-                tender=data,
-                tender_url=self.request.url,
-                plan=plan
-            )
+            data = ocds_format_tender(tender=data, tender_url=self.request.url, plan=plan)
             return data
         return {
             "data": data,
@@ -150,7 +146,7 @@ class TendersResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated tender {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
                 )
         return {
             "data": self.serializer_class(tender).data,

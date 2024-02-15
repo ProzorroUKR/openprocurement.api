@@ -23,13 +23,11 @@ from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentW
 
 
 class TenderQuestionResourceTest(BaseTenderUAContentWebTest, TenderQuestionResourceTestMixin):
-
     test_create_tender_question = snitch(create_tender_question)
     test_patch_tender_question = snitch(patch_tender_question)
 
 
 class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
-
     initial_lots = 2 * test_tender_below_lots
     author_data = test_tender_below_author
 

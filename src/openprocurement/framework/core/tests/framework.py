@@ -15,9 +15,7 @@ class Framework(BaseFramework):
     class Options:
         roles = {"draft": wholelist()}
 
-    frameworkType = StringType(
-        choices=["electronicCatalogue"], default="electronicCatalogue"
-    )
+    frameworkType = StringType(choices=["electronicCatalogue"], default="electronicCatalogue")
 
     @serializable(serialized_name="date")
     def old_date(self):
@@ -71,8 +69,7 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "Invalid offset provided: latest",
-              "location": "querystring", "name": "offset"}],
+            [{"description": "Invalid offset provided: latest", "location": "querystring", "name": "offset"}],
         )
 
         response = self.app.get("/frameworks?descending=1&limit=10")
@@ -83,7 +80,6 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertIn("limit=10", response.json["next_page"]["uri"])
         self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
-
 
 
 class ResourcesFrameworkTest(BaseFrameworkTest):

@@ -24,9 +24,11 @@ class ESCOComplaintStateMixin:
     get_related_lot_obj: callable  # from tender.core.state.complaint.ComplaintState
 
     def get_complaint_amount(self, tender, complaint):
-        if tender["status"] in ("active.tendering",
-                                "active.pre-qualification",  # cancellation complaint
-                                "active.pre-qualification.stand-still"):
+        if tender["status"] in (
+            "active.tendering",
+            "active.pre-qualification",  # cancellation complaint
+            "active.pre-qualification.stand-still",
+        ):
             return COMPLAINT_MIN_AMOUNT
         else:
             # only bid owners can post complaints here
@@ -34,18 +36,17 @@ class ESCOComplaintStateMixin:
             for bid in tender.get("bids", ""):
                 if bid["owner_token"] == acc_token:
                     value = self.helper_get_bid_value(tender, complaint, bid)
-                    base_amount = get_uah_amount_from_value(
-                        self.request, value, {"complaint_id": complaint["id"]}
-                    )
+                    base_amount = get_uah_amount_from_value(self.request, value, {"complaint_id": complaint["id"]})
                     amount = restrict_value_to_bounds(
                         base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
                         COMPLAINT_ENHANCED_MIN_AMOUNT,
-                        COMPLAINT_ENHANCED_MAX_AMOUNT
+                        COMPLAINT_ENHANCED_MAX_AMOUNT,
                     )
                     return amount
             else:  # never happens as acc_token must be in bids to allow complaint creation
                 return raise_operation_error(
-                    self.request, "Couldn't set a complaint value for an invalid bidder",
+                    self.request,
+                    "Couldn't set a complaint value for an invalid bidder",
                 )
 
     def helper_get_bid_value(self, tender, complaint, bid):

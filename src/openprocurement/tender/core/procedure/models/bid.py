@@ -31,6 +31,8 @@ class PatchBid(BaseBid):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
+
+
 # --- PATCH DATA
 
 
@@ -75,8 +77,10 @@ class CommonBid(BaseBid):
                 i["code"]: [x["value"] for x in i["enum"]]
                 for i in tender.get("features", "")
                 if i["featureOf"] == "tenderer"
-                   or i["featureOf"] == "lot" and i["relatedItem"] in lots
-                   or i["featureOf"] == "item" and i["relatedItem"] in items
+                or i["featureOf"] == "lot"
+                and i["relatedItem"] in lots
+                or i["featureOf"] == "item"
+                and i["relatedItem"] in items
             }
             if set(i["code"] for i in parameters) != set(codes):
                 raise ValidationError("All features parameters is required.")
@@ -84,6 +88,8 @@ class CommonBid(BaseBid):
             raise ValidationError("This field is required.")
         elif set(i["code"] for i in parameters) != set(i["code"] for i in tender.get("features", "")):
             raise ValidationError("All features parameters is required.")
+
+
 # --- BASE
 
 
@@ -105,6 +111,7 @@ class PostBid(CommonBid):
     financialDocuments = ListType(ModelType(PostDocument, required=True))
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+
 
 # -- POST
 

@@ -11,7 +11,6 @@ from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 class BaseAwardMilestoneResource(BaseMilestoneResource):
-
     context_name = "award"
 
     def __init__(self, request, context=None):
@@ -39,6 +38,6 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
             **{
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],
-                "milestone_id": milestone["id"]
+                "milestone_id": milestone["id"],
             }
         )

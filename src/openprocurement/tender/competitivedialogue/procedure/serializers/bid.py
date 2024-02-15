@@ -5,7 +5,6 @@ from openprocurement.tender.core.procedure.serializers.bid import BidSerializer 
 
 
 class BidSerializer(BaseBidSerializer):
-
     def __init__(self, data: dict):
         super().__init__(data)
         tender_status = get_tender()["status"]

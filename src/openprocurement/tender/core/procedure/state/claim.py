@@ -49,11 +49,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         if after == "answered":
             if not complaint.get("resolutionType"):
                 raise_operation_error(
-                    self.request,
-                    ["This field is required."],
-                    status=422,
-                    location="body",
-                    name="resolutionType"
+                    self.request, ["This field is required."], status=422, location="body", name="resolutionType"
                 )
 
     def validate_claim_on_post(self, complaint):
@@ -111,20 +107,17 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         self.validate_lot_status()
 
         if status not in ("draft", "claim", "answered"):
-            raise_operation_error(
-                self.request,
-                f"Can't update complaint in current ({status}) status"
-            )
+            raise_operation_error(self.request, f"Can't update complaint in current ({status}) status")
 
         def empty_handler(_):
             pass
+
         if auth_role == "complaint_owner":
-            if (
-                new_status == "cancelled"
-                and status in ["draft", "claim", "answered"]
-            ):
+            if new_status == "cancelled" and status in ["draft", "claim", "answered"]:
+
                 def handler(claim):
                     claim["dateCanceled"] = get_now().isoformat()
+
                 return ClaimOwnerClaimCancellation, handler
             elif (
                 tender_status in self.patch_as_complaint_owner_tender_statuses
@@ -137,9 +130,11 @@ class ClaimStateMixin(BaseComplaintStateMixin):
                 and status == "draft"
                 and new_status == "claim"
             ):
+
                 def handler(claim):
                     self.validate_submit_claim(claim)
                     claim["dateSubmitted"] = get_now().isoformat()
+
                 return ClaimOwnerClaimDraft, handler
 
             elif status == "answered" and new_status == status:
@@ -147,22 +142,20 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             elif (
                 status == "answered"
                 and new_status == "resolved"
-                and self.validate_satisfied(
-                    request_data.get("satisfied", validated_claim.get("satisfied"))
-                )
+                and self.validate_satisfied(request_data.get("satisfied", validated_claim.get("satisfied")))
             ):
                 return ClaimOwnerClaimSatisfy, empty_handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         elif auth_role == "tender_owner":
             if status == "claim" and new_status == status:
+
                 def handler(claim):
                     self.validate_tender_owner_update_claim_time()
+
                 return TenderOwnerClaimAnswer, handler
             elif status == "claim" and new_status == "answered":
+
                 def handler(claim):
                     self.validate_tender_owner_update_claim_time()
                     if not claim.get("resolutionType"):
@@ -171,8 +164,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
                             ["This field is required."],
                             status=422,
                             location="body",
-                            name="resolutionType"
-
+                            name="resolutionType",
                         )
                     if len(claim.get("resolution", "")) < 20:
                         raise_operation_error(self.request, "Can't update complaint: resolution too short")
@@ -180,10 +172,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
 
                 return TenderOwnerClaimAnswer, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         else:
             raise_operation_error(request, f"Cannot perform any action on complaint as {auth_role}")
 
@@ -196,7 +185,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         if get_now() > claim_end_date:
             raise_operation_error(
                 request,
-                f"Can submit claim not later than {claim_submit_time.days} full calendar days before tenderPeriod ends"
+                f"Can submit claim not later than {claim_submit_time.days} full calendar days before tenderPeriod ends",
             )
 
     def validate_tender_owner_update_claim_time(self):

@@ -49,9 +49,7 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_bids = test_tender_pq_bids
     reverse = False
 
-    test_create_tender_award_no_scale_invalid = snitch(
-        create_tender_award_no_scale_invalid
-    )
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):

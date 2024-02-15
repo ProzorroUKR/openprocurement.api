@@ -33,7 +33,6 @@ from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 
 
 class TenderStage2QuestionResourceTestMixin:
-
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
     author_data = test_tender_cd_author  # TODO: change attribute identifier
@@ -64,7 +63,6 @@ class TenderStage2UAQuestionResourceTest(
 
 
 class TenderStage2LotQuestionResourceTestMixin:
-
     initial_lots = 2 * test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier

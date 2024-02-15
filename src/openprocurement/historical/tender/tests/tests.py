@@ -22,7 +22,6 @@ test_data_with_revisions["config"] = test_tender_below_config
 
 
 class HistoricalTenderTestCase(BaseTenderWebTest):
-
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
@@ -139,9 +138,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         )
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}]
-        )
+        self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}])
 
     def test_get_tender_equal_with_api(self):
         data = test_data_with_revisions.copy()
@@ -225,8 +222,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -245,10 +241,12 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender["id"]),
-            {"data": {
-                "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
-                "tenderers": [test_tender_below_organization]
-            }},
+            {
+                "data": {
+                    "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
+                    "tenderers": [test_tender_below_organization],
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -269,8 +267,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello again"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello again"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -294,8 +291,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello third"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello third"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -321,8 +317,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello, I said"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello, I said"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -349,7 +344,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "I dunno what this test is about I just change thing and it works"}}
+            {"data": {"title": "I dunno what this test is about I just change thing and it works"}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")

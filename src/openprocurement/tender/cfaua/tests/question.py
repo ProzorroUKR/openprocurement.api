@@ -25,7 +25,6 @@ from openprocurement.tender.openeu.tests.question_blanks import answering_questi
 
 
 class TenderQuestionResourceTest(BaseTenderContentWebTest, TenderQuestionResourceTestMixin):
-
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_cfaua_bids
     author_data = test_tender_below_author

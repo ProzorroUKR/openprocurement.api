@@ -39,12 +39,7 @@ class PatchSubmission(Model):
     tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), min_size=1)
     frameworkID = StringType()
     status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "deleted",
-            "complete"
-        ],
+        choices=["draft", "active", "deleted", "complete"],
         default="draft",
     )
 
@@ -56,12 +51,7 @@ class PatchActiveSubmission(Model):
 class BotPatchSubmission(Model):
     qualificationID = StringType()
     status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "deleted",
-            "complete"
-        ],
+        choices=["draft", "active", "deleted", "complete"],
         default="draft",
     )
 
@@ -72,12 +62,7 @@ class Submission(RootModel):
     qualificationID = StringType()
     frameworkID = StringType(required=True)
     status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "deleted",
-            "complete"
-        ],
+        choices=["draft", "active", "deleted", "complete"],
         default="draft",
     )
 

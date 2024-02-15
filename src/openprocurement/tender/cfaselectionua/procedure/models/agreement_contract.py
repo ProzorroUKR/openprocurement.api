@@ -11,10 +11,7 @@ from openprocurement.api.procedure.models.value import Value
 
 class AgreementContract(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    parameters = ListType(
-        ModelType(ParameterContract, required=True),
-        validators=[validate_parameters_uniq]
-    )
+    parameters = ListType(ModelType(ParameterContract, required=True), validators=[validate_parameters_uniq])
     status = StringType(choices=["active", "unsuccessful"], default="active")
     suppliers = ListType(ModelType(BusinessOrganization, required=True))
     unitPrices = ListType(ModelType(UnitPrice, required=True))

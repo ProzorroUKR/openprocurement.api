@@ -122,6 +122,7 @@ class PlanBudgetBreakdownTest(BasePlanTest):
     test_create_plan_with_delivery_address_validations = snitch(create_plan_with_delivery_address_validations)
     test_create_plan_with_profile = snitch(create_plan_with_profile)
 
+
 @mock.patch("openprocurement.planning.api.procedure.models.budget.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
 class PlanBudgetYearTest(BasePlanTest):
     initial_data = test_plan_data
@@ -131,7 +132,9 @@ class PlanBudgetYearTest(BasePlanTest):
     test_patch_plan_budget_year = snitch(patch_plan_budget_year)
 
 
-@mock.patch("openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
 class PlanBuyersTestCase(BasePlanTest):
     initial_data = test_plan_data
 

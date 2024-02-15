@@ -105,10 +105,7 @@ class TestIsoDateTimeType(unittest.TestCase):
         dt_str = "test"
         with self.assertRaises(ConversionError) as e:
             IsoDateTimeType().to_native(dt_str)
-            self.assertEqual(
-                e.exception.message,
-                IsoDateTimeType.MESSAGES["parse"].format(dt_str)
-            )
+            self.assertEqual(e.exception.message, IsoDateTimeType.MESSAGES["parse"].format(dt_str))
 
     def test_to_native_datetime(self):
         dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
@@ -125,7 +122,6 @@ class TestIsoDateTimeType(unittest.TestCase):
         dt_str_result = IsoDateTimeType().to_primitive(dt)
         dt_str_expected = "2020-01-01T12:00:00+02:00"
         self.assertEqual(dt_str_result, dt_str_expected)
-
 
 
 def suite():

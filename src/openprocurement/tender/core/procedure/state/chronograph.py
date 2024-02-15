@@ -24,11 +24,7 @@ def copy_class(cls, exclude_parent_class_names=None):
     if exclude_parent_class_names is None:
         exclude_parent_class_names = []
     bases = cls.__bases__
-    bases = tuple(
-        base
-        for base in bases
-        if base.__name__ not in exclude_parent_class_names
-    )
+    bases = tuple(base for base in bases if base.__name__ not in exclude_parent_class_names)
     return type(cls.__name__, bases, dict(cls.__dict__))
 
 
@@ -38,8 +34,10 @@ if TYPE_CHECKING:
         TenderStateAwardingMixing,
         TenderState,
     )
+
     class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, TenderState):
         pass
+
 else:
     baseclass = object
 
@@ -65,10 +63,7 @@ class ChronographEventsMixing(baseclass):
             if date <= now:
                 LOGGER.info(
                     f"Applying tender auction chronograph event: {handler}",
-                    extra=context_unpack(
-                        get_request(),
-                        {"MESSAGE_ID": "auction_chronograph_event_apply"}
-                    )
+                    extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event_apply"}),
                 )
                 handler(data)
 
@@ -187,8 +182,9 @@ class ChronographEventsMixing(baseclass):
     def pre_qualification_stand_still_events(self, tender):
         qualification_period = tender.get("qualificationPeriod")
         if qualification_period and qualification_period.get("endDate"):
-            active_lots = [lot["id"] for lot in tender["lots"] if lot["status"] == "active"] \
-                if tender.get("lots") else [None]
+            active_lots = (
+                [lot["id"] for lot in tender["lots"] if lot["status"] == "active"] if tender.get("lots") else [None]
+            )
             if not any(
                 complaint["status"] in self.block_complaint_status
                 for q in tender.get("qualifications", "")
@@ -206,8 +202,7 @@ class ChronographEventsMixing(baseclass):
                 yield start_date, self.auction_handler
             else:
                 auction_end_time = calc_auction_end_time(
-                    len(tender.get("bids", "")),
-                    dt_from_iso(start_date)
+                    len(tender.get("bids", "")), dt_from_iso(start_date)
                 ).isoformat()
                 if now < auction_end_time:
                     yield auction_end_time, self.auction_handler
@@ -217,11 +212,7 @@ class ChronographEventsMixing(baseclass):
         if (
             awarding_is_unsuccessful(awards)
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
-            and not any(
-            [c["status"] in self.block_complaint_status
-             for a in awards
-             for c in a.get("complaints", "")]
-        )
+            and not any([c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", "")])
         ):
             stand_still_ends = [
                 a.get("complaintPeriod").get("endDate")
@@ -247,8 +238,7 @@ class ChronographEventsMixing(baseclass):
                         yield start_date, self.auction_handler
                     else:
                         auction_end_time = calc_auction_end_time(
-                            self.count_lot_bids_number(tender, lot["id"]),
-                            dt_from_iso(start_date)
+                            self.count_lot_bids_number(tender, lot["id"]), dt_from_iso(start_date)
                         ).isoformat()
                         if now < auction_end_time:
                             yield auction_end_time, self.auction_handler
@@ -338,8 +328,7 @@ class ChronographEventsMixing(baseclass):
 
     @staticmethod
     def prepare_qualifications(tender, bids: list = None, lot_id: str = None):
-        """ creates Qualification for each Bid
-        """
+        """creates Qualification for each Bid"""
         if "qualifications" not in tender:
             tender["qualifications"] = []
         new_qualifications = []
@@ -354,22 +343,22 @@ class ChronographEventsMixing(baseclass):
                         if lotValue.get("status", "pending") == "pending" and lotValue["relatedLot"] in active_lots:
                             if lot_id and lotValue["relatedLot"] != lot_id:
                                 continue
-                            qualification = Qualification({
-                                "bidID": bid["id"],
-                                "status": "pending",
-                                "lotID": lotValue["relatedLot"],
-                                "date": get_now().isoformat()
-                            }).serialize()
+                            qualification = Qualification(
+                                {
+                                    "bidID": bid["id"],
+                                    "status": "pending",
+                                    "lotID": lotValue["relatedLot"],
+                                    "date": get_now().isoformat(),
+                                }
+                            ).serialize()
                             tender["qualifications"].append(qualification)
                             new_qualifications.append(qualification["id"])
         else:
             for bid in bids:
                 if bid["status"] == "pending":
-                    qualification = Qualification({
-                        "bidID": bid["id"],
-                        "status": "pending",
-                        "date": get_now().isoformat()
-                    }).serialize()
+                    qualification = Qualification(
+                        {"bidID": bid["id"], "status": "pending", "date": get_now().isoformat()}
+                    ).serialize()
                     tender["qualifications"].append(qualification)
                     new_qualifications.append(qualification["id"])
         return new_qualifications
@@ -402,10 +391,7 @@ class ChronographEventsMixing(baseclass):
                 handler(tender)
         else:
             now = get_now().isoformat()
-            pending_complaints = any(
-                i["status"] in self.block_complaint_status
-                for i in tender.get("complaints", "")
-            )
+            pending_complaints = any(i["status"] in self.block_complaint_status for i in tender.get("complaints", ""))
             pending_awards_complaints = any(
                 i["status"] in self.block_complaint_status
                 for a in tender.get("awards", "")
@@ -444,13 +430,14 @@ class ChronographEventsMixing(baseclass):
     def auction_handler(self, _):
         LOGGER.info(
             "Tender auction chronograph event",
-            extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event"})
+            extra=context_unpack(get_request(), {"MESSAGE_ID": "auction_chronograph_event"}),
         )
 
     def cancellation_compl_period_end_handler(self, cancellation):
         def handler(tender):
             self.set_object_status(cancellation, "active")
             self.cancel(cancellation)
+
         return handler
 
     def cancel(self, cancellation):
@@ -460,7 +447,7 @@ class ChronographEventsMixing(baseclass):
         # TODO: does it make sense to do validation here?
         # TODO: chronograph expects 422 errors ?
         # if tender_created_after_2020_rules():
-            # self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
+        # self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
 
         if cancellation["cancellationOf"] == "lot":
             self.cancel_lot(tender, cancellation)
@@ -501,19 +488,15 @@ class ChronographEventsMixing(baseclass):
             if lot["id"] == cancellation["relatedLot"]:
                 self.set_object_status(lot, "cancelled")
         # find cancelled lot objects
-        cancelled_lots_ids = {
-            i["id"] for i in tender.get("lots", "")
-            if i["status"] == "cancelled"
-        }
-        cancelled_items_ids = {
-            i["id"] for i in tender.get("items", "")
-            if i.get("relatedLot") in cancelled_lots_ids
-        }
+        cancelled_lots_ids = {i["id"] for i in tender.get("lots", "") if i["status"] == "cancelled"}
+        cancelled_items_ids = {i["id"] for i in tender.get("items", "") if i.get("relatedLot") in cancelled_lots_ids}
         cancelled_lots_feature_codes = {
             i["code"]
             for i in tender.get("features", "")
-            if i.get("featureOf") == "lot" and i.get("relatedItem") in cancelled_lots_ids
-            or i.get("featureOf") == "item" and i.get("relatedItem") in cancelled_items_ids
+            if i.get("featureOf") == "lot"
+            and i.get("relatedItem") in cancelled_lots_ids
+            or i.get("featureOf") == "item"
+            and i.get("relatedItem") in cancelled_items_ids
         }
         # set cancelled agreement status (cfaua)
         if tender["status"] == "active.awarded" and tender.get("agreements"):
@@ -529,16 +512,12 @@ class ChronographEventsMixing(baseclass):
         ):
             for bid in tender.get("bids", ""):
                 bid["parameters"] = [
-                    i for i in bid.get("parameters", "")
-                    if i["code"] not in cancelled_lots_feature_codes
+                    i for i in bid.get("parameters", "") if i["code"] not in cancelled_lots_feature_codes
                 ]
                 if not bid["parameters"]:
                     del bid["parameters"]
 
-                bid["lotValues"] = [
-                    i for i in bid.get("lotValues", "")
-                    if i["relatedLot"] not in cancelled_lots_ids
-                ]
+                bid["lotValues"] = [i for i in bid.get("lotValues", "") if i["relatedLot"] not in cancelled_lots_ids]
                 if not bid["lotValues"] and bid["status"] in ("pending", "active"):
                     del bid["lotValues"]
                     if tender["status"] == "active.tendering":
@@ -555,16 +534,13 @@ class ChronographEventsMixing(baseclass):
             self.get_change_tender_status_handler("complete")(tender)
 
         # need to add next award ?
-        if (
-            tender["status"] == "active.qualification"
-            or (
-                tender["status"] == "active.auction"
-                and all(
-                    i.get("auctionPeriod", {}).get("endDate")
-                    for i in tender.get("lots", "")
-                    if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > tender["config"]["minBidsNumber"]
-                    and i["status"] == "active"
-                )
+        if tender["status"] == "active.qualification" or (
+            tender["status"] == "active.auction"
+            and all(
+                i.get("auctionPeriod", {}).get("endDate")
+                for i in tender.get("lots", "")
+                if self.count_lot_bids_number(tender, cancellation["relatedLot"]) > tender["config"]["minBidsNumber"]
+                and i["status"] == "active"
             )
         ):
             self.add_next_award()
@@ -702,60 +678,55 @@ class ChronographEventsMixing(baseclass):
                 for i in tender.get("complaints", "")
             )
             pending_awards_complaints = any(
-                [i["status"] in self.block_complaint_status
-                 for a in lot_awards
-                 for i in a.get("complaints", "")]
+                [i["status"] in self.block_complaint_status for a in lot_awards for i in a.get("complaints", "")]
             )
             stand_still_ends = [
-                a["complaintPeriod"]["endDate"]
-                for a in lot_awards
-                if a.get("complaintPeriod", {}).get("endDate")
+                a["complaintPeriod"]["endDate"] for a in lot_awards if a.get("complaintPeriod", {}).get("endDate")
             ]
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             in_stand_still = now < stand_still_end
             skip_award_complaint_period = self.check_skip_award_complaint_period()
-            if (
-                pending_complaints
-                or pending_awards_complaints
-                or (in_stand_still and not skip_award_complaint_period)
-            ):
+            if pending_complaints or pending_awards_complaints or (in_stand_still and not skip_award_complaint_period):
                 continue
 
             elif awarding_is_unsuccessful(lot_awards):
                 LOGGER.info(
                     f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
-                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                        {"LOT_ID": lot["id"]}
+                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
                     ),
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
 
-            elif (awarding_order_enabled and last_award["status"] == "active") or \
-                    (awarding_order_enabled is False and awards_statuses.intersection({"active"})):
+            elif (awarding_order_enabled and last_award["status"] == "active") or (
+                awarding_order_enabled is False and awards_statuses.intersection({"active"})
+            ):
                 if awarding_order_enabled is False:
                     active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
                     active_contracts = (
                         [agreement["status"] == "active" for agreement in tender.get("agreements")]
                         if "agreements" in tender
-                        else [contract["status"] == "active" and contract["awardID"] in active_award_ids
-                              for contract in tender.get("contracts", "")]
+                        else [
+                            contract["status"] == "active" and contract["awardID"] in active_award_ids
+                            for contract in tender.get("contracts", "")
+                        ]
                     )
                 else:
                     active_contracts = (
                         [a["status"] == "active" for a in tender.get("agreements")]
                         if "agreements" in tender
-                        else [i["status"] == "active" and i["awardID"] == last_award["id"]
-                              for i in tender.get("contracts", "")]
+                        else [
+                            i["status"] == "active" and i["awardID"] == last_award["id"]
+                            for i in tender.get("contracts", "")
+                        ]
                     )
 
                 if any(active_contracts):
                     LOGGER.info(
                         f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
                         extra=context_unpack(
-                            get_request(), {"MESSAGE_ID": "switched_lot_complete"},
-                            {"LOT_ID": lot['id']}
+                            get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot['id']}
                         ),
                     )
                     self.set_object_status(lot, "complete")
@@ -770,10 +741,7 @@ class ChronographEventsMixing(baseclass):
                 if not i.get("relatedLot") or i["relatedLot"] in active_lots
             )
         else:
-            result = any(
-                i["status"] in self.block_tender_complaint_status
-                for i in tender.get("complaints", "")
-            )
+            result = any(i["status"] in self.block_tender_complaint_status for i in tender.get("complaints", ""))
         return result
 
     @staticmethod
@@ -782,15 +750,16 @@ class ChronographEventsMixing(baseclass):
         if lots:
             active_lots = tuple(l["id"] for l in lots if l["status"] == "active")
             active_items = tuple(
-                i["id"] for i in tender.get("items", "")
-                if not i.get("relatedLot") or i["relatedLot"] in active_lots
+                i["id"] for i in tender.get("items", "") if not i.get("relatedLot") or i["relatedLot"] in active_lots
             )
             result = any(
                 not i.get("answer")
                 for i in tender.get("questions", "")
                 if i["questionOf"] == "tender"
-                or i["questionOf"] == "lot" and i["relatedItem"] in active_lots
-                or i["questionOf"] == "item" and i["relatedItem"] in active_items
+                or i["questionOf"] == "lot"
+                and i["relatedItem"] in active_lots
+                or i["questionOf"] == "item"
+                and i["relatedItem"] in active_items
             )
         else:
             result = any(not i.get("answer") for i in tender.get("questions", ""))
@@ -840,7 +809,7 @@ class ChronographEventsMixing(baseclass):
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
-            "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"]
+            "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
         }
 
     @staticmethod
@@ -877,7 +846,7 @@ class ChronographEventsMixing(baseclass):
         tender["minValue"] = {
             "amount": sum(i["minValue"]["amount"] for i in tender["lots"] if i.get("minValue")),
             "currency": tender["minValue"]["currency"],
-            "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"]
+            "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
 
     @staticmethod

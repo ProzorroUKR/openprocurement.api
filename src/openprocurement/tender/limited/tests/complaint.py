@@ -37,12 +37,14 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
-            {"data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "qualified": True,
-                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
-            }}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
 
         award = response.json["data"]
@@ -50,7 +52,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
 
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
 
 
@@ -74,8 +76,13 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}, }}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -84,7 +91,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
 
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
         self.create_cancellation()

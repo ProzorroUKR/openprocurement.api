@@ -90,7 +90,6 @@ class TenderResourceTestMixin(object):
     test_create_tender_config_test = snitch(create_tender_config_test)
 
 
-
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
     initial_data = test_tender_cfaselectionua_data

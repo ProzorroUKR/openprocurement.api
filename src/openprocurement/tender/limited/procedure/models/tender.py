@@ -51,12 +51,10 @@ class PostReportingTender(PostBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft"], default="draft")
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
     def validate_items(self, data, items):
@@ -73,12 +71,10 @@ class PatchReportingTender(PatchBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft", "active"])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
 
@@ -92,24 +88,14 @@ class ReportingTender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "complete",
-            "cancelled",
-            "unsuccessful"
-        ]
-    )
+    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     awards = BaseType()
     # contracts = BaseType()
     cancellations = BaseType()
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
     def validate_items(self, data, items):
@@ -136,7 +122,7 @@ cause_choices_new = [
     "contestWinner",
     "technicalReasons",
     "intProperty",
-    "lastHope"
+    "lastHope",
 ] + basic_cause_choices
 
 
@@ -164,8 +150,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -198,22 +183,13 @@ class PatchNegotiationTender(PatchBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
 
 class NegotiationTender(BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
-    status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "complete",
-            "cancelled",
-            "unsuccessful"
-        ]
-    )
+    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
     items = ListType(
         ModelType(Item, required=True),
@@ -227,8 +203,7 @@ class NegotiationTender(BaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     awards = BaseType()
 
     def validate_items(self, data, items):

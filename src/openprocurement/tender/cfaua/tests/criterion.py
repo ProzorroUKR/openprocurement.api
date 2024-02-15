@@ -29,10 +29,7 @@ class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
     test_lots_data = test_tender_below_lots
 
 
-class TenderCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseTenderContentWebTest
-):
+class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_cfaua_data
     test_lots_data = test_tender_below_lots
 

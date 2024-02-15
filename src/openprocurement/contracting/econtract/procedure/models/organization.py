@@ -23,6 +23,7 @@ class SignerInfo(Model):
 
 class Organization(Model):
     """An organization."""
+
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()

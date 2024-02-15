@@ -31,9 +31,7 @@ class QualificationClaimResource(BaseClaimResource):
         permission="create_claim",
         validators=(
             validate_input_data(PostClaimFromBid),
-            unless_admins(
-                validate_any_bid_owner(statuses=("active", "unsuccessful", "invalid.pre-qualification"))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active", "unsuccessful", "invalid.pre-qualification"))),
             validate_data_documents(route_key="claim_id", uid_key="id"),
         ),
     )

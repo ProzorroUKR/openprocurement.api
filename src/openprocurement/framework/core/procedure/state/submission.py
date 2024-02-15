@@ -8,7 +8,6 @@ LOGGER = getLogger(__name__)
 
 
 class SubmissionState(BaseState):
-
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework

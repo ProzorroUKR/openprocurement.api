@@ -42,6 +42,7 @@ LOGGER = getLogger(__name__)
 
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import TenderState
+
     baseclass = TenderState
 else:
     baseclass = object
@@ -57,9 +58,9 @@ class ContractStateMixing(baseclass):
         stand_still_ends = []
         for award in lot_awards:
             if (
-                award.get("complaintPeriod") and
-                award.get("complaintPeriod", {}).get("endDate") and
-                (award.get("status") != "cancelled" if new_defence_complaints else True)
+                award.get("complaintPeriod")
+                and award.get("complaintPeriod", {}).get("endDate")
+                and (award.get("status") != "cancelled" if new_defence_complaints else True)
             ):
                 stand_still_ends.append(dt_from_iso(award["complaintPeriod"]["endDate"]))
         return max(stand_still_ends) if stand_still_ends else now
@@ -88,8 +89,7 @@ class ContractStateMixing(baseclass):
     def check_award_lot_complaints(self, tender: dict, lot_id: str, lot_awards: list, now: datetime) -> bool:
         pending_complaints = False
         for complaint in tender.get("complaints", []):
-            if (complaint["status"] in self.block_complaint_status and
-                complaint.get("relatedLot") == lot_id):
+            if complaint["status"] in self.block_complaint_status and complaint.get("relatedLot") == lot_id:
                 pending_complaints = True
                 break
 
@@ -130,32 +130,31 @@ class ContractStateMixing(baseclass):
                 LOGGER.info(
                     f"Switched lot {lot.get('id')} of tender {tender['_id']} to unsuccessful",
                     extra=context_unpack(
-                        get_request(),
-                        {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                        {"LOT_ID": lot.get("id")}
+                        get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot.get("id")}
                     ),
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
-            elif (
-                (awarding_order_enabled and last_award["status"] == "active") or
-                (awarding_order_enabled is False and awards_statuses.intersection({"active"}))
+            elif (awarding_order_enabled and last_award["status"] == "active") or (
+                awarding_order_enabled is False and awards_statuses.intersection({"active"})
             ):
                 if (
-                    "agreements" in tender and
-                    tender["config"]["hasPreSelectionAgreement"] is False  # tender produces agreements
+                    "agreements" in tender
+                    and tender["config"]["hasPreSelectionAgreement"] is False  # tender produces agreements
                 ):
                     allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
                 else:
                     if awarding_order_enabled is False:
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
                         contracts = [
-                            contract for contract in tender.get("contracts", [])
+                            contract
+                            for contract in tender.get("contracts", [])
                             if contract.get("awardID") in active_award_ids
                         ]
                     else:
                         contracts = [
-                            contract for contract in tender.get("contracts", [])
+                            contract
+                            for contract in tender.get("contracts", [])
                             if contract.get("awardID") == last_award.get("id")
                         ]
                     allow_complete_lot = contracts_allow_to_complete(contracts)
@@ -163,9 +162,7 @@ class ContractStateMixing(baseclass):
                     LOGGER.info(
                         f"Switched lot {lot.get('id')} of tender {tender['_id']} to complete",
                         extra=context_unpack(
-                            get_request(),
-                            {"MESSAGE_ID": "switched_lot_complete"},
-                            {"LOT_ID": lot.get("id")}
+                            get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot.get("id")}
                         ),
                     )
                     self.set_object_status(lot, "complete")
@@ -209,10 +206,7 @@ class ContractStateMixing(baseclass):
         now = get_now()
         if tender.get("lots"):
             for complaint in tender.get("complaints", []):
-                if (
-                    complaint.get("status", "") in self.block_complaint_status and
-                    complaint.get("relatedLot") is None
-                ):
+                if complaint.get("status", "") in self.block_complaint_status and complaint.get("relatedLot") is None:
                     return
             self.check_lots_complaints(tender, now)
         else:
@@ -256,10 +250,7 @@ class ContractStateMixing(baseclass):
         items_after = after.get("items", [])
         for item_before, item_after in zip_longest(items_before, items_after):
             if None in (item_before, item_after):
-                raise_operation_error(
-                    get_request(),
-                    "Can't change items list length"
-                )
+                raise_operation_error(get_request(), "Can't change items list length")
             else:
                 for k in item_before.keys() | item_after.keys():
                     before, after = item_before.get(k), item_after.get(k)
@@ -271,10 +262,7 @@ class ContractStateMixing(baseclass):
                         after = {k: v for k, v in (after or {}).items() if k != "value"}
 
                     if before != after:
-                        raise_operation_error(
-                            get_request(),
-                            "Updated could be only unit.value.amount in item"
-                        )
+                        raise_operation_error(get_request(), "Updated could be only unit.value.amount in item")
 
     def validate_contract_signing(self, before: dict, after: dict):
         tender = get_tender()
@@ -291,14 +279,13 @@ class ContractStateMixing(baseclass):
             if stand_still_end > get_now():
                 raise_operation_error(
                     get_request(),
-                    "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat())
+                    "Can't sign contract before stand-still period end ({})".format(stand_still_end.isoformat()),
                 )
         else:
             stand_still_end = dt_from_iso(award.get("complaintPeriod", {}).get("startDate"))
             if stand_still_end > get_now():
                 raise_operation_error(
-                    get_request(),
-                    f"Can't sign contract before award activation date ({stand_still_end.isoformat()})"
+                    get_request(), f"Can't sign contract before award activation date ({stand_still_end.isoformat()})"
                 )
 
     def _validate_contract_signing_with_pending_complaints(self, award: dict):
@@ -306,15 +293,13 @@ class ContractStateMixing(baseclass):
         pending_complaints = [
             i
             for i in tender.get("complaints", [])
-            if (i.get("status") in self.block_complaint_status and
-                i.get("relatedLot") in (None, award.get("lotID")))
+            if (i.get("status") in self.block_complaint_status and i.get("relatedLot") in (None, award.get("lotID")))
         ]
         pending_awards_complaints = [
             i
             for a in tender.get("awards", [])
             for i in a.get("complaints", [])
-            if (i.get("status") in self.block_complaint_status and
-                a.get("lotID") == award.get("lotID"))
+            if (i.get("status") in self.block_complaint_status and a.get("lotID") == award.get("lotID"))
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
@@ -369,8 +354,7 @@ class ContractStateMixing(baseclass):
         status = tender["status"]
         if status not in ("active.qualification", "active.awarded"):
             raise_operation_error(
-                request,
-                f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
+                request, f"Can't {OPERATIONS.get(request.method)} contract in current ({status}) tender status"
             )
 
     @staticmethod
@@ -405,17 +389,14 @@ class ContractStateMixing(baseclass):
         # Validate status change
         current_status = before["status"]
         new_status = after["status"]
-        if (
-            current_status != new_status
-            and (
-                current_status not in cls.allowed_statuses_from
-                or new_status not in allowed_statuses_to
-            )
+        if current_status != new_status and (
+            current_status not in cls.allowed_statuses_from or new_status not in allowed_statuses_to
         ):
             raise_operation_error(request, "Can't update contract status")
 
         not_cancelled_contracts_count = sum(
-            1 for contract in tender.get("contracts", [])
+            1
+            for contract in tender.get("contracts", [])
             if (
                 contract.get("status") != "cancelled"
                 and contract.get("awardID") == request.validated["contract"]["awardID"]
@@ -425,7 +406,7 @@ class ContractStateMixing(baseclass):
             raise_operation_error(
                 request,
                 f"Can't update contract status from {current_status} to {new_status} "
-                f"for last not cancelled contract. Cancel award instead."
+                f"for last not cancelled contract. Cancel award instead.",
             )
 
     @staticmethod
@@ -451,30 +432,23 @@ class ContractStateMixing(baseclass):
         if value is not None and before.get("status") != after.get("status"):
             contract_amount_net = value.get("amountNet")
             if contract_amount_net is None:
-                raise_operation_error(
-                    request,
-                    {"amountNet": BaseType.MESSAGES["required"]},
-                    status=422,
-                    name="value"
-                )
+                raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name="value")
 
     @staticmethod
     def validate_update_contract_value_with_award(request, before, after):
         value = after.get("value")
-        if value and (
-            before.get("value") != after.get("value") or
-            before.get("status") != after.get("status")
-        ):
-
+        if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):
             award = [
-                award for award in request.validated["tender"].get("awards", [])
+                award
+                for award in request.validated["tender"].get("awards", [])
                 if award.get("id") == request.validated["contract"].get("awardID")
             ][0]
 
             _contracts_values = get_contracts_values_related_to_patched_contract(
                 request.validated["tender"].get("contracts"),
-                request.validated["contract"]["id"], value,
-                request.validated["contract"].get("awardID")
+                request.validated["contract"]["id"],
+                value,
+                request.validated["contract"].get("awardID"),
             )
             amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
             amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
@@ -482,9 +456,7 @@ class ContractStateMixing(baseclass):
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):
                     if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(
-                            request, "Amount should be less or equal to awarded amount", name="value"
-                        )
+                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
                 else:
                     if amount_net > to_decimal(award.get("value", {}).get("amount")):
                         raise_operation_error(
@@ -492,17 +464,12 @@ class ContractStateMixing(baseclass):
                         )
             else:
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(
-                        request, "Amount should be less or equal to awarded amount", name="value"
-                    )
+                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
     @staticmethod
     def validate_update_contract_value_amount(request, before, after, name="value"):
         value = after.get(name)
-        if value and (
-            before.get(name) != after.get(name) or
-            before.get("status") != after.get("status")
-        ):
+        if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status")):
             amount = to_decimal(value.get("amount") or 0)
             amount_net = to_decimal(value.get("amountNet") or 0)
             tax_included = value.get("valueAddedTaxIncluded")

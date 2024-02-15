@@ -57,21 +57,18 @@ def patch_tender_contract(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"items": items, "suppliers": fake_suppliers_data}},
-        status=422
+        status=422,
     )
     self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "suppliers", "description": "Rogue field"}
+        response.json["errors"][0], {"location": "body", "name": "suppliers", "description": "Rogue field"}
     )
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"items": items}},
-        status=403
+        status=403,
     )
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item")
 
     old_currency = value["currency"]
     value["currency"] = "USD"
@@ -114,9 +111,7 @@ def patch_tender_contract(self):
     else:
         with change_auth(self.app, ("Basic", ("bot", ""))):
             response = self.app.patch_json(
-                "/tenders/{}/awards/{}/complaints/{}".format(
-                    self.tender_id, self.award_id, complaint["id"]
-                ),
+                "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, self.award_id, complaint["id"]),
                 {"data": {"status": "pending"}},
             )
 
@@ -187,10 +182,7 @@ def patch_tender_contract(self):
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.award_id, complaint["id"], owner_token
             ),
-            {"data": {
-                "status": "invalid",
-                "rejectReason": "buyerViolationsCorrected"
-            }},
+            {"data": {"status": "invalid", "rejectReason": "buyerViolationsCorrected"}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -225,17 +217,13 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json("/tenders/some_id/contracts/some_id", {"data": {"status": "active"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
     self.assertEqual(response.status, "200 OK")

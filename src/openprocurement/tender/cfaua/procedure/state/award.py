@@ -7,7 +7,6 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class AwardState(AwardStateMixing, CFAUATenderState):
-
     def award_on_patch(self, before, award):
         # start complaintPeriod
         if before["status"] != award["status"]:
@@ -18,8 +17,7 @@ class AwardState(AwardStateMixing, CFAUATenderState):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before['status']}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
@@ -67,8 +65,6 @@ class AwardState(AwardStateMixing, CFAUATenderState):
             )
 
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
-

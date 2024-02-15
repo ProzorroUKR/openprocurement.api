@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids/e1e5b10f2f544862978912218b1bcb35?acc_token=68c0f183a82143678b411345d129233c HTTP/1.0
+PATCH /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids/b8994ac5b9f340da9a0620b8a7b2d8fc?acc_token=56cb85db213f48b395e87a7e1a6023ca HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e1e5b10f2f544862978912218b1bcb35",
+    "id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
     "date": "2023-09-20T01:00:01+03:00",
     "tenderers": [
       {
@@ -46,21 +46,21 @@ Content-Type: application/json
     },
     "requirementResponses": [
       {
-        "id": "664cdc4af3b14a80890750ac88c5b5b6",
+        "id": "263249613a324c02ab92203210fb6697",
         "requirement": {
           "id": "620397eaf9544635bb0366a1f65dae0e"
         },
         "value": "Розчин для інфузій"
       },
       {
-        "id": "b6478bf929684a39884e346a57e2aeee",
+        "id": "95c4273df2af4d31b14c8ce523af1c6f",
         "requirement": {
           "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
         },
         "value": 5
       },
       {
-        "id": "b6e87f07d4dc4b989dec73c17059138f",
+        "id": "25b694b64afb46a4b2b851fcd9ec61d5",
         "requirement": {
           "id": "2c6c054563904e35ac6e25b6ec864228"
         },

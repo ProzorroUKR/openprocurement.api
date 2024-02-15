@@ -22,9 +22,7 @@ class BaseMilestone(Model):
     STATUS_NOT_MET = 'notMet'
     STATUS_INVALID = 'invalid'
 
-    TYPE_CHOICES = (
-        TYPE_APPROVAL,
-    )
+    TYPE_CHOICES = (TYPE_APPROVAL,)
     STATUS_CHOICES = (
         STATUS_SCHEDULED,
         STATUS_MET,

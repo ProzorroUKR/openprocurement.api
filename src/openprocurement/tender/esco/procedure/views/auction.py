@@ -28,7 +28,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
         validators=(
             validate_auction_tender_status,
             validate_input_data(AuctionResults),
-        )
+        ),
     )
     def collection_post(self):
         # for esco we also calculate and update amountPerformance and amount
@@ -46,11 +46,13 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
             validate_auction_tender_status,
             validate_active_lot,
             validate_input_data(AuctionLotResults),
-        )
+        ),
     )
     def post(self):
-        bid_values = {b["id"]: {l["relatedLot"]: l["value"] for l in b.get("lotValues", "")}
-                      for b in self.request.validated["tender"].get("bids", "")}
+        bid_values = {
+            b["id"]: {l["relatedLot"]: l["value"] for l in b.get("lotValues", "")}
+            for b in self.request.validated["tender"].get("bids", "")
+        }
 
         for passed_bid in self.request.validated["data"]["bids"]:
             if "lotValues" in passed_bid:

@@ -82,7 +82,6 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
     accept="application/json",
 )
 class TenderStage2UEResource(TendersResource):
-
     serializer_class = TenderBaseSerializer
     state_class = CDEUStage2TenderDetailsState
 
@@ -100,7 +99,7 @@ class TenderStage2UEResource(TendersResource):
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -111,9 +110,7 @@ class TenderStage2UEResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(
-                validate_item_owner("tender")
-            ))),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -123,7 +120,9 @@ class TenderStage2UEResource(TendersResource):
                 )
             ),
             validate_input_data(conditional_eu_model, none_means_remove=True),
-            unless_administrator(unless_cd_bridge(validate_cd2_allowed_patch_fields)),  # TODO make models only allow these fields
+            unless_administrator(
+                unless_cd_bridge(validate_cd2_allowed_patch_fields)
+            ),  # TODO make models only allow these fields
             validate_patch_data_simple(EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
@@ -135,6 +134,7 @@ class TenderStage2UEResource(TendersResource):
 
 # ============= UA
 
+
 @resource(
     name=f"{STAGE_2_UA_TYPE}:Tenders",
     collection_path="/tenders",
@@ -144,7 +144,6 @@ class TenderStage2UEResource(TendersResource):
     accept="application/json",
 )
 class TenderStage2UAResource(TendersResource):
-
     serializer_class = TenderBaseSerializer
     state_class = CDUAStage2TenderDetailsState
 
@@ -162,7 +161,7 @@ class TenderStage2UAResource(TendersResource):
                 kind_central_levels=(ACCR_COMPETITIVE, ACCR_5),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -173,9 +172,7 @@ class TenderStage2UAResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(
-                validate_item_owner("tender")
-            ))),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -185,7 +182,9 @@ class TenderStage2UAResource(TendersResource):
                 )
             ),
             validate_input_data(conditional_ua_model, none_means_remove=True),
-            unless_administrator(unless_cd_bridge(validate_cd2_allowed_patch_fields)),  # TODO make models only allow these fields
+            unless_administrator(
+                unless_cd_bridge(validate_cd2_allowed_patch_fields)
+            ),  # TODO make models only allow these fields
             validate_patch_data_simple(UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),

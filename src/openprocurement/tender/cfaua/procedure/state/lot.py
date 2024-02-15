@@ -4,4 +4,3 @@ from openprocurement.tender.cfaua.procedure.state.tender_details import CFAUATen
 
 class TenderLotState(LotInvalidationBidStateMixin, CFAUATenderDetailsState):
     pass
-

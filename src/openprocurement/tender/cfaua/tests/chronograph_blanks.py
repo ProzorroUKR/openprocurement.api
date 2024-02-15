@@ -4,7 +4,6 @@ from copy import deepcopy
 
 
 def next_check_field_in_active_qualification(self):
-
     response = self.set_status("active.pre-qualification", "end")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -59,9 +58,7 @@ def switch_to_complaint(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": test_tender_below_claim
-            },
+            {"data": test_tender_below_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
@@ -143,8 +140,12 @@ def set_auction_period_0bid(self):
     response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}}, status=422)
     self.assertEqual(
         response.json,
-        {"status": "error", "errors": [
-            {"location": "body", "name": "auctionPeriod", "description": ["Auction url at tender lvl forbidden"]}]}
+        {
+            "status": "error",
+            "errors": [
+                {"location": "body", "name": "auctionPeriod", "description": ["Auction url at tender lvl forbidden"]}
+            ],
+        },
     )
 
     response = self.check_chronograph()

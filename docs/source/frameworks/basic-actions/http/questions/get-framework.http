@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/676ef3ed979f4dc8a98ced89957a8d0d HTTP/1.0
+GET /api/2.5/frameworks/35008f9caa6a4a14ab84e533c36ed857 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -64,7 +64,7 @@ Content-Type: application/json
       "endDate": "2023-01-31T00:00:00+02:00"
     },
     "next_check": "2023-01-28T00:00:00+02:00",
-    "id": "676ef3ed979f4dc8a98ced89957a8d0d"
+    "id": "35008f9caa6a4a14ab84e533c36ed857"
   },
   "config": {
     "restrictedDerivatives": false

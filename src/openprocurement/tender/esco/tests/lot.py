@@ -95,8 +95,10 @@ lot_bid_amount = round(
 )
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
@@ -133,8 +135,10 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
     test_author = test_tender_below_author
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = 2 * test_tender_esco_lots
@@ -153,8 +157,10 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_tender_esco_lots
@@ -168,8 +174,10 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
     test_bids_invalidation_on_lot_change = snitch(bids_invalidation_on_lot_change)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_tender_esco_lots
@@ -183,8 +191,10 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
         items = deepcopy(self.initial_data["items"])
         items[0].update(relatedLot=self.lot_id, id="1")
 
-        with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-               get_now() + timedelta(days=1)):
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+            get_now() + timedelta(days=1),
+        ):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
                 {

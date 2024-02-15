@@ -84,10 +84,7 @@ class PlansResource(PlanBaseResource):
         validators=(
             validate_input_data(PostPlan),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_3, ACCR_5),
-                item="plan",
-                operation="creation",
-                source="data"
+                levels=(ACCR_1, ACCR_3, ACCR_5), item="plan", operation="creation", source="data"
             ),
             validate_data_documents(route_key="plan_id"),
         ),
@@ -107,7 +104,7 @@ class PlansResource(PlanBaseResource):
                     {
                         "plan_id": plan["_id"],
                         "planID": plan["planID"],
-                    }
+                    },
                 ),
             )
             self.request.response.status = 201
@@ -120,9 +117,7 @@ class PlansResource(PlanBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("plan")
-            ),
+            unless_administrator(validate_item_owner("plan")),
             validate_input_data(PatchPlan, none_means_remove=True),
             validate_patch_data_simple(Plan, item_name="plan"),
         ),
@@ -137,8 +132,7 @@ class PlansResource(PlanBaseResource):
             self.state.on_patch(plan_src, plan)
             if save_plan(self.request):
                 self.LOGGER.info(
-                    f"Updated plan {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
+                    f"Updated plan {updated['_id']}", extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
                 )
         return {
             "data": self.serializer_class(plan).data,
@@ -158,9 +152,7 @@ class PlanTendersResource(PlanBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_json_data,
-        ),
+        validators=(validate_json_data,),
         permission="create_tender_from_plan",
     )
     def post(self):

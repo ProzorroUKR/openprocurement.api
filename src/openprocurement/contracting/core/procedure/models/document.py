@@ -19,6 +19,7 @@ DOCUMENT_OFS = (
 
 # --- Base models ---
 
+
 class BaseContractDocument(BaseDocument):
     documentOf = StringType(choices=DOCUMENT_OFS)
 
@@ -31,6 +32,7 @@ class BaseTransactionDocument(BaseDocument):
 
 
 # --- Contract document models ---
+
 
 class PostDocument(BaseContractDocument):
     @serializable
@@ -58,6 +60,7 @@ class PostDocument(BaseContractDocument):
 
 class PatchDocument(BaseContractDocument):
     documentOf = StringType(choices=DOCUMENT_OFS)
+
     @serializable
     def dateModified(self):
         return get_now().isoformat()
@@ -102,5 +105,3 @@ def validate_relatedItem(related_item: str, document_of: str) -> None:
         raise ValidationError("relatedItem should be one of changes")
     if document_of == "item" and not any(i and related_item == i["id"] for i in contract.get("items", "")):
         raise ValidationError("relatedItem should be one of items")
-
-

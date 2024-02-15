@@ -36,9 +36,7 @@ from openprocurement.tender.simpledefense.tests.base import (
 
 
 class TenderCancellationResourceTest(
-    BaseSimpleDefContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    BaseSimpleDefContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
 
@@ -63,8 +61,7 @@ class TenderLotsCancellationResourceTest(BaseSimpleDefContentWebTest):
 
 
 class TenderCancellationComplaintResourceTest(
-    BaseSimpleDefContentWebTest,
-    TenderCancellationComplaintResourceTestMixin
+    BaseSimpleDefContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
     initial_bids = test_tender_simpledefense_bids
 
@@ -76,9 +73,7 @@ class TenderCancellationComplaintResourceTest(
         self.set_complaint_period_end()
 
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -89,10 +84,7 @@ class TenderCancellationComplaintResourceTest(
     test_access_create_tender_cancellation_complaint = snitch(access_create_tender_cancellation_complaint)
 
 
-class TenderCancellationDocumentResourceTest(
-    BaseSimpleDefContentWebTest,
-    TenderCancellationDocumentResourceTestMixin
-):
+class TenderCancellationDocumentResourceTest(BaseSimpleDefContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
         super(TenderCancellationDocumentResourceTest, self).setUp()
 

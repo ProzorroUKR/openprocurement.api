@@ -109,18 +109,19 @@ class NegotiationAward(BaseAward):
 
 # reporting
 class PostReportingAward(PostBaseAward):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
-                         required=True, min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True), required=True, min_size=1, max_size=1
+    )
     value = ModelType(Value, required=True)
 
 
 class PatchReportingAward(PatchBaseAward):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
-                         min_size=1, max_size=1)
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True), min_size=1, max_size=1)
     value = ModelType(Value)
 
 
 class ReportingAward(BaseAward):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
-                         required=True, min_size=1, max_size=1)
+    suppliers = ListType(
+        ModelType(ContactLessBusinessOrganization, required=True), required=True, min_size=1, max_size=1
+    )
     value = ModelType(Value, required=True)

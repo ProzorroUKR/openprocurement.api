@@ -16,7 +16,6 @@ class BaseReqResponseState(BaseState):
         self.pre_save_validations(data)
 
     def pre_save_validations(self, data: dict) -> None:
-
         parent = self.request.validated[self.parent_obj_name]
         if isinstance(data, dict):
             data = [data]

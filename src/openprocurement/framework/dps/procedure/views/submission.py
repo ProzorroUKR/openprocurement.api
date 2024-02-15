@@ -56,9 +56,7 @@ class DPSSubmissionResource(SubmissionsResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("submission")
-            ),
+            unless_administrator(validate_item_owner("submission")),
             validate_input_data(PatchSubmission),
             validate_submission_framework,
             validate_update_submission_in_not_allowed_status,

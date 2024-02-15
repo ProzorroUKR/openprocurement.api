@@ -4,4 +4,3 @@ from openprocurement.tender.openua.procedure.state.award import AwardState as Ba
 
 class AwardState(ESCOTenderState, BaseAwardState):
     pass
-

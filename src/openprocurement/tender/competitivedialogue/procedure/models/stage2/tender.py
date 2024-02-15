@@ -96,11 +96,13 @@ class PatchEUTender(BasePatchTender):
         validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    status = StringType(choices=[
-        "draft",
-        "active.tendering",
-        "active.pre-qualification.stand-still",
-    ])
+    status = StringType(
+        choices=[
+            "draft",
+            "active.tendering",
+            "active.pre-qualification.stand-still",
+        ]
+    )
 
 
 class EUTender(BaseTender):
@@ -155,6 +157,7 @@ class EUTender(BaseTender):
 
 # === UA
 
+
 class PostUATender(UABasePostTender):
     procurementMethodType = StringType(choices=[STAGE_2_UA_TYPE], default=STAGE_2_UA_TYPE)
     procuringEntity = ModelType(UAProcuringEntity, required=True)
@@ -208,11 +211,13 @@ class PatchUATender(UABasePatchTender):
         validators=[validate_items_uniq],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    status = StringType(choices=[
-        "draft",
-        "active.tendering",
-        "active.pre-qualification.stand-still",
-    ])
+    status = StringType(
+        choices=[
+            "draft",
+            "active.tendering",
+            "active.pre-qualification.stand-still",
+        ]
+    )
 
 
 class UATender(UABaseTender):

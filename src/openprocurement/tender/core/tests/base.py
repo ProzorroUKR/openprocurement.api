@@ -99,7 +99,7 @@ class BaseWebTest(BaseApiWebTest):
         ds_url_start = "http://localhost/get/"
         if url.startswith(ds_url_start):
             prefix_len = len(ds_url_start)
-            return url[prefix_len:prefix_len + 32]
+            return url[prefix_len : prefix_len + 32]
         else:
             return url.split("?download=")[1]
 
@@ -170,9 +170,9 @@ class BaseCoreWebTest(BaseWebTest):
             for period in self.periods[status][startend]:
                 self.tender_document_patch.update({period: {}})
                 for date in self.periods[status][startend][period]:
-                    self.tender_document_patch[period][date] = (self.calculate_period_date(
-                        date, period, startend, status
-                    ) + shift).astimezone(TZ).isoformat()
+                    self.tender_document_patch[period][date] = (
+                        (self.calculate_period_date(date, period, startend, status) + shift).astimezone(TZ).isoformat()
+                    )
 
             lots = self.tender_document.get("lots", [])
             if lots:
@@ -182,9 +182,11 @@ class BaseCoreWebTest(BaseWebTest):
                             if lot.get("status", None) == "active":
                                 lot.update({period: {}})
                                 for date in self.periods[status][startend][period]:
-                                    lot[period][date] = (self.calculate_period_date(
-                                        date, period, startend, status
-                                    ) + shift).astimezone(TZ).isoformat()
+                                    lot[period][date] = (
+                                        (self.calculate_period_date(date, period, startend, status) + shift)
+                                        .astimezone(TZ)
+                                        .isoformat()
+                                    )
                 self.tender_document_patch.update({"lots": lots})
 
     def calculate_period_date(self, date, period, startend, status):
@@ -254,7 +256,7 @@ class BaseCoreWebTest(BaseWebTest):
                     "date": now.isoformat(),
                     "dueDate": (now + timedelta(hours=24)).isoformat(),
                 }
-            ]
+            ],
         }
         if tender["procurementMethodType"] in (
             ABOVE_THRESHOLD,

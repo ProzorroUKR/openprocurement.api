@@ -49,7 +49,7 @@ from openprocurement.tender.limited.tests.contract_blanks import (
     patch_tender_contract_document,
     put_tender_contract_document,
     # EContract
-    patch_tender_negotiation_econtract
+    patch_tender_negotiation_econtract,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     patch_tender_contract_value_vat_not_included,
@@ -67,8 +67,13 @@ class CreateActiveAwardMixin:
     def create_award(self):
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
-                      "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -103,9 +108,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, CreateActiveAwardMixi
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)
     test_award_id_change_is_not_allowed = snitch(award_id_change_is_not_allowed)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
@@ -290,12 +293,14 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {
-                "lotID": tender_lots[0]["id"],
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True}
-            }},
+            {
+                "data": {
+                    "lotID": tender_lots[0]["id"],
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -511,9 +516,7 @@ class TenderNegotiationQuickMultiBuyersContractResourceTest(TenderNegotiationMul
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
 class TenderReportingEContractResourceTest(
-    BaseTenderContentWebTest,
-    CreateActiveAwardMixin,
-    TenderEcontractResourceTestMixin
+    BaseTenderContentWebTest, CreateActiveAwardMixin, TenderEcontractResourceTestMixin
 ):
     initial_status = "active"
     initial_data = test_tender_reporting_data
@@ -555,17 +558,13 @@ class TenderReportingEContractMultiBuyersResourceTest(
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-class TenderNegotiationEContractMultiBuyersResourceTest(
-    TenderReportingEContractMultiBuyersResourceTest
-):
+class TenderNegotiationEContractMultiBuyersResourceTest(TenderReportingEContractMultiBuyersResourceTest):
     initial_data = test_tender_negotiation_data_multi_buyers
     initial_config = test_tender_negotiation_config
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-class TenderNegotiationEContractMultiBuyersResourceTest(
-    TenderReportingEContractMultiBuyersResourceTest
-):
+class TenderNegotiationEContractMultiBuyersResourceTest(TenderReportingEContractMultiBuyersResourceTest):
     initial_data = test_tender_negotiation_quick_data_multi_buyers
     initial_config = test_tender_negotiation_quick_config
 

@@ -11,4 +11,3 @@ from cornice.resource import resource
 )
 class BelowThresholdChronographResource(TenderChronographResource):
     state_class = BelowThresholdTenderState
-

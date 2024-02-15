@@ -4,9 +4,9 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_cla
     CDEUStage2AwardClaimState,
     CDUAStage2AwardClaimState,
 )
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_complaint import \
-    (
-    CDEUStage2AwardComplaintState, CDUAStage2AwardComplaintState,
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_complaint import (
+    CDEUStage2AwardComplaintState,
+    CDUAStage2AwardComplaintState,
 )
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,

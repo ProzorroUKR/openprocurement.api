@@ -28,13 +28,7 @@ def resolve_contract_item(request):
 def get_item_unit_value(item):
     unit = item.get("unit")
     if unit is None:
-        raise_operation_error(
-            get_request(),
-            "Not Found",
-            status=404,
-            location="url",
-            name="unit"
-        )
+        raise_operation_error(get_request(), "Not Found", status=404, location="url", name="unit")
 
     if "value" not in unit:
         unit["value"] = {}
@@ -42,7 +36,6 @@ def get_item_unit_value(item):
 
 
 class ContractItemsUnitValueResource(TenderBaseResource):
-
     serializer_class = BaseSerializer
     state_class = ContractState
 
@@ -61,11 +54,7 @@ class ContractItemsUnitValueResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def get(self):
-        data = self.serializer_class(
-            get_item_unit_value(
-                self.request.validated["item"]
-            )
-        ).data
+        data = self.serializer_class(get_item_unit_value(self.request.validated["item"])).data
         return {"data": data}
 
     @json_view(

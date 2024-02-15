@@ -26,4 +26,3 @@ class CompetitiveDialogueEULotResource(TenderLotResource):
 )
 class CompetitiveDialogueUALotResource(TenderLotResource):
     state_class = CDStage1TenderLotState
-

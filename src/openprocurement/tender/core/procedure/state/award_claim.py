@@ -47,9 +47,7 @@ class AwardClaimStateMixin(ClaimStateMixin):
         award = get_award()
         lot_id = award.get("lotID")
         if lot_id and any(
-            lot.get("status") != "active"
-            for lot in tender.get("lots", [])
-            if lot["id"] == award.get("lotID")
+            lot.get("status") != "active" for lot in tender.get("lots", []) if lot["id"] == award.get("lotID")
         ):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")

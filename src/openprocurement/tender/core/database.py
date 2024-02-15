@@ -40,9 +40,7 @@ class TenderCollection(BaseCollection):
     def find_complaints(self, complaint_id: str):
         collection = self.collection
         query = {
-            "complaints": {
-                "$elemMatch": {"complaintID": complaint_id}
-            },
+            "complaints": {"$elemMatch": {"complaintID": complaint_id}},
             "dateCreated": {"$gt": RELEASE_2020_04_19.isoformat()},
         }
         result = collection.find_one(query)
@@ -69,9 +67,7 @@ class TenderCollection(BaseCollection):
                     "item_id": i.get("id"),
                     "complaint_id": c["id"],
                 },
-                "access": {
-                    "token": c["owner_token"]
-                }
+                "access": {"token": c["owner_token"]},
             }
             for i in (tender[item_type] if item_type else [tender])
             for c in i.get("complaints", "")

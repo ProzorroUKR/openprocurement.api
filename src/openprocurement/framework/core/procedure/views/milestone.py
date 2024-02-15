@@ -1,9 +1,6 @@
 from logging import getLogger
 
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    update_logging_context)
+from openprocurement.api.utils import json_view, context_unpack, update_logging_context
 from openprocurement.framework.core.procedure.serializers.milestone import MilestoneSerializer
 from openprocurement.framework.core.procedure.state.milestone import MilestoneState
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
@@ -59,7 +56,7 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         if save_object(self.request, "agreement", insert=True):
             self.LOGGER.info(
                 f"Updated agreement milestone {milestone['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_create"})
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_create"}),
             )
             self.request.response.status = 201
             return {"data": self.serializer_class(milestone).data}
@@ -73,6 +70,6 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement milestone {self.request.validated['milestone']['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

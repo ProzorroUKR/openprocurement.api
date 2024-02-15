@@ -6,7 +6,7 @@ LOGGER = getLogger("openprocurement.planning.api")
 
 
 def generate_plan_id(request):
-    """ Generate ID for new plan in format "UA-P-YYYY-MM-DD-NNNNNN"
+    """Generate ID for new plan in format "UA-P-YYYY-MM-DD-NNNNNN"
         YYYY - year, MM - month (start with 1), DD - day, NNNNNN - sequence number per 1 day
         and save plans count per day in database document with _id = "planID" as { key, value } = { "2015-12-03": 2 }
     :param request:
@@ -15,9 +15,7 @@ def generate_plan_id(request):
     now = get_now()
     uid = f"plan_{now.date().isoformat()}"
     index = request.registry.mongodb.get_next_sequence_value(uid)
-    return "UA-P-{:04}-{:02}-{:02}-{:06}-a".format(
-        now.year, now.month, now.day, index
-    )
+    return "UA-P-{:04}-{:02}-{:02}-{:06}-a".format(now.year, now.month, now.day, index)
 
 
 def extract_plan_doc(request, plan_id=None):

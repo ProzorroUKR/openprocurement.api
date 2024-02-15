@@ -39,7 +39,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award import test_t
 class TenderStage2EUComplaintResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
 ):
-
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
     initial_lots = test_tender_cd_lots
@@ -54,7 +53,6 @@ class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2C
 
 
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cd_lots
 

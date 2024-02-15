@@ -61,7 +61,6 @@ def conditional_ua_model(data):  # TODO: bot should use a distinct endpoint, lik
     accept="application/json",
 )
 class CDEUTenderResource(TendersResource):
-
     serializer_class = CD1StageTenderSerializer
     state_class = CDStage1TenderDetailsState
 
@@ -83,7 +82,7 @@ class CDEUTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -94,9 +93,7 @@ class CDEUTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(
-                validate_item_owner("tender")
-            ))),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",
@@ -120,6 +117,7 @@ class CDEUTenderResource(TendersResource):
 
 # ============= UA
 
+
 @resource(
     name=f"{CD_UA_TYPE}:Tenders",
     collection_path="/tenders",
@@ -129,7 +127,6 @@ class CDEUTenderResource(TendersResource):
     accept="application/json",
 )
 class CDUATenderResource(TendersResource):
-
     serializer_class = CD1StageTenderSerializer
     state_class = CDStage1TenderDetailsState
 
@@ -151,7 +148,7 @@ class CDUATenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -162,9 +159,7 @@ class CDUATenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_cd_bridge(unless_admins(unless_administrator(
-                validate_item_owner("tender")
-            ))),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
             unless_administrator(
                 validate_tender_status_allows_update(
                     "draft",

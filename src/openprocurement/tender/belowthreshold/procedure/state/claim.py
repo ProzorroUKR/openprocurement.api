@@ -11,7 +11,10 @@ class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState)
         "active.qualification",
         "active.awarded",
     )
-    patch_as_complaint_owner_tender_statuses = ("active.enquiries", "active.tendering",)
+    patch_as_complaint_owner_tender_statuses = (
+        "active.enquiries",
+        "active.tendering",
+    )
 
     def validate_submit_claim(self, claim):
         pass

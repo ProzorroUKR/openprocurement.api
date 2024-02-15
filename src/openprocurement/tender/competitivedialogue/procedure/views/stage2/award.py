@@ -17,8 +17,12 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.award import (
-    UAPatchAward, UAAward, UAPostAward,
-    EUAward, EUPatchAward, EUPostAward,
+    UAPatchAward,
+    UAAward,
+    UAPostAward,
+    EUAward,
+    EUPatchAward,
+    EUPostAward,
 )
 from cornice.resource import resource
 from openprocurement.api.utils import json_view
@@ -48,9 +52,7 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(EUPatchAward),
             validate_patch_data(EUAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
@@ -88,9 +90,7 @@ class CDStage2UATenderAwardResource(UATenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(UAPatchAward),
             validate_patch_data(UAAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
