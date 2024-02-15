@@ -18,7 +18,8 @@ def create_framework_draft_invalid_kind(self):
         [
             {
                 'description': {'kind': ["Value must be one of ['central']."]},
-                'location': 'body', 'name': 'procuringEntity'
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -39,7 +40,8 @@ def cpb_standard_status(self):
         [
             {
                 'description': {'identifier': ["Can't create framework for inactive cpb"]},
-                'location': 'body', 'name': 'procuringEntity'
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -52,8 +54,13 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{"location": "url", "name": "accreditation",
-              "description": "Broker Accreditation level does not permit framework creation"}],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit framework creation",
+                }
+            ],
         )
 
     with change_auth(self.app, ("Basic", ("broker2", ""))):
@@ -62,8 +69,13 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{"location": "url", "name": "accreditation",
-              "description": "Broker Accreditation level does not permit framework creation"}],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit framework creation",
+                }
+            ],
         )
 
     with change_auth(self.app, ("Basic", ("broker3", ""))):
@@ -72,8 +84,13 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{"location": "url", "name": "accreditation",
-              "description": "Broker Accreditation level does not permit framework creation"}],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit framework creation",
+                }
+            ],
         )
 
     with change_auth(self.app, ("Basic", ("broker4", ""))):
@@ -82,8 +99,13 @@ def accreditation_level(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
             response.json["errors"],
-            [{"location": "url", "name": "accreditation",
-              "description": "Broker Accreditation level does not permit framework creation"}],
+            [
+                {
+                    "location": "url",
+                    "name": "accreditation",
+                    "description": "Broker Accreditation level does not permit framework creation",
+                }
+            ],
         )
 
     with change_auth(self.app, ("Basic", ("broker5", ""))):

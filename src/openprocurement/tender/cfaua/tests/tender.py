@@ -100,9 +100,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_create_cfaua_tender_with_earlier_non_required_unit = snitch(
-        create_tender_with_earlier_non_required_unit
-    )
+    test_create_cfaua_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_not_author = snitch(patch_not_author)
 

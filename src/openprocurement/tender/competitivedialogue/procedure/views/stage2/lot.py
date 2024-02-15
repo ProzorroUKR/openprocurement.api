@@ -20,7 +20,7 @@ class TenderStage2EULotResource(TenderLotResource):
         validators=(validate_lot_operation_for_stage2,),
     )
     def collection_post(self):
-        """ Add a lot """
+        """Add a lot"""
 
     @json_view(
         content_type="application/json",
@@ -28,14 +28,14 @@ class TenderStage2EULotResource(TenderLotResource):
         validators=(validate_lot_operation_for_stage2,),
     )
     def patch(self):
-        """ Update of lot """
+        """Update of lot"""
 
     @json_view(
         permission="edit_lot",
         validators=(validate_lot_operation_for_stage2,),
     )
     def delete(self):
-        """Lot deleting """
+        """Lot deleting"""
 
 
 @resource(
@@ -52,7 +52,7 @@ class TenderStage2UALotResource(TenderLotResource):
         validators=(validate_lot_operation_for_stage2,),
     )
     def collection_post(self):
-        """ Add a lot """
+        """Add a lot"""
 
     @json_view(
         content_type="application/json",
@@ -60,11 +60,11 @@ class TenderStage2UALotResource(TenderLotResource):
         validators=(validate_lot_operation_for_stage2,),
     )
     def patch(self):
-        """ Update of lot """
+        """Update of lot"""
 
     @json_view(
         permission="edit_lot",
         validators=(validate_lot_operation_for_stage2,),
     )
     def delete(self):
-        """Lot deleting """
+        """Lot deleting"""

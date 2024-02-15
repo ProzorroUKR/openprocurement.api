@@ -83,13 +83,12 @@ def test_plan_tenders_404(app):
 
 
 def test_plan_tender_ref(app, plan):
-    data = '{"data":{"procurementMethodType":"belowThreshold","procuringEntity":{"identifier":' \
-           '{"scheme":"UA-EDR","id":"111983","legalName":"asd"}}}}'
+    data = (
+        '{"data":{"procurementMethodType":"belowThreshold","procuringEntity":{"identifier":'
+        '{"scheme":"UA-EDR","id":"111983","legalName":"asd"}}}}'
+    )
     response = app.post(
-        "/plans/{}/tenders".format(plan["data"]["id"]),
-        data,
-        headers={"Content-Type": "application/json"},
-        status=422
+        "/plans/{}/tenders".format(plan["data"]["id"]), data, headers={"Content-Type": "application/json"}, status=422
     )
     assert {"location": "body", "name": "title", "description": ["This field is required."]} in response.json["errors"]
 
@@ -179,10 +178,13 @@ def test_procurement_method_type_cpb(app):
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
 
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": test_below_tender_data,
-        "config": test_tender_below_config,
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": test_below_tender_data,
+            "config": test_tender_below_config,
+        },
+    )
     assert response.status == "201 Created"
     tender = response.json["data"]
     assert "plans" in tender
@@ -200,10 +202,13 @@ def test_procurement_method_cpb_01101100(app):
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
 
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": test_below_tender_data,
-        "config": test_tender_below_config,
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": test_below_tender_data,
+            "config": test_tender_below_config,
+        },
+    )
     assert response.status == "201 Created"
     tender = response.json["data"]
     assert "plans" in tender
@@ -226,10 +231,9 @@ def test_success_classification_id(app):
         "id": "33711200-9",
     }
     request_tender_config = deepcopy(test_tender_below_config)
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": request_tender_data,
-        "config": request_tender_config
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data, "config": request_tender_config}
+    )
     assert response.status == "201 Created"
 
 
@@ -280,10 +284,9 @@ def test_success_classification_id_336(app):
         "id": "33631000-2",
     }
     request_tender_config = deepcopy(test_tender_below_config)
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": request_tender_data,
-        "config": request_tender_config
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data, "config": request_tender_config}
+    )
     assert response.status == "201 Created"
 
 
@@ -308,10 +311,11 @@ def test_fail_classification_id_336(app):
         "id": "33711420-7",
     }
     request_tender_config = deepcopy(test_tender_below_config)
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": request_tender_data,
-        "config": request_tender_config
-    }, status=422)
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": request_tender_data, "config": request_tender_config},
+        status=422,
+    )
     error_data = response.json["errors"]
     assert len(error_data) > 0
     error = error_data[0]
@@ -400,10 +404,13 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
         db = app.app.registry.mongodb.agreements
         db.get = MagicMock(return_value={"id": request_tender_data["agreement"]["id"]})
 
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": request_tender_data,
-        "config": request_tender_config,
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": request_tender_data,
+            "config": request_tender_config,
+        },
+    )
     assert response.status == "201 Created"
 
     tender_data = response.json["data"]
@@ -454,10 +461,9 @@ def test_validations_before_and_after_tender(app):
     request_tender_data["procuringEntity"]["identifier"]["id"] = pe_change["identifier"]["id"]
     request_tender_data["procuringEntity"]["identifier"]["scheme"] = pe_change["identifier"]["scheme"]
     request_tender_config = deepcopy(test_tender_below_config)
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": request_tender_data,
-        "config": request_tender_config
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data, "config": request_tender_config}
+    )
     assert response.status == "201 Created"
 
     # removing status (if the tender was created before the plan statuses release)
@@ -523,10 +529,12 @@ def test_validations_before_and_after_tender(app):
     # try again
     response = app.patch_json(
         "/plans/{}?acc_token={}".format(plan["data"]["id"], plan["access"]["token"]),
-        {"data": {
-            "items": items_change,
-            "classification": classification_change,
-        }},
+        {
+            "data": {
+                "items": items_change,
+                "classification": classification_change,
+            }
+        },
         status=403,
     )
     assert response.json == {
@@ -542,7 +550,6 @@ def test_validations_before_and_after_tender(app):
     )
     assert response.status == "200 OK"
     assert response.json["data"]["rationale"]["description"] == rationale
-
 
 
 def test_tender_creation_modified_date(app):
@@ -564,10 +571,13 @@ def test_tender_creation_modified_date(app):
     assert change_feed["data"][0]["dateModified"] == plan["data"]["dateModified"]
 
     # post tender
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {
-        "data": test_tender_below_data,
-        "config": test_tender_below_config,
-    })
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": test_tender_below_data,
+            "config": test_tender_below_config,
+        },
+    )
     assert response.status == "201 Created"
 
     # get updated plan
@@ -596,10 +606,13 @@ def test_fail_pass_plans(app, plan, request_tender_data, request_tender_config):
     app.authorization = ("Basic", ("broker", "broker"))
     tender_data = dict(**request_tender_data)
     tender_data["plans"] = [{"id": plan["data"]["id"]}]
-    response = app.post_json("/tenders", {
-        "data": request_tender_data,
-        "config": request_tender_config,
-    })
+    response = app.post_json(
+        "/tenders",
+        {
+            "data": request_tender_data,
+            "config": request_tender_config,
+        },
+    )
     assert response.status == "201 Created"
     tender_data = response.json["data"]
 

@@ -63,12 +63,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                     if is_item_owner(request, bid):
                         break
                 else:
-                    raise_operation_error(
-                        request,
-                        "Forbidden",
-                        location="url",
-                        name="permission"
-                    )
+                    raise_operation_error(request, "Forbidden", location="url", name="permission")
 
     def validate_complaint_on_patch(self, before, complaint):
         # self.validate_cancellation_complaint_resolved(complaint)
@@ -130,53 +125,45 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         if auth_role == "bots":
             if new_rules and status == "draft" and new_status in ("pending", "mistaken"):
                 if new_status == "mistaken":
+
                     def handler(complaint):
                         complaint["rejectReason"] = "incorrectPayment"
+
                     return BotPatchComplaint, handler
                 elif new_status == "pending":
+
                     def handler(complaint):
                         complaint["dateSubmitted"] = get_now().isoformat()
+
                     return BotPatchComplaint, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         elif auth_role == "complaint_owner":
-            if (
-                status in ["pending", "accepted"]
-                and new_status == "stopping"
-            ):
+            if status in ["pending", "accepted"] and new_status == "stopping":
+
                 def handler(complaint):
                     complaint["dateCanceled"] = get_now().isoformat()
+
                 return CancellationPatchComplaint, handler
-            elif (
-                status == "draft"
-                and new_status == status
-            ):
+            elif status == "draft" and new_status == status:
                 return DraftPatchCancellationComplaint, empty_handler
-            elif(
-                status == "draft"
-                and new_status == "mistaken"
-            ):
+            elif status == "draft" and new_status == "mistaken":
+
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
 
                 return DraftPatchCancellationComplaint, handler
 
-            elif (
-                status == "draft"
-                and new_status == "pending"
-                and not new_rules
-            ):
+            elif status == "draft" and new_status == "pending" and not new_rules:
+
                 def handler(complaint):
                     complaint["dateSubmitted"] = get_now().isoformat()
+
                 return DraftPatchCancellationComplaint, handler
 
             else:
                 raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status as {auth_role}"
+                    self.request, f"Can't update complaint from {status} to {new_status} status as {auth_role}"
                 )
 
         elif auth_role == "tender_owner":
@@ -186,6 +173,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                 and request_data.get("tendererAction")
                 and not current_complaint.get("tendererAction")
             ):
+
                 def handler(complaint):
                     complaint["status"] = "resolved"
                     complaint["tendererActionDate"] = get_now().isoformat()
@@ -199,54 +187,42 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
             elif status in ["pending", "accepted"] and new_status == "stopping":
                 return TendererActionPatchComplaint, empty_handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
 
         elif auth_role == "aboveThresholdReviewers":
-            if (
-                status in ["pending", "accepted", "stopping"]
-                and new_status == status
-            ):
+            if status in ["pending", "accepted", "stopping"] and new_status == status:
                 return ReviewPatchComplaint, empty_handler
-            elif (
-                status in ["pending", "stopping"]
-                and new_status == "invalid"
-            ):
+            elif status in ["pending", "stopping"] and new_status == "invalid":
+
                 def handler(complaint):
                     complaint["dateDecision"] = get_now().isoformat()
                     complaint["acceptance"] = False
+
                 return ReviewPatchComplaint, handler
             elif status == "pending" and new_status == "accepted":
+
                 def handler(complaint):
                     complaint["dateAccepted"] = get_now().isoformat()
                     complaint["acceptance"] = True
+
                 return ReviewPatchComplaint, handler
-            elif (
-                status in ["accepted", "stopping"]
-                and new_status in ["declined", "satisfied"]
-            ):
+            elif status in ["accepted", "stopping"] and new_status in ["declined", "satisfied"]:
+
                 def handler(complaint):
                     complaint["dateDecision"] = get_now().isoformat()
                     if new_status == "satisfied":
                         self.on_satisfy_complaint_by_reviewer()
 
                 return ReviewPatchComplaint, handler
-            elif (
-                status == "accepted"
-                and new_status == "stopped"
-            ):
+            elif status == "accepted" and new_status == "stopped":
+
                 def handler(complaint):
                     complaint["dateDecision"] = get_now().isoformat()
                     complaint["dateCanceled"] = complaint.get("dateCanceled") or get_now().isoformat()
 
                 return ReviewPatchComplaint, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         elif auth_role == "Administrator":
             return AdministratorPatchComplaint, empty_handler
         else:

@@ -55,15 +55,16 @@ from openprocurement.tender.openeu.tests.lot_blanks import (
 
 
 class TenderLotEdgeCasesTestMixin(object):
-
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
     test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
     test_next_check_value_with_unanswered_claim = snitch(next_check_value_with_unanswered_claim)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))

@@ -47,6 +47,7 @@ blacklist = (
     "WORKING_DAYS",
 )
 
+
 @constants_service.get()
 def get_constants(request):
     result = {}

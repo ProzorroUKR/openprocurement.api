@@ -33,6 +33,7 @@ class PostContract(Contract):
 
 class PatchContract(BasePatchContract):
     items = ListType(ModelType(ContractItem, required=True))
+
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
 

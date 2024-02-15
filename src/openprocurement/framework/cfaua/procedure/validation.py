@@ -32,6 +32,7 @@ def validate_create_agreement_change(request, **kwargs):
     if agreement.get("changes") and agreement["changes"][-1]["status"] == "pending":
         raise_operation_error(request, "Can't create new agreement change while any (pending) change exists")
 
+
 # changes modifications validators
 
 
@@ -69,9 +70,7 @@ def validate_modifications_contracts_uniq(modifications):
 
 def validate_only_addend_or_only_factor(modifications):
     if modifications:
-        changes_with_addend_and_factor = [
-            mod for mod in modifications if mod.get("addend") and mod.get("factor")
-        ]
+        changes_with_addend_and_factor = [mod for mod in modifications if mod.get("addend") and mod.get("factor")]
         if changes_with_addend_and_factor:
             raise ValidationError("Change with taxRate rationaleType, can have only factor or only addend")
 

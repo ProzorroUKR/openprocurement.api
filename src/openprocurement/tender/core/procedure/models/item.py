@@ -6,7 +6,8 @@ from openprocurement.api.procedure.models.item import (
     validate_additional_classifications,
     validate_scheme,
     CPVClassification as BaseCPVClassification,
-    AdditionalClassification, Location,
+    AdditionalClassification,
+    Location,
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.tender.core.procedure.models.address import Address
@@ -114,7 +115,8 @@ def validate_classification_id(items, *args):
             raise ValidationError(
                 "Item with classification.id that starts with {} and contains additionalClassification "
                 "objects have to contain no more than one additionalClassifications "
-                "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME))
+                "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
+            )
 
 
 def validate_items_uniq(items, *args):

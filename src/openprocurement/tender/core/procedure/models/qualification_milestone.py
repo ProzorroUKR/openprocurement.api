@@ -24,7 +24,7 @@ class PostQualificationMilestone(Model):
         choices=[
             QualificationMilestoneCodes.CODE_24_HOURS.value,
             # QualificationMilestoneCodes.CODE_LOW_PRICE.value,  # this one cannot be posted
-        ]
+        ],
     )
     description = StringType()
 

@@ -2,7 +2,6 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class CFASelectionTenderState(TenderState):
-
     def lots_qualification_events(self, tender):
         yield from ()  # no qualification events
 
@@ -15,7 +14,7 @@ class CFASelectionTenderState(TenderState):
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender["lots"]),
             "currency": tender["lots"][0]["value"]["currency"],
-            "valueAddedTaxIncluded": tender["lots"][0]["value"]["valueAddedTaxIncluded"]
+            "valueAddedTaxIncluded": tender["lots"][0]["value"]["valueAddedTaxIncluded"],
         }
 
     def calc_tender_minimal_step(self, tender: dict) -> None:

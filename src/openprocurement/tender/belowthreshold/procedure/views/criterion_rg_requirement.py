@@ -15,16 +15,17 @@ from openprocurement.tender.core.procedure.models.criterion import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 
 
 @resource(
     name="belowThreshold:Requirement Group Requirement",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements",
+    "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
     procurementMethodType="belowThreshold",
     description="Tender requirement group requirement",
 )
@@ -34,9 +35,9 @@ class RequirementResource(BaseRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PatchRequirement),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(PatchRequirement),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )
@@ -46,9 +47,9 @@ class RequirementResource(BaseRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PutRequirement, none_means_remove=True),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(PutRequirement, none_means_remove=True),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )

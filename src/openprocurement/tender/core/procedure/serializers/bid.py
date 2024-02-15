@@ -31,7 +31,6 @@ class BidSerializer(BaseSerializer):
             if data.get("status") in ("invalid", "deleted"):
                 self.whitelist = {"id", "status"}
 
-
     def set_tender_with_pre_qualification_whitelist(self, data):
         tender = get_tender()
         bid_role = self.serialize_role(tender, data)

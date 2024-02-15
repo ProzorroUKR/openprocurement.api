@@ -10,9 +10,12 @@ import json
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224("00000000".encode()).hexdigest(),
+    ],
+)
 def test_mask_function():
     with open("src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
         data = json.load(f)
@@ -26,9 +29,12 @@ def test_mask_function():
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224("00000000".encode()).hexdigest(),
+    ],
+)
 def test_mask_contract_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/contracting/api/tests/data/contract_to_mask.json") as f:
@@ -151,7 +157,6 @@ def test_mask_contract_skipped(app):
     assert response.status_code == 200
     data = response.json["data"]
     assert data["items"][0]["description"] != "00000000000000000000000000000000"
-
 
 
 def test_mask_contract_by_config_restricted(app):

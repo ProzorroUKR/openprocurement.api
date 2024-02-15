@@ -24,8 +24,7 @@ PERIODS = {
                 "endDate": timedelta(days=2),
             },
         },
-        "complaint_end":
-        {
+        "complaint_end": {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=28),
                 "endDate": -timedelta(days=2),
@@ -119,8 +118,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3)
-                ,
+                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3),
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
@@ -132,5 +130,5 @@ PERIODS = {
             },
             "awardPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
         }
-    }
+    },
 }

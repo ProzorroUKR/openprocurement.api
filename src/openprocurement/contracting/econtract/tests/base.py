@@ -93,20 +93,24 @@ class BaseEContractTest(BaseContractTest):
     def patch_tender_bot(self):
         items = deepcopy(self.initial_tender_data["items"])
         for item in items:
-            item.update({
-                "classification": test_tender_pq_short_profile["classification"],
-                "unit": test_tender_pq_short_profile["unit"]
-            })
+            item.update(
+                {
+                    "classification": test_tender_pq_short_profile["classification"],
+                    "unit": test_tender_pq_short_profile["unit"],
+                }
+            )
         value = deepcopy(test_tender_pq_short_profile['value'])
         amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
         value["amount"] = amount
         # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
-        self.tender_document_patch.update({
-            "shortlistedFirms": test_tender_pq_shortlisted_firms,
-            # 'criteria': criteria,
-            "items": items,
-            "value": value
-        })
+        self.tender_document_patch.update(
+            {
+                "shortlistedFirms": test_tender_pq_shortlisted_firms,
+                # 'criteria': criteria,
+                "items": items,
+                "value": value,
+            }
+        )
 
     def save_tender_changes(self):
         if self.tender_document_patch:
@@ -206,7 +210,7 @@ class BaseEContractWebTest(BaseEContractTest):
                 {
                     "suppliers": [{**self.contract_document["suppliers"][0], "signerInfo": test_signer_info}],
                     "buyer": {**self.contract_document["buyer"], "signerInfo": test_signer_info},
-                    "dateSigned": get_now().isoformat()
+                    "dateSigned": get_now().isoformat(),
                 }
             )
             self.tender_document = self.mongodb.tenders.get(self.tender_id)
@@ -227,14 +231,16 @@ class BaseEContractWebTest(BaseEContractTest):
 
             contract = self.initial_data
             contract.update(tender_contract)
-            contract.update({
-                "tender_id": self.tender_id,
-                # "suppliers": suppliers,
-                "owner": self.tender_document["owner"],
-                "tender_token": self.tender_document["owner_token"],
-                "bid_owner": "broker",
-                "bid_token": self.initial_bids_tokens[0]
-            })
+            contract.update(
+                {
+                    "tender_id": self.tender_id,
+                    # "suppliers": suppliers,
+                    "owner": self.tender_document["owner"],
+                    "tender_token": self.tender_document["owner_token"],
+                    "bid_owner": "broker",
+                    "bid_token": self.initial_bids_tokens[0],
+                }
+            )
             # if "items" in self.initial_data:
             #     contract["items"] = prepared_items
             self.contract_id = contract["id"]

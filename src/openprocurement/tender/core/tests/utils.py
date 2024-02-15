@@ -36,8 +36,7 @@ class TestUtilsBase(unittest.TestCase):
                 "title": "Mars",
                 "value": {"amount": 600000},
                 "minimalStep": {"amount": 2000},
-            }
-
+            },
         ]
         self.items = [{"description": "Some item", "relatedLot": "11111111111111111111111111111111"}]
 
@@ -72,9 +71,7 @@ class TestUtils(TestUtilsBase):
         request.registry.mongodb.get_next_sequence_value.return_value = 99
 
         tender_id = generate_tender_id(request)
-        tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(
-            ctime.year, ctime.month, ctime.day, 99
-        )
+        tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(ctime.year, ctime.month, ctime.day, 99)
         self.assertEqual(tid, tender_id)
 
     @patch("openprocurement.tender.core.procedure.utils.decode_path_info")

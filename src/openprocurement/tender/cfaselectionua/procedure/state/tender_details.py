@@ -22,7 +22,10 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
     AGREEMENT_ITEMS_MESSAGE,
     AGREEMENT_EXPIRED_MESSAGE,
-    AGREEMENT_START_DATE_MESSAGE, AGREEMENT_CHANGE_MESSAGE, AGREEMENT_CONTRACTS_MESSAGE, AGREEMENT_IDENTIFIER_MESSAGE,
+    AGREEMENT_START_DATE_MESSAGE,
+    AGREEMENT_CHANGE_MESSAGE,
+    AGREEMENT_CONTRACTS_MESSAGE,
+    AGREEMENT_IDENTIFIER_MESSAGE,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
 from openprocurement.api.utils import raise_operation_error
@@ -67,8 +70,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 self.get_change_tender_status_handler("draft.unsuccessful")(after)
             elif before["status"] != "draft.pending" or after["status"] != "draft.pending":
                 raise_operation_error(
-                    get_request(),
-                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
+                    get_request(), f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
                 )
 
         else:  # tender owner
@@ -81,13 +83,11 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 self.update_periods(after)
                 if not after["agreements"] or not after.get("items"):
                     raise_operation_error(
-                        get_request(),
-                        "Can't switch tender to (draft.pending) status without agreements or items."
+                        get_request(), "Can't switch tender to (draft.pending) status without agreements or items."
                     )
             elif before["status"] != after["status"]:
                 raise_operation_error(
-                    get_request(),
-                    f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
+                    get_request(), f"Can't switch tender from ({before['status']}) to ({after['status']}) status."
                 )
 
             elif after["status"] == "active.enquiries":
@@ -113,24 +113,22 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 for k in get_request().validated["json_data"].keys():
                     if k != "procurementMethodDetails":
                         if before.get(k) != after.get(k):
-                            raise_operation_error(get_request(),
-                                                  f"Only procurementMethodDetails can be updated at {after['status']}")
+                            raise_operation_error(
+                                get_request(), f"Only procurementMethodDetails can be updated at {after['status']}"
+                            )
         self.always(after)
 
     @staticmethod
     def update_periods(tender):
         enquiry_end = calculate_tender_business_date(get_now(), ENQUIRY_PERIOD, tender)
-        tender["enquiryPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": enquiry_end.isoformat()
-        }
+        tender["enquiryPeriod"] = {"startDate": get_now().isoformat(), "endDate": enquiry_end.isoformat()}
         tender["tenderPeriod"] = {
             "startDate": tender["enquiryPeriod"]["endDate"],
             "endDate": calculate_tender_business_date(
                 dt_from_iso(tender["enquiryPeriod"]["endDate"]),
                 TENDERING_DURATION,
                 tender,
-            ).isoformat()
+            ).isoformat(),
         }
 
     @staticmethod
@@ -163,21 +161,17 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     @classmethod
     def are_tender_items_is_not_subset_of_agreement_items(cls, tender, agreement):
         agreement_items_ids = {
-            cls.calculate_item_identification_tuple(agreement_item)
-            for agreement_item in agreement.get("items", "")
+            cls.calculate_item_identification_tuple(agreement_item) for agreement_item in agreement.get("items", "")
         }
         tender_items_ids = {
-            cls.calculate_item_identification_tuple(tender_item)
-            for tender_item in tender.get("items", "")
+            cls.calculate_item_identification_tuple(tender_item) for tender_item in tender.get("items", "")
         }
         return not tender_items_ids.issubset(agreement_items_ids)
 
     @classmethod
     def is_agreement_expired(cls, tender, agreement):
         agreement_expire_date = calculate_tender_date(
-            dt_from_iso(agreement["period"]["endDate"]),
-            - cls.agreement_min_period_until_end,
-            tender
+            dt_from_iso(agreement["period"]["endDate"]), -cls.agreement_min_period_until_end, tender
         )
         return get_now() > agreement_expire_date
 
@@ -196,10 +190,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     def check_owner_forbidden_fields(tender):
         if tender["status"] in ("draft", "draft.pending"):
             if "features" in tender:
-                raise_operation_error(
-                    get_request(),
-                    "Can't add features"
-                )
+                raise_operation_error(get_request(), "Can't add features")
 
     def validate_minimal_step(self, data, before=None):
         """
@@ -227,8 +218,7 @@ class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelecti
 
 def calculate_agreement_contracts_value_amount(tender):
     agreement = tender["agreements"][0]
-    tender_items = {i["id"]: i["quantity"]
-                    for i in tender.get("items", "")}
+    tender_items = {i["id"]: i["quantity"] for i in tender.get("items", "")}
     for contract in agreement.get("contracts", ""):
         contract["value"] = {
             "amount": 0,
@@ -244,10 +234,7 @@ def calculate_agreement_contracts_value_amount(tender):
 
     contract_values = [contract["value"] for contract in agreement.get("contracts", "")]
     if contract_values:
-        tender["value"] = tender["lots"][0]["value"] = value = max(
-            contract_values,
-            key=lambda value: value["amount"]
-        )
+        tender["value"] = tender["lots"][0]["value"] = value = max(contract_values, key=lambda value: value["amount"])
 
         # handle minimalStep auto decrease
         minimal_step = tender["lots"][0].get("minimalStep")

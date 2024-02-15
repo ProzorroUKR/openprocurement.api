@@ -11,4 +11,3 @@ from cornice.resource import resource
 )
 class OpenEUChronographResource(TenderChronographResource):
     state_class = BaseOpenEUTenderState
-

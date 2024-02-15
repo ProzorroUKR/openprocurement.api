@@ -11,7 +11,9 @@ from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_data_model,
-    validate_input_data, validate_upload_document, update_doc_fields_on_put_document,
+    validate_input_data,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 
 
@@ -23,23 +25,19 @@ from openprocurement.api.procedure.validation import (
     qualificationType=DPS_TYPE,
 )
 class QualificationDocumentResource(CoreQualificationDocumentResource):
-    @json_view(
-        permission="view_framework"
-    )
+    @json_view(permission="view_framework")
     def collection_get(self):
         return super().collection_get()
 
-    @json_view(
-        permission="view_framework"
-    )
+    @json_view(permission="view_framework")
     def get(self):
         return super().get()
 
     @json_view(
         validators=(
-                validate_framework_owner("qualification"),
-                validate_document_operation_in_not_allowed_status,
-                validate_input_data(PostDocument, allow_bulk=True),
+            validate_framework_owner("qualification"),
+            validate_document_operation_in_not_allowed_status,
+            validate_input_data(PostDocument, allow_bulk=True),
         ),
         permission="edit_qualification",
     )
@@ -48,12 +46,12 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
 
     @json_view(
         validators=(
-                validate_framework_owner("qualification"),
-                validate_document_operation_in_not_allowed_status,
-                validate_input_data(PostDocument),
-                update_doc_fields_on_put_document,
-                validate_upload_document,
-                validate_data_model(Document),
+            validate_framework_owner("qualification"),
+            validate_document_operation_in_not_allowed_status,
+            validate_input_data(PostDocument),
+            update_doc_fields_on_put_document,
+            validate_upload_document,
+            validate_data_model(Document),
         ),
         permission="edit_qualification",
     )
@@ -63,10 +61,10 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_framework_owner("qualification"),
-                validate_document_operation_in_not_allowed_status,
-                validate_input_data(PatchDocument, none_means_remove=True),
-                validate_patch_data_simple(Document, item_name="document"),
+            validate_framework_owner("qualification"),
+            validate_document_operation_in_not_allowed_status,
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data_simple(Document, item_name="document"),
         ),
         permission="edit_qualification",
     )

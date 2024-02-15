@@ -7,14 +7,8 @@ PERIODS = {
                 "startDate": timedelta(),
                 "endDate": timedelta(days=10),
             },
-            "period": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=30)
-            },
-            "qualificationPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=61)
-            },
+            "period": {"startDate": timedelta(), "endDate": timedelta(days=30)},
+            "qualificationPeriod": {"startDate": timedelta(), "endDate": timedelta(days=61)},
         }
     },
     "complete": {
@@ -23,14 +17,8 @@ PERIODS = {
                 "startDate": -timedelta(days=61),
                 "endDate": -timedelta(days=51),
             },
-            "period": {
-                "startDate": -timedelta(days=61),
-                "endDate": -timedelta(days=30)
-            },
-            "qualificationPeriod": {
-                "startDate": -timedelta(days=61),
-                "endDate": timedelta()
-            }
+            "period": {"startDate": -timedelta(days=61), "endDate": -timedelta(days=30)},
+            "qualificationPeriod": {"startDate": -timedelta(days=61), "endDate": timedelta()},
         }
-    }
+    },
 }

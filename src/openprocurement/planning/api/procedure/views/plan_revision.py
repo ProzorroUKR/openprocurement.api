@@ -8,6 +8,7 @@ from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 
 LOGGER = getLogger(__name__)
 
+
 @resource(
     name="Plan Revisions",
     path="/plans/{plan_id}/revisions",

@@ -15,7 +15,7 @@ class PatchBid(PatchObjResponsesMixin, BasePatchBid):
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but
-    selfEligible = BooleanType(choices=[True])   # tests fail because they in different order
+    selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
 
 
 class PostBid(PostBidResponsesMixin, BasePostBid):

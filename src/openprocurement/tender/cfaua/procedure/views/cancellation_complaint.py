@@ -30,4 +30,3 @@ class CFAUACancellationClaimAndComplaintGetResource(CancellationComplaintGetReso
 )
 class CFAUACancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = CFAUACancellationComplaintState
-

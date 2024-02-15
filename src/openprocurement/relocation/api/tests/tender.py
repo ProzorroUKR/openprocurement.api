@@ -303,11 +303,13 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # first try on non 5th level broker
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["procuringEntity"]["kind"] = "central"
-        tender["buyers"] = [{
-            "id": uuid.uuid4().hex,
-            "name": tender["procuringEntity"]["name"],
-            "identifier": tender["procuringEntity"]["identifier"]
-        }]
+        tender["buyers"] = [
+            {
+                "id": uuid.uuid4().hex,
+                "name": tender["procuringEntity"]["name"],
+                "identifier": tender["procuringEntity"]["identifier"],
+            }
+        ]
         for item in tender["items"]:
             item["relatedBuyer"] = tender["buyers"][0]["id"]
         self.mongodb.tenders.save(tender)
@@ -355,7 +357,6 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         self.assertIn("owner", response.json["data"])
         self.assertEqual(response.json["data"]["owner"], self.central_owner)
 
-
     def test_validate_status(self):
         # terminated contract is also protected
         self.set_status("cancelled")
@@ -400,7 +401,6 @@ class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
-
 
 
 class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
@@ -497,16 +497,18 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # second owner can change the tender
-        end_date = calculate_tender_business_date(
-            get_now(), TENDERING_DURATION
-        )
+        end_date = calculate_tender_business_date(get_now(), TENDERING_DURATION)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),
-                {"data": {"tenderPeriod": {
-                    "startDate": tender["tenderPeriod"]["startDate"],
-                    "endDate": end_date.isoformat(),
-                }}},
+                {
+                    "data": {
+                        "tenderPeriod": {
+                            "startDate": tender["tenderPeriod"]["startDate"],
+                            "endDate": end_date.isoformat(),
+                        }
+                    }
+                },
             )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("transfer", response.json["data"])

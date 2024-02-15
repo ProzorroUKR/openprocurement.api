@@ -50,7 +50,6 @@ class BaseSignerInfoResource(ContractBaseResource):
     accept="application/json",
 )
 class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
-
     parent_obj_name = "buyer"
 
     @json_view(

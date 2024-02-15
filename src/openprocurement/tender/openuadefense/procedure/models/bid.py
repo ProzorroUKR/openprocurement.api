@@ -43,4 +43,3 @@ class Bid(BaseBid):
     def validate_value(self, data, value):
         tender = get_tender()
         validate_bid_value(tender, value)
-

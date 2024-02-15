@@ -32,6 +32,7 @@ def resolve_qualification(request):
         qualification = get_items(request, request.validated["tender"], "qualifications", qualification_id)
         request.validated["qualification"] = qualification[0]
 
+
 @resource(
     name="Tender Qualification",
     collection_path="/tenders/{tender_id}/qualifications",
@@ -62,25 +63,21 @@ class TenderQualificationResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def collection_get(self):
-        """List qualifications
-        """
+        """List qualifications"""
         tender = self.request.validated["tender"]
         data = tuple(self.serializer_class(qualification).data for qualification in tender.get("qualifications", []))
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
-        """Retrieving the qualification
-        """
+        """Retrieving the qualification"""
         data = self.serializer_class(self.request.validated["qualification"]).data
         return {"data": data}
 
     @json_view(
         content_type="application/json",
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchQualification),
             validate_patch_data(Qualification, item_name="qualification"),
             validate_qualification_update_not_in_pre_qualification,
@@ -91,8 +88,7 @@ class TenderQualificationResource(TenderBaseResource):
         permission="edit_qualification",
     )
     def patch(self):
-        """Post a qualification resolution
-        """
+        """Post a qualification resolution"""
         updated = self.request.validated["data"]
         if updated:
             qualification = self.request.validated["qualification"]

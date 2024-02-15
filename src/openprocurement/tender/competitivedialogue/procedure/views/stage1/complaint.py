@@ -50,6 +50,7 @@ class CDEUTenderComplaintResource(TenderComplaintResource):
 
 # CD UA
 
+
 @resource(
     name="{}:Tender Complaints Get".format(CD_UA_TYPE),
     collection_path="/tenders/{tender_id}/complaints",
@@ -86,4 +87,3 @@ class CDUATenderClaimResource(TenderClaimResource):
 )
 class CDUATenderComplaintResource(TenderComplaintResource):
     state_class = CDStage1TenderComplaintState
-

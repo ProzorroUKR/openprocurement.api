@@ -10,14 +10,10 @@ from openprocurement.relocation.api.procedure.utils import save_transfer
 from openprocurement.api.procedure.validation import validate_input_data
 
 
-@resource(
-    name="Transfers",
-    path="/transfers/{transfer_id}",
-    collection_path="/transfers",
-    description="Transfers"
-)
+@resource(name="Transfers", path="/transfers/{transfer_id}", collection_path="/transfers", description="Transfers")
 class TransferResource(TransferBaseResource):
-    """ Resource handler for Transfers """
+    """Resource handler for Transfers"""
+
     serializer_class = TransferSerializer
 
     @json_view(permission="view_transfer")
@@ -28,9 +24,7 @@ class TransferResource(TransferBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_transfer",
-        validators=(
-            validate_input_data(PostTransfer),
-        ),
+        validators=(validate_input_data(PostTransfer),),
     )
     def collection_post(self):
         transfer = self.request.validated["data"]

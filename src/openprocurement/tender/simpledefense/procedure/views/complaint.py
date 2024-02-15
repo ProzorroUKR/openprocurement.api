@@ -44,4 +44,3 @@ class SimpleDefenseTenderClaimResource(TenderClaimResource):
 )
 class SimpleDefenseTenderComplaintResource(TenderComplaintResource):
     state_class = SimpleDefenseTenderComplaintState
-

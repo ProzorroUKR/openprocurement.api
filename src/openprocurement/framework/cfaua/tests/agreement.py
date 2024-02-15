@@ -19,8 +19,9 @@ from openprocurement.framework.cfaua.tests.agreement_blanks import (
     agreement_change_third_party_preview,
     agreement_changes_patch_from_agreements,
     create_agreement_with_two_active_contracts,
-    agreement_token_invalid, generate_credentials_invalid,
-    skip_address_validation
+    agreement_token_invalid,
+    generate_credentials_invalid,
+    skip_address_validation,
 )
 
 from openprocurement.api.tests.base import snitch

@@ -8,7 +8,8 @@ from openprocurement.tender.openua.procedure.state.tender import OpenUATenderSta
 from openprocurement.tender.openua.constants import (
     TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME, COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+    COMPLAINT_SUBMIT_TIME,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
@@ -39,7 +40,10 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
             working_days=self.period_working_day,
         )
         clarifications_until = calculate_clarif_business_date(
-            end_date, self.enquiry_stand_still_timedelta, tender, True,
+            end_date,
+            self.enquiry_stand_still_timedelta,
+            tender,
+            True,
         )
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"] = dict(
@@ -53,11 +57,10 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
 
 
 class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
-
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     tendering_period_extra_working_days = False
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     def on_post(self, tender):

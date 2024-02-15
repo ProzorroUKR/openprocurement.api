@@ -11,9 +11,7 @@ class FrameworkChronographResource(FrameworkBaseResource):
 
     @json_view(
         permission="chronograph",
-        validators=(
-            validate_input_data(FrameworkChronographData),
-        )
+        validators=(validate_input_data(FrameworkChronographData),),
     )
     def patch(self):
         framework = self.request.validated["framework"]
@@ -21,7 +19,7 @@ class FrameworkChronographResource(FrameworkBaseResource):
         if save_object(self.request, "framework"):
             self.LOGGER.info(
                 "Updated tender by chronograph",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"})
+                extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"}),
             )
         return {
             "data": self.serializer_class(framework).data,

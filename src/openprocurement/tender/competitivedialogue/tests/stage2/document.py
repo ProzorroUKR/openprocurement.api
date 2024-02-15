@@ -13,7 +13,9 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 )
 
 
-class TenderStage2DocumentWithDSResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderStage2DocumentWithDSResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
+):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cd_lots
@@ -22,7 +24,9 @@ class TenderStage2DocumentWithDSResourceTest(BaseCompetitiveDialogEUStage2Conten
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class TenderStage2UADocumentWithDSResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderStage2UADocumentWithDSResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
+):
     docservice = True
     initial_lots = test_tender_cd_lots
 

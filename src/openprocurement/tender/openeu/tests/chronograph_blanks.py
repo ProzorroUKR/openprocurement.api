@@ -26,22 +26,18 @@ def active_tendering_to_pre_qual_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
     self.check_chronograph()
 
-    response = self.check_chronograph(data={"data": {"lots": [
-        {"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}},
-        {},
-        {}
-    ]}})
+    response = self.check_chronograph(
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}}, {}, {}]}}
+    )
     lots = response.json["data"]["lots"]
     self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-04T14:05:00+02:00")
     self.assertNotIn("auctionPeriod", lots[1])
     self.assertNotIn("auctionPeriod", lots[2])
 
     # second update had a bug, and `"auctionPeriod": null` appeared for second and third lots
-    response = self.check_chronograph(data={"data": {"lots": [
-        {"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}},
-        {},
-        {}
-    ]}})
+    response = self.check_chronograph(
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}}, {}, {}]}}
+    )
     lots = response.json["data"]["lots"]
     self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-05T14:05:00+02:00")
     self.assertNotIn("auctionPeriod", lots[1])
@@ -107,9 +103,7 @@ def switch_to_complaint(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": claim_data
-            },
+            {"data": claim_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")

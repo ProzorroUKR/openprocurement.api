@@ -2,8 +2,8 @@
 
 
 class ErrorDescriptorEvent(object):
-    """ Error descriptor event.
-        'params' attribute can be extended with extra records by event handler.
+    """Error descriptor event.
+    'params' attribute can be extended with extra records by event handler.
     """
 
     def __init__(self, request, params):

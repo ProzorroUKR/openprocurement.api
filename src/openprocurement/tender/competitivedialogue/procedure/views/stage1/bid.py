@@ -15,7 +15,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,
     validate_data_documents,
-    validate_item_owner, unless_administrator, validate_accreditation_level,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -31,7 +33,6 @@ LOGGER = getLogger(__name__)
     description="Competitive Dialogue UA bids",
 )
 class CompetitiveDialogueUABidResource(TenderBidResource):
-
     serializer_class = BidSerializer
     state_class = CDStage1BidState
 
@@ -59,10 +60,8 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
         validators=(
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data(Bid, item_name="bid"),
         ),
@@ -79,7 +78,6 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
     description="Competitive Dialogue EU bids",
 )
 class CompetitiveDialogueEUBidResource(TenderBidResource):
-
     serializer_class = BidSerializer
     state_class = CDStage1BidState
 
@@ -107,10 +105,8 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
         validators=(
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,)),
             validate_patch_data(Bid, item_name="bid"),
         ),

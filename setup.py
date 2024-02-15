@@ -24,10 +24,10 @@ tests_requires = requires
 
 entry_points = {
     "paste.app_factory": [
-        "main = openprocurement.api.app:main"
+        "main = openprocurement.api.app:main",
     ],
     "paste.filter_app_factory": [
-        "translogger = openprocurement.api.translogger:make_filter"
+        "translogger = openprocurement.api.translogger:make_filter",
     ],
     "openprocurement.api.plugins": [
         "api = openprocurement.api.includeme:includeme",
@@ -72,7 +72,7 @@ entry_points = {
         "frameworks = openprocurement.framework.core.migration:migrate_data",
     ],
     "console_scripts": [
-        "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security"
+        "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security",
     ],
 }
 
@@ -86,7 +86,7 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
         "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
     ],
     keywords="web services",
     author="Quintagroup, Ltd.",

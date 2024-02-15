@@ -24,4 +24,5 @@ def validate_contract_document_complaints(operation):
                 for complaint in award.get("complaints", []):
                     if complaint["status"] == "accepted":
                         raise_operation_error(request, f"Can't {operation} document with accepted complaint")
+
     return validate

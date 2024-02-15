@@ -46,18 +46,15 @@ class EUTenderAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-                unless_admins(
-                    validate_item_owner("tender")
-                ),
-                validate_input_data(PatchAward),
-                validate_patch_data(Award, item_name="award"),
-                validate_award_with_lot_cancellation_in_pending,
-                validate_update_award_in_not_allowed_status,
-                validate_update_award_only_for_active_lots,
-                validate_update_award_with_accepted_complaint,
-                validate_update_award_status_before_milestone_due_date,
+            unless_admins(validate_item_owner("tender")),
+            validate_input_data(PatchAward),
+            validate_patch_data(Award, item_name="award"),
+            validate_award_with_lot_cancellation_in_pending,
+            validate_update_award_in_not_allowed_status,
+            validate_update_award_only_for_active_lots,
+            validate_update_award_with_accepted_complaint,
+            validate_update_award_status_before_milestone_due_date,
         ),
     )
     def patch(self):
         return super().patch()
-

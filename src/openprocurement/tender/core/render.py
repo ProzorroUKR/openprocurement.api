@@ -32,5 +32,3 @@ def render_tender_txt(data):
     # render
     template = env.get_template("tender.txt")
     return template.render(data)
-
-

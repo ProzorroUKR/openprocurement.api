@@ -30,8 +30,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
         self.contract = response.json["data"]
         self.contract_id = self.contract["id"]
         response = self.app.patch_json(
-            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}",
-            {"data": ""}
+            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
         )
         self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]

@@ -96,12 +96,14 @@ class CreateAwardComplaintMixin:
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 f"/tenders/{self.tender_id}/awards",
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"],
-                }}
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_lots[0]["id"],
+                    }
+                },
             )
 
         award = response.json["data"]
@@ -110,11 +112,7 @@ class CreateAwardComplaintMixin:
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 f"/tenders/{self.tender_id}/awards/{self.award_id}",
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }}
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
 
 

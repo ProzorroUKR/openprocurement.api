@@ -101,12 +101,16 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
     initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_bids = [
         {
-            "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_cfaselectionua_agreement_features["features"]],
+            "parameters": [
+                {"code": i["code"], "value": 0.1} for i in test_tender_cfaselectionua_agreement_features["features"]
+            ],
             "tenderers": [test_tender_cfaselectionua_organization],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
         },
         {
-            "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_cfaselectionua_agreement_features["features"]],
+            "parameters": [
+                {"code": i["code"], "value": 0.15} for i in test_tender_cfaselectionua_agreement_features["features"]
+            ],
             "tenderers": [test_tender_cfaselectionua_organization],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
         },

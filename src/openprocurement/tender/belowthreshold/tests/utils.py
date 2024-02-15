@@ -81,16 +81,8 @@ def set_tender_multi_buyers(_test_tender_data, _test_item, _test_organization):
     _test_organization_2["identifier"]["id"] = "00037254"
 
     _tender_data["buyers"] = [
-        {
-            "id": buyer1_id,
-            "name": _test_organization_1["name"],
-            "identifier": _test_organization_1["identifier"]
-        },
-        {
-            "id": buyer2_id,
-            "name": _test_organization_2["name"],
-            "identifier": _test_organization_2["identifier"]
-        },
+        {"id": buyer1_id, "name": _test_organization_1["name"], "identifier": _test_organization_1["identifier"]},
+        {"id": buyer2_id, "name": _test_organization_2["name"], "identifier": _test_organization_2["identifier"]},
     ]
     # assign items to buyers
     _tender_data["items"][0]["relatedBuyer"] = buyer1_id
@@ -118,10 +110,7 @@ def patch_contract(self, tender_id, tender_token, contract_id, data):
             {"data": data},
         )
     else:
-        self.app.patch_json(
-            f"/contracts/{contract_id}?acc_token={tender_token}",
-            {"data": {}}
-        )
+        self.app.patch_json(f"/contracts/{contract_id}?acc_token={tender_token}", {"data": {}})
 
         self.app.patch_json(
             f"/contracts/{contract_id}?acc_token={tender_token}",

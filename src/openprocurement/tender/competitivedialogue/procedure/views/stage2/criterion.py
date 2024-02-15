@@ -11,7 +11,9 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator, unless_admins,
+    validate_item_owner,
+    unless_administrator,
+    unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 
@@ -19,19 +21,19 @@ from openprocurement.tender.competitivedialogue.procedure.validation import unle
 class BaseStage2CriterionResource(BaseCDCriterionResource):
     def __acl__(self) -> List[Tuple[str, str, str]]:
         acl = super().__acl__()
-        acl.extend([
-            (Allow, "g:competitive_dialogue", "create_criterion"),
-            (Allow, "g:competitive_dialogue", "edit_criterion"),
-        ])
+        acl.extend(
+            [
+                (Allow, "g:competitive_dialogue", "create_criterion"),
+                (Allow, "g:competitive_dialogue", "edit_criterion"),
+            ]
+        )
         return acl
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(Criterion, allow_bulk=True),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(Criterion, allow_bulk=True),
         ),
         permission="create_criterion",
     )
@@ -41,11 +43,9 @@ class BaseStage2CriterionResource(BaseCDCriterionResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(PatchCriterion),
-                validate_patch_data_simple(Criterion, "criterion"),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(PatchCriterion),
+            validate_patch_data_simple(Criterion, "criterion"),
         ),
         permission="edit_criterion",
     )

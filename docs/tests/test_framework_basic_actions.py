@@ -56,12 +56,7 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
-        response = self.app.post_json(
-            '/frameworks', {
-                'data': data,
-                'config': test_framework_open_config
-            }
-        )
+        response = self.app.post_json('/frameworks', {'data': data, 'config': test_framework_open_config})
         self.assertEqual(response.status, '201 Created')
 
         framework = response.json['data']
@@ -80,17 +75,14 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
         # Questions
 
         with open(TARGET_DIR_QUESTIONS + 'ask-question.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/frameworks/{framework['id']}/questions",
-                {'data': test_question_data}
-            )
+            response = self.app.post_json(f"/frameworks/{framework['id']}/questions", {'data': test_question_data})
             self.assertEqual(response.status, '201 Created')
             question = response.json["data"]
 
         with open(TARGET_DIR_QUESTIONS + 'answer-question.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
-                {'data': {"answer": "Таблицю додано в файлі"}}
+                {'data': {"answer": "Таблицю додано в файлі"}},
             )
             self.assertEqual(response.status, '200 OK')
 

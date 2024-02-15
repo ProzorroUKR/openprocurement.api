@@ -19,6 +19,7 @@ from openprocurement.api.utils import raise_operation_error
 
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import TenderState
+
     baseclass = TenderState
 else:
     baseclass = object
@@ -45,8 +46,7 @@ class AwardStateMixing(baseclass):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before['status']}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
@@ -69,14 +69,13 @@ class AwardStateMixing(baseclass):
             self.award_status_up_from_pending_to_unsuccessful(award, tender, working_days=True)
 
         elif (
-            before == "unsuccessful" and after == "cancelled"
-            and any(i["status"] in ("claim", "answered", "pending", "resolved")
-                    for i in award.get("complaints", ""))
+            before == "unsuccessful"
+            and after == "cancelled"
+            and any(i["status"] in ("claim", "answered", "pending", "resolved") for i in award.get("complaints", ""))
         ):
             self.award_status_up_from_unsuccessful_to_cancelled(award, tender, awarding_order_enabled)
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(),
-                                  f"Can't update award in current ({before}) status")
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = now
 
@@ -131,17 +130,20 @@ class AwardStateMixing(baseclass):
             include_awards_ids = []
         is_created_after = tender_created_after(QUALIFICATION_AFTER_COMPLAINT_FROM)
         return (
-                is_created_after
-                and award["status"] in ("pending", "active")
-                or not is_created_after
-                or award["id"] in include_awards_ids
+            is_created_after
+            and award["status"] in ("pending", "active")
+            or not is_created_after
+            or award["id"] in include_awards_ids
         )
 
     @staticmethod
     def check_active_awards(current_award, tender):
         for award in tender.get("awards", []):
-            if award["id"] != current_award["id"] and award["status"] == "active" and \
-                    award.get("lotID") == current_award.get("lotID"):
+            if (
+                award["id"] != current_award["id"]
+                and award["status"] == "active"
+                and award.get("lotID") == current_award.get("lotID")
+            ):
                 raise_operation_error(
                     get_request(),
                     f"Can't activate award as tender already has "
@@ -154,8 +156,7 @@ class AwardStateMixing(baseclass):
         now = get_now().isoformat()
         # update complaintPeriod.endDate if there is a need
         if award.get("complaintPeriod") and (
-                not award["complaintPeriod"].get("endDate")
-                or award["complaintPeriod"]["endDate"] > now
+            not award["complaintPeriod"].get("endDate") or award["complaintPeriod"]["endDate"] > now
         ):
             award["complaintPeriod"]["endDate"] = now
 
@@ -178,10 +179,7 @@ class AwardStateMixing(baseclass):
                     cls.set_object_status(contract, "cancelled")
                     cancelled_contracts_ids.append(contract["id"])
                 else:
-                    raise_operation_error(
-                        get_request(),
-                        "Can't cancel award contract in active status"
-                    )
+                    raise_operation_error(get_request(), "Can't cancel award contract in active status")
         return cancelled_contracts_ids
 
     @classmethod

@@ -5,15 +5,9 @@ from openprocurement.tender.belowthreshold.procedure.state.criterion_rg_requirem
 from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 
 
-class BelowThresholdEligibleEvidenceStateMixin(
-    BelowThresholdRequirementValidationsMixin,
-    EligibleEvidenceStateMixin
-):
+class BelowThresholdEligibleEvidenceStateMixin(BelowThresholdRequirementValidationsMixin, EligibleEvidenceStateMixin):
     pass
 
 
-class BelowThresholdEligibleEvidenceState(
-    BelowThresholdEligibleEvidenceStateMixin,
-    BelowThresholdTenderState
-):
+class BelowThresholdEligibleEvidenceState(BelowThresholdEligibleEvidenceStateMixin, BelowThresholdTenderState):
     pass

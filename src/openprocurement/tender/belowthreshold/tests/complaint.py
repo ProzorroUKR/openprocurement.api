@@ -20,7 +20,8 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     not_found,
     create_tender_complaint_document,
     put_tender_complaint_document,
-    patch_tender_complaint_document, patch_tender_complaint_without_clarifications_until,
+    patch_tender_complaint_document,
+    patch_tender_complaint_without_clarifications_until,
 )
 
 

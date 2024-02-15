@@ -119,24 +119,20 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     periods = PERIODS
 
     forbidden_agreement_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
     forbidden_question_add_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which adding tender questions is forbidden
+        "active.pre-qualification"  # status, in which adding tender questions is forbidden
+    )
     forbidden_question_update_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which updating tender questions is forbidden
-    question_claim_block_status = (
-        "active.pre-qualification"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+        "active.pre-qualification"  # status, in which updating tender questions is forbidden
+    )
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
+    )
 
     @classmethod
     def setUpClass(cls):
@@ -183,12 +179,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 bid = deepcopy(meta_bid)
                 if lots:
                     value = bid.pop("value")
-                    bid["lotValues"] = [{
-                        "status": "pending",
-                        "value": value,
-                        "relatedLot": l["id"],
-                        "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
-                    } for l in lots]
+                    bid["lotValues"] = [
+                        {
+                            "status": "pending",
+                            "value": value,
+                            "relatedLot": l["id"],
+                            "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
+                        }
+                        for l in lots
+                    ]
                 bid.update(
                     {
                         "id": uuid4().hex,
@@ -215,8 +214,10 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     if bid.get("status") not in ["invalid", "deleted"]:
                         if lots:
                             for lotValue in bid["lotValues"]:
-                                if lotValue.get("status", "pending") == "pending" \
-                                        and lotValue["relatedLot"] in active_lots:
+                                if (
+                                    lotValue.get("status", "pending") == "pending"
+                                    and lotValue["relatedLot"] in active_lots
+                                ):
                                     self.tender_document_patch["qualifications"].append(
                                         {
                                             "id": uuid4().hex,
@@ -286,7 +287,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 active_lots = {lot["id"]: 0 for lot in lots if lot["status"] == "active"}
                 self.tender_document_patch["awards"] = []
                 for bid in bids:
-
                     for lot_value in bid["lotValues"]:
                         if lot_value["relatedLot"] in active_lots:
                             if active_lots[lot_value["relatedLot"]] == maxAwards:
@@ -342,9 +342,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     def generate_agreement_data(self, lot=None):
         data = {
             "id": uuid4().hex,
-            "items": self.tender_document["items"]
-            if not lot
-            else [i for i in self.tender_document["items"] if i["relatedLot"] == lot["id"]],
+            "items": (
+                self.tender_document["items"]
+                if not lot
+                else [i for i in self.tender_document["items"] if i["relatedLot"] == lot["id"]]
+            ),
             "agreementID": "{}-{}{}".format(
                 self.tender_document["tenderID"], uuid4().hex, len(self.tender_document_patch["agreements"]) + 1
             ),
@@ -565,9 +567,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :return: None
         """
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "status": "active",
-        })
+        cancellation.update(
+            {
+                "status": "active",
+            }
+        )
         if lot_id:
             cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id})
         response = self.app.post_json(

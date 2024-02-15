@@ -5,4 +5,3 @@ from schematics.types import StringType
 
 class ProcuringEntity(BaseProcuringEntity):
     kind = StringType(choices=ESCO_KINDS, required=True)
-

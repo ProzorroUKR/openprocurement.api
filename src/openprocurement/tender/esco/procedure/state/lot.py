@@ -7,7 +7,6 @@ from openprocurement.api.utils import raise_operation_error
 
 
 class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderDetailsState):
-
     def pre_save_validations(self, data: dict) -> None:
         super().pre_save_validations(data)
         self.validate_yearly_payments_percentage_range(data)

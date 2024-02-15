@@ -110,22 +110,18 @@ def run(env, args):
                                 "config.tenderComplaints": '',
                                 "config.awardComplaints": '',
                                 "config.cancellationComplaints": '',
-                            }
-                        }
+                            },
+                        },
                     )
                     count += 1
                     if count % log_every == 0:
-                        logger.info(
-                            f"Updating tenders with complaints configurations: updated {count} tenders"
-                        )
+                        logger.info(f"Updating tenders with complaints configurations: updated {count} tenders")
                 except OperationFailure as e:
                     logger.warning(f"Skip updating tender {tender['_id']}. Details: {e}")
     finally:
         cursor.close()
 
-    logger.info(
-        f"Updating tenders with complaints configurations: updated {count} tenders"
-    )
+    logger.info(f"Updating tenders with complaints configurations: updated {count} tenders")
 
     logger.info(f"Successful migration: {migration_name}")
 
@@ -142,9 +138,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

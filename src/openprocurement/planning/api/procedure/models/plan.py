@@ -5,7 +5,8 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
-    PLAN_BUYERS_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
+    PLAN_BUYERS_REQUIRED_FROM,
+    CPV_PREFIX_LENGTH_TO_NAME,
 )
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.context import get_request, get_now
@@ -97,7 +98,6 @@ class PatchPlan(Model):
     rationale = ModelType(RationaleObject)
 
 
-
 class Plan(Model):
     _id = StringType(deserialize_from=['id', 'doc_id'])
     _rev = StringType()
@@ -159,10 +159,7 @@ def validate_status(plan, status):
         if not plan.get("tender_id"):
             method = plan.get("tender").get("procurementMethodType")
             if method not in ("belowThreshold", "reporting", ""):
-                raise ValidationError(
-                    "Can't complete plan with '{}' "
-                    "tender.procurementMethodType".format(method)
-                )
+                raise ValidationError("Can't complete plan with '{}' " "tender.procurementMethodType".format(method))
 
 
 def validate_items(plan, items):
@@ -216,9 +213,7 @@ def validate_budget_breakdown_amounts(plan, budget):
         if breakdown:
             amounts = [to_decimal(i["value"]["amount"]) for i in breakdown]
             if sum(amounts) > to_decimal(budget["amount"]):
-                raise ValidationError(
-                    "Sum of the breakdown values amounts can't be greater than budget amount"
-                )
+                raise ValidationError("Sum of the breakdown values amounts can't be greater than budget amount")
 
 
 def validate_budget_end_date_multi_year(plan, budget):

@@ -29,7 +29,8 @@ class Agreement(BaseAgreement):
         if self.status == "active":
             milestone_dueDates = [
                 milestone.dueDate
-                for contract in self.contracts for milestone in contract.milestones
+                for contract in self.contracts
+                for milestone in contract.milestones
                 if milestone.dueDate and milestone.status == "scheduled"
             ]
             if milestone_dueDates:

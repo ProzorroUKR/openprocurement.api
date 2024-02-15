@@ -44,4 +44,3 @@ class OpenEUTenderAwardClaimResource(AwardClaimResource):
 )
 class OpenEUAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = OpenEUAwardComplaintState
-

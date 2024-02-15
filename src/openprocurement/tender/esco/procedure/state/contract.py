@@ -38,8 +38,6 @@ class ESCOContractStateMixing:
 
 
 class ESCOContractState(OpenUAContractStateMixing, ESCOContractStateMixing, ESCOTenderState):
-
     def validate_contract_patch(self, request, before, after):
         super().validate_contract_patch(request, before, after)
         self.validate_update_contract_value_esco(request, before, after)
-

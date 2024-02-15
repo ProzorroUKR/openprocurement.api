@@ -164,7 +164,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
 
-
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)

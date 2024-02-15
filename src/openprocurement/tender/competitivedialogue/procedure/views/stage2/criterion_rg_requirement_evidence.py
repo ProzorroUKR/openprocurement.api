@@ -6,17 +6,16 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement_evidence import (
     BaseCDEligibleEvidenceResource,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    EligibleEvidence,
-    PatchEligibleEvidence
-)
+from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     CDEligibleEvidenceState,
 )
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator, unless_admins,
+    validate_item_owner,
+    unless_administrator,
+    unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
@@ -26,10 +25,8 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(EligibleEvidence),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(EligibleEvidence),
         ),
         permission="create_evidence",
     )
@@ -39,11 +36,9 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(PatchEligibleEvidence),
-                validate_patch_data_simple(EligibleEvidence, "evidence"),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(PatchEligibleEvidence),
+            validate_patch_data_simple(EligibleEvidence, "evidence"),
         ),
         permission="edit_evidence",
     )
@@ -54,9 +49,9 @@ class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):
 @resource(
     name="{}:Requirement Eligible Evidence".format(STAGE_2_EU_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
@@ -67,9 +62,9 @@ class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
 @resource(
     name="{}:Requirement Eligible Evidence".format(STAGE_2_UA_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )

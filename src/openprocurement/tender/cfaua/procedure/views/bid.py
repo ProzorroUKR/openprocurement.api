@@ -15,7 +15,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,
     validate_data_documents,
-    validate_item_owner, unless_item_owner, unless_administrator, validate_accreditation_level,
+    validate_item_owner,
+    unless_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 from cornice.resource import resource
 from logging import getLogger
@@ -31,15 +34,12 @@ LOGGER = getLogger(__name__)
     description="Tender EU bids",
 )
 class TenderBidResource(TenderBidResource):
-
     state_class = BidState
     serializer_class = BidSerializer
 
     @json_view(
         permission="view_tender",
-        validators=(
-            validate_bid_operation_in_tendering,
-        )
+        validators=(validate_bid_operation_in_tendering,),
     )
     def collection_get(self):
         return super().collection_get()
@@ -49,9 +49,9 @@ class TenderBidResource(TenderBidResource):
         validators=(
             unless_item_owner(
                 validate_bid_operation_in_tendering,
-                item_name="bid"
+                item_name="bid",
             ),
-        )
+        ),
     )
     def get(self):
         return super().get()
@@ -80,10 +80,8 @@ class TenderBidResource(TenderBidResource):
         validators=(
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data(Bid, item_name="bid"),
-
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
         ),

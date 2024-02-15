@@ -10,7 +10,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,
     validate_data_documents,
-    validate_item_owner, unless_administrator, validate_accreditation_level,
+    validate_item_owner,
+    unless_administrator,
+    validate_accreditation_level,
 )
 from openprocurement.tender.belowthreshold.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
@@ -73,7 +75,7 @@ class TenderBidResource(TenderBidResource):
             validate_item_owner("bid"),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-        )
+        ),
     )
     def delete(self):
         """

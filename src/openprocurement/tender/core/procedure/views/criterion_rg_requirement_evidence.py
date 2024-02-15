@@ -12,10 +12,7 @@ from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_
     EligibleEvidenceSerializer,
 )
 from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import EligibleEvidenceState
-from openprocurement.tender.core.procedure.models.criterion import (
-    EligibleEvidence,
-    PatchEligibleEvidence
-)
+from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     resolve_criterion,
     resolve_requirement_group,
@@ -24,7 +21,8 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement import
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -45,7 +43,6 @@ def resolve_eligible_evidence(request: Request) -> None:
 
 
 class BaseEligibleEvidenceResource(TenderBaseResource):
-
     def __acl__(self) -> List[Tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
@@ -69,13 +66,12 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(EligibleEvidence),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(EligibleEvidence),
         ),
         permission="create_evidence",
     )
     def collection_post(self) -> Optional[dict]:
-
         evidence = self.request.validated["data"]
         requirement = self.request.validated["requirement"]
 
@@ -122,9 +118,9 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PatchEligibleEvidence),
-                validate_patch_data_simple(EligibleEvidence, "evidence"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(PatchEligibleEvidence),
+            validate_patch_data_simple(EligibleEvidence, "evidence"),
         ),
         permission="edit_evidence",
     )
@@ -144,7 +140,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
                 f"Updated requirement eligible evidence {evidence['id']}",
                 extra=context_unpack(self.request, {"MESSAGE_ID": "requirement_eligible_evidence_patch"}),
             )
-            return {"data":  self.serializer_class(updated_evidence).data}
+            return {"data": self.serializer_class(updated_evidence).data}
 
     @json_view(
         validators=(unless_administrator(validate_item_owner("tender"))),

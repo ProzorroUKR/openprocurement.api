@@ -89,7 +89,6 @@ class LotStateMixin:
 
 
 class LotInvalidationBidStateMixin(LotStateMixin):
-
     def lot_always(self, data: dict) -> None:
         super().lot_always(data)
         self.invalidate_lot_bids_data()

@@ -7,12 +7,12 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 
 def skip_complaint_period_2020_04_19(func):
     def wrapper(self):
-
         set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
 
         if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
             set_complaint_period_end()
         return func(self)
+
     return wrapper
 
 
@@ -31,7 +31,7 @@ def activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id=None
         "closeFrameworkAgreementSelectionUA",
         "negotiation",
         "negotiation.quick",
-        "competitiveOrdering"
+        "competitiveOrdering",
     ]
     tender_type = tender["procurementMethodType"]
 
@@ -52,23 +52,21 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
         tender_token = self.tender_token
 
     response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            tender_id, cancellation_id, tender_token
-        ),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(tender_id, cancellation_id, tender_token),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            tender_id, cancellation_id, tender_token
-        ),
+        "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),
         {"data": {"status": "pending"}},
     )
     cancellation = response.json["data"]
@@ -98,23 +96,21 @@ def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation
         tender_token = self.tender_token
 
     response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            tender_id, cancellation_id, tender_token
-        ),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(tender_id, cancellation_id, tender_token),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(
-            tender_id, cancellation_id, tender_token
-        ),
+        "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),
         {"data": {"status": "active"}},
     )
 

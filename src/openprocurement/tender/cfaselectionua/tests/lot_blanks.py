@@ -22,9 +22,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     request_path = "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token)
 
@@ -335,7 +333,6 @@ def patch_tender_lot(self):
     # self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
     # self.assertEqual(response.json, None)
 
-
     items = deepcopy(tender["items"])
     items[0]["quantity"] += 1
     items[0]["description"] = "new description"
@@ -432,9 +429,7 @@ def patch_tender_lot_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     self.set_status("{}".format(self.forbidden_lot_actions_status))
 
@@ -628,9 +623,7 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_lots(self):
@@ -657,9 +650,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def delete_tender_lot(self):
@@ -687,9 +678,7 @@ def delete_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
@@ -928,12 +917,14 @@ def tender_features_invalid(self):
 def tender_lot_document(self):
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {
-            "title": "name.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -992,7 +983,9 @@ def tender_lot_document(self):
 
 def create_tender_bid_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
-    response = self.app.post_json(request_path, {"data": {"tenderers": [test_tender_cfaselectionua_organization]}}, status=422)
+    response = self.app.post_json(
+        request_path, {"data": {"tenderers": [test_tender_cfaselectionua_organization]}}, status=422
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1022,7 +1015,12 @@ def create_tender_bid_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": "0" * 32}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": "0" * 32}],
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1181,7 +1179,12 @@ def patch_tender_bid(self):
     lot_id = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1202,7 +1205,12 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}], "tenderers": [test_tender_cfaselectionua_organization]}},
+        {
+            "data": {
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+                "tenderers": [test_tender_cfaselectionua_organization],
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1224,7 +1232,9 @@ def patch_tender_bid(self):
 
 def create_tender_bid_invalid_feature(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
-    response = self.app.post_json(request_path, {"data": {"tenderers": [test_tender_cfaselectionua_organization]}}, status=422)
+    response = self.app.post_json(
+        request_path, {"data": {"tenderers": [test_tender_cfaselectionua_organization]}}, status=422
+    )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1257,7 +1267,12 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": "0" * 32}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": "0" * 32}],
+            }
+        },
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1533,8 +1548,7 @@ def proc_1lot_0bid(self):
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1583,8 +1597,7 @@ def proc_1lot_1bid(self):
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1603,7 +1616,10 @@ def proc_1lot_1bid(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+    }
     _, bid_token = self.create_bid(tender_id, bid_data)
     # switch to active.qualification
     response = self.set_status("active.tendering", start_end="end")
@@ -1662,8 +1678,7 @@ def proc_1lot_2bid(self):
     items = deepcopy(self.initial_data["items"])
     items[0]["relatedLot"] = lot_id
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"items": items}}
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
@@ -1682,7 +1697,10 @@ def proc_1lot_2bid(self):
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
-    bid_data = {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}
+    bid_data = {
+        "tenderers": [test_tender_cfaselectionua_organization],
+        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+    }
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
@@ -1729,9 +1747,15 @@ def proc_1lot_2bid(self):
     self.app.authorization = ("Basic", ("auction", ""))
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(tender_id, lot_id),
-        {"data": {"bids": [
-            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-            for b in auction_bids_data]}})
+        {
+            "data": {
+                "bids": [
+                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                    for b in auction_bids_data
+                ]
+            }
+        },
+    )
     # get awards
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(tender_id, owner_token))
@@ -1863,11 +1887,13 @@ def proc_2lot_2can(self):
     # cancel every lot
     for lot_id in lots:
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "status": "active",
-            "cancellationOf": "lot",
-            "relatedLot": lot_id,
-        })
+        cancellation.update(
+            {
+                "status": "active",
+                "cancellationOf": "lot",
+                "relatedLot": lot_id,
+            }
+        )
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
             {"data": cancellation},
@@ -1938,16 +1964,23 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
+            }
+        },
     )
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": lot_id,
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
@@ -2047,11 +2080,13 @@ def proc_2lot_1bid_0com_1can(self):
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-        "cancellationOf": "lot",
-        "relatedLot": lot_id,
-    })
+    cancellation.update(
+        {
+            "status": "active",
+            "cancellationOf": "lot",
+            "relatedLot": lot_id,
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
         {"data": cancellation},
@@ -2633,7 +2668,12 @@ def proc_2lot_1feature_2bid_2com_2win(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[1]}],
+            }
+        },
     )
     # switch to active.qualification
     response = self.set_status("active.auction", {"status": "active.tendering"})
@@ -2761,7 +2801,12 @@ def proc_2lot_2diff_bids_check_auction(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
         "/tenders/{}/bids".format(tender_id),
-        {"data": {"tenderers": [test_tender_cfaselectionua_organization], "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[0]}]}},
+        {
+            "data": {
+                "tenderers": [test_tender_cfaselectionua_organization],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lots[0]}],
+            }
+        },
     )
     # switch to active.auction
     self.set_status("active.auction")

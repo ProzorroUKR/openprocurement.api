@@ -60,7 +60,7 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
                 operation="creation",
                 source="data",
             ),
-        )
+        ),
     )
     def post(self):
         contract = self.request.validated["data"]
@@ -94,13 +94,9 @@ class ContractResource(ContractBaseResource):
             "config": contract["config"],
         }
 
-    @json_view(
-        content_type="application/json",
-        permission="edit_contract"
-    )
+    @json_view(content_type="application/json", permission="edit_contract")
     def patch(self):
-        """Contract Edit (partial)
-        """
+        """Contract Edit (partial)"""
         updated = self.request.validated["data"]
         contract = self.request.validated["contract"]
         contract_src = self.request.validated["contract_src"]
@@ -124,7 +120,6 @@ class ContractResource(ContractBaseResource):
     description="Contract credentials",
 )
 class ContractCredentialsResource(ContractBaseResource):
-
     serializer_class = ContractBaseSerializer
 
     @json_view(
@@ -132,7 +127,8 @@ class ContractCredentialsResource(ContractBaseResource):
         validators=(
             unless_admins(validate_tender_owner),
             validate_credentials_generate,
-        ))
+        ),
+    )
     def patch(self):
         contract = self.request.validated["contract"]
         access = set_ownership(contract, self.request)

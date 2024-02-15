@@ -29,4 +29,3 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
         validate_field(data, "submissionMethodDetails", required=False)
         validate_field(data, "submissionMethodDetails_en", required=False)
         validate_field(data, "submissionMethodDetails_ru", required=False)
-

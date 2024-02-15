@@ -44,4 +44,3 @@ class ESCOTenderClaimResource(TenderClaimResource):
 )
 class ESCOTenderComplaintResource(TenderComplaintResource):
     state_class = ESCOComplaintState
-

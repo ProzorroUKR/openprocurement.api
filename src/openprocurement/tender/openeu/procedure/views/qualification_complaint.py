@@ -44,4 +44,3 @@ class OpenEUTenderQualificationClaimResource(QualificationClaimResource):
 )
 class OpenEUQualificationComplaintWriteResource(QualificationComplaintWriteResource):
     state_class = OpenEUQualificationComplaintState
-

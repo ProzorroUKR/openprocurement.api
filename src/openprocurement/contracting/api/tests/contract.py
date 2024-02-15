@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.api.tests.base import (
     BaseContractWebTest,
     BaseContractTest,
-    BaseContractWebTestTwoItems
+    BaseContractWebTestTwoItems,
 )
 from openprocurement.contracting.api.tests.data import (
     test_contract_data,

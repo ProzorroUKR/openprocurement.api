@@ -6,7 +6,6 @@ from openprocurement.tender.core.procedure.views.complaint_post_document import 
 
 
 class BaseCancellationComplaintPostDocumentResource(BaseComplaintPostDocumentResource):
-
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
         resolve_cancellation(request)

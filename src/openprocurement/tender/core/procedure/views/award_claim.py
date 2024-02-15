@@ -24,9 +24,7 @@ class AwardClaimResource(BaseClaimResource):
         content_type="application/json",
         permission="create_claim",
         validators=(
-            unless_admins(
-                validate_any_bid_owner(statuses=("active",))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active",))),
             validate_input_data(PostClaimFromBid),
             validate_data_documents(route_key="claim", uid_key="id"),
         ),

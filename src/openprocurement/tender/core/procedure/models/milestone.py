@@ -26,9 +26,7 @@ class QualificationMilestone(Model):
     def set_due_date(self):
         if not self.dueDate:
             if self.code == self.CODE_24_HOURS:
-                self.dueDate = calculate_tender_date(
-                    self.date, timedelta(hours=24), get_tender()
-                )
+                self.dueDate = calculate_tender_date(self.date, timedelta(hours=24), get_tender())
             elif self.code == self.CODE_LOW_PRICE:
                 self.dueDate = calculate_complaint_business_date(
                     self.date, timedelta(days=1), get_tender(), working_days=True
@@ -95,5 +93,5 @@ class Milestone(Model):
 def validate_milestones_lot(data, milestones):
     lot_ids = {l.get("id") for l in data.get("lots") or ""}
     for milestone in milestones or "":
-        if milestone.relatedLot is not None and  milestone.relatedLot not in lot_ids:
+        if milestone.relatedLot is not None and milestone.relatedLot not in lot_ids:
             raise ValidationError("relatedLot should be one of the lots.")

@@ -106,7 +106,6 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationDocumentResourceTest, self).setUp()
         # list qualifications
@@ -123,6 +122,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
+
 class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
     docservice = True
 
@@ -130,7 +130,6 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 
 class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationComplaintResourceTest, self).setUp()
 
@@ -189,7 +188,6 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
-
     after_qualification_switch_to = "unsuccessful"
 
     def setUp(self):
@@ -231,7 +229,6 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
 

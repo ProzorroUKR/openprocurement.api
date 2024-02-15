@@ -25,4 +25,3 @@ class CDOpenUAChronographResource(TenderChronographResource):
 )
 class CDOpenEUChronographResource(TenderChronographResource):
     state_class = CDEUStage2TenderState
-

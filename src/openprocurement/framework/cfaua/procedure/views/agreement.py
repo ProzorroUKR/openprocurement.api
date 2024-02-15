@@ -21,7 +21,9 @@ from openprocurement.framework.cfaua.procedure.models.agreement import Agreement
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
 from openprocurement.framework.cfaua.procedure.validation import validate_update_agreement_status
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
-from openprocurement.framework.core.procedure.views.agreement import AgreementsResource as BaseFrameworkAgreementResource
+from openprocurement.framework.core.procedure.views.agreement import (
+    AgreementsResource as BaseFrameworkAgreementResource,
+)
 
 
 @resource(
@@ -43,10 +45,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
             validate_input_data(PostAgreement),
             validate_config_data(AgreementConfig),
             validate_accreditation_level(
-                levels=(ACCR_3, ACCR_5),
-                item="agreement",
-                operation="creation",
-                source="data"
+                levels=(ACCR_3, ACCR_5), item="agreement", operation="creation", source="data"
             ),
         ),
     )
@@ -64,9 +63,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("agreement")
-            ),
+            unless_administrator(validate_item_owner("agreement")),
             validate_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),
             validate_update_agreement_status,
@@ -83,7 +80,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement {agreement['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "agreement_patch"}),
                 )
         return {
             "data": self.serializer_class(agreement).data,

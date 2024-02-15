@@ -8,9 +8,9 @@ from openprocurement.tender.open.procedure.state.criterion_rg_requirement import
 @resource(
     name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Requirement Group Requirement",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements",
+    "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
     procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender requirement group requirement",
 )

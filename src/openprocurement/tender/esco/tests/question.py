@@ -22,7 +22,6 @@ from openprocurement.tender.openeu.tests.question_blanks import answering_questi
 
 
 class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceTestMixin):
-
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_esco_bids
     author_data = test_tender_below_author
@@ -33,7 +32,6 @@ class TenderQuestionResourceTest(BaseESCOContentWebTest, TenderQuestionResourceT
 
 
 class TenderLotQuestionResourceTest(BaseESCOContentWebTest):
-
     initial_lots = 2 * test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_esco_bids

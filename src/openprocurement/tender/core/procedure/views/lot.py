@@ -39,7 +39,6 @@ def resolve_lot(request: Request) -> None:
 
 
 class TenderLotResource(TenderBaseResource):
-
     state_class = LotState
     serializer_class = LotSerializer
 
@@ -50,7 +49,6 @@ class TenderLotResource(TenderBaseResource):
             (Allow, "g:Administrator", "create_lot"),
             (Allow, "g:brokers", "edit_lot"),
             (Allow, "g:Administrator", "edit_lot"),
-
             (Allow, "g:admins", ALL_PERMISSIONS),
         ]
 
@@ -89,9 +87,7 @@ class TenderLotResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender lot {lot['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_lot_create"},
-                                     {"award_id": lot["id"]}),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_create"}, {"award_id": lot["id"]}),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

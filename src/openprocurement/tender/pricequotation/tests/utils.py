@@ -14,9 +14,7 @@ def criteria_drop_uuids(data: list, key: str = "id"):
 
 
 def copy_criteria_req_id(criteria, responses):
-    requirements = [r for e in criteria
-                    for g in e.get("requirementGroups", "")
-                    for r in g.get("requirements", "")]
+    requirements = [r for e in criteria for g in e.get("requirementGroups", "") for r in g.get("requirements", "")]
     for r, resp in zip(requirements, responses):
         resp["requirement"]["id"] = r["id"]
     return responses
@@ -25,8 +23,6 @@ def copy_criteria_req_id(criteria, responses):
 def copy_tender_items(tender_items):
     copy_fields = ["id", "description", "unit", "quantity"]
     return [{k: item[k] for k in copy_fields} for item in tender_items]
-
-
 
 
 def activate_econtract(self, contract_id, tender_token, bid_token):

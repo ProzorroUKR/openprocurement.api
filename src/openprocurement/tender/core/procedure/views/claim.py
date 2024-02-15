@@ -22,7 +22,8 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,
     validate_data_documents,
-    validate_item_owner, unless_admins,
+    validate_item_owner,
+    unless_admins,
 )
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
@@ -44,7 +45,7 @@ def calculate_total_complaints(tender):
 
 
 class BaseClaimResource(TenderBaseResource):
-    item_name = "tender"   # tender or award
+    item_name = "tender"  # tender or award
     serializer_class = ComplaintSerializer
 
     def __acl__(self):
@@ -85,8 +86,9 @@ class BaseClaimResource(TenderBaseResource):
         if save_tender(self.request):
             LOGGER.info(
                 f"Created {self.context} claim {claim['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.context}_claim_create"},
-                                     {"claim_id": claim["id"]}),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": f"{self.context}_claim_create"}, {"claim_id": claim["id"]}
+                ),
             )
             self.request.response.status = 201
             route_params = dict(

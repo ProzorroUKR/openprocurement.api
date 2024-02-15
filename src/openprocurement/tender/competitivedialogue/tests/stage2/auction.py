@@ -80,13 +80,10 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
     initial_lots = test_tender_openeu_lots
 
     def setUp(self):
-        """ Init tender and set status to active.auction """
+        """Init tender and set status to active.auction"""
         bid_data = deepcopy(test_tender_openeu_bids[0])
         bid_data["tenderers"] = [self.tenderer_info]
-        self.initial_bids = [
-            bid_data
-            for i in range(3)
-        ]
+        self.initial_bids = [bid_data for i in range(3)]
         super(TenderStage2EUSameValueAuctionResourceTest, self).setUp()
         auth = self.app.authorization
         # switch to active.pre-qualification
@@ -162,14 +159,18 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
-        self.initial_bids[0].update({
-            "parameters": [{"code": i["code"], "value": 0.05} for i in self.features],
-            "tenderers": [self.tenderer_info]
-        })
-        self.initial_bids[1].update({
-            "parameters": [{"code": i["code"], "value": 0.1} for i in self.features],
-            "tenderers": [self.tenderer_info]
-        })
+        self.initial_bids[0].update(
+            {
+                "parameters": [{"code": i["code"], "value": 0.05} for i in self.features],
+                "tenderers": [self.tenderer_info],
+            }
+        )
+        self.initial_bids[1].update(
+            {
+                "parameters": [{"code": i["code"], "value": 0.1} for i in self.features],
+                "tenderers": [self.tenderer_info],
+            }
+        )
         super(TenderStage2EUFeaturesAuctionResourceTest, self).setUp()
         self.prepare_for_auction()
 
@@ -248,10 +249,7 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
     def setUp(self):
         bid_data = deepcopy(test_tender_openeu_bids[0])
         bid_data["tenderers"] = [test_tender_cd_tenderer]
-        self.initial_bids = [
-            bid_data
-            for i in range(3)
-        ]
+        self.initial_bids = [bid_data for i in range(3)]
         super(TenderStage2UASameValueAuctionResourceTest, self).setUp()
 
 
@@ -291,14 +289,18 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
-        self.initial_bids[0].update({
-            "parameters": [{"code": i["code"], "value": 0.05} for i in self.features],
-            "tenderers": [self.tenderer_info]
-        })
-        self.initial_bids[1].update({
-            "parameters": [{"code": i["code"], "value": 0.1} for i in self.features],
-            "tenderers": [self.tenderer_info]
-        })
+        self.initial_bids[0].update(
+            {
+                "parameters": [{"code": i["code"], "value": 0.05} for i in self.features],
+                "tenderers": [self.tenderer_info],
+            }
+        )
+        self.initial_bids[1].update(
+            {
+                "parameters": [{"code": i["code"], "value": 0.1} for i in self.features],
+                "tenderers": [self.tenderer_info],
+            }
+        )
         super(TenderStage2UAFeaturesAuctionResourceTest, self).setUp()
         self.app.authorization = ("Basic", ("broker", ""))
         data = test_tender_cdua_stage2_data.copy()

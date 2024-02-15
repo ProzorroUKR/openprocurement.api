@@ -26,10 +26,7 @@ class TenderEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest
     test_lots_data = test_tender_below_lots
 
 
-class TenderEUCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseTenderContentWebTest
-):
+class TenderEUCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_openeu_data
     test_lots_data = test_tender_below_lots
 

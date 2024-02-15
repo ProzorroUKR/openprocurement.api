@@ -232,7 +232,13 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -244,8 +250,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
-                self.tender_id, self.award_id,
-                list(self.initial_bids_tokens.values())[0]
+                self.tender_id, self.award_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_tender_below_draft_complaint},
         )
@@ -287,8 +292,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
-                self.tender_id, self.award_id,
-                list(self.initial_bids_tokens.values())[0]
+                self.tender_id, self.award_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_tender_below_draft_complaint},
         )
@@ -312,7 +316,13 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]

@@ -72,7 +72,7 @@ test_tender_cfaselectionua_agreement_features["features"] = test_tender_cfaselec
 test_tender_cfaselectionua_multi_buyers_data = set_tender_multi_buyers(
     test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_data["items"][0],
-    test_tender_cfaselectionua_organization
+    test_tender_cfaselectionua_organization,
 )
 
 test_tender_cfaselectionua_config = {
@@ -108,27 +108,23 @@ class BaseTenderWebTest(BaseCoreWebTest):
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.pending"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender documents (adding, updating) are forbidden
-    forbidden_question_add_actions_status = (
-        "active.tendering"
-    )  # status, in which adding tender questions is forbidden
+        "active.tendering"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
+    forbidden_question_add_actions_status = "active.tendering"  # status, in which adding tender questions is forbidden
     forbidden_question_update_actions_status = (
-        "active.tendering"
-    )  # status, in which updating tender questions is forbidden
+        "active.tendering"  # status, in which updating tender questions is forbidden
+    )
     forbidden_lot_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.tendering"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.tendering"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
 
     meta_initial_bids = test_tender_cfaselectionua_bids
     meta_initial_lots = test_tender_cfaselectionua_lots
@@ -174,15 +170,20 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 bid_id = uuid4().hex
                 bid_token = uuid4().hex
                 value = bid.pop("value")
-                bid.update({
-                    "id": bid_id, "owner_token": bid_token,
-                    "owner": "broker", "status": "active",
-                    "date": now,
-                })
+                bid.update(
+                    {
+                        "id": bid_id,
+                        "owner_token": bid_token,
+                        "owner": "broker",
+                        "status": "active",
+                        "date": now,
+                    }
+                )
                 self.initial_bids_tokens[bid_id] = bid_token
                 if self.initial_lots:
-                    bid.update({"lotValues": [{"value": value, "relatedLot": l["id"], "date": now}
-                                              for l in self.initial_lots]})
+                    bid.update(
+                        {"lotValues": [{"value": value, "relatedLot": l["id"], "date": now} for l in self.initial_lots]}
+                    )
                 self.tender_document_patch["bids"].append(bid)
             self.initial_bids = self.tender_document_patch["bids"]
             bids = self.initial_bids
@@ -198,9 +199,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_document["value"] = max_value
         self.tender_document["lots"][0]["value"] = max_value
         self.tender_document["lots"][0]["minimalStep"] = deepcopy(max_value)
-        self.tender_document["lots"][0]["minimalStep"]["amount"] = (
-            max_value["amount"] * MINIMAL_STEP_PERCENTAGE
-        )
+        self.tender_document["lots"][0]["minimalStep"]["amount"] = max_value["amount"] * MINIMAL_STEP_PERCENTAGE
 
     def generate_awards(self, status, start_end="start"):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
@@ -293,11 +292,13 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_criteria:
             self.app.post_json(
                 "/tenders/{id}/criteria?acc_token={token}".format(id=self.tender_id, token=self.tender_token),
-                {"data": set_tender_criteria(
-                    self.initial_criteria,
-                    tender.get("lots", []),
-                    tender.get("items", []),
-                )},
+                {
+                    "data": set_tender_criteria(
+                        self.initial_criteria,
+                        tender.get("lots", []),
+                        tender.get("items", []),
+                    )
+                },
             )
         if self.initial_status != status and self.initial_status:
             self.set_status(self.initial_status)

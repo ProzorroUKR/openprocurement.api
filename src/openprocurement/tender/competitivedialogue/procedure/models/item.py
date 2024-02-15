@@ -7,7 +7,6 @@ from openprocurement.api.procedure.types import ModelType
 
 
 class CPVClassification(BaseCPVClassification):
-
     def validate_scheme(self, data, scheme):
         pass
 

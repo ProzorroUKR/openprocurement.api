@@ -58,7 +58,11 @@ def add_contracts(request, award):
     if multi_contracts:
         for buyer_id, items in items_by_buyer.items():
             contract = add_contract_to_tender(
-                tender, items, value, buyer_id, award,
+                tender,
+                items,
+                value,
+                buyer_id,
+                award,
             )
             contracts_added.append(contract)
     else:  # ignoring "buyer_id", even if not None
@@ -66,7 +70,11 @@ def add_contracts(request, award):
         for _, items in items_by_buyer.items():
             contract_items.extend(items)
         contract = add_contract_to_tender(
-            tender, contract_items, value, None, award,
+            tender,
+            contract_items,
+            value,
+            None,
+            award,
         )
         contracts_added.append(contract)
 
@@ -88,7 +96,6 @@ def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
 
 
 def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award):
-
     server_id = get_request().registry.server_id
     contract_number = len(tender.get('contracts', '')) + 1
     if "contracts" not in tender:
@@ -136,8 +143,7 @@ def delete_buyers_attr(objs):
 
 def set_attributes_to_contract_items(tender, bid, contract):
     req_responses = {
-        rr["requirement"]["id"]: rr["values"]
-        if rr.get("values") else [rr["value"]]
+        rr["requirement"]["id"]: rr["values"] if rr.get("values") else [rr["value"]]
         for rr in bid.get("requirementResponses", "")
     }
 

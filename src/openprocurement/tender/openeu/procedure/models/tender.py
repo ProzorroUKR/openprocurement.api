@@ -32,11 +32,7 @@ class PostTender(BasePostTender):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
     awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
-        default=AWARD_CRITERIA_LOWEST_COST
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], default=AWARD_CRITERIA_LOWEST_COST
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PostPeriodStartEndRequired, required=True)
@@ -76,10 +72,7 @@ class PatchTender(BasePatchTender):
         ],
     )
     awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired)
@@ -110,13 +103,7 @@ class Tender(BaseTender):
             "unsuccessful",
         ],
     )
-    awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
-        required=True
-    )
+    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(
@@ -134,7 +121,7 @@ class Tender(BaseTender):
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
-                raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
+            raise ValidationError(f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
 
     def validate_tenderPeriod(self, data, period):
         validate_tender_period_duration(data, period, TENDERING_DURATION)

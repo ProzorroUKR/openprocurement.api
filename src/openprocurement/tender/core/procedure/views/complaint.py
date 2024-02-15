@@ -19,7 +19,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,
     validate_data_documents,
-    validate_item_owner, unless_administrator, unless_bots,
+    validate_item_owner,
+    unless_administrator,
+    unless_bots,
 )
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
@@ -52,16 +54,14 @@ class BaseComplaintGetResource(BaseComplaintResource):
 
     @json_view(permission="view_tender")
     def collection_get(self):
-        """List complaints
-        """
+        """List complaints"""
         context = self.request.validated[self.item_name]
         data = tuple(self.serializer_class(i).data for i in context.get("complaints", []))
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
-        """Retrieving the complaint
-        """
+        """Retrieving the complaint"""
         data = self.serializer_class(self.request.validated["complaint"]).data
         return {"data": data}
 
@@ -107,9 +107,11 @@ class BaseComplaintWriteResource(BaseComplaintResource):
         if save_tender(self.request):
             LOGGER.info(
                 f"Created {self.item_name} complaint {complaint['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": f"{self.item_name}_complaint_create"},
-                                     {"complaint_id": complaint["id"]}),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": f"{self.item_name}_complaint_create"},
+                    {"complaint_id": complaint["id"]},
+                ),
             )
             self.request.response.status = 201
 

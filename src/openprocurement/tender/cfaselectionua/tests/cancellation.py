@@ -41,9 +41,7 @@ class TenderCancellationDocumentResourceTestMixin(object):
 
 
 class TenderLotCancellationResourceTest(
-    TenderContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_status = "active.tendering"
     initial_lots = test_tender_cfaselectionua_lots

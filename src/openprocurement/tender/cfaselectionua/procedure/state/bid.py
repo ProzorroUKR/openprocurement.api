@@ -5,7 +5,6 @@ from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidS
 
 
 class BidState(BaseBidState):
-
     def validate_bid_vs_agreement(self, data):
         # cfaselectionua has agreements full copy in tender.agreements
         supplier_contract = get_supplier_contract(

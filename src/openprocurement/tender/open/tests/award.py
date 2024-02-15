@@ -73,9 +73,12 @@ from openprocurement.tender.open.tests.award_blanks import (
     get_award_requirement_response,
     create_award_requirement_response_evidence,
     patch_award_requirement_response_evidence,
-    get_award_requirement_response_evidence, create_tender_award_invalid, get_tender_award,
+    get_award_requirement_response_evidence,
+    create_tender_award_invalid,
+    get_tender_award,
     check_tender_award_complaint_period_dates,
 )
+
 
 class TenderUAAwardComplaintResourceTestMixin(object):
     test_create_tender_award_claim = snitch(create_tender_award_claim)
@@ -170,12 +173,14 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -208,9 +213,7 @@ class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
 
 
 class TenderAwardComplaintResourceTest(
-    TenderAwardActiveResourceTestCase,
-    TenderAwardComplaintResourceTestMixin,
-    TenderUAAwardComplaintResourceTestMixin
+    TenderAwardActiveResourceTestCase, TenderAwardComplaintResourceTestMixin, TenderUAAwardComplaintResourceTestMixin
 ):
     initial_lots = test_tender_below_lots
 
@@ -278,8 +281,7 @@ class Tender2LotAwardDocumentResourceTest(
 
 
 class TenderAwardRequirementResponseResourceTest(
-    TenderAwardRequirementResponseTestMixin,
-    TenderAwardPendingResourceTestCase
+    TenderAwardRequirementResponseTestMixin, TenderAwardPendingResourceTestCase
 ):
     def setUp(self):
         super(TenderAwardRequirementResponseResourceTest, self).setUp()
@@ -303,17 +305,20 @@ class TenderAwardRequirementResponseEvidenceResourceTest(
         self.requirement_title = requirement["title"]
 
         request_path = "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.award_id, self.tender_token)
+            self.tender_id, self.award_id, self.tender_token
+        )
 
-        rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": "True"
-        }]
+        rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": self.requirement_id,
+                    "title": self.requirement_title,
+                },
+                "value": "True",
+            }
+        ]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")
@@ -321,14 +326,15 @@ class TenderAwardRequirementResponseEvidenceResourceTest(
         self.rr_id = response.json["data"][0]["id"]
 
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/documents?acc_token={}".format(
-                self.tender_id, self.award_id, self.tender_token),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")

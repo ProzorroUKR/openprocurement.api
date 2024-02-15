@@ -7,7 +7,6 @@ from openprocurement.api.utils import set_parent
 
 
 class Model(SchematicsModel):
-
     class Options:
         """Export options for Document."""
 

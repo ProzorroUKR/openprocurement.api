@@ -8,7 +8,7 @@ fake_tender_data = {
     "doc_type": "Tender",
     "_id": "Fake_tender_id",
     "revisions": [{"date": (RELEASE_2020_04_19 + timedelta(days=1)).isoformat()}],
-    "dateCreated": (RELEASE_2020_04_19 + timedelta(days=1)).isoformat()
+    "dateCreated": (RELEASE_2020_04_19 + timedelta(days=1)).isoformat(),
 }
 
 fake_complaint_data = {
@@ -17,7 +17,7 @@ fake_complaint_data = {
     "author": "Fake_author",
     "complaintID": "Fake_pretty_complaint_id",
     "owner_token": "Fake_owner_token",
-    "type": "complaint"
+    "type": "complaint",
 }
 
 fake_invalid_complaint_data = {
@@ -26,30 +26,23 @@ fake_invalid_complaint_data = {
     "author": "Fake_invalid_author",
     "complaintID": "Fake_invalid_pretty_complaint_id",
     "owner_token": "Fake_invalid_owner_token",
-    "type": "complaint"
+    "type": "complaint",
 }
 
 fake_tender_complaint_data = {
     "complaints": [fake_invalid_complaint_data, fake_complaint_data],
-    "tags": [{"name": "alf"}, {"name": "bet"}]
+    "tags": [{"name": "alf"}, {"name": "bet"}],
 }
 fake_qualification_complaint_data = {
-    "qualifications": [{
-        "id": "Fake_qualification_id",
-        "complaints": [fake_invalid_complaint_data, fake_complaint_data]
-    }]
+    "qualifications": [
+        {"id": "Fake_qualification_id", "complaints": [fake_invalid_complaint_data, fake_complaint_data]}
+    ]
 }
 fake_award_complaint_data = {
-    "awards": [{
-        "id": "Fake_award_id",
-        "complaints": [fake_invalid_complaint_data, fake_complaint_data]
-    }]
+    "awards": [{"id": "Fake_award_id", "complaints": [fake_invalid_complaint_data, fake_complaint_data]}]
 }
 fake_cancellation_complaint_data = {
-    "cancellations": [{
-        "id": "Fake_cancellation_id",
-        "complaints": [fake_invalid_complaint_data, fake_complaint_data]
-    }]
+    "cancellations": [{"id": "Fake_cancellation_id", "complaints": [fake_invalid_complaint_data, fake_complaint_data]}]
 }
 
 

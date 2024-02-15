@@ -90,4 +90,3 @@ class CD2UATenderClaimResource(TenderClaimResource):
 )
 class CD2UATenderComplaintResource(TenderComplaintResource):
     state_class = CDUAStage2TenderComplaintState
-

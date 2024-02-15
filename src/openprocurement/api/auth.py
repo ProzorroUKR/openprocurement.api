@@ -58,6 +58,7 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
         steps.  The output from debugging is useful for reporting to maillist
         or IRC channels when asking for support.
     """
+
     def __init__(self, auth_file, realm="OpenProcurement", debug=False):
         super(AuthenticationPolicy, self).__init__(None, realm=realm, debug=debug)
         self.users = read_auth_users(auth_file, encoding="utf8", default_level=DEFAULT_ACCRS)
@@ -161,7 +162,7 @@ def extract_http_credentials(request):
 
     try:
         authbytes = b64decode(auth.strip())
-    except (TypeError, binascii.Error): # can't decode
+    except (TypeError, binascii.Error):  # can't decode
         return None
 
     # try utf-8 first, then latin-1; see discussion in
@@ -173,7 +174,7 @@ def extract_http_credentials(request):
 
     try:
         return auth.split(':', 1)[0]
-    except ValueError: # not enough values to unpack
+    except ValueError:  # not enough values to unpack
         return None
 
 

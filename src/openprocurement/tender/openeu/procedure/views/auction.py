@@ -27,7 +27,7 @@ class EUTenderAuctionResource(TenderAuctionResource):
         validators=(
             validate_auction_tender_status,
             validate_input_data(AuctionResults),
-        )
+        ),
     )
     def collection_post(self):
         return super().collection_post()
@@ -38,7 +38,7 @@ class EUTenderAuctionResource(TenderAuctionResource):
             validate_auction_tender_status,
             validate_active_lot,
             validate_input_data(AuctionLotResults),
-        )
+        ),
     )
     def post(self):
         return super().post()

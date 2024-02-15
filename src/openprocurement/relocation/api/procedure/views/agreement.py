@@ -15,7 +15,9 @@ from openprocurement.relocation.api.procedure.validation import (
     validate_tender,
     validate_tender_transfer_token,
     validate_agreement_transfer_accreditation_level,
-    validate_agreement_owner_accreditation_level, validate_agreement, validate_agreement_transfer_token,
+    validate_agreement_owner_accreditation_level,
+    validate_agreement,
+    validate_agreement_transfer_token,
 )
 from openprocurement.relocation.api.utils import (
     get_transfer_location,

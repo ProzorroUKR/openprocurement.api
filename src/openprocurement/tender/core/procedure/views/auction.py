@@ -28,9 +28,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-        )
+        validators=(validate_auction_tender_status,),
     )
     def collection_get(self):
         tender = get_tender()
@@ -45,11 +43,10 @@ class TenderAuctionResource(TenderBaseResource):
             validate_auction_tender_status,
             validate_auction_tender_non_lot,
             validate_input_data(AuctionUrls),
-        )
+        ),
     )
     def collection_patch(self):
-        """Set urls to access auctions.
-        """
+        """Set urls to access auctions."""
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -60,8 +57,7 @@ class TenderAuctionResource(TenderBaseResource):
 
         if save_tender(self.request):
             self.LOGGER.info(
-                "Updated auction urls",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_patch"})
+                "Updated auction urls", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_auction_patch"})
             )
             return {
                 "data": self.serializer_class(tender).data,
@@ -74,11 +70,10 @@ class TenderAuctionResource(TenderBaseResource):
             validate_auction_tender_status,
             validate_active_lot,
             validate_input_data(LotAuctionUrls),
-        )
+        ),
     )
     def patch(self):
-        """Set urls for access to auction for lot.
-        """
+        """Set urls for access to auction for lot."""
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -88,8 +83,7 @@ class TenderAuctionResource(TenderBaseResource):
             self.state.on_patch(tender_src, tender)
         if save_tender(self.request):
             self.LOGGER.info(
-                "Updated auction urls",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_patch"})
+                "Updated auction urls", extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_patch"})
             )
             return {
                 "data": self.serializer_class(tender).data,
@@ -101,11 +95,10 @@ class TenderAuctionResource(TenderBaseResource):
         validators=(
             validate_auction_tender_status,
             validate_input_data(AuctionResults),
-        )
+        ),
     )
     def collection_post(self):
-        """Report auction results.
-        """
+        """Report auction results."""
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -132,11 +125,10 @@ class TenderAuctionResource(TenderBaseResource):
             validate_auction_tender_status,
             validate_active_lot,
             validate_input_data(AuctionLotResults),
-        )
+        ),
     )
     def post(self):
-        """Report auction results for lot.
-        """
+        """Report auction results for lot."""
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]

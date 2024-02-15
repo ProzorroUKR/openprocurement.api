@@ -9,9 +9,12 @@ import json
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224("00000000".encode()).hexdigest(),
+    ],
+)
 def test_mask_function():
     with open("src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:
         data = json.load(f)
@@ -25,9 +28,12 @@ def test_mask_function():
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224("00000000".encode()).hexdigest(),
+    ],
+)
 def test_mask_contract_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/contracting/econtract/tests/data/contract_to_mask.json") as f:

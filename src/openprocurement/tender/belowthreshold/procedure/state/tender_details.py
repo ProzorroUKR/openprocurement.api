@@ -34,7 +34,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
                 {"startDate": ["This field cannot be deleted"]},
                 status=422,
                 location="body",
-                name="enquiryPeriod"
+                name="enquiryPeriod",
             )
 
         tendering_start = before.get("tenderPeriod", {}).get("startDate")
@@ -44,7 +44,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
                 {"startDate": ["This field cannot be deleted"]},
                 status=422,
                 location="body",
-                name="tenderPeriod"
+                name="tenderPeriod",
             )
 
         # bid invalidation rules
@@ -78,7 +78,9 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     def initialize_enquiry_period(self, tender):
         enquiry_end = dt_from_iso(tender["enquiryPeriod"]["endDate"])
         clarifications_until = calculate_clarif_business_date(
-            enquiry_end, self.enquiry_stand_still_timedelta, tender,
+            enquiry_end,
+            self.enquiry_stand_still_timedelta,
+            tender,
         )
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"]["clarificationsUntil"] = clarifications_until.isoformat()
@@ -92,4 +94,3 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-

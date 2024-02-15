@@ -33,8 +33,12 @@ test_tender_simpledefense_features_data["procurementMethodType"] = "simple.defen
 test_tender_simpledefense_features_data["procuringEntity"] = test_tender_simpledefense_procuring_entity
 del test_tender_simpledefense_features_data["enquiryPeriod"]
 test_tender_simpledefense_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_simpledefense_features_data["items"][0]["deliveryDate"] = test_tender_simpledefense_data["items"][0]["deliveryDate"]
-test_tender_simpledefense_features_data["items"][0]["deliveryAddress"] = test_tender_simpledefense_data["items"][0]["deliveryAddress"]
+test_tender_simpledefense_features_data["items"][0]["deliveryDate"] = test_tender_simpledefense_data["items"][0][
+    "deliveryDate"
+]
+test_tender_simpledefense_features_data["items"][0]["deliveryAddress"] = test_tender_simpledefense_data["items"][0][
+    "deliveryAddress"
+]
 
 test_tender_simpledefense_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_simpledefense_bids:
@@ -42,9 +46,7 @@ for bid in test_tender_simpledefense_bids:
     bid["selfEligible"] = True
 
 test_tender_simpledefense_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_data["items"][0],
-    test_tender_below_organization
+    test_tender_simpledefense_data, test_tender_simpledefense_data["items"][0], test_tender_below_organization
 )
 
 test_tender_simpledefense_config = {
@@ -61,6 +63,7 @@ test_tender_simpledefense_config = {
     "restricted": False,
 }
 
+
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
@@ -73,8 +76,8 @@ class BaseSimpleDefWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     forbidden_lot_actions_status = (
-        "active.auction"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
 
     periods = PERIODS
 

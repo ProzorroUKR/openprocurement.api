@@ -7,7 +7,8 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.tender.openua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.metric import (
-    PostMetric, Metric,
+    PostMetric,
+    Metric,
     validate_metric_ids_uniq,
     validate_observation_ids_uniq,
 )
@@ -44,11 +45,7 @@ class PostTender(BasePostTender):
     status = StringType(choices=["draft"], default="draft")
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD_UA], default=ABOVE_THRESHOLD_UA)
     awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
-        default=AWARD_CRITERIA_LOWEST_COST
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], default=AWARD_CRITERIA_LOWEST_COST
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PostPeriodStartEndRequired, required=True)
@@ -84,10 +81,7 @@ class PatchTender(BasePatchTender):
         ],
     )
     awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
+        choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST],
     )
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired)
@@ -118,13 +112,7 @@ class Tender(BaseTender):
         ],
     )
     procurementMethodType = StringType(choices=[ABOVE_THRESHOLD_UA], required=True)
-    awardCriteria = StringType(
-        choices=[
-            AWARD_CRITERIA_LOWEST_COST,
-            AWARD_CRITERIA_LIFE_CYCLE_COST
-        ],
-        required=True
-    )
+    awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST], required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
     items = ListType(

@@ -20,7 +20,13 @@ class TenderState(
     contract_model = Contract
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("answered", "pending")
-    block_tender_complaint_status = ("claim", "pending", "accepted", "satisfied", "stopping")  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
+    block_tender_complaint_status = (
+        "claim",
+        "pending",
+        "accepted",
+        "satisfied",
+        "stopping",
+    )  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
     unsuccessful_statuses = ("cancelled", "unsuccessful")
     terminated_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
 

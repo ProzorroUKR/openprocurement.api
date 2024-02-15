@@ -4,7 +4,6 @@ from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 
 def patch_contract_document(self):
-
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.initial_data['bid_token']}",
         {"data": test_signer_info},
@@ -18,8 +17,7 @@ def patch_contract_document(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")
@@ -28,12 +26,14 @@ def patch_contract_document(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -107,8 +107,7 @@ def contract_change_document(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
-        {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")
@@ -117,12 +116,14 @@ def contract_change_document(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": {
-            "title": "укр.doc",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -169,12 +170,14 @@ def contract_change_document(self):
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
-        {"data": {
-            "title": "укр2.doc",
-            "url": self.generate_docservice_url("1"*32),
-            "hash": "md5:" + "1" * 32,
-            "format": "application/msword",
-        }},
+        {
+            "data": {
+                "title": "укр2.doc",
+                "url": self.generate_docservice_url("1" * 32),
+                "hash": "md5:" + "1" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -188,12 +191,14 @@ def contract_change_document(self):
 
     response = self.app.post_json(
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
-        {"data": {
-            "title": "укр2.doc",
-            "url": self.generate_docservice_url("2"*32),
-            "hash": "md5:" + "2" * 32,
-            "format": "application/msword",
-        }}
+        {
+            "data": {
+                "title": "укр2.doc",
+                "url": self.generate_docservice_url("2" * 32),
+                "hash": "md5:" + "2" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     doc_id = response.json["data"]["id"]

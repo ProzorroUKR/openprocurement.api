@@ -7,7 +7,7 @@ class Root(BaseRoot):
     __acl__ = BaseRoot.__acl__ + [
         (Allow, Everyone, "view_tender"),
         (Allow, "g:brokers", "view_historical"),
-        (Allow, "g:Administrator", "view_historical")
+        (Allow, "g:Administrator", "view_historical"),
     ]
 
 

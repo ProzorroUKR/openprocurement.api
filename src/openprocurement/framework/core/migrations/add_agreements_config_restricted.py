@@ -43,8 +43,7 @@ def run(env, args):
             if agreement.get("config", {}).get("restricted") is None:
                 try:
                     collection.update_one(
-                        {"_id": agreement["_id"]},
-                        {"$set": {"config.restricted": restricted_populator(agreement)}}
+                        {"_id": agreement["_id"]}, {"$set": {"config.restricted": restricted_populator(agreement)}}
                     )
                     count += 1
                     if count % log_every == 0:
@@ -71,9 +70,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

@@ -9,7 +9,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    unless_bots,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.api.utils import json_view
@@ -24,7 +27,6 @@ from cornice.resource import resource
     description="Tender award documents",
 )
 class PQTenderAwardDocumentResource(BaseAwardDocumentResource):
-
     @json_view(
         validators=(
             unless_bots(validate_item_owner("tender")),
@@ -44,7 +46,6 @@ class PQTenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

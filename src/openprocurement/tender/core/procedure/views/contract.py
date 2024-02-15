@@ -27,7 +27,6 @@ def resolve_contract(request):
 
 
 class TenderContractResource(TenderBaseResource):
-
     serializer_class = ContractSerializer
     state_class = ContractState
 
@@ -35,11 +34,9 @@ class TenderContractResource(TenderBaseResource):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "edit_contract"),
-
             (Allow, "g:Administrator", "edit_contract"),
             (Allow, "g:admins", "create_contract"),
             (Allow, "g:admins", "edit_contract"),
-
             (Allow, "g:contracting", "create_contract"),
         ]
         return acl

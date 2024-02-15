@@ -65,7 +65,7 @@ class BaseMilestoneResource(TenderBaseResource):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "tender_{}_milestone_create".format(self.context_name)},
-                    {"milestone_id": milestone["id"]}
+                    {"milestone_id": milestone["id"]},
                 ),
             )
             self.request.response.status = 201
@@ -74,7 +74,6 @@ class BaseMilestoneResource(TenderBaseResource):
 
     def set_location(self, tender, milestone):
         pass
-
 
 
 @resource(
@@ -96,6 +95,6 @@ class QualificationMilestoneResource(BaseMilestoneResource):
             **{
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],
-                "milestone_id": milestone["id"]
+                "milestone_id": milestone["id"],
             }
         )

@@ -2,7 +2,6 @@ from openprocurement.api.tests.base import BaseWebTest
 
 
 class HealthTestBase(BaseWebTest):
-
     return_value = []
 
     def setUp(self):

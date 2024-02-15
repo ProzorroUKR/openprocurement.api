@@ -16,7 +16,8 @@ from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.utils import (
     apply_data_patch,
     append_revision,
-    get_revision_changes, parse_date,
+    get_revision_changes,
+    parse_date,
 )
 from openprocurement.api.utils import (
     handle_store_exceptions,
@@ -118,9 +119,7 @@ def save_tender(
             )
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(
-                    tender["_id"],
-                    old_date_modified,
-                    tender["dateModified"]
+                    tender["_id"], old_date_modified, tender["dateModified"]
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": tender["_rev"]}),
             )
@@ -129,11 +128,11 @@ def save_tender(
 
 
 def append_tender_revision(request, tender, patch, date):
-    status_changes = [p for p in patch if all([
-        not p["path"].startswith("/bids/"),
-        p["path"].endswith("/status"),
-        p["op"] == "replace"
-    ])]
+    status_changes = [
+        p
+        for p in patch
+        if all([not p["path"].startswith("/bids/"), p["path"].endswith("/status"), p["op"] == "replace"])
+    ]
     for change in status_changes:
         obj = resolve_pointer(tender, change["path"].replace("/status", ""))
         if obj and hasattr(obj, "date"):
@@ -163,6 +162,7 @@ def apply_tender_patch(request, data, src, save=True, modified=True):
     # it should link to request.validated["tender"]
     if patch and save:
         return save_tender(request, modified=modified)
+
 
 # --- PATCHING
 
@@ -274,8 +274,7 @@ def get_bids_before_auction_results(tender):
     request = get_request()
     initial_doc = request.validated["tender_src"]
     auction_revisions = (
-        revision for revision in reversed(tender.get("revisions", []))
-        if revision["author"] == "auction"
+        revision for revision in reversed(tender.get("revisions", [])) if revision["author"] == "auction"
     )
     for revision in auction_revisions:
         try:
@@ -305,19 +304,17 @@ def tender_created_after_2020_rules():
 
 def filter_features(features, items, lot_ids=None):
     lot_ids = lot_ids or [None]
-    lot_items = [
-        i["id"]
-        for i in items
-        if i.get("relatedLot") in lot_ids
-    ]  # all items in case of non-lot tender
+    lot_items = [i["id"] for i in items if i.get("relatedLot") in lot_ids]  # all items in case of non-lot tender
     features = [
         feature
         for feature in (features or tuple())
-        if any((
-            feature["featureOf"] == "tenderer",
-            feature["featureOf"] == "lot" and feature["relatedItem"] in lot_ids,
-            feature["featureOf"] == "item" and feature["relatedItem"] in lot_items,
-        ))
+        if any(
+            (
+                feature["featureOf"] == "tenderer",
+                feature["featureOf"] == "lot" and feature["relatedItem"] in lot_ids,
+                feature["featureOf"] == "item" and feature["relatedItem"] in lot_items,
+            )
+        )
     ]  # all features in case of non-lot tender
     return features
 
@@ -335,8 +332,9 @@ def activate_bids(bids):
 
 def is_new_contracting():
     tender = get_tender()
-    new_contracting_after = PQ_NEW_CONTRACTING_FROM \
-        if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
+    new_contracting_after = (
+        PQ_NEW_CONTRACTING_FROM if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
+    )
 
     return tender_created_after(new_contracting_after)
 
@@ -350,10 +348,12 @@ def find_lot(tender, lot_id):
 def validate_features_custom_weight(data, features, max_sum):
     if features:
         if data["lots"]:
-            if any([
-                round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
-                for lot in data["lots"]
-            ]):
+            if any(
+                [
+                    round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
+                    for lot in data["lots"]
+                ]
+            ):
                 raise ValidationError(
                     "Sum of max value of all features for lot should be "
                     "less then or equal to {:.0f}%".format(max_sum * 100)
@@ -361,13 +361,12 @@ def validate_features_custom_weight(data, features, max_sum):
         else:
             if round(vnmax(features), 15) > max_sum:
                 raise ValidationError(
-                    "Sum of max value of all features should be "
-                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                    "Sum of max value of all features should be " "less then or equal to {:.0f}%".format(max_sum * 100)
                 )
 
 
 def round_up_to_ten(value):
-    return int(math.ceil(value / 10.) * 10)
+    return int(math.ceil(value / 10.0) * 10)
 
 
 def restrict_value_to_bounds(value, min_value, max_value):
@@ -402,12 +401,12 @@ def generate_tender_id(request):
 
 def extract_complaint_type(request):
     """
-        request method
-        determines which type of complaint is processed
-        returns complaint_type
-        used in isComplaint route predicate factory
-        to match complaintType predicate
-        to route to Claim or Complaint view
+    request method
+    determines which type of complaint is processed
+    returns complaint_type
+    used in isComplaint route predicate factory
+    to match complaintType predicate
+    to route to Claim or Complaint view
     """
 
     path = extract_path(request)
@@ -494,7 +493,6 @@ def _extract_resource(request, matchdict, parent_resource, resource_name):
             raise error_handler(request)
         return resources[-1]
     return None
-
 
 
 def get_supplier_contract(contracts, tenderers):

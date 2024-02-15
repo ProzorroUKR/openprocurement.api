@@ -18,6 +18,7 @@ from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, AB
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
+
 @resource(
     name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",

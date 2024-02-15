@@ -7,7 +7,8 @@ from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
     test_framework_dps_data,
     test_dps_documents,
-    test_submission_data, test_submission_config,
+    test_submission_data,
+    test_submission_config,
 )
 from openprocurement.framework.dps.tests.submission_blanks import (
     listing,

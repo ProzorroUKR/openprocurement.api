@@ -55,15 +55,17 @@ class CommonContract(Model):
         award = [i for i in tender.get("awards", []) if i["id"] == data["awardID"]][0]
         if award.get("complaintPeriod"):
             if not skip_award_complaint_period:
-                if (award.get("complaintPeriod", {}).get("endDate") and
-                        value <= dt_from_iso(award["complaintPeriod"]["endDate"])):
+                if award.get("complaintPeriod", {}).get("endDate") and value <= dt_from_iso(
+                    award["complaintPeriod"]["endDate"]
+                ):
                     raise ValidationError(
                         "Contract signature date should be after award complaint period end date ({})".format(
                             award.get("complaintPeriod", {}).get("endDate", "")
                         )
                     )
-            elif (award.get("complaintPeriod", {}).get("startDate") and
-                  value <= dt_from_iso(award["complaintPeriod"]["startDate"])):
+            elif award.get("complaintPeriod", {}).get("startDate") and value <= dt_from_iso(
+                award["complaintPeriod"]["startDate"]
+            ):
                 raise ValidationError(
                     "Contract signature date should be after award activation date ({})".format(
                         award.get("complaintPeriod", {}).get("startDate")
@@ -71,6 +73,8 @@ class CommonContract(Model):
                 )
         if value > get_now():
             raise ValidationError("Contract signature date can't be in the future")
+
+
 # --- BASE
 
 
@@ -86,6 +90,8 @@ class PostContract(CommonContract):
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
+
+
 # -- POST
 
 
@@ -107,12 +113,16 @@ class PatchContract(Model):
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
+
+
 # --- PATCH
 
 
 # PATCH Supplier---
 class PatchContractSupplier(Model):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+
+
 # --- PATCH Supplier
 
 
@@ -145,5 +155,3 @@ def validate_item_unit_values(data, items):
                         f"Value mismatch. Expected: currency {base_value['currency']} and "
                         f"valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
                     )
-
-

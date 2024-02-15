@@ -14,7 +14,8 @@ from openprocurement.tender.core.procedure.models.criterion import Criterion, Pa
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator,
+    validate_item_owner,
+    unless_administrator,
 )
 
 LOGGER = getLogger(__name__)
@@ -29,14 +30,13 @@ def resolve_criterion(request: Request) -> None:
 
 
 class BaseCriterionResource(TenderBaseResource):
-
     def __acl__(self) -> List[Tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_criterion"),
             (Allow, "g:brokers", "edit_criterion"),
             (Allow, "g:Administrator", "edit_criterion"),  # wtf ???
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
 
     serializer_class = CriterionSerializer
@@ -50,13 +50,12 @@ class BaseCriterionResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(Criterion, allow_bulk=True),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(Criterion, allow_bulk=True),
         ),
         permission="create_criterion",
     )
     def collection_post(self) -> Optional[dict]:
-
         tender = self.request.validated["tender"]
         criteria = self.request.validated["data"]
         if "criteria" not in tender:
@@ -93,9 +92,9 @@ class BaseCriterionResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("tender")),
-                validate_input_data(PatchCriterion),
-                validate_patch_data_simple(Criterion, "criterion"),
+            unless_administrator(validate_item_owner("tender")),
+            validate_input_data(PatchCriterion),
+            validate_patch_data_simple(Criterion, "criterion"),
         ),
         permission="edit_criterion",
     )
@@ -111,8 +110,6 @@ class BaseCriterionResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated tender criterion {}".format(criterion["id"]),
-                extra=context_unpack(
-                    self.request, {"MESSAGE_ID": "tender_criterion_patch"}
-                ),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_criterion_patch"}),
             )
-            return {"data":  self.serializer_class(updated_criterion).data}
+            return {"data": self.serializer_class(updated_criterion).data}

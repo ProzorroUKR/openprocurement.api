@@ -42,7 +42,8 @@ def check_document(request, document):
     if (
         not (
             url.startswith(request.registry.docservice_url)
-            or request.registry.dep_docservice_url and url.startswith(request.registry.dep_docservice_url)
+            or request.registry.dep_docservice_url
+            and url.startswith(request.registry.dep_docservice_url)
         )
         or len(parsed_url.path.split("/")) != 3
         or {"Signature", "KeyID"} != set(parsed_query)

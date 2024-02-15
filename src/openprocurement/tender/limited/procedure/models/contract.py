@@ -9,21 +9,19 @@ from openprocurement.api.procedure.types import ListType, ModelType
 
 
 class ReportingContract(BaseContract):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
-                         min_size=1, max_size=1)
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True), min_size=1, max_size=1)
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
             raise ValidationError("Contract signature date can't be in the future")
-    
+
 
 class ReportingPostContract(ReportingContract):
     pass
 
 
 class ReportingPatchContract(BasePatchContract):
-    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True),
-                         min_size=1, max_size=1)
+    suppliers = ListType(ModelType(ContactLessBusinessOrganization, required=True), min_size=1, max_size=1)
 
 
 class NegotiationContract(BaseContract):
@@ -36,4 +34,3 @@ class NegotiationPostContract(NegotiationContract):
 
 class NegotiationPatchContract(BasePatchContract):
     pass
-

@@ -16,11 +16,7 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 LOGGER = getLogger(__name__)
 
 
-@resource(
-    name="Tender plans",
-    path="/tenders/{tender_id}/plans",
-    description="Tender plans relation endpoint"
-)
+@resource(name="Tender plans", path="/tenders/{tender_id}/plans", description="Tender plans relation endpoint")
 class TenderPlansResource(TenderBaseResource):
     serializer_class = PlanSerializer
     plan_state_class = PlanState

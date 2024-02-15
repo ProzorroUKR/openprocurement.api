@@ -200,11 +200,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
     def status_up(self, before, after, data):
         if after == "draft" and before != "draft":
             raise_operation_error(
-                get_request(),
-                "Can't change status to draft",
-                status=422,
-                location="body",
-                name="status"
+                get_request(), "Can't change status to draft", status=422, location="body", name="status"
             )
         if after != "draft" and before == "draft":
             self.validate_pre_selection_agreement(data)
@@ -216,10 +212,9 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     "tenderPeriod.startDate should be in greater than current date",
                     status=422,
                     location="body",
-                    name="tenderPeriod.startDate"
+                    name="tenderPeriod.startDate",
                 )
         super().status_up(before, after, data)
-
 
     def validate_pre_selection_agreement(self, tender):
         if self.should_validate_pre_selection_agreement is False:
@@ -247,9 +242,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
-            tender_agreement_type_mapping = {
-                COMPETITIVE_ORDERING: DPS_TYPE
-            }
+            tender_agreement_type_mapping = {COMPETITIVE_ORDERING: DPS_TYPE}
 
             if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
                 raise_agreements_error("Agreement type mismatch.")
@@ -280,7 +273,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     "Can't create more than {} lots".format(max_lots_count),
                     status=422,
                     location="body",
-                    name="lots"
+                    name="lots",
                 )
 
     def validate_pre_qualification_status_change(self, before, after):
@@ -307,7 +300,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 ):
                     raise_operation_error(
                         get_request(),
-                        "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints"
+                        "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints",
                     )
 
                 if self.all_bids_are_reviewed(after):
@@ -340,7 +333,6 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 if bid.get("status") not in ("invalid", "deleted")
                 for lotValue in bid.get("lotValues", "")
                 if lotValue["relatedLot"] in active_lots
-
             )
         else:
             return all(bid.get("status") != "pending" for bid in bids)
@@ -401,16 +393,12 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 "Can't change tenderPeriod.startDate",
                 status=422,
                 location="body",
-                name="tenderPeriod.startDate"
+                name="tenderPeriod.startDate",
             )
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
-            raise_operation_error(
-                get_request(),
-                "Can't change awardCriteria",
-                name="awardCriteria"
-            )
+            raise_operation_error(get_request(), "Can't change awardCriteria", name="awardCriteria")
 
     def validate_kind_change(self, after, before):
         if before["status"] not in ("draft", "draft.stage2"):
@@ -420,7 +408,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                     "Can't change procuringEntity.kind in a public tender",
                     status=422,
                     location="body",
-                    name="procuringEntity"
+                    name="procuringEntity",
                 )
 
     @classmethod
@@ -523,10 +511,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
         if len(get_cpv_uniq_prefixes(classifications, prefix_length)) != 1:
             raise_operation_error(
-                get_request(),
-                [f"CPV {prefix_name} of items should be identical"],
-                status=422,
-                name="items"
+                get_request(), [f"CPV {prefix_name} of items should be identical"], status=422, name="items"
             )
 
         if not self.should_validate_pre_selection_agreement:
@@ -552,7 +537,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
                 get_request(),
                 [f"CPV {prefix_name} of items should be identical to agreement cpv"],
                 status=422,
-                name="items"
+                name="items",
             )
 
     @classmethod
@@ -566,27 +551,27 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
         if len(prefix_list) != 1:
             prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
             raise_operation_error(
-                get_request(),
-                [f"Can't change classification {prefix_name} of items"],
-                status=422,
-                name="items"
+                get_request(), [f"Can't change classification {prefix_name} of items"], status=422, name="items"
             )
 
     def validate_tender_period_extension(self, tender):
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-            if calculate_tender_business_date(
-                get_now(),
-                self.tendering_period_extra,
-                tender=tender,
-                working_days=self.tendering_period_extra_working_days,
-            ) > tendering_end:
+            if (
+                calculate_tender_business_date(
+                    get_now(),
+                    self.tendering_period_extra,
+                    tender=tender,
+                    working_days=self.tendering_period_extra_working_days,
+                )
+                > tendering_end
+            ):
                 raise_operation_error(
                     get_request(),
                     "tenderPeriod should be extended by {0.days} {1}".format(
                         self.tendering_period_extra,
                         "working days" if self.tendering_period_extra_working_days else "days",
-                    )
+                    ),
                 )
 
     @staticmethod
@@ -596,7 +581,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             item["classification"]["id"],
             item["classification"]["scheme"],
             item["unit"]["code"] if item.get("unit") else None,
-            tuple((c["id"], c["scheme"]) for c in item.get("additionalClassifications", ""))
+            tuple((c["id"], c["scheme"]) for c in item.get("additionalClassifications", "")),
         )
         return result
 
@@ -606,10 +591,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
 
     @classmethod
     def has_insufficient_active_contracts(cls, agreement):
-        active_contracts_count = sum(
-            c["status"] == "active"
-            for c in agreement.get("contracts", "")
-        )
+        active_contracts_count = sum(c["status"] == "active" for c in agreement.get("contracts", ""))
         return active_contracts_count < cls.agreement_min_active_contracts
 
     @classmethod
@@ -629,11 +611,7 @@ class TenderDetailsMixing(TenderConfigMixin, baseclass):
             for item in after["items"]:
                 if not item.get("relatedLot"):
                     raise_operation_error(
-                        get_request(),
-                        "This field is required",
-                        status=422,
-                        location="body",
-                        name="item.relatedLot"
+                        get_request(), "This field is required", status=422, location="body", name="item.relatedLot"
                     )
 
     def update_complaint_period(self, tender):

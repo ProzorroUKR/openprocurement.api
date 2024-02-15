@@ -34,7 +34,9 @@ from datetime import timedelta
 def validate_enquiry_period(data, period):
     if (
         get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
-        and period and period.startDate and period.endDate
+        and period
+        and period.startDate
+        and period.endDate
         and period.endDate < calculate_tender_business_date(period.startDate, timedelta(days=3), data, True)
     ):
         raise ValidationError("the enquiryPeriod cannot end earlier than 3 business days after the start")
@@ -49,12 +51,7 @@ def validate_tender_period(data, period):
             period.startDate = data.get("enquiryPeriod").endDate  # default tenderPeriod.startDate
 
     active_validation = get_first_revision_date(data, default=get_now()) > RELEASE_2020_04_19
-    if (
-            active_validation
-            and period
-            and period.startDate
-            and period.endDate
-    ):
+    if active_validation and period and period.startDate and period.endDate:
         validate_tender_period_duration(data, period, timedelta(days=2), working_days=True)
 
 

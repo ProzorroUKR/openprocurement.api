@@ -69,6 +69,7 @@ class URLType(StringType):
             raise StopValidation(self.messages['invalid_url'])
         if self.verify_exists:
             from six.moves import urllib
+
             try:
                 request = urllib.Request(value)
                 urllib.urlopen(request)
@@ -80,11 +81,10 @@ class StrictStringType(StringType):
     allow_casts = (str,)
 
 
-class StrictIntType(IntType): # There are can be problem with old tenders where int values stores in string
+class StrictIntType(IntType):  # There are can be problem with old tenders where int values stores in string
     def to_native(self, value, context=None):
         if not isinstance(value, int):
-            raise ConversionError(self.messages['number_coerce']
-                                  .format(value, self.number_type.lower()))
+            raise ConversionError(self.messages['number_coerce'].format(value, self.number_type.lower()))
         return super().to_native(value, context=context)
 
 
@@ -122,17 +122,17 @@ class IsoDateTimeType(BaseType):
 
 
 class IsoDurationType(BaseType):
-    """ Iso Duration format
-           P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
-           Y is the year designator that follows the value for the number of years.
-           M is the month designator that follows the value for the number of months.
-           W is the week designator that follows the value for the number of weeks.
-           D is the day designator that follows the value for the number of days.
-           T is the time designator that precedes the time components.
-           H is the hour designator that follows the value for the number of hours.
-           M is the minute designator that follows the value for the number of minutes.
-           S is the second designator that follows the value for the number of seconds.
-           examples:  'P5000Y72M8W10DT55H3000M5S'
+    """Iso Duration format
+    P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
+    Y is the year designator that follows the value for the number of years.
+    M is the month designator that follows the value for the number of months.
+    W is the week designator that follows the value for the number of weeks.
+    D is the day designator that follows the value for the number of days.
+    T is the time designator that precedes the time components.
+    H is the hour designator that follows the value for the number of hours.
+    M is the minute designator that follows the value for the number of minutes.
+    S is the second designator that follows the value for the number of seconds.
+    examples:  'P5000Y72M8W10DT55H3000M5S'
     """
 
     MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601 Durations."}
@@ -152,7 +152,6 @@ class IsoDurationType(BaseType):
 
 
 class HashType(StringType):
-
     MESSAGES = {
         "hash_invalid": "Hash type is not supported.",
         "hash_length": "Hash value is wrong length.",

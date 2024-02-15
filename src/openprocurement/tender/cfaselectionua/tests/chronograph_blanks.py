@@ -93,9 +93,7 @@ def switch_to_unsuccessful(self):
 def switch_to_ignored_on_complete(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
@@ -110,9 +108,7 @@ def switch_to_ignored_on_complete(self):
 def switch_from_pending_to_ignored(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
@@ -129,9 +125,7 @@ def switch_from_pending(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": test_tender_below_claim
-            },
+            {"data": test_tender_below_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
@@ -153,9 +147,7 @@ def switch_to_complaint(self):
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": test_tender_below_claim
-            },
+            {"data": test_tender_below_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
@@ -186,9 +178,7 @@ def award_switch_to_ignored_on_complete(self):
     token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
@@ -226,9 +216,7 @@ def award_switch_from_pending_to_ignored(self):
     token = list(self.initial_bids_tokens.values())[0]
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["status"], "claim")
@@ -246,9 +234,7 @@ def award_switch_from_pending(self):
     for status in ["invalid", "resolved", "declined"]:
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-            {
-                "data": test_tender_below_claim
-            },
+            {"data": test_tender_below_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")
@@ -279,9 +265,7 @@ def award_switch_to_complaint(self):
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
-            {
-                "data": test_tender_below_claim
-            },
+            {"data": test_tender_below_claim},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.json["data"]["status"], "claim")

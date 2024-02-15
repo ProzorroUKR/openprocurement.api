@@ -144,7 +144,7 @@ PERIODS = {
             },
             "awardPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
         }
-    }
+    },
 }
 
 PERIODS_UA_STAGE_2 = {
@@ -154,10 +154,7 @@ PERIODS_UA_STAGE_2 = {
                 "startDate": timedelta(),
                 "endDate": timedelta(days=13),
             },
-            "tenderPeriod": {
-                "startDate": timedelta(),
-                "endDate": timedelta(days=16)
-            },
+            "tenderPeriod": {"startDate": timedelta(), "endDate": timedelta(days=16)},
         },
         "enquiry_end": {
             "enquiryPeriod": {
@@ -246,5 +243,5 @@ PERIODS_UA_STAGE_2 = {
                 "endDate": -timedelta(days=7),
             },
         }
-    }
+    },
 }

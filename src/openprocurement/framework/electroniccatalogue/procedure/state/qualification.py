@@ -3,4 +3,3 @@ from openprocurement.framework.core.procedure.state.qualification import Qualifi
 
 class ElectronicDialogueQualificationState(QualificationState):
     pass
-

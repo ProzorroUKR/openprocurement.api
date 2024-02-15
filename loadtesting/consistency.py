@@ -106,5 +106,3 @@ class User(HttpUser):
     #     )
     #     if response.status_code != 200:
     #         print(response.json())
-
-

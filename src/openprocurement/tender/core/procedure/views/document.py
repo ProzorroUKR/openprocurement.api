@@ -16,7 +16,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.tender.core.procedure.utils import (
     save_tender,
@@ -41,7 +43,7 @@ class DocumentResourceMixin:
     container: str = "documents"
     item_name: str
 
-    def set_doc_author(self, doc):   # TODO: move to state class?
+    def set_doc_author(self, doc):  # TODO: move to state class?
         pass
 
     def get_modified(self):
@@ -116,9 +118,7 @@ class DocumentResourceMixin:
             return self.get_file()
         document = self.request.validated["document"]
         document["previousVersions"] = [
-            DocumentSerializer(i).data
-            for i in self.request.validated["documents"]
-            if i["url"] != document["url"]
+            DocumentSerializer(i).data for i in self.request.validated["documents"] if i["url"] != document["url"]
         ]
         return {"data": self.serializer_class(document).data}
 
@@ -185,7 +185,6 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
         validators=(
             validate_item_owner("tender"),
             validate_input_data(PostDocument),
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

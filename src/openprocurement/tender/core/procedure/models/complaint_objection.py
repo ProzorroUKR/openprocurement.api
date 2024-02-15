@@ -95,12 +95,27 @@ class TenderComplaintObjection(Objection):
 
 
 class AwardComplaintObjection(Objection):
-    relatesTo = StringType(choices=[ObjectionRelatesTo.award.value, ], required=True)
+    relatesTo = StringType(
+        choices=[
+            ObjectionRelatesTo.award.value,
+        ],
+        required=True,
+    )
 
 
 class CancellationComplaintObjection(Objection):
-    relatesTo = StringType(choices=[ObjectionRelatesTo.cancellation.value, ], required=True)
+    relatesTo = StringType(
+        choices=[
+            ObjectionRelatesTo.cancellation.value,
+        ],
+        required=True,
+    )
 
 
 class QualificationComplaintObjection(Objection):
-    relatesTo = StringType(choices=[ObjectionRelatesTo.qualification.value, ], required=True)
+    relatesTo = StringType(
+        choices=[
+            ObjectionRelatesTo.qualification.value,
+        ],
+        required=True,
+    )

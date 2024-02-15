@@ -33,14 +33,14 @@ from openprocurement.tender.openua.tests.cancellation import (
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     activate_cancellation,
-    create_tender_cancellation_with_cancellation_lots
+    create_tender_cancellation_with_cancellation_lots,
 )
 
 
 class CompetitiveDialogUACancellationResourceTest(
     BaseCompetitiveDialogUAContentWebTest,
     TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderCancellationResourceNewReleaseTestMixin,
 ):
     test_activate_cancellation = snitch(activate_cancellation)
 
@@ -69,7 +69,6 @@ class CompetitiveDialogUALotsCancellationResourceTest(BaseCompetitiveDialogUACon
 class CompetitiveDialogUACancellationComplaintResourceTest(
     BaseCompetitiveDialogUAContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
-
     initial_bids = test_tender_cd_stage1_bids
     test_bids_data = test_tender_cd_stage1_bids
 
@@ -79,9 +78,7 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -107,7 +104,7 @@ class CompetitiveDialogUACancellationDocumentResourceTest(
 class CompetitiveDialogEUCancellationResourceTest(
     BaseCompetitiveDialogEUContentWebTest,
     TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderCancellationResourceNewReleaseTestMixin,
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_activate_cancellation = snitch(activate_cancellation)
@@ -139,7 +136,6 @@ class CompetitiveDialogEULotsCancellationResourceTest(BaseCompetitiveDialogEUCon
 class CompetitiveDialogEUCancellationDocumentResourceTest(
     BaseCompetitiveDialogEUContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
-
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):

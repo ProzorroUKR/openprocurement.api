@@ -40,7 +40,6 @@ class BaseESCOValue(Value):
 
 
 class PatchESCOValue(BaseESCOValue):
-
     def validate_annualCostsReduction(self, data, value):
         if value is not None and len(value) != 21:
             raise ValidationError("annual costs reduction should be set for 21 period")
@@ -61,7 +60,7 @@ class ESCOValue(BaseESCOValue):
 
     @serializable(serialized_name="amountPerformance", type=DecimalType(precision=-2))
     def amountPerformance_npv(self):
-        """ Calculated energy service contract performance indicator """
+        """Calculated energy service contract performance indicator"""
         tender = get_tender()
         return to_decimal(
             npv(

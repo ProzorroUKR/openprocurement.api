@@ -22,8 +22,7 @@ class ComplaintPostValidationsMixin:
         complaint_status = complaint.get("status")
         if complaint_status not in ["pending", "accepted"]:
             raise_operation_error(
-                self.request,
-                f"Can't submit or edit post in current ({complaint_status}) complaint status"
+                self.request, f"Can't submit or edit post in current ({complaint_status}) complaint status"
             )
 
     def validate_complaint_post_review_date(self, complaint):
@@ -32,16 +31,16 @@ class ComplaintPostValidationsMixin:
             tender = get_tender()
             post_end_date = calculate_tender_business_date(
                 dt_from_iso(complaint["reviewDate"]),
-                - self.post_submit_time,
+                -self.post_submit_time,
                 tender=tender,
                 working_days=True,
-                calendar=WORKING_DAYS
+                calendar=WORKING_DAYS,
             )
             if get_now() > post_end_date:
                 raise_operation_error(
                     self.request,
                     f"Can submit or edit post not later than {self.post_submit_time.days} "
-                    "full business days before reviewDate"
+                    "full business days before reviewDate",
                 )
 
 
@@ -57,15 +56,11 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
     def validate_complaint_post_on_post(self, post):
         complaint = get_complaint()
         if not tender_created_after_2020_rules():
-            raise_operation_error(
-                self.request,
-                "Forbidden"
-            )
+            raise_operation_error(self.request, "Forbidden")
 
         if complaint.get("type") != "complaint":
             raise_operation_error(
-                self.request,
-                f"Can't submit or edit post in current ({complaint.get('type')}) complaint type"
+                self.request, f"Can't submit or edit post in current ({complaint.get('type')}) complaint type"
             )
 
         self.validate_complaint_status(complaint)

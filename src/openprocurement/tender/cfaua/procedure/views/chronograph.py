@@ -11,4 +11,3 @@ from cornice.resource import resource
 )
 class CFAUAChronographResource(TenderChronographResource):
     state_class = CFAUATenderState
-

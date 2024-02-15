@@ -76,16 +76,13 @@ class BaseComplaintPostResource(TenderBaseResource):
                 kwargs[f"{self.item_name}_id"] = context["id"]
             self.LOGGER.info(
                 f"Created post {post['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"},
-                                     kwargs),
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"}, kwargs),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             extended_item_name = f"Tender {self.item_name.capitalize()}" if self.item_name != "tender" else "Tender"
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{route_prefix}:{extended_item_name} Complaint Posts",
-                **kwargs
+                f"{route_prefix}:{extended_item_name} Complaint Posts", **kwargs
             )
             return {"data": self.serializer_class(post).data}
 

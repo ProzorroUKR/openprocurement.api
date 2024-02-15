@@ -81,7 +81,7 @@ class LotAuctionUrls(Model):
             if lot.id == lot_id:
                 if lot.auctionUrl is None:
                     raise ValidationError("Auction url required")
-            else: # post to /auctions/{lot_id} updates only related lots
+            else:  # post to /auctions/{lot_id} updates only related lots
                 for f in lot:
                     if f != "id":
                         lot[f] = None
@@ -121,7 +121,8 @@ class LotAuctionUrls(Model):
                 for value, positional_related_lot in zip_longest(bid.lotValues, tender_related_lots):
                     if positional_related_lot is None:
                         raise ValidationError(
-                            "Number of lots of auction results did not match the number of tender lots")
+                            "Number of lots of auction results did not match the number of tender lots"
+                        )
                     if value is None:  # passed list actually can be shorter
                         continue
 
@@ -132,14 +133,14 @@ class LotAuctionUrls(Model):
                         if value.participationUrl is None:
                             raise ValidationError("Auction participation url required")
 
-                    else:   # post to /auctions/{lot_id} updates only related lotValues
+                    else:  # post to /auctions/{lot_id} updates only related lotValues
                         for f in value:
                             if f != "relatedLot":
                                 value[f] = None
 
                     passed_related_lots.append(value.relatedLot)
 
-                if passed_related_lots != tender_related_lots[:len(passed_related_lots)]:  # passed can be shorter
+                if passed_related_lots != tender_related_lots[: len(passed_related_lots)]:  # passed can be shorter
                     raise ValidationError("Auction bid.lotValues should be identical to the tender bid.lotValues")
             # -- lotValues check
 
@@ -245,7 +246,8 @@ class AuctionLotResults(Model):
                 for value, positional_related_lot in zip_longest(bid.lotValues, tender_related_lots):
                     if positional_related_lot is None:
                         raise ValidationError(
-                            "Number of lots of auction results did not match the number of tender lots")
+                            "Number of lots of auction results did not match the number of tender lots"
+                        )
                     if value is None:  # passed list actually can be shorter
                         continue
 
@@ -259,7 +261,7 @@ class AuctionLotResults(Model):
                             if f != "relatedLot":
                                 value[f] = None
 
-                if passed_related_lots != tender_related_lots[:len(passed_related_lots)]:  # passed can be shorter
+                if passed_related_lots != tender_related_lots[: len(passed_related_lots)]:  # passed can be shorter
                     raise ValidationError("Auction bid.lotValues should be identical to the tender bid.lotValues")
             # -- lotValues check
 

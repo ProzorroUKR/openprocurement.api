@@ -85,8 +85,8 @@ def convert_milestones(milestones, lot_id=None):
 def convert_value(v):
     if v:
         r = {
-          "amount": v["amount"],
-          "currency": v["currency"],
+            "amount": v["amount"],
+            "currency": v["currency"],
         }
         return r
 
@@ -134,15 +134,17 @@ def convert_awards(awards, tender, lot_id=None):
             "date": a["date"],
             "value": convert_value(a["value"]),
             "suppliers": [
-                {
-                    "id": identifier_str(a["suppliers"][0]["identifier"]),
-                    "name": a["suppliers"][0]["name"],
-                }
-                if "suppliers" in a else
-                {
-                    "id": a["bid_id"],
-                    "name": [b for b in tender["bids"] if b["id"] == a["bid_id"]][0]["tenderers"][0]["name"]
-                }
+                (
+                    {
+                        "id": identifier_str(a["suppliers"][0]["identifier"]),
+                        "name": a["suppliers"][0]["name"],
+                    }
+                    if "suppliers" in a
+                    else {
+                        "id": a["bid_id"],
+                        "name": [b for b in tender["bids"] if b["id"] == a["bid_id"]][0]["tenderers"][0]["name"],
+                    }
+                )
             ],
             "items": convert_items(tender["items"], lot_id=lot_id),
             "documents": convert_documents(a.get("documents", "")),
@@ -194,16 +196,16 @@ def prepare_release(plan, tender, lot=None):
     if lot_id:
         release_id += f"-{lot_id}"
 
-    parties = [{
-        "id": identifier_str(tender["procuringEntity"]["identifier"]),
-        "name": tender["procuringEntity"]["name"],
-        "identifier": tender["procuringEntity"]["identifier"],
-        "address": tender["procuringEntity"]["address"],
-        "contactPoint": tender["procuringEntity"].get("contactPoint"),
-    }]
-    parties.extend(
-        parties_from_bids(tender, tender.get("bids", ""), lot_id=lot_id)
-    )
+    parties = [
+        {
+            "id": identifier_str(tender["procuringEntity"]["identifier"]),
+            "name": tender["procuringEntity"]["name"],
+            "identifier": tender["procuringEntity"]["identifier"],
+            "address": tender["procuringEntity"]["address"],
+            "contactPoint": tender["procuringEntity"].get("contactPoint"),
+        }
+    ]
+    parties.extend(parties_from_bids(tender, tender.get("bids", ""), lot_id=lot_id))
     tender_status = lot.get("status") or tender["status"]
     documents = convert_documents(tender.get("documents", ""), lot_id=lot_id, tender=tender)
     awards = convert_awards(tender.get("awards", ""), tender, lot_id=lot_id)
@@ -239,9 +241,11 @@ def prepare_release(plan, tender, lot=None):
             "procurementMethodRationale": tender.get("procurementMethodRationale", ""),  # don't expect it there
             "mainProcurementCategory": tender.get("mainProcurementCategory"),
             # "additionalProcurementCategories": [],  # Not Implemented
-            "awardCriteria": (tender["awardCriteria"]
-                              if tender.get("awardCriteria") in award_criteria_choices  # TODO:  awardCriteria can be missing at all
-                              else "ratedCriteria"),
+            "awardCriteria": (
+                tender["awardCriteria"]
+                if tender.get("awardCriteria") in award_criteria_choices  # TODO:  awardCriteria can be missing at all
+                else "ratedCriteria"
+            ),
             "awardCriteriaDetails": tender.get("awardCriteriaDetails"),
             "submissionMethod": [tender["submissionMethod"]] if "submissionMethod" in tender else None,
             # "submissionMethodDetails": tender.get("submissionMethodDetails", "")  # better not
@@ -257,9 +261,7 @@ def prepare_release(plan, tender, lot=None):
             "hasEnquiries": any(
                 complaint["type"] == "claim"
                 for complaint in tender.get("complaints", "")
-                if lot_id is None
-                or complaint.get("relatedLot") is None
-                or complaint.get("relatedLot") == lot_id
+                if lot_id is None or complaint.get("relatedLot") is None or complaint.get("relatedLot") == lot_id
             ),
             "eligibilityCriteria": tender.get("eligibilityCriteria"),  # good luck ;)
             "awardPeriod": tender.get("awardPeriod"),
@@ -320,13 +322,10 @@ def prepare_release(plan, tender, lot=None):
                         "value": len(bids),
                         "date": max(bid_dates) if bid_dates else None,
                         "notes": "This statistic covers the total number of unique bids received that were considered "
-                                 "valid against relevant criteria."
+                        "valid against relevant criteria.",
                     },
                 ],
-                "details": [
-                    convert_bid(b, lot_id=lot_id, tender=tender)
-                    for b in bids
-                ]
+                "details": [convert_bid(b, lot_id=lot_id, tender=tender) for b in bids],
             }
 
     return r
@@ -370,9 +369,7 @@ def convert_bid(b, lot_id=None, tender=None):
     documents = []
     for key in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
         if key in b:
-            documents.extend(
-                convert_documents(b[key], lot_id=lot_id, tender=tender)
-            )
+            documents.extend(convert_documents(b[key], lot_id=lot_id, tender=tender))
     r["documents"] = documents
     return r
 
@@ -397,7 +394,6 @@ def remove_nones(data):
 
 
 def ocds_format_tender(*_, tender, tender_url, plan=None):
-
     releases = []
     if "lots" in tender:
         for l in tender["lots"]:
@@ -419,5 +415,3 @@ def ocds_format_tender(*_, tender, tender_url, plan=None):
     }
     remove_nones(result)
     return result
-
-

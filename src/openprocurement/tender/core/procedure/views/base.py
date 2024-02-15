@@ -13,9 +13,7 @@ class TenderBaseResource(BaseResource):
             (Allow, "g:brokers", "create_tender"),
             (Allow, "g:brokers", "edit_tender"),
             (Allow, "g:Administrator", "edit_tender"),
-
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
-
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
             (Allow, "g:auction", "auction"),
             (Allow, "g:chronograph", "chronograph"),
             (Allow, "g:contracting", "extract_credentials"),

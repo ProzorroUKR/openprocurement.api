@@ -4,8 +4,5 @@ from openprocurement.tender.belowthreshold.procedure.state.criterion_rg_requirem
 from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 
 
-class CFASelectionEligibleEvidenceState(
-    BelowThresholdEligibleEvidenceStateMixin,
-    CFASelectionTenderState
-):
+class CFASelectionEligibleEvidenceState(BelowThresholdEligibleEvidenceStateMixin, CFASelectionTenderState):
     pass

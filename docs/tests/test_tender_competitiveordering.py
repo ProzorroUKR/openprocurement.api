@@ -57,13 +57,14 @@ class TenderResourceTest(
 
     def create_framework(self):
         data = deepcopy(test_framework_dps_data)
-        data["qualificationPeriod"] = {
-            "endDate": (get_now() + datetime.timedelta(days=120)).isoformat()
-        }
-        response = self.app.post_json("/frameworks", {
-            "data": data,
-            "config": test_framework_dps_config,
-        })
+        data["qualificationPeriod"] = {"endDate": (get_now() + datetime.timedelta(days=120)).isoformat()}
+        response = self.app.post_json(
+            "/frameworks",
+            {
+                "data": data,
+                "config": test_framework_dps_config,
+            },
+        )
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
         return response
@@ -78,7 +79,7 @@ class TenderResourceTest(
     def activate_framework(self):
         response = self.app.patch_json(
             "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.assertEqual(response.status, "200 OK")
         return response
@@ -88,10 +89,13 @@ class TenderResourceTest(
         data["frameworkID"] = self.framework_id
         data["tenderers"][0]["identifier"]["id"] = uuid4().hex
         self.tenderer = data["tenderers"][0]
-        response = self.app.post_json("/submissions", {
-            "data": data,
-            "config": test_submission_config,
-        })
+        response = self.app.post_json(
+            "/submissions",
+            {
+                "data": data,
+                "config": test_submission_config,
+            },
+        )
         self.submission_id = response.json["data"]["id"]
         self.submission_token = response.json["access"]["token"]
         return response
@@ -108,12 +112,14 @@ class TenderResourceTest(
     def activate_qualification(self):
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         response = self.app.patch_json(
@@ -173,14 +179,12 @@ class TenderResourceTest(
             item['relatedLot'] = lot['id']
             item['deliveryDate'] = {
                 "startDate": (get_now() + datetime.timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + datetime.timedelta(days=5)).isoformat()
+                "endDate": (get_now() + datetime.timedelta(days=5)).isoformat(),
             }
             item['classification']['id'] = test_framework_dps_data['classification']['id']
 
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': data, 'config': config})
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -192,12 +196,11 @@ class TenderResourceTest(
             response = self.app.post_json(
                 f'/tenders/{tender_id}/complaints?acc_token={owner_token}',
                 {'data': test_tender_below_draft_complaint},
-                status=403
+                status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(
-                response.json['errors'][0]['description'],
-                "Can't add complaint as it is forbidden by configuration"
+                response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
             )
 
         # add lots
@@ -207,15 +210,10 @@ class TenderResourceTest(
             lot2['value'] = data['value']
             lot2['minimalStep'] = data['minimalStep']
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-                {'data': lot2},
-                status=422
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}, status=422
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(
-                response.json['errors'][0]['description'],
-                "Can't create more than 1 lots"
-            )
+            self.assertEqual(response.json['errors'][0]['description'], "Can't create more than 1 lots")
 
         # add relatedLot for item
 
@@ -223,8 +221,7 @@ class TenderResourceTest(
         items[0]["relatedLot"] = tender["lots"][0]["id"]
         with open(TARGET_DIR + 'tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {"data": {"items": items}}
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -240,8 +237,7 @@ class TenderResourceTest(
 
         with open(TARGET_DIR + 'add-exclusion-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token),
-                {'data': test_criteria_data}
+                '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -251,12 +247,11 @@ class TenderResourceTest(
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
                 {'data': {"status": "active.tendering"}},
-                status=422
+                status=422,
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
             self.assertEqual(
-                response.json['errors'][0]['description'],
-                "agreements[0] has less than 3 active contracts"
+                response.json['errors'][0]['description'], "agreements[0] has less than 3 active contracts"
             )
 
         # Add agreement contracts
@@ -275,8 +270,7 @@ class TenderResourceTest(
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {'data': {"status": "active.tendering"}}
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -284,7 +278,7 @@ class TenderResourceTest(
 
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}?acc_token={owner_token}',
-            {'data': {"guarantee": {"amount": 8, "currency": "USD"}}}
+            {'data': {"guarantee": {"amount": 8, "currency": "USD"}}},
         )
         self.assertEqual(response.status, '200 OK')
         self.assertIn('guarantee', response.json['data'])
@@ -297,9 +291,9 @@ class TenderResourceTest(
                     "title": "Notice.pdf",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf"
+                    "format": "application/pdf",
                 }
-            }
+            },
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -312,13 +306,15 @@ class TenderResourceTest(
                     'selfQualified': True,
                     'status': 'draft',
                     'tenderers': [self.tenderer],
-                    'lotValues': [{
-                        "subcontractingDetails": "ДКП «Орфей», Україна",
-                        "value": {"amount": 500},
-                        'relatedLot': lot['id']
-                    }]
+                    'lotValues': [
+                        {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {"amount": 500},
+                            'relatedLot': lot['id'],
+                        }
+                    ],
                 }
-            }
+            },
         )
         self.assertEqual(response.status, '201 Created')
         bid1_token = response.json['access']['token']
@@ -327,13 +323,12 @@ class TenderResourceTest(
         requirement_responses = generate_responses(self)
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}',
-            {'data': {"requirementResponses": requirement_responses}}
+            {'data': {"requirementResponses": requirement_responses}},
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}',
-            {'data': {"status": "pending"}}
+            f'/tenders/{self.tender_id}/bids/{bid1_id}?acc_token={bid1_token}', {'data': {"status": "pending"}}
         )
         self.assertEqual(response.status, '200 OK')
 
@@ -346,9 +341,9 @@ class TenderResourceTest(
                     "title": "Proposal.pdf",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf"
+                    "format": "application/pdf",
                 }
-            }
+            },
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -360,12 +355,9 @@ class TenderResourceTest(
                     'selfQualified': True,
                     'status': 'draft',
                     'tenderers': [self.tenderer],
-                    'lotValues': [{
-                        "value": {"amount": 500},
-                        'relatedLot': lot["id"]
-                    }]
+                    'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot["id"]}],
                 }
-            }
+            },
         )
         self.assertEqual(response.status, '201 Created')
         bid2_id = response.json['data']['id']
@@ -375,15 +367,7 @@ class TenderResourceTest(
         # Bids confirmation
         response = self.app.patch_json(
             f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
-            {
-                'data': {
-                    'lotValues': [{
-                        "value": {"amount": 500},
-                        'relatedLot': lot["id"]
-                    }],
-                    'status': 'pending'
-                }
-            }
+            {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot["id"]}], 'status': 'pending'}},
         )
         self.assertEqual(response.status, '200 OK')
 
@@ -398,21 +382,23 @@ class TenderResourceTest(
                     'auctionUrl': auction1_url,
                 }
             ],
-            'bids': [{
-                "id": bid1_id,
-                "lotValues": [
-                    {"participationUrl": f'{auction1_url}?key_for_bid={bid1_id}'},
-                ]
-            }, {
-                "id": bid2_id,
-                "lotValues": [
-                    {"participationUrl": f'{auction1_url}?key_for_bid={bid2_id}'},
-                ]
-            }]
+            'bids': [
+                {
+                    "id": bid1_id,
+                    "lotValues": [
+                        {"participationUrl": f'{auction1_url}?key_for_bid={bid1_id}'},
+                    ],
+                },
+                {
+                    "id": bid2_id,
+                    "lotValues": [
+                        {"participationUrl": f'{auction1_url}?key_for_bid={bid2_id}'},
+                    ],
+                },
+            ],
         }
         response = self.app.patch_json(
-            f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}',
-            {'data': patch_data}
+            f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}', {'data': patch_data}
         )
         self.assertEqual(response.status, '200 OK')
 
@@ -434,12 +420,12 @@ class TenderResourceTest(
                             "lotValues": [
                                 {"value": lot_value["value"], "relatedLot": lot_value["relatedLot"]}
                                 for lot_value in bid["lotValues"]
-                            ]
+                            ],
                         }
                         for bid in auction_bids_data
                     ]
                 }
-            }
+            },
         )
 
         self.app.authorization = ('Basic', ('broker', ''))
@@ -456,14 +442,8 @@ class TenderResourceTest(
 
         self.app.patch_json(
             f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={owner_token}',
-            {
-                "data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }
-            },
-            status=200
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+            status=200,
         )
 
         with open(TARGET_DIR + 'tender-get-award.http', 'w') as self.app.file_obj:
@@ -474,19 +454,18 @@ class TenderResourceTest(
             response = self.app.post_json(
                 f'/tenders/{tender_id}/awards/{award_id}/complaints?acc_token={bid2_token}',
                 {'data': test_tender_below_draft_complaint},
-                status=403
+                status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(
-                response.json['errors'][0]['description'],
-                "Can't add complaint as it is forbidden by configuration"
+                response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
             )
 
         # Preparing the cancellation request
 
         response = self.app.post_json(
             f'/tenders/{self.tender_id}/cancellations?acc_token={owner_token}',
-            {'data': {'reason': 'cancellation reason', 'reasonType': 'unFixable'}}
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'unFixable'}},
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -501,9 +480,9 @@ class TenderResourceTest(
                     "title": "Notice.pdf",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf"
+                    "format": "application/pdf",
                 }
-            }
+            },
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -512,19 +491,18 @@ class TenderResourceTest(
             response = self.app.post_json(
                 f'/tenders/{tender_id}/cancellations/{cancellation_id}/complaints?acc_token={owner_token}',
                 {'data': test_tender_below_draft_complaint},
-                status=403
+                status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
             self.assertEqual(
-                response.json['errors'][0]['description'],
-                "Can't add complaint as it is forbidden by configuration"
+                response.json['errors'][0]['description'], "Can't add complaint as it is forbidden by configuration"
             )
 
         # Activating the request and cancelling tender
         with open(TARGET_DIR + 'pending-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f'/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={owner_token}',
-                {'data': {"status": "pending"}}
+                {'data': {"status": "pending"}},
             )
             self.assertEqual(response.status, '200 OK')
 

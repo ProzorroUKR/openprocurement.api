@@ -16,9 +16,7 @@ from openprocurement.contracting.core.procedure.models.organization import Busin
 class PostContract(BasePostContract):
     status = StringType(choices=["terminated", "active"], default="active")
     dateSigned = IsoDateTimeType()
-    procuringEntity = ModelType(
-        ProcuringEntity, required=True
-    )
+    procuringEntity = ModelType(ProcuringEntity, required=True)
 
 
 class PatchContract(BasePatchContract):
@@ -34,9 +32,8 @@ class AdministratorPatchContract(Model):
 
 
 class Contract(BaseContract):
-    """ Contract """
+    """Contract"""
 
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-

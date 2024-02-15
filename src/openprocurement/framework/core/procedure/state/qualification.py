@@ -9,7 +9,6 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(ChronographEventsMixing, BaseState):
-
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework

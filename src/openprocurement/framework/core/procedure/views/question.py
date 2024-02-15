@@ -53,9 +53,7 @@ class CoreQuestionResource(FrameworkBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_question",
-        validators=(
-            validate_input_data(PostQuestion),
-        ),
+        validators=(validate_input_data(PostQuestion),),
     )
     def collection_post(self):
         update_logging_context(self.request, {"question_id": "__new__"})
@@ -81,7 +79,7 @@ class CoreQuestionResource(FrameworkBaseResource):
             self.request.response.headers["Location"] = self.request.route_url(
                 f"{framework['frameworkType']}:Framework Questions",
                 framework_id=framework["_id"],
-                question_id=question["id"]
+                question_id=question["id"],
             )
             return {"data": self.serializer_class(question).data}
 

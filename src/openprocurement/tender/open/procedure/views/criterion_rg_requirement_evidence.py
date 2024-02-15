@@ -8,9 +8,9 @@ from openprocurement.tender.open.procedure.state.criterion_rq_requirement_eviden
 @resource(
     name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Requirement Eligible Evidence",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}"
-                    "/requirements/{requirement_id}/evidences",
+    "/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
     procurementMethodType=ABOVE_THRESHOLD_GROUP,
     description="Tender requirement evidence",
 )

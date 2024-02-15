@@ -11,4 +11,3 @@ from cornice.resource import resource
 )
 class ESCOChronographResource(TenderChronographResource):
     state_class = ESCOTenderState
-

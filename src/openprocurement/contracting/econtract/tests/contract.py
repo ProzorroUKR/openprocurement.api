@@ -5,7 +5,7 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.econtract.tests.base import (
     BaseEContractWebTest,
     BaseEContractTest,
-    BaseEContractWebTestTwoItems
+    BaseEContractWebTestTwoItems,
 )
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
@@ -73,7 +73,6 @@ class ContractResourceTest(BaseEContractTest):
 
 
 class ContractResource4BrokersTest(BaseEContractWebTest):
-
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_date_signed = snitch(contract_date_signed)
     test_contract_status_change = snitch(contract_status_change)

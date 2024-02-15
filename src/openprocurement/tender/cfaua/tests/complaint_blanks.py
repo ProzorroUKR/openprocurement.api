@@ -13,9 +13,7 @@ def create_tender_complaint(self):
     # complaint
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_draft_complaint
-        },
+        {"data": test_tender_below_draft_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -24,9 +22,7 @@ def create_tender_complaint(self):
     # claim
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -92,9 +88,7 @@ def create_tender_complaint(self):
 def create_tender_lot_complaint(self):
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_claim
-        },
+        {"data": test_tender_below_claim},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

@@ -3,7 +3,6 @@ from openprocurement.tender.belowthreshold.procedure.state.tender import BelowTh
 
 
 class BelowThresholdContractState(ContractStateMixing, BelowThresholdTenderState):
-
     def check_tender_status_method(self) -> None:
         super().check_tender_status_method()
         tender = self.request.validated["tender"]

@@ -35,10 +35,7 @@ def tender_switch_status(tender):
 
 def tender_has_complaints(tender):
     for complaint in tender.get("complaints", []):
-        if (
-            complaint.get("status", "") in BLOCK_COMPLAINT_STATUS and
-            complaint.get("relatedLot") is None
-        ):
+        if complaint.get("status", "") in BLOCK_COMPLAINT_STATUS and complaint.get("relatedLot") is None:
             return True
     return False
 
@@ -110,13 +107,15 @@ def run(env, args):
                     if awards_statuses.intersection({"active"}):
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
                         contracts = [
-                            contract for contract in tender.get("contracts", [])
+                            contract
+                            for contract in tender.get("contracts", [])
                             if contract.get("awardID") in active_award_ids
                         ]
                         allow_complete_lot = contracts_allow_to_complete(contracts)
                         if allow_complete_lot:
                             active_contract_date = [
-                                datetime.fromisoformat(contract["date"]) for contract in contracts
+                                datetime.fromisoformat(contract["date"])
+                                for contract in contracts
                                 if contract["status"] == "active"
                             ][0]
                             lot["status"] = "complete"
@@ -137,7 +136,7 @@ def run(env, args):
                                 "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
                             }
                         }
-                    ]
+                    ],
                 )
                 modified_tenders.append(tender["_id"])
                 count += 1
@@ -164,9 +163,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

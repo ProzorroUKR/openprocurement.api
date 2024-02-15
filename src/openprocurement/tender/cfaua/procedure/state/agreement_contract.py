@@ -8,7 +8,6 @@ from decimal import Decimal
 
 
 class AgreementContractStateMixing:
-
     def agreement_contract_on_patch(self, before, after):
         if before["status"] != after["status"]:
             self.agreement_contract_status_up(before["status"], after["status"], after)
@@ -27,7 +26,7 @@ class AgreementContractStateMixing:
         if tender['status'] != "active.awarded":
             raise_operation_error(
                 request,
-                f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender['status']}) tender status"
+                f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender['status']}) tender status",
             )
 
     @staticmethod
@@ -35,9 +34,7 @@ class AgreementContractStateMixing:
         # TODO: refactoring
         agreement_items_id = {u.get("relatedItem") for u in before.get("unitPrices", "")}
         validated_items_id = {
-            u["relatedItem"]
-            for u in contract.get("unitPrices", "")
-            if u.get("value", {}).get("amount") is not None
+            u["relatedItem"] for u in contract.get("unitPrices", "") if u.get("value", {}).get("amount") is not None
         }
         agreement = request.validated["agreement"]
         quantity_cache = {i["id"]: to_decimal(i["quantity"]) for i in agreement.get("items")}

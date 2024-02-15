@@ -20,7 +20,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_config_data,
     validate_input_data,
-    validate_data_documents, validate_item_owner, unless_administrator,
+    validate_data_documents,
+    validate_item_owner,
+    unless_administrator,
 )
 
 
@@ -54,9 +56,7 @@ class ElectronicCatalogueSubmissionResource(SubmissionsResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("submission")
-            ),
+            unless_administrator(validate_item_owner("submission")),
             validate_input_data(PatchSubmission),
             validate_submission_framework,
             validate_update_submission_in_not_allowed_status,

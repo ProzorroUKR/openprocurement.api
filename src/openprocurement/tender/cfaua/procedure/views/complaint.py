@@ -45,4 +45,3 @@ class CFAUATenderClaimResource(TenderClaimResource):
 )
 class CFAUATenderComplaintResource(TenderComplaintResource):
     state_class = CFAUATenderComplaintState
-

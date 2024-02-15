@@ -7,4 +7,3 @@ class TenderDocumentState(BaseDocumentState):
 
     def validate_document_patch(self, before, after):
         pass
-

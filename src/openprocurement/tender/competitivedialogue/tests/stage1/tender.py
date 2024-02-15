@@ -48,8 +48,9 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
 
 class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderResourceTestMixin):
     """
-      Check base work with tender. (crete, get, edit)
+    Check base work with tender. (crete, get, edit)
     """
+
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_data

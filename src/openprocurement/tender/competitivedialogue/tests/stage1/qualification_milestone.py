@@ -29,11 +29,13 @@ class TenderPreQualificationMixin(object):
         self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
 
 
-class TenderUAQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderPreQualificationMixin,
-                                             BaseCompetitiveDialogUAContentWebTest):
+class TenderUAQualificationMilestoneTestCase(
+    TenderQualificationMilestone24HMixin, TenderPreQualificationMixin, BaseCompetitiveDialogUAContentWebTest
+):
     pass
 
 
-class TenderEUQualificationMilestoneTestCase(TenderQualificationMilestone24HMixin, TenderPreQualificationMixin,
-                                             BaseCompetitiveDialogEUContentWebTest):
+class TenderEUQualificationMilestoneTestCase(
+    TenderQualificationMilestone24HMixin, TenderPreQualificationMixin, BaseCompetitiveDialogEUContentWebTest
+):
     pass

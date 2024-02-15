@@ -6,7 +6,6 @@ from openprocurement.api.procedure.context import get_tender
 
 
 class OpenUACancellationStateMixing(CancellationStateMixing):
-
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
         request, tender = get_request(), get_tender()

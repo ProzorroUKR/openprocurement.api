@@ -17,7 +17,6 @@ class PlanMilestoneDocumentState(BaseDocumentStateMixing, MilestoneState):
         self.milestone_always(get_milestone())
         self.always(get_plan())
 
-
     def document_on_patch(self, before, after):
         super().document_on_patch(before, after)
         self.milestone_always(get_milestone())

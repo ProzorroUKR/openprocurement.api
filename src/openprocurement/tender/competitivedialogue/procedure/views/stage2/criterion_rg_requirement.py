@@ -4,7 +4,9 @@ from cornice.resource import resource
 from pyramid.security import Allow
 
 from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement import BaseCDRequirementResource
+from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement import (
+    BaseCDRequirementResource,
+)
 from openprocurement.tender.core.procedure.models.criterion import (
     PostRequirement,
     PatchRequirement,
@@ -22,7 +24,9 @@ from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    validate_item_owner, unless_administrator, unless_admins,
+    validate_item_owner,
+    unless_administrator,
+    unless_admins,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 
@@ -30,19 +34,19 @@ from openprocurement.tender.competitivedialogue.procedure.validation import unle
 class BaseStage2RequirementResource(BaseCDRequirementResource):
     def __acl__(self) -> List[Tuple[str, str, str]]:
         acl = super().__acl__()
-        acl.extend([
-            (Allow, "g:competitive_dialogue", "create_requirement"),
-            (Allow, "g:competitive_dialogue", "edit_requirement"),
-        ])
+        acl.extend(
+            [
+                (Allow, "g:competitive_dialogue", "create_requirement"),
+                (Allow, "g:competitive_dialogue", "edit_requirement"),
+            ]
+        )
         return acl
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(PostRequirement),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(PostRequirement),
         ),
         permission="create_requirement",
     )
@@ -52,11 +56,9 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )
@@ -66,15 +68,9 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_resolve_requirement_input_data(
-                    PutRequirement,
-                    PutExclusionLccRequirement,
-                    none_means_remove=True
-                ),
-                validate_patch_data_simple(Requirement, "requirement"),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_resolve_requirement_input_data(PutRequirement, PutExclusionLccRequirement, none_means_remove=True),
+            validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
     )
@@ -85,9 +81,9 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
 @resource(
     name="{}:Requirement Group Requirement".format(STAGE_2_EU_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements",
+    "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue Stage 2 EU requirement group requirement",
 )
@@ -98,12 +94,11 @@ class Stage2EURequirementResource(BaseStage2RequirementResource):
 @resource(
     name="{}:Requirement Group Requirement".format(STAGE_2_UA_TYPE),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
-                    "requirement_groups/{requirement_group_id}/requirements",
+    "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
-         "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
+    "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage 2 UA requirement group requirement",
 )
 class Stage2UARequirementResource(BaseStage2RequirementResource):
     state_class = CDRequirementState
-

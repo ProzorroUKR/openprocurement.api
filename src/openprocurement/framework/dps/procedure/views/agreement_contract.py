@@ -26,7 +26,7 @@ class DPSAgreementContractsResource(AgreementContractsResource):
             validate_item_owner("framework"),
             validate_input_data(PatchContract),
             validate_patch_data(Contract, item_name="contract"),
-            validate_agreement_operation_not_in_allowed_status
+            validate_agreement_operation_not_in_allowed_status,
         ),
         permission="edit_agreement",
     )

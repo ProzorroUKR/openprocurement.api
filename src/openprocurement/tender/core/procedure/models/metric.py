@@ -64,4 +64,3 @@ def validate_observation_ids_uniq(metrics):
         obs_ids = [observation.id for metric in metrics for observation in metric.observations]
         if len(obs_ids) > len(set(obs_ids)):
             raise ValidationError(u"Observation identifier should be uniq for all observation in tender")
-

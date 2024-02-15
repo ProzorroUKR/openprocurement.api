@@ -95,12 +95,13 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'framework-create-broker.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks', {
+                    '/frameworks',
+                    {
                         'data': data,
                         'config': {
                             'restrictedDerivatives': True,
-                        }
-                    }
+                        },
+                    },
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -129,7 +130,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         'config': {
                             'restricted': True,
                         },
-                    }
+                    },
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -148,7 +149,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         "format": "application/msword",
                     }
                 },
-                status=201
+                status=201,
             )
 
         # Activate Submission
@@ -161,7 +162,6 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                 self.assertEqual(response.status, '200 OK')
 
             self.qualification1_id = response.json["data"]["qualificationID"]
-
 
         # Check by Broker, can see submissions
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
@@ -197,7 +197,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         "format": "application/msword",
                     }
                 },
-                status=201
+                status=201,
             )
 
         # Check by Broker, can see qualifications

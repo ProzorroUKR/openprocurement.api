@@ -285,11 +285,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
 
 @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-class TenderEContractResourceTest(
-    TenderContentWebTest,
-    CreateActiveAwardMixin,
-    TenderEcontractResourceTestMixin
-):
+class TenderEContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin, TenderEcontractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaselectionua_bids
     initial_lots = test_tender_cfaselectionua_lots

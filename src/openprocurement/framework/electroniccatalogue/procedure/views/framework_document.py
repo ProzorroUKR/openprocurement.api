@@ -10,7 +10,10 @@ from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_C
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_data_model,
-    validate_input_data, validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+    validate_input_data,
+    validate_item_owner,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 
 
@@ -32,9 +35,9 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
 
     @json_view(
         validators=(
-                validate_item_owner("framework"),
-                validate_input_data(PostDocument, allow_bulk=True),
-                validate_framework_document_operation_not_in_allowed_status,
+            validate_item_owner("framework"),
+            validate_input_data(PostDocument, allow_bulk=True),
+            validate_framework_document_operation_not_in_allowed_status,
         ),
         permission="edit_framework",
     )
@@ -43,12 +46,12 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
 
     @json_view(
         validators=(
-                validate_item_owner("framework"),
-                validate_input_data(PostDocument),
-                update_doc_fields_on_put_document,
-                validate_upload_document,
-                validate_data_model(Document),
-                validate_framework_document_operation_not_in_allowed_status,
+            validate_item_owner("framework"),
+            validate_input_data(PostDocument),
+            update_doc_fields_on_put_document,
+            validate_upload_document,
+            validate_data_model(Document),
+            validate_framework_document_operation_not_in_allowed_status,
         ),
         permission="edit_framework",
     )
@@ -58,10 +61,10 @@ class FrameworkDocumentResource(CoreFrameworkDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_item_owner("framework"),
-                validate_input_data(PatchDocument, none_means_remove=True),
-                validate_patch_data_simple(Document, item_name="document"),
-                validate_framework_document_operation_not_in_allowed_status,
+            validate_item_owner("framework"),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data_simple(Document, item_name="document"),
+            validate_framework_document_operation_not_in_allowed_status,
         ),
         permission="edit_framework",
     )

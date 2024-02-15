@@ -5,15 +5,16 @@ from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
 
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
-from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin
-)
+from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
 from openprocurement.tender.pricequotation.tests.document_blanks import (
     create_document_active_tendering_status,
 )
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 

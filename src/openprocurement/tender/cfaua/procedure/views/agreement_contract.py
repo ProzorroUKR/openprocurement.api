@@ -77,7 +77,6 @@ class CFAUAAgreementContractResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender agreement contract {}".format(contract["id"]),
-                    extra=context_unpack(self.request,
-                                         {"MESSAGE_ID": "tender_agreement_contract_patch"}),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_contract_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

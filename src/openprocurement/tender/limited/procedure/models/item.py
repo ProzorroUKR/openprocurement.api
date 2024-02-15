@@ -14,4 +14,3 @@ class ReportingItem(Item):
     def validate_relatedLot(self, data, value):
         if value:
             raise ValidationError("This option is not available")
-

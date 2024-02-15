@@ -20,8 +20,8 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_1,
     test_tender_pq_criteria_2,
     test_tender_pq_criteria_3,
-    test_tender_pq_criteria_4
-    )
+    test_tender_pq_criteria_4,
+)
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
@@ -54,7 +54,10 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
 )
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria
@@ -74,21 +77,15 @@ class TenderBidCriteriaTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
 
-    test_multiple_criterias = snitch(
-        requirement_response_validation_multiple_criterias
-    )
-    test_expeted_values_format = snitch(
-        requirement_response_value_validation_for_expected_values
-    )
+    test_multiple_criterias = snitch(requirement_response_validation_multiple_criterias)
+    test_expeted_values_format = snitch(requirement_response_value_validation_for_expected_values)
 
 
 class TenderBidCriteriaGroupTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_2))
 
-    test_multiple_groups = snitch(
-        requirement_response_validation_multiple_groups
-    )
+    test_multiple_groups = snitch(requirement_response_validation_multiple_groups)
 
 
 class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
@@ -104,9 +101,7 @@ class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_4))
 
-    test_multiple_groups_multiple_requirements = snitch(
-        requirement_response_validation_one_group_multiple_requirements
-    )
+    test_multiple_groups_multiple_requirements = snitch(requirement_response_validation_one_group_multiple_requirements)
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
@@ -119,8 +114,13 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_tender_pq_organization], "value": {"amount": 500},
-                      "requirementResponses": test_tender_pq_requirement_response}},
+            {
+                "data": {
+                    "tenderers": [test_tender_pq_organization],
+                    "value": {"amount": 500},
+                    "requirementResponses": test_tender_pq_requirement_response,
+                }
+            },
         )
         bid = response.json["data"]
         self.bid = bid

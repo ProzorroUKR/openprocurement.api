@@ -9,7 +9,8 @@ from openprocurement.contracting.core.procedure.validation import (
 from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
     validate_input_data,
-    unless_administrator, unless_admins,
+    unless_administrator,
+    unless_admins,
 )
 from openprocurement.contracting.econtract.procedure.models.contract import (
     AdministratorPatchContract,

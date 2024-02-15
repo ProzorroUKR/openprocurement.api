@@ -15,29 +15,33 @@ from openprocurement.tender.openua.tests.base import (
 test_tender_openua_central_data = deepcopy(test_tender_openua_data)
 
 test_plan_central_data = deepcopy(test_plan_data)
-test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_central_data["procuringEntity"]["identifier"]
+test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_central_data["procuringEntity"][
+    "identifier"
+]
 
 test_tender_openua_central_data["status"] = "draft"
 test_tender_openua_central_data["procuringEntity"]["kind"] = "central"
 test_tender_openua_central_data["items"] = test_tender_openua_central_data["items"][:1]
-test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0]["classification"]["id"]
-test_tender_openua_central_data["buyers"] = [{
-    "id": uuid4().hex,
-    "name": "name",
-    "name_en": "name_en",
-    "identifier": {
-        "scheme": "UA-EDR",
-        "id": "111983",
-        "legalName": "ДП Державне Управління Справами"
-    },
-}]
+test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0][
+    "classification"
+]["id"]
+test_tender_openua_central_data["buyers"] = [
+    {
+        "id": uuid4().hex,
+        "name": "name",
+        "name_en": "name_en",
+        "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+    }
+]
 test_tender_openua_central_data["items"][0]["relatedBuyer"] = test_tender_openua_central_data["buyers"][0]["id"]
 
 
 def test_get_tender_plans_404(app):
     response = app.get("/tenders/{}/plans".format("a" * 32), status=404)
-    assert response.json == {"status": "error", "errors": [
-        {"location": "url", "name": "tender_id", "description": "Not Found"}]}
+    assert response.json == {
+        "status": "error",
+        "errors": [{"location": "url", "name": "tender_id", "description": "Not Found"}],
+    }
 
 
 @pytest.fixture(scope="function")
@@ -68,32 +72,36 @@ def test_post_tender_plan_403(app, tender):
 
 def test_post_tender_plan_empty(app, tender):
     response = app.post_json(
-        "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
-        {},
-        status=422
+        "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]), {}, status=422
     )
-    assert response.json == {"status": "error", "errors": [
-        {"location": "body", "name": "data", "description": "Data not available"}]}
+    assert response.json == {
+        "status": "error",
+        "errors": [{"location": "body", "name": "data", "description": "Data not available"}],
+    }
 
 
 def test_post_tender_plan_data_empty(app, tender):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {}},
-        status=422
+        status=422,
     )
-    assert response.json == {'status': 'error', 'errors': [
-        {'description': ['This field is required.'], 'location': 'body', 'name': 'id'}]}
+    assert response.json == {
+        'status': 'error',
+        'errors': [{'description': ['This field is required.'], 'location': 'body', 'name': 'id'}],
+    }
 
 
 def test_post_tender_plan_404(app, tender):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": tender["data"]["id"]}},
-        status=404
+        status=404,
     )
-    assert response.json == {'status': 'error', 'errors': [
-        {'description': 'Not Found', 'location': 'url', 'name': 'plan_id'}]}
+    assert response.json == {
+        'status': 'error',
+        'errors': [{'description': 'Not Found', 'location': 'url', 'name': 'plan_id'}],
+    }
 
 
 def test_post_tender_plan_success(app, tender, plan):
@@ -118,8 +126,7 @@ def test_post_tender_plan_success(app, tender, plan):
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": another_plan["data"]["id"]}},
     )
-    assert response.json["data"] == [{'id': plan["data"]["id"]},
-                                     {'id': another_plan["data"]["id"]}]
+    assert response.json["data"] == [{'id': plan["data"]["id"]}, {'id': another_plan["data"]["id"]}]
 
 
 def test_fail_not_draft(app, plan):
@@ -137,10 +144,12 @@ def test_fail_not_draft(app, plan):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": plan["data"]["id"]}},
-        status=403
+        status=403,
     )
-    assert response.json == {"status": "error", "errors": [
-        {"location": "body", "name": "data", "description": "Only allowed in draft tender status"}]}
+    assert response.json == {
+        "status": "error",
+        "errors": [{"location": "body", "name": "data", "description": "Only allowed in draft tender status"}],
+    }
 
 
 def test_fail_non_central(app, plan):
@@ -155,10 +164,14 @@ def test_fail_non_central(app, plan):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": plan["data"]["id"]}},
-        status=403
+        status=403,
     )
-    assert response.json == {"status": "error", "errors": [
-        {"location": "body", "name": "data", "description": "Only allowed for procurementEntity.kind = 'central'"}]}
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {"location": "body", "name": "data", "description": "Only allowed for procurementEntity.kind = 'central'"}
+        ],
+    }
 
 
 def test_fail_duplicate(app, tender, plan):
@@ -172,10 +185,12 @@ def test_fail_duplicate(app, tender, plan):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": plan["data"]["id"]}},
-        status=422
+        status=422,
     )
-    assert response.json == {'status': 'error', 'errors': [
-        {'description': "Can't update plan in 'complete' status", 'location': 'body', 'name': 'status'}]}
+    assert response.json == {
+        'status': 'error',
+        'errors': [{'description': "Can't update plan in 'complete' status", 'location': 'body', 'name': 'status'}],
+    }
 
     # what if plan hasn't been updated for an unknown reason
     plan_obj = app.app.registry.mongodb.plans.get(plan["data"]["id"])
@@ -186,8 +201,10 @@ def test_fail_duplicate(app, tender, plan):
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),
         {"data": {"id": plan["data"]["id"]}},
-        status=422
+        status=422,
     )
-    assert response.json == {'status': 'error', 'errors': [
-        {'description': ['The list should not contain duplicates'], 'location': 'body', 'name': 'plans'}]}
+    assert response.json == {
+        'status': 'error',
+        'errors': [{'description': ['The list should not contain duplicates'], 'location': 'body', 'name': 'plans'}],
+    }
     # in this case the plan might be completed manually

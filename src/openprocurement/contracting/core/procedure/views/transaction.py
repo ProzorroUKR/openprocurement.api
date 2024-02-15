@@ -15,14 +15,14 @@ def resolve_transaction(request):
     if match_dict.get("transaction_id"):
         transaction_id = match_dict["transaction_id"]
         contract = request.validated["contract"]
-        transaction = get_items(request, contract.get("implementation", {}),
-                                "transactions", transaction_id, request.method != "PUT")
+        transaction = get_items(
+            request, contract.get("implementation", {}), "transactions", transaction_id, request.method != "PUT"
+        )
         if transaction:
             request.validated["transaction"] = transaction[0]
 
 
 class ContractTransactionsResource(ContractBaseResource):
-
     state_class = TransactionState
 
     def __init__(self, request, context=None):
@@ -36,7 +36,7 @@ class ContractTransactionsResource(ContractBaseResource):
         validators=(
             unless_bots(unless_admins(validate_contract_owner)),
             validate_input_data(PutTransaction),
-        )
+        ),
     )
     def put(self):
         new_transaction = self.request.validated["data"]

@@ -11,7 +11,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.procedure.views.complaint_post import resolve_complaint_post
@@ -65,7 +67,6 @@ class BaseComplaintPostDocumentResource(BaseDocumentResource):
                 )
             ),
             validate_input_data(PostDocument),
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -93,7 +94,6 @@ class BaseComplaintPostDocumentResource(BaseDocumentResource):
 
 
 class BaseTenderComplaintPostDocumentResource(BaseComplaintPostDocumentResource):
-
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
         resolve_complaint(request)

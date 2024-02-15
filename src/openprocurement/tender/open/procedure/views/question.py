@@ -4,6 +4,7 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from openprocurement.tender.open.procedure.state.question import OpenTenderQuestionState
 
+
 @resource(
     name=f"{ABOVE_THRESHOLD_GROUP_NAME}:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",

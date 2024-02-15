@@ -2,7 +2,6 @@ from openprocurement.tender.belowthreshold.procedure.state.tender import BelowTh
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
 
 
-
 class BelowThresholdAwardClaimState(AwardClaimStateMixin, BelowThresholdTenderState):
     def validate_submit_claim(self, claim):
         pass

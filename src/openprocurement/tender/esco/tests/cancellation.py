@@ -29,7 +29,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
     activate_cancellation,
     create_cancellation_in_award_complaint_period,
-    create_tender_cancellation_with_cancellation_lots
+    create_tender_cancellation_with_cancellation_lots,
 )
 
 from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
@@ -57,9 +57,7 @@ from openprocurement.tender.esco.tests.base import (
 
 
 class TenderCancellationResourceTest(
-    BaseESCOContentWebTest,
-    TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    BaseESCOContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
 
@@ -91,7 +89,8 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCance
     test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
     test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
     create_cancellation_in_qualification_complaint_period = snitch(
-        create_cancellation_in_qualification_complaint_period)
+        create_cancellation_in_qualification_complaint_period
+    )
 
 
 class TenderLotCancellationResourceTest(BaseESCOContentWebTest):
@@ -112,10 +111,7 @@ class TenderLotsCancellationResourceTest(BaseESCOContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
 
 
-class TenderAwardsCancellationResourceTest(
-    BaseESCOContentWebTest,
-    TenderAwardsCancellationResourceTestMixin
-):
+class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest, TenderAwardsCancellationResourceTestMixin):
     initial_lots = 2 * test_tender_esco_lots
     initial_status = "active.tendering"
     initial_bids = test_tender_esco_bids
@@ -130,7 +126,6 @@ class TenderAwardsCancellationResourceTest(
 
 
 class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCancellationComplaintResourceTestMixin):
-
     initial_bids = test_tender_esco_bids
 
     @mock.patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
@@ -139,9 +134,7 @@ class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCanc
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},

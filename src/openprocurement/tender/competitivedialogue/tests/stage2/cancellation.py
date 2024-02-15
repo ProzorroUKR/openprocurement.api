@@ -36,7 +36,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks
 from openprocurement.tender.openua.tests.cancellation import (
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
-
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
 
@@ -98,7 +97,6 @@ class TenderStage2EUCancellationDocumentResourceTest(
 class TenderStage2EUCancellationComplaintResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
-
     initial_bids = test_bids
     initial_lots = test_tender_below_lots
 
@@ -108,9 +106,7 @@ class TenderStage2EUCancellationComplaintResourceTest(
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -122,7 +118,7 @@ class TenderStage2EUCancellationComplaintResourceTest(
 class TenderStage2UACancellationResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
     TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderCancellationResourceNewReleaseTestMixin,
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
@@ -150,7 +146,6 @@ class TenderStage2UALotsCancellationResourceTest(BaseCompetitiveDialogUAStage2Co
 class TenderStage2UACancellationDocumentResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
-
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_below_lots
 

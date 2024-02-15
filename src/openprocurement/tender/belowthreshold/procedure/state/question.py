@@ -21,7 +21,9 @@ class BelowThresholdTenderQuestionStateMixin(TenderQuestionStateMixin):
         period = tender["enquiryPeriod"]
         if (
             tender["status"] != "active.enquiries"
-            or period.get("startDate") and now < period["startDate"] or now > period["endDate"]
+            or period.get("startDate")
+            and now < period["startDate"]
+            or now > period["endDate"]
         ):
             raise_operation_error(
                 get_request(),

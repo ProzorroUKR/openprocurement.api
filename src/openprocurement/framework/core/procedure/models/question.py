@@ -29,9 +29,7 @@ class PostQuestion(Model):
     def date(self):
         return get_now().isoformat()
 
-    author = ModelType(
-        Organization, required=True
-    )
+    author = ModelType(Organization, required=True)
     title = StringType(required=True)
     description = StringType()
 

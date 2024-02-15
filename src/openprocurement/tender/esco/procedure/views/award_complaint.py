@@ -7,6 +7,7 @@ from openprocurement.tender.core.procedure.views.award_claim import AwardClaimRe
 from openprocurement.tender.esco.procedure.state.award_complaint import ESCOAwardComplaintState
 from openprocurement.tender.esco.procedure.state.award_claim import ESCOAwardClaimState
 
+
 @resource(
     name="esco:Tender Award Complaints Get",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",

@@ -54,7 +54,7 @@ class ReportingTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -65,12 +65,8 @@ class ReportingTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchReportingTender, none_means_remove=True),
             validate_patch_data_simple(ReportingTender, item_name="tender"),
         ),
@@ -102,7 +98,7 @@ class NegotiationTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -113,12 +109,8 @@ class NegotiationTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchNegotiationTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationTender, item_name="tender"),
         ),
@@ -150,7 +142,7 @@ class NegotiationQuickTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -161,12 +153,8 @@ class NegotiationQuickTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchNegotiationQuickTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationQuickTender, item_name="tender"),
         ),

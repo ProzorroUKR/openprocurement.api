@@ -53,7 +53,6 @@ class TenderAgreementResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender agreement {}".format(agreement["id"]),
-                    extra=context_unpack(self.request,
-                                         {"MESSAGE_ID": "tender_agreement_patch"}),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

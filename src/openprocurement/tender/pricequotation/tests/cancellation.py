@@ -33,7 +33,10 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderCancellationActiveTenderingResourceTest(
     TenderContentWebTest,
     TenderCancellationResourceTestMixin,
@@ -67,9 +70,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
         super(TenderCancellationDocumentResourceTest, self).setUp()
         # Create cancellation
         cancellation = dict(**test_tender_pq_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
 
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

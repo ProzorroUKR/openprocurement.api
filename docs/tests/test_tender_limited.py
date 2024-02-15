@@ -92,8 +92,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'wt') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': test_tender_data, 'config': self.initial_config}
+                '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -108,8 +107,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-activating.http', 'wt') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {'data': {"status": "active"}}
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -120,22 +118,10 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         #### Modifying tender
 
         items = deepcopy(tender["items"])
-        items[0].update(
-            {
-                "quantity": 9,
-                "unit": {
-                    "code": "MON",
-                    "name": "month"
-                }
-            }
-        )
+        items[0].update({"quantity": 9, "unit": {"code": "MON", "name": "month"}})
         with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'wt') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
-                {
-                    'data':
-                        {"items": items}
-                }
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"items": items}}
             )
 
         with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'wt') as self.app.file_obj:
@@ -150,9 +136,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'wt') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/documents?acc_token={}'.format(
-                    self.tender_id, owner_token
-                ),
+                '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
                 {
                     "data": {
                         "title": "Notice.pdf",
@@ -160,7 +144,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -168,9 +152,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'wt') as self.app.file_obj:
             response = self.app.put_json(
-                '/tenders/{}/documents/{}?acc_token={}'.format(
-                    self.tender_id, doc_id, owner_token
-                ),
+                '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
                         "title": "Notice-2.pdf",
@@ -178,7 +160,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -186,8 +168,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-award.http', 'wt') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': test_docs_award}
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), {'data': test_docs_award}
             )
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
@@ -196,9 +177,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-award-upload-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
                 {
                     "data": {
                         "title": "award_first_document.doc",
@@ -212,17 +191,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents.http', 'w') as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                )
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, owner_token)
             )
         self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'tutorial/tender-award-upload-second-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
                 {
                     "data": {
                         "title": "award_second_document.doc",
@@ -236,9 +211,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-award-get-documents-again.http', 'w') as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/awards/{}/documents?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                )
+                '/tenders/{}/awards/{}/documents?acc_token={}'.format(self.tender_id, self.award_id, owner_token)
             )
         self.assertEqual(response.status, '200 OK')
 
@@ -246,10 +219,8 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + 'tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
-                {'data': {'status': 'active'}}
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {'data': {'status': 'active'}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -268,8 +239,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'tutorial/create-tender-negotiation-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': self.initial_data, 'config': self.initial_config}
+                '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -283,8 +253,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': award_negotiation}
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), {'data': award_negotiation}
             )
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
@@ -293,25 +262,15 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
-                {
-                    'data': {
-                        'status': 'active',
-                        'qualified': True
-                    }
-                }
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')
 
-
         with open(TARGET_DIR + 'tutorial/negotiation-prepare-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations?acc_token={}'.format(
-                    self.tender_id, owner_token
-                ),
-                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}}
+                '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -319,18 +278,14 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'tutorial/negotiation-update-cancellation-reasonType.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token
-                ),
-                {'data': {'reasonType': 'dateViolation'}}
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+                {'data': {'reasonType': 'dateViolation'}},
             )
             self.assertEqual(response.status, '200 OK')
 
-
     def test_tender_cancellation(self):
         response = self.app.post_json(
-            '/tenders?opt_pretty=1',
-            {'data': self.initial_data, 'config': self.initial_config}
+            '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
         )
         self.assertEqual(response.status, '201 Created')
 
@@ -342,8 +297,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
-                {'data': award_negotiation}
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), {'data': award_negotiation}
             )
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
@@ -351,25 +305,16 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         #### Award confirmation
         with open(TARGET_DIR + 'tutorial/tender-negotiation-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
-                {
-                    'data': {
-                        'status': 'active',
-                        'qualified': True
-                    }
-                }
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')
 
         #### Preparing the cancellation request
         with open(TARGET_DIR + 'tutorial/prepare-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/cancellations?acc_token={}'.format(
-                    self.tender_id, owner_token
-                ),
-                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}}
+                '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}},
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -377,10 +322,8 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'tutorial/update-cancellation-reasonType.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token
-                ),
-                {'data': {'reasonType': 'unFixable'}}
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+                {'data': {'reasonType': 'unFixable'}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -398,7 +341,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                     }
-                }
+                },
             )
             cancellation_doc_id = response.json['data']['id']
             self.assertEqual(response.status, '201 Created')
@@ -408,7 +351,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                 '/tenders/{}/cancellations/{}/documents/{}?acc_token={}'.format(
                     self.tender_id, cancellation_id, cancellation_doc_id, owner_token
                 ),
-                {'data': {"description": 'Changed description'}}
+                {'data': {"description": 'Changed description'}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -424,17 +367,15 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '200 OK')
 
         #### Activating the request and cancelling tender
         with open(TARGET_DIR + 'tutorial/pending-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token
-                ),
-                {'data': {"status": "pending"}}
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+                {'data': {"status": "pending"}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -442,9 +383,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'tutorial/active-cancellation.http', 'w') as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/cancellations/{}?acc_token={}'.format(
-                    self.tender_id, cancellation_id, owner_token
-                )
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token)
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -459,10 +398,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         tender_data.pop("lots", None)
         tender_data["items"] = test_tender_negotiation_data["items"]
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': tender_data, 'config': self.initial_config}
-            )
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -472,8 +408,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         # add lots
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
-                {'data': test_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
             )
             self.assertEqual(response.status, '201 Created')
             lot_id1 = response.json['data']['id']
@@ -483,15 +418,13 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         items[0]["relatedLot"] = lot_id1
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-add-relatedLot-to-item.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
-                {'data': {'items': items}}
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {'items': items}}
             )
             self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'multiple_lots_tutorial/activating-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                f'/tenders/{self.tender_id}?acc_token={owner_token}',
-                {'data': {"status": "active"}}
+                f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -513,8 +446,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         suspplier_loc['data']['lotID'] = lot_id1
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token),
-                suspplier_loc
+                '/tenders/{}/awards?acc_token={}'.format(tender_id, owner_token), suspplier_loc
             )
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
@@ -523,15 +455,8 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
-                {
-                    'data': {
-                        'status': 'active',
-                        'qualified': True
-                    }
-                }
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -548,12 +473,10 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         self.app.authorization = ('Basic', ('broker', ''))
 
         with open(
-            TARGET_DIR + 'tutorial/create-tender-negotiation-quick-procuringEntity.http',
-            'w'
-            ) as self.app.file_obj:
+            TARGET_DIR + 'tutorial/create-tender-negotiation-quick-procuringEntity.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1',
-                {'data': self.initial_data, 'config': self.initial_config}
+                '/tenders?opt_pretty=1', {'data': self.initial_data, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 
@@ -563,10 +486,9 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         with open(
             TARGET_DIR + 'multiple_lots_tutorial/activating-negotiation-quick-tender.http', 'w'
-            ) as self.app.file_obj:
+        ) as self.app.file_obj:
             response = self.app.patch_json(
-                f'/tenders/{self.tender_id}?acc_token={owner_token}',
-                {'data': {"status": "active"}}
+                f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -575,10 +497,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/awards?acc_token={}'.format(
-                    self.tender_id, owner_token
-                ),
-                {'data': award_negotiation}
+                '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), {'data': award_negotiation}
             )
             self.assertEqual(response.status, '201 Created')
         self.award_id = response.json['data']['id']
@@ -587,9 +506,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
 
         with open(TARGET_DIR + 'tutorial/tender-negotiation-quick-award-approve.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/tenders/{}/awards/{}?acc_token={}'.format(
-                    self.tender_id, self.award_id, owner_token
-                ),
-                {'data': {'status': 'active', 'qualified': True}}
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, self.award_id, owner_token),
+                {'data': {'status': 'active', 'qualified': True}},
             )
             self.assertEqual(response.status, '200 OK')

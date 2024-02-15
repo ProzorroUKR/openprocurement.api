@@ -13,7 +13,8 @@ from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, 
 from openprocurement.api.utils import (
     error_handler,
     update_logging_context,
-    get_now, get_registry_object,
+    get_now,
+    get_registry_object,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE
@@ -30,7 +31,7 @@ MILESTONE_CONTRACT_STATUSES = {
 
 
 class FrameworkTypePredicate(object):
-    """Framework Route predicate. """
+    """Framework Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -52,7 +53,7 @@ class FrameworkTypePredicate(object):
 
 
 class SubmissionTypePredicate(object):
-    """Submission Route predicate. """
+    """Submission Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -74,7 +75,7 @@ class SubmissionTypePredicate(object):
 
 
 class QualificationTypePredicate(object):
-    """Qualification Route predicate. """
+    """Qualification Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -96,7 +97,7 @@ class QualificationTypePredicate(object):
 
 
 class AgreementTypePredicate(object):
-    """ Agreement route predicate. """
+    """Agreement route predicate."""
 
     def __init__(self, val, config):
         self.val = val
@@ -121,7 +122,10 @@ def generate_framework_pretty_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"framework_{ctime.isoformat()}")
     return "UA-F-{:04}-{:02}-{:02}-{:06}".format(
-        ctime.year, ctime.month, ctime.day, index,
+        ctime.year,
+        ctime.month,
+        ctime.day,
+        index,
     )
 
 
@@ -129,8 +133,12 @@ def generate_agreement_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"agreement_{ctime.isoformat()}")
     return "UA-{:04}-{:02}-{:02}-{:06}".format(
-        ctime.year, ctime.month, ctime.day, index,
+        ctime.year,
+        ctime.month,
+        ctime.day,
+        index,
     )
+
 
 def get_framework_accelerator(context):
     if context and "frameworkDetails" in context and context["frameworkDetails"]:
@@ -175,6 +183,9 @@ def calculate_framework_date(
 def get_framework_unsuccessful_status_check_date(framework):
     if framework.period and framework.period.startDate:
         return calculate_framework_date(
-            framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework, working_days=True, ceil=True
+            framework.period.startDate,
+            timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+            framework,
+            working_days=True,
+            ceil=True,
         )

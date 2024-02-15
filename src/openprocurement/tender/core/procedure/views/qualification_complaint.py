@@ -44,9 +44,7 @@ class QualificationComplaintWriteResource(BaseComplaintWriteResource):
         permission="create_complaint",
         validators=(
             validate_input_data(PostQualificationComplaint),
-            unless_admins(
-                validate_any_bid_owner(statuses=("active", "unsuccessful"))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active", "unsuccessful"))),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),
     )

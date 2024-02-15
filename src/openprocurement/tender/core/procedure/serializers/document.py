@@ -27,10 +27,10 @@ def download_url_serialize(s, url):
     #             return url
 
     if not s.get_raw("hash"):
-        path = [i for i in urlparse(url).path.split("/")
-                if len(i) == 32 and not set(i).difference(hexdigits)]
+        path = [i for i in urlparse(url).path.split("/") if len(i) == 32 and not set(i).difference(hexdigits)]
         return generate_docservice_url(request, doc_id, False, "{}/{}".format(path[0], path[-1]))
     return generate_docservice_url(request, doc_id, False)
+
 
 #  WARNING, there is a
 #  `@subscriber(BeforeRender)`

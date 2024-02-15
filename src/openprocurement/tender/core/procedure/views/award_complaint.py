@@ -38,9 +38,7 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            unless_admins(
-                validate_any_bid_owner(statuses=("active",))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active",))),
             validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),

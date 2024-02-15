@@ -21,8 +21,7 @@ class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
         tender = get_tender()
         if tender["status"] == 'draft.publishing':
             raise_operation_error(
-                get_request(),
-                "Can't perform cancellation in current ({}) status".format("draft.publishing")
+                get_request(), "Can't perform cancellation in current ({}) status".format("draft.publishing")
             )
 
 

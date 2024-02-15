@@ -30,4 +30,3 @@ class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResou
 )
 class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = OpenCancellationComplaintState
-

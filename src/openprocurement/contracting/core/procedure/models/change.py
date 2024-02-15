@@ -46,7 +46,6 @@ class PostChange(BaseChange):
 
 
 class PatchChange(BaseChange):
-
     status = StringType(choices=["pending", "active"])
     rationale = StringType(min_length=1)
     rationaleTypes = ListType(

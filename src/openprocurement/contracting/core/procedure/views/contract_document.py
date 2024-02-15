@@ -3,7 +3,6 @@ from openprocurement.contracting.core.procedure.views.document import BaseDocume
 
 
 class ContractDocumentResource(BaseDocumentResource):
-
     def __init__(self, request, context=None):
         super().__init__(request, context=context)
         if not context:

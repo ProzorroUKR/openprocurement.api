@@ -31,11 +31,7 @@ test_tender_openua_data["items"] = [
         "additionalClassifications": [
             {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
         ],
-        "unit": {
-            "name": "item",
-            "code": "KGM",
-            "value": {"amount": 6}
-        },
+        "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
         "quantity": 5,
         "deliveryDate": {
             "startDate": (now + timedelta(days=2)).isoformat(),
@@ -60,11 +56,13 @@ for bid in test_tender_openua_bids:
         bid["selfEligible"] = True
 
 test_tender_openua_three_bids = deepcopy(test_tender_openua_bids)
-test_tender_openua_three_bids.append({
-    "tenderers": [test_tender_below_organization],
-    "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
-    "selfQualified": True
-})
+test_tender_openua_three_bids.append(
+    {
+        "tenderers": [test_tender_below_organization],
+        "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "selfQualified": True,
+    }
+)
 
 test_tender_openua_features_data = test_tender_below_features_data.copy()
 test_tender_openua_features_data["procurementMethodType"] = "aboveThresholdUA"
@@ -75,9 +73,7 @@ test_tender_openua_features_data["items"][0]["deliveryAddress"] = test_tender_op
 
 
 test_tender_openua_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_openua_data,
-    test_tender_openua_data["items"][0],
-    test_tender_below_organization
+    test_tender_openua_data, test_tender_openua_data["items"][0], test_tender_below_organization
 )
 
 test_tender_openua_config = {
@@ -110,29 +106,25 @@ class BaseTenderUAWebTest(BaseTenderWebTest):
     min_bids_number = 2
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
     question_claim_block_status = (
-        "active.auction"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+        "active.auction"  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    )
     forbidden_document_modification_actions_status = (
-        "active.auction"
-    )  # status, in which operations with tender documents (adding, updating) are forbidden
-    forbidden_question_add_actions_status = (
-        "active.auction"
-    )  # status, in which adding tender questions is forbidden
+        "active.auction"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
+    forbidden_question_add_actions_status = "active.auction"  # status, in which adding tender questions is forbidden
     forbidden_question_update_actions_status = (
-        "active.auction"
-    )  # status, in which updating tender questions is forbidden
+        "active.auction"  # status, in which updating tender questions is forbidden
+    )
     forbidden_lot_actions_status = (
-        "active.auction"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
-    forbidden_auction_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
+    forbidden_auction_actions_status = "active.tendering"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 

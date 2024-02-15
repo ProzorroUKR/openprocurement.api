@@ -10,9 +10,7 @@ from openprocurement.contracting.econtract.procedure.models.organization import 
 
 class Contract(BaseContract):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    buyer = ModelType(
-        Organization, required=True
-    )
+    buyer = ModelType(Organization, required=True)
     suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateName = StringType()

@@ -31,7 +31,7 @@ def resolve_change(request):
 
 
 class ContractsChangesResource(ContractBaseResource):
-    """ Contract changes resource """
+    """Contract changes resource"""
 
     serializer_class = BaseSerializer
     state_class = ChangeState
@@ -43,12 +43,12 @@ class ContractsChangesResource(ContractBaseResource):
 
     @json_view(permission="view_contract")
     def collection_get(self):
-        """ Return Contract Changes list """
+        """Return Contract Changes list"""
         return {"data": [self.serializer_class(i).data for i in self.request.validated["contract"].get("changes", "")]}
 
     @json_view(permission="view_contract")
     def get(self):
-        """ Return Contract Change """
+        """Return Contract Change"""
         return {"data": self.serializer_class(self.request.validated["change"]).data}
 
     @json_view(
@@ -62,7 +62,7 @@ class ContractsChangesResource(ContractBaseResource):
         ),
     )
     def collection_post(self):
-        """ Contract Change create """
+        """Contract Change create"""
         contract = self.request.validated["contract"]
 
         change = self.request.validated["data"]
@@ -98,7 +98,7 @@ class ContractsChangesResource(ContractBaseResource):
         ),
     )
     def patch(self):
-        """ Contract change edit """
+        """Contract change edit"""
 
         updated = self.request.validated["data"]
         if updated:

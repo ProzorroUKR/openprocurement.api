@@ -9,8 +9,7 @@ class IgnoredClaimMixing:
     def check_ignored_claim(self, tender):
         statuses = ("complete", "cancelled", "unsuccessful")
         complete_lot_ids = [None] if tender["status"] in statuses else []
-        complete_lot_ids.extend([i["id"] for i in tender.get("lots", "")
-                                 if i["status"] in statuses])
+        complete_lot_ids.extend([i["id"] for i in tender.get("lots", "") if i["status"] in statuses])
         for complaint in tender.get("complaints", ""):
             if complaint["status"] == "claim" and complaint.get("relatedLot") in complete_lot_ids:
                 self.set_object_status(complaint, "ignored")
@@ -32,9 +31,7 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
             for complaint in tender.get("complaints", ""):
                 if complaint["status"] == "answered" and complaint.get("dateAnswered"):
                     check = calculate_tender_date(
-                        datetime.fromisoformat(complaint["dateAnswered"]),
-                        COMPLAINT_STAND_STILL_TIME,
-                        tender
+                        datetime.fromisoformat(complaint["dateAnswered"]), COMPLAINT_STAND_STILL_TIME, tender
                     )
                     yield check.isoformat(), self.handle_answered_complaint(complaint)
 
@@ -45,16 +42,19 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
                 for complaint in award.get("complaints", ""):
                     if complaint["status"] == "answered" and complaint.get("dateAnswered"):
                         check = calculate_tender_date(
-                            datetime.fromisoformat(complaint["dateAnswered"]), COMPLAINT_STAND_STILL_TIME, tender)
+                            datetime.fromisoformat(complaint["dateAnswered"]), COMPLAINT_STAND_STILL_TIME, tender
+                        )
                         yield check.isoformat(), self.handle_answered_complaint(complaint)
                     elif complaint["status"] == "pending":
                         yield tender["dateModified"], self.handle_pending_complaint(complaint)
+
     #  -- CHILD ITEMS EVENTS
 
     # handlers
     def handle_answered_complaint(self, complaint):
         def handler(*_):
             self.set_object_status(complaint, complaint["resolutionType"])
+
         return handler
 
     def handle_pending_complaint(self, complaint):
@@ -63,6 +63,7 @@ class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
                 self.set_object_status(complaint, complaint["resolutionType"])
             else:
                 self.set_object_status(complaint, "ignored")
+
         return handler
 
     def awarded_complaint_handler(self, tender):

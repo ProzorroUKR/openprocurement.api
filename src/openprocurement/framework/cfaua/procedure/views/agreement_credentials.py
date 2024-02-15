@@ -16,7 +16,6 @@ from openprocurement.tender.core.procedure.utils import set_ownership
     description="Agreement Credentials",
 )
 class AgreementCredentialsResource(AgreementBaseResource):
-
     @json_view(
         permission="view_agreement",
         validators=(

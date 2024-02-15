@@ -135,21 +135,18 @@ class CancellationPatchComplaint(Model):
 
 
 class BotPatchComplaint(Model):
-    status = StringType(
+    status = StringType(choices=["pending", "mistaken"])
+    rejectReason = StringType(
         choices=[
-            "pending",
-            "mistaken"
+            "buyerViolationsCorrected",
+            "lawNonCompliance",
+            "alreadyExists",
+            "tenderCancelled",
+            "cancelledByComplainant",
+            "complaintPeriodEnded",
+            "incorrectPayment",
         ]
     )
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled",
-        "cancelledByComplainant",
-        "complaintPeriodEnded",
-        "incorrectPayment"
-    ])
 
 
 class TendererActionPatchComplaint(Model):
@@ -168,15 +165,17 @@ class TendererResolvePatchComplaint(Model):
 class ReviewPatchComplaint(Model):
     status = StringType(choices=["accepted", "declined", "satisfied", "invalid", "mistaken", "stopped"])
     decision = StringType()
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled",
-        "cancelledByComplainant",
-        "complaintPeriodEnded",
-        "incorrectPayment"
-    ])
+    rejectReason = StringType(
+        choices=[
+            "buyerViolationsCorrected",
+            "lawNonCompliance",
+            "alreadyExists",
+            "tenderCancelled",
+            "cancelledByComplainant",
+            "complaintPeriodEnded",
+            "incorrectPayment",
+        ]
+    )
     rejectReasonDescription = StringType()
     reviewDate = IsoDateTimeType()
     reviewPlace = StringType()
@@ -245,15 +244,17 @@ class Complaint(Model):
     dateCanceled = IsoDateTimeType()
 
     value = ModelType(Guarantee)
-    rejectReason = StringType(choices=[
-        "buyerViolationsCorrected",
-        "lawNonCompliance",
-        "alreadyExists",
-        "tenderCancelled",
-        "cancelledByComplainant",
-        "complaintPeriodEnded",
-        "incorrectPayment"
-    ])
+    rejectReason = StringType(
+        choices=[
+            "buyerViolationsCorrected",
+            "lawNonCompliance",
+            "alreadyExists",
+            "tenderCancelled",
+            "cancelledByComplainant",
+            "complaintPeriodEnded",
+            "incorrectPayment",
+        ]
+    )
 
     # child structures
     posts = BaseType()

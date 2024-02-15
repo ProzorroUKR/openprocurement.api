@@ -30,7 +30,7 @@ class ElectronicCatalogueAgreementResource(AgreementsResource):
             validate_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),
             validate_agreement_framework,
-            validate_agreement_operation_not_in_allowed_status
+            validate_agreement_operation_not_in_allowed_status,
         ),
         permission="edit_agreement",
     )

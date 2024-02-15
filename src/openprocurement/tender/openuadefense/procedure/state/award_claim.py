@@ -11,12 +11,8 @@ class DefenseAwardClaimStateMixin:
         tender = get_tender()
         tender_created = get_first_revision_date(tender, default=get_now())
         if tender_created > NO_DEFENSE_AWARD_CLAIMS_FROM:
-            raise_operation_error(
-                self.request,
-                "Can't add complaint of 'claim' type"
-            )
+            raise_operation_error(self.request, "Can't add complaint of 'claim' type")
         super().validate_claim_on_post(complaint)
-
 
 
 class OpenUADefenseAwardClaimState(DefenseAwardClaimStateMixin, AwardClaimStateMixin, OpenUADefenseTenderState):

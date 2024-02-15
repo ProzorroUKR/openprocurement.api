@@ -18,10 +18,7 @@ class BaseEligibleEvidence(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    type = StringType(
-        choices=["document", "statement"],
-        default="statement"
-    )
+    type = StringType(choices=["document", "statement"], default="statement")
     relatedDocument = ModelType(Reference)
 
 
@@ -40,7 +37,6 @@ class PatchEvidence(BaseEligibleEvidence):
 
 
 class Evidence(EligibleEvidence):
-
     def validate_relatedDocument(self, data, document_reference):
         if bid_in_invalid_status():
             return

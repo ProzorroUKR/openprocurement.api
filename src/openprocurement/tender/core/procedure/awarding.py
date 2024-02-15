@@ -19,7 +19,8 @@ from openprocurement.tender.core.procedure.context import (
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import (
     filter_features,
-    tender_created_after_2020_rules, activate_bids,
+    tender_created_after_2020_rules,
+    activate_bids,
 )
 from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
@@ -38,13 +39,9 @@ if TYPE_CHECKING:
     )
     from openprocurement.api.procedure.state.base import BaseState
 
-
-    class baseclass(
-        ShouldStartAfterMixing,
-        ChronographEventsMixing,
-        BaseState
-    ):
+    class baseclass(ShouldStartAfterMixing, ChronographEventsMixing, BaseState):
         pass
+
 else:
     baseclass = object
 
@@ -295,16 +292,13 @@ class TenderStateAwardingMixing(baseclass):
         before_auction_bids = get_bids_before_auction_results_context()
         before_auction_bids = activate_bids(before_auction_bids)
         before_auction_bids = self.prepare_bids_for_awarding(
-            tender, before_auction_bids, lot_id=lot_id,
+            tender,
+            before_auction_bids,
+            lot_id=lot_id,
         )
-        initial_amounts = {
-            b["id"]: float(b["value"]["amount"])
-            for b in before_auction_bids
-        }
+        initial_amounts = {b["id"]: float(b["value"]["amount"]) for b in before_auction_bids}
         initial_values = [
-            initial_amounts[b["id"]]
-            for b in bids
-            if b["id"] != exclude_bid_id  # except the bid being checked
+            initial_amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id  # except the bid being checked
         ]
         mean_value = sum(initial_values) / float(len(initial_values))
         return mean_value
@@ -336,7 +330,10 @@ class TenderStateAwardingMixing(baseclass):
 
             #  1st criteria
             mean_value = self.get_mean_value_tendering_bids(
-                tender, all_bids, lot_id=lot_id, exclude_bid_id=bid["id"],
+                tender,
+                all_bids,
+                lot_id=lot_id,
+                exclude_bid_id=bid["id"],
             )
             if ratio_of_two_values(amount, mean_value) >= Decimal("0.4"):
                 reasons.append(ALP_MILESTONE_REASONS[0])
@@ -357,15 +354,10 @@ class TenderStateAwardingMixing(baseclass):
                 if ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
                     reasons.append(ALP_MILESTONE_REASONS[1])
             if reasons:
-                milestones.append(
-                    {
-                        "code": "alp",
-                        "description": " / ".join(reasons)
-                    }
-                )
+                milestones.append({"code": "alp", "description": " / ".join(reasons)})
         return milestones
 
-    def tender_append_award(self, tender,  bid, all_bids, lot_id=None):
+    def tender_append_award(self, tender, bid, all_bids, lot_id=None):
         """
         Replacement for Tender.append_award method
         :param tender:
@@ -416,9 +408,7 @@ class TenderStateAwardingMixing(baseclass):
                     bid["weightedValue"] = weighted_value
 
     @classmethod
-    def calc_weighted_value(
-        cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None
-    ) -> Optional[dict]:
+    def calc_weighted_value(cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:
         value = value_container.get("value", {})
 
         if not value:

@@ -1,5 +1,6 @@
 from openprocurement.tender.core.procedure.models.address import Address as BaseAddress
 
+
 class Address(BaseAddress):
     def validate_countryName(self, data, value):
         pass

@@ -6,4 +6,3 @@ class ContractSerializer(BaseSerializer):
     serializers = {
         "parameters": ListSerializer(ParameterSerializer),
     }
-

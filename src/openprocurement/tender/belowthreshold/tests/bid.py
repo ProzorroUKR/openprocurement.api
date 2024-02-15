@@ -122,27 +122,33 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
 
-        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0][
+            "requirementGroups"
+        ][0]["requirements"][0]
 
-        self.rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": requirement["id"],
-                "title": requirement["title"],
-            },
-            "value": "True",
-        }]
+        self.rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": requirement["id"],
+                    "title": requirement["title"],
+                },
+                "value": "True",
+            }
+        ]
 
         response = self.app.post_json(
-            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
+                self.tender_id, self.bid_id, self.bid_token
+            ),
             {"data": self.rr_data},
         )
 
         self.rr_guarantee_id = response.json["data"][0]["id"]
         self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-            {"data": {"status": "pending"}}
+            {"data": {"status": "pending"}},
         )
 
     test_not_found = snitch(not_found)
@@ -191,7 +197,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_token = response.json["access"]["token"]
         self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-            {"data": {"status": "pending"}}
+            {"data": {"status": "pending"}},
         )
 
 
@@ -275,12 +281,14 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False
-        })
+        config.update(
+            {
+                "hasAuction": False,
+                "hasAwardingOrder": False,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": False,
+            }
+        )
         self.create_tender(config=config)
 
 
@@ -300,13 +308,16 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False
-        })
+        config.update(
+            {
+                "hasAuction": False,
+                "hasAwardingOrder": False,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": False,
+            }
+        )
         self.create_tender(config=config)
+
 
 def suite():
     suite = unittest.TestSuite()

@@ -77,8 +77,7 @@ def run(env, args):
         for tender in cursor:
             if tender.get("config", {}).get("minBidsNumber") is None:
                 collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": {"config.minBidsNumber": min_bids_number_populator(tender)}}
+                    {"_id": tender["_id"]}, {"$set": {"config.minBidsNumber": min_bids_number_populator(tender)}}
                 )
                 count += 1
                 if count % log_every == 0:
@@ -103,9 +102,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

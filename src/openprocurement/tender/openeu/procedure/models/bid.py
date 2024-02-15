@@ -17,7 +17,7 @@ from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, P
 class PatchBid(BasePatchBid):
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but
-    selfEligible = BooleanType(choices=[True])   # tests fail because they in different order
+    selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
 
 
 class PostBid(BasePostBid):

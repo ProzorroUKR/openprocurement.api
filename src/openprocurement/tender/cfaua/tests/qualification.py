@@ -76,7 +76,6 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
 
 
 class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
-
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
@@ -86,7 +85,6 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationDocumentResourceTest, self).setUp()
         # list qualifications
@@ -103,6 +101,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
+
 class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
     docservice = True
 
@@ -111,8 +110,8 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = (
-        "active.pre-qualification.stand-still"
-    )  # 'active.pre-qualification.stand-still' status sets in setUp
+        "active.pre-qualification.stand-still"  # 'active.pre-qualification.stand-still' status sets in setUp
+    )
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
@@ -148,7 +147,6 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
 
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
 

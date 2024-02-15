@@ -24,14 +24,13 @@ def resolve_evidence(request: Request) -> None:
 
 
 class BaseReqResponseEvidenceResource(TenderBaseResource):
-
     def __acl__(self) -> List[Tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_rr_evidence"),
             (Allow, "g:brokers", "edit_rr_evidence"),
             (Allow, "g:Administrator", "edit_rr_evidence"),  # wtf ???
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
 
     serializer_class = BaseSerializer
@@ -39,7 +38,6 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
     parent_obj_name: str
 
     def collection_post(self) -> Optional[dict]:
-
         req_response = self.request.validated["requirement_response"]
         evidence = self.request.validated["data"]
         if "evidences" not in req_response:
@@ -99,8 +97,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response evidence {evidence['id']}",
                 extra=context_unpack(
-                    self.request,
-                    {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_evidence_delete"}
+                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_evidence_delete"}
                 ),
             )
             return {"data": self.serializer_class(evidence).data}

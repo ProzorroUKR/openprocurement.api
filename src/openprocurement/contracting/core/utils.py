@@ -42,7 +42,7 @@ def extract_contract_doc(request):
 
 
 class ContractTypePredicate(object):
-    """ Route predicate factory for contractType route predicate. """
+    """Route predicate factory for contractType route predicate."""
 
     def __init__(self, val, config):
         self.val = val

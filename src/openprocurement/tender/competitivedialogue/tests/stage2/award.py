@@ -106,8 +106,10 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                                 for b in response.json["data"]["bids"]]
+            auction_bids_data = [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in response.json["data"]["bids"]
+            ]
             for lot_id in self.lots:
                 response = self.app.post_json(
                     "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
@@ -164,8 +166,10 @@ class TenderStage2EU2LotAwardResourceTest(
 
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                                 for b in response.json["data"]["bids"]]
+            auction_bids_data = [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in response.json["data"]["bids"]
+            ]
             for lot_id in self.lots:
                 response = self.app.post_json(
                     "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
@@ -224,8 +228,10 @@ class TenderStage2EUAwardComplaintResourceTest(
 
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-            auction_bids_data = [{"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                                 for b in response.json["data"]["bids"]]
+            auction_bids_data = [
+                {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                for b in response.json["data"]["bids"]
+            ]
             for lot_id in self.lots:
                 response = self.app.post_json(
                     "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]), {"data": {"bids": auction_bids_data}}
@@ -288,9 +294,10 @@ class TenderStage2EULotAwardComplaintResourceTest(
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.get("/tenders/{}/auction".format(self.tender_id))
             auction_bids_data = [
-                {"id": b["id"], "lotValues": [
-                    {"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]
-                ]}
+                {
+                    "id": b["id"],
+                    "lotValues": [{"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]],
+                }
                 for b in response.json["data"]["bids"]
             ]
             for lot_id in self.lots:
@@ -345,12 +352,14 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_cd_tenderer],
-                    "status": "pending",
-                    "bid_id": self.bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"]
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": self.bids[0]["id"],
+                        "lotID": self.initial_lots[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -439,12 +448,14 @@ class TenderStage2EUAwardDocumentResourceTest(
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_cd_tenderer],
-                    "status": "pending",
-                    "bid_id": self.bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"]
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": self.bids[0]["id"],
+                        "lotID": self.initial_lots[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -521,12 +532,14 @@ class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_cd_tenderer],
-                    "status": "pending",
-                    "bid_id": self.bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_cd_tenderer],
+                        "status": "pending",
+                        "bid_id": self.bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -572,7 +585,6 @@ class Tender2LotAwardComplaintResourceTest(TenderStage2UALotAwardComplaintResour
 class TenderStage2UAAwardComplaintDocumentResourceTest(
     BaseTenderUAAwardActiveTest, TenderAwardComplaintDocumentResourceTestMixin
 ):
-
     def setUp(self):
         super(TenderStage2UAAwardComplaintDocumentResourceTest, self).setUp()
 
@@ -614,9 +626,7 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActi
     test_patch_tender_lots_award_complaint_document = snitch(patch_tender_lots_award_complaint_document)
 
 
-class TenderStage2UAAwardDocumentResourceTest(
-    BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin
-):
+class TenderStage2UAAwardDocumentResourceTest(BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin):
     docservice = True
     initial_lots = test_tender_cd_lots
 

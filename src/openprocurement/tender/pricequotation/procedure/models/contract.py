@@ -19,8 +19,7 @@ class Contract(BaseContract):
             active_award = [award for award in parent.get("awards", []) if award.get("status") == "active"]
             if active_award and value < dt_from_iso(active_award[0].get("date")):
                 raise ValidationError(
-                    f"Contract signature date should be "
-                    f"after award activation date ({active_award[0]['date']})"
+                    f"Contract signature date should be " f"after award activation date ({active_award[0]['date']})"
                 )
 
 

@@ -1,7 +1,5 @@
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_award_in_not_allowed_status
-)
+from openprocurement.tender.core.procedure.validation import validate_update_award_in_not_allowed_status
 from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_input_data,

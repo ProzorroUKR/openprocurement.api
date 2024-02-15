@@ -8,7 +8,11 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_admins, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    unless_admins,
+    unless_bots,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.tender.limited.procedure.validation import (
     validate_document_operation_not_in_active,
@@ -44,7 +48,6 @@ class ReportingContractDocumentResource(TenderContractDocumentResource):
             validate_input_data(PostDocument),
             validate_document_operation_not_in_active,
             validate_contract_document_operation_not_in_allowed_contract_status("update"),
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),

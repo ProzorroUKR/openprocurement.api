@@ -49,7 +49,6 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest):
 
 
 class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
-
     test_author = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
 

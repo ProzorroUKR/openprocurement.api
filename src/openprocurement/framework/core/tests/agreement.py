@@ -54,8 +54,7 @@ class AgreementsResourceTest(BaseAgreementTest):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "Invalid offset provided: latest",
-              "location": "querystring", "name": "offset"}],
+            [{"description": "Invalid offset provided: latest", "location": "querystring", "name": "offset"}],
         )
 
         response = self.app.get("/agreements?descending=1&limit=10")

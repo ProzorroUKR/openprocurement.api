@@ -45,4 +45,3 @@ class OpenTenderAwardClaimResource(AwardClaimResource):
 )
 class OpenAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = OpenAwardComplaintState
-

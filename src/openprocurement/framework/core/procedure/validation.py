@@ -44,7 +44,7 @@ def validate_post_submission_with_active_contract(request, **kwargs):
         raise_operation_error(
             request,
             f"Can't add submission when contract in "
-            f"agreement with same identifier.id in {submission_contract['status']} status"
+            f"agreement with same identifier.id in {submission_contract['status']} status",
         )
 
 
@@ -61,8 +61,7 @@ def validate_activate_submission(request, **kwargs):
     )
     if res:
         raise_operation_error(
-            request,
-            f"Tenderer already have active submission for framework {submission['frameworkID']}"
+            request, f"Tenderer already have active submission for framework {submission['frameworkID']}"
         )
 
     res = request.registry.mongodb.agreements.has_active_suspended_contracts(
@@ -82,7 +81,7 @@ def validate_framework_document_operation_not_in_allowed_status(request, **kwarg
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current "
-            f"({request.validated['framework']['status']}) framework status"
+            f"({request.validated['framework']['status']}) framework status",
         )
 
 
@@ -90,12 +89,8 @@ def validate_framework_owner(item_name):
     def validator(request, **_):
         item = request.validated[item_name]
         if not is_framework_owner(request, item):
-            raise_operation_error(
-                request,
-                "Forbidden",
-                location="url",
-                name="permission"
-            )
+            raise_operation_error(request, "Forbidden", location="url", name="permission")
+
     return validator
 
 
@@ -103,12 +98,8 @@ def validate_tender_owner(item_name):
     def validator(request, **_):
         item = request.validated[item_name]
         if not is_tender_owner(request, item):
-            raise_operation_error(
-                request,
-                "Forbidden",
-                location="url",
-                name="permission"
-            )
+            raise_operation_error(request, "Forbidden", location="url", name="permission")
+
     return validator
 
 
@@ -116,15 +107,8 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
     framework = request.validated["framework"]
     operation = OPERATIONS.get(request.method)
     period = framework.get("period")
-    if (
-        not period
-        or "startDate" not in period
-        or "endDate" not in period
-    ):
-        raise_operation_error(
-            request,
-            "Submission cannot be {} without framework period".format(operation)
-        )
+    if not period or "startDate" not in period or "endDate" not in period:
+        raise_operation_error(request, "Submission cannot be {} without framework period".format(operation))
     period_startDate = dt_from_iso(period["startDate"])
     period_endDate = dt_from_iso(period["endDate"])
     now = get_now()
@@ -133,7 +117,8 @@ def validate_operation_submission_in_not_allowed_period(request, **kwargs):
         raise_operation_error(
             request,
             "Submission can be {} only during the period: from ({}) to ({}).".format(
-                operation, period_startDate, period_endDate),
+                operation, period_startDate, period_endDate
+            ),
         )
 
 
@@ -145,7 +130,7 @@ def validate_agreement_operation_not_in_allowed_status(request, **kwargs):
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} {obj_name} "
-            f"in current ({request.validated['agreement']['status']}) agreement status"
+            f"in current ({request.validated['agreement']['status']}) agreement status",
         )
 
 
@@ -157,17 +142,14 @@ def validate_contract_operation_not_in_allowed_status(request, **kwargs):
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} {obj_name} "
-            f"in current ({request.validated['contract']['status']}) contract status"
+            f"in current ({request.validated['contract']['status']}) contract status",
         )
 
 
 def validate_contract_suspended(request, **kwargs):
     milestone_type = request.validated["data"]["type"]
     if request.validated["contract"]["status"] == "suspended" and milestone_type != "activation":
-        raise_operation_error(
-            request,
-            f"Can't add {milestone_type} milestone for contract in suspended status"
-        )
+        raise_operation_error(request, f"Can't add {milestone_type} milestone for contract in suspended status")
 
 
 def validate_milestone_type(request, **kwargs):
@@ -175,19 +157,13 @@ def validate_milestone_type(request, **kwargs):
     if "documents" in request.path:
         obj_name = "document"
     if request.validated["data"]["type"] == "activation":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone"
-        )
+        raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone")
 
 
 def validate_patch_not_activation_milestone(request, **kwargs):
     milestone = request.validated["milestone"]
     if milestone["type"] != "activation":
-        raise_operation_error(
-            request,
-            f"Can't patch `{milestone['type']}` milestone"
-        )
+        raise_operation_error(request, f"Can't patch `{milestone['type']}` milestone")
 
 
 def validate_action_in_milestone_status(request, **kwargs):
@@ -195,8 +171,7 @@ def validate_action_in_milestone_status(request, **kwargs):
     status = request.validated["milestone"]["status"]
     if status != "scheduled":
         raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status "
+            request, f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({status}) status "
         )
 
 
@@ -209,22 +184,21 @@ def validate_patch_milestone_status(request, **kwargs):
         return
 
     if new_status != "met":
-        raise_operation_error(
-            request,
-            f"Can't switch milestone status from `{curr_status}` to `{new_status}`"
-        )
+        raise_operation_error(request, f"Can't switch milestone status from `{curr_status}` to `{new_status}`")
 
 
 def unless_administrator_or_chronograph(*validations):
     def decorated(request, **_):
-        if request.authenticated_role  not in ("chronograph", "Administrator"):
+        if request.authenticated_role not in ("chronograph", "Administrator"):
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
 def validate_restricted_access(obj_name, owner_fields=None):
     owner_fields = owner_fields or {"owner"}
+
     def validator(request, **kwargs):
         obj = request.validated[obj_name]
         config = request.validated["%s_config" % obj_name]
@@ -237,10 +211,8 @@ def validate_restricted_access(obj_name, owner_fields=None):
 
         if config.get("restricted") is True:
             if not any(obj.get(field, None) == request.authenticated_userid for field in owner_fields):
-                raise_operation_error(
-                    request,
-                    "Access restricted for {} object".format(obj_name)
-                )
+                raise_operation_error(request, "Access restricted for {} object".format(obj_name))
+
     return validator
 
 
@@ -261,6 +233,7 @@ def validate_action_in_not_allowed_framework_status(obj_name):
                 request,
                 f"Can't {OPERATIONS.get(request.method)} {obj_name} in current ({framework_status}) framework status",
             )
+
     return validation
 
 
@@ -278,7 +251,7 @@ def validate_update_submission_in_not_allowed_status(request, **kwargs):
 def validate_document_operation_in_not_allowed_period(request, **kwargs):
     submission = request.validated["submission_src"]
     if submission["frameworkID"] in FAST_CATALOGUE_FLOW_FRAMEWORK_IDS:
-        not_allowed_statuses = ("deleted")
+        not_allowed_statuses = "deleted"
     else:
         not_allowed_statuses = ("deleted", "complete")
     if submission["status"] in not_allowed_statuses:

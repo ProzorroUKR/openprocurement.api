@@ -39,13 +39,9 @@ class BaseSerializer:
     def data(self) -> dict:
         items = ((k, v) for k, v in self._data.items())
         if self.private_fields:
-            items = ((k, v)
-                     for k, v in items
-                     if k not in self.private_fields)
+            items = ((k, v) for k, v in items if k not in self.private_fields)
         if self.whitelist:
-            items = ((k, v)
-                     for k, v in items
-                     if k in self.whitelist)
+            items = ((k, v) for k, v in items if k in self.whitelist)
 
         data = {}
         for k, v in items:

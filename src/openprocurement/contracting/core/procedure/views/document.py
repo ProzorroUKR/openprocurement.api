@@ -8,7 +8,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
     validate_data_model,
     validate_input_data,
-    unless_admins, validate_upload_document, update_doc_fields_on_put_document,
+    unless_admins,
+    validate_upload_document,
+    update_doc_fields_on_put_document,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.state.document import BaseDocumentState

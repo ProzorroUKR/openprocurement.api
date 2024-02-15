@@ -29,11 +29,7 @@ test_tender_eu_data = deepcopy(test_docs_tender_openeu)
 test_tender_ua_data = deepcopy(test_docs_tender_openua)
 
 central_entity = {
-    "identifier": {
-        "scheme": "UA-EDR",
-        "id": "111111",
-        "legalName": "ДП Центральний закупівельний орган №1"
-    },
+    "identifier": {"scheme": "UA-EDR", "id": "111111", "legalName": "ДП Центральний закупівельний орган №1"},
     "name": "ЦЗО №1",
     "address": {
         "countryName": "Україна",
@@ -42,7 +38,7 @@ central_entity = {
         "locality": "м. Київ",
         "streetAddress": "вул. Банкова, 1",
     },
-    "kind": "central"
+    "kind": "central",
 }
 
 
@@ -77,10 +73,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         test_plan_data["procuringEntity"] = central_entity
 
         with open(TARGET_DIR + 'create-plan.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/plans?opt_pretty=1',
-                {'data': test_plan_data}
-            )
+            response = self.app.post_json('/plans?opt_pretty=1', {'data': test_plan_data})
 
         self.assertEqual(response.status, '201 Created')
 
@@ -92,8 +85,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'patch-plan-status-scheduled.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}?acc_token={}'.format(_plan['id'], owner_token),
-                {'data': {"status": "scheduled"}}
+                '/plans/{}?acc_token={}'.format(_plan['id'], owner_token), {'data': {"status": "scheduled"}}
             )
         self.assertEqual(response.json["data"]["status"], "scheduled")
 
@@ -110,7 +102,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                         "author": central_entity,
                         "dueDate": (get_now() + timedelta(seconds=1)).isoformat(),
                     }
-                }
+                },
             )
         self.assertEqual(response.json["data"]["status"], "scheduled")
         milestone = response.json["data"]
@@ -120,16 +112,14 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'patch-plan-milestone.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                '/plans/{}/milestones/{}?acc_token={}'.format(
-                    _plan['id'], milestone["id"], milestone_token
-                ),
+                '/plans/{}/milestones/{}?acc_token={}'.format(_plan['id'], milestone["id"], milestone_token),
                 {
                     'data': {
                         "status": "met",
                         "description": "Доповнений опис відповіді",
                         "dueDate": (get_now() + timedelta(seconds=1)).isoformat(),
                     }
-                }
+                },
             )
         self.assertEqual(response.status_code, 200)
 
@@ -137,9 +127,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'post-plan-milestone-document.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/plans/{}/milestones/{}/documents?acc_token={}'.format(
-                    _plan["id"], milestone["id"], milestone_token
-                ),
+                '/plans/{}/milestones/{}/documents?acc_token={}'.format(_plan["id"], milestone["id"], milestone_token),
                 {
                     "data": {
                         "title": "Notice.pdf",
@@ -147,7 +135,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                     }
-                }
+                },
             )
         self.assertEqual(response.status_code, 201)
 
@@ -179,8 +167,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'create-tender.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders',
-                {'data': test_tender_ua_data, 'config': test_tender_openua_config}
+                '/tenders', {'data': test_tender_ua_data, 'config': test_tender_openua_config}
             )
         self.assertEqual(response.status, '201 Created')
         tender = response.json
@@ -191,11 +178,8 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'post-tender-plans.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/plans?acc_token={}'.format(
-                    tender["data"]["id"],
-                    tender["access"]["token"]
-                ),
-                {"data": {"id": _plan['id']}}
+                '/tenders/{}/plans?acc_token={}'.format(tender["data"]["id"], tender["access"]["token"]),
+                {"data": {"id": _plan['id']}},
             )
         self.assertEqual(response.status, '200 OK')
 

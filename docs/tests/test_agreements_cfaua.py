@@ -49,11 +49,12 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         test_tender_cfaua_data["tenderPeriod"]["endDate"] = (get_now() + timedelta(days=31)).isoformat()
 
         response = self.app.post_json(
-            '/tenders', {
+            '/tenders',
+            {
                 'data': test_tender_cfaua_data,
                 'config': self.initial_config,
-            }
-            )
+            },
+        )
         tender_id = self.tender_id = response.json['data']['id']
         owner_token = response.json['access']['token']
 
@@ -68,9 +69,7 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'example_agreement.http', 'wb') as self.app.file_obj:
             response = self.app.get(
-                '/tenders/{}/agreements/{}'.format(
-                    tender_id, response.json['data']['agreements'][0]['id']
-                )
+                '/tenders/{}/agreements/{}'.format(tender_id, response.json['data']['agreements'][0]['id'])
             )
         test_agreement_data = response.json['data']
 
@@ -110,9 +109,7 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.app.authorization = ('Basic', ('broker', ''))
         with open(TARGET_DIR + 'agreement-credentials.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/credentials?acc_token={}'.format(
-                    test_agreement_data['id'], owner_token
-                )
+                '/agreements/{}/credentials?acc_token={}'.format(test_agreement_data['id'], owner_token)
             )
             self.assertEqual(response.status, '200 OK')
         agreement_token = response.json['access']['token']
@@ -128,16 +125,14 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Submitting agreement change
         with open(TARGET_DIR + 'add-agreement-change.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/changes?acc_token={}'.format(
-                    agreement_id, agreement_token
-                ),
+                '/agreements/{}/changes?acc_token={}'.format(agreement_id, agreement_token),
                 {
                     'data': {
                         'rationale': 'Опис причини змін егріменту',
                         'rationale_en': 'Agreement change cause',
-                        'rationaleType': 'taxRate'
+                        'rationaleType': 'taxRate',
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '201 Created')
             change = response.json['data']
@@ -149,10 +144,8 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         with open(TARGET_DIR + 'patch-agreement-change.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/changes/{}?acc_token={}'.format(
-                    agreement_id, change['id'], agreement_token
-                ),
-                {'data': {'rationale': 'Друга і третя поставка має бути розфасована'}}
+                '/agreements/{}/changes/{}?acc_token={}'.format(agreement_id, change['id'], agreement_token),
+                {'data': {'rationale': 'Друга і третя поставка має бути розфасована'}},
             )
             self.assertEqual(response.status, '200 OK')
             change = response.json['data']
@@ -160,47 +153,36 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # add agreement change document
         with open(TARGET_DIR + 'add-agreement-change-document.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/documents?acc_token={}'.format(
-                    agreement_id, agreement_token
-                ),
-                {"data": {
-                    "title": "agreement_changes.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/agreements/{}/documents?acc_token={}'.format(agreement_id, agreement_token),
+                {
+                    "data": {
+                        "title": "agreement_changes.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
             self.assertEqual(response.status, '201 Created')
             doc_id = response.json["data"]['id']
 
         with open(TARGET_DIR + 'set-document-of-change.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/documents/{}?acc_token={}'.format(
-                    agreement_id, doc_id, agreement_token
-                ),
+                '/agreements/{}/documents/{}?acc_token={}'.format(agreement_id, doc_id, agreement_token),
                 {
                     "data": {
                         "documentOf": "change",
                         "relatedItem": change['id'],
                     }
-                }
+                },
             )
             self.assertEqual(response.status, '200 OK')
 
         # patching change with modification
         with open(TARGET_DIR + 'add-agreement-change-modification.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/changes/{}?acc_token={}'.format(
-                    agreement_id, change['id'], agreement_token
-                ),
-                {
-                    'data': {
-                        'modifications': [{
-                            'itemId': agreement['items'][0]['id'],
-                            'factor': 0.1605
-                        }]
-                    }
-                }
+                '/agreements/{}/changes/{}?acc_token={}'.format(agreement_id, change['id'], agreement_token),
+                {'data': {'modifications': [{'itemId': agreement['items'][0]['id'], 'factor': 0.1605}]}},
             )
             self.assertEqual(response.status, '200 OK')
             change = response.json['data']
@@ -213,10 +195,8 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # apply agreement change
         with open(TARGET_DIR + 'apply-agreement-change.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}/changes/{}?acc_token={}'.format(
-                    agreement_id, change['id'], agreement_token
-                ),
-                {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}}
+                '/agreements/{}/changes/{}?acc_token={}'.format(agreement_id, change['id'], agreement_token),
+                {'data': {'status': 'active', 'dateSigned': get_now().isoformat()}},
             )
             self.assertEqual(response.status, '200 OK')
 
@@ -233,65 +213,56 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # Uploading documentation
         with open(TARGET_DIR + 'upload-agreement-document.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/documents?acc_token={}'.format(
-                    agreement_id, agreement_token
-                ),
-                {"data": {
-                    "title": "agreement.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/agreements/{}/documents?acc_token={}'.format(agreement_id, agreement_token),
+                {
+                    "data": {
+                        "title": "agreement.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         with open(TARGET_DIR + 'agreement-documents.http', 'wb') as self.app.file_obj:
-            response = self.app.get(
-                '/agreements/{}/documents?acc_token={}'.format(
-                    agreement_id, agreement_token
-                )
-            )
+            response = self.app.get('/agreements/{}/documents?acc_token={}'.format(agreement_id, agreement_token))
 
         with open(TARGET_DIR + 'upload-agreement-document-2.http', 'wb') as self.app.file_obj:
             response = self.app.post_json(
-                '/agreements/{}/documents?acc_token={}'.format(
-                    agreement_id, agreement_token
-                ),
-                {"data": {
-                    "title": "agreement_additional_docs.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/agreements/{}/documents?acc_token={}'.format(agreement_id, agreement_token),
+                {
+                    "data": {
+                        "title": "agreement_additional_docs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         doc_id = response.json['data']['id']
 
         with open(TARGET_DIR + 'upload-agreement-document-3.http', 'wb') as self.app.file_obj:
             response = self.app.put_json(
-                '/agreements/{}/documents/{}?acc_token={}'.format(
-                    agreement_id, doc_id, agreement_token
-                ),
-                {"data": {
-                    "title": "agreement_additional_docs.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }},
+                '/agreements/{}/documents/{}?acc_token={}'.format(agreement_id, doc_id, agreement_token),
+                {
+                    "data": {
+                        "title": "agreement_additional_docs.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                    }
+                },
             )
 
         with open(TARGET_DIR + 'get-agreement-document-3.http', 'wb') as self.app.file_obj:
             response = self.app.get(
-                '/agreements/{}/documents/{}?acc_token={}'.format(
-                    agreement_id, doc_id, agreement_token
-                )
+                '/agreements/{}/documents/{}?acc_token={}'.format(agreement_id, doc_id, agreement_token)
             )
 
         # Finalize agreement
         with open(TARGET_DIR + 'agreement-termination.http', 'wb') as self.app.file_obj:
             response = self.app.patch_json(
-                '/agreements/{}?acc_token={}'.format(
-                    agreement_id, agreement_token
-                ),
-                {'data': {"status": "terminated"}}
+                '/agreements/{}?acc_token={}'.format(agreement_id, agreement_token), {'data': {"status": "terminated"}}
             )
             self.assertEqual(response.status, '200 OK')

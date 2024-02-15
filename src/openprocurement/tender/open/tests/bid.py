@@ -136,17 +136,20 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.requirement_title = requirement["title"]
 
         request_path = "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.bid_id, self.bid_token)
+            self.tender_id, self.bid_id, self.bid_token
+        )
 
-        rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": True,
-        }]
+        rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": self.requirement_id,
+                    "title": self.requirement_title,
+                },
+                "value": True,
+            }
+        ]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")
@@ -154,8 +157,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.rr_id = response.json["data"][0]["id"]
 
         response = self.app.post_json(
-            "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                self.tender_id, self.bid_id, self.bid_token),
+            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
             {
                 "data": {
                     "title": "name.doc",

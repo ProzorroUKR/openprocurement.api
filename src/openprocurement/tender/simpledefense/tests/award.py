@@ -85,8 +85,12 @@ class TenderAwardResourceTest(BaseSimpleDefContentWebTest):
     initial_bids = test_tender_simpledefense_bids
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    test_check_tender_award_complaint_period_dates_before_new = snitch(check_tender_award_complaint_period_dates_before_new)
-    test_check_tender_award_complaint_period_dates_after_new = snitch(check_tender_award_complaint_period_dates_after_new)
+    test_check_tender_award_complaint_period_dates_before_new = snitch(
+        check_tender_award_complaint_period_dates_before_new
+    )
+    test_check_tender_award_complaint_period_dates_after_new = snitch(
+        check_tender_award_complaint_period_dates_after_new
+    )
     test_check_tender_award_complaint_period_dates_new = snitch(check_tender_award_complaint_period_dates_new)
     test_patch_tender_award_active_before_new = snitch(patch_tender_award_active_before_new)
     test_patch_tender_award_active_after_new = snitch(patch_tender_award_active_after_new)
@@ -96,7 +100,6 @@ class TenderAwardResourceTest(BaseSimpleDefContentWebTest):
     test_patch_tender_award_unsuccessful_new = snitch(patch_tender_award_unsuccessful_new)
     test_get_tender_award = snitch(get_tender_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
-
 
 
 class TenderLotAwardResourceTest(BaseSimpleDefContentWebTest):
@@ -132,12 +135,14 @@ class TenderAwardPendingResourceTestCase(BaseSimpleDefContentWebTest):
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
-                }},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -155,7 +160,6 @@ class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):
 
 
 class TenderAwardComplaintResourceTest(TenderAwardActiveResourceTestCase):
-
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
     test_create_tender_award_claim = snitch(create_tender_award_claim)
     test_create_tender_award_claim_denied = snitch(create_tender_award_claim_denied)
@@ -188,7 +192,6 @@ class Tender2LotAwardComplaintResourceTest(TenderLotAwardComplaintResourceTest):
 
 
 class TenderAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTestCase):
-
     def setUp(self):
         super(TenderAwardComplaintDocumentResourceTest, self).setUp()
 

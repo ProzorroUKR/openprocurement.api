@@ -129,15 +129,11 @@ if SANDBOX_MODE:
 
 
 test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdeu_stage2_data,
-    test_tender_cdeu_stage2_data["items"][0],
-    test_tender_below_organization
+    test_tender_cdeu_stage2_data, test_tender_cdeu_stage2_data["items"][0], test_tender_below_organization
 )
 
 test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdua_stage2_data,
-    test_tender_cdua_stage2_data["items"][0],
-    test_tender_below_organization
+    test_tender_cdua_stage2_data, test_tender_cdua_stage2_data["items"][0], test_tender_below_organization
 )
 
 test_tender_cdeu_config = {
@@ -208,8 +204,8 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     forbidden_lot_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "unsuccessful"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")
@@ -241,16 +237,12 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdeu_data
     initial_config = test_tender_cdeu_config
-    question_claim_block_status = (
-        "active.pre-qualification"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 
@@ -259,12 +251,10 @@ class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdua_data
     initial_config = test_tender_cdua_config
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.tendering"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 
@@ -310,11 +300,7 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
         return create_tender_stage2(
-            self,
-            initial_lots=initial_lots,
-            initial_data=initial_data,
-            features=features,
-            initial_bids=initial_bids
+            self, initial_lots=initial_lots, initial_data=initial_data, features=features, initial_bids=initial_bids
         )
 
 
@@ -345,11 +331,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
         return create_tender_stage2(
-            self,
-            initial_lots=initial_lots,
-            initial_data=initial_data,
-            features=features,
-            initial_bids=initial_bids
+            self, initial_lots=initial_lots, initial_data=initial_data, features=features, initial_bids=initial_bids
         )
 
 
@@ -410,7 +392,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     # TODO add criteria to the test data ?
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-        get_now() + timedelta(days=1)
+        get_now() + timedelta(days=1),
     ):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),

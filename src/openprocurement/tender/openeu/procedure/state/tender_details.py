@@ -29,7 +29,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
 
