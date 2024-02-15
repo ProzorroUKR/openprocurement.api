@@ -2,7 +2,6 @@ from datetime import datetime
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from typing import TYPE_CHECKING
 
 from schematics.types import BaseType
 
@@ -31,15 +30,7 @@ from openprocurement.tender.core.procedure.utils import (
 LOGGER = getLogger(__name__)
 
 
-if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import TenderState
-
-    baseclass = TenderState
-else:
-    baseclass = object
-
-
-class ContractStateMixing(baseclass):
+class ContractStateMixing:
     allowed_statuses_from = ("pending", "pending.winner-signing")
     allowed_statuses_to = ("active", "pending", "pending.winner-signing")
 

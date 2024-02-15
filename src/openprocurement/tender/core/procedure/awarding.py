@@ -1,6 +1,6 @@
 from decimal import Decimal
 from logging import getLogger
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from barbecue import calculate_coeficient
 
@@ -27,21 +27,7 @@ from openprocurement.tender.pricequotation.constants import PQ
 LOGGER = getLogger(__name__)
 
 
-if TYPE_CHECKING:
-    from openprocurement.api.procedure.state.base import BaseState
-    from openprocurement.tender.core.procedure.state.tender import (
-        ChronographEventsMixing,
-        ShouldStartAfterMixing,
-    )
-
-    class baseclass(ShouldStartAfterMixing, ChronographEventsMixing, BaseState):
-        pass
-
-else:
-    baseclass = object
-
-
-class TenderStateAwardingMixing(baseclass):
+class TenderStateAwardingMixing:
     award_class = Award
 
     # Bids are sorted by this key on awarding stage

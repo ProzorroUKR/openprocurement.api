@@ -1,18 +1,9 @@
-from typing import TYPE_CHECKING
-
 from openprocurement.api.context import get_now
 from openprocurement.tender.cfaua.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import get_request
 
-if TYPE_CHECKING:
-    from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 
-    baseclass = CFAUATenderState
-else:
-    baseclass = object
-
-
-class CFAUATenderStateAwardingMixing(baseclass):
+class CFAUATenderStateAwardingMixing:
     award_class = Award
     awarding_criteria_key: str = "amount"
     reverse_awarding_criteria: bool = False

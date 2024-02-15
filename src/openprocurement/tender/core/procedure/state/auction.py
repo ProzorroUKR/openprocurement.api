@@ -1,6 +1,5 @@
 from datetime import timedelta
 from logging import getLogger
-from typing import TYPE_CHECKING
 
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
@@ -11,21 +10,8 @@ from openprocurement.tender.core.procedure.utils import (
 
 LOGGER = getLogger(__name__)
 
-if TYPE_CHECKING:
-    from openprocurement.api.procedure.state.base import BaseState
-    from openprocurement.tender.core.procedure.state.tender import (
-        ChronographEventsMixing,
-        TenderStateAwardingMixing,
-    )
 
-    class baseclass(TenderStateAwardingMixing, ChronographEventsMixing, BaseState):
-        pass
-
-else:
-    baseclass = object
-
-
-class ShouldStartAfterMixing(baseclass):
+class ShouldStartAfterMixing:
     def calc_auction_periods(self, tender):
         if tender["config"]["hasAuction"] is False:
             return

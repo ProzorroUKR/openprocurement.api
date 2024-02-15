@@ -1,5 +1,4 @@
 from datetime import timedelta
-from typing import TYPE_CHECKING
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
@@ -11,13 +10,8 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 
-if TYPE_CHECKING:
-    baseclass = TenderState
-else:
-    baseclass = object
 
-
-class CancellationStateMixing(baseclass):
+class CancellationStateMixing:
     # additionally to terminated
     cancellation_forbidden_statuses = {"active.auction", "active.qualification.stand-still", "draft"}
 

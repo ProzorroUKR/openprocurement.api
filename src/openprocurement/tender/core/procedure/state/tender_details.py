@@ -1,5 +1,4 @@
 from datetime import timedelta
-from typing import TYPE_CHECKING
 
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
@@ -49,13 +48,8 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
 )
 
-if TYPE_CHECKING:
-    baseclass = TenderState
-else:
-    baseclass = object
 
-
-class TenderConfigMixin(baseclass):
+class TenderConfigMixin:
     configurations = (
         "hasAuction",
         "hasAwardingOrder",
@@ -124,7 +118,7 @@ class TenderConfigMixin(baseclass):
             )
 
 
-class TenderDetailsMixing(TenderConfigMixin, baseclass):
+class TenderDetailsMixing(TenderConfigMixin):
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage

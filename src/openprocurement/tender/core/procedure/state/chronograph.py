@@ -1,5 +1,4 @@
 from logging import getLogger
-from typing import TYPE_CHECKING
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -20,32 +19,10 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
 )
 
-
-def copy_class(cls, exclude_parent_class_names=None):
-    if exclude_parent_class_names is None:
-        exclude_parent_class_names = []
-    bases = cls.__bases__
-    bases = tuple(base for base in bases if base.__name__ not in exclude_parent_class_names)
-    return type(cls.__name__, bases, dict(cls.__dict__))
-
-
-if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import (
-        ShouldStartAfterMixing,
-        TenderState,
-        TenderStateAwardingMixing,
-    )
-
-    class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, TenderState):
-        pass
-
-else:
-    baseclass = object
-
 LOGGER = getLogger(__name__)
 
 
-class ChronographEventsMixing(baseclass):
+class ChronographEventsMixing:
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
     # (only tenders are updated by chronograph at the moment)

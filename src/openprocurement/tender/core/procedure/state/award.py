@@ -1,5 +1,4 @@
 from datetime import timedelta
-from typing import TYPE_CHECKING
 
 from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
 from openprocurement.api.context import get_now
@@ -16,15 +15,8 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
-if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import TenderState
 
-    baseclass = TenderState
-else:
-    baseclass = object
-
-
-class AwardStateMixing(baseclass):
+class AwardStateMixing:
     contract_model = Contract
     award_stand_still_time: timedelta
 
