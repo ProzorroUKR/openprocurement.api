@@ -142,18 +142,6 @@ class PatchBid(Model):
             tender = get_tender()
             validate_bid_value(tender, value)
 
-    def validate_tenderers(self, _, value):
-        if value and value[0].identifier:
-            tenderer_id = value[0].identifier.id
-            if tenderer_id and tenderer_id not in {
-                i["identifier"]["id"] for i in get_tender().get("shortlistedFirms", "")
-            }:
-                # it's 403, not 422, so we can't raise ValueError or ValidationError
-                request = get_request()
-                raise_operation_error(
-                    request, f"Can't {OPERATIONS[request.method]} bid if tenderer not in shortlistedFirms"
-                )
-
 
 class PostBid(PatchBid):
     @serializable

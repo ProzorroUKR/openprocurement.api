@@ -23,6 +23,7 @@ from schematics.exceptions import (
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
+    CATALOG_BASE_URL,
     GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
     LOGGER,
@@ -503,3 +504,22 @@ def delete_nones(data: dict):
     for k, v in tuple(data.items()):
         if v is None:
             del data[k]
+
+
+def get_tender_profile(request, profile_id):
+    try:
+        resp = requests.get(f"{CATALOG_BASE_URL}/profiles/{profile_id}")
+    except requests.exceptions.RequestException as e:
+        raise raise_operation_error(
+            request,
+            "Error while getting data from ProZorro e-Catalogues: Connection closed. Try again later",
+            status=409,
+        )
+    if resp.status_code == 404:
+        raise_operation_error(request, f"Profile {profile_id} not found in catalouges.", status=404)
+    elif resp.status_code != 200:
+        response_text = resp.json()
+        raise_operation_error(
+            request, f"Fail getting profile {profile_id}: {resp.status_code} {response_text}.", status=resp.status_code
+        )
+    return resp.json().get("data", {})

@@ -146,7 +146,8 @@ class PatchTender(PatchBaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",
+            "draft.publishing",  # deprecated
+            "active.tendering",
         ],
     )
     profile = StringType()
@@ -170,22 +171,6 @@ class PatchTender(PatchBaseTender):
     )
 
 
-class PatchPQBotTender(Model):
-    shortlistedFirms = ListType(ModelType(ShortlistedFirm))
-    status = StringType(choices=["active.tendering", "draft.unsuccessful"], required=True)
-    items = ListType(
-        ModelType(TenderItem, required=True),
-        min_size=1,
-        validators=[validate_items_uniq],
-    )
-    criteria = ListType(
-        ModelType(Criterion),
-        validators=[validate_criteria_id_uniq],
-    )
-    value = ModelType(Value)
-    unsuccessfulReason = ListType(StringType)
-
-
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[PQ], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
@@ -196,8 +181,8 @@ class Tender(BaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",
-            "draft.unsuccessful",
+            "draft.publishing",  # deprecated after PQ bot removing
+            "draft.unsuccessful",  # deprecated after PQ bot removing
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
@@ -221,7 +206,7 @@ class Tender(BaseTender):
 
     classification = ModelType(Classification)
     noticePublicationDate = IsoDateTimeType()
-    unsuccessfulReason = ListType(StringType)
+    unsuccessfulReason = ListType(StringType)  # deprecated after PQ bot removing
 
     items = ListType(
         ModelType(TenderItem, required=True),

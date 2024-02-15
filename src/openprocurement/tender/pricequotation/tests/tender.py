@@ -1,7 +1,6 @@
 import unittest
-from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -40,6 +39,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_in_not_draft_status,
     create_tender_invalid,
     create_tender_with_inn,
+    draft_activation_validations,
     first_bid_tender,
     invalid_tender_conditions,
     listing,
@@ -50,10 +50,11 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     one_valid_bid_tender,
     patch_items_related_buyer_id,
     patch_tender,
-    patch_tender_by_pq_bot_after_multiprofile,
-    patch_tender_by_pq_bot_before_multiprofile,
     patch_tender_status,
     required_field_deletion,
+    switch_draft_publishing_to_tendering_manually,
+    switch_draft_to_publishing_success,
+    switch_draft_to_tendering_success,
     tender_criteria_values_type,
     tender_fields,
     tender_owner_can_change_in_draft,
@@ -92,8 +93,8 @@ class TenderResourceTestMixin:
     get_now() + timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
+    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
 )
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True
@@ -113,8 +114,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender = snitch(patch_tender)
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
-    test_patch_tender_by_pq_bot_before_multiprofile = snitch(patch_tender_by_pq_bot_before_multiprofile)
-    test_patch_tender_by_pq_bot_after_multiprofile = snitch(patch_tender_by_pq_bot_after_multiprofile)
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_patch_tender_status = snitch(patch_tender_status)
     test_create_pricequotation_tender_with_earlier_non_required_unit = snitch(
@@ -124,39 +123,11 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
 
 
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() - timedelta(days=1),
-)
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() - timedelta(days=1),
-)
-class MD5UidTenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    docservice = True
-    initial_data = test_tender_pq_data
-    initial_auth = ("Basic", ("broker", ""))
-
-    test_criteria_1 = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
-    test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_short_profile['criteria']))
-
-
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
-class TenderProcessTest(TenderContentWebTest):
-    docservice = True
-    initial_auth = ("Basic", ("broker", ""))
-    initial_data = test_tender_pq_data
-    initial_status = 'active.tendering'
-    need_tender = True
-    docservice = True
-
-    test_one_valid_bid_tender = snitch(one_valid_bid_tender)
-    test_one_invalid_bid_tender = snitch(one_invalid_bid_tender)
-    test_first_bid_tender = snitch(first_bid_tender)
-    test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
+class TenderActivationTest(TenderContentWebTest):
+    test_draft_activation_validations = snitch(draft_activation_validations)
+    test_switch_draft_to_tendering_success = snitch(switch_draft_to_tendering_success)
+    test_switch_draft_to_publishing_success = snitch(switch_draft_to_publishing_success)
+    test_switch_draft_publishing_to_tendering_manually = snitch(switch_draft_publishing_to_tendering_manually)
 
 
 def suite():

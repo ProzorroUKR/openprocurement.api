@@ -105,13 +105,13 @@ AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
 POST_SUBMIT_TIME = timedelta(days=3)
 
 # Agreement errors
-AGREEMENT_NOT_FOUND_MESSAGE = "agreement[0] not found in agreements"
-AGREEMENT_STATUS_MESSAGE = "agreements[0] status is not active"
-AGREEMENT_ITEMS_MESSAGE = "agreements[0] items is not subset of tender items"
+AGREEMENT_NOT_FOUND_MESSAGE = "Agreement not found"
+AGREEMENT_STATUS_MESSAGE = "Agreement status is not active"
+AGREEMENT_ITEMS_MESSAGE = "Agreement items is not subset of tender items"
 AGREEMENT_START_DATE_MESSAGE = "agreements[0].period.startDate is > tender.date"
-AGREEMENT_EXPIRED_MESSAGE = "agreements[0] ends less than {} days"
-AGREEMENT_CHANGE_MESSAGE = "agreements[0] has pending change"
-AGREEMENT_CONTRACTS_MESSAGE = "agreements[0] has less than {} active contracts"
+AGREEMENT_EXPIRED_MESSAGE = "Agreement ends less than {} days"
+AGREEMENT_CHANGE_MESSAGE = "Agreement has pending change"
+AGREEMENT_CONTRACTS_MESSAGE = "Agreement has less than {} active contracts"
 AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"

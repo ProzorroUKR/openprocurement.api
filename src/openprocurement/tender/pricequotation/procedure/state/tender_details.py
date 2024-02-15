@@ -4,7 +4,7 @@ from openprocurement.api.constants import (
     PQ_NEW_CONTRACTING_FROM,
 )
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import get_tender_profile, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -21,15 +21,26 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
-    should_validate_pre_selection_agreement = False
+    should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
+    agreement_field = "agreement"
+    agreement_min_active_contracts = 1
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
-        if before == "draft" and after == "draft.publishing":
+        if before == "draft" and after in ("draft.publishing", "active.tendering"):
             if not data.get("noticePublicationDate"):
                 data["noticePublicationDate"] = get_now().isoformat()
+            data["tenderPeriod"]["startDate"] = get_now().isoformat()
+            # "draft.publishing" status is deprecated after PQ bot removing
+            # but we should support this status for some time
+            if after == "draft.publishing":
+                after = data["status"] = "active.tendering"
+
+        # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender
+        if before == "draft.publishing" and after == "active.tendering":
+            self.validate_pre_selection_agreement(data)
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
 
         if before == "draft.unsuccessful" and after != before:
@@ -70,3 +81,45 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
         if template_name:
             data["contractTemplateName"] = template_name
+
+    def has_mismatched_procuring_entities(self, tender, agreement):
+        pass
+
+    def validate_pre_selection_agreement(self, tender):
+        self.validate_profiles(tender)
+        super().validate_pre_selection_agreement(tender)
+
+    def validate_profiles(self, tender):
+        profile_ids = []
+        if "profile" in tender:
+            profile_ids = [tender["profile"]]
+        else:
+            for items in tender.get("items", []):
+                profile_id = items.get("profile")
+                if profile_id:
+                    profile_ids.append(profile_id)
+        if not profile_ids:
+            raise_operation_error(
+                self.request,
+                f"Profiles not found in tender {tender['_id']}",
+                status=422,
+            )
+
+        for profile_id in profile_ids:
+            profile = get_tender_profile(self.request, profile_id)
+            profile_status = profile.get("status")
+            if profile_status not in ("active", "general"):
+                raise_operation_error(
+                    self.request,
+                    f"Profile {profile_id} is not active",
+                    status=422,
+                )
+
+            profile_agreement_id = profile.get("agreementID")
+            tender_agreement_id = tender.get("agreement", {}).get("id")
+            if profile_agreement_id != tender_agreement_id:
+                raise_operation_error(
+                    self.request,
+                    "Tender agreement doesn't match profile agreement",
+                    status=422,
+                )

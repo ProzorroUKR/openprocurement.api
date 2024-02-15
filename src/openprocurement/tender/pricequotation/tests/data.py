@@ -22,6 +22,61 @@ test_agreement_pq_data = {
     "agreementType": "electronicCatalogue",
     "frameworkID": "985a2e3eab47427283a5c51e84d0986d",
     "period": {"startDate": "2021-11-12T00:00:00.318051+02:00", "endDate": "2022-02-24T20:14:24.577158+03:00"},
+    "status": "active",
+    "contracts": [
+        {
+            "id": "eb228ceafee5470ca947af3fc2c03662",
+            "status": "active",
+            "suppliers": [
+                {
+                    "address": {
+                        "countryName": "Україна",
+                        "locality": "м.Київ",
+                        "postalCode": "01100",
+                        "region": "Київська область",
+                        "streetAddress": "бул.Дружби Народів, 8",
+                    },
+                    "contactPoint": {
+                        "email": "contact@pixel.pix",
+                        "name": "Оксана Піксель",
+                        "telephone": "+0671234567",
+                    },
+                    "id": "UA-EDR-12345678",
+                    "identifier": {
+                        "id": "00037256",
+                        "legalName": "Товариство з обмеженою відповідальністю «Пікселі»",
+                        "scheme": "UA-EDR",
+                    },
+                    "name": "Товариство з обмеженою відповідальністю «Пікселі»",
+                    "scale": "large",
+                }
+            ],
+        },
+        {
+            "id": "4dcabeaff7714881a9e2275e3b4eefcc",
+            "status": "active",
+            "suppliers": [
+                {
+                    "address": {
+                        "countryName": "Україна",
+                        "locality": "м.Тернопіль",
+                        "postalCode": "46000",
+                        "region": "Тернопільська область",
+                        "streetAddress": "вул. Кластерна, 777-К",
+                    },
+                    "contactPoint": {"email": "info@shteker.pek", "name": "Олег Штекер", "telephone": "+0951234567"},
+                    "id": "UA-EDR-87654321",
+                    "identifier": {
+                        "id": "87654321",
+                        "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+                        "scheme": "UA-EDR",
+                    },
+                    "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
+                    "scale": "large",
+                }
+            ],
+        },
+    ],
 }
 
 PERIODS = {
@@ -286,7 +341,6 @@ test_tender_pq_cancellation = {
     "cancellationOf": "tender",
 }
 
-
 test_tender_pq_shortlisted_firms = [
     {
         "address": {
@@ -329,7 +383,7 @@ test_tender_pq_shortlisted_firms = [
 ]
 
 test_tender_pq_short_profile = {
-    "classification": {"description": "Комп’ютерне обладнанн", "id": "30230000-0", "scheme": "ДК021"},
+    "classification": {"description": "Комп’ютерне обладнання", "id": "30230000-0", "scheme": "ДК021"},
     "id": "655360-30230000-889652-40000777",
     "unit": {"code": "H87", "name": "штук"},
     "criteria": [
@@ -511,6 +565,8 @@ test_tender_pq_short_profile = {
         },
     ],
     "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+    "status": "active",
+    "agreementID": "2e14a78a2074952d5a2d256c3c004dda",
 }
 
 test_tender_pq_criteria_1 = [
