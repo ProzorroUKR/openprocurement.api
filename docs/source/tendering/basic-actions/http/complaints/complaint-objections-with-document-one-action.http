@@ -76,7 +76,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints/c38ca969e72c4228944236b5e47c18b2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b8a3759c55a76d2cc/complaints/b265f5154e324ed88f04c1c2f343fb51
 
 {
   "data": {
@@ -107,7 +107,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
     "type": "complaint",
     "objections": [
       {
-        "id": "5b87c2dd15e1456aaab535fef8b9d183",
+        "id": "82b22f08092e44559b6730d39209fbf7",
         "title": "My objection",
         "description": "Test objection",
         "relatedItem": "b1b9e2275509420b8a3759c55a76d2cc",
@@ -118,14 +118,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
         },
         "requestedRemedies": [
           {
-            "id": "25319973bca341d5b503a625015a0b84",
+            "id": "b52c92979c224938a82ef0d054106fce",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "23ca561e9f474b2d9be2257468dc4650",
+            "id": "364a8c0107344de693aa776ec538f742",
             "description": "test argument",
             "evidences": [
               {
@@ -154,7 +154,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
         "author": "complaint_owner"
       }
     ],
-    "id": "c38ca969e72c4228944236b5e47c18b2",
+    "id": "b265f5154e324ed88f04c1c2f343fb51",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.3",
     "value": {
@@ -163,8 +163,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
     }
   },
   "access": {
-    "token": "fd1b3357d20a41288a7756edc9778014",
-    "transfer": "aca756e99d894fec80fbc3014683eeef"
+    "token": "a4e7fad4785c4844941bc64b490c3693",
+    "transfer": "5c8878df4ab040459093446550039989"
   }
 }
 

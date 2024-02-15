@@ -39,7 +39,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "e1e5b10f2f544862978912218b1bcb35"
+      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
     },
     {
       "id": "ef0d25ab94dc424fa0a0863235ada151",
@@ -72,7 +72,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "e1e5b10f2f544862978912218b1bcb35"
+      "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
     },
     {
       "id": "e01ef20540ac40c288dcd352b827253a",
@@ -105,7 +105,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "7555abc429b14bd7a5fb385a6c7931c1"
+      "bid_id": "70bec639abd44364ae412469587562fc"
     }
   ]
 }

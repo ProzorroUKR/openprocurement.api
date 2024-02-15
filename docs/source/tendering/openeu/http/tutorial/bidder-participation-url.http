@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/b04806c8aa4b48b0a8f4cc70a7c90406?acc_token=fde267da13974c2782fd1e5539862cd5 HTTP/1.0
+GET /api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/6c9b000bb76043f28a985112442b7301?acc_token=6597f51d6f934ed2b397c0ec9449b9ab HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -145,7 +145,7 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "b04806c8aa4b48b0a8f4cc70a7c90406",
+    "id": "6c9b000bb76043f28a985112442b7301",
     "date": "2023-10-10T01:00:00+03:00",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
@@ -158,12 +158,12 @@ Content-Type: application/json
         "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d919e3a12bf04f32b88a651dc10270d1_f593b0ce6a334393bfba269562fa3ac9?key_for_bid=b04806c8aa4b48b0a8f4cc70a7c90406"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d919e3a12bf04f32b88a651dc10270d1_f593b0ce6a334393bfba269562fa3ac9?key_for_bid=6c9b000bb76043f28a985112442b7301"
       }
     ],
     "documents": [
       {
-        "id": "823bca8468c042769ffa3dc16856b254",
+        "id": "ae8d96543ba34a529fa7f78d47e9f117",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -175,12 +175,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "a5d48d3ad854499a8fa565529a3675b1",
+        "id": "eec758b95e1e457580e2d42e00dc35be",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/b04806c8aa4b48b0a8f4cc70a7c90406/documents/a5d48d3ad854499a8fa565529a3675b1?download=0529d526671941f9a44290ac0e5c9891",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/6c9b000bb76043f28a985112442b7301/documents/eec758b95e1e457580e2d42e00dc35be?download=0529d526671941f9a44290ac0e5c9891",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -190,7 +190,7 @@ Content-Type: application/json
     ],
     "financialDocuments": [
       {
-        "id": "8d9ece856faf461091bda725a2865547",
+        "id": "0821d67b00c64d279b3f994b4eb95489",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -202,7 +202,7 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "d4d5cd9b4a3844e7a38552c6ee40e03b",
+        "id": "8b16c859ca1941b4b0382c7fbbd3295c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
@@ -216,7 +216,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "151b2c095b84451ca42fc6c41ede9b38",
+        "id": "b6ffa95f9ff1421191b35c6e3674d041",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -230,7 +230,7 @@ Content-Type: application/json
     ],
     "qualificationDocuments": [
       {
-        "id": "4e655e5785d14fc183b5d999f72e8228",
+        "id": "5c988473921144a7b2708b48298a674f",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/676ef3ed979f4dc8a98ced89957a8d0d/questions/44a0794ad1184a479f5bda8114251f01 HTTP/1.0
+GET /api/2.5/frameworks/35008f9caa6a4a14ab84e533c36ed857/questions/98f0b83be00647dbbc556ef130e6f0f6 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "44a0794ad1184a479f5bda8114251f01",
+    "id": "98f0b83be00647dbbc556ef130e6f0f6",
     "author": {
       "name": "ДКП «Книга»",
       "identifier": {

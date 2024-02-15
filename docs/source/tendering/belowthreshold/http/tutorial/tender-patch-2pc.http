@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4eb4997a4b3c4730b0d0c29dffe3fbcf?acc_token=fd0861d407194d3090e202a607cf2a08 HTTP/1.0
+PATCH /api/2.5/tenders/757dd278bae24bd89b207b4ed11a4496?acc_token=41ea9ff1688a4270b3759cae1b82df73 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -104,7 +104,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "80b42eef17894c31b8612a630033cb5a",
+        "id": "74c6d05cb02c444e908446d55a2de7f3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -143,7 +143,7 @@ Content-Type: application/json
       "endDate": "2023-10-17T00:00:00+02:00"
     },
     "next_check": "2023-10-17T00:00:00+02:00",
-    "id": "4eb4997a4b3c4730b0d0c29dffe3fbcf"
+    "id": "757dd278bae24bd89b207b4ed11a4496"
   },
   "config": {
     "hasAuction": true,
