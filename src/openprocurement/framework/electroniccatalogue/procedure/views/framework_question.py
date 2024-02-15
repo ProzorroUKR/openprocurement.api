@@ -1,6 +1,9 @@
 from cornice.resource import resource
+
 from openprocurement.framework.core.procedure.views.question import CoreQuestionResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 
 
 @resource(

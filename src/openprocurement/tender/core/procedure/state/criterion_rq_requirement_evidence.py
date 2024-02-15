@@ -1,12 +1,12 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
-    RequirementValidationsMixin,
     BaseCriterionStateMixin,
+    RequirementValidationsMixin,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
+from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 
 
 class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):

@@ -1,5 +1,7 @@
+from openprocurement.tender.openua.procedure.state.cancellation import (
+    OpenUACancellationStateMixing,
+)
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
-from openprocurement.tender.openua.procedure.state.cancellation import OpenUACancellationStateMixing
 
 
 class OpenEUCancellationStateMixing(OpenUACancellationStateMixing):

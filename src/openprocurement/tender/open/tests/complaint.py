@@ -2,40 +2,43 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
-    test_tender_below_draft_complaint,
     test_tender_below_author,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-
-from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest, test_tender_open_bids
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_open_bids,
+)
 from openprocurement.tender.open.tests.complaint_blanks import (
-    create_tender_complaint,
-    patch_tender_complaint,
-    review_tender_complaint,
-    review_tender_stopping_complaint,
-    mistaken_status_tender_complaint,
     bot_patch_tender_complaint,
-    bot_patch_tender_complaint_mistaken,
     bot_patch_tender_complaint_forbidden,
-    patch_tender_complaint_document,
-    put_tender_complaint_document,
-    create_tender_lot_complaint,
+    bot_patch_tender_complaint_mistaken,
     create_complaint_objection_validation,
-    patch_complaint_objection,
-    objection_related_item_equals_related_lot,
-    objection_related_item_equals_related_cancellation,
+    create_tender_complaint,
+    create_tender_lot_complaint,
+    mistaken_status_tender_complaint,
     objection_related_award_statuses,
     objection_related_document_of_evidence,
+    objection_related_item_equals_related_cancellation,
+    objection_related_item_equals_related_lot,
+    patch_complaint_objection,
+    patch_tender_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
+    review_tender_complaint,
+    review_tender_stopping_complaint,
 )
 
 

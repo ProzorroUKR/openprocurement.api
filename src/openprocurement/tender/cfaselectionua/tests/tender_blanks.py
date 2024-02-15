@@ -1,36 +1,36 @@
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
-from openprocurement.api.utils import get_now
+from uuid import uuid4
+
+from openprocurement.api.constants import RELEASE_2020_04_19, ROUTE_PREFIX, SANDBOX_MODE
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.constants import (
-    ROUTE_PREFIX,
-    SANDBOX_MODE,
-)
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
     test_tender_below_cancellation,
+    test_tender_below_claim,
 )
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.tender.core.tests.cancellation import (
-    activate_cancellation_without_complaints_after_2020_04_19,
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    get_contract_data,
 )
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
-    MIN_PERIOD_UNTIL_AGREEMENT_END,
     MIN_ACTIVE_CONTRACTS,
+    MIN_PERIOD_UNTIL_AGREEMENT_END,
     TENDERING_DURATION,
 )
-from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
 from openprocurement.tender.cfaselectionua.tests.base import (
-    test_tender_cfaselectionua_organization,
     test_tender_cfaselectionua_features,
+    test_tender_cfaselectionua_organization,
 )
+from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_without_complaints_after_2020_04_19,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 
 def listing(self):

@@ -1,58 +1,59 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
+import mock
 
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
-    create_tender_lots_cancellation,
-    patch_tender_lots_cancellation,
     create_tender_lot_cancellation,
+    create_tender_lots_cancellation,
     patch_tender_lot_cancellation,
+    patch_tender_lots_cancellation,
 )
-from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
-    TenderCancellationComplaintResourceTestMixin,
-    TenderAwardsCancellationResourceTestMixin,
-)
-
-from openprocurement.tender.openua.tests.cancellation_blanks import (
-    create_tender_cancellation,
-    patch_tender_cancellation,
-    access_create_tender_cancellation_complaint,
-    activate_cancellation,
-    create_cancellation_in_award_complaint_period,
-    create_tender_cancellation_with_cancellation_lots,
-)
-
-from openprocurement.tender.openeu.tests.cancellation import TenderCancellationBidsAvailabilityUtils
-from openprocurement.tender.openeu.tests.cancellation_blanks import (
-    cancellation_active_qualification,
-    cancellation_unsuccessful_qualification,
-    cancellation_active_award,
-    cancellation_unsuccessful_award,
-    cancellation_active_tendering_j708,
-    cancellation_active_qualification_j1427,
-    bids_on_tender_cancellation_in_tendering,
-    bids_on_tender_cancellation_in_pre_qualification,
-    bids_on_tender_cancellation_in_pre_qualification_stand_still,
-    bids_on_tender_cancellation_in_auction,
-    bids_on_tender_cancellation_in_qualification,
-    bids_on_tender_cancellation_in_awarded,
-    create_cancellation_in_qualification_complaint_period,
-)
-
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_esco_bids,
     test_tender_esco_lots,
+)
+from openprocurement.tender.openeu.tests.cancellation import (
+    TenderCancellationBidsAvailabilityUtils,
+)
+from openprocurement.tender.openeu.tests.cancellation_blanks import (
+    bids_on_tender_cancellation_in_auction,
+    bids_on_tender_cancellation_in_awarded,
+    bids_on_tender_cancellation_in_pre_qualification,
+    bids_on_tender_cancellation_in_pre_qualification_stand_still,
+    bids_on_tender_cancellation_in_qualification,
+    bids_on_tender_cancellation_in_tendering,
+    cancellation_active_award,
+    cancellation_active_qualification,
+    cancellation_active_qualification_j1427,
+    cancellation_active_tendering_j708,
+    cancellation_unsuccessful_award,
+    cancellation_unsuccessful_qualification,
+    create_cancellation_in_qualification_complaint_period,
+)
+from openprocurement.tender.openua.tests.cancellation import (
+    TenderAwardsCancellationResourceTestMixin,
+    TenderCancellationComplaintResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
+)
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    access_create_tender_cancellation_complaint,
+    activate_cancellation,
+    create_cancellation_in_award_complaint_period,
+    create_tender_cancellation,
+    create_tender_cancellation_with_cancellation_lots,
+    patch_tender_cancellation,
 )
 
 

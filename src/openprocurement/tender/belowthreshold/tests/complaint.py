@@ -2,26 +2,25 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_tender_below_lots,
-    test_tender_below_draft_claim,
     test_tender_below_author,
+    test_tender_below_draft_claim,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    create_tender_complaint_invalid,
     create_tender_complaint,
-    patch_tender_complaint,
-    review_tender_complaint,
+    create_tender_complaint_document,
+    create_tender_complaint_invalid,
     get_tender_complaint,
     get_tender_complaints,
     lot_award_create_tender_complaint,
     not_found,
-    create_tender_complaint_document,
-    put_tender_complaint_document,
+    patch_tender_complaint,
     patch_tender_complaint_document,
     patch_tender_complaint_without_clarifications_until,
+    put_tender_complaint_document,
+    review_tender_complaint,
 )
 
 

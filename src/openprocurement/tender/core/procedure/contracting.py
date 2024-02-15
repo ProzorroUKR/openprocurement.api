@@ -1,20 +1,19 @@
-from uuid import uuid4
-from typing import List, Dict
-
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_award,
-)
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
-from openprocurement.api.utils import get_contract_by_id, request_init_contract
-from openprocurement.tender.core.procedure.utils import is_new_contracting
-from openprocurement.contracting.econtract.procedure.models.contract import PostContract
-from openprocurement.contracting.core.procedure.utils import save_contract
 from collections import defaultdict
 from copy import deepcopy
 from logging import getLogger
+from typing import Dict, List
+from uuid import uuid4
+
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import get_contract_by_id, request_init_contract
+from openprocurement.contracting.core.procedure.utils import save_contract
+from openprocurement.contracting.econtract.procedure.models.contract import PostContract
+from openprocurement.tender.belowthreshold.procedure.utils import (
+    prepare_tender_item_for_contract,
+)
+from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.utils import is_new_contracting
 
 LOGGER = getLogger(__name__)
 

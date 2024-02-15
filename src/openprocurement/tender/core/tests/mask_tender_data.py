@@ -1,14 +1,13 @@
+import json
+from copy import deepcopy
 from hashlib import sha224
 from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now
 from openprocurement.api.mask import MASK_STRING
-from openprocurement.api.tests.base import singleton_app, app, change_auth
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from unittest.mock import patch, MagicMock
-from copy import deepcopy
-import json
-
+from openprocurement.api.tests.base import app, change_auth, singleton_app
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
 

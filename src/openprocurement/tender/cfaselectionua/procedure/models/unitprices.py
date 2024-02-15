@@ -1,5 +1,6 @@
 from schematics.types import FloatType, StringType
 from schematics.types.compound import ModelType
+
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value as BaseValue
 

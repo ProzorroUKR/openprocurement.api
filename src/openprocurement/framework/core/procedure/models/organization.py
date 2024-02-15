@@ -1,15 +1,23 @@
 from schematics.types import StringType
 
 from openprocurement.api.constants import SCALE_CODES
-from openprocurement.api.procedure.types import ModelType
-from openprocurement.api.procedure.models.contact import ContactPoint as BaseContactPoint
+from openprocurement.api.procedure.models.contact import (
+    ContactPoint as BaseContactPoint,
+)
 from openprocurement.api.procedure.models.organization import (
-    Organization as BaseOrganization,
     BusinessOrganization as BaseBusinessOrganization,
 )
-from openprocurement.framework.core.procedure.models.address import FullAddress, Address
-from openprocurement.framework.core.procedure.models.contact import SubmissionContactPoint
-from openprocurement.framework.core.procedure.models.identifier import SubmissionIdentifier
+from openprocurement.api.procedure.models.organization import (
+    Organization as BaseOrganization,
+)
+from openprocurement.api.procedure.types import ModelType
+from openprocurement.framework.core.procedure.models.address import Address, FullAddress
+from openprocurement.framework.core.procedure.models.contact import (
+    SubmissionContactPoint,
+)
+from openprocurement.framework.core.procedure.models.identifier import (
+    SubmissionIdentifier,
+)
 
 
 class Organization(BaseOrganization):

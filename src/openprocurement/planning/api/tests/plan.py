@@ -1,61 +1,55 @@
 # -*- coding: utf-8 -*-
 import unittest
-import mock
+from copy import deepcopy
 from datetime import timedelta
 
-from copy import deepcopy
+import mock
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
-from openprocurement.planning.api.tests.base import test_plan_data, BasePlanTest
-from openprocurement.planning.api.tests.plan_blanks import (
-    # PlanTest
-    concurrent_plan_update,
-    # AccreditationPlanTest
-    create_plan_accreditation,
-    # PlanResourceTest
-    empty_listing,
-    listing,
-    listing_moves_from_dts,
-    create_plan_invalid,
-    create_plan_generated,
-    create_plan,
-    get_plan,
-    patch_plan,
-    patch_plan_to_simpledefense,
-    patch_plan_to_openuadefense,
-    patch_plan_with_token,
-    patch_plan_item_quantity,
-    plan_token_invalid,
-    plan_not_found,
-    esco_plan,
+from openprocurement.planning.api.tests.base import BasePlanTest, test_plan_data
+from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; AccreditationPlanTest; PlanResourceTest; PlanBudgetBreakdownTest; PlanResourceBeforeBudgetPeriodTest; Plan Buyers
     cfaua_plan,
-    plan_rationale,
-    # PlanBudgetBreakdownTest
+    concurrent_plan_update,
+    create_plan,
+    create_plan_accreditation,
+    create_plan_budget_year,
+    create_plan_generated,
+    create_plan_invalid,
+    create_plan_invalid_buyers,
+    create_plan_invalid_procurement_method_type,
+    create_plan_invalid_procuring_entity,
     create_plan_with_breakdown,
-    patch_plan_with_breakdown,
-    fail_create_plan_with_breakdown_invalid_title,
+    create_plan_with_breakdown_not_required,
     create_plan_with_breakdown_other_title,
-    fail_create_plan_with_breakdown_other_title,
-    fail_create_plan_with_diff_breakdown_currencies,
-    fail_create_plan_with_amounts_sum_greater,
+    create_plan_with_breakdown_required,
+    create_plan_with_buyers,
     create_plan_with_delivery_address,
     create_plan_with_delivery_address_required_fields,
     create_plan_with_delivery_address_validations,
     create_plan_with_profile,
-    # PlanResourceBeforeBudgetPeriodTest
-    create_plan_budget_year,
-    patch_plan_budget_year,
-    # Plan Buyers
-    create_plan_without_buyers,
-    fail_create_plan_without_buyers,
-    create_plan_with_buyers,
     create_plan_with_two_buyers,
-    create_plan_with_breakdown_required,
-    create_plan_with_breakdown_not_required,
-    create_plan_invalid_procuring_entity,
-    create_plan_invalid_buyers,
-    create_plan_invalid_procurement_method_type,
+    create_plan_without_buyers,
+    empty_listing,
+    esco_plan,
+    fail_create_plan_with_amounts_sum_greater,
+    fail_create_plan_with_breakdown_invalid_title,
+    fail_create_plan_with_breakdown_other_title,
+    fail_create_plan_with_diff_breakdown_currencies,
+    fail_create_plan_without_buyers,
+    get_plan,
+    listing,
+    listing_moves_from_dts,
+    patch_plan,
+    patch_plan_budget_year,
+    patch_plan_item_quantity,
+    patch_plan_to_openuadefense,
+    patch_plan_to_simpledefense,
+    patch_plan_with_breakdown,
+    patch_plan_with_token,
+    plan_not_found,
+    plan_rationale,
+    plan_token_invalid,
 )
 
 test_plan_data_mode_test = test_plan_data.copy()

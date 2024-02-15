@@ -1,48 +1,51 @@
-from openprocurement.api.utils import json_view
+from cornice.resource import resource
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.auth import ACCR_5, ACCR_COMPETITIVE
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.views.tender import TendersResource
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_DEFAULT_CONFIG,
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_DEFAULT_CONFIG,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
+    BotPatchTender,
+    EUTender,
+    PatchEUTender,
+    PatchUATender,
+    PostEUTender,
+    PostUATender,
+    UATender,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
-)
-from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
-    PostEUTender,
-    PatchEUTender,
-    EUTender,
-    PostUATender,
-    PatchUATender,
-    UATender,
-    BotPatchTender,
-)
-from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-    STAGE_2_EU_DEFAULT_CONFIG,
-    STAGE_2_UA_DEFAULT_CONFIG,
 )
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     unless_cd_bridge,
     validate_cd2_allowed_patch_fields,
 )
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_allows_update,
     validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_status_allows_update,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_administrator,
-    unless_admins,
-    validate_accreditation_level,
-)
-from cornice.resource import resource
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
 def stage2_acl():

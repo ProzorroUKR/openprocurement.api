@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
+from copy import deepcopy
 from datetime import timedelta
-from openprocurement.api.utils import get_now
+
+from freezegun import freeze_time
+from mock import patch
+
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.procedure.models.cancellation import PostCancellation
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from freezegun import freeze_time
-from copy import deepcopy
-from mock import patch
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))

@@ -1,5 +1,5 @@
-from openprocurement.api.database import BaseCollection
 from openprocurement.api.context import get_db_session
+from openprocurement.api.database import BaseCollection
 
 
 class PlanCollection(BaseCollection):

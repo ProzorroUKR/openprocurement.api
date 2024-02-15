@@ -2,29 +2,29 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
-from openprocurement.tender.openua.tests.bid import TenderBidResourceTestMixin, TenderBidDocumentWithDSResourceTestMixin
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidResourceTestMixin,
+)
 from openprocurement.tender.openua.tests.bid_blanks import (
     features_bidder,
     patch_tender_with_bids_lots_none,
 )
-
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_openuadefense_features_data,
     test_tender_openuadefense_bids,
+    test_tender_openuadefense_features_data,
 )
 
 

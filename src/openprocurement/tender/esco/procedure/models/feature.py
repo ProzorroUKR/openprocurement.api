@@ -1,11 +1,12 @@
-from openprocurement.tender.core.procedure.models.feature import (
-    FeatureValue as BaseFeatureValue,
-    Feature as BaseFeature,
-)
-from openprocurement.api.procedure.validation import validate_values_uniq
-from openprocurement.api.procedure.types import ListType
 from schematics.types import FloatType
 from schematics.types.compound import ModelType
+
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.validation import validate_values_uniq
+from openprocurement.tender.core.procedure.models.feature import Feature as BaseFeature
+from openprocurement.tender.core.procedure.models.feature import (
+    FeatureValue as BaseFeatureValue,
+)
 
 
 class FeatureValue(BaseFeatureValue):

@@ -9,8 +9,10 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.utils import (
+    get_framework_unsuccessful_status_check_date,
+)
 from openprocurement.framework.dps.procedure.models.framework import Framework
-from openprocurement.framework.core.utils import get_framework_unsuccessful_status_check_date
 
 
 def simple_add_framework(self):

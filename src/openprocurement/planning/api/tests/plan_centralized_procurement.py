@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
-from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
-from openprocurement.planning.api.procedure.models.milestone import Milestone
-from openprocurement.planning.api.constants import MILESTONE_APPROVAL_TITLE, MILESTONE_APPROVAL_DESCRIPTION
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
-from datetime import timedelta, datetime
 from copy import deepcopy
+from datetime import datetime, timedelta
 from uuid import uuid4
+
 import pytest
 
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.planning.api.constants import (
+    MILESTONE_APPROVAL_DESCRIPTION,
+    MILESTONE_APPROVAL_TITLE,
+)
+from openprocurement.planning.api.procedure.models.milestone import Milestone
+from openprocurement.planning.api.tests.base import (
+    app,
+    generate_docservice_url,
+    singleton_app,
+    test_plan_data,
+)
 
 milestone_author = {
     "id": "1" * 32,

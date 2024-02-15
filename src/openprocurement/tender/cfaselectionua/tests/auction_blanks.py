@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 from openprocurement.api.utils import get_now
 
-
 # TenderAuctionResourceTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
 
 
 def get_tender_auction_not_found(self):

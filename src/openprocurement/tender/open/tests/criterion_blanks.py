@@ -5,14 +5,14 @@ from datetime import timedelta
 import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_criteria
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
-    test_requirement_groups,
     test_language_criteria,
     test_lcc_lot_criteria,
+    test_requirement_groups,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
 
 def create_tender_criteria_valid(self):

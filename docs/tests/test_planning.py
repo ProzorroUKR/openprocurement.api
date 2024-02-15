@@ -2,18 +2,17 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from openprocurement.planning.api.tests.base import BasePlanWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+
+from tests.base.constants import DOCS_URL
 from tests.base.data import (
     test_docs_plan_data,
-    test_docs_tender_openeu,
     test_docs_tender_below,
+    test_docs_tender_openeu,
 )
-from tests.base.constants import DOCS_URL
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
+from openprocurement.planning.api.tests.base import BasePlanWebTest
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
 TARGET_DIR = 'docs/source/planning/tutorial/'
 

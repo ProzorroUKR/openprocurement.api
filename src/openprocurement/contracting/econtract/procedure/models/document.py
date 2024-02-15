@@ -1,11 +1,14 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.procedure.context import get_tender, get_contract
-
+from openprocurement.api.procedure.context import get_contract, get_tender
+from openprocurement.contracting.core.procedure.models.document import (
+    Document as BaseDocument,
+)
+from openprocurement.contracting.core.procedure.models.document import (
+    PatchDocument as BasePatchDocument,
+)
 from openprocurement.contracting.core.procedure.models.document import (
     PostDocument as BasePostDocument,
-    PatchDocument as BasePatchDocument,
-    Document as BaseDocument,
 )
 
 

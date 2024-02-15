@@ -1,17 +1,21 @@
-from datetime import timedelta, datetime
 from copy import deepcopy
+from datetime import datetime, timedelta
+
 from freezegun import freeze_time
 
+from openprocurement.api.constants import TZ
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.api.constants import TZ
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
-from openprocurement.tender.openua.tests.base import test_tender_openua_bids, test_tender_openua_data
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_bids,
+    test_tender_openua_data,
+)
 
 # TenderUAResourceTest
 

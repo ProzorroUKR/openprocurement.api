@@ -1,48 +1,52 @@
 import unittest
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_cancellation
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     create_tender_lots_cancellation,
+    patch_tender_lot_cancellation,
 )
-from openprocurement.tender.open.tests.cancellation_blanks import create_tender_lots_cancellation_complaint
-
+from openprocurement.tender.open.tests.cancellation_blanks import (
+    create_tender_lots_cancellation_complaint,
+)
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
+    access_create_tender_cancellation_complaint,
+    activate_cancellation,
+    bot_patch_tender_cancellation_complaint,
     cancellation_active_award,
     cancellation_unsuccessful_award,
-    create_tender_cancellation,
-    create_cancellation_with_tender_complaint,
+    create_cancellation_in_award_complaint_period,
     create_cancellation_with_award_complaint,
-    patch_tender_cancellation,
-    create_tender_cancellation_before_19_04_2020,
-    patch_tender_cancellation_before_19_04_2020,
+    create_cancellation_with_tender_complaint,
+    create_lot_cancellation_with_tender_cancellation,
+    create_tender_cancellation,
     create_tender_cancellation_2020_04_19,
+    create_tender_cancellation_before_19_04_2020,
+    create_tender_cancellation_complaint,
+    create_tender_cancellation_with_cancellation_lots,
+    get_tender_cancellation_complaints,
+    patch_tender_cancellation,
     patch_tender_cancellation_2020_04_19,
     patch_tender_cancellation_2020_04_19_to_pending,
-    permission_cancellation_pending,
-    activate_cancellation,
-    create_tender_cancellation_complaint,
+    patch_tender_cancellation_before_19_04_2020,
     patch_tender_cancellation_complaint,
-    get_tender_cancellation_complaints,
-    access_create_tender_cancellation_complaint,
-    create_cancellation_in_award_complaint_period,
-    create_tender_cancellation_with_cancellation_lots,
-    create_lot_cancellation_with_tender_cancellation,
-    bot_patch_tender_cancellation_complaint,
+    permission_cancellation_pending,
 )
 
 

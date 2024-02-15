@@ -1,22 +1,34 @@
 from cornice.resource import resource
 
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_input_data,
+    validate_patch_data,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.qualification import PatchQualification
+from openprocurement.framework.core.procedure.models.qualification import (
+    PatchQualification,
+)
 from openprocurement.framework.core.procedure.validation import (
-    validate_framework_owner,
     validate_action_in_not_allowed_framework_status,
+    validate_framework_owner,
     validate_update_qualification_in_not_allowed_status,
 )
-from openprocurement.framework.core.procedure.views.qualification import QualificationsResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.framework.electroniccatalogue.procedure.models.qualification import Qualification
+from openprocurement.framework.core.procedure.views.qualification import (
+    QualificationsResource,
+)
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
+from openprocurement.framework.electroniccatalogue.procedure.models.qualification import (
+    Qualification,
+)
 from openprocurement.framework.electroniccatalogue.procedure.state.framework import (
     ElectronicDialogueFrameworkState,
 )
 from openprocurement.framework.electroniccatalogue.procedure.state.qualification import (
     ElectronicDialogueQualificationState,
 )
-from openprocurement.api.procedure.validation import validate_patch_data, validate_input_data, unless_administrator
 
 
 @resource(

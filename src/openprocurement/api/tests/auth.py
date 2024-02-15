@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 import unittest
-from pyramid import testing
-from openprocurement.api.auth import AuthenticationPolicy
 from hashlib import sha512
+
+from pyramid import testing
 from pyramid.compat import bytes_
+
+from openprocurement.api.auth import AuthenticationPolicy
 
 
 class AuthTest(unittest.TestCase):
@@ -18,8 +20,8 @@ class AuthTest(unittest.TestCase):
         return cls
 
     def test_class_implements_IAuthenticationPolicy(self):
-        from zope.interface.verify import verifyClass
         from pyramid.interfaces import IAuthenticationPolicy
+        from zope.interface.verify import verifyClass
 
         verifyClass(IAuthenticationPolicy, self._getTargetClass())
 

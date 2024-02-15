@@ -1,13 +1,15 @@
-from openprocurement.tender.simpledefense.tests.award import TenderAwardPendingResourceTestCase
-from openprocurement.tender.simpledefense.tests.base import (
-    BaseSimpleDefContentWebTest,
-    test_tender_simpledefense_bids,
-)
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestone24HMixin,
     TenderAwardMilestoneALPMixin,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.simpledefense.tests.award import (
+    TenderAwardPendingResourceTestCase,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    BaseSimpleDefContentWebTest,
+    test_tender_simpledefense_bids,
 )
 
 

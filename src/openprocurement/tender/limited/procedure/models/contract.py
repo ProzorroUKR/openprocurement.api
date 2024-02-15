@@ -1,11 +1,16 @@
+from schematics.exceptions import ValidationError
+
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contract import (
-    PatchContract as BasePatchContract,
     Contract as BaseContract,
 )
-from openprocurement.tender.core.procedure.models.organization import ContactLessBusinessOrganization
-from openprocurement.api.context import get_now
-from schematics.exceptions import ValidationError
-from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContract as BasePatchContract,
+)
+from openprocurement.tender.core.procedure.models.organization import (
+    ContactLessBusinessOrganization,
+)
 
 
 class ReportingContract(BaseContract):

@@ -4,64 +4,61 @@ from copy import deepcopy
 from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_value
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_tender_cdua_stage2_data,
-    test_tender_cdeu_stage2_data,
-    test_tender_cd_author,
     BaseCompetitiveDialogEUStage2WebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cd_author,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_stage2_data,
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_lots,
-    test_tender_openeu_bids,
-)
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_value,
-)
-from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.competitivedialogue.tests.stage2.lot_blanks import (
-    create_tender_lot_invalid,
-    patch_tender_lot,
+    create_tender_bidder_invalid,
     create_tender_lot,
-    patch_tender_currency,
-    patch_tender_vat,
+    create_tender_lot_invalid,
+    create_tender_with_features_bidder,
+    create_tender_with_features_bidder_invalid,
+    delete_tender_lot,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
-    tender_lot_guarantee,
-    tender_lot_guarantee_v2,
-    patch_tender_bidder,
-    create_tender_bidder_invalid,
-    create_tender_with_features_bidder_invalid,
-    create_tender_with_features_bidder,
     one_lot_0bid,
+    one_lot_0bid_ua,
     one_lot_1bid,
-    one_lot_2bid_1un,
+    one_lot_1bid_patch_ua,
     one_lot_2bid,
-    two_lot_2bid_1lot_del,
+    one_lot_2bid_1un,
+    one_lot_2bid_ua,
     one_lot_3bid_1del,
     one_lot_3bid_1un,
+    one_lot_3bid_1un_ua,
+    patch_tender_bidder,
+    patch_tender_bidder_ua,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_vat,
+    tender_lot_guarantee,
+    tender_lot_guarantee_v2,
     two_lot_0bid,
-    two_lot_2can,
+    two_lot_0bid_ua,
+    two_lot_1bid_0com_0win_ua,
+    two_lot_1bid_0com_1can_ua,
+    two_lot_1bid_1com_1win_ua,
+    two_lot_1bid_2com_1win_ua,
     two_lot_1can,
     two_lot_2bid_0com_1can,
+    two_lot_2bid_1lot_del,
     two_lot_2bid_2com_2win,
-    patch_tender_bidder_ua,
-    one_lot_1bid_patch_ua,
-    two_lot_1bid_0com_1can_ua,
-    two_lot_1bid_2com_1win_ua,
-    two_lot_1bid_0com_0win_ua,
-    two_lot_1bid_1com_1win_ua,
     two_lot_2bid_2com_2win_ua,
-    one_lot_3bid_1un_ua,
-    one_lot_2bid_ua,
-    one_lot_0bid_ua,
-    two_lot_0bid_ua,
+    two_lot_2can,
 )
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_bids,
+    test_tender_openeu_data,
+    test_tender_openeu_lots,
+)
+from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 
 
 class TenderStage2EULotResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):

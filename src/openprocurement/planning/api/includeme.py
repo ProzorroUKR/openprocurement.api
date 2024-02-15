@@ -1,6 +1,7 @@
+from logging import getLogger
+
 from openprocurement.planning.api.database import PlanCollection
 from openprocurement.planning.api.utils import extract_plan_doc
-from logging import getLogger
 
 LOGGER = getLogger("openprocurement.planning.api")
 

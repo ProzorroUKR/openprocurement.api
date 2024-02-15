@@ -1,11 +1,11 @@
 from datetime import timedelta
 
 from openprocurement.tender.cfaselectionua.constants import (
+    AUCTION_DURATION,
+    CLARIFICATIONS_DURATION,
+    COMPLAINT_DURATION,
     ENQUIRY_PERIOD,
     TENDERING_DURATION,
-    AUCTION_DURATION,
-    COMPLAINT_DURATION,
-    CLARIFICATIONS_DURATION,
 )
 
 PERIODS = {

@@ -3,21 +3,30 @@ from cornice.resource import resource
 
 from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.api.procedure.validation import (
-    validate_input_data_from_resolved_model,
-    validate_patch_data,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
     validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_input_data_from_resolved_model,
+    validate_item_owner,
+    validate_patch_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.framework import FrameworkConfig
-from openprocurement.framework.core.procedure.validation import unless_administrator_or_chronograph
+from openprocurement.framework.core.procedure.validation import (
+    unless_administrator_or_chronograph,
+)
 from openprocurement.framework.core.procedure.views.framework import FrameworksResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.framework.electroniccatalogue.procedure.models.framework import Framework, PostFramework
-from openprocurement.framework.electroniccatalogue.procedure.state.framework import ElectronicDialogueFrameworkState
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
+from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
+    Framework,
+    PostFramework,
+)
+from openprocurement.framework.electroniccatalogue.procedure.state.framework import (
+    ElectronicDialogueFrameworkState,
+)
 
 
 @resource(

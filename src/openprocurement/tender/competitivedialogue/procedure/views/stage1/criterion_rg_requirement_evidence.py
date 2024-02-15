@@ -1,13 +1,15 @@
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import BaseEligibleEvidenceResource
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     CDEligibleEvidenceState,
 )
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
+    BaseEligibleEvidenceResource,
+)
 
 
 class BaseCDEligibleEvidenceResource(BaseEligibleEvidenceResource):

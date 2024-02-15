@@ -1,8 +1,9 @@
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.database import BaseCollection
-from pymongo import IndexModel, ASCENDING
 import logging
 
+from pymongo import ASCENDING, IndexModel
+
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.database import BaseCollection
 
 logger = logging.getLogger(__name__)
 

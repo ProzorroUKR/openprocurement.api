@@ -1,9 +1,9 @@
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_item_operation_in_disallowed_tender_statuses,
 )
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.validation import OPERATIONS
 
 
 # award

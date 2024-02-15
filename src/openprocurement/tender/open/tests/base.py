@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
-
-from datetime import timedelta
 from copy import deepcopy
-from openprocurement.api.constants import SANDBOX_MODE
+from datetime import timedelta
+
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
+    test_tender_below_bids,
     test_tender_below_data,
     test_tender_below_features_data,
-    test_tender_below_bids,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers

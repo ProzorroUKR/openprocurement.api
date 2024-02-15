@@ -6,7 +6,7 @@ from uuid import uuid4
 
 import pytz
 from ciso8601 import parse_datetime
-from jsonpatch import make_patch, apply_patch
+from jsonpatch import apply_patch, make_patch
 
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import CPV_PHARM_PRODUCTS

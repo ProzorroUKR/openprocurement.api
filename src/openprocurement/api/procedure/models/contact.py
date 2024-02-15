@@ -1,8 +1,10 @@
+import re
+
+from schematics.types import EmailType, StringType
+from schematics.validate import ValidationError
+
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import URLType
-from schematics.types import StringType, EmailType
-from schematics.validate import ValidationError
-import re
 
 
 class ContactPoint(Model):

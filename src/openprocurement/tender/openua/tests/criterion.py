@@ -1,46 +1,43 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from mock import patch
 from datetime import timedelta
+
+from mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_data,
 )
-from openprocurement.tender.openua.tests.criterion_blanks import (
-    create_tender_criteria_valid,
-    create_tender_criteria_invalid,
-    patch_tender_criteria_valid,
-    patch_tender_criteria_invalid,
-    get_tender_criteria,
+from openprocurement.tender.openua.tests.criterion_blanks import (  # RequirementGroup; Requirement; Evidence
     activate_tender,
-    lcc_criterion_valid,
-    lcc_criterion_invalid,
-    # RequirementGroup
     create_criteria_rg,
-    patch_criteria_rg,
-    get_criteria_rg,
-    # Requirement
-    create_rg_requirement_valid,
-    create_rg_requirement_invalid,
-    patch_rg_requirement,
-    get_rg_requirement,
-    # Evidence
-    create_requirement_evidence_valid,
-    create_requirement_evidence_invalid,
-    patch_requirement_evidence,
-    delete_requirement_evidence,
-    get_requirement_evidence,
-    validate_requirement_evidence_document,
     create_patch_delete_evidences_from_requirement,
-    put_rg_requirement_valid,
+    create_requirement_evidence_invalid,
+    create_requirement_evidence_valid,
+    create_rg_requirement_invalid,
+    create_rg_requirement_valid,
+    create_tender_criteria_invalid,
+    create_tender_criteria_valid,
+    delete_requirement_evidence,
+    get_criteria_rg,
+    get_requirement_evidence,
+    get_rg_requirement,
+    get_tender_criteria,
+    lcc_criterion_invalid,
+    lcc_criterion_valid,
+    patch_criteria_rg,
+    patch_requirement_evidence,
+    patch_rg_requirement,
+    patch_tender_criteria_invalid,
+    patch_tender_criteria_valid,
     put_rg_requirement_invalid,
+    put_rg_requirement_valid,
+    validate_requirement_evidence_document,
 )
 
 

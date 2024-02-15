@@ -1,19 +1,26 @@
-from unittest.mock import patch
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_lots,
+)
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE,
+    CD_UA_TYPE,
+    FEATURES_MAX_SUM,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_tender_cd_stage1_bids,
+)
 from openprocurement.tender.core.tests.utils import change_auth
-
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.tender.competitivedialogue.tests.base import test_tender_cd_stage1_bids
 from openprocurement.tender.core.utils import calculate_tender_business_date
 
 

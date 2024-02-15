@@ -3,8 +3,11 @@ from email.header import Header
 
 # TenderDocumentResourceTest
 from mock import patch
+
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
 from openprocurement.tender.core.tests.base import bad_rs_request, srequest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
 
 
 def not_found(self):

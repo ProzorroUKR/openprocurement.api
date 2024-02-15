@@ -3,9 +3,13 @@ from typing import List, Tuple
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.tender.core.procedure.views.criterion_rg import BaseRequirementGroupResource
-from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import CDRequirementGroupState
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
+    CDRequirementGroupState,
+)
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    BaseRequirementGroupResource,
+)
 
 
 class BaseCDRequirementGroupResource(BaseRequirementGroupResource):

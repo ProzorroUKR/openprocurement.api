@@ -1,11 +1,18 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.qualification_claim import (
+    QualificationClaimResource,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint import (
     QualificationComplaintGetResource,
     QualificationComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
-from openprocurement.tender.esco.procedure.state.qualification_complaint import ESCOQualificationComplaintState
-from openprocurement.tender.esco.procedure.state.qualification_claim import ESCOQualificationClaimState
+from openprocurement.tender.esco.procedure.state.qualification_claim import (
+    ESCOQualificationClaimState,
+)
+from openprocurement.tender.esco.procedure.state.qualification_complaint import (
+    ESCOQualificationComplaintState,
+)
 
 
 @resource(

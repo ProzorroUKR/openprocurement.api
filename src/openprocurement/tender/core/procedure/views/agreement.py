@@ -1,11 +1,12 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.agreement import AgreementSerializer
 from logging import getLogger
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.serializers.agreement import (
+    AgreementSerializer,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
 

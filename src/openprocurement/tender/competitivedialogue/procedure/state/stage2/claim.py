@@ -1,6 +1,6 @@
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
-    CDUAStage2TenderState,
     CDEUStage2TenderState,
+    CDUAStage2TenderState,
 )
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.openua.constants import CLAIM_SUBMIT_TIME

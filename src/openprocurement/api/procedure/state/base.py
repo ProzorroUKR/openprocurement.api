@@ -2,7 +2,6 @@ import logging
 
 from openprocurement.api.context import get_now
 
-
 logger = logging.getLogger(__name__)
 
 

@@ -1,6 +1,9 @@
-from openprocurement.tender.core.procedure.views.cancellation_document import CancellationDocumentResource
-from openprocurement.tender.pricequotation.constants import PQ
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.cancellation_document import (
+    CancellationDocumentResource,
+)
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 @resource(

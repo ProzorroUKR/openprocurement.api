@@ -2,16 +2,17 @@
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
+
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest as BaseBaseTenderWebTest,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest as BaseBaseTenderWebTest,
-)
 
 now = datetime.now()
 test_tender_reporting_data = test_tender_below_data.copy()

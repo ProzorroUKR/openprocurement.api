@@ -3,20 +3,17 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import test_docs_tender_openua
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
 from openprocurement.api.utils import get_now
-from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.openua.tests.base import test_tender_openua_bids
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
+from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 
 TARGET_DIR = 'docs/source/tendering/basic-actions/http/'
 

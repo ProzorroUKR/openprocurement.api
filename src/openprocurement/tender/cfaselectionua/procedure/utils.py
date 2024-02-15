@@ -1,6 +1,5 @@
 from decimal import Decimal
 
-
 DECIMAL_COMPARE_ACCURACY = Decimal("1e-12")
 
 

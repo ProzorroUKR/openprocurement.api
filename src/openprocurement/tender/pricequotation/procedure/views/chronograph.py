@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.chronograph import (
+    TenderChronographResource,
+)
+from openprocurement.tender.pricequotation.procedure.state.tender import (
+    PriceQuotationTenderState,
+)
 
 
 @resource(

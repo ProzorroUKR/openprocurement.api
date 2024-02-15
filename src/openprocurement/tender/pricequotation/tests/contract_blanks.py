@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
-from openprocurement.api.utils import get_now
 from copy import deepcopy
+from datetime import timedelta
+
+from openprocurement.api.utils import get_now
 
 
 def patch_tender_contract(self):

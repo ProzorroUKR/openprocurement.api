@@ -1,22 +1,32 @@
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
 from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    update_doc_fields_on_put_document,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.state.complaint_document import (
+    ComplaintDocumentState,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_reviewers,
     validate_any,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    unless_admins,
-    validate_upload_document,
-    update_doc_fields_on_put_document,
-)
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
 
 
 class BaseComplaintDocumentResource(BaseDocumentResource):

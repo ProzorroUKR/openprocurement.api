@@ -1,23 +1,32 @@
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.openuadefense.procedure.views.tender import AboveThresholdUADefenseTenderResource
-from openprocurement.api.utils import json_view
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
-from openprocurement.tender.simpledefense.procedure.models.tender import PostTender, PatchTender, Tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_allows_update,
-    validate_tender_change_status_with_cancellation_lot_pending,
-)
+from cornice.resource import resource
+
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
     unless_administrator,
     validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from cornice.resource import resource
-from openprocurement.tender.simpledefense.procedure.state.tender_details import SimpleDefenseTenderDetailsState
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_change_status_with_cancellation_lot_pending,
+    validate_tender_status_allows_update,
+)
+from openprocurement.tender.openuadefense.procedure.views.tender import (
+    AboveThresholdUADefenseTenderResource,
+)
+from openprocurement.tender.simpledefense.procedure.models.tender import (
+    PatchTender,
+    PostTender,
+    Tender,
+)
+from openprocurement.tender.simpledefense.procedure.state.tender_details import (
+    SimpleDefenseTenderDetailsState,
+)
 
 
 @resource(

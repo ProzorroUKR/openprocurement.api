@@ -1,5 +1,7 @@
+from openprocurement.contracting.econtract.procedure.state.contract import (
+    EContractState,
+)
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
-from openprocurement.contracting.econtract.procedure.state.contract import EContractState
 
 
 class EContractDocumentState(BaseDocumentStateMixing, EContractState):

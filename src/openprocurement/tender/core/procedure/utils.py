@@ -1,64 +1,53 @@
 import math
 from copy import deepcopy
+from datetime import datetime
+from hashlib import sha512
+from logging import getLogger
 from typing import Optional
+from uuid import uuid4
 
 from barbecue import vnmax
+from dateorro import calc_normalized_datetime
+from jsonpatch import JsonPatchException
+from jsonpatch import apply_patch as apply_json_patch
+from jsonpointer import JsonPointerException, resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.context import (
-    get_json_data,
-    get_now,
+from openprocurement.api.constants import (
+    NEW_CONTRACTING_FROM,
+    PQ_NEW_CONTRACTING_FROM,
+    RELEASE_2020_04_19,
+    TZ,
 )
+from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import (
-    apply_data_patch,
     append_revision,
+    apply_data_patch,
     get_revision_changes,
     parse_date,
 )
 from openprocurement.api.utils import (
-    handle_store_exceptions,
     context_unpack,
-    raise_operation_error,
-    get_first_revision_date,
     error_handler,
     get_child_items,
-)
-from openprocurement.api.constants import (
-    TZ,
-    RELEASE_2020_04_19,
-    PQ_NEW_CONTRACTING_FROM,
-    NEW_CONTRACTING_FROM,
+    get_first_revision_date,
+    handle_store_exceptions,
+    raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
-from openprocurement.tender.core.procedure.context import (
-    get_bid,
-    get_request,
+from openprocurement.tender.core.constants import (
+    AUCTION_STAND_STILL_TIME,
+    BIDDER_TIME,
+    SERVICE_TIME,
 )
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_bid, get_request
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.utils import (
-    QUICK,
-    calculate_tender_date,
-)
-from dateorro import calc_normalized_datetime
-from jsonpatch import (
-    apply_patch as apply_json_patch,
-    JsonPatchException,
-)
-from jsonpointer import (
-    resolve_pointer,
-    JsonPointerException,
-)
-from hashlib import sha512
-from uuid import uuid4
-from logging import getLogger
-from datetime import datetime
-
+from openprocurement.tender.core.utils import QUICK, calculate_tender_date
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 LOGGER = getLogger(__name__)

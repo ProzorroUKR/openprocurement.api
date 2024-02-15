@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.core.procedure.views.bid_req_response import (
     BidReqResponseResource as BaseBidReqResponseResource,
 )
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 
 
 @resource(

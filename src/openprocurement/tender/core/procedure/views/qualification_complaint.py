@@ -1,20 +1,28 @@
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.models.complaint import (
+    PostQualificationComplaint,
+)
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    TenderComplaintSerializer,
+)
 from openprocurement.tender.core.procedure.state.qualification_complaint import (
     QualificationComplaintState,
 )
-from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
-from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer
-from openprocurement.tender.core.procedure.models.complaint import PostQualificationComplaint
+from openprocurement.tender.core.procedure.validation import validate_any_bid_owner
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.complaint import (
-    resolve_complaint,
     BaseComplaintGetResource,
     BaseComplaintWriteResource,
+    resolve_complaint,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_any_bid_owner,
+from openprocurement.tender.core.procedure.views.qualification import (
+    resolve_qualification,
 )
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
 
 
 class QualificationComplaintGetResource(BaseComplaintGetResource):

@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-import unittest
 import time
+import unittest
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
-
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_cancellation,
+    test_tender_below_organization,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.limited.tests.base import test_lots
-
 
 # TenderContractResourceTest
 

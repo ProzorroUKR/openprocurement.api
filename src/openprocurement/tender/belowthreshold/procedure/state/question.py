@@ -1,10 +1,14 @@
 from openprocurement.api.auth import ACCR_2
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    BelowThresholdTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.question import (
+    TenderQuestionStateMixin,
+)
 
 
 class BelowThresholdTenderQuestionStateMixin(TenderQuestionStateMixin):

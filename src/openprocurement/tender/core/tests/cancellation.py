@@ -1,8 +1,9 @@
-import mock
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+import mock
+
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
 
 
 def skip_complaint_period_2020_04_19(func):

@@ -1,7 +1,9 @@
-from openprocurement.api.context import set_db_session
+from base64 import b64decode, b64encode
 from logging import getLogger
+
 from bson.json_util import dumps, loads
-from base64 import b64encode, b64decode
+
+from openprocurement.api.context import set_db_session
 
 LOGGER = getLogger(__name__)
 

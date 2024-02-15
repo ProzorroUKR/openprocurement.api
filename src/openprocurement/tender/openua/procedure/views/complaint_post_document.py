@@ -1,6 +1,9 @@
-from openprocurement.tender.core.procedure.views.complaint_post_document import BaseTenderComplaintPostDocumentResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.complaint_post_document import (
+    BaseTenderComplaintPostDocumentResource,
+)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 
 @resource(

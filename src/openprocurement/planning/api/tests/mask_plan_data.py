@@ -1,11 +1,11 @@
+import json
+from copy import deepcopy
 from hashlib import sha224
+from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now
-from openprocurement.api.tests.base import singleton_app, app, change_auth
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from unittest.mock import patch, MagicMock
-from copy import deepcopy
-import json
+from openprocurement.api.tests.base import app, change_auth, singleton_app
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)

@@ -1,34 +1,30 @@
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
-from openprocurement.api.constants import (
-    ROUTE_PREFIX,
-    RELEASE_2020_04_19,
-    TZ,
-)
+
+from openprocurement.api.constants import RELEASE_2020_04_19, ROUTE_PREFIX, TZ
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.cancellation import (
-    activate_cancellation_with_complaints_after_2020_04_19,
-)
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_cancellation,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_UA_TYPE,
-    STAGE_2_EU_TYPE,
-    STAGE2_STATUS,
-    CD_UA_TYPE,
     CD_EU_TYPE,
+    CD_UA_TYPE,
+    STAGE2_STATUS,
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 # CompetitiveDialogStage2EUResourceTest

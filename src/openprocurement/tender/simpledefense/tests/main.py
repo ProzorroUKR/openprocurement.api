@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.tender.simpledefense.tests import (
     auction,
     award,

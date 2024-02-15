@@ -1,11 +1,15 @@
-from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.utils import json_view, context_unpack
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.models.chronograph import (
+    TenderChronographData,
+)
+from openprocurement.tender.core.procedure.serializers.chronograph import (
+    ChronographSerializer,
+)
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
-from openprocurement.tender.core.procedure.serializers.chronograph import ChronographSerializer
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 class TenderChronographResource(TenderBaseResource):

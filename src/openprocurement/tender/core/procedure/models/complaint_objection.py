@@ -2,15 +2,24 @@ from enum import Enum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, StringType, MD5Type
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.constants import ARTICLE_16, ARTICLE_17, OTHER_CRITERIA, VIOLATION_AMCU
+from openprocurement.api.constants import (
+    ARTICLE_16,
+    ARTICLE_17,
+    OTHER_CRITERIA,
+    VIOLATION_AMCU,
+)
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.context import get_complaint
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.complaint_objection_argument import Argument
-from openprocurement.tender.core.procedure.models.complaint_objection_requested_remedy import RequestedRemedy
+from openprocurement.tender.core.procedure.models.complaint_objection_argument import (
+    Argument,
+)
+from openprocurement.tender.core.procedure.models.complaint_objection_requested_remedy import (
+    RequestedRemedy,
+)
 
 
 class ObjectionRelatesTo(Enum):

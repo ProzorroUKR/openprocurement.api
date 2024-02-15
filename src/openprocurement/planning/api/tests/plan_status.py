@@ -1,11 +1,17 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.planning.api.tests.base import app, singleton_app, test_plan_data, generate_docservice_url
-from openprocurement.api.utils import get_now
 import pytest
+from mock import patch
+
+from openprocurement.api.utils import get_now
+from openprocurement.planning.api.tests.base import (
+    app,
+    generate_docservice_url,
+    singleton_app,
+    test_plan_data,
+)
 
 
 def test_plan_default_status(app):

@@ -2,16 +2,12 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+
 from freezegun import freeze_time
 
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.tests.base import (
-    BaseWebTest,
-    change_auth,
-)
-from openprocurement.api.utils import (
-    get_now,
-)
+from openprocurement.api.tests.base import BaseWebTest, change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.framework import Framework

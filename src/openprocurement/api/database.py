@@ -1,16 +1,23 @@
 import os
-from uuid import uuid4
-from logging import getLogger
-from pymongo import MongoClient, ReturnDocument, DESCENDING, ASCENDING, ReadPreference, IndexModel
-from pymongo.write_concern import WriteConcern
-from pymongo.read_concern import ReadConcern
-from bson.codec_options import TypeRegistry, TypeCodec
-from bson.codec_options import CodecOptions
-from bson.decimal128 import Decimal128
-from decimal import Decimal
 from contextlib import contextmanager
+from decimal import Decimal
+from logging import getLogger
+from uuid import uuid4
 
-from openprocurement.api.context import get_now, get_db_session, get_request
+from bson.codec_options import CodecOptions, TypeCodec, TypeRegistry
+from bson.decimal128 import Decimal128
+from pymongo import (
+    ASCENDING,
+    DESCENDING,
+    IndexModel,
+    MongoClient,
+    ReadPreference,
+    ReturnDocument,
+)
+from pymongo.read_concern import ReadConcern
+from pymongo.write_concern import WriteConcern
+
+from openprocurement.api.context import get_db_session, get_now, get_request
 
 LOGGER = getLogger("{}.init".format(__name__))
 

@@ -2,11 +2,15 @@
 
 from copy import deepcopy
 from datetime import timedelta
+
+from openprocurement.api.constants import (
+    PQ_MULTI_PROFILE_FROM,
+    PQ_NEW_CONTRACTING_FROM,
+    SANDBOX_MODE,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.api.constants import SANDBOX_MODE, PQ_MULTI_PROFILE_FROM, PQ_NEW_CONTRACTING_FROM
-
 
 now = get_now()
 

@@ -1,10 +1,10 @@
+from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.competitivedialogue.procedure.utils import (
-    prepare_shortlistedFirms,
+    get_item_by_id,
     prepare_author,
     prepare_bid_identifier,
-    get_item_by_id,
+    prepare_shortlistedFirms,
 )
-from openprocurement.api.utils import raise_operation_error, error_handler
 from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 

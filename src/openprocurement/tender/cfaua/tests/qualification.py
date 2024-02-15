@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
@@ -10,46 +11,46 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.openeu.tests.qualification import (
-    TenderQualificationRequirementResponseTestMixin,
-    TenderQualificationRequirementResponseEvidenceTestMixin,
-)
-from openprocurement.tender.openeu.tests.qualification_blanks import (
-    complaint_not_found,
-    create_tender_qualification_complaint_document,
-    put_tender_qualification_complaint_document,
-    patch_tender_qualification_complaint_document,
-    patch_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaints,
-    create_tender_qualification_complaint_invalid,
-    patch_tender_qualification_complaint,
-    review_tender_qualification_complaint,
-    review_tender_qualification_stopping_complaint,
-    review_tender_award_claim,
-    get_tender_qualification_complaint,
-    get_tender_qualification_complaints,
-    change_status_to_standstill_with_complaint,
-    not_found,
-    create_qualification_document,
-    put_qualification_document,
-    patch_qualification_document,
-    create_qualification_document_after_status_change,
-    put_qualification_document_after_status_change,
-    tender_owner_create_qualification_document,
-    post_tender_qualifications,
-    get_tender_qualifications_collection,
-    patch_tender_qualifications,
-    get_tender_qualifications,
-    patch_tender_qualifications_after_status_change,
-    bot_patch_tender_qualification_complaint,
-    bot_patch_tender_qualification_complaint_forbidden,
-    create_tender_qualifications_document_json_bulk,
-)
 from openprocurement.tender.cfaua.tests.qualification_blanks import (
     create_tender_lot_qualification_complaint,
     create_tender_qualification_complaint,
     switch_bid_status_unsuccessul_to_active,
+)
+from openprocurement.tender.openeu.tests.qualification import (
+    TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationRequirementResponseTestMixin,
+)
+from openprocurement.tender.openeu.tests.qualification_blanks import (
+    bot_patch_tender_qualification_complaint,
+    bot_patch_tender_qualification_complaint_forbidden,
+    change_status_to_standstill_with_complaint,
+    complaint_not_found,
+    create_qualification_document,
+    create_qualification_document_after_status_change,
+    create_tender_qualification_complaint_document,
+    create_tender_qualification_complaint_invalid,
+    create_tender_qualifications_document_json_bulk,
+    get_tender_lot_qualification_complaint,
+    get_tender_lot_qualification_complaints,
+    get_tender_qualification_complaint,
+    get_tender_qualification_complaints,
+    get_tender_qualifications,
+    get_tender_qualifications_collection,
+    not_found,
+    patch_qualification_document,
+    patch_tender_lot_qualification_complaint,
+    patch_tender_qualification_complaint,
+    patch_tender_qualification_complaint_document,
+    patch_tender_qualifications,
+    patch_tender_qualifications_after_status_change,
+    post_tender_qualifications,
+    put_qualification_document,
+    put_qualification_document_after_status_change,
+    put_tender_qualification_complaint_document,
+    review_tender_award_claim,
+    review_tender_qualification_complaint,
+    review_tender_qualification_stopping_complaint,
+    tender_owner_create_qualification_document,
 )
 
 one_lot_restriction = True

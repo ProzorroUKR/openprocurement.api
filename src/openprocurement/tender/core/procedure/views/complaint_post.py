@@ -1,18 +1,28 @@
-from openprocurement.api.utils import json_view, update_logging_context
-from openprocurement.tender.core.procedure.validation import (
-    validate_any,
-    unless_reviewers,
-)
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, validate_item_owner
-from openprocurement.tender.core.procedure.serializers.complaint_post import ComplaintPostSerializer
-from openprocurement.tender.core.procedure.state.complaint_post import ComplaintPostState
-from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
-from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.utils import save_tender
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import context_unpack
+from openprocurement.api.procedure.validation import (
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+)
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.models.complaint_post import (
+    CreateComplaintPost,
+)
+from openprocurement.tender.core.procedure.serializers.complaint_post import (
+    ComplaintPostSerializer,
+)
+from openprocurement.tender.core.procedure.state.complaint_post import (
+    ComplaintPostState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    unless_reviewers,
+    validate_any,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 

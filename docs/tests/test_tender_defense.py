@@ -1,32 +1,28 @@
 # -*- coding: utf-8 -*-
-import mock
 import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
-from openprocurement.tender.openua.tests.base import test_tender_openua_bids
-
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+import mock
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
-    test_docs_question,
-    test_docs_tender_defense,
-    test_docs_subcontracting,
-    test_docs_qualified,
     test_docs_bid,
     test_docs_bid2,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_tender_defense,
 )
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
+
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openua.tests.base import test_tender_openua_bids
+from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 
 test_tender_defence_data = deepcopy(test_docs_tender_defense)
 bid = deepcopy(test_docs_bid)

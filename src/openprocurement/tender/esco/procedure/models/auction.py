@@ -1,12 +1,19 @@
+from schematics.types import MD5Type
+
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, StringDecimalType, IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+    StringDecimalType,
+)
 from openprocurement.tender.core.procedure.models.auction import (
     AuctionLotResults as BaseAuctionLotResults,
+)
+from openprocurement.tender.core.procedure.models.auction import (
     AuctionResults as BaseAuctionResults,
 )
 from openprocurement.tender.esco.procedure.models.value import ContractDuration
-from schematics.types import MD5Type
-
 from openprocurement.tender.openeu.procedure.models.auction import WeightedValueResult
 
 

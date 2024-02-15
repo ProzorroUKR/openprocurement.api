@@ -16,8 +16,8 @@ from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     MINIMAL_STEP_PERCENTAGE,
 )
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 
 here = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now(TZ)

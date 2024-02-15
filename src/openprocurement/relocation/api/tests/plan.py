@@ -1,5 +1,6 @@
 import os
 from copy import deepcopy
+
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.utils import change_auth

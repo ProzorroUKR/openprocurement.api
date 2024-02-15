@@ -1,5 +1,5 @@
-from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class BaseDocumentStateMixing:

@@ -1,31 +1,30 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-
 from datetime import timedelta
-import dateutil
 
+import dateutil
 from mock import patch
 
 from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    RELEASE_2020_04_19,
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,
+    RELEASE_2020_04_19,
+    SANDBOX_MODE,
 )
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_complaint,
+    test_tender_below_draft_claim,
+    test_tender_below_draft_complaint,
+    test_tender_below_organization,
+)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_author,
-    test_tender_below_draft_claim,
-    test_tender_below_claim,
-    test_tender_below_complaint,
-    test_tender_below_draft_complaint,
-    test_tender_below_cancellation,
-)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.constants import STAND_STILL_TIME
 
 

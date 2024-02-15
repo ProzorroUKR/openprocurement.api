@@ -1,21 +1,20 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
+from logging import getLogger
+
+from pyramid.security import Allow, Everyone
+
 from openprocurement.api.context import get_db_session
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.state.award import AwardState
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_create_award_not_in_allowed_period,
     validate_create_award_only_for_active_lot,
 )
-from openprocurement.api.procedure.validation import validate_input_data
-from openprocurement.tender.core.procedure.models.award import PostAward
-from pyramid.security import Allow, Everyone
-from logging import getLogger
-
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)

@@ -1,20 +1,28 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.contract import TenderContractResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_contract_supplier,
-    validate_contract_input_data,
-    validate_forbid_contract_action_after_date,
+from logging import getLogger
+
+from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_input_data,
+    validate_patch_data_simple,
 )
-from openprocurement.api.procedure.validation import validate_patch_data_simple, validate_input_data, unless_admins
-from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractState
+from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.models.contract import (
     Contract,
-    PostContract,
     PatchContract,
     PatchContractSupplier,
+    PostContract,
 )
-from cornice.resource import resource
-from logging import getLogger
+from openprocurement.tender.cfaselectionua.procedure.state.contract import (
+    CFASelectionContractState,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_contract_input_data,
+    validate_contract_supplier,
+    validate_forbid_contract_action_after_date,
+)
+from openprocurement.tender.core.procedure.views.contract import TenderContractResource
 
 LOGGER = getLogger(__name__)
 

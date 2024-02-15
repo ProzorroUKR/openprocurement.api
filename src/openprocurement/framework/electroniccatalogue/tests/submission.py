@@ -4,43 +4,42 @@ from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import test_submission_config
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    SubmissionContentWebTest,
-    test_framework_electronic_catalogue_data,
-    test_electronicCatalogue_documents,
-    test_submission_data,
-)
-from openprocurement.framework.dps.tests.submission_blanks import (
-    listing,
-    listing_draft,
-    listing_changes,
-    create_submission_draft_invalid,
-    create_submission_draft,
+from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
     create_submission_after_period_ends,
-    patch_submission_draft,
-    patch_submission_draft_to_active_invalid,
-    patch_submission_active,
-    patch_submission_active_fast,
-    patch_submission_draft_to_deleted,
-    patch_submission_deleted,
-    patch_submission_complete,
-    submission_fields,
-    get_submission,
+    create_submission_config_test,
+    create_submission_document_forbidden,
+    create_submission_document_json_bulk,
+    create_submission_documents,
+    create_submission_draft,
+    create_submission_draft_invalid,
     date_submission,
     dateModified_submission,
     datePublished_submission,
-    submission_not_found,
-    submission_token_invalid,
-    # Documents
-    get_documents_list,
-    get_document_by_id,
-    create_submission_documents,
-    create_submission_document_forbidden,
     document_not_found,
+    get_document_by_id,
+    get_documents_list,
+    get_submission,
+    listing,
+    listing_changes,
+    listing_draft,
+    patch_submission_active,
+    patch_submission_active_fast,
+    patch_submission_complete,
+    patch_submission_deleted,
+    patch_submission_draft,
+    patch_submission_draft_to_active_invalid,
+    patch_submission_draft_to_deleted,
     put_submission_document,
     put_submission_document_fast,
-    create_submission_document_json_bulk,
-    create_submission_config_test,
+    submission_fields,
+    submission_not_found,
+    submission_token_invalid,
+)
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    SubmissionContentWebTest,
+    test_electronicCatalogue_documents,
+    test_framework_electronic_catalogue_data,
+    test_submission_data,
 )
 
 

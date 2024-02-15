@@ -1,20 +1,21 @@
 from typing import TYPE_CHECKING, TypeVar
 
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
-    TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
-    QUALIFICATION_COMPLAINT_STAND_STILL,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
+    QUALIFICATION_COMPLAINT_STAND_STILL,
+    TENDERING_EXTRA_PERIOD,
 )
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
-
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.openua.procedure.state.tender_details import (
+    OpenUATenderDetailsMixing,
+)
 
 if TYPE_CHECKING:
     baseclass = CFAUATenderState

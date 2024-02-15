@@ -1,23 +1,33 @@
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from cornice.resource import resource
 from pyramid.security import Allow
 
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
+    CDRequirementGroupState,
+)
+from openprocurement.tender.competitivedialogue.procedure.validation import (
+    unless_cd_bridge,
+)
 from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg import (
     BaseCDRequirementGroupResource,
 )
-from openprocurement.tender.core.procedure.models.criterion import RequirementGroup, PatchRequirementGroup
-from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import CDRequirementGroupState
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner,
-    unless_administrator,
-    unless_admins,
+from openprocurement.tender.core.procedure.models.criterion import (
+    PatchRequirementGroup,
+    RequirementGroup,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
 
 
 class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):

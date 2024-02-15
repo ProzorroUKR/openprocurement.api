@@ -3,37 +3,43 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
-from openprocurement.tender.open.tests.complaint import (
-    ComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
-    TenderAwardComplaintObjectionMixin,
-    TenderQualificationComplaintObjectionMixin,
-    TenderComplaintObjectionMixin,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
 )
-from openprocurement.tender.openua.tests.complaint import CreateAwardComplaintMixin, TenderUAComplaintResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    not_found,
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
     create_tender_complaint_document,
-)
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderStage2EU(UA)LotAwardComplaintResourceTest
-    create_tender_lot_complaint,
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    put_tender_complaint_document,
-    patch_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cd_lots,
-    test_tender_openeu_bids,
-    test_tender_cd_shortlisted_firms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_author,
+    test_tender_cd_lots,
+    test_tender_cd_shortlisted_firms,
+    test_tender_openeu_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.award import test_tender_bids
+from openprocurement.tender.competitivedialogue.tests.stage2.award import (
+    test_tender_bids,
+)
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+    TenderQualificationComplaintObjectionMixin,
+)
+from openprocurement.tender.openua.tests.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
+    create_tender_lot_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
+)
 
 
 class TenderStage2EUComplaintResourceTest(

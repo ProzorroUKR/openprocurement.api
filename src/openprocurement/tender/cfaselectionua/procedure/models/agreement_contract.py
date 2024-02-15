@@ -1,12 +1,18 @@
 from uuid import uuid4
-from openprocurement.tender.cfaselectionua.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract import ParameterContract
-from openprocurement.tender.cfaselectionua.procedure.models.unitprices import UnitPrice
-from openprocurement.api.procedure.validation import validate_parameters_uniq
+
 from schematics.types import MD5Type, StringType
+
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.tender.cfaselectionua.procedure.models.organization import (
+    BusinessOrganization,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract import (
+    ParameterContract,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.unitprices import UnitPrice
 
 
 class AgreementContract(Model):

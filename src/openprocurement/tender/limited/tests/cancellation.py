@@ -1,63 +1,55 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from mock import patch
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_organization,
 )
-
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
-    # TenderNegotiationLotsCancellationResourceTest
-    patch_tender_lots_cancellation,
-    # TenderCancellationResourceTest
+from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (  # TenderNegotiationLotsCancellationResourceTest; TenderCancellationResourceTest
     get_tender_cancellation,
     get_tender_cancellations,
     patch_tender_cancellation_2020_04_19,
+    patch_tender_lots_cancellation,
     permission_cancellation_pending,
 )
-from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
-    TenderCancellationComplaintResourceTestMixin,
-    TenderAwardsCancellationResourceTestMixin,
-)
-
-from openprocurement.tender.openua.tests.cancellation_blanks import (
-    # TenderCancellationResourceTest
-    patch_tender_cancellation,
-    activate_cancellation,
-)
-
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_tender_reporting_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_tender_negotiation_config,
+    test_tender_negotiation_data,
     test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
+    test_tender_reporting_data,
 )
-from openprocurement.tender.limited.tests.cancellation_blanks import (
-    # TenderNegotiationLotsCancellationResourceTest
-    create_tender_lots_cancellation,
-    cancelled_lot_without_relatedLot,
-    delete_first_lot_second_cancel,
+from openprocurement.tender.limited.tests.cancellation_blanks import (  # TenderNegotiationLotsCancellationResourceTest; TenderNegotiationCancellationResourceTest; TenderCancellationResourceTest
     cancel_tender,
-    create_cancellation_on_tender_with_one_complete_lot,
     cancellation_on_not_active_lot,
-    # TenderNegotiationCancellationResourceTest
-    negotiation_create_cancellation_on_lot,
-    # TenderCancellationResourceTest
-    create_tender_cancellation_invalid,
-    create_tender_cancellation,
-    create_tender_cancellation_with_post,
+    cancelled_lot_without_relatedLot,
     create_cancellation_on_lot,
+    create_cancellation_on_tender_with_one_complete_lot,
+    create_tender_cancellation,
+    create_tender_cancellation_invalid,
+    create_tender_cancellation_with_post,
+    create_tender_lots_cancellation,
+    delete_first_lot_second_cancel,
+    negotiation_create_cancellation_on_lot,
+)
+from openprocurement.tender.openua.tests.cancellation import (
+    TenderAwardsCancellationResourceTestMixin,
+    TenderCancellationComplaintResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
+)
+from openprocurement.tender.openua.tests.cancellation_blanks import (  # TenderCancellationResourceTest
+    activate_cancellation,
+    patch_tender_cancellation,
 )
 
 

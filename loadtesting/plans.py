@@ -1,8 +1,8 @@
-from locust import HttpUser, task, constant
-from collections import deque
-from data import plan, USERS
 import random
+from collections import deque
 
+from data import USERS, plan
+from locust import HttpUser, constant, task
 
 PLANS_URL = "/api/2.5/plans"
 

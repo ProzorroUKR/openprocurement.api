@@ -1,16 +1,19 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import validate_update_award_in_not_allowed_status
+from cornice.resource import resource
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_admins,
     validate_input_data,
     validate_item_owner,
-    unless_admins,
+    validate_patch_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward
+from openprocurement.tender.core.procedure.validation import (
+    validate_update_award_in_not_allowed_status,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.core.procedure.models.award import PatchAward, Award
-from openprocurement.tender.pricequotation.procedure.state.award import AwardState
 from openprocurement.tender.pricequotation.constants import PQ
-from cornice.resource import resource
+from openprocurement.tender.pricequotation.procedure.state.award import AwardState
 
 
 @resource(

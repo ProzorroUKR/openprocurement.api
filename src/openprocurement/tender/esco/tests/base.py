@@ -6,10 +6,10 @@ from openprocurement.api.context import get_now
 from openprocurement.tender.esco.tests.utils import prepare_items
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
+    test_tender_openeu_bids,
     test_tender_openeu_data,
     test_tender_openeu_features_data,
     test_tender_openeu_lots,
-    test_tender_openeu_bids,
 )
 
 NBU_DISCOUNT_RATE = 0.22

@@ -4,7 +4,6 @@ from openprocurement.api.context import get_now, get_request
 from openprocurement.framework.core.constants import MILESTONE_CONTRACT_STATUSES
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
 
-
 LOGGER = getLogger(__name__)
 
 

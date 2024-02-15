@@ -1,10 +1,10 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.framework.cfaua.procedure.models.agreement import (
     PatchActiveAgreement,
-    PatchTerminatedAgreement,
     PatchAgreementByAdministrator,
+    PatchTerminatedAgreement,
 )
-from openprocurement.api.procedure.state.base import BaseState
 
 
 class AgreementState(BaseState):

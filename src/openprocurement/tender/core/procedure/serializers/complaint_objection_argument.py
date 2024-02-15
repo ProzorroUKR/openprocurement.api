@@ -1,4 +1,7 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
 
 
 class ComplaintObjectionArgumentSerializer(BaseSerializer):

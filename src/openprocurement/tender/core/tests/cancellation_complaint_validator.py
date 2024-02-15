@@ -1,10 +1,13 @@
-from openprocurement.api.context import set_now, get_now
-from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
-from datetime import timedelta
 from contextlib import contextmanager
+from datetime import timedelta
+
 import mock
 import pytest
 
+from openprocurement.api.context import get_now, set_now
+from openprocurement.tender.core.procedure.state.cancellation import (
+    CancellationStateMixing,
+)
 
 affected_complaint_statuses = ("pending", "accepted", "satisfied")
 other_complaint_statuses = ("draft", "claim", "answered", "invalid", "resolved", "declined", "cancelled")

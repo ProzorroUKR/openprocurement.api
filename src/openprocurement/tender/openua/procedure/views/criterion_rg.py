@@ -1,7 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.criterion_rg import BaseRequirementGroupResource
-from openprocurement.tender.openua.procedure.state.criterion_rg import OpenUARequirementGroupState
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    BaseRequirementGroupResource,
+)
+from openprocurement.tender.openua.procedure.state.criterion_rg import (
+    OpenUARequirementGroupState,
+)
 
 
 @resource(

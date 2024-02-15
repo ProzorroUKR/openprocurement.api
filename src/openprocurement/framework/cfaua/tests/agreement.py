@@ -2,31 +2,37 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.tests.base import snitch
 from openprocurement.framework.cfaua.tests.agreement_blanks import (
-    create_agreement,
-    create_agreement_with_documents,
-    create_agreement_with_features,
-    get_agreements_by_id,
-    generate_credentials,
-    agreement_patch_invalid,
-    empty_listing,
-    listing,
-    agreement_preview,
     agreement_change_item_price_variation_preview,
     agreement_change_party_withdrawal_cancelled_preview,
     agreement_change_party_withdrawal_preview,
     agreement_change_tax_rate_preview,
     agreement_change_third_party_preview,
     agreement_changes_patch_from_agreements,
-    create_agreement_with_two_active_contracts,
+    agreement_patch_invalid,
+    agreement_preview,
     agreement_token_invalid,
+    create_agreement,
+    create_agreement_with_documents,
+    create_agreement_with_features,
+    create_agreement_with_two_active_contracts,
+    empty_listing,
+    generate_credentials,
     generate_credentials_invalid,
+    get_agreements_by_id,
+    listing,
     skip_address_validation,
 )
-
-from openprocurement.api.tests.base import snitch
-from openprocurement.framework.cfaua.tests.data import TEST_AGREEMENT, TEST_FEATURES, TEST_CHANGE
-from openprocurement.framework.cfaua.tests.base import BaseAgreementTest, BaseAgreementContentWebTest
+from openprocurement.framework.cfaua.tests.base import (
+    BaseAgreementContentWebTest,
+    BaseAgreementTest,
+)
+from openprocurement.framework.cfaua.tests.data import (
+    TEST_AGREEMENT,
+    TEST_CHANGE,
+    TEST_FEATURES,
+)
 
 
 class AgreementListingTests(BaseAgreementTest):

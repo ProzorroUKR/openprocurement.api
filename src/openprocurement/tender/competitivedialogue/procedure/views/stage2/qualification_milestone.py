@@ -1,6 +1,9 @@
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
-from openprocurement.tender.core.procedure.views.qualification_milestone import QualificationMilestoneResource
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
+from openprocurement.tender.core.procedure.views.qualification_milestone import (
+    QualificationMilestoneResource,
+)
 
 
 @resource(

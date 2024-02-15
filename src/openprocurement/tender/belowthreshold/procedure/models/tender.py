@@ -1,34 +1,45 @@
+from datetime import timedelta
+
 from schematics.types import StringType
 from schematics.validate import ValidationError
+
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.validation import validate_items_uniq
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.validation import validate_milestones
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
+from openprocurement.tender.belowthreshold.procedure.models.organization import (
+    ProcuringEntity,
+)
+from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
-from openprocurement.tender.core.procedure.models.item import Item, validate_classification_id
+from openprocurement.tender.core.procedure.models.item import (
+    Item,
+    validate_classification_id,
+)
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriodEndRequired,
     StartedEnquiryPeriodEndRequired,
 )
 from openprocurement.tender.core.procedure.models.tender import (
-    PostTender as BasePostTender,
     PatchTender as BasePatchTender,
-    Tender as BaseTender,
 )
-from openprocurement.tender.core.procedure.models.document import PostDocument
-from openprocurement.tender.belowthreshold.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.procedure.validation import validate_tender_period_duration
+from openprocurement.tender.core.procedure.models.tender import (
+    PostTender as BasePostTender,
+)
+from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.validation import (
+    validate_milestones,
+    validate_tender_period_duration,
+)
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import RELEASE_2020_04_19
-from datetime import timedelta
 
 
 def validate_enquiry_period(data, period):

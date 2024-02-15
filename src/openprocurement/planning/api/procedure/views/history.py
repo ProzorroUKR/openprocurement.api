@@ -1,8 +1,9 @@
-from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import json_view, error_handler
-from pyramid.security import Allow, Everyone
 from cornice.resource import resource
 from jsonpatch import apply_patch
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.utils import error_handler, json_view
+from openprocurement.api.views.base import BaseResource
 
 
 @resource(

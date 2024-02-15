@@ -1,27 +1,32 @@
-import os
 import datetime
+import os
 from copy import deepcopy
 from uuid import uuid4
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import test_docs_lots, test_docs_tender_dps
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
 from openprocurement.api.context import get_now, set_now
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
     test_framework_dps_config,
-    test_submission_data,
+    test_framework_dps_data,
     test_submission_config,
+    test_submission_data,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.core.tests.base import test_exclusion_criteria, test_language_criteria
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+)
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.open.tests.base import test_tender_dps_config, BaseTenderUAWebTest
-
-from tests.base.constants import DOCS_URL, AUCTIONS_URL
-from tests.base.data import (
-    test_docs_lots,
-    test_docs_tender_dps,
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAWebTest,
+    test_tender_dps_config,
 )
-from tests.base.test import MockWebTestMixin, DumpsWebTestApp
-from tests.test_tender_config import TenderConfigCSVMixin
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TARGET_DIR = os.path.join(BASE_DIR, 'source/tendering/competitiveordering/http/')

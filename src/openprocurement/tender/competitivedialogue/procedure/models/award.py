@@ -1,15 +1,19 @@
-from openprocurement.tender.openua.procedure.models.award import (
-    Award as BaseUAAward,
-    PostAward as BaseUAPostAward,
-    PatchAward as BaseUAPatchAward,
-)
-from openprocurement.tender.openeu.procedure.models.award import (
-    Award as BaseEUAward,
-    PostAward as BaseEUPostAward,
-    PatchAward as BaseEUPatchAward,
-)
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.competitivedialogue.procedure.models.item import Item
+from openprocurement.tender.openeu.procedure.models.award import Award as BaseEUAward
+from openprocurement.tender.openeu.procedure.models.award import (
+    PatchAward as BaseEUPatchAward,
+)
+from openprocurement.tender.openeu.procedure.models.award import (
+    PostAward as BaseEUPostAward,
+)
+from openprocurement.tender.openua.procedure.models.award import Award as BaseUAAward
+from openprocurement.tender.openua.procedure.models.award import (
+    PatchAward as BaseUAPatchAward,
+)
+from openprocurement.tender.openua.procedure.models.award import (
+    PostAward as BaseUAPostAward,
+)
 
 
 class UAAward(BaseUAAward):

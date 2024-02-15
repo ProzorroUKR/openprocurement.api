@@ -1,5 +1,10 @@
-from openprocurement.framework.core.procedure.serializers.milestone import MilestoneSerializer
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
+from openprocurement.framework.core.procedure.serializers.milestone import (
+    MilestoneSerializer,
+)
 
 
 class ContractSerializer(BaseSerializer):

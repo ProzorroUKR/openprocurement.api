@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from copy import deepcopy
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
+from datetime import timedelta
+
 from openprocurement.api.constants import (
-    RELEASE_2020_04_19,
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
+    RELEASE_2020_04_19,
 )
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
-
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues, activate_contract
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    set_bid_lotvalues,
+)
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
 
 
 # TenderLotEdgeCasesTest

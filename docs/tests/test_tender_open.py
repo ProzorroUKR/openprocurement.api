@@ -1,35 +1,29 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from mock import patch
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2,
+    test_docs_bid_draft,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_tender_open,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
+from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_question,
-    test_docs_tender_open,
-    test_docs_bid_draft,
-    test_docs_bid2,
-    test_docs_subcontracting,
-    test_docs_qualified,
-    test_docs_lots,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
+from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 
 test_tender_data = deepcopy(test_docs_tender_open)
 test_lots = deepcopy(test_docs_lots)

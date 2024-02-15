@@ -1,19 +1,41 @@
 # -*- coding: utf-8 -*-
 import os
+from copy import deepcopy
 from datetime import timedelta
 from hashlib import sha512
-from copy import deepcopy
 from uuid import uuid4
 
 from mock import patch
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bad_author,
+    test_docs_bad_participant,
+    test_docs_bid2,
+    test_docs_bid3,
+    test_docs_bid4,
+    test_docs_bid_document,
+    test_docs_bid_document2,
+    test_docs_bid_document3_eligibility,
+    test_docs_bid_document4_financialy,
+    test_docs_bid_document5_qualification,
+    test_docs_bid_draft,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_tender_stage1,
+    test_docs_tender_stage2_multiple_lots,
+    test_docs_tender_stage2EU,
+    test_docs_tender_stage2UA,
+    test_docs_tenderer,
+    test_docs_tenderer2,
+    test_docs_tenderer4,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-)
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAStage2WebTest,
@@ -21,40 +43,11 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdeu_stage2_config,
     test_tender_cdua_stage2_config,
 )
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
 )
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.data import (
-    test_docs_bid_draft,
-    test_docs_bid2,
-    test_docs_bid3,
-    test_docs_bid4,
-    test_docs_bad_participant,
-    test_docs_question,
-    test_docs_qualified,
-    test_docs_bid_document,
-    test_docs_bid_document2,
-    test_docs_lots,
-    test_docs_subcontracting,
-    test_docs_bid_document3_eligibility,
-    test_docs_bid_document4_financialy,
-    test_docs_bid_document5_qualification,
-    test_docs_tender_stage1,
-    test_docs_tender_stage2_multiple_lots,
-    test_docs_tender_stage2EU,
-    test_docs_tender_stage2UA,
-    test_docs_bad_author,
-    test_docs_tenderer,
-    test_docs_tenderer2,
-    test_docs_tenderer4,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
 
 test_tender_data_stage1 = deepcopy(test_docs_tender_stage1)
 test_tender_data_stage2_multiple_lots = deepcopy(test_docs_tender_stage2_multiple_lots)

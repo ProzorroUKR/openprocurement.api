@@ -4,18 +4,15 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from tests.base.constants import DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderWebTest,
     test_tender_cfaua_data,
     test_tender_cfaua_lots,
 )
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import DOCS_URL
 
 TARGET_DIR = "docs/source/agreements/cfaua/http/"
 

@@ -1,21 +1,35 @@
 from schematics.types import StringType
-from schematics.types.compound import ModelType, ListType
-from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from schematics.types.compound import ListType, ModelType
+
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE,
+    CD_UA_TYPE,
+    FEATURES_MAX_SUM,
+)
 from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import validate_items_uniq
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq, Lot, PostTenderLot, PatchTenderLot
+from openprocurement.tender.core.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
+    validate_lots_uniq,
+)
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
+from openprocurement.tender.openeu.procedure.models.item import Item
+from openprocurement.tender.openeu.procedure.models.tender import (
+    PatchTender as BasePatchTender,
+)
 from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
-    Tender as BaseTender,
 )
-from openprocurement.tender.openeu.procedure.models.item import Item
+from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openua.procedure.models.item import Item as UAItem
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, FEATURES_MAX_SUM
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.tender.openua.procedure.models.organization import (
+    ProcuringEntity as UAProcuringEntity,
+)
 
 
 class BotPatchTender(Model):  # "competitive_dialogue": whitelist("status", "stage2TenderID"),

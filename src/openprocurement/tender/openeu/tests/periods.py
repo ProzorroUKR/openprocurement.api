@@ -1,6 +1,10 @@
 from datetime import timedelta
 
-from openprocurement.tender.openeu.constants import TENDERING_DURATION, QUESTIONS_STAND_STILL, COMPLAINT_STAND_STILL
+from openprocurement.tender.openeu.constants import (
+    COMPLAINT_STAND_STILL,
+    QUESTIONS_STAND_STILL,
+    TENDERING_DURATION,
+)
 
 PERIODS = {
     "active.tendering": {

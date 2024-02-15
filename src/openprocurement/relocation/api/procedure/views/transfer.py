@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.relocation.api.procedure.models.transfer import PostTransfer
-from openprocurement.relocation.api.procedure.serializers.transfer import TransferSerializer
-from openprocurement.relocation.api.procedure.utils import set_ownership
-from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
-from openprocurement.relocation.api.procedure.utils import save_transfer
 from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.relocation.api.procedure.models.transfer import PostTransfer
+from openprocurement.relocation.api.procedure.serializers.transfer import (
+    TransferSerializer,
+)
+from openprocurement.relocation.api.procedure.utils import save_transfer, set_ownership
+from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
 
 
 @resource(name="Transfers", path="/transfers/{transfer_id}", collection_path="/transfers", description="Transfers")

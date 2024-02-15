@@ -1,20 +1,20 @@
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from unittest.mock import patch
 
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_bids,
-    test_tender_pq_cancellation,
-)
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
+)
+from openprocurement.tender.pricequotation.tests.base import (
+    TenderContentWebTest,
+    test_tender_pq_bids,
+    test_tender_pq_cancellation,
 )
 from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     create_tender_cancellation,

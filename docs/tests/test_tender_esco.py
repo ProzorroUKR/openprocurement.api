@@ -3,37 +3,31 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_bid_document,
+    test_docs_bid_document2,
+    test_docs_bid_draft,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_tender_esco,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
+from tests.test_tender_config import TenderConfigCSVMixin
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.data import (
-    test_docs_question,
-    test_docs_subcontracting,
-    test_docs_qualified,
-    test_docs_tender_esco,
-    test_docs_bid_draft,
-    test_docs_bid2,
-    test_docs_bid3_with_docs,
-    test_docs_bid_document,
-    test_docs_bid_document2,
-    test_docs_lots,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
-from tests.test_contracting_econtract import TARGET_DIR as ECONTRACT_TARGET_DIR
+from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 
 test_tender_data = deepcopy(test_docs_tender_esco)
 test_lots = deepcopy(test_docs_lots)

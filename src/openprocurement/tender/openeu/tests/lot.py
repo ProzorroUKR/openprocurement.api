@@ -1,56 +1,54 @@
 import unittest
-from unittest.mock import patch
-from datetime import timedelta
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
+
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
-    TenderLotValueTestMixin,
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin,
+    TenderLotResourceTestMixin,
+    TenderLotValueTestMixin,
 )
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+    create_tender_lot_minimalstep_validation,
+    patch_tender_lot_minimalstep_validation,
+)
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    patch_tender_lot_minimalstep_validation,
-    create_tender_lot_minimalstep_validation,
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_bids,
+    test_tender_openeu_data,
+    test_tender_openeu_lots,
 )
-
+from openprocurement.tender.openeu.tests.lot_blanks import (
+    claim_blocking,
+    create_tender_bidder_invalid,
+    create_tender_feature_bidder,
+    create_tender_feature_bidder_invalid,
+    next_check_value_with_unanswered_claim,
+    next_check_value_with_unanswered_question,
+    one_lot_1bid,
+    one_lot_2bid,
+    one_lot_2bid_1unqualified,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
+    patch_tender_bidder,
+    question_blocking,
+    two_lot_1can,
+    two_lot_2bid_0com_1can,
+    two_lot_2bid_1lot_del,
+    two_lot_2bid_2com_2win,
+    two_lot_3bid_1win_bug,
+)
 from openprocurement.tender.openua.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
-)
-
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_openeu_data,
-    test_tender_openeu_lots,
-    test_tender_openeu_bids,
-)
-from openprocurement.tender.openeu.tests.lot_blanks import (
-    one_lot_1bid,
-    one_lot_2bid_1unqualified,
-    one_lot_2bid,
-    two_lot_2bid_1lot_del,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un,
-    two_lot_1can,
-    two_lot_2bid_0com_1can,
-    two_lot_2bid_2com_2win,
-    two_lot_3bid_1win_bug,
-    create_tender_feature_bidder_invalid,
-    create_tender_feature_bidder,
-    create_tender_bidder_invalid,
-    patch_tender_bidder,
-    question_blocking,
-    claim_blocking,
-    next_check_value_with_unanswered_question,
-    next_check_value_with_unanswered_claim,
 )
 
 

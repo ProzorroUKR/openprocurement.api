@@ -1,14 +1,17 @@
-from openprocurement.api.utils import context_unpack
+from logging import getLogger
+
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
 )
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import tender_created_in
+from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.openuadefense.procedure.awarding import DefenseTenderStateAwardingMixing
-from logging import getLogger
+from openprocurement.tender.core.procedure.utils import tender_created_in
+from openprocurement.tender.openuadefense.procedure.awarding import (
+    DefenseTenderStateAwardingMixing,
+)
 
 LOGGER = getLogger(__name__)
 

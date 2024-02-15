@@ -2,39 +2,35 @@
 import unittest
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_lots
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_tender_cdeu_features_data,
-    test_tender_openeu_bids,
-    test_tender_cdeu_stage2_data,
-    test_tender_cdua_stage2_data,
-    test_tender_cd_tenderer,
-    test_tender_cd_lots,
-)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.auction_blanks import (
-    # TenderStage2EU(UA)SameValueAuctionResourceTest
+from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # TenderStage2EU(UA)SameValueAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
+    get_tender_lots_auction_features,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    # TenderFeaturesMultilotAuctionResourceTest
-    get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks import (
-    # # TenderStage2EU(UA)MultipleLotAuctionResourceTest
-    patch_tender_with_lots_auction,
-    # TenderStage2EU(UA)FeaturesAuctionResourceTest
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cd_lots,
+    test_tender_cd_tenderer,
+    test_tender_cdeu_features_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_stage2_data,
+    test_tender_openeu_bids,
+)
+from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks import (  # # TenderStage2EU(UA)MultipleLotAuctionResourceTest; TenderStage2EU(UA)FeaturesAuctionResourceTest
     get_tender_auction_feature,
+    patch_tender_with_lots_auction,
     post_tender_auction_feature,
 )
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_lots
 
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:

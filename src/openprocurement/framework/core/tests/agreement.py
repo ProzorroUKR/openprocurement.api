@@ -3,8 +3,9 @@ import os
 import unittest
 
 from mock import MagicMock
-from openprocurement.framework.core.utils import AgreementTypePredicate
+
 from openprocurement.framework.core.tests.base import BaseAgreementTest
+from openprocurement.framework.core.utils import AgreementTypePredicate
 
 
 class AgreementsResourceTest(BaseAgreementTest):

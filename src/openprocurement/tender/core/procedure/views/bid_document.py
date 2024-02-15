@@ -1,35 +1,41 @@
 from cornice.resource import resource
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.bid import resolve_bid
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
-from openprocurement.tender.core.procedure.models.bid_document import (
-    PostDocument,
-    PatchDocument,
-    Document,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_bid_document_operation_period,
-    unless_allowed_by_qualification_milestone,
-    validate_bid_document_operation_in_award_status,
-    validate_bid_document_in_tender_status,
-    validate_download_bid_document,
-    validate_update_bid_document_confidentiality,
-    validate_bid_financial_document_in_tender_status,
-    validate_view_bid_document,
-    validate_bid_document_operation_in_bid_status,
-    validate_view_bid_documents_allowed_in_bid_status,
-    validate_view_financial_bid_documents_allowed_in_tender_status,
-    validate_view_financial_bid_documents_allowed_in_bid_status,
-)
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data,
     validate_upload_document,
-    update_doc_fields_on_put_document,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.bid_document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.serializers.document import (
+    ConfidentialDocumentSerializer,
+)
+from openprocurement.tender.core.procedure.validation import (
+    unless_allowed_by_qualification_milestone,
+    validate_bid_document_in_tender_status,
+    validate_bid_document_operation_in_award_status,
+    validate_bid_document_operation_in_bid_status,
+    validate_bid_document_operation_period,
+    validate_bid_financial_document_in_tender_status,
+    validate_download_bid_document,
+    validate_update_bid_document_confidentiality,
+    validate_view_bid_document,
+    validate_view_bid_documents_allowed_in_bid_status,
+    validate_view_financial_bid_documents_allowed_in_bid_status,
+    validate_view_financial_bid_documents_allowed_in_tender_status,
+)
+from openprocurement.tender.core.procedure.views.bid import resolve_bid
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
 )
 
 

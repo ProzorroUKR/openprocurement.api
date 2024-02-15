@@ -1,21 +1,19 @@
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
-from openprocurement.api.procedure.context import get_tender
+import logging
+
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import context_unpack, raise_operation_error
+from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
 )
 from openprocurement.tender.core.procedure.models.contract import Contract
-from openprocurement.api.utils import (
-    raise_operation_error,
-    context_unpack,
-)
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
-import logging
 
 LOGGER = logging.getLogger(__name__)
 

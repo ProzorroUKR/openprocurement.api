@@ -1,7 +1,7 @@
 from openprocurement.tender.competitivedialogue.tests.stage2.award import (
-    BaseTenderUAAwardPendingTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest,
     BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    BaseTenderUAAwardPendingTest,
     test_tender_bids,
     test_tender_cd_lots,
 )

@@ -4,21 +4,18 @@ from gevent import monkey
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_UA_TYPE,
-    CD_EU_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.limited.constants import (
-    REPORTING,
     NEGOTIATION,
     NEGOTIATION_QUICK,
+    REPORTING,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ

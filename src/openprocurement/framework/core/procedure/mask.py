@@ -1,8 +1,4 @@
-from openprocurement.api.mask import (
-    MASK_STRING,
-    MASK_STRING_EN,
-    compile_mask_mapping,
-)
+from openprocurement.api.mask import MASK_STRING, MASK_STRING_EN, compile_mask_mapping
 
 SUBMISSION_MASK_MAPPING = compile_mask_mapping(
     {

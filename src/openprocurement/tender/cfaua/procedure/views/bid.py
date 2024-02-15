@@ -1,27 +1,31 @@
-from openprocurement.api.auth import ACCR_4
-from openprocurement.api.utils import json_view
-from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
-from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
-from openprocurement.tender.core.procedure.state.bid import BidState
-from openprocurement.tender.cfaua.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_deleted_bid,
-    validate_bid_operation_period,
-    validate_bid_operation_not_in_tendering,
-    validate_bid_operation_in_tendering,
-)
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_item_owner,
-    unless_administrator,
-    validate_accreditation_level,
-)
-from cornice.resource import resource
 from logging import getLogger
+
+from cornice.resource import resource
+
+from openprocurement.api.auth import ACCR_4
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_item_owner,
+    validate_accreditation_level,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaua.procedure.models.bid import Bid, PatchBid, PostBid
+from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.core.procedure.models.bid import (
+    filter_administrator_bid_update,
+)
+from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.core.procedure.validation import (
+    validate_bid_operation_in_tendering,
+    validate_bid_operation_not_in_tendering,
+    validate_bid_operation_period,
+    validate_update_deleted_bid,
+)
+from openprocurement.tender.openua.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
 

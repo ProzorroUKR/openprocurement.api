@@ -1,20 +1,23 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+
 from mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_tender_openeu_bids,
+)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_cancellation,
-)
-from openprocurement.tender.competitivedialogue.tests.base import test_tender_openeu_bids
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 # TenderStage2EU(UA)LotResourceTest
 

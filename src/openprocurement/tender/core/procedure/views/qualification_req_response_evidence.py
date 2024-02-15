@@ -2,26 +2,31 @@ from typing import Optional
 
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_qualification_requirement_response,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    unless_administrator,
     validate_input_data,
     validate_item_owner,
-    unless_administrator,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
-from openprocurement.tender.core.procedure.views.qualification_req_response import (
-    resolve_qualification,
-    resolve_req_response,
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.evidence import (
+    Evidence,
+    PatchEvidence,
+)
+from openprocurement.tender.core.procedure.state.req_response_evidence import (
+    QualificationReqResponseEvidenceState,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_operation_qualification_requirement_response,
 )
 from openprocurement.tender.core.procedure.views.base_req_response_evidence import (
     BaseReqResponseEvidenceResource,
     resolve_evidence,
 )
-from openprocurement.tender.core.procedure.state.req_response_evidence import QualificationReqResponseEvidenceState
+from openprocurement.tender.core.procedure.views.qualification_req_response import (
+    resolve_qualification,
+    resolve_req_response,
+)
 
 
 @resource(

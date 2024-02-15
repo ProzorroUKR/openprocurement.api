@@ -3,35 +3,28 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
-
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_tender_esco_features_data,
-    test_tender_esco_bids,
-    test_tender_esco_lots,
-)
-
-from openprocurement.tender.esco.tests.auction_blanks import (
-    # TenderAuctionResourceTest
-    get_tender_auction,
-    post_tender_auction,
-    patch_tender_auction,
-    # TenderMultipleLotAuctionResourceTest
-    get_tender_lots_auction,
-    post_tender_lots_auction,
-    # TenderAuctionFieldsTest
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.esco.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderAuctionFieldsTest; TenderSameValueAuctionResourceTest
     auction_check_NBUdiscountRate,
     auction_check_noticePublicationDate,
-    # TenderSameValueAuctionResourceTest
+    get_tender_auction,
+    get_tender_lots_auction,
+    patch_tender_auction,
+    post_tender_auction,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
+    post_tender_lots_auction,
+)
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_features_data,
+    test_tender_esco_lots,
 )
 
 

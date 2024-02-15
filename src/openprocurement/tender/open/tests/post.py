@@ -1,14 +1,16 @@
-from mock import patch
+from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from mock import patch
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
-    test_tender_below_organization,
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_draft_complaint,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import (
@@ -16,24 +18,23 @@ from openprocurement.tender.open.tests.base import (
     test_tender_open_bids,
 )
 from openprocurement.tender.open.tests.post_blanks import (
-    create_complaint_post_status_forbidden,
     create_complaint_post_claim_forbidden,
     create_complaint_post_complaint_owner,
+    create_complaint_post_release_forbidden,
+    create_complaint_post_review_date_forbidden,
+    create_complaint_post_status_forbidden,
     create_complaint_post_tender_owner,
     create_complaint_post_validate_recipient,
     create_complaint_post_validate_related_post,
-    patch_complaint_post,
-    get_complaint_post,
-    get_complaint_posts,
-    create_complaint_post_release_forbidden,
-    create_tender_complaint_post_document_json,
-    put_tender_complaint_document_json,
-    get_tender_complaint_post_document_json,
     create_tender_complaint_post_by_complaint_owner_document_json,
     create_tender_complaint_post_by_tender_owner_document_json,
-    create_complaint_post_review_date_forbidden,
+    create_tender_complaint_post_document_json,
+    get_complaint_post,
+    get_complaint_posts,
+    get_tender_complaint_post_document_json,
+    patch_complaint_post,
+    put_tender_complaint_document_json,
 )
-from copy import deepcopy
 
 date_after_2020_04_19 = get_now() - timedelta(days=1)
 

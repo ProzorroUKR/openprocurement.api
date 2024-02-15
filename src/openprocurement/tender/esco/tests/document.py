@@ -4,7 +4,6 @@ import unittest
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentWithDSResourceTestMixin,
 )
-
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 

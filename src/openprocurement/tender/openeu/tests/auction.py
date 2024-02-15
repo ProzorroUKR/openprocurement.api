@@ -3,11 +3,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_lots,
-)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
@@ -16,20 +11,23 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_lots,
+    test_tender_below_organization,
+)
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
 from openprocurement.tender.openeu.tests.auction_blanks import (
     get_tender_auction,
-    post_tender_auction,
-    post_tender_auction_reversed,
-    post_tender_auction_not_changed,
     get_tender_auction_feature,
+    post_tender_auction,
     post_tender_auction_feature,
+    post_tender_auction_not_changed,
+    post_tender_auction_reversed,
 )
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_openeu_features_data,
     test_tender_openeu_bids,
+    test_tender_openeu_features_data,
 )
 
 

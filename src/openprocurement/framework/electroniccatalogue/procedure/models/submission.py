@@ -2,9 +2,13 @@ from schematics.types import StringType
 
 from openprocurement.framework.core.procedure.models.submission import (
     PostSubmission as BasePostSubmission,
+)
+from openprocurement.framework.core.procedure.models.submission import (
     Submission as BaseSubmission,
 )
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 
 
 class PostSubmission(BasePostSubmission):

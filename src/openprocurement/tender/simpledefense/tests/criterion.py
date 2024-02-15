@@ -3,6 +3,12 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.openua.tests.criterion import (
+    TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
+)
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
     test_tender_simpledefense_data,
@@ -10,12 +16,6 @@ from openprocurement.tender.simpledefense.tests.base import (
 from openprocurement.tender.simpledefense.tests.criterion_blanks import (
     activate_tender,
     delete_requirement_evidence,
-)
-from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
-    TenderCriteriaRGRequirementEvidenceTestMixin,
 )
 
 

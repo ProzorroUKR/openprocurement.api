@@ -1,9 +1,12 @@
 from logging import getLogger
+
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import generate_id, request_init_qualification
 from openprocurement.api.procedure.context import get_framework
-from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import generate_id, request_init_qualification
+from openprocurement.framework.core.procedure.state.chronograph import (
+    ChronographEventsMixing,
+)
 
 LOGGER = getLogger(__name__)
 

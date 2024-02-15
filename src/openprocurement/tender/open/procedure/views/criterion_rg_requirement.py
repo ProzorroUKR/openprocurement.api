@@ -1,8 +1,15 @@
 from cornice.resource import resource
 
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
-from openprocurement.tender.core.procedure.views.criterion_rg_requirement import BaseRequirementResource
-from openprocurement.tender.open.procedure.state.criterion_rg_requirement import OpenRequirementState
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
+    BaseRequirementResource,
+)
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
+)
+from openprocurement.tender.open.procedure.state.criterion_rg_requirement import (
+    OpenRequirementState,
+)
 
 
 @resource(

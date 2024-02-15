@@ -1,26 +1,24 @@
 # -*- coding: utf-8 -*-
 import os
+from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
-from copy import deepcopy
 
-from openprocurement.api.utils import get_now
-from openprocurement.planning.api.tests.base import BasePlanWebTest
-from openprocurement.planning.api.constants import (
-    MILESTONE_APPROVAL_TITLE,
-    MILESTONE_APPROVAL_DESCRIPTION,
-)
-from openprocurement.tender.openua.tests.base import test_tender_openua_config
+from tests.base.constants import DOCS_URL
 from tests.base.data import (
     test_docs_plan_data,
-    test_docs_tender_openua,
     test_docs_tender_openeu,
+    test_docs_tender_openua,
 )
-from tests.base.constants import DOCS_URL
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
+from openprocurement.api.utils import get_now
+from openprocurement.planning.api.constants import (
+    MILESTONE_APPROVAL_DESCRIPTION,
+    MILESTONE_APPROVAL_TITLE,
 )
+from openprocurement.planning.api.tests.base import BasePlanWebTest
+from openprocurement.tender.openua.tests.base import test_tender_openua_config
 
 TARGET_DIR = 'docs/source/centralized-procurements/http/'
 

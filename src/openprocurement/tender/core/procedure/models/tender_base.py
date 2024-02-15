@@ -1,34 +1,41 @@
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from schematics.types import StringType
+
+from openprocurement.api.constants import MPC_REQUIRED_FROM, SANDBOX_MODE
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.tender.core.constants import (
-    PROCUREMENT_METHODS,
-)
-from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.tender.core.constants import PROCUREMENT_METHODS
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import tender_created_after, generate_tender_id
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
+from openprocurement.tender.core.procedure.models.criterion import (
+    Criterion,
+    validate_criteria_requirement_id_uniq,
+)
 from openprocurement.tender.core.procedure.models.document import (
-    PostDocument,
     Document,
+    PostDocument,
     validate_tender_document_relations,
 )
-from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_id_uniq
-from openprocurement.tender.core.procedure.models.organization import Buyer
-from openprocurement.tender.core.procedure.models.organization import Organization
-from openprocurement.tender.core.procedure.models.question import validate_questions_related_items, Question
-from openprocurement.tender.core.procedure.validation import (
-    validate_funders_unique,
-    validate_funders_ids,
-    validate_object_id_uniq,
+from openprocurement.tender.core.procedure.models.organization import (
+    Buyer,
+    Organization,
 )
-from openprocurement.api.constants import (
-    MPC_REQUIRED_FROM,
-    SANDBOX_MODE,
+from openprocurement.tender.core.procedure.models.question import (
+    Question,
+    validate_questions_related_items,
+)
+from openprocurement.tender.core.procedure.utils import (
+    generate_tender_id,
+    tender_created_after,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_funders_ids,
+    validate_funders_unique,
+    validate_object_id_uniq,
 )
 
 

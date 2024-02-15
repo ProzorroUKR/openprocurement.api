@@ -1,25 +1,21 @@
 # -*- coding: utf-8 -*-
 import os
-
 from copy import deepcopy
 from datetime import timedelta
-from uuid import uuid4
 from hashlib import sha512
+from uuid import uuid4
+
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_data,
-    test_tender_below_config,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import test_contract_data
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.api.utils import get_now
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_config,
+    test_tender_below_data,
 )
 
 

@@ -1,15 +1,19 @@
-from openprocurement.tender.openua.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
-from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
-from openprocurement.tender.esco.procedure.models.value import ESCOValue
-from openprocurement.tender.esco.procedure.models.auction import AuctionResults, AuctionLotResults
 from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
-    validate_auction_tender_status,
     validate_active_lot,
+    validate_auction_tender_status,
 )
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.tender.esco.procedure.models.auction import (
+    AuctionLotResults,
+    AuctionResults,
+)
+from openprocurement.tender.esco.procedure.models.value import ESCOValue
+from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
+from openprocurement.tender.openua.procedure.views.auction import TenderAuctionResource
 
 
 @resource(

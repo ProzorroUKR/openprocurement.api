@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.tests.cancellation import (
-    activate_cancellation_after_2020_04_19,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
     test_tender_below_cancellation,
     test_tender_below_claim,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.openua.tests.base import test_tender_openua_bids
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 
 def patch_tender_currency(self):

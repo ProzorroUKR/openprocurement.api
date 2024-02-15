@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.tender.core.procedure.views.qualification_req_response_evidence import (
     QualificationReqResponseEvidenceResource as BaseReqResponseEvidenceResource,
 )
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 
 
 @resource(

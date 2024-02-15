@@ -1,4 +1,4 @@
-from jinja2 import FileSystemLoader, Environment
+from jinja2 import Environment, FileSystemLoader
 
 from openprocurement.api.constants import BASE_DIR
 

@@ -1,37 +1,31 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.utils import raise_operation_error
+from mock import patch
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2,
+    test_docs_bid_draft,
+    test_docs_complaint,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+    test_docs_tender_openua,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
+from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_question,
-    test_docs_complaint,
-    test_docs_tender_openua,
-    test_docs_bid_draft,
-    test_docs_bid2,
-    test_docs_subcontracting,
-    test_docs_qualified,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
+from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
 
 test_tender_ua_data = deepcopy(test_docs_tender_openua)
 bid = deepcopy(test_docs_bid_draft)

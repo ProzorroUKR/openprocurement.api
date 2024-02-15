@@ -1,7 +1,6 @@
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.types import IsoDateTimeType
-
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
+from openprocurement.api.procedure.types import IsoDateTimeType
 
 
 class QualificationPeriod(Period):

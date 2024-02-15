@@ -2,60 +2,60 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
+
 import mock
 
-from openprocurement.api.tests.base import snitch, change_auth
+from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_draft_complaint,
-)
 from openprocurement.tender.belowthreshold.tests.award import (
+    Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    Tender2LotAwardDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
     patch_tender_lot_award_lots_none,
 )
-
-from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
-from openprocurement.tender.openua.tests.award_blanks import (
-    create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
-    create_tender_lot_award_complaint,
-    patch_tender_lot_award_complaint,
-    create_tender_award_no_scale_invalid,
-)
-
-from openprocurement.tender.openeu.tests.award_blanks import (
-    patch_tender_award_complaint_document,
-    create_tender_2lot_award_complaint_document,
-    put_tender_2lot_award_complaint_document,
-    patch_tender_2lot_award_complaint_document,
-    create_tender_2lot_award,
-    patch_tender_2lot_award,
-    create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
-    create_tender_award_invalid,
-    get_tender_award,
-    patch_tender_award_active,
-    check_tender_award_complaint_period_dates,
-)
-from openprocurement.tender.openeu.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_openeu_bids,
-    test_tender_openeu_three_bids,
-    test_tender_openeu_lots,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
 from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_award_unsuccessful_complaint_first,
     patch_tender_award_unsuccessful_complaint_second,
+)
+from openprocurement.tender.openeu.tests.award_blanks import (
+    check_tender_award_complaint_period_dates,
+    create_tender_2lot_award,
+    create_tender_2lot_award_complaint_document,
+    create_tender_award_invalid,
+    create_tender_lot_award,
+    get_tender_award,
+    patch_tender_2lot_award,
+    patch_tender_2lot_award_complaint_document,
+    patch_tender_award_active,
+    patch_tender_award_complaint_document,
+    patch_tender_lot_award,
+    patch_tender_lot_award_unsuccessful,
+    put_tender_2lot_award_complaint_document,
+)
+from openprocurement.tender.openeu.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_openeu_bids,
+    test_tender_openeu_lots,
+    test_tender_openeu_three_bids,
+)
+from openprocurement.tender.openua.tests.award import (
+    TenderUAAwardComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    create_tender_award_no_scale_invalid,
+    create_tender_lot_award_complaint,
+    create_tender_lots_award_complaint,
+    patch_tender_lot_award_complaint,
+    patch_tender_lots_award_complaint,
 )
 
 

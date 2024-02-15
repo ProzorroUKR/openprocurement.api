@@ -1,17 +1,19 @@
 from cornice.resource import resource
 
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.qualification_claim import (
     CDStage1QualificationClaimState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.qualification_complaint import (
     CDStage1QualificationComplaintState,
 )
+from openprocurement.tender.core.procedure.views.qualification_claim import (
+    QualificationClaimResource,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint import (
     QualificationComplaintGetResource,
     QualificationComplaintWriteResource,
 )
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
 
 
 @resource(

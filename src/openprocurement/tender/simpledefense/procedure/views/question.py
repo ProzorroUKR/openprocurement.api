@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.tender.openua.procedure.views.question import UATenderQuestionResource
+from openprocurement.tender.openua.procedure.views.question import (
+    UATenderQuestionResource,
+)
 
 
 @resource(

@@ -1,28 +1,30 @@
+from math import ceil, floor
 from typing import List
+from uuid import uuid4
+
+from schematics.types import BaseType, MD5Type, StringType, URLType
 from schematics.types.compound import ModelType
-from schematics.types import URLType, StringType, MD5Type, BaseType
 from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
-from uuid import uuid4
-from math import floor, ceil
-from openprocurement.api.context import get_now
-from openprocurement.api.procedure.types import IsoDateTimeType
+
 from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_FROM,
-    MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
+    MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
 )
-from openprocurement.tender.core.utils import get_first_revision_date
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType
 from openprocurement.tender.core.procedure.models.guarantee import (
     Guarantee,
-    Value,
     PostGuarantee,
     PostValue,
+    Value,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.utils import get_first_revision_date
 
 
 class BaseLotSerializersMixin(Model):

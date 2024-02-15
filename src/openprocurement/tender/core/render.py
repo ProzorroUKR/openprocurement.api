@@ -1,6 +1,8 @@
-from openprocurement.api.render import env, HUMAN_FILTERS
 from collections import defaultdict
+
 import standards
+
+from openprocurement.api.render import HUMAN_FILTERS, env
 
 pm_types = standards.load("codelists/tender/tender_procurement_method_type.json")
 pm_types = {k: v["name_uk"] for k, v in pm_types.items()}

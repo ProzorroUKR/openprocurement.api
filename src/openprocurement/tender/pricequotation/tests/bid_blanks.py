@@ -1,18 +1,22 @@
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
-    test_tender_pq_requirement_response_valid,
     test_tender_pq_requirement_response,
+    test_tender_pq_requirement_response_valid,
     test_tender_pq_response_1,
     test_tender_pq_response_2,
     test_tender_pq_response_3,
     test_tender_pq_response_4,
 )
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_shortlisted_firms
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_shortlisted_firms,
+)
 from openprocurement.tender.pricequotation.tests.utils import copy_criteria_req_id
-from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_bid_invalid(self):

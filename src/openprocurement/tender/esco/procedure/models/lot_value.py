@@ -1,11 +1,16 @@
 from schematics.types.compound import ModelType
+
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.esco.procedure.models.value import ESCOValue, PatchESCOValue
 from openprocurement.tender.esco.procedure.validation import validate_lotvalue_value
 from openprocurement.tender.openua.procedure.models.lot_value import (
-    PostLotValue as BasePostLotValue,
-    PatchLotValue as BasePatchLotValue,
     LotValue as BaseLotValue,
+)
+from openprocurement.tender.openua.procedure.models.lot_value import (
+    PatchLotValue as BasePatchLotValue,
+)
+from openprocurement.tender.openua.procedure.models.lot_value import (
+    PostLotValue as BasePostLotValue,
 )
 
 

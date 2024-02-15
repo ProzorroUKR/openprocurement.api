@@ -1,23 +1,23 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, BaseType, FloatType, MD5Type
+from schematics.types import BaseType, FloatType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, URLType
 from openprocurement.api.constants import (
-    UA_ROAD_SCHEME,
-    UA_ROAD,
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
     CPV_CODES,
-    DK_CODES,
-    GMDN_2019_SCHEME,
-    GMDN_2019,
-    GMDN_2023_SCHEME,
-    GMDN_2023,
     CPV_NOT_CPV,
+    DK_CODES,
+    GMDN_2019,
+    GMDN_2019_SCHEME,
+    GMDN_2023,
+    GMDN_2023_SCHEME,
+    UA_ROAD,
+    UA_ROAD_SCHEME,
 )
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType, URLType
 
 
 class Classification(Model):

@@ -1,7 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.belowthreshold.procedure.state.criterion import (
+    BelowThresholdCriterionState,
+)
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
-from openprocurement.tender.belowthreshold.procedure.state.criterion import BelowThresholdCriterionState
 
 
 @resource(

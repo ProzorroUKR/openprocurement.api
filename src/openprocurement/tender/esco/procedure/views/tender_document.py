@@ -1,5 +1,8 @@
-from openprocurement.tender.openua.procedure.views.tender_document import UATenderDocumentResource
 from cornice.resource import resource
+
+from openprocurement.tender.openua.procedure.views.tender_document import (
+    UATenderDocumentResource,
+)
 
 
 @resource(

@@ -1,12 +1,16 @@
 import re
 from datetime import datetime, timedelta
-from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
-from hashlib import algorithms_guaranteed, new as hash_new
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
+from hashlib import algorithms_guaranteed
+from hashlib import new as hash_new
 
-from isodate import Duration, parse_duration, ISO8601Error, duration_isoformat
+from isodate import Duration, ISO8601Error, duration_isoformat, parse_duration
 from schematics.exceptions import ConversionError, StopValidation, ValidationError
-from schematics.types import DecimalType as BaseDecimalType, StringType, IntType, BooleanType, BaseType
-from schematics.types.compound import ListType as BaseListType, ModelType as BaseModelType
+from schematics.types import BaseType, BooleanType
+from schematics.types import DecimalType as BaseDecimalType
+from schematics.types import IntType, StringType
+from schematics.types.compound import ListType as BaseListType
+from schematics.types.compound import ModelType as BaseModelType
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date

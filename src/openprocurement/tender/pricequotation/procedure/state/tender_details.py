@@ -1,12 +1,19 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
-from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM, CONTRACT_TEMPLATES_KEYS
+from openprocurement.api.constants import (
+    CONTRACT_TEMPLATES_KEYS,
+    PQ_NEW_CONTRACTING_FROM,
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsMixing,
+)
+from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
+from openprocurement.tender.pricequotation.procedure.state.tender import (
+    PriceQuotationTenderState,
+)
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):

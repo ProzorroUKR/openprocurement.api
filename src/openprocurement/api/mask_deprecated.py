@@ -1,9 +1,10 @@
+from hashlib import sha224
+
 from openprocurement.api.constants import (
-    MASK_OBJECT_DATA,
     MASK_IDENTIFIER_IDS,
+    MASK_OBJECT_DATA,
     MASK_OBJECT_DATA_SINGLE,
 )
-from hashlib import sha224
 
 EXCLUDED_FIELDS = {
     "mode",

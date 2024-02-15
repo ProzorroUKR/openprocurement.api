@@ -1,35 +1,45 @@
-from schematics.types import StringType, MD5Type, BaseType
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
+
+from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.item import Classification
+from openprocurement.api.procedure.models.organization import BusinessOrganization
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
+from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.models.period import (
-    StartedPeriodEndRequired,
     PeriodStartEndRequired,
+    StartedPeriodEndRequired,
 )
-from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
-from openprocurement.api.procedure.models.organization import BusinessOrganization
-from openprocurement.api.procedure.models.item import Classification
 from openprocurement.tender.core.procedure.models.tender import (
-    PostBaseTender,
-    PatchBaseTender,
     BaseTender,
+    PatchBaseTender,
+    PostBaseTender,
     validate_related_buyer_in_items,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_period_start_date,
+)
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.pricequotation.procedure.models.criterion import Criterion, validate_criterion_related_items
-from openprocurement.tender.pricequotation.procedure.models.requirement import validate_criteria_id_uniq
-from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
-from openprocurement.tender.pricequotation.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
-from openprocurement.tender.core.procedure.validation import validate_tender_period_start_date
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ModelType, IsoDateTimeType
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS
+from openprocurement.tender.pricequotation.procedure.models.criterion import (
+    Criterion,
+    validate_criterion_related_items,
+)
+from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
+from openprocurement.tender.pricequotation.procedure.models.organization import (
+    ProcuringEntity,
+)
+from openprocurement.tender.pricequotation.procedure.models.requirement import (
+    validate_criteria_id_uniq,
+)
 
 
 class Agreement(Model):

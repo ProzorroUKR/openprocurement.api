@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import binascii
-from hashlib import sha512
-from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from configparser import ConfigParser
+from hashlib import sha512
+
+from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from pyramid.interfaces import IAuthenticationPolicy
 
 ACCR_1 = '1'

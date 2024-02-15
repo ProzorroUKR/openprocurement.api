@@ -1,34 +1,38 @@
+from logging import getLogger
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
+from schematics.types import IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from schematics.types import StringType, MD5Type, IntType
-from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.reference import Reference
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.api.procedure.models.item import Classification as BaseClassification
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.utils import get_first_revision_date
+
 from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
-    RELEASE_GUARANTEE_CRITERION_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    RELEASE_GUARANTEE_CRITERION_FROM,
 )
-
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.item import (
+    Classification as BaseClassification,
+)
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
-    CRITERION_LIFE_CYCLE_COST_IDS,
     AWARD_CRITERIA_LIFE_CYCLE_COST,
+    CRITERION_LIFE_CYCLE_COST_IDS,
+)
+from openprocurement.tender.core.procedure.models.identifier import (
+    LegislationIdentifier,
 )
 from openprocurement.tender.core.procedure.validation import (
+    validate_object_id_uniq,
     validate_requirement_values,
     validate_value_type,
-    validate_object_id_uniq,
 )
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.identifier import LegislationIdentifier
-from logging import getLogger
-
 
 LOGGER = getLogger(__name__)
 

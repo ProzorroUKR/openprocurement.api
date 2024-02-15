@@ -1,25 +1,31 @@
-from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_auction_tender_status,
-    validate_auction_tender_non_lot,
-    validate_active_lot,
-)
-from openprocurement.api.procedure.validation import validate_input_data
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.utils import apply_data_patch
+from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.models.auction import (
+    AuctionLotResults,
+    AuctionResults,
     AuctionUrls,
     LotAuctionUrls,
-    AuctionResults,
-    AuctionLotResults,
 )
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
-from openprocurement.tender.core.procedure.utils import submission_method_details_includes
-from openprocurement.tender.core.utils import QUICK_NO_AUCTION, QUICK_FAST_FORWARD, QUICK_FAST_AUCTION
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import (
+    save_tender,
+    submission_method_details_includes,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_active_lot,
+    validate_auction_tender_non_lot,
+    validate_auction_tender_status,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.utils import (
+    QUICK_FAST_AUCTION,
+    QUICK_FAST_FORWARD,
+    QUICK_NO_AUCTION,
+)
 
 
 class TenderAuctionResource(TenderBaseResource):

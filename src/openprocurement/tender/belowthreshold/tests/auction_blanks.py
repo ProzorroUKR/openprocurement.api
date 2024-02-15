@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from openprocurement.tender.core.tests.utils import change_auth
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_draft_claim,
     test_tender_below_claim,
+    test_tender_below_draft_claim,
 )
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def update_patch_data(self, patch_data, key=None, start=0, interval=None, with_weighted_value=False):

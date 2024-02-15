@@ -7,12 +7,15 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.validation import (
-    validate_agreement_operation_not_in_allowed_status,
     validate_agreement_framework,
+    validate_agreement_operation_not_in_allowed_status,
 )
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.dps.procedure.models.agreement import PostAgreement, Agreement
+from openprocurement.framework.dps.procedure.models.agreement import (
+    Agreement,
+    PostAgreement,
+)
 
 
 @resource(

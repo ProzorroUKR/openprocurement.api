@@ -1,5 +1,8 @@
-from openprocurement.tender.openua.procedure.views.cancellation_document import UACancellationDocumentResource
 from cornice.resource import resource
+
+from openprocurement.tender.openua.procedure.views.cancellation_document import (
+    UACancellationDocumentResource,
+)
 
 
 @resource(

@@ -1,6 +1,10 @@
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    BelowThresholdTenderState,
+)
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
-from openprocurement.tender.core.procedure.validation import base_validate_operation_ecriteria_objects
+from openprocurement.tender.core.procedure.validation import (
+    base_validate_operation_ecriteria_objects,
+)
 
 
 class BaseBelowThresholdCriterionStateMixin:

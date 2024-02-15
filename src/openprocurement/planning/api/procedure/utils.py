@@ -1,10 +1,8 @@
 from logging import getLogger
-from openprocurement.api.utils import handle_store_exceptions, context_unpack
+
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.utils import (
-    append_revision,
-    get_revision_changes,
-)
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes
+from openprocurement.api.utils import context_unpack, handle_store_exceptions
 
 LOGGER = getLogger(__name__)
 

@@ -1,8 +1,12 @@
-from openprocurement.tender.core.procedure.views.document import resolve_document
+from openprocurement.tender.core.procedure.state.award_complaint_document import (
+    AwardComplaintDocumentState,
+)
 from openprocurement.tender.core.procedure.views.award import resolve_award
-from openprocurement.tender.core.procedure.views.complaint_document import BaseComplaintDocumentResource
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
-from openprocurement.tender.core.procedure.state.award_complaint_document import AwardComplaintDocumentState
+from openprocurement.tender.core.procedure.views.complaint_document import (
+    BaseComplaintDocumentResource,
+)
+from openprocurement.tender.core.procedure.views.document import resolve_document
 
 
 class AwardComplaintDocumentResource(BaseComplaintDocumentResource):

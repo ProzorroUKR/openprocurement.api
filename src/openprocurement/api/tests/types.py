@@ -2,7 +2,8 @@
 import os
 import sys
 import unittest
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
+
 from isodate import duration_isoformat
 from isodate.duration import Duration
 from pytz import timezone
@@ -11,9 +12,9 @@ from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDurationType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, IsoDurationType
+from openprocurement.api.tests.base import BaseWebTest
 
 
 class TestModel(Model):

@@ -1,7 +1,8 @@
-from isodate import parse_duration
-from datetime import timedelta, datetime
-from openprocurement.api.constants import TZ
+from datetime import datetime, timedelta
 
+from isodate import parse_duration
+
+from openprocurement.api.constants import TZ
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)

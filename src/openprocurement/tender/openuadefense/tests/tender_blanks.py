@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+
 from mock import patch
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-)
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
 )
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-
 
 # TenderUATest
 from openprocurement.tender.openuadefense.utils import calculate_tender_business_date

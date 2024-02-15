@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.contract_items_unit_value import ContractItemsUnitValueResource
-from openprocurement.tender.belowthreshold.procedure.state.contract import BelowThresholdContractState
 from cornice.resource import resource
+
+from openprocurement.tender.belowthreshold.procedure.state.contract import (
+    BelowThresholdContractState,
+)
+from openprocurement.tender.core.procedure.views.contract_items_unit_value import (
+    ContractItemsUnitValueResource,
+)
 
 
 @resource(

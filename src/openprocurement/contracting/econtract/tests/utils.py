@@ -1,7 +1,7 @@
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.context import set_now
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.econtract.procedure.models.contract import PostContract
 
 

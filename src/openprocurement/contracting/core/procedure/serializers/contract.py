@@ -1,4 +1,7 @@
-from openprocurement.api.procedure.serializers.base import BaseSerializer, BaseUIDSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    BaseUIDSerializer,
+)
 
 
 class ContractBaseSerializer(BaseUIDSerializer):

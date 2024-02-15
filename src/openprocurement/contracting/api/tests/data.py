@@ -1,6 +1,5 @@
 from copy import deepcopy
 from hashlib import sha512
-
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now

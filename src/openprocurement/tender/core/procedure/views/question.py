@@ -1,27 +1,27 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import json_view, update_logging_context
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.state.question import TenderQuestionState
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.serializers.question import QuestionSerializer
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
+from openprocurement.api.procedure.validation import (
+    validate_accreditation_level,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.models.question import (
-    PostQuestion,
     PatchQuestion,
+    PostQuestion,
     Question,
 )
+from openprocurement.tender.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionState
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_operation_with_lot_cancellation_in_pending,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner,
-    validate_accreditation_level,
-)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 

@@ -1,8 +1,19 @@
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.award import UAAward, EUAward
-from openprocurement.tender.openeu.procedure.views.auction import EUTenderAuctionResource
-from openprocurement.tender.openua.procedure.views.auction import UATenderAuctionResource
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.procedure.models.award import (
+    EUAward,
+    UAAward,
+)
+from openprocurement.tender.openeu.procedure.views.auction import (
+    EUTenderAuctionResource,
+)
+from openprocurement.tender.openua.procedure.views.auction import (
+    UATenderAuctionResource,
+)
 
 
 @resource(

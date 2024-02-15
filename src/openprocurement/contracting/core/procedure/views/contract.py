@@ -1,25 +1,30 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import context_unpack, json_view, request_init_contract
-from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.procedure.context import get_contract
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_input_data,
+)
+from openprocurement.api.utils import context_unpack, json_view, request_init_contract
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
+from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.contracting.core.procedure.models.contract import ContractConfig
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    ContractBaseSerializer,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.validation import (
-    validate_config_data,
-    validate_input_data,
-    unless_admins,
-    validate_accreditation_level,
-)
-from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 

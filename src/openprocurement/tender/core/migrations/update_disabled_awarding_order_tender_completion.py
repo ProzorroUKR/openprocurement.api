@@ -7,9 +7,9 @@ from openprocurement.tender.core.procedure.utils import contracts_allow_to_compl
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 

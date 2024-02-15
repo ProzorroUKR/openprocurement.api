@@ -2,31 +2,30 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
     test_tender_cfaselectionua_lots,
 )
 from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
+    create_tender_bid_invalid,
+    create_tender_bid_invalid_feature,
     create_tender_lot_invalid,
-    patch_tender_lot,
-    patch_tender_lot_invalid,
-    patch_tender_currency,
-    patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    tender_lot_guarantee,
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    create_tender_bid_invalid,
+    patch_lot_guarantee_on_active_enquiries,
     patch_tender_bid,
-    create_tender_bid_invalid_feature,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_lot_invalid,
+    patch_tender_vat,
     proc_1lot_0bid,
     proc_1lot_1bid,
     proc_1lot_2bid,
-    patch_lot_guarantee_on_active_enquiries,
+    tender_features_invalid,
+    tender_lot_document,
+    tender_lot_guarantee,
+    tender_value,
 )
 
 

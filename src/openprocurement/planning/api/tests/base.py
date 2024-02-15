@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
+from base64 import b64encode
 from copy import deepcopy
 from datetime import datetime, timedelta
-from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
-from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
-from uuid import uuid4
-from base64 import b64encode
 from urllib.parse import urlencode
+from uuid import uuid4
+
+import pytest
 from nacl.encoding import HexEncoder
 
+from openprocurement.api.tests.base import BaseTestApp, loadwsgiapp
+from openprocurement.tender.core.tests.base import BaseWebTest as BaseCoreWebTest
 
 now = datetime.now()
 test_plan_data = {

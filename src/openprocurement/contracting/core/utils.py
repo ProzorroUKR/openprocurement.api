@@ -3,11 +3,10 @@ from logging import getLogger
 
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.api.utils import error_handler
-from openprocurement.tender.core.procedure.utils import extract_path
-
 from openprocurement.api.validation import validate_json_data
+from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.tender.core.procedure.utils import extract_path
 
 LOGGER = getLogger("openprocurement.contracting.api")
 

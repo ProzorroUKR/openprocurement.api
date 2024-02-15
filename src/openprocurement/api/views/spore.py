@@ -4,8 +4,8 @@
 import re
 
 from cornice.service import Service, get_services
-from openprocurement.api.constants import VERSION
 
+from openprocurement.api.constants import VERSION
 
 URL_PLACEHOLDER = re.compile(r'\{([a-zA-Z0-9_-]*)\}')
 

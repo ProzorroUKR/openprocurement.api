@@ -1,15 +1,17 @@
-from schematics.types.compound import ModelType
 from schematics.types import StringType
+from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.tender.core.procedure.models.guarantee import Value, PostValue
+
+from openprocurement.tender.core.procedure.models.guarantee import PostValue, Value
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
-    PostBaseLot,
-    PatchLot as BasePatchLot,
-    PatchTenderLot as BasePatchTenderLot,
-    TenderLotMixin,
     BaseLotSerializersMixin,
 )
+from openprocurement.tender.core.procedure.models.lot import PatchLot as BasePatchLot
+from openprocurement.tender.core.procedure.models.lot import (
+    PatchTenderLot as BasePatchTenderLot,
+)
+from openprocurement.tender.core.procedure.models.lot import PostBaseLot, TenderLotMixin
 
 
 class LotValueSerializerMixin(BaseLotSerializersMixin):

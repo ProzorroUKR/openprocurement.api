@@ -1,7 +1,10 @@
-from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
-from openprocurement.api.utils import raise_operation_error
 from cornice.resource import resource
+
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 
 
 @resource(

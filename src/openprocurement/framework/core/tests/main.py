@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.framework.core.tests import framework, agreement
+from openprocurement.framework.core.tests import agreement, framework
 
 
 def suite():

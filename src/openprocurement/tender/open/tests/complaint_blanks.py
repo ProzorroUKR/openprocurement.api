@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
-from uuid import uuid4
-
-from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
-    test_tender_below_draft_claim,
-    test_tender_below_complaint,
-    test_tender_below_author,
-    test_tender_below_draft_complaint,
-    test_tender_below_cancellation,
-    test_tender_below_organization,
-)
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from mock import patch
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
+
+from mock import patch
+
+from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_complaint,
+    test_tender_below_draft_claim,
+    test_tender_below_draft_complaint,
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 
 
 def create_tender_complaint(self):

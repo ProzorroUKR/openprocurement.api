@@ -1,16 +1,15 @@
+from datetime import timedelta
 from typing import TYPE_CHECKING
 
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import raise_operation_error, get_first_revision_date
-from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
-from datetime import timedelta
-
+from openprocurement.tender.core.utils import calculate_complaint_business_date
 
 if TYPE_CHECKING:
     baseclass = TenderState

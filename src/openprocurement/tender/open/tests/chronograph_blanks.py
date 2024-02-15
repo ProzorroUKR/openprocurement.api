@@ -3,8 +3,8 @@ from copy import deepcopy
 
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
     test_tender_below_author,
+    test_tender_below_claim,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 

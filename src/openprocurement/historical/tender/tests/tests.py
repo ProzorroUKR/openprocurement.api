@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 import os.path
 from copy import deepcopy
-from jsonpointer import resolve_pointer
-from jsonpatch import apply_patch
 
+from jsonpatch import apply_patch
+from jsonpointer import resolve_pointer
+
+from openprocurement.historical.core.constants import HASH
+from openprocurement.historical.core.constants import PREVIOUS_HASH as PHASH
+from openprocurement.historical.core.constants import VERSION
+from openprocurement.historical.core.tests.tests import mock_doc
 from openprocurement.historical.core.utils import parse_hash
-from openprocurement.historical.core.constants import VERSION, PREVIOUS_HASH as PHASH, HASH
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
-    test_tender_below_data,
-    test_tender_below_organization,
-    test_tender_below_lots,
     test_tender_below_config,
+    test_tender_below_data,
+    test_tender_below_lots,
+    test_tender_below_organization,
 )
-from openprocurement.historical.core.tests.tests import mock_doc
-
 
 test_data_with_revisions = deepcopy(mock_doc)
 test_data_with_revisions["doc_type"] = "Tender"

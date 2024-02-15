@@ -1,10 +1,12 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.openuadefense.procedure.state.tender_details import DefenseTenderDetailsState
+from openprocurement.tender.openuadefense.procedure.state.tender_details import (
+    DefenseTenderDetailsState,
+)
 from openprocurement.tender.simpledefense.constants import (
-    TENDERING_EXTRA_PERIOD,
+    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
-    COMPLAINT_SUBMIT_TIME,
+    TENDERING_EXTRA_PERIOD,
 )
 
 

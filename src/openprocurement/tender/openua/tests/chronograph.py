@@ -2,31 +2,31 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
     test_tender_below_author,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_auction,
+)
+from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful as switch_to_unsuccessful_0bid,
 )
-
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid,
-    switch_to_unsuccessful_1bid,
+    set_auction_period_lot,
+    set_auction_period_lot_0bid,
+    switch_to_auction_lot,
     switch_to_complaint,
     switch_to_unsuccessful,
-    switch_to_unsuccessful_lot_0bid,
-    set_auction_period_lot_0bid,
-    switch_to_unsuccessful_lot_1bid,
-    switch_to_auction_lot,
+    switch_to_unsuccessful_1bid,
     switch_to_unsuccessful_lot,
-    set_auction_period_lot,
+    switch_to_unsuccessful_lot_0bid,
+    switch_to_unsuccessful_lot_1bid,
 )
 
 

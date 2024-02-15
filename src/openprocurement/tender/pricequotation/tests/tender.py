@@ -1,63 +1,66 @@
 import unittest
 from copy import deepcopy
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
+from unittest.mock import patch
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_criteria_1, test_tender_pq_short_profile
-from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    create_tender_config_test,
+    create_tender_with_earlier_non_required_unit,
+    create_tender_with_required_unit,
+    dateModified_tender,
+    get_tender,
+    guarantee,
+    patch_not_author,
+    patch_tender_jsonpatch,
+    tender_funders,
+    tender_items_float_quantity,
+    tender_items_negative_quantity,
+    tender_not_found,
+    tender_token_invalid,
+    tender_with_main_procurement_category,
+)
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
     test_tender_pq_data,
 )
-
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_criteria_1,
+    test_tender_pq_short_profile,
+)
 from openprocurement.tender.pricequotation.tests.tender_blanks import (
-    listing,
-    listing_draft,
-    listing_changes,
-    one_valid_bid_tender,
-    one_invalid_bid_tender,
-    first_bid_tender,
     create_tender,
     create_tender_draft,
-    create_tender_generated,
-    create_tender_invalid,
-    create_tender_with_inn,
     create_tender_draft_with_criteria,
     create_tender_draft_with_criteria_expected_values,
+    create_tender_generated,
+    create_tender_in_not_draft_status,
+    create_tender_invalid,
+    create_tender_with_inn,
+    first_bid_tender,
     invalid_tender_conditions,
+    listing,
+    listing_changes,
+    listing_draft,
+    lost_contract_for_active_award,
+    one_invalid_bid_tender,
+    one_valid_bid_tender,
+    patch_items_related_buyer_id,
     patch_tender,
-    patch_tender_by_pq_bot_before_multiprofile,
     patch_tender_by_pq_bot_after_multiprofile,
+    patch_tender_by_pq_bot_before_multiprofile,
+    patch_tender_status,
+    required_field_deletion,
+    tender_criteria_values_type,
+    tender_fields,
     tender_owner_can_change_in_draft,
     tender_owner_cannot_change_in_draft,
     tender_period_update,
-    required_field_deletion,
-    tender_fields,
-    lost_contract_for_active_award,
-    create_tender_in_not_draft_status,
-    patch_tender_status,
-    patch_items_related_buyer_id,
-    tender_criteria_values_type,
 )
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    guarantee,
-    get_tender,
-    tender_not_found,
-    dateModified_tender,
-    patch_not_author,
-    tender_items_float_quantity,
-    tender_items_negative_quantity,
-    patch_tender_jsonpatch,
-    tender_funders,
-    tender_with_main_procurement_category,
-    tender_token_invalid,
-    create_tender_with_required_unit,
-    create_tender_with_earlier_non_required_unit,
-    create_tender_config_test,
-)
-from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
+from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 
 
 class TenderResourceTestMixin:

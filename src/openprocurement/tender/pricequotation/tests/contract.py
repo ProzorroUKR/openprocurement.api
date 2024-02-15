@@ -1,36 +1,36 @@
 import unittest
-from unittest.mock import patch
+from copy import deepcopy
 from datetime import timedelta
-from openprocurement.api.utils import get_now
+from unittest.mock import patch
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_data,
-    test_tender_pq_bids,
-    test_tender_pq_multi_buyers_data,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
+    TenderContractResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract,
     create_tender_contract_in_complete_status,
-    patch_tender_contract_value,
+    patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_with_status,
-    patch_contract_multi_items_unit_value,
+    patch_tender_contract_value,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+)
+from openprocurement.tender.pricequotation.tests.base import (
+    TenderContentWebTest,
+    test_tender_pq_bids,
+    test_tender_pq_data,
+    test_tender_pq_multi_buyers_data,
 )
 from openprocurement.tender.pricequotation.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_value_vat_not_included,
 )
-from copy import deepcopy
-
 
 multi_item_tender_data = deepcopy(test_tender_pq_data)
 multi_item_tender_data["items"] *= 3

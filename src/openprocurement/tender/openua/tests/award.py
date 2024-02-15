@@ -1,78 +1,74 @@
 # -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
+
 import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-)
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
-    test_tender_below_organization,
-    test_tender_below_draft_complaint,
-)
-
 from openprocurement.tender.belowthreshold.tests.award import (
-    TenderAwardResourceTestMixin,
+    Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    create_tender_award_document_json_bulk,
+    create_tender_lots_award_complaint_document,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    create_tender_lots_award_complaint_document,
     patch_tender_lot_award_lots_none,
-    create_tender_award_document_json_bulk,
 )
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.award_blanks import (
+    patch_tender_award_unsuccessful_complaint_first,
+    patch_tender_award_unsuccessful_complaint_second,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
+    create_award_requirement_response,
+    create_award_requirement_response_evidence,
+    create_tender_award_claim,
+    create_tender_award_complaint,
+    create_tender_award_complaint_after_2020_04_19,
+    create_tender_award_complaint_not_active,
+    create_tender_award_no_scale_invalid,
+    create_tender_lot_award,
+    create_tender_lot_award_complaint,
+    create_tender_lots_award,
+    create_tender_lots_award_complaint,
+    get_award_requirement_response,
+    get_award_requirement_response_evidence,
+    last_award_unsuccessful_next_check,
+    patch_award_requirement_response,
+    patch_award_requirement_response_evidence,
+    patch_tender_award_active,
+    patch_tender_award_complaint,
+    patch_tender_award_complaint_document,
+    patch_tender_lot_award,
+    patch_tender_lot_award_complaint,
+    patch_tender_lot_award_unsuccessful,
+    patch_tender_lots_award,
+    patch_tender_lots_award_complaint,
+    patch_tender_lots_award_complaint_document,
+    put_tender_lots_award_complaint_document,
+    review_tender_award_claim,
+    review_tender_award_complaint,
+    review_tender_award_stopping_complaint,
+    tender_award_complaint_period,
+)
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
     test_tender_openua_three_bids,
-)
-from openprocurement.tender.openua.tests.award_blanks import (
-    patch_tender_award_active,
-    create_tender_award_no_scale_invalid,
-    create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
-    create_tender_lots_award,
-    patch_tender_lots_award,
-    create_tender_award_claim,
-    create_tender_award_complaint_not_active,
-    create_tender_award_complaint_after_2020_04_19,
-    create_tender_award_complaint,
-    patch_tender_award_complaint,
-    review_tender_award_complaint,
-    review_tender_award_claim,
-    review_tender_award_stopping_complaint,
-    create_tender_lot_award_complaint,
-    patch_tender_lot_award_complaint,
-    create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
-    patch_tender_award_complaint_document,
-    put_tender_lots_award_complaint_document,
-    patch_tender_lots_award_complaint_document,
-    tender_award_complaint_period,
-    last_award_unsuccessful_next_check,
-    bot_patch_tender_award_complaint,
-    bot_patch_tender_award_complaint_forbidden,
-    create_award_requirement_response,
-    patch_award_requirement_response,
-    get_award_requirement_response,
-    create_award_requirement_response_evidence,
-    patch_award_requirement_response_evidence,
-    get_award_requirement_response_evidence,
-)
-from openprocurement.tender.open.tests.award_blanks import (
-    patch_tender_award_unsuccessful_complaint_first,
-    patch_tender_award_unsuccessful_complaint_second,
 )
 
 

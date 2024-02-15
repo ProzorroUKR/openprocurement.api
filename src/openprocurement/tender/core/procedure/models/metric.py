@@ -1,10 +1,12 @@
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.value import Value
-from schematics.validate import ValidationError
-from schematics.types import StringType, MD5Type
-from schematics.types.compound import ListType, ModelType
 from uuid import uuid4
+
+from schematics.types import MD5Type, StringType
+from schematics.types.compound import ListType, ModelType
+from schematics.validate import ValidationError
+
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.value import Value
 
 
 class Unit(Model):

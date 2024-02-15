@@ -1,22 +1,27 @@
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso, check_auction_period
-from openprocurement.tender.open.procedure.state.tender import OpenTenderState
-from openprocurement.tender.open.constants import (
-    TENDERING_EXTRA_PERIOD,
-    ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
-    COMPETITIVE_ORDERING,
-    COMPLAINT_SUBMIT_TIME,
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsMixing,
+)
+from openprocurement.tender.core.procedure.utils import (
+    check_auction_period,
+    dt_from_iso,
 )
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calculate_clarif_business_date,
+    calculate_tender_business_date,
 )
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.open.constants import (
+    COMPETITIVE_ORDERING,
+    COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_PERIOD_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+    TENDERING_EXTRA_PERIOD,
+)
+from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
 class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):

@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.cfaua.procedure.state.criterion import CFAUACriterionState
+from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 
 
 @resource(

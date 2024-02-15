@@ -2,69 +2,70 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
-    TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-)
-from openprocurement.tender.openua.tests.bid_blanks import (
-    # TenderStage2UABidResourceTest
-    patch_tender_bidder as patch_tender_bidder_ua,
-    get_tender_bidder as get_tender_bidder_ua,
-    delete_tender_bidder as delete_tender_bidder_ua,
-    deleted_bid_do_not_locks_tender_in_state as deleted_bid_do_not_locks_tender_in_state_ua,
-    get_tender_tenderers as get_tender_tenderers_ua,
-    bid_Administrator_change as bid_Administrator_change_ua,
-    draft1_bid as one_draft_bid,
-    draft2_bids as two_draft_bids,
-)
-
-from openprocurement.tender.openeu.tests.bid import (
-    TenderBidResourceTestMixin,
-    Tender2BidResourceTestMixin,
-    TenderBidDocumentResourceWithDSTestMixin,
-)
-
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_tender_openeu_bids,
+    test_tender_cd_author,
+    test_tender_cd_lots,
+    test_tender_cd_tenderer,
     test_tender_cdeu_stage2_data,
     test_tender_cdua_stage2_data,
-    test_tender_cd_tenderer,
-    test_tender_cd_lots,
-    test_tender_cd_author,
+    test_tender_openeu_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
-    # TenderStage2BidResourceTest
-    deleted_bid_is_not_restorable,
-    # TenderStage2BidFeaturesResourceTest
-    features_bidder_invalid,
-    # TenderStage2EUBidResourceTest
-    create_tender_bidder_firm,
-    delete_tender_bidder_eu,
-    bids_invalidation_on_tender_change_eu,
-    ukrainian_author_id,
-    # TenderStage2EUBidFeaturesResourceTest
-    features_bidder_eu,
-    # TenderStage2EUBidDocumentResourceTest
-    create_tender_bidder_document_nopending_eu,
-    # TenderStage2UABidResourceTest
-    create_tender_biddder_invalid_ua,
-    create_tender_bidder_ua,
-    bids_invalidation_on_tender_change_ua,
+from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (  # TenderStage2BidResourceTest; TenderStage2BidFeaturesResourceTest; TenderStage2EUBidResourceTest; TenderStage2EUBidFeaturesResourceTest; TenderStage2EUBidDocumentResourceTest; TenderStage2UABidResourceTest; TenderStage2UABidFeaturesResourceTest
     bids_activation_on_tender_documents_ua,
-    # TenderStage2UABidFeaturesResourceTest
+    bids_invalidation_on_tender_change_eu,
+    bids_invalidation_on_tender_change_ua,
+    create_tender_biddder_invalid_ua,
+    create_tender_bidder_document_nopending_eu,
+    create_tender_bidder_firm,
+    create_tender_bidder_ua,
+    delete_tender_bidder_eu,
+    deleted_bid_is_not_restorable,
+    features_bidder_eu,
+    features_bidder_invalid,
     features_bidder_ua,
+    ukrainian_author_id,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
+from openprocurement.tender.openeu.tests.bid import (
+    Tender2BidResourceTestMixin,
+    TenderBidDocumentResourceWithDSTestMixin,
+    TenderBidResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    bid_Administrator_change as bid_Administrator_change_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    delete_tender_bidder as delete_tender_bidder_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    deleted_bid_do_not_locks_tender_in_state as deleted_bid_do_not_locks_tender_in_state_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import draft1_bid as one_draft_bid
+from openprocurement.tender.openua.tests.bid_blanks import draft2_bids as two_draft_bids
+from openprocurement.tender.openua.tests.bid_blanks import (
+    get_tender_bidder as get_tender_bidder_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    get_tender_tenderers as get_tender_tenderers_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    patch_tender_bidder as patch_tender_bidder_ua,  # TenderStage2UABidResourceTest
+)
 
 test_bids_stage2 = deepcopy(test_tender_openeu_bids)
 test_bids_stage2[0]["tenderers"][0] = test_tender_cd_tenderer

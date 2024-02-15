@@ -1,38 +1,55 @@
 from decimal import Decimal
 from uuid import uuid4
+
 from schematics.types import StringType
 from schematics.types.compound import PolyModelType
 from schematics.types.serializable import serializable
+
+from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, DecimalType, IsoDateTimeType
-from openprocurement.api.procedure.models.item import (
-    AdditionalClassification,
-    Item as BaseItem,
+from openprocurement.api.procedure.models.item import AdditionalClassification
+from openprocurement.api.procedure.models.item import Item as BaseItem
+from openprocurement.api.procedure.models.organization import (
+    PROCURING_ENTITY_KINDS,
+    Organization,
 )
-from openprocurement.api.procedure.models.organization import Organization, PROCURING_ENTITY_KINDS
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.unit import Unit
-from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
+from openprocurement.api.procedure.validation import (
+    validate_features_uniq,
+    validate_values_uniq,
+)
 from openprocurement.api.utils import get_change_class
 from openprocurement.framework.cfaua.procedure.models.change import (
-    ChangeTaxRate,
-    ChangePartyWithdrawal,
-    ChangeThirdParty,
     ChangeItemPriceVariation,
-    PostChangeTaxRate,
+    ChangePartyWithdrawal,
+    ChangeTaxRate,
+    ChangeThirdParty,
     PostChangeItemPriceVariation,
     PostChangePartyWithdrawal,
+    PostChangeTaxRate,
     PostChangeThirdParty,
 )
 from openprocurement.framework.cfaua.procedure.models.contract import Contract
 from openprocurement.framework.cfaua.procedure.models.document import Document
-from openprocurement.framework.core.procedure.models.contact import ContactPoint as BaseContactPoint
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement as BasePatchAgreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
     PostAgreement as BasePostAgreement,
 )
-from openprocurement.api.procedure.validation import validate_values_uniq, validate_features_uniq
+from openprocurement.framework.core.procedure.models.contact import (
+    ContactPoint as BaseContactPoint,
+)
 from openprocurement.framework.core.procedure.models.item import CPVClassification
 
 

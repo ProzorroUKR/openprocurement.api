@@ -1,19 +1,27 @@
 from typing import Optional
 
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import RequirementResponse, PatchRequirementResponse
-from openprocurement.tender.core.procedure.state.req_response import AwardReqResponseState
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchRequirementResponse,
+    RequirementResponse,
+)
+from openprocurement.tender.core.procedure.state.req_response import (
+    AwardReqResponseState,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_operation_award_requirement_response,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner,
-    unless_administrator,
-)
 from openprocurement.tender.core.procedure.views.award import resolve_award
-from openprocurement.tender.core.procedure.views.base_req_response import BaseReqResponseResource, resolve_req_response
+from openprocurement.tender.core.procedure.views.base_req_response import (
+    BaseReqResponseResource,
+    resolve_req_response,
+)
 
 
 class AwardReqResponseResource(BaseReqResponseResource):

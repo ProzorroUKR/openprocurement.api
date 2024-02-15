@@ -2,10 +2,7 @@
 import os.path
 from copy import deepcopy
 
-from openprocurement.framework.cfaua.tests.data import (
-    test_agreement_data,
-    TEST_CHANGE,
-)
+from openprocurement.framework.cfaua.tests.data import TEST_CHANGE, test_agreement_data
 from openprocurement.tender.core.tests.base import BaseWebTest
 from openprocurement.tender.core.tests.utils import change_auth
 

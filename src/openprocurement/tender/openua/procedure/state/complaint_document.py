@@ -1,4 +1,6 @@
-from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
+from openprocurement.tender.core.procedure.state.complaint_document import (
+    ComplaintDocumentState,
+)
 from openprocurement.tender.open.constants import STATUS4ROLE
 
 

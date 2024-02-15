@@ -1,58 +1,55 @@
 # -*- coding: utf-8 -*-
-import datetime
-
-import json
 import csv
-
+import datetime
+import json
 import os
 from copy import deepcopy
 from hashlib import sha512
 from uuid import uuid4
 
 import standards
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid,
+    test_docs_bid2,
+    test_docs_claim,
+    test_docs_items_open,
+    test_docs_lots,
+    test_docs_question,
+    test_docs_tender_below,
+    test_docs_tender_dps,
+    test_docs_tender_open,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.context import get_now, set_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
-    test_submission_data,
     test_framework_dps_config,
+    test_framework_dps_data,
     test_submission_config,
+    test_submission_data,
+)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_lots,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.open.tests.base import test_tender_dps_config
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots, set_bid_lotvalues
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
-from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.open.tests.base import test_tender_open_config
 from openprocurement.tender.core.tests.base import (
+    test_contract_guarantee_criteria,
     test_exclusion_criteria,
     test_language_criteria,
-    test_contract_guarantee_criteria,
 )
-from openprocurement.contracting.econtract.tests.data import test_signer_info
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
+from openprocurement.tender.open.tests.base import (
+    test_tender_dps_config,
+    test_tender_open_config,
 )
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_tender_open,
-    test_docs_bid2,
-    test_docs_lots,
-    test_docs_bid,
-    test_docs_tender_below,
-    test_docs_question,
-    test_docs_items_open,
-    test_docs_claim,
-    test_docs_tender_dps,
-)
+from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'

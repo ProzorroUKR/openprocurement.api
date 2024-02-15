@@ -1,39 +1,40 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
 
+from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin,
+    TenderLotResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_lot_milestones,
     create_tender_lot_minimalstep_validation,
     patch_tender_lot_minimalstep_validation,
+    tender_lot_milestones,
 )
-
-from openprocurement.tender.openua.tests.lot import TenderUALotResourceTestMixin, TenderUALotProcessTestMixin
+from openprocurement.tender.openua.tests.lot import (
+    TenderUALotProcessTestMixin,
+    TenderUALotResourceTestMixin,
+)
 from openprocurement.tender.openua.tests.lot_blanks import (
-    patch_tender_bidder,
     create_tender_bidder_feature,
+    patch_tender_bidder,
 )
-
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_openuadefense_data,
     test_tender_openuadefense_bids,
+    test_tender_openuadefense_data,
 )
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
-    question_blocking,
     claim_blocking,
-    next_check_value_with_unanswered_question,
     next_check_value_with_unanswered_claim,
+    next_check_value_with_unanswered_question,
     one_lot_1bid,
-    two_lot_1bid_0com_1can,
+    question_blocking,
     two_lot_1bid_0com_0win,
+    two_lot_1bid_0com_1can,
     two_lot_1bid_1com_1win,
     two_lot_1bid_2com_1win,
     two_lot_2bid_on_first_and_1_on_second_awarding,

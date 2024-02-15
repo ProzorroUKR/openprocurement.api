@@ -3,14 +3,22 @@ from copy import deepcopy
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.auth import ACCR_RESTRICTED
-from openprocurement.api.utils import handle_data_exceptions, raise_operation_error, delete_nones
+from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner
+from openprocurement.api.utils import (
+    delete_nones,
+    handle_data_exceptions,
+    raise_operation_error,
+)
 from openprocurement.api.validation import (
-    validate_json_data,
     validate_accreditation_level_base,
     validate_accreditation_level_mode,
+    validate_json_data,
 )
-from openprocurement.api.procedure.utils import is_item_owner, apply_data_patch
-from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
+from openprocurement.tender.core.procedure.documents import (
+    check_document,
+    check_document_batch,
+    update_document_url,
+)
 
 
 def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):

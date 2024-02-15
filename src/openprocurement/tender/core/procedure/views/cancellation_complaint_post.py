@@ -1,6 +1,11 @@
+from openprocurement.tender.core.procedure.views.cancellation import (
+    resolve_cancellation,
+)
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
-from openprocurement.tender.core.procedure.views.complaint_post import BaseComplaintPostResource, resolve_complaint_post
-from openprocurement.tender.core.procedure.views.cancellation import resolve_cancellation
+from openprocurement.tender.core.procedure.views.complaint_post import (
+    BaseComplaintPostResource,
+    resolve_complaint_post,
+)
 
 
 class BaseCancellationComplaintPostResource(BaseComplaintPostResource):

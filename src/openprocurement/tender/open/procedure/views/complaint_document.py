@@ -1,7 +1,15 @@
-from openprocurement.tender.core.procedure.views.complaint_document import TenderComplaintDocumentResource
-from openprocurement.tender.open.procedure.state.complaint_document import OpenComplaintDocumentState
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.complaint_document import (
+    TenderComplaintDocumentResource,
+)
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
+)
+from openprocurement.tender.open.procedure.state.complaint_document import (
+    OpenComplaintDocumentState,
+)
 
 
 @resource(

@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
 from mock import patch
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_claim,
-    test_tender_below_claim,
     test_tender_below_author,
+    test_tender_below_claim,
+    test_tender_below_draft_claim,
 )
 
 

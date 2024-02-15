@@ -2,11 +2,12 @@
 from json import JSONDecodeError
 
 from schematics.exceptions import ValidationError
-from openprocurement.api.auth import check_user_accreditations, ACCR_TEST, ACCR_EXIT
+
+from openprocurement.api.auth import ACCR_EXIT, ACCR_TEST, check_user_accreditations
 from openprocurement.api.utils import (
     error_handler,
-    get_now,
     get_first_revision_date,
+    get_now,
     raise_operation_error,
 )
 

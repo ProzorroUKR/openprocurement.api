@@ -2,44 +2,43 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
+    test_tender_below_author,
     test_tender_below_draft_claim,
     test_tender_below_draft_complaint,
-    test_tender_below_author,
+    test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderComplaintDocumentResourceTest
-    not_found,
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderComplaintDocumentResourceTest
     create_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
     TenderComplaintObjectionMixin,
 )
-
-from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest, test_tender_openua_bids
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderComplaintResourceTest
-    create_tender_complaint,
-    patch_tender_complaint,
-    review_tender_complaint,
-    review_tender_stopping_complaint,
-    mistaken_status_tender_complaint,
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_openua_bids,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderComplaintResourceTest; TenderComplaintDocumentResourceTest; TenderLotAwardComplaintResourceTest
     bot_patch_tender_complaint,
-    bot_patch_tender_complaint_mistaken,
     bot_patch_tender_complaint_forbidden,
-    # TenderComplaintDocumentResourceTest
+    bot_patch_tender_complaint_mistaken,
+    create_tender_complaint,
+    create_tender_lot_complaint,
+    mistaken_status_tender_complaint,
+    patch_tender_complaint,
     patch_tender_complaint_document,
     put_tender_complaint_document,
-    # TenderLotAwardComplaintResourceTest
-    create_tender_lot_complaint,
+    review_tender_complaint,
+    review_tender_stopping_complaint,
 )
 
 

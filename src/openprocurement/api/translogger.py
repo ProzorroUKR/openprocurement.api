@@ -1,6 +1,6 @@
 import logging
-import six
 
+import six
 from paste.translogger import TransLogger
 
 try:

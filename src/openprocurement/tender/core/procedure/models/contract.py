@@ -1,17 +1,21 @@
+from uuid import uuid4
+
+from schematics.exceptions import ValidationError
+from schematics.types import FloatType, MD5Type, StringType
+from schematics.types.serializable import serializable
+
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.api.procedure.context import get_tender, get_contract
-from schematics.types import StringType, MD5Type, FloatType
-from schematics.types.serializable import serializable
-from schematics.exceptions import ValidationError
-from uuid import uuid4
 
 
 class ContractValue(Value):

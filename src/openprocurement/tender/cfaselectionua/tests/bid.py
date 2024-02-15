@@ -3,47 +3,40 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidDocumentWithDSResourceTest
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json_bulk,
 )
-
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_tender_cfaselectionua_organization,
-    test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_agreement_features,
     test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
+    test_tender_cfaselectionua_organization,
 )
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-)
-from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
-    # TenderBidResourceTest
-    create_tender_bid_invalid,
-    create_tender_bid,
-    patch_tender_bid,
-    get_tender_bid,
-    delete_tender_bid,
-    get_tender_tenderers,
+from openprocurement.tender.cfaselectionua.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeaturesResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidBatchDocumentWithDSResourceTest
     bid_Administrator_change,
-    # TenderBidFeaturesResourceTest
+    create_tender_bid,
+    create_tender_bid_document_invalid_award_status,
+    create_tender_bid_document_json,
+    create_tender_bid_invalid,
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    delete_tender_bid,
     features_bid,
     features_bid_invalid,
-    patch_features_bid_invalid,
-    # TenderBidDocumentResourceTest
+    get_tender_bid,
+    get_tender_tenderers,
     not_found,
+    patch_features_bid_invalid,
+    patch_tender_bid,
     patch_tender_bid_document,
-    create_tender_bid_document_invalid_award_status,
-    # TenderBidDocumentWithDSResourceTest
-    create_tender_bid_document_json,
-    put_tender_bid_document_json,
-    # TenderBidBatchDocumentWithDSResourceTest
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-    create_tender_bid_with_documents,
     patch_tender_with_bids_lots_none,
+    put_tender_bid_document_json,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
 )
 
 

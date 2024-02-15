@@ -2,16 +2,16 @@ from mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_tender_negotiation_config,
+    test_tender_negotiation_data,
     test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
 )
 from openprocurement.tender.openua.tests.post import (
     TenderAwardComplaintPostResourceMixin,
@@ -19,15 +19,15 @@ from openprocurement.tender.openua.tests.post import (
     date_after_2020_04_19,
 )
 from openprocurement.tender.openua.tests.post_blanks import (
-    create_complaint_post_status_forbidden,
     create_complaint_post_complaint_owner,
+    create_complaint_post_status_forbidden,
     create_complaint_post_tender_owner,
     create_complaint_post_validate_recipient,
     create_complaint_post_validate_related_post,
-    patch_complaint_post,
+    create_tender_complaint_post_document_json,
     get_complaint_post,
     get_complaint_posts,
-    create_tender_complaint_post_document_json,
+    patch_complaint_post,
     put_tender_complaint_document_json,
 )
 

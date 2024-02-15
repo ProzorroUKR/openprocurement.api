@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 # TenderAuctionResourceTest
 from datetime import timedelta
-from esculator import npv, escp
+
+from esculator import escp, npv
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.esco.procedure.utils import to_decimal
 

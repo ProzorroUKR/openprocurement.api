@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.cancellation import BaseCancellationResource
-from openprocurement.tender.openeu.procedure.state.cancellation import OpenEUCancellationState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.cancellation import (
+    BaseCancellationResource,
+)
+from openprocurement.tender.openeu.procedure.state.cancellation import (
+    OpenEUCancellationState,
+)
 
 
 @resource(

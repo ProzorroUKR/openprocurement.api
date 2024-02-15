@@ -1,18 +1,30 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.cancellation import resolve_cancellation
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.state.cancellation_document import CancellationDocumentState
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_admins,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
-    unless_admins,
+    validate_patch_data,
     validate_upload_document,
-    update_doc_fields_on_put_document,
 )
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.state.cancellation_document import (
+    CancellationDocumentState,
+)
+from openprocurement.tender.core.procedure.views.cancellation import (
+    resolve_cancellation,
+)
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
 
 
 class CancellationDocumentResource(BaseDocumentResource):

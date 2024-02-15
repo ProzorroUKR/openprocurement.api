@@ -2,7 +2,15 @@
 
 import unittest
 
-from openprocurement.tender.belowthreshold.tests import auction, award, bid, document, tender, question, complaint
+from openprocurement.tender.belowthreshold.tests import (
+    auction,
+    award,
+    bid,
+    complaint,
+    document,
+    question,
+    tender,
+)
 
 
 def suite():

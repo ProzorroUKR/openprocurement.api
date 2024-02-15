@@ -1,48 +1,47 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    guarantee,
-    tender_milestones_required,
     create_tender_central,
     create_tender_central_invalid,
-    tender_minimalstep_validation,
-    tender_lot_minimalstep_validation,
-    patch_tender_minimalstep_validation,
     create_tender_with_earlier_non_required_unit,
     create_tender_with_required_unit,
+    guarantee,
+    patch_tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
+    tender_milestones_required,
+    tender_minimalstep_validation,
 )
-
-from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing,
-    tender_finance_milestones,
-)
-
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
     BaseCompetitiveDialogUAWebTest,
     test_tender_cd_lots,
     test_tender_cd_stage1_bids,
-    test_tender_cdua_data,
     test_tender_cdeu_data,
+    test_tender_cdua_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
+    create_tender_generated_eu,
+    create_tender_generated_ua,
+    create_tender_invalid_config,
+    create_tender_invalid_eu,
+    create_tender_invalid_ua,
+    multiple_bidders_tender_eu,
+    patch_tender,
+    patch_tender_1,
     patch_tender_eu_ua,
     patch_tender_lots_none,
     path_complete_tender,
     tender_features_invalid,
-    create_tender_invalid_eu,
-    create_tender_invalid_config,
-    create_tender_generated_eu,
-    patch_tender,
-    multiple_bidders_tender_eu,
-    try_go_to_ready_stage_eu,
-    create_tender_invalid_ua,
-    create_tender_generated_ua,
-    patch_tender_1,
-    update_status_complete_owner_ua,
     tender_with_main_procurement_category,
+    try_go_to_ready_stage_eu,
+    update_status_complete_owner_ua,
+)
+from openprocurement.tender.openua.tests.tender_blanks import (
+    empty_listing,
+    tender_finance_milestones,
 )
 
 

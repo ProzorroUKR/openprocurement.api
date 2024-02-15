@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from base64 import b64encode, b64decode
-from rfc6266 import build_header
-from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
-from nacl.exceptions import BadSignatureError
+from base64 import b64decode, b64encode
 from binascii import Error as BinasciiError
+from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse, urlunsplit
+
+from nacl.exceptions import BadSignatureError
+from rfc6266 import build_header
+
 from openprocurement.api.utils import error_handler, generate_docservice_url
 
 

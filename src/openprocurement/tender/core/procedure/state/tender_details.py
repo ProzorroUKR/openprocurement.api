@@ -4,50 +4,49 @@ from typing import TYPE_CHECKING
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
 
-from openprocurement.api.procedure.context import get_object, get_agreement, get_tender
-from openprocurement.api.procedure.utils import get_cpv_prefix_length, get_cpv_uniq_prefixes
+from openprocurement.api.constants import (
+    CPV_PREFIX_LENGTH_TO_NAME,
+    RELATED_LOT_REQUIRED_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
+    TENDER_CONFIG_JSONSCHEMAS,
+    TENDER_CONFIG_OPTIONALITY,
+    TENDER_PERIOD_START_DATE_STALE_MINUTES,
+)
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
+from openprocurement.api.procedure.utils import (
+    get_cpv_prefix_length,
+    get_cpv_uniq_prefixes,
+)
+from openprocurement.api.utils import get_agreement_by_id, raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.core.constants import (
-    PROCUREMENT_METHOD_SELECTIVE,
+    AGREEMENT_CONTRACTS_MESSAGE,
+    AGREEMENT_IDENTIFIER_MESSAGE,
+    AGREEMENT_NOT_FOUND_MESSAGE,
+    AGREEMENT_STATUS_MESSAGE,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
     PROCUREMENT_METHOD_OPEN,
+    PROCUREMENT_METHOD_SELECTIVE,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
-    AGREEMENT_NOT_FOUND_MESSAGE,
 )
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
-from openprocurement.api.context import get_now
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     set_mode_test_titles,
+    tender_created_after,
     tender_created_before,
     validate_field,
-    tender_created_after,
 )
-from openprocurement.api.utils import (
-    raise_operation_error,
-    get_agreement_by_id,
-)
-from openprocurement.api.constants import (
-    RELEASE_ECRITERIA_ARTICLE_17,
-    TENDER_PERIOD_START_DATE_STALE_MINUTES,
-    TENDER_CONFIG_OPTIONALITY,
-    TENDER_CONFIG_JSONSCHEMAS,
-    RELATED_LOT_REQUIRED_FROM,
-    CPV_PREFIX_LENGTH_TO_NAME,
-)
-from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
     calculate_complaint_business_date,
+    calculate_tender_business_date,
 )
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING, ABOVE_THRESHOLD_GROUP
-from openprocurement.tender.core.constants import (
-    AGREEMENT_STATUS_MESSAGE,
-    AGREEMENT_CONTRACTS_MESSAGE,
-    AGREEMENT_IDENTIFIER_MESSAGE,
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    COMPETITIVE_ORDERING,
 )
 
 if TYPE_CHECKING:

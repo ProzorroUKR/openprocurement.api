@@ -1,21 +1,26 @@
 # -*- coding: utf-8 -*-
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.relocation.api.procedure.serializers.contract import TransferredContractSerializer
-from openprocurement.relocation.api.procedure.utils import update_ownership, save_transfer
+from openprocurement.relocation.api.procedure.serializers.contract import (
+    TransferredContractSerializer,
+)
+from openprocurement.relocation.api.procedure.utils import (
+    save_transfer,
+    update_ownership,
+)
+from openprocurement.relocation.api.procedure.validation import (
+    validate_contract,
+    validate_contract_owner_accreditation_level,
+    validate_contract_transfer_accreditation_level,
+    validate_contract_transfer_token,
+    validate_ownership_data,
+)
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
     get_transfer_location,
-)
-from openprocurement.relocation.api.procedure.validation import (
-    validate_ownership_data,
-    validate_contract_owner_accreditation_level,
-    validate_contract_transfer_accreditation_level,
-    validate_contract,
-    validate_contract_transfer_token,
 )
 
 

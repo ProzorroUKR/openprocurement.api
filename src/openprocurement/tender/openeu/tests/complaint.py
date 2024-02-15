@@ -6,11 +6,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-
-from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
@@ -19,21 +20,24 @@ from openprocurement.tender.open.tests.complaint import (
     TenderComplaintObjectionMixin,
     TenderQualificationComplaintObjectionMixin,
 )
-from openprocurement.tender.open.tests.complaint_blanks import objection_related_document_of_evidence
-
-from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin, CreateAwardComplaintMixin
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    patch_tender_complaint_document,
-    create_tender_lot_complaint,
-)
-
-from openprocurement.tender.openeu.tests.complaint_blanks import (
-    put_tender_complaint_document,
+from openprocurement.tender.open.tests.complaint_blanks import (
+    objection_related_document_of_evidence,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_openeu_lots,
     test_tender_openeu_bids,
+    test_tender_openeu_lots,
+)
+from openprocurement.tender.openeu.tests.complaint_blanks import (
+    put_tender_complaint_document,
+)
+from openprocurement.tender.openua.tests.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (
+    create_tender_lot_complaint,
+    patch_tender_complaint_document,
 )
 
 

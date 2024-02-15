@@ -1,10 +1,21 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.agreement import TenderAgreementResource
-from openprocurement.api.procedure.validation import validate_patch_data_simple, validate_input_data
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement, PatchAgreement
-from openprocurement.tender.cfaselectionua.procedure.state.agreement import AgreementState
-from pyramid.security import Allow, Everyone
 from cornice.resource import resource
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
+    Agreement,
+    PatchAgreement,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
+    AgreementState,
+)
+from openprocurement.tender.core.procedure.views.agreement import (
+    TenderAgreementResource,
+)
 
 
 @resource(

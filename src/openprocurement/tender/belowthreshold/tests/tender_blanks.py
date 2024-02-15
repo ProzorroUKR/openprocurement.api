@@ -1,44 +1,45 @@
-import mock
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
+
+import mock
 from freezegun import freeze_time
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import (
-    TZ,
-    ROUTE_PREFIX,
-    RELEASE_2020_04_19,
     GUARANTEE_ALLOWED_TENDER_TYPES,
     NEW_CONTRACTING_FROM,
+    RELEASE_2020_04_19,
+    ROUTE_PREFIX,
+    TZ,
+)
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_data,
+    test_tender_below_draft_claim,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    get_contract_data,
+    set_bid_lotvalues,
+    set_tender_lots,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.tests.base import (
+    test_contract_guarantee_criteria,
+    test_exclusion_criteria,
+    test_language_criteria,
+    test_tender_guarantee_criteria,
+)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_cancellation,
-    test_tender_below_claim,
-    test_tender_below_draft_claim,
-    test_tender_below_data,
-)
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_lots,
-    set_bid_lotvalues,
-)
-
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-    test_contract_guarantee_criteria,
-    test_tender_guarantee_criteria,
-)
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 
 def listing(self):

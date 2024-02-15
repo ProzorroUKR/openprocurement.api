@@ -1,15 +1,17 @@
 from logging import getLogger
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.serializers.req_response import RequirementResponseSerializer
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.serializers.req_response import (
+    RequirementResponseSerializer,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
 

@@ -1,42 +1,55 @@
 from schematics.types import StringType
+from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
-from schematics.types.compound import ModelType, ListType
 
-from openprocurement.api.context import (
-    get_data,
-    get_now,
-)
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.api.context import get_data, get_now
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import validate_items_uniq
-from openprocurement.tender.openua.procedure.models.organization import ProcuringEntity as UAProcuringEntity
-from openprocurement.tender.openeu.procedure.models.tender import (
-    PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
-    Tender as BaseTender,
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM,
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.openua.procedure.models.tender import (
-    PostTender as UABasePostTender,
-    PatchTender as UABasePatchTender,
-    Tender as UABaseTender,
-)
-
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE, FEATURES_MAX_SUM
+from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.firms import (
     Firms,
     validate_shortlisted_firm_ids,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.stage2.item import EUItem, UAItem
-from openprocurement.tender.competitivedialogue.procedure.models.feature import Feature
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.competitivedialogue.procedure.models.stage2.item import (
+    EUItem,
+    UAItem,
+)
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.tender.core.utils import (
+    calculate_complaint_business_date,
+    calculate_tender_business_date,
+)
+from openprocurement.tender.openeu.procedure.models.tender import (
+    PatchTender as BasePatchTender,
+)
+from openprocurement.tender.openeu.procedure.models.tender import (
+    PostTender as BasePostTender,
+)
+from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
-    TENDERING_DURATION as TENDERING_DURATION_UA,
     COMPLAINT_SUBMIT_TIME as COMPLAINT_SUBMIT_TIME_UA,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.openua.constants import (
+    TENDERING_DURATION as TENDERING_DURATION_UA,
+)
+from openprocurement.tender.openua.procedure.models.organization import (
+    ProcuringEntity as UAProcuringEntity,
+)
+from openprocurement.tender.openua.procedure.models.tender import (
+    PatchTender as UABasePatchTender,
+)
+from openprocurement.tender.openua.procedure.models.tender import (
+    PostTender as UABasePostTender,
+)
+from openprocurement.tender.openua.procedure.models.tender import Tender as UABaseTender
 
 
 class BotPatchTender(Model):  # TODO: move to a distinct endpoint

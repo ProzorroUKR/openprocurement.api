@@ -1,14 +1,15 @@
 import os
-
 from datetime import datetime
 from uuid import uuid4
 
-from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
-from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
+from openprocurement.tender.belowthreshold.procedure.utils import (
+    prepare_tender_item_for_contract,
+)
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.pricequotation.tests.data import *
 
 

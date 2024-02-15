@@ -1,6 +1,9 @@
-from logging import getLogger
 from datetime import timedelta
-from openprocurement.tender.core.procedure.state.award_complaint import AwardComplaintStateMixin
+from logging import getLogger
+
+from openprocurement.tender.core.procedure.state.award_complaint import (
+    AwardComplaintStateMixin,
+)
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 LOGGER = getLogger(__name__)

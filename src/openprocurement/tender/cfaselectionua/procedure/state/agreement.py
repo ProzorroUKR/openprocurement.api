@@ -1,8 +1,10 @@
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
 
 
 class AgreementStateMixing:

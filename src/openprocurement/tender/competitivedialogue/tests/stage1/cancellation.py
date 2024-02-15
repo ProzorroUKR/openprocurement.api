@@ -1,35 +1,36 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from mock import patch
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-
-from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
-    BaseCompetitiveDialogEUContentWebTest,
-    test_tender_cd_stage1_bids,
-    test_tender_cd_lots,
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
 )
-
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     create_tender_lots_cancellation,
+    patch_tender_lot_cancellation,
     patch_tender_lots_cancellation,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cd_lots,
+    test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
 from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     activate_cancellation,

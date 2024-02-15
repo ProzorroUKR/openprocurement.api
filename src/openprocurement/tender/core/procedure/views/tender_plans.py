@@ -2,15 +2,21 @@ from copy import deepcopy
 from logging import getLogger
 
 from cornice.resource import resource
-from schematics.exceptions import ValidationError, ModelValidationError
+from schematics.exceptions import ModelValidationError, ValidationError
 
-from openprocurement.api.utils import json_view, handle_data_exceptions, error_handler
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_item_owner,
+)
+from openprocurement.api.utils import error_handler, handle_data_exceptions, json_view
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
-from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
+from openprocurement.tender.core.procedure.models.tender_base import (
+    PlanRelation,
+    validate_plans,
+)
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)

@@ -4,19 +4,19 @@ from typing import TYPE_CHECKING
 
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.utils import (
+    calc_auction_end_time,
     dt_from_iso,
     normalize_should_start_after,
-    calc_auction_end_time,
 )
 
 LOGGER = getLogger(__name__)
 
 if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import (
-        TenderStateAwardingMixing,
-        ChronographEventsMixing,
-    )
     from openprocurement.api.procedure.state.base import BaseState
+    from openprocurement.tender.core.procedure.state.tender import (
+        ChronographEventsMixing,
+        TenderStateAwardingMixing,
+    )
 
     class baseclass(TenderStateAwardingMixing, ChronographEventsMixing, BaseState):
         pass

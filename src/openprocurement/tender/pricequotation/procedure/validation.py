@@ -1,10 +1,15 @@
+from schematics.exceptions import ValidationError
 from schematics.types import DateTimeType
 
-from openprocurement.api.procedure.types import StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType
-from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.procedure.context import get_tender
-from schematics.exceptions import ValidationError
+from openprocurement.api.procedure.types import (
+    StrictBooleanType,
+    StrictDecimalType,
+    StrictIntType,
+    StrictStringType,
+)
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.validation import validate_value_factory
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 

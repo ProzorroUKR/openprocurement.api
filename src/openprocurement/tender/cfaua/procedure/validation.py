@@ -1,6 +1,9 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.cfaua.procedure.models.tender import LOTS_MIN_SIZE, LOTS_MAX_SIZE
+from openprocurement.tender.cfaua.procedure.models.tender import (
+    LOTS_MAX_SIZE,
+    LOTS_MIN_SIZE,
+)
 
 
 # award

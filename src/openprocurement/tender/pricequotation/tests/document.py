@@ -1,11 +1,13 @@
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from unittest.mock import patch
 
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
 from openprocurement.tender.pricequotation.tests.document_blanks import (
     create_document_active_tendering_status,
 )

@@ -4,21 +4,28 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
-from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_lots,
-    set_bid_lotvalues,
+
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    RELEASE_ECRITERIA_ARTICLE_17,
+    SANDBOX_MODE,
 )
-from openprocurement.tender.cfaua.tests.periods import PERIODS
-from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.cfaua.constants import (
-    TENDERING_DAYS,
-    MIN_BIDS_NUMBER,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_lots,
+)
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DAYS
+from openprocurement.tender.cfaua.tests.periods import PERIODS
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseBaseTenderWebTest,
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

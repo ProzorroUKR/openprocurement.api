@@ -2,9 +2,9 @@ from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.esco.tests.base import (
@@ -13,12 +13,12 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_lots,
 )
 from openprocurement.tender.openua.tests.post import (
-    ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
-    TenderComplaintPostResourceMixin,
+    ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
-    TenderQualificationComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
+    TenderComplaintPostResourceMixin,
+    TenderQualificationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 

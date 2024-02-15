@@ -1,25 +1,34 @@
 from cornice.resource import resource
+from pyramid.security import Allow, Everyone
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
-from openprocurement.tender.core.procedure.validation import get_qualification_document_role
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.core.procedure.validation import (
-    validate_qualification_update_with_cancellation_lot_pending,
-    validate_qualification_document_operation_not_in_allowed_status,
-    validate_qualification_document_operation_not_in_pending,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_bots,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
-    unless_bots,
+    validate_patch_data,
     validate_upload_document,
-    update_doc_fields_on_put_document,
 )
-from pyramid.security import Allow, Everyone
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.validation import (
+    get_qualification_document_role,
+    validate_qualification_document_operation_not_in_allowed_status,
+    validate_qualification_document_operation_not_in_pending,
+    validate_qualification_update_with_cancellation_lot_pending,
+)
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
+from openprocurement.tender.core.procedure.views.qualification import (
+    resolve_qualification,
+)
 
 
 @resource(

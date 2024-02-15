@@ -1,7 +1,8 @@
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.utils import request_fetch_agreement, request_init_tender
 from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class TenderBaseResource(BaseResource):

@@ -1,6 +1,9 @@
-from openprocurement.tender.core.procedure.views.contract_items_unit_value import ContractItemsUnitValueResource
-from openprocurement.tender.esco.procedure.state.contract import ESCOContractState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.contract_items_unit_value import (
+    ContractItemsUnitValueResource,
+)
+from openprocurement.tender.esco.procedure.state.contract import ESCOContractState
 
 
 @resource(

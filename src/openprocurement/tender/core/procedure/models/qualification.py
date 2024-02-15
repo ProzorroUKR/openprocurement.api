@@ -1,16 +1,19 @@
+from uuid import uuid4
+
 from schematics.exceptions import ValidationError
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.context import get_tender
-from schematics.types import StringType, MD5Type, BooleanType, BaseType
-from uuid import uuid4
-from openprocurement.tender.core.procedure.models.req_response import (
-    PatchObjResponsesMixin,
-    ObjResponseMixin,
-)
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.models.milestone import QualificationMilestoneListMixin
+from openprocurement.tender.core.procedure.models.milestone import (
+    QualificationMilestoneListMixin,
+)
+from openprocurement.tender.core.procedure.models.req_response import (
+    ObjResponseMixin,
+    PatchObjResponsesMixin,
+)
 
 
 class PatchQualification(PatchObjResponsesMixin):

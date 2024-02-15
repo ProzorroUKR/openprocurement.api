@@ -1,8 +1,9 @@
+from datetime import datetime
+
 from openprocurement.tender.belowthreshold.procedure.models.award import Award
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_date
-from datetime import datetime
 
 
 class IgnoredClaimMixing:

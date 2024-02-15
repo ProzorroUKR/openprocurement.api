@@ -1,7 +1,7 @@
-from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.api.context import get_request
-from openprocurement.tender.core.procedure.context import get_award
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 
 
 class AwardDocumentState(BaseDocumentState):

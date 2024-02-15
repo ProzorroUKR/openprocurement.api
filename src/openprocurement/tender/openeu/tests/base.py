@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 import copy
 import os
-
 from datetime import datetime, timedelta
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.core.tests.utils import change_auth
+
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
-from openprocurement.api.utils import get_now
-from openprocurement.tender.openeu.constants import TENDERING_DAYS
-
 
 test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
 

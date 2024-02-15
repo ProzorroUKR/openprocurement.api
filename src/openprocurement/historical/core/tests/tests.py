@@ -1,22 +1,32 @@
 # -*- coding: utf-8 -*-
-import unittest
 import os
+import unittest
 from copy import deepcopy
 from uuid import uuid4
-from pyramid.testing import DummyRequest
-from pyramid import testing
-from openprocurement.api.auth import AuthenticationPolicy, check_accreditations, authenticated_role
-from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.events import NewRequest, ContextFound
+
 from jsonpointer import resolve_pointer
+from pyramid import testing
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.events import ContextFound, NewRequest
+from pyramid.testing import DummyRequest
 from webtest import TestApp
-from openprocurement.historical.core.constants import VERSION, HASH, PREVIOUS_HASH
-from openprocurement.historical.core.utils import Root, add_responce_headers, parse_hash, extract_doc, HasRequestMethod
 
 import openprocurement.api.tests
+from openprocurement.api.auth import (
+    AuthenticationPolicy,
+    authenticated_role,
+    check_accreditations,
+)
 from openprocurement.api.subscribers import add_logging_context, set_logging_context
-from openprocurement.historical.core.tests.utils import mock_doc, Db
-
+from openprocurement.historical.core.constants import HASH, PREVIOUS_HASH, VERSION
+from openprocurement.historical.core.tests.utils import Db, mock_doc
+from openprocurement.historical.core.utils import (
+    HasRequestMethod,
+    Root,
+    add_responce_headers,
+    extract_doc,
+    parse_hash,
+)
 
 mongodb = Db()
 

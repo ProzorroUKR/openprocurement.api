@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+
 from openprocurement.tender.openeu.tests import tender
 
 

@@ -1,6 +1,7 @@
 import uuid
 from copy import deepcopy
 from datetime import datetime
+
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now

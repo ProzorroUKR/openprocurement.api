@@ -1,7 +1,8 @@
+from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.qualification_complaint_document import (
     QualificationComplaintDocumentResource,
 )
-from cornice.resource import resource
 
 
 @resource(

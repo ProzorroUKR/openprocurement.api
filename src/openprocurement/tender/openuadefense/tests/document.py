@@ -1,20 +1,16 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.document_blanks import (
-    # TenderDocument ResourceTest
-    not_found,
+from openprocurement.tender.belowthreshold.tests.document_blanks import (  # TenderDocument ResourceTest; TenderDocumentResourceTest
     create_tender_document,
-    put_tender_document,
-    patch_tender_document,
-    # TenderDocumentResourceTest
-    create_tender_document_json_invalid,
     create_tender_document_json,
     create_tender_document_json_bulk,
+    create_tender_document_json_invalid,
+    not_found,
+    patch_tender_document,
+    put_tender_document,
     put_tender_document_json,
 )
-
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 
 

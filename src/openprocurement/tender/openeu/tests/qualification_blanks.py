@@ -1,21 +1,20 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-
 from datetime import timedelta
 
 from mock import patch
+
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
-    test_tender_below_draft_claim,
-    test_tender_below_complaint,
     test_tender_below_claim,
+    test_tender_below_complaint,
+    test_tender_below_draft_claim,
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-
 
 # TenderQualificationResourceTest
 

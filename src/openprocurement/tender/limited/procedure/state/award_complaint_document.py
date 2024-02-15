@@ -1,4 +1,6 @@
-from openprocurement.tender.core.procedure.state.award_complaint_document import AwardComplaintDocumentState
+from openprocurement.tender.core.procedure.state.award_complaint_document import (
+    AwardComplaintDocumentState,
+)
 
 
 class NegotiationAwardComplaintDocumentState(AwardComplaintDocumentState):

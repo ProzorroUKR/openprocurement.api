@@ -1,13 +1,14 @@
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.utils import get_now, get_framework_by_id
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.utils import get_framework_by_id, get_now
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.organization import (
     SubmissionBusinessOrganization,

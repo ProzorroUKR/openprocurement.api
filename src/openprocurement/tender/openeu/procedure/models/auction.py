@@ -1,13 +1,23 @@
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.types import ListType, DecimalType
+from openprocurement.api.procedure.types import DecimalType, ListType
+from openprocurement.tender.core.procedure.models.auction import (
+    AuctionLotResults as BaseAuctionLotResults,
+)
+from openprocurement.tender.core.procedure.models.auction import (
+    AuctionResults as BaseAuctionResults,
+)
+from openprocurement.tender.core.procedure.models.auction import (
+    BidLotResult as BaseBidLotResult,
+)
+from openprocurement.tender.core.procedure.models.auction import (
+    BidResult as BaseBidResult,
+)
+from openprocurement.tender.core.procedure.models.auction import (
+    LotResult as BaseLotResult,
+)
 from openprocurement.tender.core.procedure.models.auction import (
     WeightedValueResult as BaseWeightedValueResult,
-    BidResult as BaseBidResult,
-    AuctionResults as BaseAuctionResults,
-    LotResult as BaseLotResult,
-    BidLotResult as BaseBidLotResult,
-    AuctionLotResults as BaseAuctionLotResults,
 )
 
 

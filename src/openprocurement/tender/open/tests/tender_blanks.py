@@ -1,22 +1,25 @@
+from copy import deepcopy
+from datetime import datetime, timedelta
 from unittest import mock
 
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from datetime import timedelta, datetime
-from copy import deepcopy
-from jsonschema import validate
 import requests
+from jsonschema import validate
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
+)
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
     test_lcc_lot_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_draft_complaint
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.base import test_tender_open_data
 

@@ -1,18 +1,23 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from openprocurement.tender.openuadefense.procedure.models.organization import ProcuringEntity
+
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_period_duration,
+    validate_tender_period_start_date,
+)
+from openprocurement.tender.openua.procedure.models.tender import (
+    PatchTender as BasePatchTender,
+)
 from openprocurement.tender.openua.procedure.models.tender import (
     PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
-    Tender as BaseTender,
 )
+from openprocurement.tender.openua.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openuadefense.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     TENDERING_DURATION,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_start_date,
-    validate_tender_period_duration,
+from openprocurement.tender.openuadefense.procedure.models.organization import (
+    ProcuringEntity,
 )
 
 

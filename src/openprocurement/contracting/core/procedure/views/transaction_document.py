@@ -1,11 +1,22 @@
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    unless_bots,
+    validate_input_data,
+)
 from openprocurement.api.utils import json_view
-
-from openprocurement.contracting.core.procedure.views.transaction import resolve_transaction
-from openprocurement.contracting.core.procedure.views.document import BaseDocumentResource
-from openprocurement.contracting.core.procedure.validation import validate_contract_owner
+from openprocurement.contracting.core.procedure.models.document import (
+    PostTransactionDocument,
+)
+from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_owner,
+)
+from openprocurement.contracting.core.procedure.views.document import (
+    BaseDocumentResource,
+)
+from openprocurement.contracting.core.procedure.views.transaction import (
+    resolve_transaction,
+)
 from openprocurement.tender.core.procedure.views.document import resolve_document
-from openprocurement.api.procedure.validation import validate_input_data, unless_admins, unless_bots
-from openprocurement.contracting.core.procedure.models.document import PostTransactionDocument
 
 
 class TransactionDocumentResource(BaseDocumentResource):

@@ -1,38 +1,41 @@
 # -*- coding: utf-8 -*-
-import requests
+from base64 import b64encode
+from binascii import hexlify, unhexlify
 from contextlib import contextmanager
 from copy import deepcopy
-
-from jsonpointer import JsonPointerException
-from pymongo.errors import DuplicateKeyError, OperationFailure
-from six import b
 from datetime import datetime
-from base64 import b64encode
-from cornice.resource import view
 from functools import partial
-
-from ciso8601 import parse_datetime
-from time import time as ttime
-from urllib.parse import urlparse, urlunsplit, urlencode
-from nacl.encoding import HexEncoder
-from uuid import uuid4
-from webob.multidict import NestedMultiDict
-from binascii import hexlify, unhexlify
-from Crypto.Cipher import AES
-from cornice.util import json_error
 from json import dumps
+from time import time as ttime
+from urllib.parse import urlencode, urlparse, urlunsplit
+from uuid import uuid4
 
-from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
-from openprocurement.api.events import ErrorDescriptorEvent
+import requests
+from ciso8601 import parse_datetime
+from cornice.resource import view
+from cornice.util import json_error
+from Crypto.Cipher import AES
+from jsonpointer import JsonPointerException
+from nacl.encoding import HexEncoder
+from pymongo.errors import DuplicateKeyError, OperationFailure
+from schematics.exceptions import (
+    ModelConversionError,
+    ModelValidationError,
+    ValidationError,
+)
+from six import b
+from webob.multidict import NestedMultiDict
+
 from openprocurement.api.constants import (
-    LOGGER,
+    GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
+    LOGGER,
     ROUTE_PREFIX,
     TZ,
-    GMDN_CPV_PREFIXES,
     UA_ROAD_CPV_PREFIXES,
 )
 from openprocurement.api.database import MongodbResourceConflict
+from openprocurement.api.events import ErrorDescriptorEvent
 
 json_view = partial(view, renderer="simplejson")
 
@@ -97,7 +100,9 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         # TODO:
         #  maybe there is a better single place to do this
         #  or just delete it when we do not need it anymore
-        from openprocurement.api.procedure.validation import validate_restricted_object_action
+        from openprocurement.api.procedure.validation import (
+            validate_restricted_object_action,
+        )
 
         validate_restricted_object_action(request, obj_name, obj)
     return request.validated[obj_name]

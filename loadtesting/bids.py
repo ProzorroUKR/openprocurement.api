@@ -1,9 +1,9 @@
-from locust import HttpUser, task, constant
-from collections import deque
-from data import tender, bid, USERS
-from time import sleep
 import random
+from collections import deque
+from time import sleep
 
+from data import USERS, bid, tender
+from locust import HttpUser, constant, task
 
 TENDERS_URL = "/api/2.5/tenders"
 TENDER_URL = None

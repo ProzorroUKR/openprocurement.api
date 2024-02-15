@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta, datetime
-from isodate import duration_isoformat
+from datetime import datetime, timedelta
 from uuid import uuid4
 
+from isodate import duration_isoformat
+
 import openprocurement.api.procedure.context
-from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD, MAX_AGREEMENT_PERIOD
+from openprocurement.tender.cfaua.constants import (
+    CLARIFICATIONS_UNTIL_PERIOD,
+    MAX_AGREEMENT_PERIOD,
+)
 from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
-
 
 # TenderAgreementResourceTest
 

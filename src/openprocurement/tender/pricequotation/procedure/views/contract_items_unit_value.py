@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.contract_items_unit_value import ContractItemsUnitValueResource
-from openprocurement.tender.pricequotation.procedure.state.contract import PQContractState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.contract_items_unit_value import (
+    ContractItemsUnitValueResource,
+)
+from openprocurement.tender.pricequotation.procedure.state.contract import (
+    PQContractState,
+)
 
 
 @resource(

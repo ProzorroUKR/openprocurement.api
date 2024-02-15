@@ -1,9 +1,11 @@
-from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.utils import raise_operation_error
 from logging import getLogger
 
+from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    QualificationMilestoneCodes,
+)
 
 LOGGER = getLogger(__name__)
 

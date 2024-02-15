@@ -1,7 +1,9 @@
+from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
-from openprocurement.tender.core.procedure.validation import validate_item_operation_in_disallowed_tender_statuses
+from openprocurement.tender.core.procedure.validation import (
+    validate_item_operation_in_disallowed_tender_statuses,
+)
 
 
 # BID DOCUMENTS

@@ -4,7 +4,6 @@ import unittest
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentWithDSResourceTestMixin,
 )
-
 from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
 
 

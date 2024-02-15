@@ -2,7 +2,6 @@
 import re
 from datetime import timedelta
 
-
 PQ = "priceQuotation"
 TENDERING_DAYS = 2
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)

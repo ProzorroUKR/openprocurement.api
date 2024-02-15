@@ -1,28 +1,24 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-
 from datetime import timedelta
 
-from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    RELEASE_2020_04_19,
-)
+from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
 from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_lots,
-    set_tender_criteria,
-    set_bid_responses,
     set_bid_lotvalues,
+    set_bid_responses,
+    set_tender_criteria,
+    set_tender_lots,
     set_tender_multi_buyers,
 )
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     test_contract_guarantee_criteria,
 )
-from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = get_now()
 

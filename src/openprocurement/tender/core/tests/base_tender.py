@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
+import unittest
 from copy import deepcopy
 from datetime import timedelta
+
 from mock import patch
 from mock.mock import MagicMock
-
-from openprocurement.api.context import set_request, set_now
-from openprocurement.api.utils import get_now
-from schematics.types.compound import ModelType, ListType
 from schematics.exceptions import ModelValidationError
-import unittest
+from schematics.types.compound import ListType, ModelType
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_data, test_tender_below_lots
+from openprocurement.api.context import set_now, set_request
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_data,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.core.procedure.models.lot import Lot
-from openprocurement.tender.core.procedure.models.tender import Tender, PostTender
+from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 
 test_tender_data = deepcopy(test_tender_below_data)
 del test_tender_data["procurementMethodType"]

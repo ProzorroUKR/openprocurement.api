@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import pytest
-from uuid import uuid4
 from copy import deepcopy
-from openprocurement.api.tests.base import singleton_app, app
+from uuid import uuid4
+
+import pytest
+
+from openprocurement.api.tests.base import app, singleton_app
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
@@ -10,7 +12,6 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_config,
     test_tender_openua_data,
 )
-
 
 test_tender_openua_central_data = deepcopy(test_tender_openua_data)
 

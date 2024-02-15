@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
-from contextlib import contextmanager
-
 import unittest
+from contextlib import contextmanager
 from copy import deepcopy
-
 from datetime import datetime, timedelta
-from mock import patch, MagicMock, call
+
+from mock import MagicMock, call, patch
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-)
-from openprocurement.tender.core.procedure.utils import generate_tender_id, extract_tender_id, extract_tender_doc
 from openprocurement.api.constants import TZ
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.tender.core.procedure.utils import (
+    extract_tender_doc,
+    extract_tender_id,
+    generate_tender_id,
+)
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 class TestUtilsBase(unittest.TestCase):

@@ -1,5 +1,6 @@
-from openprocurement.api.database import BaseCollection
 from pymongo import ASCENDING, IndexModel
+
+from openprocurement.api.database import BaseCollection
 
 
 class FrameworkCollection(BaseCollection):

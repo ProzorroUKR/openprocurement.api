@@ -3,36 +3,32 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    not_found,
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    post_tender_bid_with_exceeded_lot_values,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    not_found,
     patch_tender_bid_with_exceeded_lot_values,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidResourceTestMixin,
     TenderBidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    TenderBidResourceTestMixin,
     patch_tender_with_bids_lots_none,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
-    features_bidder,
-)
+from openprocurement.tender.openua.tests.bid_blanks import features_bidder
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_tender_simpledefense_features_data,
     test_tender_simpledefense_bids,
+    test_tender_simpledefense_features_data,
 )
 
 

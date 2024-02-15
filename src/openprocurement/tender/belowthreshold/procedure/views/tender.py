@@ -1,26 +1,32 @@
-from openprocurement.api.utils import json_view
+from cornice.resource import resource
+
 from openprocurement.api.auth import ACCR_1, ACCR_5
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.belowthreshold.procedure.models.tender import PostTender, Tender
-from openprocurement.tender.belowthreshold.procedure.state.tender_details import BelowThresholdTenderDetailsState
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_allows_update,
-    validate_item_quantity,
-    validate_tender_guarantee,
-    validate_input_data_from_resolved_model,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
     unless_administrator,
     validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from cornice.resource import resource
+from openprocurement.api.utils import json_view
+from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
+from openprocurement.tender.belowthreshold.procedure.models.tender import (
+    PostTender,
+    Tender,
+)
+from openprocurement.tender.belowthreshold.procedure.state.tender_details import (
+    BelowThresholdTenderDetailsState,
+)
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
+from openprocurement.tender.core.procedure.validation import (
+    validate_input_data_from_resolved_model,
+    validate_item_quantity,
+    validate_tender_guarantee,
+    validate_tender_status_allows_update,
+)
+from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
 @resource(

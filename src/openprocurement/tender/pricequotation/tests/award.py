@@ -2,26 +2,26 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_bids,
-    test_tender_pq_organization,
-)
-from openprocurement.tender.pricequotation.tests.award_blanks import (
-    check_tender_award,
-    create_tender_award_invalid,
-    create_tender_award,
-    patch_tender_award,
-    tender_award_transitions,
-    check_tender_award_cancellation,
-    move_award_contract_to_contracting,
-)
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    get_tender_award,
     create_tender_award_no_scale_invalid,
+    get_tender_award,
+)
+from openprocurement.tender.pricequotation.tests.award_blanks import (
+    check_tender_award,
+    check_tender_award_cancellation,
+    create_tender_award,
+    create_tender_award_invalid,
+    move_award_contract_to_contracting,
+    patch_tender_award,
+    tender_award_transitions,
+)
+from openprocurement.tender.pricequotation.tests.base import (
+    TenderContentWebTest,
+    test_tender_pq_bids,
+    test_tender_pq_organization,
 )
 
 

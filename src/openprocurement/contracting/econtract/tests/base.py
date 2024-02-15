@@ -1,17 +1,17 @@
 import os
 from uuid import uuid4
 
+from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.contracting.api.tests.base import BaseContractTest
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
     test_contract_data_two_items,
     test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
-from openprocurement.contracting.api.tests.base import BaseContractTest
 from openprocurement.tender.pricequotation.tests.data import *
-from openprocurement.api.context import set_now
 
 
 class BaseApiWebTest(BaseWebTest):

@@ -1,16 +1,16 @@
 from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.post import (
     ComplaintPostResourceMixin,
-    TenderComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
+    TenderComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 from openprocurement.tender.openuadefense.tests.base import (

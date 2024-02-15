@@ -1,5 +1,9 @@
-from openprocurement.tender.belowthreshold.procedure.state.cancellation import BelowThresholdCancellationStateMixing
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
+from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
+    BelowThresholdCancellationStateMixing,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
 
 
 class CFASelectionCancellationState(BelowThresholdCancellationStateMixing, CFASelectionTenderState):

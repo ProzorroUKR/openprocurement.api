@@ -1,8 +1,20 @@
 # -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-from uuid import uuid4
 from datetime import timedelta
+from uuid import uuid4
+
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2_with_docs,
+    test_docs_bid_draft,
+    test_docs_funder,
+    test_docs_question,
+    test_docs_tender_below,
+    test_docs_tender_below_maximum,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -10,26 +22,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_lots,
 )
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_lots,
 )
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.data import (
-    test_docs_bid_draft,
-    test_docs_bid2_with_docs,
-    test_docs_question,
-    test_docs_tender_below,
-    test_docs_tender_below_maximum,
-    test_docs_funder,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
-
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 test_tender_data = deepcopy(test_docs_tender_below)

@@ -1,6 +1,5 @@
-from uuid import uuid4
-
 from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.api.constants import NEW_CONTRACTING_FROM
 from openprocurement.api.utils import get_now

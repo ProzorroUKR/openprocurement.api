@@ -1,8 +1,11 @@
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.models.award import Award
-from openprocurement.tender.pricequotation.procedure.models.contract import Contract
-from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
 from openprocurement.api.context import get_request
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+)
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.pricequotation.procedure.models.contract import Contract
 
 
 class PriceQuotationTenderState(TenderState):
