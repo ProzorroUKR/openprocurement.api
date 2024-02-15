@@ -1555,9 +1555,7 @@ def tender_created_before_related_lot_constant(self):
 
 
 def create_tender_dps(self):
-    data = self.initial_data.copy()
-    data.update({"procurementMethodType": "competitiveOrdering"})
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("complaintPeriod", response.json["data"])
@@ -1573,15 +1571,13 @@ def create_tender_dps(self):
 
 
 def create_tender_dps_invalid_config(self):
-    data = self.initial_data.copy()
-    data.update({"procurementMethodType": "competitiveOrdering"})
     for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
         config = deepcopy(self.initial_config)
         config.update({config_name: True})
         response = self.app.post_json(
             "/tenders",
             {
-                "data": data,
+                "data": self.initial_data,
                 "config": config,
             },
             status=422,

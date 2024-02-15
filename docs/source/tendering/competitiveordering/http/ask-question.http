@@ -1,0 +1,69 @@
+POST /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/questions HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "author": {
+      "address": {
+        "countryName": "Україна",
+        "locality": "м. Львів",
+        "postalCode": "79013",
+        "region": "Львівська область",
+        "streetAddress": "вул. Островського, 34"
+      },
+      "contactPoint": {
+        "email": "aagt@gmail.com",
+        "name": "Андрій Олексюк",
+        "telephone": "+380322916930"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+        "id": "12345678",
+        "uri": "http://www.sc.gov.ua/"
+      },
+      "name": "ДКП «Книга»"
+    },
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "title": "Калорійність"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/questions/b3c7af5532b940b1bc1ad2aa5a7692ad
+
+{
+  "data": {
+    "author": {
+      "name": "ДКП «Книга»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "12345678",
+        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+        "uri": "http://www.sc.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Островського, 34",
+        "locality": "м. Львів",
+        "region": "Львівська область",
+        "postalCode": "79013",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Андрій Олексюк",
+        "email": "aagt@gmail.com",
+        "telephone": "+380322916930"
+      }
+    },
+    "title": "Калорійність",
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "questionOf": "tender",
+    "id": "b3c7af5532b940b1bc1ad2aa5a7692ad",
+    "date": "2023-10-10T01:00:00+03:00"
+  }
+}
+
