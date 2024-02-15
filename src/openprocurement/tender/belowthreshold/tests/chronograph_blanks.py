@@ -1,14 +1,15 @@
 from datetime import timedelta
+
 from freezegun import freeze_time
-from openprocurement.api.utils import get_now
+
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
     test_tender_below_bids,
+    test_tender_below_claim,
 )
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
-
+from openprocurement.tender.core.tests.utils import change_auth
 
 # TenderSwitchTenderingResourceTest
 

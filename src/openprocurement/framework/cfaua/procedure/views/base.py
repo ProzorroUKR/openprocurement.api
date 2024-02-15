@@ -1,8 +1,11 @@
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.utils import request_init_agreement
 from openprocurement.api.views.base import BaseResource
-from openprocurement.framework.cfaua.procedure.serializers.agreement import AgreementSerializer
+from openprocurement.framework.cfaua.procedure.serializers.agreement import (
+    AgreementSerializer,
+)
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class AgreementBaseResource(BaseResource):

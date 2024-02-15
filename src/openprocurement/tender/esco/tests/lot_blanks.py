@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
-from openprocurement.tender.core.tests.utils import change_auth
+from mock import patch
+
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_lot_invalid(self):

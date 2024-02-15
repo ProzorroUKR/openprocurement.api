@@ -1,8 +1,11 @@
 from schematics.types import StringType
+
+from openprocurement.api.procedure.models.document import Document as BaseDocument
+from openprocurement.api.procedure.models.document import (
+    PatchDocument as BasePatchDocument,
+)
 from openprocurement.api.procedure.models.document import (
     PostDocument as BasePostDocument,
-    PatchDocument as BasePatchDocument,
-    Document as BaseDocument,
 )
 
 

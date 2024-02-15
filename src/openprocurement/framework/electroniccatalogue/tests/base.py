@@ -2,18 +2,20 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+
 from freezegun import freeze_time
 
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.tests.base import (
-    BaseWebTest,
-    change_auth,
-)
+from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.dps.tests.base import test_submission_config
-from openprocurement.framework.electroniccatalogue.procedure.models.framework import Framework
-from openprocurement.framework.electroniccatalogue.procedure.models.organization import AUTHORIZED_CPB
+from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
+    Framework,
+)
+from openprocurement.framework.electroniccatalogue.procedure.models.organization import (
+    AUTHORIZED_CPB,
+)
 from openprocurement.framework.electroniccatalogue.tests.periods import PERIODS
 
 

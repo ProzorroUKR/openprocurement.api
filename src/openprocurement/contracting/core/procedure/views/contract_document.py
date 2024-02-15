@@ -1,5 +1,7 @@
+from openprocurement.contracting.core.procedure.views.document import (
+    BaseDocumentResource,
+)
 from openprocurement.tender.core.procedure.views.document import resolve_document
-from openprocurement.contracting.core.procedure.views.document import BaseDocumentResource
 
 
 class ContractDocumentResource(BaseDocumentResource):

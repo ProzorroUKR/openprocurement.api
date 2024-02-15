@@ -1,32 +1,31 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_tender_below_lots,
     test_tender_below_bids,
+    test_tender_below_lots,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
-    switch_to_tendering_by_tender_period_start_date,
-    switch_to_qualification,
-    switch_to_qualification_one_bid,
+    award_switch_from_pending,
+    award_switch_from_pending_to_ignored,
+    award_switch_to_complaint,
+    award_switch_to_ignored_on_complete,
+    reset_auction_period,
+    set_auction_period,
+    set_auction_period_lot_separately,
+    switch_from_pending,
+    switch_from_pending_to_ignored,
     switch_to_auction,
     switch_to_auction_lot_items,
-    switch_to_unsuccessful,
-    set_auction_period,
-    reset_auction_period,
-    set_auction_period_lot_separately,
     switch_to_auction_with_non_auction_lot,
-    switch_to_ignored_on_complete,
-    switch_from_pending_to_ignored,
-    switch_from_pending,
     switch_to_complaint,
-    award_switch_to_ignored_on_complete,
-    award_switch_from_pending_to_ignored,
-    award_switch_from_pending,
-    award_switch_to_complaint,
+    switch_to_ignored_on_complete,
+    switch_to_qualification,
+    switch_to_qualification_one_bid,
+    switch_to_tendering_by_tender_period_start_date,
+    switch_to_unsuccessful,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 

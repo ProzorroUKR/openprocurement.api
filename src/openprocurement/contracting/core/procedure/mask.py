@@ -1,8 +1,8 @@
 from openprocurement.api.mask import (
+    MASK_DATE,
+    MASK_NUMBER,
     MASK_STRING,
     MASK_STRING_EN,
-    MASK_NUMBER,
-    MASK_DATE,
     compile_mask_mapping,
 )
 

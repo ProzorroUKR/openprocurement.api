@@ -1,64 +1,59 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderLotAwardComplaintResourceTest
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.award_blanks import (  # TenderLotAwardComplaintResourceTest; TenderAwardDocumentResourceTest; TenderAwardDocumentWithDSResourceTest
+    create_award_document_bot,
+    create_tender_award_complaint_document,
+    create_tender_award_complaint_invalid,
+    create_tender_award_document,
+    create_tender_award_document_json_bulk,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    create_tender_award_complaint_invalid,
     not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
-    # TenderAwardDocumentResourceTest
     not_found_award_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    create_award_document_bot,
     patch_not_author,
-    # TenderAwardDocumentWithDSResourceTest
-    create_tender_award_document_json_bulk,
+    patch_tender_award_document,
+    put_tender_award_complaint_document,
+    put_tender_award_document,
 )
-
-from openprocurement.tender.openua.tests.award_blanks import (
-    patch_tender_award_complaint,
-    patch_tender_lot_award_complaint,
-    review_tender_award_stopping_complaint,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
 )
-
-from openprocurement.tender.openeu.tests.award_blanks import (
-    # TenderAwardResourceTest
-    create_tender_award_invalid,
-    get_tender_award,
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.tests.award_blanks import (
+    award_complaint_document_in_active_qualification,
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
+    create_tender_award_claim,
+    create_tender_award_complaint,
+    create_tender_award_complaint_not_active,
+    create_tender_lot_award_complaint,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    patch_tender_award,
+    patch_tender_award_active,
+    patch_tender_award_complaint_document,
+    patch_tender_award_in_qualification_st_st,
+    patch_tender_award_unsuccessful,
+    patch_tender_lot_award_lots_none,
+    review_tender_award_claim,
+    review_tender_award_complaint,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.cfaua.tests.award_blanks import (
-    create_tender_award_claim,
-    create_tender_award_complaint,
-    create_tender_award_complaint_not_active,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    patch_tender_award,
-    patch_tender_award_active,
-    review_tender_award_complaint,
-    review_tender_award_claim,
-    patch_tender_award_unsuccessful,
-    bot_patch_tender_award_complaint,
-    bot_patch_tender_award_complaint_forbidden,
-    create_tender_lot_award_complaint,
-    patch_tender_award_complaint_document,
-    patch_tender_award_in_qualification_st_st,
-    award_complaint_document_in_active_qualification,
-    patch_tender_lot_award_lots_none,
+from openprocurement.tender.openeu.tests.award_blanks import (  # TenderAwardResourceTest
+    create_tender_award_invalid,
+    get_tender_award,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    patch_tender_award_complaint,
+    patch_tender_lot_award_complaint,
+    review_tender_award_stopping_complaint,
 )
 
 

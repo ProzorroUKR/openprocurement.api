@@ -1,12 +1,16 @@
+from decimal import Decimal
+
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.auction import (
     AuctionSerializer as BaseAuctionSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.serializers.value import ValueSerializer
-from decimal import Decimal
 
 
 def decimal_serializer(_, value):

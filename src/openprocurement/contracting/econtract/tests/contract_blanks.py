@@ -1,13 +1,13 @@
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def listing(self):

@@ -1,22 +1,33 @@
+from logging import getLogger
+
+from cornice.resource import resource
+
 from openprocurement.api.auth import ACCR_4
-from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource as BaseResourceEU
-from openprocurement.tender.openua.procedure.views.bid import TenderBidResource as BaseResourceUA
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
-from openprocurement.tender.competitivedialogue.procedure.validation import validate_firm_to_create_bid
-from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
-from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
-from openprocurement.tender.core.procedure.validation import (
-    validate_bid_operation_period,
-    validate_bid_operation_not_in_tendering,
-)
 from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_data_documents,
     validate_accreditation_level,
+    validate_data_documents,
+    validate_input_data,
 )
 from openprocurement.api.utils import json_view
-from cornice.resource import resource
-from logging import getLogger
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.procedure.validation import (
+    validate_firm_to_create_bid,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_bid_operation_not_in_tendering,
+    validate_bid_operation_period,
+)
+from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
+from openprocurement.tender.openeu.procedure.views.bid import (
+    TenderBidResource as BaseResourceEU,
+)
+from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
+from openprocurement.tender.openua.procedure.views.bid import (
+    TenderBidResource as BaseResourceUA,
+)
 
 LOGGER = getLogger(__name__)
 

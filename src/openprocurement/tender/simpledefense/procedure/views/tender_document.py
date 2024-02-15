@@ -1,5 +1,8 @@
-from openprocurement.tender.openuadefense.procedure.views.tender_document import UADefenseTenderDocumentResource
 from cornice.resource import resource
+
+from openprocurement.tender.openuadefense.procedure.views.tender_document import (
+    UADefenseTenderDocumentResource,
+)
 
 
 @resource(

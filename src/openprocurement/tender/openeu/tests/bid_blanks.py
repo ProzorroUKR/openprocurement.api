@@ -1,17 +1,19 @@
-from unittest.mock import patch
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-)
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 
 # TenderBidResourceTest
 

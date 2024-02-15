@@ -1,11 +1,14 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.validation import validate_json_data
-from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
+from openprocurement.framework.core.procedure.models.framework import (
+    FrameworkChronographData,
+)
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
     PatchActiveFramework,
     PatchFramework,
 )
+
 from .qualification import ElectronicDialogueQualificationState
 from .submission import ElectronicDialogueSubmissionState
 

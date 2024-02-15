@@ -1,49 +1,49 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    invalid_tender_conditions,
-    guarantee,
-    create_tender_with_inn,
-    tender_milestones_required,
-    patch_tender_lots_none,
+    activate_bid_guarantee_multilot,
     create_tender_central,
     create_tender_central_invalid,
-    tender_minimalstep_validation,
-    tender_lot_minimalstep_validation,
-    patch_tender_minimalstep_validation,
-    tender_with_guarantee_multilot,
-    activate_bid_guarantee_multilot,
     create_tender_with_earlier_non_required_unit,
+    create_tender_with_inn,
     create_tender_with_required_unit,
+    guarantee,
+    invalid_tender_conditions,
     patch_not_author,
-)
-
-from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
-from openprocurement.tender.openua.tests.tender_blanks import (
-    tender_with_main_procurement_category,
-    tender_finance_milestones,
-    create_tender_with_criteria_lcc,
-    create_tender_invalid_config,
+    patch_tender_lots_none,
+    patch_tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
+    tender_milestones_required,
+    tender_minimalstep_validation,
+    tender_with_guarantee_multilot,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
+    test_tender_openeu_bids,
     test_tender_openeu_data,
     test_tender_openeu_lots,
-    test_tender_openeu_bids,
 )
 from openprocurement.tender.openeu.tests.tender_blanks import (
-    one_bid_tender,
-    unsuccessful_after_prequalification_tender,
-    one_qualificated_bid_tender,
-    multiple_bidders_tender,
-    lost_contract_for_active_award,
-    create_tender_invalid,
     create_tender_generated,
-    patch_tender,
+    create_tender_invalid,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
+    lost_contract_for_active_award,
+    multiple_bidders_tender,
+    one_bid_tender,
+    one_qualificated_bid_tender,
+    patch_tender,
+    unsuccessful_after_prequalification_tender,
+)
+from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
+from openprocurement.tender.openua.tests.tender_blanks import (
+    create_tender_invalid_config,
+    create_tender_with_criteria_lcc,
+    tender_finance_milestones,
+    tender_with_main_procurement_category,
 )
 
 

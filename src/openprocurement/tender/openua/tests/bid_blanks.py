@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
 
 import mock
-from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     now,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.utils import change_auth
-
 
 # TenderBidResourceTest
 

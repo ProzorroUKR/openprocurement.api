@@ -1,8 +1,9 @@
 from copy import deepcopy
-
 from uuid import uuid4
 
-from openprocurement.contracting.api.tests.data import test_contract_data as base_test_contract_data
+from openprocurement.contracting.api.tests.data import (
+    test_contract_data as base_test_contract_data,
+)
 
 test_tender_token = uuid4().hex
 test_contract_data = deepcopy(base_test_contract_data)

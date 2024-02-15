@@ -3,19 +3,10 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     get_tender_auction_not_found,
     get_tender_lot_auction,
     post_tender_lot_auction_document,
-)
-
-
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_cfaua_features_data,
-    test_tender_cfaua_features_bids_same_amount,
-    test_tender_cfaua_bids,
 )
 from openprocurement.tender.cfaua.tests.auction_blanks import (
     post_tender_1lot_auction_not_changed,
@@ -23,6 +14,12 @@ from openprocurement.tender.cfaua.tests.auction_blanks import (
     post_tender_auction_all_awards_pending,
     post_tender_lot_auction,
     tender_go_to_awarded_with_one_lot,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_features_bids_same_amount,
+    test_tender_cfaua_features_data,
 )
 
 

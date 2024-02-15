@@ -1,5 +1,6 @@
-from openprocurement.api.procedure.models.base import Model
 from logging import getLogger
+
+from openprocurement.api.procedure.models.base import Model
 
 LOGGER = getLogger(__name__)
 

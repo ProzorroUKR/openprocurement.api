@@ -1,26 +1,35 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.openua.procedure.views.contract import UAContractResource
-from openprocurement.tender.openeu.procedure.views.contract import EUContractResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_contract_supplier,
-    validate_contract_input_data,
-    validate_forbid_contract_action_after_date,
+from logging import getLogger
+
+from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_input_data,
+    validate_patch_data_simple,
 )
-from openprocurement.api.procedure.validation import validate_patch_data_simple, validate_input_data, unless_admins
-from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
+from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
 from openprocurement.tender.competitivedialogue.procedure.models.stage2.contract import (
-    UAContract,
-    UAPostContract,
-    UAPatchContract,
-    UAPatchContractSupplier,
     EUContract,
-    EUPostContract,
     EUPatchContract,
     EUPatchContractSupplier,
+    EUPostContract,
+    UAContract,
+    UAPatchContract,
+    UAPatchContractSupplier,
+    UAPostContract,
 )
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from cornice.resource import resource
-from logging import getLogger
+from openprocurement.tender.core.procedure.validation import (
+    validate_contract_input_data,
+    validate_contract_supplier,
+    validate_forbid_contract_action_after_date,
+)
+from openprocurement.tender.openeu.procedure.views.contract import EUContractResource
+from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
+from openprocurement.tender.openua.procedure.views.contract import UAContractResource
 
 LOGGER = getLogger(__name__)
 

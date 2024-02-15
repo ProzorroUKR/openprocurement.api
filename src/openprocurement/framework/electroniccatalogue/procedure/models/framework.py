@@ -1,13 +1,21 @@
 from schematics.types import StringType
-from openprocurement.api.procedure.types import ModelType
 
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,
-    PostFramework as BasePostFramework,
-    PatchFramework as BasePatchFramework,
+)
+from openprocurement.framework.core.procedure.models.framework import (
     PatchActiveFramework as BasePatchActiveFramework,
 )
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
+from openprocurement.framework.core.procedure.models.framework import (
+    PatchFramework as BasePatchFramework,
+)
+from openprocurement.framework.core.procedure.models.framework import (
+    PostFramework as BasePostFramework,
+)
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 from openprocurement.framework.electroniccatalogue.procedure.models.organization import (
     CentralProcuringEntity,
     PatchActiveCentralProcuringEntity,

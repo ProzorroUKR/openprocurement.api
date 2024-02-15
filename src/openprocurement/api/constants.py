@@ -1,17 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
 import re
-
-import pytz
-
-from configparser import ConfigParser, DEFAULTSECT
-from ciso8601 import parse_datetime
-from pytz import timezone
+from configparser import DEFAULTSECT, ConfigParser
 from datetime import datetime
 from logging import getLogger
-from requests import Session
 
+import pytz
 import standards
+from ciso8601 import parse_datetime
+from pytz import timezone
+from requests import Session
 
 LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"

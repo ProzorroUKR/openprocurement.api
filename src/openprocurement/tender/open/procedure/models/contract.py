@@ -1,10 +1,14 @@
-from openprocurement.tender.open.procedure.models.item import Item
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contract import (
-    PatchContractSupplier as BasePatchContractSupplier,
-    PatchContract as BasePatchContract,
     Contract as BaseContract,
 )
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContract as BasePatchContract,
+)
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContractSupplier as BasePatchContractSupplier,
+)
+from openprocurement.tender.open.procedure.models.item import Item
 
 
 class Contract(BaseContract):

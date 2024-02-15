@@ -1,12 +1,15 @@
 import os
 import unittest
 from datetime import datetime
+
 from mock import MagicMock, patch
 from schematics.transforms import wholelist
 from schematics.types import StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.framework.core.procedure.models.framework import Framework as BaseFramework
+from openprocurement.framework.core.procedure.models.framework import (
+    Framework as BaseFramework,
+)
 from openprocurement.framework.core.tests.base import BaseFrameworkTest
 from openprocurement.framework.core.utils import FrameworkTypePredicate
 

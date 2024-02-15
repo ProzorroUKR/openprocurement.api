@@ -1,5 +1,5 @@
-from hashlib import sha512
 from datetime import timedelta
+from hashlib import sha512
 from logging import getLogger
 
 from jsonpointer import resolve_pointer
@@ -10,17 +10,17 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.context import get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.utils import get_revision_changes, append_revision
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 from openprocurement.api.utils import (
-    handle_store_exceptions,
     context_unpack,
     error_handler,
+    handle_store_exceptions,
 )
 from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
 from openprocurement.framework.core.procedure.mask import (
-    SUBMISSION_MASK_MAPPING,
-    QUALIFICATION_MASK_MAPPING,
     AGREEMENT_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    SUBMISSION_MASK_MAPPING,
 )
 from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso

@@ -3,29 +3,28 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_cfaua_bids,
-    test_tender_cfaua_lots,
-)
 from openprocurement.tender.cfaua.tests.agreement_blanks import (
     agreement_cancellation,
     agreement_termination,
     create_tender_agreement_document,
+    four_contracts_one_unsuccessful,
     get_tender_agreement,
-    get_tender_agreements,
     get_tender_agreement_contract,
     get_tender_agreement_contracts,
-    four_contracts_one_unsuccessful,
+    get_tender_agreements,
     not_found,
+    patch_lots_agreement_contract_unit_prices,
     patch_tender_agreement,
-    patch_tender_agreement_unsuccessful,
     patch_tender_agreement_contract,
     patch_tender_agreement_datesigned,
     patch_tender_agreement_document,
+    patch_tender_agreement_unsuccessful,
     put_tender_agreement_document,
-    patch_lots_agreement_contract_unit_prices,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
 )
 
 

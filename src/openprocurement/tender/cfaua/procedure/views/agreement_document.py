@@ -1,7 +1,13 @@
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
-from openprocurement.tender.cfaua.procedure.state.agreement_document import AgreementDocumentState
 from cornice.resource import resource
+
+from openprocurement.tender.cfaua.procedure.state.agreement_document import (
+    AgreementDocumentState,
+)
+from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
 
 
 @resource(

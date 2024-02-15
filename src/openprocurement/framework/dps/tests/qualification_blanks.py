@@ -1,13 +1,14 @@
 from copy import deepcopy
-from freezegun import freeze_time
+from datetime import timedelta
 
-from openprocurement.api.mask import MASK_STRING
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import change_auth
+from freezegun import freeze_time
+from mock import Mock, patch
+
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbResourceConflict
-from datetime import timedelta
-from mock import Mock, patch
+from openprocurement.api.mask import MASK_STRING
+from openprocurement.api.tests.base import change_auth
+from openprocurement.api.utils import get_now
 
 
 def listing(self):

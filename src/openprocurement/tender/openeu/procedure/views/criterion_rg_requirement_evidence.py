@@ -1,7 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import BaseEligibleEvidenceResource
-from openprocurement.tender.openeu.procedure.state.criterion_rg_requirement_evidence import OpenEUEligibleEvidenceState
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
+    BaseEligibleEvidenceResource,
+)
+from openprocurement.tender.openeu.procedure.state.criterion_rg_requirement_evidence import (
+    OpenEUEligibleEvidenceState,
+)
 
 
 @resource(

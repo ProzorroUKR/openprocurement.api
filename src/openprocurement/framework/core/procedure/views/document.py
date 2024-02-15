@@ -1,16 +1,24 @@
-from openprocurement.framework.core.procedure.state.document import (
-    SubmissionDocumentState,
-    QualificationDocumentState,
-    MilestoneDocumentState,
-)
 from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.state.document import (
+    MilestoneDocumentState,
+    QualificationDocumentState,
+    SubmissionDocumentState,
+)
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.procedure.views.base import BaseDocumentResource, FrameworkBaseResource
+from openprocurement.framework.core.procedure.views.base import (
+    BaseDocumentResource,
+    FrameworkBaseResource,
+)
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
 from openprocurement.framework.core.procedure.views.milestone import resolve_milestone
 from openprocurement.tender.core.procedure.documents import get_file_docservice
-from openprocurement.tender.core.procedure.views.document import resolve_document, DocumentResourceMixin
-from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
+from openprocurement.tender.core.procedure.views.document import (
+    DocumentResourceMixin,
+    resolve_document,
+)
 
 
 class CoreFrameworkDocumentResource(BaseDocumentResource):

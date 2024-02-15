@@ -1,29 +1,32 @@
+from copy import deepcopy
+
 from mock import patch
 
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_draft_complaint,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_author,
-    test_tender_cd_tenderer,
     test_tender_cd_lots,
+    test_tender_cd_tenderer,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
-    test_tender_below_claim,
-    test_tender_below_cancellation,
+from openprocurement.tender.competitivedialogue.tests.stage2.award import (
+    test_tender_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.award import test_tender_bids
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.post import (
-    ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
+    ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
-    TenderQualificationComplaintPostResourceMixin,
-    TenderComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
+    TenderComplaintPostResourceMixin,
+    TenderQualificationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
-from copy import deepcopy
 
 
 class TenderCompetitiveDialogUAComplaintPostResourceTest(

@@ -1,11 +1,14 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
-from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.openua.procedure.state.claim import OpenUATenderClaimState
-from openprocurement.tender.openua.procedure.state.complaint import OpenUATenderComplaintState
+from openprocurement.tender.openua.procedure.state.complaint import (
+    OpenUATenderComplaintState,
+)
 
 
 @resource(

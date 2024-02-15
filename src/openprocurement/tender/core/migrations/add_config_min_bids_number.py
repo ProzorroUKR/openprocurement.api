@@ -3,25 +3,28 @@ from gevent import monkey
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import (
-    REPORTING,
     NEGOTIATION,
     NEGOTIATION_QUICK,
+    REPORTING,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
+from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE

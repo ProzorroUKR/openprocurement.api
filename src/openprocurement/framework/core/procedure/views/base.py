@@ -1,22 +1,30 @@
-from openprocurement.api.views.base import BaseResource
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.utils import (
     context_unpack,
-    request_init_framework,
-    request_init_submission,
-    request_init_qualification,
-    request_init_agreement,
-    request_fetch_framework,
     request_fetch_agreement,
+    request_fetch_framework,
+    request_init_agreement,
+    request_init_framework,
+    request_init_qualification,
+    request_init_submission,
 )
+from openprocurement.api.views.base import BaseResource
 from openprocurement.framework.core.procedure.models.document import Document
-from openprocurement.framework.core.procedure.state.document import BaseFrameworkDocumentState
+from openprocurement.framework.core.procedure.state.document import (
+    BaseFrameworkDocumentState,
+)
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
-from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin, resolve_document
-from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.api.database import atomic_transaction
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from openprocurement.tender.core.procedure.documents import get_file
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
+from openprocurement.tender.core.procedure.views.document import (
+    DocumentResourceMixin,
+    resolve_document,
+)
 
 
 class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes

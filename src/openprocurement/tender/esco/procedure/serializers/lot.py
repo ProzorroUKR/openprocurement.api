@@ -1,4 +1,7 @@
-from openprocurement.api.procedure.serializers.base import BaseSerializer, decimal_serializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    decimal_serializer,
+)
 
 
 class LotSerializer(BaseSerializer):

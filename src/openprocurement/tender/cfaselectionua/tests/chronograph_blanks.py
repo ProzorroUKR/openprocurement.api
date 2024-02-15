@@ -3,10 +3,11 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
-from openprocurement.tender.cfaselectionua.tests.base import test_tender_cfaselectionua_agreement
-
+from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.tender.cfaselectionua.tests.base import (
+    test_tender_cfaselectionua_agreement,
+)
 
 # TenderSwitchTenderingResourceTest
 

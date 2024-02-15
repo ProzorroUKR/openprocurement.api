@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
+from openprocurement.api.context import get_now
 from openprocurement.tender.cfaua.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.context import get_now
 
 if TYPE_CHECKING:
     from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState

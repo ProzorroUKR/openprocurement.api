@@ -1,32 +1,24 @@
 import re
-from functools import wraps
-from dateorro import (
-    calc_datetime,
-    calc_working_datetime,
-    calc_normalized_datetime,
-)
 from datetime import timedelta
+from functools import wraps
 from logging import getLogger
 
+from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
+
 from openprocurement.api.constants import (
-    WORKING_DAYS,
-    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
+    DST_AWARE_PERIODS_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
     NORMALIZED_TENDER_PERIOD_FROM,
-    DST_AWARE_PERIODS_FROM,
     TZ,
+    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
+    WORKING_DAYS,
 )
-from openprocurement.api.utils import (
-    get_now,
-    get_first_revision_date,
-)
+from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.constants import (
-    NORMALIZED_COMPLAINT_PERIOD_FROM,
-)
+from openprocurement.tender.core.constants import NORMALIZED_COMPLAINT_PERIOD_FROM
 from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP_NAME,
     ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
 )
 
 LOGGER = getLogger("openprocurement.tender.core")

@@ -2,12 +2,13 @@
 import os
 from copy import deepcopy
 from uuid import uuid4
+
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.contracting.api.tests.data import (
     test_tender_token as test_contract_tender_token,
-    test_contract_data,
 )
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 class BaseContractOwnershipChangeTest(BaseWebTest):

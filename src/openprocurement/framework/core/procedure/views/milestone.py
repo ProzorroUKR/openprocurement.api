@@ -1,13 +1,15 @@
 from logging import getLogger
 
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.framework.core.procedure.serializers.milestone import MilestoneSerializer
-from openprocurement.framework.core.procedure.state.milestone import MilestoneState
-from openprocurement.framework.core.procedure.views.contract import resolve_contract
 from openprocurement.api.procedure.context import get_object
-from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.framework.core.procedure.serializers.milestone import (
+    MilestoneSerializer,
+)
+from openprocurement.framework.core.procedure.state.milestone import MilestoneState
+from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
+from openprocurement.framework.core.procedure.views.contract import resolve_contract
 
 LOGGER = getLogger(__name__)
 

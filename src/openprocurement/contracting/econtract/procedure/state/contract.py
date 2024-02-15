@@ -1,20 +1,26 @@
-from logging import getLogger
 from datetime import datetime
+from logging import getLogger
 
+from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.api.procedure.utils import get_items, to_decimal
+from openprocurement.api.utils import context_unpack, get_now, raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.api.utils import raise_operation_error, context_unpack, get_now
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    IgnoredClaimMixing,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.contract import (
+    CFASelectionContractStateMixing,
+)
+from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.utils import (
-    save_tender,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
+    save_tender,
 )
-from openprocurement.api.procedure.utils import get_items, to_decimal
-from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
-from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractStateMixing
-from openprocurement.tender.limited.procedure.state.contract import LimitedContractStateMixing
-from openprocurement.tender.belowthreshold.procedure.state.tender import IgnoredClaimMixing
-from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.tender.limited.procedure.state.contract import (
+    LimitedContractStateMixing,
+)
 
 LOGGER = getLogger(__name__)
 

@@ -1,17 +1,20 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.lot import TenderLotResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-    validate_create_award_only_for_active_lot,
-    validate_operation_with_lot_cancellation_in_pending,
-    validate_delete_lot_related_object,
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_item_owner,
 )
-from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
-from openprocurement.tender.core.procedure.models.lot import PostLot
+from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.state.lot import TenderLotState
 from openprocurement.tender.cfaua.procedure.validation import validate_lot_count
+from openprocurement.tender.core.procedure.models.lot import PostLot
+from openprocurement.tender.core.procedure.validation import (
+    validate_create_award_only_for_active_lot,
+    validate_delete_lot_related_object,
+    validate_lot_operation_in_disallowed_tender_statuses,
+    validate_operation_with_lot_cancellation_in_pending,
+)
+from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
 @resource(

@@ -1,10 +1,11 @@
-from openprocurement.api.utils import error_handler
 from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.models.req_response import (
-    validate_req_response_requirement,
-    validate_req_response_related_tenderer,
     validate_req_response_evidences_relatedDocument,
+    validate_req_response_related_tenderer,
+    validate_req_response_requirement,
     validate_response_requirement_uniq,
 )
 

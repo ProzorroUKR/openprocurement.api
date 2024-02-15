@@ -3,16 +3,16 @@ import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdua_data,
-    test_tender_cdeu_data,
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cdeu_data,
+    test_tender_cdua_data,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 

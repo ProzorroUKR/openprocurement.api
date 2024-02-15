@@ -2,26 +2,31 @@ from copy import deepcopy
 
 from cornice.resource import resource
 
+from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import apply_data_patch, get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_input_data_from_resolved_model,
-    validate_patch_data_from_resolved_model,
-    validate_item_owner,
     unless_administrator,
+    validate_input_data_from_resolved_model,
+    validate_item_owner,
+    validate_patch_data_from_resolved_model,
 )
-from openprocurement.api.utils import json_view, update_logging_context, context_unpack, raise_operation_error
+from openprocurement.api.utils import (
+    context_unpack,
+    json_view,
+    raise_operation_error,
+    update_logging_context,
+)
+from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.state.change import ChangeState
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
 from openprocurement.framework.cfaua.procedure.validation import (
     validate_agreement_change_add_not_in_allowed_agreement_status,
-    validate_create_agreement_change,
     validate_agreement_change_update_not_in_allowed_change_status,
+    validate_create_agreement_change,
 )
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
-from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 def resolve_change(request):

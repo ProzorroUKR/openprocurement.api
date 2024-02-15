@@ -3,46 +3,37 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.cfaselectionua.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderSameValueAuctionResourceTest; TenderLotAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderFeaturesAuctionResourceTest; TenderFeaturesLotAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
+    get_tender_auction,
+    get_tender_auction_feature,
+    get_tender_auction_not_found,
+    get_tender_lot_auction,
+    get_tender_lot_auction_features,
+    get_tender_lots_auction,
+    get_tender_lots_auction_features,
+    patch_tender_auction,
+    patch_tender_lot_auction,
+    patch_tender_lots_auction,
+    post_tender_auction,
+    post_tender_auction_document,
+    post_tender_auction_feature,
+    post_tender_auction_not_changed,
+    post_tender_auction_reversed,
+    post_tender_lot_auction,
+    post_tender_lot_auction_document,
+    post_tender_lot_auction_features,
+    post_tender_lots_auction,
+    post_tender_lots_auction_document,
+    post_tender_lots_auction_features,
+)
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_agreement_features,
     test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_data,
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_organization,
 )
-from openprocurement.tender.cfaselectionua.tests.auction_blanks import (
-    # TenderAuctionResourceTest
-    get_tender_auction_not_found,
-    get_tender_auction,
-    post_tender_auction,
-    patch_tender_auction,
-    post_tender_auction_document,
-    # TenderSameValueAuctionResourceTest
-    post_tender_auction_not_changed,
-    post_tender_auction_reversed,
-    # TenderLotAuctionResourceTest
-    get_tender_lot_auction,
-    post_tender_lot_auction,
-    patch_tender_lot_auction,
-    post_tender_lot_auction_document,
-    # TenderMultipleLotAuctionResourceTest
-    get_tender_lots_auction,
-    post_tender_lots_auction,
-    patch_tender_lots_auction,
-    post_tender_lots_auction_document,
-    # TenderFeaturesAuctionResourceTest
-    get_tender_auction_feature,
-    post_tender_auction_feature,
-    # TenderFeaturesLotAuctionResourceTest
-    get_tender_lot_auction_features,
-    post_tender_lot_auction_features,
-    # TenderFeaturesMultilotAuctionResourceTest
-    get_tender_lots_auction_features,
-    post_tender_lots_auction_features,
-)
-
 
 skip_multi_lots = True
 auction_test_tender_data = test_tender_cfaselectionua_data.copy()

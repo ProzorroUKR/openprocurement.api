@@ -1,30 +1,34 @@
-import mock
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
-from openprocurement.api.utils import get_now
+import mock
+
 from openprocurement.api.constants import (
+    PQ_MULTI_PROFILE_FROM,
     ROUTE_PREFIX,
     SANDBOX_MODE,
-    PQ_MULTI_PROFILE_FROM,
 )
-from openprocurement.tender.pricequotation.tests.base import (
-    test_tender_pq_organization,
-    test_tender_pq_cancellation,
-    test_tender_pq_shortlisted_firms,
-    test_tender_pq_short_profile,
-    test_tender_pq_requirement_response,
-    test_tender_pq_data_before_multiprofile,
-    test_tender_pq_data_after_multiprofile,
-    test_tender_pq_item_before_multiprofile,
-    test_tender_pq_item_after_multiprofile,
-)
-from openprocurement.tender.pricequotation.tests.data import test_tender_pq_milestones, PQ_NEW_CONTRACTING_RELEASED
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.pricequotation.tests.utils import activate_econtract
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
+from openprocurement.tender.pricequotation.tests.base import (
+    test_tender_pq_cancellation,
+    test_tender_pq_data_after_multiprofile,
+    test_tender_pq_data_before_multiprofile,
+    test_tender_pq_item_after_multiprofile,
+    test_tender_pq_item_before_multiprofile,
+    test_tender_pq_organization,
+    test_tender_pq_requirement_response,
+    test_tender_pq_short_profile,
+    test_tender_pq_shortlisted_firms,
+)
+from openprocurement.tender.pricequotation.tests.data import (
+    PQ_NEW_CONTRACTING_RELEASED,
+    test_tender_pq_milestones,
+)
+from openprocurement.tender.pricequotation.tests.utils import activate_econtract
 
 
 def listing(self):
@@ -745,7 +749,9 @@ def create_tender_draft_with_criteria(self):
     # try adding a new criteria
     patch_criteria = patch_criteria + deepcopy(patch_criteria)
 
-    from openprocurement.tender.pricequotation.procedure.models.requirement import PQ_CRITERIA_ID_FROM
+    from openprocurement.tender.pricequotation.procedure.models.requirement import (
+        PQ_CRITERIA_ID_FROM,
+    )
 
     if get_now() > PQ_CRITERIA_ID_FROM:
         response = self.app.patch_json(

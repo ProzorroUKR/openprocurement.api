@@ -1,14 +1,14 @@
-from contextlib import contextmanager
-
-from paste.deploy.loadwsgi import loadapp
-from types import FunctionType
-from openprocurement.api.constants import VERSION, TWO_PHASE_COMMIT_FROM
-from openprocurement.api.utils import get_now
-import webtest
-import unittest
-import pytest
 import os
+import unittest
+from contextlib import contextmanager
+from types import FunctionType
 
+import pytest
+import webtest
+from paste.deploy.loadwsgi import loadapp
+
+from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM, VERSION
+from openprocurement.api.utils import get_now
 
 wsgiapp = None
 

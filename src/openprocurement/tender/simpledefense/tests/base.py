@@ -1,25 +1,27 @@
 # -*- coding: utf-8 -*-
 import os
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
 
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.simpledefense.tests.periods import PERIODS
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAWebTest as BaseTenderWebTest,
-    now,
-    test_tender_below_features_data,
-)
-from openprocurement.tender.openuadefense.tests.base import (
-    test_tender_openuadefense_procuring_entity,
-    test_tender_openuadefense_data,
-)
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseTenderWebTest,
+)
+from openprocurement.tender.openua.tests.base import (
+    now,
+    test_tender_below_features_data,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_data,
+    test_tender_openuadefense_procuring_entity,
+)
+from openprocurement.tender.simpledefense.tests.periods import PERIODS
 
 test_tender_simpledefense_data = test_tender_openuadefense_data.copy()
 test_tender_simpledefense_data["procurementMethodType"] = "simple.defense"

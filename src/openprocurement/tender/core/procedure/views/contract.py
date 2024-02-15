@@ -1,14 +1,15 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.contract import ContractSerializer
-from openprocurement.tender.core.procedure.state.contract import ContractState
-from pyramid.security import Allow, Everyone
 from logging import getLogger
 
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.serializers.contract import (
+    ContractSerializer,
+)
+from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)

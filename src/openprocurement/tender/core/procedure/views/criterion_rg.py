@@ -1,26 +1,30 @@
 from logging import getLogger
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.serializers.criterion_rg import RequirementGroupSerializer
-from openprocurement.tender.core.procedure.state.criterion_rg import RequirementGroupState
-from openprocurement.tender.core.procedure.models.criterion import (
-    RequirementGroup,
-    PatchRequirementGroup,
-)
-from openprocurement.tender.core.procedure.views.criterion import resolve_criterion
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    unless_administrator,
     validate_input_data,
     validate_item_owner,
-    unless_administrator,
+    validate_patch_data_simple,
 )
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.models.criterion import (
+    PatchRequirementGroup,
+    RequirementGroup,
+)
+from openprocurement.tender.core.procedure.serializers.criterion_rg import (
+    RequirementGroupSerializer,
+)
+from openprocurement.tender.core.procedure.state.criterion_rg import (
+    RequirementGroupState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.criterion import resolve_criterion
 
 LOGGER = getLogger(__name__)
 

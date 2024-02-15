@@ -1,18 +1,24 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+
 from freezegun import freeze_time
 from mock import patch
 
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    RELEASE_ECRITERIA_ARTICLE_17,
+)
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
+
+# TenderCancellationBidsAvailabilityTest
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-
-# TenderCancellationBidsAvailabilityTest
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 from openprocurement.tender.core.tests.utils import change_auth
 
 

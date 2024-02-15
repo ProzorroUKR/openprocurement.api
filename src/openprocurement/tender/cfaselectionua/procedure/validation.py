@@ -1,6 +1,8 @@
-from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.validation import validate_item_operation_in_disallowed_tender_statuses
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.validation import (
+    validate_item_operation_in_disallowed_tender_statuses,
+)
 
 
 def unless_selection_bot(*validations):

@@ -1,44 +1,37 @@
 # -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
+    TenderContractResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_tender_contract_value,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_supplier,
-    create_tender_contract_document_by_supplier,
     create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
-    patch_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_supplier,
+    patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_with_status,
-    patch_contract_multi_items_unit_value,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    patch_tender_contract_value,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
-
-from openprocurement.tender.openua.tests.contract_blanks import (
-    create_tender_contract,
-    patch_tender_contract_datesigned,
-)
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
@@ -47,6 +40,10 @@ from openprocurement.tender.openeu.tests.base import (
 from openprocurement.tender.openeu.tests.contract_blanks import (
     contract_termination,
     patch_tender_contract,
+)
+from openprocurement.tender.openua.tests.contract_blanks import (
+    create_tender_contract,
+    patch_tender_contract_datesigned,
 )
 
 

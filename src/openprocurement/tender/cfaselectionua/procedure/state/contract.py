@@ -1,12 +1,12 @@
-from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
-from openprocurement.api.utils import (
-    get_now,
-    context_unpack,
-)
-from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
-from logging import getLogger
 from datetime import datetime
+from logging import getLogger
+
+from openprocurement.api.utils import context_unpack, get_now
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
 
 LOGGER = getLogger(__name__)
 

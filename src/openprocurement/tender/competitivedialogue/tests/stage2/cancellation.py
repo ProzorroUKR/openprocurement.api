@@ -1,44 +1,43 @@
 # -*- coding: utf-8 -*-
-from copy import deepcopy
-
 import unittest
-from mock import patch
+from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from mock import patch
+
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
     test_tender_below_cancellation,
-)
-
-from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_openeu_bids,
-    test_tender_cd_author,
-    test_tender_cd_shortlisted_firms,
-    BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     create_tender_lots_cancellation,
+    patch_tender_lot_cancellation,
     patch_tender_lots_cancellation,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cd_author,
+    test_tender_cd_shortlisted_firms,
+    test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
 from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
-
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    activate_cancellation,
+)
 
 test_bids = deepcopy(test_tender_openeu_bids)
 for bid in test_bids:

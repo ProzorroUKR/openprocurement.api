@@ -1,8 +1,9 @@
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.econtract.tests.utils import create_contract
 
 
 def no_items_contract_change(self):

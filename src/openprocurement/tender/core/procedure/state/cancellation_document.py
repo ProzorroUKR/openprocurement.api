@@ -1,13 +1,12 @@
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
-from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_cancellation,
+from openprocurement.tender.core.procedure.context import get_cancellation, get_request
+from openprocurement.tender.core.procedure.state.cancellation import (
+    CancellationStateMixing,
 )
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 

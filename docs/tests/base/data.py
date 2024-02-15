@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
-from datetime import (
-    timedelta,
-    datetime,
-)
+from datetime import datetime, timedelta
+from hashlib import sha512
 from uuid import uuid4
 
 from dateutil.parser import parse
-from hashlib import sha512
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_milestones
 from tests.base.constants import MOCK_DATETIME
+
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_milestones,
+)
 
 test_docs_parameters = [{'code': 'OCDS-123454-AIR-INTAKE', 'value': 0.1}, {'code': 'OCDS-123454-YEARS', 'value': 0.1}]
 

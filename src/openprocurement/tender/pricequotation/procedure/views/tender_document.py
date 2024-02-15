@@ -1,21 +1,30 @@
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
+from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    update_doc_fields_on_put_document,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_upload_document,
-    update_doc_fields_on_put_document,
+from openprocurement.tender.core.procedure.views.tender_document import (
+    TenderDocumentResource,
 )
-from openprocurement.tender.pricequotation.procedure.validation import validate_document_operation_in_not_allowed_period
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
-from cornice.resource import resource
-from openprocurement.api.utils import json_view
+from openprocurement.tender.pricequotation.procedure.validation import (
+    validate_document_operation_in_not_allowed_period,
+)
 
 
 @resource(

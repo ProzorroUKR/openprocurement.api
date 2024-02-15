@@ -1,60 +1,69 @@
 # -*- coding: utf-8 -*-
-import pytest
 from copy import deepcopy
+
+import pytest
 from mock import MagicMock
-from openprocurement.planning.api.tests.base import app, singleton_app, plan, test_plan_data
-from openprocurement.planning.api.constants import PROCEDURES
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_data,
-    test_tender_below_config,
-)
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_config,
-)
-from openprocurement.tender.openua.tests.base import (
-    test_tender_openua_data,
-    test_tender_openua_config,
-)
-from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdeu_data,
-    test_tender_cdua_data,
-    test_tender_cdua_stage2_data,
-    test_tender_cdeu_stage2_data,
-    test_tender_cdeu_config,
-    test_tender_cdua_config,
-)
-from openprocurement.tender.esco.tests.base import (
-    test_tender_esco_data,
-    test_tender_esco_config,
-)
-from openprocurement.tender.limited.tests.base import (
-    test_tender_reporting_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
-    test_tender_reporting_config,
-    test_tender_negotiation_config,
-    test_tender_negotiation_quick_config,
-)
-from openprocurement.tender.openuadefense.tests.base import (
-    test_tender_openuadefense_data,
-    test_tender_openuadefense_config,
-)
-from openprocurement.tender.simpledefense.tests.base import (
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_config,
-)
-from openprocurement.tender.cfaua.tests.base import (
-    test_tender_cfaua_with_lots_data,
-    test_tender_cfaua_config,
-)
-from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_data,
-    test_tender_pq_config,
-)
-from openprocurement.tender.cfaselectionua.tests.tender import test_tender_cfaselectionua_data
+
 from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now
+from openprocurement.planning.api.constants import PROCEDURES
+from openprocurement.planning.api.tests.base import (
+    app,
+    plan,
+    singleton_app,
+    test_plan_data,
+)
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_config,
+    test_tender_below_data,
+)
+from openprocurement.tender.cfaselectionua.tests.tender import (
+    test_tender_cfaselectionua_data,
+)
+from openprocurement.tender.cfaua.tests.base import (
+    test_tender_cfaua_config,
+    test_tender_cfaua_with_lots_data,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    test_tender_cdeu_config,
+    test_tender_cdeu_data,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_config,
+    test_tender_cdua_data,
+    test_tender_cdua_stage2_data,
+)
+from openprocurement.tender.esco.tests.base import (
+    test_tender_esco_config,
+    test_tender_esco_data,
+)
+from openprocurement.tender.limited.tests.base import (
+    test_tender_negotiation_config,
+    test_tender_negotiation_data,
+    test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
+    test_tender_reporting_config,
+    test_tender_reporting_data,
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_config,
+    test_tender_openeu_data,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_config,
+    test_tender_openua_data,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_config,
+    test_tender_openuadefense_data,
+)
+from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_config,
+    test_tender_pq_data,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_config,
+    test_tender_simpledefense_data,
+)
 
 
 def test_get_plan_tenders_405(app, plan):

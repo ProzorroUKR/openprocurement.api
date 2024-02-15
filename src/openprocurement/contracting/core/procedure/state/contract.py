@@ -1,13 +1,14 @@
-from logging import getLogger
+from decimal import ROUND_FLOOR, Decimal
 from itertools import zip_longest
-from decimal import Decimal, ROUND_FLOOR
+from logging import getLogger
+
 from schematics.types import BaseType
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
 
 LOGGER = getLogger(__name__)
 

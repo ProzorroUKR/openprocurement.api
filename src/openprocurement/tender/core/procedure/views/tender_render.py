@@ -1,5 +1,6 @@
 from cornice.service import Service
 from pyramid.response import Response
+
 from openprocurement.tender.core.render import render_tender_txt
 
 tender_render_service = Service(name="render_tender", path="/render/txt/tenders/{tender_id}")

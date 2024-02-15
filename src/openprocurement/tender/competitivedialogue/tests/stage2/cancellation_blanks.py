@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
 
 
 def cancellation_active_qualification_j1427(self):

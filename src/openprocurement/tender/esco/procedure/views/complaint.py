@@ -1,9 +1,10 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
-from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.esco.procedure.state.claim import ESCOClaimState
 from openprocurement.tender.esco.procedure.state.complaint import ESCOComplaintState
 

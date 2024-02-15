@@ -1,10 +1,11 @@
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.chronograph_blanks import (
+    ensure_no_auction_period,
     switch_to_qualification,
     switch_to_unsuccessful,
-    ensure_no_auction_period,
 )
 from openprocurement.tender.pricequotation.tests.data import test_tender_pq_bids
 

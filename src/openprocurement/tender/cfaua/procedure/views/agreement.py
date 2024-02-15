@@ -1,14 +1,22 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.serializers.agreement import AgreementSerializer
+from cornice.resource import resource
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.core.procedure.views.agreement import TenderAgreementResource
+from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaua.procedure.models.agreement import (
+    Agreement,
+    PatchAgreement,
+)
+from openprocurement.tender.cfaua.procedure.serializers.agreement import (
+    AgreementSerializer,
+)
 from openprocurement.tender.cfaua.procedure.state.agreement import AgreementState
-from openprocurement.tender.cfaua.procedure.models.agreement import Agreement, PatchAgreement
-from cornice.resource import resource
+from openprocurement.tender.core.procedure.views.agreement import (
+    TenderAgreementResource,
+)
 
 
 @resource(

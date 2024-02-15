@@ -1,53 +1,52 @@
 from datetime import datetime
+from decimal import Decimal
 
 from isodate import duration_isoformat
-from schematics.validate import ValidationError
-from schematics.types import StringType, IntType, BaseType
+from schematics.types import BaseType, IntType, StringType
+from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
-from schematics.types.compound import ModelType, ListType
-from decimal import Decimal
-from openprocurement.tender.core.procedure.models.item import (
-    validate_classification_id,
+from schematics.validate import ValidationError
+
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.types import IsoDurationType
+from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.cfaua.constants import (
+    CFA_UA,
+    MAX_AGREEMENT_PERIOD,
+    MIN_BIDS_NUMBER,
+    TENDERING_DURATION,
+)
+from openprocurement.tender.cfaua.procedure.models.feature import Feature
+from openprocurement.tender.cfaua.procedure.models.item import Item
+from openprocurement.tender.cfaua.procedure.models.organization import ProcuringEntity
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.item import validate_classification_id
+from openprocurement.tender.core.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
+    validate_lots_uniq,
 )
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
 )
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.tender.cfaua.constants import (
-    CFA_UA,
-    TENDERING_DURATION,
-    MIN_BIDS_NUMBER,
-    MAX_AGREEMENT_PERIOD,
+from openprocurement.tender.core.procedure.models.tender import (
+    PatchTender as BasePatchTender,
 )
-from openprocurement.tender.core.procedure.models.lot import (
-    PostTenderLot,
-    PatchTenderLot,
-    Lot,
-    validate_lots_uniq,
-)
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.cfaua.procedure.models.feature import Feature
-from openprocurement.tender.cfaua.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.cfaua.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
-    Tender as BaseTender,
 )
-from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
-)
+from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_start_date,
     validate_tender_period_duration,
+    validate_tender_period_start_date,
 )
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.procedure.types import IsoDurationType
+from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 
 LOTS_MIN_SIZE = 1
 LOTS_MAX_SIZE = 1

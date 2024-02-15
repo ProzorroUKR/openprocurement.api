@@ -1,38 +1,36 @@
 # -*- coding: utf-8 -*-
 import os
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
+from tests.base.constants import DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.data import test_contract_data, test_signer_info
-from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
-from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest,
-    test_tender_pq_criteria_1,
-    test_tender_pq_response_1,
-    test_tender_pq_data,
-    test_tender_pq_organization,
-)
-from openprocurement.tender.pricequotation.tests.utils import (
-    criteria_drop_uuids,
-    copy_criteria_req_id,
+from openprocurement.contracting.econtract.tests.data import (
+    test_contract_data,
+    test_signer_info,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BaseBelowWebTest,
+)
+from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
-
 from openprocurement.tender.esco.tests.base import BaseESCOWebTest
-
-from openprocurement.contracting.econtract.tests.data import test_signer_info
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
+from openprocurement.tender.pricequotation.tests.base import (
+    BaseTenderWebTest,
+    test_tender_pq_criteria_1,
+    test_tender_pq_data,
+    test_tender_pq_organization,
+    test_tender_pq_response_1,
 )
-from tests.base.constants import DOCS_URL
-
+from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
+from openprocurement.tender.pricequotation.tests.utils import (
+    copy_criteria_req_id,
+    criteria_drop_uuids,
+)
 
 test_contract_data = deepcopy(test_contract_data)
 test_tender_data = deepcopy(test_tender_pq_data)

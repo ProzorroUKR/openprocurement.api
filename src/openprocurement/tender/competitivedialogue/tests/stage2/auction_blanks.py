@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
 
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
+
 # TenderStage2EU(UA)MultipleLotAuctionResourceTest
 from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
 
 
 def patch_tender_with_lots_auction(self):

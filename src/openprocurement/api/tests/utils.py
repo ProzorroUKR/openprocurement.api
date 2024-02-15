@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from pytz import utc, timezone
+import unittest
+from datetime import datetime
 
+from mock import Mock, patch
+from pyramid.testing import DummyRequest, testConfig
+from pytz import timezone, utc
+from requests.exceptions import ConnectionError
+
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value
-from openprocurement.api.procedure.utils import parse_date
-from pyramid.testing import DummyRequest, testConfig
-from requests.exceptions import ConnectionError
-from datetime import datetime
-from mock import Mock, patch
-import unittest
 
 
 class GetCurrencyRatesTestCase(unittest.TestCase):

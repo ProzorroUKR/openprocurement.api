@@ -1,12 +1,13 @@
-from openprocurement.api.procedure.types import HashType
-from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.document import BaseDocument
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_contract
+from openprocurement.api.procedure.types import HashType
+from openprocurement.tender.core.procedure.models.document import BaseDocument
 
 DOCUMENT_OFS = (
     "tender",

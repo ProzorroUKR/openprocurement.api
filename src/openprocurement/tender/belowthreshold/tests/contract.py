@@ -1,65 +1,59 @@
 # -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
-    test_tender_below_organization,
     test_tender_below_multi_buyers_data,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    # TenderContractResourceTest
-    create_tender_contract_invalid,
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest; Econtract
+    cancelling_award_contract_sync,
+    create_econtract,
     create_tender_contract,
+    create_tender_contract_document,
+    create_tender_contract_document_by_others,
+    create_tender_contract_document_by_supplier,
     create_tender_contract_in_complete_status,
-    patch_tender_contract,
-    patch_tender_contract_rationale_simple,
+    create_tender_contract_invalid,
     get_tender_contract,
     get_tender_contracts,
-    # Tender2LotContractResourceTest
-    lot2_patch_tender_contract,
-    lot2_patch_tender_contract_rationale_simple,
-    # TenderContractDocumentResourceTest
-    not_found,
-    create_tender_contract_document,
-    put_tender_contract_document,
-    patch_tender_contract_document,
-    # Tender2LotContractDocumentResourceTest
     lot2_create_tender_contract_document,
-    lot2_put_tender_contract_document,
+    lot2_create_tender_contract_document_by_others,
+    lot2_create_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract,
     lot2_patch_tender_contract_document,
-    patch_tender_contract_value_vat_not_included,
-    patch_tender_contract_value,
+    lot2_patch_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract_rationale_simple,
+    lot2_put_tender_contract_document,
+    lot2_put_tender_contract_document_by_supplier,
+    not_found,
+    patch_contract_multi_items_unit_value,
+    patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_round,
+    patch_contract_single_item_unit_value_with_status,
+    patch_multiple_contracts_in_contracting,
+    patch_tender_contract,
+    patch_tender_contract_document,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_rationale_simple,
+    patch_tender_contract_status_by_others,
     patch_tender_contract_status_by_owner,
     patch_tender_contract_status_by_supplier,
-    patch_tender_contract_status_by_others,
-    create_tender_contract_document_by_supplier,
-    create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
-    patch_tender_contract_document_by_supplier,
-    lot2_create_tender_contract_document_by_supplier,
-    lot2_create_tender_contract_document_by_others,
-    lot2_put_tender_contract_document_by_supplier,
-    lot2_patch_tender_contract_document_by_supplier,
-    patch_contract_single_item_unit_value,
-    patch_contract_single_item_unit_value_with_status,
-    patch_contract_single_item_unit_value_round,
-    patch_contract_multi_items_unit_value,
+    patch_tender_contract_value,
+    patch_tender_contract_value_vat_not_included,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
-    # Econtract
-    create_econtract,
-    cancelling_award_contract_sync,
-    patch_multiple_contracts_in_contracting,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+    put_tender_contract_document,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
 
 

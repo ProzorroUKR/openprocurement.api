@@ -3,13 +3,16 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.cfaua.tests.base import BaseAgreementContentWebTest, BaseDSAgreementContentWebTest
+from openprocurement.framework.cfaua.tests.base import (
+    BaseAgreementContentWebTest,
+    BaseDSAgreementContentWebTest,
+)
 from openprocurement.framework.cfaua.tests.data import TEST_AGREEMENT, TEST_DOCUMENTS
 from openprocurement.framework.cfaua.tests.document_blanks import (
-    get_documents_list,
-    get_document_by_id,
     create_agreement_document_forbidden,
     create_agreement_documents,
+    get_document_by_id,
+    get_documents_list,
     not_found,
     put_contract_document,
 )

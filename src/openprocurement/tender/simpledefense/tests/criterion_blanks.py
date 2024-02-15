@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
+
 import mock
+
 from openprocurement.api.utils import get_now
 
 

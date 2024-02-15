@@ -1,35 +1,36 @@
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.api.utils import json_view
+from cornice.resource import resource
+
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.limited.procedure.state.tender_details import (
-    ReportingTenderDetailsState,
-    NegotiationTenderDetailsState,
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.limited.procedure.models.tender import (
-    PostReportingTender,
-    PatchReportingTender,
-    ReportingTender,
-    PostNegotiationTender,
-    PatchNegotiationTender,
-    NegotiationTender,
-    PostNegotiationQuickTender,
-    PatchNegotiationQuickTender,
-    NegotiationQuickTender,
-)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_administrator,
-    validate_accreditation_level,
+from openprocurement.tender.core.procedure.views.tender import TendersResource
+from openprocurement.tender.limited.procedure.models.tender import (
+    NegotiationQuickTender,
+    NegotiationTender,
+    PatchNegotiationQuickTender,
+    PatchNegotiationTender,
+    PatchReportingTender,
+    PostNegotiationQuickTender,
+    PostNegotiationTender,
+    PostReportingTender,
+    ReportingTender,
 )
-from cornice.resource import resource
+from openprocurement.tender.limited.procedure.state.tender_details import (
+    NegotiationTenderDetailsState,
+    ReportingTenderDetailsState,
+)
 
 
 @resource(

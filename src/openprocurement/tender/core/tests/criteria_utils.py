@@ -1,11 +1,11 @@
 from webtest import TestApp
+
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.utils import get_now
-
 
 TENDERS_WITHOUT_CRITERIA = [
     "aboveThresholdUA.defense",

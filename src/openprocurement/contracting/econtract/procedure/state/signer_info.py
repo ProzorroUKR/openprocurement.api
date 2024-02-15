@@ -1,4 +1,6 @@
-from openprocurement.contracting.econtract.procedure.state.contract import EContractState
+from openprocurement.contracting.econtract.procedure.state.contract import (
+    EContractState,
+)
 
 
 class EContractSignerInfoState(EContractState):

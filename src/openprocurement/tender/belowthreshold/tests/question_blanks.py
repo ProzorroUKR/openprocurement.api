@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
     test_tender_below_cancellation,
+    test_tender_below_organization,
 )
-from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )

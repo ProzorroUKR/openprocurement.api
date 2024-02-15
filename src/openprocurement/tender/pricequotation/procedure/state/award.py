@@ -1,12 +1,14 @@
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.context import get_now
+from openprocurement.api.utils import get_contract_by_id, raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
 )
-from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
-from openprocurement.api.utils import raise_operation_error, get_contract_by_id
+from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.pricequotation.procedure.state.tender import (
+    PriceQuotationTenderState,
+)
 
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):

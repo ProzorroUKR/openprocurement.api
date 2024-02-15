@@ -1,25 +1,31 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.planning.api.procedure.views.base import PlanBaseResource
-from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
     validate_upload_document,
-    update_doc_fields_on_put_document,
 )
-from openprocurement.planning.api.procedure.serializers.document import DocumentSerializer
-from openprocurement.planning.api.procedure.state.plan_milestone_document import PlanMilestoneDocumentState
-from openprocurement.planning.api.procedure.views.plan_milestone import resolve_milestone
-from openprocurement.planning.api.procedure.utils import save_plan
+from openprocurement.api.utils import json_view
 from openprocurement.planning.api.procedure.models.document import (
-    PostDocument,
-    PatchDocument,
     Document,
+    PatchDocument,
+    PostDocument,
 )
+from openprocurement.planning.api.procedure.serializers.document import (
+    DocumentSerializer,
+)
+from openprocurement.planning.api.procedure.state.plan_milestone_document import (
+    PlanMilestoneDocumentState,
+)
+from openprocurement.planning.api.procedure.utils import save_plan
+from openprocurement.planning.api.procedure.views.base import PlanBaseResource
+from openprocurement.planning.api.procedure.views.plan_milestone import (
+    resolve_milestone,
+)
+from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.views.document import (
     DocumentResourceMixin,
     resolve_document,

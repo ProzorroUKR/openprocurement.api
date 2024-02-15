@@ -1,15 +1,22 @@
+from openprocurement.api.procedure.validation import (
+    validate_data_documents,
+    validate_input_data,
+)
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.complaint import (
+    PostCancellationComplaint,
+)
 from openprocurement.tender.core.procedure.state.cancellation_complaint import (
     CancellationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.views.cancellation import resolve_cancellation
-from openprocurement.tender.core.procedure.models.complaint import PostCancellationComplaint
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents
+from openprocurement.tender.core.procedure.views.cancellation import (
+    resolve_cancellation,
+)
 from openprocurement.tender.core.procedure.views.complaint import (
-    resolve_complaint,
-    BaseComplaintWriteResource,
     BaseComplaintGetResource,
+    BaseComplaintWriteResource,
+    resolve_complaint,
 )
 
 

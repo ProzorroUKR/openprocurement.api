@@ -1,4 +1,4 @@
-from openprocurement.planning.api.procedure.context import get_plan, get_milestone
+from openprocurement.planning.api.procedure.context import get_milestone, get_plan
 from openprocurement.planning.api.procedure.state.plan_milestone import MilestoneState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 

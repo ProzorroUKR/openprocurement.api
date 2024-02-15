@@ -4,16 +4,20 @@ from gevent import monkey
 
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE, STAGE_2_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_EU_TYPE,
+    CD_UA_TYPE,
+    STAGE_2_EU_TYPE,
+)
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 

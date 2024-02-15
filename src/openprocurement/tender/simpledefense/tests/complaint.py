@@ -2,33 +2,38 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
-    test_tender_below_draft_complaint,
     test_tender_below_author,
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import TenderComplaintResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
     TenderComplaintObjectionMixin,
 )
-
-from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin, CreateAwardComplaintMixin
+from openprocurement.tender.openua.tests.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
 from openprocurement.tender.openua.tests.complaint_blanks import (
     create_tender_lot_complaint,
-    put_tender_complaint_document,
-    patch_tender_complaint_document,
     mistaken_status_tender_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
 )
-
-from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContentWebTest, test_tender_simpledefense_bids
+from openprocurement.tender.simpledefense.tests.base import (
+    BaseSimpleDefContentWebTest,
+    test_tender_simpledefense_bids,
+)
 
 
 class TenderComplaintResourceTest(

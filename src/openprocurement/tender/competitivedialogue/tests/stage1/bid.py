@@ -1,50 +1,51 @@
-from unittest.mock import patch
-from datetime import timedelta
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
-from openprocurement.tender.openeu.tests.bid_blanks import bids_activation_on_tender_documents
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cd_lots,
     test_tender_cd_stage1_bids,
     test_tender_cd_tenderer,
-    test_tender_cd_lots,
     test_tender_cdeu_features_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
-    patch_tender_with_bids_lots_none,
-    create_tender_bidder,
-    deleted_bid_is_not_restorable,
-    create_tender_bidder_invalid,
-    status_jumping,
-    create_bid_without_parameters,
-    patch_tender_bidder,
-    get_tender_bidder,
-    deleted_bid_do_not_locks_tender_in_state,
-    get_tender_tenderers,
     bids_invalidation_on_tender_change,
+    bids_view_j1446,
+    create_bid_without_parameters,
+    create_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_description,
+    create_tender_bidder_document_nopending,
+    create_tender_bidder_invalid,
+    create_tender_bidder_invalid_confidential_document,
+    create_tender_bidder_invalid_document_description,
+    deleted_bid_do_not_locks_tender_in_state,
+    deleted_bid_is_not_restorable,
+    download_tender_bidder_document,
     features_bidder,
     features_bidder_invalid,
+    get_tender_bidder,
     get_tender_bidder_document,
-    create_tender_bidder_document,
+    get_tender_tenderers,
     patch_and_put_document_into_invalid_bid,
-    download_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    create_tender_bidder_document_description,
-    create_tender_bidder_invalid_document_description,
-    create_tender_bidder_invalid_confidential_document,
-    bids_view_j1446,
+    patch_tender_bidder,
+    patch_tender_with_bids_lots_none,
+    status_jumping,
+)
+from openprocurement.tender.openeu.tests.bid import CreateBidMixin
+from openprocurement.tender.openeu.tests.bid_blanks import (
+    bids_activation_on_tender_documents,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
 )
 
 

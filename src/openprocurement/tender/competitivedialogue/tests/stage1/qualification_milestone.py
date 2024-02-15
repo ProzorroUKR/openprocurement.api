@@ -1,9 +1,12 @@
 from copy import deepcopy
-from openprocurement.tender.core.tests.qualification_milestone import TenderQualificationMilestone24HMixin
+
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_stage1_bids,
+)
+from openprocurement.tender.core.tests.qualification_milestone import (
+    TenderQualificationMilestone24HMixin,
 )
 
 

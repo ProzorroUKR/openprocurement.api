@@ -1,5 +1,7 @@
-from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
 from openprocurement.tender.belowthreshold.constants import STATUS4ROLE
+from openprocurement.tender.core.procedure.state.complaint_document import (
+    ComplaintDocumentState,
+)
 
 
 class BTComplaintDocumentState(ComplaintDocumentState):

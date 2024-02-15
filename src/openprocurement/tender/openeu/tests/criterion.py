@@ -7,11 +7,11 @@ from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_data,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
-    TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaLccTestMixin,
+    TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 

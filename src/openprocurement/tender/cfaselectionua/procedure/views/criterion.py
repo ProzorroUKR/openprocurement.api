@@ -1,7 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaselectionua.procedure.state.criterion import (
+    CFASelectionCriterionState,
+)
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
-from openprocurement.tender.cfaselectionua.procedure.state.criterion import CFASelectionCriterionState
 
 
 @resource(

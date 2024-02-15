@@ -1,10 +1,12 @@
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from schematics.exceptions import ValidationError
-from schematics.types import URLType, MD5Type, FloatType, StringType, BooleanType
 from itertools import zip_longest
+
+from schematics.exceptions import ValidationError
+from schematics.types import BooleanType, FloatType, MD5Type, StringType, URLType
+
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.tender.core.procedure.context import get_request
 
 
 # set urls

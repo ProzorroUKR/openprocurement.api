@@ -1,13 +1,14 @@
+from uuid import uuid4
+
 from schematics.exceptions import ValidationError
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
+from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_now, get_request
-from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.models.document import PostDocument
-from schematics.types import StringType, MD5Type, BooleanType, BaseType
-from schematics.types.serializable import serializable
-from uuid import uuid4
 
 
 class CreateComplaintPost(Model):

@@ -1,20 +1,17 @@
 from datetime import timedelta
 from functools import wraps
 from logging import getLogger
-from dateorro import (
-    calc_datetime,
-    calc_normalized_datetime,
-    calc_working_datetime,
-)
+
+from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, TZ
+from openprocurement.api.constants import DST_AWARE_PERIODS_FROM, TZ, WORKING_DAYS
 from openprocurement.api.utils import (
     error_handler,
-    update_logging_context,
     get_now,
     get_registry_object,
+    update_logging_context,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE

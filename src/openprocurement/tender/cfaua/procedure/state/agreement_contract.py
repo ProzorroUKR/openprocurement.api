@@ -1,10 +1,11 @@
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.api.validation import OPERATIONS
 from decimal import Decimal
+
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class AgreementContractStateMixing:

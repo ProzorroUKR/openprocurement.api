@@ -1,14 +1,19 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.utils import request_init_plan
 from openprocurement.api.views.base import BaseResource
 from openprocurement.planning.api.procedure.models.document import Document
-from openprocurement.planning.api.procedure.serializers.document import DocumentSerializer
+from openprocurement.planning.api.procedure.serializers.document import (
+    DocumentSerializer,
+)
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.state.plan_document import PlanDocumentState
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.tender.core.procedure.documents import get_file
-from openprocurement.tender.core.procedure.views.document import resolve_document, DocumentResourceMixin
+from openprocurement.tender.core.procedure.views.document import (
+    DocumentResourceMixin,
+    resolve_document,
+)
 
 
 class PlanBaseResource(BaseResource):

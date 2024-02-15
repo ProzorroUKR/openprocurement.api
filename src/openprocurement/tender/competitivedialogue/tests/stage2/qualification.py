@@ -1,66 +1,60 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
-    test_tender_openeu_bids,
-    test_tender_cd_lots,
     test_tender_cd_author,
+    test_tender_cd_lots,
     test_tender_cd_tenderer,
+    test_tender_openeu_bids,
 )
 from openprocurement.tender.openeu.tests.qualification import (
-    TenderQualificationRequirementResponseTestMixin,
     TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationRequirementResponseTestMixin,
 )
-from openprocurement.tender.openeu.tests.qualification_blanks import (
-    # TenderStage2EUQualificationResourceTest
-    post_tender_qualifications,
-    get_tender_qualifications_collection,
-    patch_tender_qualifications,
-    get_tender_qualifications,
-    patch_tender_qualifications_after_status_change,
-    # TenderStage2EU2LotQualificationResourceTest
-    lot_patch_tender_qualifications,
-    lot_get_tender_qualifications_collection,
-    tender_qualification_cancelled,
-    lot_patch_tender_qualifications_lots_none,
-    # TenderStage2EUQualificationDocumentResourceTest
-    not_found,
-    create_qualification_document,
-    put_qualification_document,
-    patch_qualification_document,
-    create_qualification_document_after_status_change,
-    put_qualification_document_after_status_change,
-    tender_owner_create_qualification_document,
-    # TenderStage2EUQualificationComplaintResourceTest
-    create_tender_qualification_complaint_invalid,
-    create_tender_qualification_complaint,
-    patch_tender_qualification_complaint,
-    review_tender_qualification_complaint,
-    review_tender_qualification_stopping_complaint,
-    get_tender_qualification_complaint,
-    get_tender_qualification_complaints,
-    # TenderStage2EULotQualificationComplaintResourceTest
-    create_tender_lot_qualification_complaint,
-    patch_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaints,
-    # TenderStage2EU2LotQualificationComplaintResourceTest
-    create_tender_2lot_qualification_complaint,
-    # TenderStage2EUQualificationComplaintDocumentResourceTest
-    complaint_not_found,
-    create_tender_qualification_complaint_document,
-    put_tender_qualification_complaint_document,
-    patch_tender_qualification_complaint_document,
-    # TenderStage2EU2LotQualificationComplaintDocumentResourceTest
-    create_tender_2lot_qualification_complaint_document,
-    put_tender_2lot_qualification_complaint_document,
+from openprocurement.tender.openeu.tests.qualification_blanks import (  # TenderStage2EUQualificationResourceTest; TenderStage2EU2LotQualificationResourceTest; TenderStage2EUQualificationDocumentResourceTest; TenderStage2EUQualificationComplaintResourceTest; TenderStage2EULotQualificationComplaintResourceTest; TenderStage2EU2LotQualificationComplaintResourceTest; TenderStage2EUQualificationComplaintDocumentResourceTest; TenderStage2EU2LotQualificationComplaintDocumentResourceTest; TenderStage2EUQualificationDocumentWithDSResourceTest
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
-    # TenderStage2EUQualificationDocumentWithDSResourceTest
+    complaint_not_found,
+    create_qualification_document,
+    create_qualification_document_after_status_change,
+    create_tender_2lot_qualification_complaint,
+    create_tender_2lot_qualification_complaint_document,
+    create_tender_lot_qualification_complaint,
+    create_tender_qualification_complaint,
+    create_tender_qualification_complaint_document,
+    create_tender_qualification_complaint_invalid,
     create_tender_qualifications_document_json_bulk,
+    get_tender_lot_qualification_complaint,
+    get_tender_lot_qualification_complaints,
+    get_tender_qualification_complaint,
+    get_tender_qualification_complaints,
+    get_tender_qualifications,
+    get_tender_qualifications_collection,
+    lot_get_tender_qualifications_collection,
+    lot_patch_tender_qualifications,
+    lot_patch_tender_qualifications_lots_none,
+    not_found,
+    patch_qualification_document,
+    patch_tender_lot_qualification_complaint,
+    patch_tender_qualification_complaint,
+    patch_tender_qualification_complaint_document,
+    patch_tender_qualifications,
+    patch_tender_qualifications_after_status_change,
+    post_tender_qualifications,
+    put_qualification_document,
+    put_qualification_document_after_status_change,
+    put_tender_2lot_qualification_complaint_document,
+    put_tender_qualification_complaint_document,
+    review_tender_qualification_complaint,
+    review_tender_qualification_stopping_complaint,
+    tender_owner_create_qualification_document,
+    tender_qualification_cancelled,
 )
 
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])

@@ -2,21 +2,20 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.contracting.api.tests.document_blanks import (
+    create_contract_document,
+    create_contract_document_json,
+    create_contract_document_json_invalid,
+    create_contract_transaction_document_json,
+    not_found,
+    put_contract_document,
+    put_contract_document_json,
+)
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.data import test_signer_info
-from openprocurement.contracting.api.tests.document_blanks import (
-    not_found,
-    create_contract_document,
-    put_contract_document,
-    create_contract_document_json_invalid,
-    create_contract_document_json,
-    put_contract_document_json,
-    create_contract_transaction_document_json,
-)
 from openprocurement.contracting.econtract.tests.document_blanks import (
-    patch_contract_document,
     contract_change_document,
+    patch_contract_document,
 )
 
 

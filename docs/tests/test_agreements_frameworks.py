@@ -3,20 +3,17 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from tests.base.constants import DOCS_URL
+from tests.base.data import test_docs_tenderer
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_framework_electronic_catalogue_data,
-    ban_milestone_data_with_documents,
     BaseFrameworkWebTest,
+    ban_milestone_data_with_documents,
+    test_framework_electronic_catalogue_data,
 )
-
-from tests.base.data import test_docs_tenderer
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import DOCS_URL
 
 TARGET_DIR = "docs/source/agreements/frameworks/http/"
 

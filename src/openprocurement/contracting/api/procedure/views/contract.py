@@ -1,21 +1,21 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.contracting.api.procedure.models.contract import (
+    AdministratorPatchContract,
+    Contract,
+    PatchContract,
+)
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
     validate_contract_update_not_in_allowed_status,
-)
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    unless_administrator,
-    unless_admins,
-)
-from openprocurement.contracting.api.procedure.models.contract import (
-    PatchContract,
-    AdministratorPatchContract,
-    Contract,
 )
 from openprocurement.contracting.core.procedure.views.contract import ContractResource
 

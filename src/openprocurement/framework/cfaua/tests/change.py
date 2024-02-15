@@ -3,21 +3,24 @@ import os
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.cfaua.tests.base import BaseAgreementTest, BaseAgreementContentWebTest
+from openprocurement.framework.cfaua.tests.base import (
+    BaseAgreementContentWebTest,
+    BaseAgreementTest,
+)
 from openprocurement.framework.cfaua.tests.change_blanks import (
+    activate_change_after_1_cancelled,
+    change_date_signed,
+    change_date_signed_very_old_agreements_data,
+    create_change,
+    create_change_invalid,
+    create_change_item_price_variation_modifications_boundaries,
+    date_signed_on_change_creation,
+    date_signed_on_change_creation_for_very_old_agreements_data,
+    get_change,
+    multi_change,
     no_items_agreement_change,
     not_found,
-    get_change,
-    create_change_invalid,
-    create_change,
-    create_change_item_price_variation_modifications_boundaries,
     patch_change,
-    change_date_signed,
-    date_signed_on_change_creation,
-    change_date_signed_very_old_agreements_data,
-    date_signed_on_change_creation_for_very_old_agreements_data,
-    multi_change,
-    activate_change_after_1_cancelled,
 )
 from openprocurement.framework.cfaua.tests.data import test_agreement_data
 

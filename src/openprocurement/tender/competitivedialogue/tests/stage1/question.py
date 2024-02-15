@@ -1,27 +1,27 @@
 # -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-
-from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.question import (
+    TenderQuestionResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
+    create_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
-    create_tender_question,
     patch_tender_question,
 )
-
-
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_lots,
     test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
-    create_tender_question_invalid_eu,
     create_tender_question_eu,
+    create_tender_question_invalid_eu,
     get_tender_question_eu,
     get_tender_questions_eu,
 )

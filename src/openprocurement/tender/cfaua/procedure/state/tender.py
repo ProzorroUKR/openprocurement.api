@@ -1,12 +1,15 @@
-from openprocurement.tender.core.procedure.context import get_request
+from logging import getLogger
+
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
-from openprocurement.tender.cfaua.procedure.awarding import CFAUATenderStateAwardingMixing
-from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from logging import getLogger
+from openprocurement.tender.cfaua.procedure.awarding import (
+    CFAUATenderStateAwardingMixing,
+)
+from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 LOGGER = getLogger(__name__)
 

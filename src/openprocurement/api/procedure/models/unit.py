@@ -6,7 +6,6 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ModelType
 
-
 unit_codes = standards.load("unit_codes/recommended.json")
 UNIT_CODES = unit_codes.keys()
 

@@ -1,9 +1,10 @@
+from schematics.exceptions import ValidationError
+from schematics.types import MD5Type
+from schematics.types.compound import ModelType
+
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from schematics.types.compound import ModelType
-from schematics.types import MD5Type
-from schematics.exceptions import ValidationError
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 
 
 class AuctionPeriod(Model):

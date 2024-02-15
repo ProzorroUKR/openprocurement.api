@@ -1,5 +1,6 @@
-from openprocurement.tender.core.utils import get_now
 from datetime import timedelta
+
+from openprocurement.tender.core.utils import get_now
 
 
 # TenderAuctionPeriodStartDateResourceTest

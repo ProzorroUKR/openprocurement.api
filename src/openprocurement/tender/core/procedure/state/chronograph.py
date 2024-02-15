@@ -1,23 +1,24 @@
-from typing import TYPE_CHECKING
 from logging import getLogger
+from typing import TYPE_CHECKING
 
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.qualification import Qualification
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
-    dt_from_iso,
-    tender_created_after_2020_rules,
     activate_bids,
     calc_auction_end_time,
+    dt_from_iso,
     is_new_contracting,
+    tender_created_after_2020_rules,
 )
-from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
-from openprocurement.tender.core.procedure.contracting import update_econtracts_statuses
 
 
 def copy_class(cls, exclude_parent_class_names=None):
@@ -31,8 +32,8 @@ def copy_class(cls, exclude_parent_class_names=None):
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import (
         ShouldStartAfterMixing,
-        TenderStateAwardingMixing,
         TenderState,
+        TenderStateAwardingMixing,
     )
 
     class baseclass(ShouldStartAfterMixing, TenderStateAwardingMixing, TenderState):

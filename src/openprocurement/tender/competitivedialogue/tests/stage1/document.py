@@ -2,16 +2,16 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
-
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks import (
-    put_tender_document,
     patch_tender_document,
+    put_tender_document,
 )
 
 

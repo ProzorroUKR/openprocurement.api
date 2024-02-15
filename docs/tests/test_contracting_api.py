@@ -1,22 +1,19 @@
 # -*- coding: utf-8 -*-
 import os
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
+from tests.base.constants import DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
-    test_tender_below_multi_buyers_data,
     test_tender_below_data,
+    test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import DOCS_URL
 
 test_tender_data = deepcopy(test_tender_below_data)
 test_tender_data_multi_buyers = deepcopy(test_tender_below_multi_buyers_data)

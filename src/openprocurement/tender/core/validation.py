@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from decimal import Decimal, ROUND_UP, ROUND_FLOOR
+from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 
 from schematics.types import BaseType
-from openprocurement.api.utils import (
-    update_logging_context,
-    error_handler,
-    raise_operation_error,
-    handle_data_exceptions,
-    requested_fields_changes,
-)
+
 from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import (
+    error_handler,
+    handle_data_exceptions,
+    raise_operation_error,
+    requested_fields_changes,
+    update_logging_context,
+)
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.pricequotation.constants import PQ
 

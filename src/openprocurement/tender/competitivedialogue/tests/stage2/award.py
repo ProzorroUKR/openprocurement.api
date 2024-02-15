@@ -3,62 +3,63 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
 from openprocurement.tender.belowthreshold.tests.award import (
-    TenderAwardComplaintResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    TenderAwardDocumentResourceTestMixin,
     Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin,
+    TenderAwardComplaintResourceTestMixin,
+    TenderAwardDocumentResourceTestMixin,
 )
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    create_tender_lots_award_complaint_document,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    create_tender_lots_award_complaint_document,
 )
-
-from openprocurement.tender.openua.tests.award import (
-    TenderUAAwardComplaintResourceTestMixin,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
 )
-
-from openprocurement.tender.openua.tests.award_blanks import (
-    patch_tender_award_active,
-    patch_tender_award_complaint_document as patch_tender_award_complaint_document_from_ua,
-    create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
-    create_tender_lots_award,
-    patch_tender_lots_award,
-    create_tender_lot_award_complaint,
-    patch_tender_lot_award_complaint,
-    create_tender_lots_award_complaint,
-    patch_tender_lots_award_complaint,
-    put_tender_lots_award_complaint_document,
-    patch_tender_lots_award_complaint_document,
-)
-
-from openprocurement.tender.openeu.tests.award import (
-    TenderLotAwardResourceTestMixin,
-    Tender2LotAwardResourceTestMixin,
-    TenderLotAwardComplaintResourceTestMixin,
-    Tender2LotAwardComplaintResourceTestMixin,
-)
-
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_tender_openeu_bids,
-    test_tender_cd_lots,
     test_tender_cd_author,
+    test_tender_cd_lots,
     test_tender_cd_tenderer,
+    test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.award_blanks import (
     create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
     create_tender_award_invalid,
     get_tender_award,
     patch_tender_award_complaint_document,
+    put_tender_award_complaint_document,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openeu.tests.award import (
+    Tender2LotAwardComplaintResourceTestMixin,
+    Tender2LotAwardResourceTestMixin,
+    TenderLotAwardComplaintResourceTestMixin,
+    TenderLotAwardResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.award import (
+    TenderUAAwardComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    create_tender_lot_award,
+    create_tender_lot_award_complaint,
+    create_tender_lots_award,
+    create_tender_lots_award_complaint,
+    patch_tender_award_active,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    patch_tender_award_complaint_document as patch_tender_award_complaint_document_from_ua,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    patch_tender_lot_award,
+    patch_tender_lot_award_complaint,
+    patch_tender_lot_award_unsuccessful,
+    patch_tender_lots_award,
+    patch_tender_lots_award_complaint,
+    patch_tender_lots_award_complaint_document,
+    put_tender_lots_award_complaint_document,
 )
 
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])

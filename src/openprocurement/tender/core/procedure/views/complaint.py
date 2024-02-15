@@ -1,29 +1,40 @@
-from openprocurement.api.utils import json_view, update_logging_context, LOGGER
-from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin, TenderComplaintState
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
-from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer, TenderComplaintSerializer
-from openprocurement.tender.core.procedure.models.complaint import PostComplaint, Complaint
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-    set_ownership,
-)
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_bots,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+)
+from openprocurement.api.utils import (
+    LOGGER,
+    context_unpack,
+    json_view,
+    update_logging_context,
+)
+from openprocurement.tender.core.procedure.models.complaint import (
+    Complaint,
+    PostComplaint,
+)
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    ComplaintSerializer,
+    TenderComplaintSerializer,
+)
+from openprocurement.tender.core.procedure.state.complaint import (
+    ComplaintStateMixin,
+    TenderComplaintState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 from openprocurement.tender.core.procedure.validation import (
     unless_reviewers,
     validate_any,
     validate_input_data_from_resolved_model,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_administrator,
-    unless_bots,
-)
-from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 

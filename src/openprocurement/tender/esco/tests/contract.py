@@ -1,60 +1,52 @@
 # -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
 from copy import deepcopy
-from decimal import Decimal
 from datetime import timedelta
+from decimal import Decimal
+from unittest.mock import patch
 
-from esculator import npv, escp
+from esculator import escp, npv
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
+from openprocurement.tender.belowthreshold.tests.contract import (  # EContract
     TenderContractDocumentResourceTestMixin,
-    # EContract
-    TenderEcontractResourceTestMixin,
+    TenderContractResourceTestMixin,
     TenderEContractMultiBuyersResourceTestMixin,
+    TenderEcontractResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_supplier,
-    create_tender_contract_document_by_supplier,
     create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
+    create_tender_contract_document_by_supplier,
     patch_tender_contract_document_by_supplier,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.esco.tests.base import (
+    NBU_DISCOUNT_RATE,
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+)
+from openprocurement.tender.esco.tests.contract_blanks import (  # TenderContractResourceTest; EContract
+    patch_econtract,
+    patch_tender_contract,
+)
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
+from openprocurement.tender.openeu.tests.contract_blanks import (  # TenderContractResourceTest
+    contract_termination,
+)
 from openprocurement.tender.openua.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract_datesigned,
 )
-
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_tender_esco_bids,
-    NBU_DISCOUNT_RATE,
-)
-
-from openprocurement.tender.openeu.tests.contract_blanks import (
-    # TenderContractResourceTest
-    contract_termination,
-)
-
-from openprocurement.tender.esco.tests.contract_blanks import (
-    # TenderContractResourceTest
-    patch_tender_contract,
-    # EContract
-    patch_econtract,
-)
-from openprocurement.tender.esco.procedure.utils import to_decimal
 
 amount_precision = 2
 

@@ -1,17 +1,15 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    set_ownership,
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.core.procedure.validation import validate_view_bids
-from openprocurement.api.procedure.validation import unless_item_owner
-from openprocurement.tender.core.procedure.state.bid import BidState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import unless_item_owner
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
+from openprocurement.tender.core.procedure.validation import validate_view_bids
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)

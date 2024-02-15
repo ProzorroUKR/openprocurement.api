@@ -1,23 +1,21 @@
 import pytz
-from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch
-
+from jsonpointer import JsonPointerException
+from pyramid.interfaces import IRouteRequest, IRoutesMapper
+from pyramid.security import Allow
+from pyramid.view import _call_view
 from zope.interface import providedBy
 
-from pyramid.view import _call_view
-from pyramid.security import Allow
-from pyramid.interfaces import IRouteRequest, IRoutesMapper
-
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import context_unpack, error_handler, json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.historical.core.constants import (
-    VERSION,
+    ACCREDITATION_LEVELS,
     HASH,
     PREVIOUS_HASH,
-    ACCREDITATION_LEVELS,
+    VERSION,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, json_view, context_unpack
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.views.base import BaseResource
 
 
 class Root(object):

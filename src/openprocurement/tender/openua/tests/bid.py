@@ -1,88 +1,77 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
+from mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_bids,
+    test_tender_below_lots,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidDocumentResourceTest; TenderBidderBatchDocumentWithDSResourceTest; Tender2LotBidResourceTest
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    not_found,
+    patch_tender_bid_with_exceeded_lot_values,
+    post_tender_bid_with_exceeded_lot_values,
+)
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_author,
-    test_tender_below_lots,
-    test_tender_below_bids,
-)
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidDocumentResourceTest
-    not_found,
-    # TenderBidderBatchDocumentWithDSResourceTest
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    post_tender_bid_with_exceeded_lot_values,
-    patch_tender_bid_with_exceeded_lot_values,
-)
-
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
+    test_tender_openua_bids,
     test_tender_openua_data,
     test_tender_openua_features_data,
-    test_tender_openua_bids,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
-    # TenderBidResourceTest
+from openprocurement.tender.openua.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeautreResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidRequirementResponseResourceTest; TenderBidRequirementResponseEvidenceResourceTest; TenderBidDocumentActivateResourceTest; Tender2LotBidResourceTest
+    bid_activate,
+    bid_activate_with_cancelled_tenderer_criterion,
+    bid_Administrator_change,
+    bid_invalidation_after_requirement_put,
+    bids_activation_on_tender_documents,
+    create_bid_after_removing_lot,
+    create_bid_requirement_response,
+    create_bid_requirement_response_evidence,
+    create_tender_bid_no_scale_invalid,
     create_tender_biddder_invalid,
     create_tender_bidder,
-    create_bid_after_removing_lot,
-    patch_tender_bidder,
-    get_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_json,
+    create_tender_bidder_document_nopending,
+    create_tender_bidder_document_nopending_json,
     delete_tender_bidder,
-    deleted_bid_is_not_restorable,
     deleted_bid_do_not_locks_tender_in_state,
-    get_tender_tenderers,
-    bid_Administrator_change,
+    deleted_bid_is_not_restorable,
+    doc_date_modified,
     draft1_bid,
     draft2_bids,
-    bids_activation_on_tender_documents,
-    create_tender_bid_no_scale_invalid,
-    # TenderBidFeautreResourceTest
     features_bidder,
     features_bidder_invalid,
-    # TenderBidDocumentResourceTest
-    create_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    # TenderBidDocumentWithDSResourceTest
-    create_tender_bidder_document_json,
-    put_tender_bidder_document_json,
-    patch_tender_bidder_document_json,
-    tender_bidder_confidential_document,
-    create_tender_bidder_document_nopending_json,
-    # TenderBidRequirementResponseResourceTest
-    create_bid_requirement_response,
-    patch_bid_requirement_response,
     get_bid_requirement_response,
-    patch_bid_with_responses,
-    bid_activate_with_cancelled_tenderer_criterion,
-    bid_invalidation_after_requirement_put,
-    # TenderBidRequirementResponseEvidenceResourceTest
-    create_bid_requirement_response_evidence,
-    patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
-    bid_activate,
-    # TenderBidDocumentActivateResourceTest
-    doc_date_modified,
-    patch_tender_draft_bidder,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
+    get_tender_bidder,
+    get_tender_tenderers,
+    patch_bid_requirement_response,
+    patch_bid_requirement_response_evidence,
+    patch_bid_with_responses,
+    patch_tender_bidder,
     patch_tender_bidder_decimal_problem,
+    patch_tender_bidder_document,
+    patch_tender_bidder_document_json,
+    patch_tender_draft_bidder,
+    patch_tender_with_bids_lots_none,
+    put_tender_bidder_document,
+    put_tender_bidder_document_json,
+    tender_bidder_confidential_document,
 )
 
 

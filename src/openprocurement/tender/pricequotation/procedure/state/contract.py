@@ -1,9 +1,10 @@
 from logging import getLogger
 
-
-from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
-from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
 from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.pricequotation.procedure.state.tender import (
+    PriceQuotationTenderState,
+)
 
 LOGGER = getLogger(__name__)
 

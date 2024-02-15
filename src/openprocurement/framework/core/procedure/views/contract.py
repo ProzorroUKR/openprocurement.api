@@ -1,14 +1,13 @@
 from logging import getLogger
 
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-)
-from openprocurement.framework.core.procedure.serializers.contract import ContractSerializer
 from openprocurement.api.procedure.context import get_object
-from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.framework.core.procedure.serializers.contract import (
+    ContractSerializer,
+)
+from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 
 LOGGER = getLogger(__name__)
 

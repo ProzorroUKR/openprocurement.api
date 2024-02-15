@@ -1,17 +1,22 @@
-import mock
-from unittest.mock import patch
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
+
+import mock
+
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    get_contract_data,
+)
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_cancellation,
-)
-from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
 
 # Tender Lot Resouce Test
 

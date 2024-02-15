@@ -2,48 +2,49 @@
 import unittest
 from copy import deepcopy
 
-from esculator import npv, escp
-from openprocurement.api.utils import get_now
+from esculator import escp, npv
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.award import (
+    Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin,
+    TenderAwardComplaintResourceTestMixin,
+    TenderAwardDocumentResourceTestMixin,
+    TenderLotAwardCheckResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_document_json_bulk,
 )
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.award import (
-    TenderLotAwardCheckResourceTestMixin,
-    TenderAwardComplaintResourceTestMixin,
-    TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    Tender2LotAwardDocumentResourceTestMixin,
-)
-from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
-from openprocurement.tender.openeu.tests.award import (
-    TenderLotAwardResourceTestMixin,
-    Tender2LotAwardResourceTestMixin,
-    TenderLotAwardComplaintResourceTestMixin,
-    Tender2LotAwardComplaintResourceTestMixin,
-)
-from openprocurement.tender.openeu.tests.award_blanks import (
-    patch_tender_award_complaint_document,
-    create_tender_2lot_award_complaint_document,
-    put_tender_2lot_award_complaint_document,
-    patch_tender_2lot_award_complaint_document,
-    check_tender_award_complaint_period_dates,
-)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.esco.tests.award_blanks import patch_tender_lot_award
 from openprocurement.tender.esco.tests.base import (
+    NBU_DISCOUNT_RATE,
     BaseESCOContentWebTest,
     test_tender_esco_bids,
     test_tender_esco_lots,
-    NBU_DISCOUNT_RATE,
 )
-from openprocurement.tender.esco.tests.award_blanks import (
-    patch_tender_lot_award,
+from openprocurement.tender.openeu.tests.award import (
+    Tender2LotAwardComplaintResourceTestMixin,
+    Tender2LotAwardResourceTestMixin,
+    TenderLotAwardComplaintResourceTestMixin,
+    TenderLotAwardResourceTestMixin,
 )
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.openeu.tests.award_blanks import (
+    check_tender_award_complaint_period_dates,
+    create_tender_2lot_award_complaint_document,
+    patch_tender_2lot_award_complaint_document,
+    patch_tender_award_complaint_document,
+    put_tender_2lot_award_complaint_document,
+)
+from openprocurement.tender.openua.tests.award import (
+    TenderUAAwardComplaintResourceTestMixin,
+)
 
 award_amount_performance = round(
     float(

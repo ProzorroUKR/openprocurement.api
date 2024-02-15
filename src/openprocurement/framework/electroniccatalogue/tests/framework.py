@@ -2,36 +2,36 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_framework_electronic_catalogue_data,
-    BaseFrameworkWebTest,
-    BaseApiWebTest,
-)
-from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
-    cpb_standard_status,
-    create_framework_draft_invalid_kind,
-    accreditation_level,
-)
 from openprocurement.framework.dps.tests.framework_blanks import (
+    complete_status,
+    create_framework_draft,
+    create_framework_draft_invalid,
+    create_framework_draft_url_validation,
+    date_framework,
+    dateModified_framework,
+    framework_fields,
+    framework_not_found,
+    framework_token_invalid,
+    get_framework,
     listing,
     listing_changes,
     listing_draft,
-    date_framework,
-    dateModified_framework,
-    periods_deletion,
-    framework_not_found,
-    create_framework_draft,
-    create_framework_draft_invalid,
+    patch_framework_active,
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
-    patch_framework_active,
-    get_framework,
-    framework_token_invalid,
-    framework_fields,
+    periods_deletion,
     unsuccessful_status,
-    complete_status,
-    create_framework_draft_url_validation,
+)
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    BaseApiWebTest,
+    BaseFrameworkWebTest,
+    test_framework_electronic_catalogue_data,
+)
+from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
+    accreditation_level,
+    cpb_standard_status,
+    create_framework_draft_invalid_kind,
 )
 
 

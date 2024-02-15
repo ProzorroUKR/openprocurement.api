@@ -1,11 +1,17 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.contracting.api.procedure.models.contract import Contract as BaseContract
 from openprocurement.api.procedure.types import ListType
-from openprocurement.contracting.econtract.procedure.models.contract import validate_items_uniq
+from openprocurement.contracting.api.procedure.models.contract import (
+    Contract as BaseContract,
+)
+from openprocurement.contracting.econtract.procedure.models.contract import (
+    validate_items_uniq,
+)
 from openprocurement.contracting.econtract.procedure.models.item import Item
-from openprocurement.contracting.econtract.procedure.models.organization import Organization
+from openprocurement.contracting.econtract.procedure.models.organization import (
+    Organization,
+)
 
 
 class Contract(BaseContract):

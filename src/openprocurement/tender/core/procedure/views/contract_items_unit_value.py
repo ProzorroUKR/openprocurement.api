@@ -1,18 +1,21 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.context import get_request
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, raise_operation_error
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.state.contract import ContractState
-from openprocurement.tender.core.procedure.views.contract import resolve_contract
-from openprocurement.tender.core.procedure.models.contract_items_unit_value import Value
-from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
-from pyramid.security import Allow, Everyone
 from copy import deepcopy
 from logging import getLogger
+
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.context import get_request
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_item_owner,
+)
+from openprocurement.api.utils import context_unpack, json_view, raise_operation_error
+from openprocurement.tender.core.procedure.models.contract_items_unit_value import Value
+from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.contract import resolve_contract
 
 LOGGER = getLogger(__name__)
 

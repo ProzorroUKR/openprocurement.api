@@ -2,23 +2,31 @@ from typing import Optional
 
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement_evidence import (
-    BaseCDEligibleEvidenceResource,
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
+from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     CDEligibleEvidenceState,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner,
-    unless_administrator,
-    unless_admins,
+from openprocurement.tender.competitivedialogue.procedure.validation import (
+    unless_cd_bridge,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg_requirement_evidence import (
+    BaseCDEligibleEvidenceResource,
+)
+from openprocurement.tender.core.procedure.models.criterion import (
+    EligibleEvidence,
+    PatchEligibleEvidence,
+)
 
 
 class BaseStage2EligibleEvidenceResource(BaseCDEligibleEvidenceResource):

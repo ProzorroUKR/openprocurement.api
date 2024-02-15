@@ -2,8 +2,8 @@ from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
@@ -11,12 +11,12 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_lots,
 )
 from openprocurement.tender.openua.tests.post import (
-    ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
-    TenderComplaintPostResourceMixin,
+    ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
-    TenderQualificationComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
+    TenderComplaintPostResourceMixin,
+    TenderQualificationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 

@@ -1,41 +1,32 @@
-from typing import TYPE_CHECKING
-
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_award,
-)
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    get_contracts_values_related_to_patched_contract,
-    contracts_allow_to_complete,
-    dt_from_iso,
-    tender_created_in,
-    tender_created_after,
-)
-from openprocurement.api.context import get_now
-from openprocurement.api.validation import OPERATIONS
-from openprocurement.api.utils import (
-    raise_operation_error,
-    context_unpack,
-)
-from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.api.constants import (
-    UNIT_PRICE_REQUIRED_FROM,
-    NEW_DEFENSE_COMPLAINTS_FROM,
-    NEW_DEFENSE_COMPLAINTS_TO,
-)
-from openprocurement.tender.core.constants import AMOUNT_NET_COEF
-from schematics.types import BaseType
+from datetime import datetime
+from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from decimal import (
-    Decimal,
-    ROUND_FLOOR,
-    ROUND_UP,
+from typing import TYPE_CHECKING
+
+from schematics.types import BaseType
+
+from openprocurement.api.constants import (
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+    UNIT_PRICE_REQUIRED_FROM,
 )
-from datetime import datetime
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import context_unpack, raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.constants import AMOUNT_NET_COEF
+from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
+from openprocurement.tender.core.procedure.utils import (
+    contracts_allow_to_complete,
+    dt_from_iso,
+    get_contracts_values_related_to_patched_contract,
+    tender_created_after,
+    tender_created_in,
+)
 
 LOGGER = getLogger(__name__)
 

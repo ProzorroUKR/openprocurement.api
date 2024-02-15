@@ -2,15 +2,17 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.contracting.core.procedure.models.contract import (
     BaseContract,
     BasePatchContract,
     BasePostContract,
 )
+from openprocurement.contracting.core.procedure.models.organization import (
+    BusinessOrganization,
+    ProcuringEntity,
+)
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
-from openprocurement.contracting.core.procedure.models.organization import BusinessOrganization, ProcuringEntity
 
 
 class PostContract(BasePostContract):

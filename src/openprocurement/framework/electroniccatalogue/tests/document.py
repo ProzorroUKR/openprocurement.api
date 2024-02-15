@@ -3,20 +3,20 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_framework_electronic_catalogue_data,
-    test_electronicCatalogue_documents,
-    FrameworkContentWebTest,
-    BaseDSFrameworkContentWebTest,
-)
 from openprocurement.framework.dps.tests.document_blanks import (
-    get_documents_list,
-    get_document_by_id,
-    create_framework_document_forbidden,
     create_framework_document,
+    create_framework_document_forbidden,
+    create_framework_document_json_bulk,
+    get_document_by_id,
+    get_documents_list,
     not_found,
     put_contract_document,
-    create_framework_document_json_bulk,
+)
+from openprocurement.framework.electroniccatalogue.tests.base import (
+    BaseDSFrameworkContentWebTest,
+    FrameworkContentWebTest,
+    test_electronicCatalogue_documents,
+    test_framework_electronic_catalogue_data,
 )
 
 

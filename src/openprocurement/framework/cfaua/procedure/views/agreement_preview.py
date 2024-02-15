@@ -1,10 +1,10 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
+from openprocurement.api.procedure.context import get_object
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
-from openprocurement.api.procedure.context import get_object
+from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 
 
 @resource(

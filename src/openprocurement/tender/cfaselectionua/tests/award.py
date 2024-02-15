@@ -3,41 +3,35 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.cfaselectionua.tests.award_blanks import (  # TenderAwardResourceTest; TenderLotAwardCheckResourceTest; TenderLotAwardResourceTest; Tender2LotAwardResourceTest; TenderAwardDocumentResourceTest; Tender2LotAwardDocumentResourceTest
+    check_tender_award,
+    create_award_document_bot,
+    create_tender_award,
+    create_tender_award_document,
+    create_tender_award_invalid,
+    create_tender_lot_award,
+    create_tender_lots_award,
+    create_tender_lots_award_document,
+    get_tender_award,
+    not_found_award_document,
+    patch_not_author,
+    patch_tender_award,
+    patch_tender_award_Administrator_change,
+    patch_tender_award_document,
+    patch_tender_award_unsuccessful,
+    patch_tender_lot_award,
+    patch_tender_lot_award_lots_none,
+    patch_tender_lot_award_unsuccessful,
+    patch_tender_lots_award,
+    patch_tender_lots_award_document,
+    put_tender_award_document,
+    put_tender_lots_award_document,
+)
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_organization,
-)
-from openprocurement.tender.cfaselectionua.tests.award_blanks import (
-    # TenderAwardResourceTest
-    create_tender_award_invalid,
-    create_tender_award,
-    patch_tender_award,
-    patch_tender_award_unsuccessful,
-    get_tender_award,
-    patch_tender_award_Administrator_change,
-    # TenderLotAwardCheckResourceTest
-    check_tender_award,
-    # TenderLotAwardResourceTest
-    create_tender_lot_award,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
-    # Tender2LotAwardResourceTest
-    create_tender_lots_award,
-    patch_tender_lots_award,
-    # TenderAwardDocumentResourceTest
-    not_found_award_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    create_award_document_bot,
-    patch_not_author,
-    # Tender2LotAwardDocumentResourceTest
-    create_tender_lots_award_document,
-    put_tender_lots_award_document,
-    patch_tender_lots_award_document,
-    patch_tender_lot_award_lots_none,
 )
 
 skip_multi_lots = True

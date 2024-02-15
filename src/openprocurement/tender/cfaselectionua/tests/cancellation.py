@@ -2,27 +2,30 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.belowthreshold.tests.cancellation import (
+    TenderCancellationResourceNewReleaseTestMixin,
+)
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
 )
 from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
-    create_tender_cancellation_invalid,
     create_tender_cancellation,
-    patch_tender_cancellation,
+    create_tender_cancellation_document,
+    create_tender_cancellation_invalid,
+    create_tender_lots_cancellation,
     get_tender_cancellation,
     get_tender_cancellations,
-    create_tender_lots_cancellation,
-    patch_tender_lots_cancellation,
     not_found,
-    create_tender_cancellation_document,
-    put_tender_cancellation_document,
+    patch_tender_cancellation,
     patch_tender_cancellation_document,
+    patch_tender_lots_cancellation,
+    put_tender_cancellation_document,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import TenderCancellationResourceNewReleaseTestMixin
 
 
 class TenderCancellationResourceTestMixin(object):

@@ -1,30 +1,25 @@
 from decimal import Decimal
 from logging import getLogger
-from typing import (
-    Optional,
-    TYPE_CHECKING,
-)
+from typing import TYPE_CHECKING, Optional
 
 from barbecue import calculate_coeficient
 
+from openprocurement.api.constants import TENDER_WEIGHTED_VALUE_PRE_CALCULATION
 from openprocurement.api.context import get_now
-from openprocurement.api.constants import (
-    TENDER_WEIGHTED_VALUE_PRE_CALCULATION,
-)
-from openprocurement.tender.core.procedure.models.award import Award
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_bids_before_auction_results_context,
-)
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    filter_features,
-    tender_created_after_2020_rules,
-    activate_bids,
-)
 from openprocurement.tender.core.constants import (
     ALP_MILESTONE_REASONS,
     CRITERION_LIFE_CYCLE_COST_IDS,
+)
+from openprocurement.tender.core.procedure.context import (
+    get_bids_before_auction_results_context,
+    get_request,
+)
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.utils import (
+    activate_bids,
+    filter_features,
+    tender_created_after_2020_rules,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 from openprocurement.tender.pricequotation.constants import PQ
@@ -33,11 +28,11 @@ LOGGER = getLogger(__name__)
 
 
 if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import (
-        ShouldStartAfterMixing,
-        ChronographEventsMixing,
-    )
     from openprocurement.api.procedure.state.base import BaseState
+    from openprocurement.tender.core.procedure.state.tender import (
+        ChronographEventsMixing,
+        ShouldStartAfterMixing,
+    )
 
     class baseclass(ShouldStartAfterMixing, ChronographEventsMixing, BaseState):
         pass

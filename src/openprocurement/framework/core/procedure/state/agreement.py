@@ -1,15 +1,22 @@
-from logging import getLogger
 from hashlib import sha512
-from openprocurement.api.context import get_request, get_now
+from logging import getLogger
+
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_framework
-from openprocurement.api.utils import generate_id, context_unpack, request_init_agreement
-from openprocurement.framework.core.procedure.models.agreement import (
-    PatchAgreement,
-    AgreementChronographData,
-)
-from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import (
+    context_unpack,
+    generate_id,
+    request_init_agreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
+    AgreementChronographData,
+    PatchAgreement,
+)
+from openprocurement.framework.core.procedure.state.chronograph import (
+    ChronographEventsMixing,
+)
+from openprocurement.framework.core.utils import generate_agreement_id
 
 LOGGER = getLogger(__name__)
 

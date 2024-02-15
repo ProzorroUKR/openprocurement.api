@@ -1,34 +1,39 @@
-from logging import getLogger
-from typing import Optional, List, Tuple
 from copy import copy
+from logging import getLogger
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import context_unpack, json_view, get_now
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
-    RequirementSerializer,
-    PutCancelledRequirementSerializer,
-)
-from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementState
-from openprocurement.tender.core.procedure.models.criterion import (
-    PostRequirement,
-    PatchRequirement,
-    PatchExclusionLccRequirement,
-    PutRequirement,
-    PutExclusionLccRequirement,
-    Requirement,
-)
-from openprocurement.tender.core.procedure.views.criterion_rg import resolve_criterion, resolve_requirement_group
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    unless_administrator,
     validate_input_data,
     validate_item_owner,
-    unless_administrator,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import context_unpack, get_now, json_view
+from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.tender.core.procedure.models.criterion import (
+    PatchExclusionLccRequirement,
+    PatchRequirement,
+    PostRequirement,
+    PutExclusionLccRequirement,
+    PutRequirement,
+    Requirement,
+)
+from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
+    PutCancelledRequirementSerializer,
+    RequirementSerializer,
+)
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
+    RequirementState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    resolve_criterion,
+    resolve_requirement_group,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

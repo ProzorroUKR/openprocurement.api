@@ -1,10 +1,17 @@
-from schematics.exceptions import ValidationError
-from uuid import uuid4
 from decimal import Decimal
-from schematics.types import StringType, MD5Type
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, DecimalType, IsoDateTimeType
+from uuid import uuid4
+
+from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType
+
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
 
 
 def validate_only_addend_or_only_factor(modifications):

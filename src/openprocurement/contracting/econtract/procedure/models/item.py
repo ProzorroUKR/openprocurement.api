@@ -1,4 +1,4 @@
-from schematics.types import StringType, BaseType
+from schematics.types import BaseType, StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model

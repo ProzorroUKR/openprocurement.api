@@ -1,8 +1,11 @@
 import unittest
-from mock import MagicMock, patch
 from hashlib import sha512
 
-from openprocurement.tender.core.procedure.views.tender_credentials import TenderResource
+from mock import MagicMock, patch
+
+from openprocurement.tender.core.procedure.views.tender_credentials import (
+    TenderResource,
+)
 
 
 class TestTenderCredentials(unittest.TestCase):

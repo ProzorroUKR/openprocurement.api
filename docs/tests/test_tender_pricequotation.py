@@ -2,35 +2,28 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
-    test_tender_pq_criteria_1,
-    test_tender_pq_response_1,
-    test_tender_pq_data,
     test_tender_pq_bids,
     test_tender_pq_bids_with_docs,
+    test_tender_pq_criteria_1,
+    test_tender_pq_data,
+    test_tender_pq_response_1,
     test_tender_pq_short_profile,
     test_tender_pq_shortlisted_firms,
 )
+from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
 from openprocurement.tender.pricequotation.tests.utils import (
-    criteria_drop_uuids,
     copy_criteria_req_id,
     copy_tender_items,
+    criteria_drop_uuids,
 )
-from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
-
-from openprocurement.tender.core.tests.utils import change_auth
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_tender_pq_data)
 bid_draft = deepcopy(test_tender_pq_bids[0])

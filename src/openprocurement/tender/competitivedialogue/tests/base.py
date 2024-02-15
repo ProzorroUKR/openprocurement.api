@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
-from hashlib import sha512
-from datetime import datetime, timedelta
-from uuid import uuid4
 from copy import deepcopy
+from datetime import datetime, timedelta
+from hashlib import sha512
+from uuid import uuid4
+
 from mock import patch
+
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
-from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
@@ -17,16 +17,23 @@ from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_features_data,
-    test_tender_openeu_bids,
-)
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.tests.periods import (
+    PERIODS,
+    PERIODS_UA_STAGE_2,
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_bids,
+    test_tender_openeu_data,
+    test_tender_openeu_features_data,
+)
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseTenderWebTest,
 )
 from openprocurement.tender.openua.tests.base import test_tender_openua_data
 

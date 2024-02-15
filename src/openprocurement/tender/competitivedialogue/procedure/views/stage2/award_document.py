@@ -1,7 +1,15 @@
-from openprocurement.tender.openua.procedure.views.award_document import UATenderAwardDocumentResource
-from openprocurement.tender.openeu.procedure.views.award_document import EUTenderBidDocumentResource
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_UA_TYPE, STAGE_2_EU_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.openeu.procedure.views.award_document import (
+    EUTenderBidDocumentResource,
+)
+from openprocurement.tender.openua.procedure.views.award_document import (
+    UATenderAwardDocumentResource,
+)
 
 
 @resource(

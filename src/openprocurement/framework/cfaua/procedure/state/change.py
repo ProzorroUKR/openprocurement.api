@@ -1,21 +1,21 @@
-from openprocurement.api.context import get_request, get_now
+from openprocurement.api.context import get_now, get_request
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.cfaua.procedure.models.change import (
-    PostChangeTaxRate,
-    PostChangeItemPriceVariation,
-    PostChangeThirdParty,
-    PostChangePartyWithdrawal,
-    PatchChangeTaxRate,
-    PatchChangeItemPriceVariation,
-    PatchChangeThirdParty,
-    PatchChangePartyWithdrawal,
-    ChangeTaxRate,
     ChangeItemPriceVariation,
-    ChangeThirdParty,
     ChangePartyWithdrawal,
+    ChangeTaxRate,
+    ChangeThirdParty,
+    PatchChangeItemPriceVariation,
+    PatchChangePartyWithdrawal,
+    PatchChangeTaxRate,
+    PatchChangeThirdParty,
+    PostChangeItemPriceVariation,
+    PostChangePartyWithdrawal,
+    PostChangeTaxRate,
+    PostChangeThirdParty,
 )
-from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

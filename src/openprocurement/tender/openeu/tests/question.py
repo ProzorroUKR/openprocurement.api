@@ -2,17 +2,17 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.question import (
+    TenderQuestionResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     create_tender_question,
-    patch_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
+    patch_tender_question,
 )
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,

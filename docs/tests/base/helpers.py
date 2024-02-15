@@ -1,6 +1,6 @@
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def complaint_create_pending(self, uri, data, token=None):

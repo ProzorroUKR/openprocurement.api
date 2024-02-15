@@ -2,7 +2,7 @@
 
 import unittest
 
-from openprocurement.planning.api.tests import plan, document
+from openprocurement.planning.api.tests import document, plan
 
 
 def suite():

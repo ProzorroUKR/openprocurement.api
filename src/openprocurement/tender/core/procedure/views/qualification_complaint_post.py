@@ -1,6 +1,11 @@
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
-from openprocurement.tender.core.procedure.views.complaint_post import BaseComplaintPostResource, resolve_complaint_post
-from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
+from openprocurement.tender.core.procedure.views.complaint_post import (
+    BaseComplaintPostResource,
+    resolve_complaint_post,
+)
+from openprocurement.tender.core.procedure.views.qualification import (
+    resolve_qualification,
+)
 
 
 class QualificationComplaintPostResource(BaseComplaintPostResource):

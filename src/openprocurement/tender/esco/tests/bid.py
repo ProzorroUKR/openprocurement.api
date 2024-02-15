@@ -1,78 +1,80 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from unittest.mock import patch
 from datetime import timedelta
-from esculator import npv, escp
+from unittest.mock import patch
+
+from esculator import escp, npv
+
+from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    create_tender_bid_document_json_bulk,
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+)
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
     NBU_DISCOUNT_RATE,
-    test_tender_esco_features_data,
+    BaseESCOContentWebTest,
     test_tender_esco_bids,
+    test_tender_esco_features_data,
     test_tender_esco_lots,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_author,
-)
-from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-    create_tender_bid_document_json_bulk,
-)
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-    patch_tender_with_bids_lots_none,
-)
-from openprocurement.tender.openeu.tests.bid_blanks import (
-    patch_tender_bidder_document_private_json,
-    put_tender_bidder_document_private_json,
-    get_tender_bidder_document_ds,
-    not_found,
-    get_tender_bidder_document,
-    create_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    download_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    create_tender_bid_with_all_documents,
-    create_tender_bid_with_eligibility_document_invalid,
-    create_tender_bid_with_financial_document_invalid,
-    create_tender_bid_with_qualification_document_invalid,
-    create_tender_bid_with_eligibility_document,
-    create_tender_bid_with_qualification_document,
-    create_tender_bid_with_financial_document,
-    create_tender_bid_with_financial_documents,
-    create_tender_bid_with_eligibility_documents,
-    create_tender_bid_with_qualification_documents,
-    get_tender_bidder,
-    get_tender_tenderers,
-)
 from openprocurement.tender.esco.tests.bid_blanks import (
-    create_tender_bid_invalid,
-    create_tender_bid,
-    create_tender_bid_lot,
-    patch_tender_bid,
-    deleted_bid_is_not_restorable,
     bid_Administrator_change,
     bids_activation_on_tender_documents,
-    features_bid_invalid,
-    features_bid,
-    patch_and_put_document_into_invalid_bid,
-    delete_tender_bidder,
     bids_invalidation_on_tender_change,
-    deleted_bid_do_not_locks_tender_in_state,
-    create_tender_bid_invalid_funding_kind_budget,
+    create_tender_bid,
     create_tender_bid_31_12,
+    create_tender_bid_invalid,
+    create_tender_bid_invalid_funding_kind_budget,
+    create_tender_bid_lot,
     create_tender_bid_no_scale_invalid,
+    delete_tender_bidder,
+    deleted_bid_do_not_locks_tender_in_state,
+    deleted_bid_is_not_restorable,
+    features_bid,
+    features_bid_invalid,
+    patch_and_put_document_into_invalid_bid,
+    patch_tender_bid,
 )
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.openeu.tests.bid import CreateBidMixin
+from openprocurement.tender.openeu.tests.bid_blanks import (
+    create_tender_bid_with_all_documents,
+    create_tender_bid_with_eligibility_document,
+    create_tender_bid_with_eligibility_document_invalid,
+    create_tender_bid_with_eligibility_documents,
+    create_tender_bid_with_financial_document,
+    create_tender_bid_with_financial_document_invalid,
+    create_tender_bid_with_financial_documents,
+    create_tender_bid_with_qualification_document,
+    create_tender_bid_with_qualification_document_invalid,
+    create_tender_bid_with_qualification_documents,
+    create_tender_bidder_document,
+    create_tender_bidder_document_nopending,
+    download_tender_bidder_document,
+    get_tender_bidder,
+    get_tender_bidder_document,
+    get_tender_bidder_document_ds,
+    get_tender_tenderers,
+    not_found,
+    patch_tender_bidder_document,
+    patch_tender_bidder_document_private_json,
+    put_tender_bidder_document,
+    put_tender_bidder_document_private_json,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    patch_tender_with_bids_lots_none,
+)
 
 bid_amount_performance = round(
     float(

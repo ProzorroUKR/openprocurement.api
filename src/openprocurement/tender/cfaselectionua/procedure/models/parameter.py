@@ -1,11 +1,16 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.types import StringDecimalType
-from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
+from openprocurement.tender.cfaselectionua.procedure.utils import (
+    equals_decimal_and_corrupted,
+)
 from openprocurement.tender.core.procedure.models.parameter import (
-    PatchParameter as BasePatchParameter,
     Parameter as BaseParameter,
 )
-from schematics.exceptions import ValidationError
+from openprocurement.tender.core.procedure.models.parameter import (
+    PatchParameter as BasePatchParameter,
+)
 
 
 def validate_value(data, value):

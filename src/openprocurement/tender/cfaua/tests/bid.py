@@ -2,65 +2,67 @@
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_cfaua_features_data,
     test_tender_cfaua_bids,
+    test_tender_cfaua_features_data,
     test_tender_cfaua_lots,
 )
 from openprocurement.tender.cfaua.tests.bid_blanks import (
+    bid_Administrator_change,
     bids_activation_on_tender_documents,
-    create_tender_bidder,
-    create_tender_bidder_document,
-    create_tender_biddder_invalid,
+    bids_invalidation_on_tender_change,
+    change_bid_document_in_qualification_st_st,
     create_tender_bid_with_all_documents,
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
-    create_tender_bid_with_eligibility_document_invalid,
-    create_tender_bid_with_financial_document_invalid,
-    create_tender_bid_with_qualification_document_invalid,
     create_tender_bid_with_eligibility_document,
-    create_tender_bid_with_qualification_document,
-    create_tender_bid_with_financial_document,
-    create_tender_bid_with_financial_documents,
+    create_tender_bid_with_eligibility_document_invalid,
     create_tender_bid_with_eligibility_documents,
+    create_tender_bid_with_financial_document,
+    create_tender_bid_with_financial_document_invalid,
+    create_tender_bid_with_financial_documents,
+    create_tender_bid_with_qualification_document,
+    create_tender_bid_with_qualification_document_invalid,
     create_tender_bid_with_qualification_documents,
+    create_tender_biddder_invalid,
+    create_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_invalid_award_status,
     deleted_bid_do_not_locks_tender_in_state,
     deleted_bid_is_not_restorable,
-    get_tender_tenderers,
-    get_tender_bidder_document_ds,
+    download_tender_bidder_document,
     features_bidder,
     features_bidder_invalid,
-    put_tender_bidder_document,
-    put_tender_bidder_document_private_json,
+    get_tender_bidder_document_ds,
+    get_tender_tenderers,
     patch_and_put_document_into_invalid_bid,
     patch_tender_bidder,
     patch_tender_bidder_document,
-    download_tender_bidder_document,
-    bids_invalidation_on_tender_change,
-    create_tender_bidder_document_invalid_award_status,
-    bid_Administrator_change,
-    change_bid_document_in_qualification_st_st,
-    view_bid_in_qualification_st_st,
     post_winningBid_document_in_awarded,
+    put_tender_bidder_document,
+    put_tender_bidder_document_private_json,
+    view_bid_in_qualification_st_st,
+)
+from openprocurement.tender.openeu.tests.bid_blanks import (
+    not_found,
+    patch_tender_bidder_document_private_json,
 )
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
 )
-from openprocurement.tender.openeu.tests.bid_blanks import patch_tender_bidder_document_private_json, not_found
 
 
 class BaseTenderLotsContentWebTest(BaseTenderContentWebTest):

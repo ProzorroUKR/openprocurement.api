@@ -1,12 +1,14 @@
-import mock
 from copy import deepcopy
 from datetime import timedelta
+
+import mock
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.tests.base import (
-    test_tender_pq_short_profile,
-    test_tender_pq_data_before_multiprofile,
     test_tender_pq_data_after_multiprofile,
+    test_tender_pq_data_before_multiprofile,
     test_tender_pq_item_after_multiprofile,
+    test_tender_pq_short_profile,
 )
 
 

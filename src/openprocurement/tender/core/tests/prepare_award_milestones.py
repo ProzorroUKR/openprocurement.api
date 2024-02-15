@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.context import set_request, set_now
-from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
-from openprocurement.tender.openua.tests.base import test_tender_openua_data
+from copy import deepcopy
+from datetime import timedelta
+
+import pytest
+from mock import Mock, patch
+
+from openprocurement.api.context import set_now, set_request
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
-from mock import Mock, patch
-from datetime import timedelta
-from copy import deepcopy
-import pytest
-
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
+from openprocurement.tender.openua.tests.base import test_tender_openua_data
 
 test_tender_data = deepcopy(test_tender_openua_data)
 

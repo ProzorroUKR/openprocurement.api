@@ -1,24 +1,34 @@
 from uuid import uuid4
-from schematics.types import StringType, MD5Type
+
+from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from schematics.exceptions import ValidationError
 
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
-from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.utils import raise_operation_error, get_first_revision_date
-from openprocurement.api.constants import PQ_CRITERIA_RESPONSES_ALL_FROM
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS, validate_items_uniq
-from openprocurement.tender.core.procedure.validation import TYPEMAP
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.bid_document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.tender.core.procedure.models.item import BaseItem
-from openprocurement.tender.pricequotation.procedure.models.req_response import RequirementResponse
-from openprocurement.tender.pricequotation.procedure.validation import validate_bid_value
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
+from openprocurement.tender.core.procedure.validation import TYPEMAP
+from openprocurement.tender.pricequotation.procedure.models.req_response import (
+    RequirementResponse,
+)
+from openprocurement.tender.pricequotation.procedure.validation import (
+    validate_bid_value,
+)
 
 
 def validate_requirement_responses(criterias, req_responses):

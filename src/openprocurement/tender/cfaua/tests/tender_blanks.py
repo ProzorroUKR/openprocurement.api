@@ -1,23 +1,20 @@
 # -*- coding: utf-8 -*-
-import mock
-from datetime import timedelta
 from copy import deepcopy
-from isodate import duration_isoformat
+from datetime import timedelta
 from uuid import uuid4
-from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    TZ,
-)
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.api.utils import get_now
+
+import mock
+from isodate import duration_isoformat
+
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE, TZ
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
-
 
 # TenderResourceTest
 

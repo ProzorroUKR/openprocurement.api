@@ -1,4 +1,5 @@
 from decimal import Decimal
+
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.context import get_request

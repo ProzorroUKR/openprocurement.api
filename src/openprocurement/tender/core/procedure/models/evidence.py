@@ -1,13 +1,12 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type
-from schematics.types import StringType
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.reference import Reference
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.utils import bid_in_invalid_status
 
 

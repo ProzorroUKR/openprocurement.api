@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta
-from webtest import AppError
+
 import mock
+from webtest import AppError
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth

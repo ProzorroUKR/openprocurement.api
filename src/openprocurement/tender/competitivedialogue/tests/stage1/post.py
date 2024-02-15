@@ -1,24 +1,25 @@
 from copy import deepcopy
+
 from mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_author,
-    test_tender_cd_stage1_bids,
     test_tender_cd_lots,
+    test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.openua.tests.post import (
-    ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
+    ComplaintPostResourceMixin,
+    TenderCancellationComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
-    TenderCancellationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 

@@ -1,30 +1,37 @@
+from schematics.types import BaseType, IntType, StringType
+from schematics.types.compound import ListType, ModelType
 from schematics.validate import ValidationError
-from schematics.types import IntType, StringType, BaseType
-from schematics.types.compound import ModelType, ListType
-from openprocurement.tender.core.procedure.models.item import (
-    validate_classification_id,
+
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.constants import (
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+    AWARD_CRITERIA_LOWEST_COST,
 )
-from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.openeu.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
-    PostPeriodStartEndRequired,
     PeriodStartEndRequired,
+    PostPeriodStartEndRequired,
+)
+from openprocurement.tender.core.procedure.models.tender import (
+    PatchTender as BasePatchTender,
 )
 from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
-    Tender as BaseTender,
 )
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU, TENDERING_DURATION
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_period_start_date,
-    validate_tender_period_duration,
-)
+from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_period_duration,
+    validate_tender_period_start_date,
+)
+from openprocurement.tender.openeu.constants import (
+    ABOVE_THRESHOLD_EU,
+    TENDERING_DURATION,
+)
+from openprocurement.tender.openeu.procedure.models.item import Item
+from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
 
 
 class PostTender(BasePostTender):

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
-
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest
 
 

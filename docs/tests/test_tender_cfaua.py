@@ -2,38 +2,32 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from openprocurement.api.utils import get_now
 from uuid import uuid4
 
-from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_data
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid_document,
+    test_docs_bid_document2,
+    test_docs_lot_bid,
+    test_docs_lot_bid2,
+    test_docs_lot_bid3_with_docs,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_question,
+    test_docs_subcontracting,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
+from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_data
 from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_lot_bid,
-    test_docs_question,
-    test_docs_lots,
-    test_docs_lot_bid2,
-    test_docs_subcontracting,
-    test_docs_qualified,
-    test_docs_lot_bid3_with_docs,
-    test_docs_bid_document,
-    test_docs_bid_document2,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
 
 bid = deepcopy(test_docs_lot_bid)
 bid2 = deepcopy(test_docs_lot_bid2)

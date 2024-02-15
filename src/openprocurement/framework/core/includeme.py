@@ -1,27 +1,36 @@
-from openprocurement.framework.core.database import (
-    FrameworkCollection,
-    AgreementCollection,
-    SubmissionCollection,
-    QualificationCollection,
-)
 from logging import getLogger
+
 from pkg_resources import iter_entry_points
 
-from openprocurement.framework.core.procedure.serializers.agreement import AgreementConfigSerializer
-from openprocurement.framework.core.procedure.serializers.framework import FrameworkConfigSerializer
-from openprocurement.framework.core.procedure.serializers.qualification import QualificationConfigSerializer
-from openprocurement.framework.core.procedure.serializers.submission import SubmissionConfigSerializer
+from openprocurement.framework.core.database import (
+    AgreementCollection,
+    FrameworkCollection,
+    QualificationCollection,
+    SubmissionCollection,
+)
+from openprocurement.framework.core.procedure.serializers.agreement import (
+    AgreementConfigSerializer,
+)
+from openprocurement.framework.core.procedure.serializers.framework import (
+    FrameworkConfigSerializer,
+)
+from openprocurement.framework.core.procedure.serializers.qualification import (
+    QualificationConfigSerializer,
+)
+from openprocurement.framework.core.procedure.serializers.submission import (
+    SubmissionConfigSerializer,
+)
 from openprocurement.framework.core.procedure.utils import (
-    extract_framework_doc,
-    extract_submission_doc,
-    extract_qualification_doc,
     extract_agreement_doc,
+    extract_framework_doc,
+    extract_qualification_doc,
+    extract_submission_doc,
 )
 from openprocurement.framework.core.utils import (
-    FrameworkTypePredicate,
-    SubmissionTypePredicate,
-    QualificationTypePredicate,
     AgreementTypePredicate,
+    FrameworkTypePredicate,
+    QualificationTypePredicate,
+    SubmissionTypePredicate,
 )
 
 LOGGER = getLogger("openprocurement.framework.core")

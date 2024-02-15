@@ -1,13 +1,23 @@
-from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.api.procedure.validation import validate_input_data, unless_admins, unless_bots
-from openprocurement.api.procedure.utils import get_items
-from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
-from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
-from openprocurement.contracting.core.procedure.validation import validate_contract_owner
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.contracting.api.procedure.state.contract_transaction import TransactionState
+from openprocurement.api.procedure.utils import get_items
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    unless_bots,
+    validate_input_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.contracting.api.procedure.state.contract_transaction import (
+    TransactionState,
+)
+from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    ContractBaseSerializer,
+)
+from openprocurement.contracting.core.procedure.utils import save_contract
+from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_owner,
+)
+from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 
 
 def resolve_transaction(request):

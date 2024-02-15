@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
 
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 
 # TenderContractResourceTest
 

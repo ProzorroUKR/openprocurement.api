@@ -5,33 +5,26 @@ from datetime import timedelta
 from time import sleep
 from uuid import uuid4
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_features,
+    test_docs_lot_bid,
+    test_docs_lot_bid2_with_docs,
+    test_docs_lots,
+    test_docs_parameters,
+    test_docs_tender_cfaselectionua_maximum,
+)
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
-    test_tender_cfaselectionua_data,
-    test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_agreement,
+    test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_data,
 )
-
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_parameters,
-    test_docs_lot_bid,
-    test_docs_lot_bid2_with_docs,
-    test_docs_features,
-    test_docs_tender_cfaselectionua_maximum,
-    test_docs_lots,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
-
 
 test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)
 

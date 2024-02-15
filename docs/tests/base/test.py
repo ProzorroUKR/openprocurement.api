@@ -1,26 +1,21 @@
-import json
-import traceback
 import io
+import json
 import mimetypes
 import re
-
+import traceback
 from datetime import timedelta
+from hashlib import md5
+from uuid import UUID
 
 import mock
 from freezegun import freeze_time
+from six import text_type
+from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
+from webtest import forms
+from webtest.compat import to_bytes
+
 from openprocurement.api.tests.base import BaseTestApp
 from openprocurement.api.utils import get_now
-from uuid import UUID
-from hashlib import md5
-from six import text_type
-from webtest.compat import to_bytes
-from webtest import forms
-
-from tests.base.constants import (
-    API_HOST,
-    MOCK_DATETIME,
-    PUBLIC_API_HOST,
-)
 
 
 class DumpsWebTestApp(BaseTestApp):

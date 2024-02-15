@@ -1,9 +1,14 @@
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchObjResponsesMixin,
+    PostBidResponsesMixin,
+)
+from openprocurement.tender.openuadefense.procedure.models.bid import Bid as BaseBid
 from openprocurement.tender.openuadefense.procedure.models.bid import (
-    Bid as BaseBid,
-    PostBid as BasePostBid,
     PatchBid as BasePatchBid,
 )
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
+from openprocurement.tender.openuadefense.procedure.models.bid import (
+    PostBid as BasePostBid,
+)
 
 
 class PostBid(BasePostBid, PostBidResponsesMixin):

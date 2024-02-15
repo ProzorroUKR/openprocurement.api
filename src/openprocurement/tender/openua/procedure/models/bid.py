@@ -1,17 +1,26 @@
-from schematics.types import StringType, BooleanType
+from schematics.types import BooleanType, StringType
 from schematics.types.compound import ModelType
+
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
-from openprocurement.tender.core.procedure.models.bid import (
-    Bid as BaseBid,
-    PostBid as BasePostBid,
-    PatchBid as BasePatchBid,
+from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
+from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
+from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.parameter import (
+    Parameter,
+    PatchParameter,
 )
-from openprocurement.tender.openua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchObjResponsesMixin,
+    PostBidResponsesMixin,
+)
+from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.tender.openua.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
 
 
 class PatchBid(BasePatchBid, PatchObjResponsesMixin):

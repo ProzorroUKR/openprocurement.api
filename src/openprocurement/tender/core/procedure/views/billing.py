@@ -1,8 +1,11 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.serializers.billing import BillingTenderSerializer
 from cornice.resource import resource
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.serializers.billing import (
+    BillingTenderSerializer,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 @resource(

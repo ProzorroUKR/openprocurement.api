@@ -1,7 +1,16 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
-from openprocurement.tender.core.procedure.serializers.complaint_objection import ComplaintObjectionSerializer
-from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
-from openprocurement.tender.core.procedure.serializers.complaint_post import ComplaintPostSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.complaint_objection import (
+    ComplaintObjectionSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.complaint_post import (
+    ComplaintPostSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.document import (
+    ConfidentialDocumentSerializer,
+)
 
 
 class ComplaintSerializer(BaseSerializer):

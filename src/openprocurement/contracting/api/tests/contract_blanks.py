@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import mock
-from uuid import uuid4
 from copy import deepcopy
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
+from uuid import uuid4
+
+import mock
+
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
@@ -342,8 +344,8 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
 
     from openprocurement.tender.belowthreshold.tests.base import (
-        test_tender_below_data,
         test_tender_below_config,
+        test_tender_below_data,
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):

@@ -1,4 +1,8 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer, decimal_serializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+    decimal_serializer,
+)
 
 
 class ValueSerializer(BaseSerializer):

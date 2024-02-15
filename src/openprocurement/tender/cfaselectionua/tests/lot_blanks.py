@@ -4,9 +4,16 @@ from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-from openprocurement.tender.cfaselectionua.tests.base import test_tender_cfaselectionua_organization
-from openprocurement.tender.belowthreshold.tests.utils import get_contract_data, activate_contract
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    get_contract_data,
+)
+from openprocurement.tender.cfaselectionua.tests.base import (
+    test_tender_cfaselectionua_organization,
+)
 
 # Tender Lot Resouce Test
 

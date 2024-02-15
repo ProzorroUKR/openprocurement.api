@@ -1,13 +1,14 @@
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.auction_period_start_date_blanks import (
-    tender_collection_put_auction_period_in_active_tendering,
-    tender_collection_put_auction_period_in_active_auction,
-    tender_put_auction_period_permission_error,
     tender_collection_put_auction_period_for_not_allowed_tender_status,
+    tender_collection_put_auction_period_in_active_auction,
+    tender_collection_put_auction_period_in_active_tendering,
     tender_lot_put_auction_period_for_not_allowed_tender_status,
-    tender_lot_put_auction_period_in_active_tendering,
     tender_lot_put_auction_period_in_active_auction,
+    tender_lot_put_auction_period_in_active_tendering,
+    tender_put_auction_period_permission_error,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,

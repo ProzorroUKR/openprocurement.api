@@ -1,5 +1,8 @@
-from openprocurement.tender.openeu.procedure.views.award_document import EUTenderBidDocumentResource
 from cornice.resource import resource
+
+from openprocurement.tender.openeu.procedure.views.award_document import (
+    EUTenderBidDocumentResource,
+)
 
 
 @resource(

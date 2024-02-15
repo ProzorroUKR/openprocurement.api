@@ -4,19 +4,18 @@ from datetime import timedelta
 
 from mock import patch
 
-from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.constants import NEW_CONTRACTING_FROM, RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import NEW_CONTRACTING_FROM
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_cancellation,
-    test_tender_below_complaint,
     test_tender_below_claim,
+    test_tender_below_complaint,
     test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
-from openprocurement.tender.limited.tests.utils import get_award_data
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.limited.tests.utils import get_award_data
 
 
 def create_tender_award_invalid(self):

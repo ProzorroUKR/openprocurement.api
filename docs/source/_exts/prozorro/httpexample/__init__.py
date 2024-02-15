@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from .directives import HTTPExample
-
 import os
 import shutil
 
+from .directives import HTTPExample
 
 CSS_FILE = 'sphinxcontrib-httpexample.css'
 JS_FILE = 'sphinxcontrib-httpexample.js'

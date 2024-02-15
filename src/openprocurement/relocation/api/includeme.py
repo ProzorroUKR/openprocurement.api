@@ -1,6 +1,6 @@
-from openprocurement.relocation.api.database import TransferCollection
 from logging import getLogger
 
+from openprocurement.relocation.api.database import TransferCollection
 
 LOGGER = getLogger("openprocurement.relocation.api")
 

@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.award_complaint_document import AwardComplaintDocumentResource
-from openprocurement.tender.belowthreshold.procedure.state.award_complaint_document import BTAwardComplaintDocumentState
 from cornice.resource import resource
+
+from openprocurement.tender.belowthreshold.procedure.state.award_complaint_document import (
+    BTAwardComplaintDocumentState,
+)
+from openprocurement.tender.core.procedure.views.award_complaint_document import (
+    AwardComplaintDocumentResource,
+)
 
 
 @resource(

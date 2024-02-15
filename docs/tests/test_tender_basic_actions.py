@@ -1,50 +1,43 @@
 # -*- coding: utf-8 -*-
 import os
-
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import (
+    test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_bid_draft,
+    test_docs_claim,
+    test_docs_complaint,
+    test_docs_criterion_data,
+    test_docs_eligible_evidence_data,
+    test_docs_lots,
+    test_docs_qualified,
+    test_docs_requirement_data,
+    test_docs_requirement_group_data,
+    test_docs_subcontracting,
+    test_docs_tender_below,
+    test_docs_tender_openeu,
+)
+from tests.base.helpers import complaint_create_pending
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
+)
+from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_config,
 )
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-)
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.api.constants import RELEASE_2020_04_19
-
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.data import (
-    test_docs_complaint,
-    test_docs_claim,
-    test_docs_lots,
-    test_docs_subcontracting,
-    test_docs_bid_draft,
-    test_docs_bid2,
-    test_docs_bid3_with_docs,
-    test_docs_qualified,
-    test_docs_tender_openeu,
-    test_docs_eligible_evidence_data,
-    test_docs_requirement_data,
-    test_docs_requirement_group_data,
-    test_docs_criterion_data,
-    test_docs_tender_below,
-)
-from tests.base.helpers import complaint_create_pending
+from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
+from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
 
 test_tender_below_data = deepcopy(test_docs_tender_below)
 

@@ -1,7 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.criterion_rg import BaseRequirementGroupResource
-from openprocurement.tender.esco.procedure.state.criterion_rg import ESCORequirementGroupState
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    BaseRequirementGroupResource,
+)
+from openprocurement.tender.esco.procedure.state.criterion_rg import (
+    ESCORequirementGroupState,
+)
 
 
 @resource(

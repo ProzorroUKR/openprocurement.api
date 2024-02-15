@@ -1,65 +1,62 @@
 # -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
-    TenderEcontractResourceTestMixin,
+    TenderContractResourceTestMixin,
     TenderEContractMultiBuyersResourceTestMixin,
+    TenderEcontractResourceTestMixin,
 )
-
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_with_status,
+    patch_tender_contract_value,
+    patch_tender_contract_value_vat_not_included,
+    patch_tender_multi_contracts,
+    patch_tender_multi_contracts_cancelled,
+    patch_tender_multi_contracts_cancelled_validate_amount,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+)
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_tender_reporting_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_tender_data_multi_buyers,
-    test_tender_negotiation_data_multi_buyers,
-    test_tender_negotiation_quick_data_multi_buyers,
-    test_tender_negotiation_data_2items,
     test_tender_negotiation_config,
+    test_tender_negotiation_data,
+    test_tender_negotiation_data_2items,
+    test_tender_negotiation_data_multi_buyers,
     test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
+    test_tender_negotiation_quick_data_multi_buyers,
+    test_tender_reporting_data,
 )
-from openprocurement.tender.limited.tests.contract_blanks import (
-    create_tender_contract_negotiation_quick,
-    sign_second_contract,
-    create_two_contract,
-    lot_items,
-    lot_award_id_change_is_not_allowed,
+from openprocurement.tender.limited.tests.contract_blanks import (  # EContract
     activate_contract_cancelled_lot,
-    patch_tender_negotiation_contract,
-    tender_negotiation_contract_signature_date,
-    items,
-    create_tender_contract,
-    patch_tender_contract,
-    tender_contract_signature_date,
     award_id_change_is_not_allowed,
+    create_tender_contract,
     create_tender_contract_document,
+    create_tender_contract_negotiation_quick,
+    create_two_contract,
+    items,
+    lot_award_id_change_is_not_allowed,
+    lot_items,
+    patch_tender_contract,
     patch_tender_contract_document,
-    put_tender_contract_document,
-    # EContract
+    patch_tender_negotiation_contract,
     patch_tender_negotiation_econtract,
-)
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_tender_contract_value_vat_not_included,
-    patch_tender_contract_value,
-    patch_contract_single_item_unit_value,
-    patch_contract_single_item_unit_value_with_status,
-    patch_tender_multi_contracts,
-    patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
-    patch_tender_multi_contracts_cancelled_validate_amount,
+    put_tender_contract_document,
+    sign_second_contract,
+    tender_contract_signature_date,
+    tender_negotiation_contract_signature_date,
 )
 
 

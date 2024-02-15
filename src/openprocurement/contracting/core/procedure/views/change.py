@@ -1,24 +1,26 @@
-from openprocurement.api.utils import context_unpack, json_view
-
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
     unless_administrator,
     unless_admins,
+    validate_input_data,
+    validate_patch_data,
 )
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-
-from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.api.procedure.state.change import ChangeState
-from openprocurement.contracting.core.procedure.models.change import PostChange, PatchChange, Change
+from openprocurement.contracting.core.procedure.models.change import (
+    Change,
+    PatchChange,
+    PostChange,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-    validate_create_contract_change,
     validate_contract_change_action_not_in_allowed_contract_status,
     validate_contract_change_update_not_in_allowed_change_status,
+    validate_contract_owner,
+    validate_create_contract_change,
 )
+from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 
 
 def resolve_change(request):

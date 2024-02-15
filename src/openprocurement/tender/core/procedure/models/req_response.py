@@ -1,30 +1,30 @@
-from typing import Optional, List, Tuple
 from logging import getLogger
+from typing import List, Optional, Tuple
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import IntType
-from schematics.types import MD5Type
-from schematics.types import StringType
+from schematics.types import IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.reference import Reference
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    get_criterion_requirement,
-    bid_in_invalid_status,
-    tender_created_before,
-    tender_created_after,
+from openprocurement.api.constants import (
+    CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
 )
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.tender.core.procedure.models.evidence import Evidence
+from openprocurement.tender.core.procedure.utils import (
+    bid_in_invalid_status,
+    get_criterion_requirement,
+    tender_created_after,
+    tender_created_before,
+)
 from openprocurement.tender.core.procedure.validation import (
-    validate_value_type,
     validate_object_id_uniq,
+    validate_value_type,
 )
 
 LOGGER = getLogger(__name__)

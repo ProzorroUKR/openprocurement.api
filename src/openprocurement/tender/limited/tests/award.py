@@ -1,82 +1,73 @@
 # -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.award import (
+    TenderAwardComplaintDocumentResourceTestMixin,
+    TenderAwardDocumentResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    create_tender_award_no_scale_invalid,
     create_tender_award_document_json_bulk,
+    create_tender_award_no_scale_invalid,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.award import (
-    TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
+from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDocumentResourceTest; TenderNegotiationAwardComplaintDocumentResourceTest; Tender2LotNegotiationAwardComplaintResourceTest; TenderLotNegotiationAwardComplaintResourceTest; TenderNegotiationAwardComplaintResourceTest; TenderNegotiationLotAwardResourceTest; TenderNegotiationAwardResourceTest; TenderAwardComplaintResourceTest; TenderAwardResourceTest
+    activate_contract_with_cancelled_award,
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
+    cancel_award,
+    canceling_created_award_and_create_new_one,
+    canceling_created_lot_award_and_create_new_one,
+    cancelled_2lot_award_with_complaint,
+    cancelled_active_award_with_complaint,
+    cancelled_award_with_complaint,
+    cancelled_lot_award_with_complaint,
+    cancelled_unsuccessful_award_with_complaint,
+    change_lotID_from_active_award,
+    change_lotID_from_cancelled_award,
+    change_lotID_from_unsuccessful_award,
+    check_tender_award_complaint_period_dates,
+    create_award_on_cancel_lot,
+    create_award_with_lot,
+    create_tender_award,
+    create_tender_award_complaint_invalid,
+    create_tender_award_complaints,
+    create_tender_award_document_invalid,
+    create_tender_award_invalid,
+    create_tender_award_with_lot,
+    create_tender_lot_award_complaints,
+    create_tender_negotiation_award_complaints,
+    create_two_awards_on_one_lot,
+    get_tender_award,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    get_tender_lot_award,
+    patch_active_not_qualified,
+    patch_award_on_cancel_lot,
+    patch_tender_award,
+    patch_tender_award_complaint,
+    patch_tender_award_complaint_document,
+    patch_tender_award_unsuccessful,
+    patch_tender_lot_award,
+    patch_tender_lot_award_unsuccessful,
+    review_tender_award_complaint,
+    review_tender_award_stopping_complaint,
+    two_awards_on_one_lot,
+    two_lot_two_awards,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_reporting_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_lots,
-    test_tender_negotiation_data_2items,
-    test_tender_negotiation_quick_data_2items,
     test_tender_negotiation_config,
-)
-from openprocurement.tender.limited.tests.award_blanks import (
-    # TenderAwardDocumentResourceTest
-    create_tender_award_document_invalid,
-    # TenderNegotiationAwardComplaintDocumentResourceTest
-    patch_tender_award_complaint_document,
-    # Tender2LotNegotiationAwardComplaintResourceTest
-    two_awards_on_one_lot,
-    change_lotID_from_unsuccessful_award,
-    change_lotID_from_active_award,
-    change_lotID_from_cancelled_award,
-    # Tender2LotNegotiationAwardComplaintResourceTest
-    cancelled_2lot_award_with_complaint,
-    cancelled_active_award_with_complaint,
-    cancelled_unsuccessful_award_with_complaint,
-    # TenderLotNegotiationAwardComplaintResourceTest
-    create_tender_lot_award_complaints,
-    cancelled_lot_award_with_complaint,
-    # TenderNegotiationAwardComplaintResourceTest
-    create_tender_award_complaint_invalid,
-    create_tender_negotiation_award_complaints,
-    patch_tender_award_complaint,
-    bot_patch_tender_award_complaint,
-    bot_patch_tender_award_complaint_forbidden,
-    review_tender_award_complaint,
-    review_tender_award_stopping_complaint,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    cancelled_award_with_complaint,
-    # TenderNegotiationLotAwardResourceTest
-    create_award_with_lot,
-    create_tender_award_with_lot,
-    canceling_created_lot_award_and_create_new_one,
-    patch_tender_lot_award,
-    patch_tender_lot_award_unsuccessful,
-    get_tender_lot_award,
-    two_lot_two_awards,
-    cancel_award,
-    create_award_on_cancel_lot,
-    patch_award_on_cancel_lot,
-    # TenderNegotiationAwardResourceTest
-    patch_active_not_qualified,
-    create_two_awards_on_one_lot,
-    # TenderAwardComplaintResourceTest
-    create_tender_award_complaints,
-    # TenderAwardResourceTest
-    create_tender_award_invalid,
-    create_tender_award,
-    canceling_created_award_and_create_new_one,
-    patch_tender_award,
-    patch_tender_award_unsuccessful,
-    get_tender_award,
-    activate_contract_with_cancelled_award,
-    check_tender_award_complaint_period_dates,
+    test_tender_negotiation_data,
+    test_tender_negotiation_data_2items,
+    test_tender_negotiation_quick_data,
+    test_tender_negotiation_quick_data_2items,
+    test_tender_reporting_data,
 )
 from openprocurement.tender.limited.tests.utils import get_award_data
 

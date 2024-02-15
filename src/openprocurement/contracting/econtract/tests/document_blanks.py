@@ -1,5 +1,4 @@
 from openprocurement.api.utils import get_now
-
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 
 

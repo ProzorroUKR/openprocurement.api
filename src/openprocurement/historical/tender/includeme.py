@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 from logging import getLogger
-from openprocurement.historical.core.utils import HasRequestMethod
+
 from openprocurement.historical.core.constants import PREDICATE_NAME
+from openprocurement.historical.core.utils import HasRequestMethod
 
 LOGGER = getLogger("openprocurement.historical.tender")
 

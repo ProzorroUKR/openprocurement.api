@@ -1,54 +1,54 @@
 import unittest
 from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.belowthreshold.tests.lot import (
+    TenderLotFeatureResourceTestMixin,
+    TenderLotProcessTestMixin,
+    TenderLotResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+    create_tender_lot_minimalstep_validation,
+    patch_tender_lot_minimalstep_validation,
+    tender_lot_guarantee,
+    tender_lot_milestones,
+)
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
-    TenderLotFeatureResourceTestMixin,
-    TenderLotProcessTestMixin,
-)
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_lot_guarantee,
-    tender_lot_milestones,
-    create_tender_lot_minimalstep_validation,
-    patch_tender_lot_minimalstep_validation,
-)
-
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
+    test_tender_open_bids,
     test_tender_open_data,
     test_tender_open_features_data,
 )
-from openprocurement.tender.open.tests.base import test_tender_open_bids
 from openprocurement.tender.open.tests.lot_blanks import (
-    patch_tender_currency,
-    patch_tender_vat,
+    claim_blocking,
+    create_tender_bidder_feature,
+    create_tender_bidder_feature_invalid,
+    create_tender_bidder_invalid,
     get_tender_lot,
     get_tender_lots,
-    question_blocking,
-    claim_blocking,
-    next_check_value_with_unanswered_question,
+    lots_features_delete,
     next_check_value_with_unanswered_claim,
-    create_tender_bidder_invalid,
+    next_check_value_with_unanswered_question,
     patch_tender_bidder,
-    create_tender_bidder_feature_invalid,
-    create_tender_bidder_feature,
+    patch_tender_currency,
+    patch_tender_vat,
     proc_1lot_1bid,
     proc_1lot_1bid_patch,
     proc_1lot_2bid,
     proc_1lot_3bid_1un,
-    proc_2lot_1bid_0com_1can,
-    proc_2lot_2bid_1lot_del,
-    proc_2lot_1bid_2com_1win,
     proc_2lot_1bid_0com_0win,
+    proc_2lot_1bid_0com_1can,
     proc_2lot_1bid_1com_1win,
-    proc_2lot_2bid_2com_2win,
-    lots_features_delete,
+    proc_2lot_1bid_2com_1win,
     proc_2lot_2bid_1claim_1com_1win,
+    proc_2lot_2bid_1lot_del,
+    proc_2lot_2bid_2com_2win,
+    question_blocking,
 )
 
 

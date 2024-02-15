@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth
-
 
 # TenderComplaintDocumentResourceTest
 

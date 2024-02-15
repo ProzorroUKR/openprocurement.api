@@ -1,7 +1,11 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
+from openprocurement.api.utils import (
+    get_tender_by_id,
+    request_init_contract,
+    request_init_tender,
+)
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import get_tender_by_id, request_init_contract, request_init_tender
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
 
 

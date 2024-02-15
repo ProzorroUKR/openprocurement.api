@@ -1,11 +1,15 @@
-import mock
+from copy import deepcopy
 from datetime import datetime, timedelta
 from unittest.mock import patch
-from copy import deepcopy
-from esculator import npv, escp
-from openprocurement.api.utils import get_now
+
+import mock
+from esculator import escp, npv
+
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (

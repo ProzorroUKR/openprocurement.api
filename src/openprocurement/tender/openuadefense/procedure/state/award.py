@@ -1,23 +1,23 @@
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.utils import tender_created_in
-from openprocurement.tender.core.procedure.context import (
-    get_request,
+from openprocurement.api.constants import (
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
 )
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
 )
 from openprocurement.tender.core.procedure.models.contract import Contract
+from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
-from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
-from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.constants import (
-    NEW_DEFENSE_COMPLAINTS_FROM,
-    NEW_DEFENSE_COMPLAINTS_TO,
+from openprocurement.tender.openuadefense.procedure.state.tender import (
+    OpenUADefenseTenderState,
 )
+from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):

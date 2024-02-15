@@ -1,6 +1,6 @@
 def is_test():
-    import sys
     import os
+    import sys
 
     return any(
         [
@@ -17,26 +17,36 @@ if not is_test():
     gevent.monkey.patch_all()
 
 import os
-import simplejson
-import sentry_sdk
 from datetime import datetime
+from logging import getLogger
+
+import sentry_sdk
+import simplejson
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
-from logging import getLogger
-from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
-from openprocurement.api.database import MongodbStore
-from openprocurement.api.utils import forbidden, request_params, precondition, get_currency_rates
-from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
+from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
-from pyramid.httpexceptions import HTTPPreconditionFailed
+from pytz import utc
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
-from pytz import utc
 
+from openprocurement.api.auth import (
+    AuthenticationPolicy,
+    authenticated_role,
+    check_accreditations,
+)
+from openprocurement.api.constants import ROUTE_PREFIX, TZ
+from openprocurement.api.database import MongodbStore
+from openprocurement.api.utils import (
+    forbidden,
+    get_currency_rates,
+    precondition,
+    request_params,
+)
 
 LOGGER = getLogger("{}.init".format(__name__))
 

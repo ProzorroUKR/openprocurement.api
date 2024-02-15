@@ -1,16 +1,25 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
-from openprocurement.tender.core.procedure.models.bid import (
-    Bid as BaseBid,
-    PostBid as BasePostBid,
-    PatchBid as BasePatchBid,
-)
-from openprocurement.tender.cfaselectionua.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.cfaselectionua.procedure.models.parameter import PatchParameter, Parameter
+
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
+from openprocurement.tender.cfaselectionua.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.parameter import (
+    Parameter,
+    PatchParameter,
+)
+from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
+from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
+from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchObjResponsesMixin,
+    PostBidResponsesMixin,
+)
 
 
 class PatchBid(PatchObjResponsesMixin, BasePatchBid):

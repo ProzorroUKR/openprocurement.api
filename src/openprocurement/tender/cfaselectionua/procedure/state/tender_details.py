@@ -1,35 +1,38 @@
-from openprocurement.api.auth import ACCR_5, ACCR_1, ACCR_2
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
+from copy import deepcopy
+
+from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import (
-    dt_from_iso,
-    validate_field,
-)
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaselectionua.constants import (
-    MIN_PERIOD_UNTIL_AGREEMENT_END,
-    MIN_ACTIVE_CONTRACTS,
     ENQUIRY_PERIOD,
-    TENDERING_DURATION,
+    MIN_ACTIVE_CONTRACTS,
+    MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
+    TENDERING_DURATION,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
 )
 from openprocurement.tender.core.constants import (
-    AGREEMENT_NOT_FOUND_MESSAGE,
-    AGREEMENT_STATUS_MESSAGE,
-    AGREEMENT_ITEMS_MESSAGE,
-    AGREEMENT_EXPIRED_MESSAGE,
-    AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_CHANGE_MESSAGE,
     AGREEMENT_CONTRACTS_MESSAGE,
+    AGREEMENT_EXPIRED_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
+    AGREEMENT_ITEMS_MESSAGE,
+    AGREEMENT_NOT_FOUND_MESSAGE,
+    AGREEMENT_START_DATE_MESSAGE,
+    AGREEMENT_STATUS_MESSAGE,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
-from openprocurement.api.utils import raise_operation_error
-from copy import deepcopy
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsMixing,
+)
+from openprocurement.tender.core.procedure.utils import dt_from_iso, validate_field
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    calculate_tender_date,
+)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):

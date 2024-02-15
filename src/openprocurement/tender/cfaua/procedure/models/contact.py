@@ -1,5 +1,8 @@
-from openprocurement.tender.core.procedure.models.contact import ContactPoint as BaseContactPoint
 from schematics.types import StringType
+
+from openprocurement.tender.core.procedure.models.contact import (
+    ContactPoint as BaseContactPoint,
+)
 
 
 class ContactPoint(BaseContactPoint):

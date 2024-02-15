@@ -1,6 +1,7 @@
+from pyramid.security import Allow, Everyone
+
 from openprocurement.api.utils import request_init_tender
 from openprocurement.historical.core.utils import Root as BaseRoot
-from pyramid.security import Allow, Everyone
 
 
 class Root(BaseRoot):

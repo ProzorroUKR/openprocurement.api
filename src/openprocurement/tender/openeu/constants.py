@@ -1,4 +1,5 @@
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
+
 from openprocurement.api.constants import TZ
 
 TENDERING_DAYS = 30

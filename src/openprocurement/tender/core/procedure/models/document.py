@@ -1,11 +1,13 @@
-from openprocurement.api.procedure.types import HashType
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
+
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import HashType
 
 DOCUMENT_TYPES = (
     "tenderNotice",

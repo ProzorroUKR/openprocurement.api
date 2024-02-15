@@ -1,35 +1,33 @@
 # -*- coding: utf-8 -*-
 import unittest
-
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_author,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
-    test_tender_cfaua_lots,
     test_tender_cfaua_features_data,
+    test_tender_cfaua_lots,
 )
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
-    # TenderComplaintSwitchResourceTest
-    switch_to_complaint,
-    # TenderSwitchAuctionResourceTest
-    switch_to_auction,
-    # TenderSwitchPreQualificationResourceTest
-    pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
-    switch_to_unsuccessful,
-    # TenderSwitchPreQualificationStandStillResourceTest
+    next_check_field_in_active_qualification,
+    pre_qual_switch_to_stand_still,
+)
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+    set_auction_period_0bid as set_auction_period,  # TenderComplaintSwitchResourceTest; TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest; TenderSwitchPreQualificationStandStillResourceTest
+)
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+    switch_to_auction,
     switch_to_awarded,
-    set_auction_period_0bid as set_auction_period,
+    switch_to_complaint,
+    switch_to_unsuccessful,
     switch_to_unsuccessful_from_qualification_stand_still,
 )
-
-from openprocurement.tender.openua.tests.chronograph_blanks import set_auction_period_lot_0bid as set_auction_period_lot
+from openprocurement.tender.openua.tests.chronograph_blanks import (
+    set_auction_period_lot_0bid as set_auction_period_lot,
+)
 
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):

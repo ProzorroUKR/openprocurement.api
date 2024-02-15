@@ -1,11 +1,13 @@
 from schematics.types import StringType
 
-from openprocurement.api.constants import (
-    VALIDATE_ADDRESS_FROM,
-)
-from openprocurement.api.procedure.models.address import Address as BaseAddress, validate_country_name, validate_region
-from openprocurement.api.procedure.utils import is_obj_const_active
+from openprocurement.api.constants import VALIDATE_ADDRESS_FROM
 from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.models.address import Address as BaseAddress
+from openprocurement.api.procedure.models.address import (
+    validate_country_name,
+    validate_region,
+)
+from openprocurement.api.procedure.utils import is_obj_const_active
 
 
 class Address(BaseAddress):

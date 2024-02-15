@@ -4,7 +4,6 @@ from logging import getLogger
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import error_handler
 
-
 LOGGER = getLogger("openprocurement.relocation.api")
 
 

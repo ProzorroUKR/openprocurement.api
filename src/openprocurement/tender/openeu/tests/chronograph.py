@@ -2,40 +2,39 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
-)
-
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.tests.chronograph import (
-    switch_award_complaints_draft,
-    switch_tender_complaints_draft,
-    switch_tender_cancellation_complaints_draft,
-    switch_qualification_complaints_draft,
-    switch_tender_after_cancellation_unsuccessful,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful,
 )
+from openprocurement.tender.core.tests.chronograph import (
+    switch_award_complaints_draft,
+    switch_qualification_complaints_draft,
+    switch_tender_after_cancellation_unsuccessful,
+    switch_tender_cancellation_complaints_draft,
+    switch_tender_complaints_draft,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
     test_tender_openeu_lots,
 )
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_complaint,
-    switch_to_auction,
-    pre_qual_switch_to_auction,
-    pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
     active_tendering_to_pre_qual_unsuccessful,
     active_tendering_to_unsuccessful,
+    pre_qual_switch_to_auction,
+    pre_qual_switch_to_stand_still,
+    switch_to_auction,
+    switch_to_complaint,
 )
-
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,
+)
+from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
 

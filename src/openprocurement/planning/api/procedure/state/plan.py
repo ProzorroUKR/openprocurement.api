@@ -3,13 +3,19 @@ from itertools import chain
 
 from dateorro import calc_working_datetime
 
-from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM, RELEASE_SIMPLE_DEFENSE_FROM
-from openprocurement.api.utils import raise_operation_error, error_handler
-from openprocurement.api.context import get_request, get_now
-from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL, PROCEDURES
+from openprocurement.api.constants import (
+    PLAN_ADDRESS_KIND_REQUIRED_FROM,
+    RELEASE_SIMPLE_DEFENSE_FROM,
+)
+from openprocurement.api.context import get_now, get_request
+from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.planning.api.constants import (
+    PROCEDURES,
+    PROCURING_ENTITY_STANDSTILL,
+)
 from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.pricequotation.constants import PQ
 
 

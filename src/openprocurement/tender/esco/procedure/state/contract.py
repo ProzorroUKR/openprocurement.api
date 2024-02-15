@@ -1,8 +1,11 @@
-from openprocurement.tender.openua.procedure.state.contract import OpenUAContractStateMixing
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.procedure.utils import to_decimal
 from decimal import Decimal
+
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
+from openprocurement.tender.openua.procedure.state.contract import (
+    OpenUAContractStateMixing,
+)
 
 
 class ESCOContractStateMixing:

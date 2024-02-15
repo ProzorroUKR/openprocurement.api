@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
-import mock
 from copy import deepcopy
 from datetime import timedelta
+
+import mock
 from freezegun import freeze_time
 
-from openprocurement.api.mask import MASK_STRING
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

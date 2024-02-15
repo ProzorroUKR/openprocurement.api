@@ -1,7 +1,15 @@
-from openprocurement.tender.openeu.procedure.views.cancellation import EUCancellationResource
-from openprocurement.tender.openua.procedure.views.cancellation import UACancellationResource
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.openeu.procedure.views.cancellation import (
+    EUCancellationResource,
+)
+from openprocurement.tender.openua.procedure.views.cancellation import (
+    UACancellationResource,
+)
 
 
 @resource(

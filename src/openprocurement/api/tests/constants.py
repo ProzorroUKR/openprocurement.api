@@ -1,11 +1,9 @@
 import configparser
 import unittest
-
 from os.path import dirname, join
 
-from openprocurement.api.constants import COORDINATES_REG_EXP
+from openprocurement.api.constants import COORDINATES_REG_EXP, parse_date
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.constants import parse_date
 
 
 class ConstantsTestCase(unittest.TestCase):

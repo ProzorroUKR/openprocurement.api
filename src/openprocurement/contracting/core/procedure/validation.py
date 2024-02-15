@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    raise_operation_error,
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS, validate_accreditation_level_base
+from openprocurement.contracting.core.procedure.utils import (
+    is_bid_owner,
+    is_contract_owner,
+    is_tender_owner,
 )
-from openprocurement.api.validation import (
-    validate_accreditation_level_base,
-    OPERATIONS,
-)
-from openprocurement.contracting.core.procedure.utils import is_tender_owner, is_contract_owner, is_bid_owner
 
 
 def _validate_contract_accreditation_level(request, model):

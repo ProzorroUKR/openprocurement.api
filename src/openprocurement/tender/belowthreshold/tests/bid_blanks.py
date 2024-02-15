@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 from copy import deepcopy
+from datetime import timedelta
 
 import mock
-from datetime import timedelta
 
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
 
 # TenderBidResourceTest
 

@@ -1,13 +1,17 @@
-from schematics.types import StringType, MD5Type
 from uuid import uuid4
-from openprocurement.api.procedure.types import ListType, ModelType
+
+from schematics.types import MD5Type, StringType
+
 from openprocurement.api.procedure.models.organization import (
-    CommonOrganization,
-    Organization as BaseOrganization,
     BusinessOrganization as BaseBusinessOrganization,
 )
-from openprocurement.tender.core.procedure.models.contact import ContactPoint
+from openprocurement.api.procedure.models.organization import CommonOrganization
+from openprocurement.api.procedure.models.organization import (
+    Organization as BaseOrganization,
+)
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.address import Address
+from openprocurement.tender.core.procedure.models.contact import ContactPoint
 
 PROCURING_ENTITY_KINDS = ("authority", "central", "defense", "general", "other", "social", "special")
 

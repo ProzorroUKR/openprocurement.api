@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 
-from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
-
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
+from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
 
 TARGET_DIR = 'docs/source/tendering/simpledefense/http/'
 TARGET_CSV_DIR = 'docs/source/tendering/simpledefense/csv/'

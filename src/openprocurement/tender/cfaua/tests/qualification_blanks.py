@@ -1,13 +1,14 @@
-from math import ceil
 from copy import deepcopy
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_2020_04_19
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.api.utils import get_now
+from math import ceil
+
+from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_complaint,
     test_tender_below_draft_claim,
 )
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_lot_qualification_complaint(self):

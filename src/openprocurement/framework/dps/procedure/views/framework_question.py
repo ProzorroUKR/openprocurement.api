@@ -1,4 +1,5 @@
 from cornice.resource import resource
+
 from openprocurement.framework.core.procedure.views.question import CoreQuestionResource
 from openprocurement.framework.dps.constants import DPS_TYPE
 

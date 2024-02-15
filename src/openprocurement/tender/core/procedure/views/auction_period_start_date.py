@@ -1,15 +1,16 @@
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.models.auction import AuctionPeriodStartDate
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_for_put_action_period,
-    validate_auction_period_start_date,
-    validate_lot_status_active,
-)
+from cornice.resource import resource
+from pyramid.security import Allow
+
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
-from pyramid.security import Allow
-from cornice.resource import resource
+from openprocurement.tender.core.procedure.models.auction import AuctionPeriodStartDate
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_auction_period_start_date,
+    validate_lot_status_active,
+    validate_tender_status_for_put_action_period,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 @resource(

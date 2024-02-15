@@ -1,28 +1,33 @@
 from logging import getLogger
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.models.criterion import (
+    EligibleEvidence,
+    PatchEligibleEvidence,
+)
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_evidence import (
     EligibleEvidenceSerializer,
 )
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import EligibleEvidenceState
-from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
+from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import (
+    EligibleEvidenceState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     resolve_criterion,
-    resolve_requirement_group,
     resolve_requirement,
-)
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner,
-    unless_administrator,
+    resolve_requirement_group,
 )
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

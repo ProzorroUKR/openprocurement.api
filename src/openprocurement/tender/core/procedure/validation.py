@@ -1,58 +1,70 @@
+import logging
 from collections import defaultdict
-
+from copy import deepcopy
+from datetime import timedelta
+from decimal import ROUND_UP, Decimal
 from hashlib import sha512
-from pyramid.request import Request
 
-from openprocurement.api.constants import (
-    CRITERION_REQUIREMENT_STATUSES_FROM,
-    RELEASE_GUARANTEE_CRITERION_FROM,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
-    RELEASE_ECRITERIA_ARTICLE_17,
-    RELEASE_2020_04_19,
-    GMDN_2023_SCHEME,
-    GMDN_2019_SCHEME,
-    INN_SCHEME,
-    ATC_SCHEME,
-    GMDN_CPV_PREFIXES,
-    UA_ROAD_SCHEME,
-    UA_ROAD_CPV_PREFIXES,
-    WORKING_DAYS,
-    FUNDERS,
+from pyramid.httpexceptions import HTTPError
+from pyramid.request import Request
+from schematics.exceptions import ValidationError
+from schematics.types import (
+    BaseType,
+    BooleanType,
+    DateTimeType,
+    DecimalType,
+    IntType,
+    StringType,
 )
+
+from openprocurement.api.auth import extract_access_token
+from openprocurement.api.constants import (
+    ATC_SCHEME,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
+    FUNDERS,
+    GMDN_2019_SCHEME,
+    GMDN_2023_SCHEME,
+    GMDN_CPV_PREFIXES,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
+    INN_SCHEME,
+    RELEASE_2020_04_19,
+    RELEASE_ECRITERIA_ARTICLE_17,
+    RELEASE_GUARANTEE_CRITERION_FROM,
+    UA_ROAD_CPV_PREFIXES,
+    UA_ROAD_SCHEME,
+    WORKING_DAYS,
+)
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
-    raise_operation_error,
     error_handler,
-    requested_fields_changes,
+    get_now,
     is_gmdn_classification,
     is_ua_road_classification,
-    get_now,
+    raise_operation_error,
+    requested_fields_changes,
 )
-from openprocurement.api.validation import (
-    validate_tender_first_revision_date,
+from openprocurement.api.validation import validate_tender_first_revision_date
+from openprocurement.tender.core.constants import (
+    AMOUNT_NET_COEF,
+    FIRST_STAGE_PROCUREMENT_TYPES,
 )
-from openprocurement.api.auth import extract_access_token
-from openprocurement.tender.core.constants import AMOUNT_NET_COEF, FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.utils import (
-    get_contracts_values_related_to_patched_contract,
     find_item_by_id,
-    tender_created_before,
-    tender_created_after_2020_rules,
-    tender_created_after,
     find_lot,
+    get_contracts_values_related_to_patched_contract,
+    get_criterion_requirement,
+    is_new_contracting,
+    tender_created_after,
+    tender_created_after_2020_rules,
+    tender_created_before,
 )
-from openprocurement.tender.core.utils import calculate_tender_business_date, calculate_tender_date
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import get_criterion_requirement, is_new_contracting
-from schematics.exceptions import ValidationError
-from pyramid.httpexceptions import HTTPError
-from copy import deepcopy
-from schematics.types import BaseType, StringType, IntType, DecimalType, BooleanType, DateTimeType
-from decimal import Decimal, ROUND_UP
-import logging
-from datetime import timedelta
+from openprocurement.tender.core.utils import (
+    calculate_tender_business_date,
+    calculate_tender_date,
+)
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -548,7 +560,9 @@ def validate_update_award_with_accepted_complaint(request, **_):
 
 
 def validate_update_award_status_before_milestone_due_date(request, **_):
-    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
+    from openprocurement.tender.core.procedure.models.qualification_milestone import (
+        QualificationMilestoneCodes,
+    )
 
     award = request.validated["award"]
     sent_status = request.json.get("data", {}).get("status")
@@ -763,7 +777,9 @@ def validate_cancelled_qualification_update(request, **_):
 
 
 def validate_update_status_before_milestone_due_date(request, **_):
-    from openprocurement.tender.core.procedure.models.milestone import QualificationMilestone
+    from openprocurement.tender.core.procedure.models.milestone import (
+        QualificationMilestone,
+    )
 
     qualification = request.validated['qualification']
     sent_status = request.validated["data"].get("status")

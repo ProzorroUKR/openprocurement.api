@@ -3,26 +3,16 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
+from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.data import test_docs_award, test_docs_lots, test_docs_tender_limited
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+from tests.test_tender_config import TenderConfigCSVMixin
+
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
 )
-
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import (
-    DOCS_URL,
-    AUCTIONS_URL,
-)
-from tests.base.data import (
-    test_docs_award,
-    test_docs_tender_limited,
-    test_docs_lots,
-)
-from tests.test_tender_config import TenderConfigCSVMixin
+from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 
 test_tender_data = deepcopy(test_docs_tender_limited)
 test_lots = deepcopy(test_docs_lots)

@@ -1,19 +1,27 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.framework.core.procedure.validation import (
-    validate_framework_document_operation_not_in_allowed_status,
-)
-from openprocurement.framework.core.procedure.views.document import CoreFrameworkDocumentResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
     validate_upload_document,
-    update_doc_fields_on_put_document,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.framework.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.framework.core.procedure.validation import (
+    validate_framework_document_operation_not_in_allowed_status,
+)
+from openprocurement.framework.core.procedure.views.document import (
+    CoreFrameworkDocumentResource,
+)
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
 )
 
 

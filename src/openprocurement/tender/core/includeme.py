@@ -1,13 +1,19 @@
 from logging import getLogger
+
 from pkg_resources import iter_entry_points
 
-from openprocurement.tender.core.procedure.serializers.config import TenderConfigSerializer
-from openprocurement.tender.core.utils import (
-    ProcurementMethodTypePredicate,
-    ComplaintTypePredicate,
-)
-from openprocurement.tender.core.procedure.utils import extract_complaint_type, extract_tender_doc
 from openprocurement.tender.core.database import TenderCollection
+from openprocurement.tender.core.procedure.serializers.config import (
+    TenderConfigSerializer,
+)
+from openprocurement.tender.core.procedure.utils import (
+    extract_complaint_type,
+    extract_tender_doc,
+)
+from openprocurement.tender.core.utils import (
+    ComplaintTypePredicate,
+    ProcurementMethodTypePredicate,
+)
 
 LOGGER = getLogger("openprocurement.tender.core")
 

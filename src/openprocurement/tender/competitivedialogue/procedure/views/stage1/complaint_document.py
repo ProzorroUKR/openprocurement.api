@@ -1,7 +1,12 @@
-from openprocurement.tender.core.procedure.views.complaint_document import TenderComplaintDocumentResource
-from openprocurement.tender.open.procedure.state.complaint_document import OpenComplaintDocumentState
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.core.procedure.views.complaint_document import (
+    TenderComplaintDocumentResource,
+)
+from openprocurement.tender.open.procedure.state.complaint_document import (
+    OpenComplaintDocumentState,
+)
 
 
 @resource(

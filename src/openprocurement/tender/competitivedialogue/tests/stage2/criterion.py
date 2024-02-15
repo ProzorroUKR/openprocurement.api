@@ -1,24 +1,27 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from mock import patch
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdua_stage2_data,
-    test_tender_cdeu_stage2_data,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_stage2_data,
+)
+from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks import (
+    activate_tender,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks import activate_tender
 
 
 class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):

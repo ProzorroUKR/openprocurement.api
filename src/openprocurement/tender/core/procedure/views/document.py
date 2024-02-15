@@ -1,29 +1,38 @@
 from typing import Type
 
-from openprocurement.api.utils import json_view, delete_nones
-from openprocurement.api.utils import (
-    context_unpack,
-    update_file_content_type,
-)
-from openprocurement.tender.core.procedure.documents import get_file, check_document, update_document_url
-from openprocurement.tender.core.procedure.serializers.document import DocumentSerializer
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.models.document import Document, PostDocument, PatchDocument
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.state.document import BaseDocumentState
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data,
     validate_upload_document,
-    update_doc_fields_on_put_document,
 )
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
+from openprocurement.api.utils import (
+    context_unpack,
+    delete_nones,
+    json_view,
+    update_file_content_type,
 )
-from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.tender.core.procedure.documents import (
+    check_document,
+    get_file,
+    update_document_url,
+)
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.serializers.document import (
+    DocumentSerializer,
+)
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 def resolve_document(request, item_name, container):

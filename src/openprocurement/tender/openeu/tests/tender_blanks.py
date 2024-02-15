@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
 
-from openprocurement.api.constants import (
-    RELEASE_ECRITERIA_ARTICLE_17,
-)
-from openprocurement.api.utils import get_now
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.belowthreshold.tests.utils import (
+    activate_contract,
+    set_bid_lotvalues,
+)
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 
 # TenderResourceTest
 

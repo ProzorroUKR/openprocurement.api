@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
-from docutils import nodes
-from docutils.statemachine import StringList
-from docutils.parsers.rst import directives
-from sphinx.directives.code import CodeBlock
-from . import utils
-
 import os
+
+from docutils import nodes
+from docutils.parsers.rst import directives
+from docutils.statemachine import StringList
+from sphinx.directives.code import CodeBlock
+
+from . import utils
 
 
 class HTTPExample(CodeBlock):

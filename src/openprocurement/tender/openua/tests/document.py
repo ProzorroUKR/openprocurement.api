@@ -1,6 +1,9 @@
 import unittest
+
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
 
 
 class TenderDocumentWithDSResourceTest(BaseTenderUAContentWebTest, TenderDocumentWithDSResourceTestMixin):

@@ -1,4 +1,6 @@
-from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
+from openprocurement.tender.openuadefense.procedure.state.tender import (
+    OpenUADefenseTenderState,
+)
 
 
 class SimpleDefenseTenderState(OpenUADefenseTenderState):

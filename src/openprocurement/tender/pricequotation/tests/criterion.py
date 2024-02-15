@@ -1,13 +1,16 @@
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
+from unittest.mock import patch
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_data,
 )
-from openprocurement.tender.pricequotation.tests.criterion_blanks import create_tender_criteria_multi_profile
+from openprocurement.tender.pricequotation.tests.criterion_blanks import (
+    create_tender_criteria_multi_profile,
+)
 
 
 @patch(

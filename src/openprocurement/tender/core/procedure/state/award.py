@@ -1,10 +1,11 @@
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
@@ -13,9 +14,7 @@ from openprocurement.tender.core.procedure.contracting import (
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.api.constants import QUALIFICATION_AFTER_COMPLAINT_FROM
-from openprocurement.api.utils import raise_operation_error
-
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 if TYPE_CHECKING:
     from openprocurement.tender.core.procedure.state.tender import TenderState

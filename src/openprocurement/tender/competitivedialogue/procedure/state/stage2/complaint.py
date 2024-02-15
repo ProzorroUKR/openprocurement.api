@@ -1,6 +1,6 @@
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
-    CDUAStage2TenderState,
     CDEUStage2TenderState,
+    CDUAStage2TenderState,
 )
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 

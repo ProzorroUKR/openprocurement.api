@@ -1,5 +1,10 @@
-from openprocurement.planning.api.procedure.serializers.milestone import MilestoneSerializer
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseUIDSerializer,
+    ListSerializer,
+)
+from openprocurement.planning.api.procedure.serializers.milestone import (
+    MilestoneSerializer,
+)
 
 
 class PlanSerializer(BaseUIDSerializer):

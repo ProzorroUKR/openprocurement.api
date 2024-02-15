@@ -1,8 +1,12 @@
+from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.cancellation_complaint_post import (
     BaseCancellationComplaintPostResource,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
-from cornice.resource import resource
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
+)
 
 
 @resource(

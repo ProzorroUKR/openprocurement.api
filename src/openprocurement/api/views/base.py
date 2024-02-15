@@ -2,10 +2,10 @@ from datetime import datetime
 from logging import getLogger
 
 from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
-from openprocurement.api.context import set_request, set_now
+from openprocurement.api.context import set_now, set_request
 from openprocurement.api.mask import mask_object_data
-from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import json_view, raise_operation_error
 
 
 class BaseResource:

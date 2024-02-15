@@ -4,25 +4,20 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.core.procedure.mask import (
-    SUBMISSION_MASK_MAPPING,
-    QUALIFICATION_MASK_MAPPING,
-    AGREEMENT_MASK_MAPPING,
-)
-from tests.base.data import (
-    test_docs_tenderer,
-)
 from tests.base.constants import DOCS_URL
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.data import test_docs_tenderer
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.procedure.mask import (
+    AGREEMENT_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    SUBMISSION_MASK_MAPPING,
+)
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
     BaseFrameworkWebTest,
+    test_framework_dps_data,
 )
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'

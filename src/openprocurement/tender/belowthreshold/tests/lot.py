@@ -1,46 +1,46 @@
 # -*- coding: utf-8 -*-
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from copy import deepcopy
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    create_tender_lot_invalid,
+    create_tender_bid_feature,
+    create_tender_bid_invalid,
+    create_tender_bid_invalid_feature,
     create_tender_lot,
-    patch_tender_lot,
-    patch_tender_currency,
-    patch_tender_vat,
+    create_tender_lot_invalid,
+    create_tender_lot_minimalstep_validation,
+    delete_tender_lot,
     get_tender_lot,
     get_tender_lots,
-    delete_tender_lot,
-    tender_lot_guarantee,
-    tender_lot_milestones,
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    create_tender_bid_invalid,
     patch_tender_bid,
-    create_tender_bid_invalid_feature,
-    create_tender_bid_feature,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_lot_minimalstep_validation,
+    patch_tender_vat,
     proc_1lot_0bid,
     proc_1lot_1bid,
     proc_1lot_2bid,
     proc_2lot_0bid,
-    proc_2lot_2can,
-    proc_2lot_2bid_0com_1can_before_auction,
-    proc_2lot_1bid_0com_1can,
-    proc_2lot_1bid_2com_1win,
     proc_2lot_1bid_0com_0win,
+    proc_2lot_1bid_0com_1can,
     proc_2lot_1bid_1com_1win,
-    proc_2lot_2bid_2com_2win,
+    proc_2lot_1bid_2com_1win,
     proc_2lot_1feature_2bid_2com_2win,
+    proc_2lot_2bid_0com_1can_before_auction,
+    proc_2lot_2bid_2com_2win,
+    proc_2lot_2can,
     proc_2lot_2diff_bids_check_auction,
-    create_tender_lot_minimalstep_validation,
-    patch_tender_lot_minimalstep_validation,
+    tender_features_invalid,
+    tender_lot_document,
+    tender_lot_guarantee,
+    tender_lot_milestones,
+    tender_value,
 )
 
 

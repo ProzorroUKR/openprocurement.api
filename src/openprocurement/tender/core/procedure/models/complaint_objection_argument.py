@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import get_request

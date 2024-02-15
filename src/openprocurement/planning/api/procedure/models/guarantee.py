@@ -1,8 +1,6 @@
 from schematics.types import StringType
 
-from openprocurement.api.procedure.models.guarantee import (
-    Guarantee as BaseGuarantee,
-)
+from openprocurement.api.procedure.models.guarantee import Guarantee as BaseGuarantee
 
 
 class Guarantee(BaseGuarantee):

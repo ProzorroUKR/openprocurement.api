@@ -1,57 +1,57 @@
-import uuid
-
 import os
+import uuid
 from copy import deepcopy
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-)
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
-    test_tender_below_data,
     test_tender_below_config,
-)
-from openprocurement.tender.open.tests.base import test_tender_open_data, test_tender_open_config
-from openprocurement.tender.openeu.constants import TENDERING_DURATION
-from openprocurement.tender.openua.tests.base import (
-    test_tender_openua_data,
-    test_tender_openua_config,
-)
-from openprocurement.tender.openuadefense.tests.base import (
-    test_tender_openuadefense_data,
-    test_tender_openuadefense_config,
-)
-from openprocurement.tender.simpledefense.tests.base import (
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_config,
-)
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_config,
+    test_tender_below_data,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdeu_data,
-    test_tender_cdua_data,
-    test_tender_cdeu_stage2_data,
-    test_tender_cdua_stage2_data,
     test_tender_cd_access_token,
-    test_tender_cdua_config,
-    test_tender_cdeu_config,
-    test_tender_cdua_stage2_config,
-    test_tender_cdeu_stage2_config,
     test_tender_cd_lots,
+    test_tender_cdeu_config,
+    test_tender_cdeu_data,
+    test_tender_cdeu_stage2_config,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_config,
+    test_tender_cdua_data,
+    test_tender_cdua_stage2_config,
+    test_tender_cdua_stage2_data,
 )
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.limited.tests.base import (
-    test_tender_reporting_data,
+    test_tender_negotiation_config,
     test_tender_negotiation_data,
+    test_tender_negotiation_quick_config,
     test_tender_negotiation_quick_data,
     test_tender_reporting_config,
-    test_tender_negotiation_config,
-    test_tender_negotiation_quick_config,
+    test_tender_reporting_data,
+)
+from openprocurement.tender.open.tests.base import (
+    test_tender_open_config,
+    test_tender_open_data,
+)
+from openprocurement.tender.openeu.constants import TENDERING_DURATION
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_config,
+    test_tender_openeu_data,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_config,
+    test_tender_openua_data,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_config,
+    test_tender_openuadefense_data,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_config,
+    test_tender_simpledefense_data,
 )
 
 

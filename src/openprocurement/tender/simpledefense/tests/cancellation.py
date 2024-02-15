@@ -1,28 +1,31 @@
 # -*- coding: utf-8 -*-
 import unittest
-from mock import patch
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
-from openprocurement.api.constants import RELEASE_2020_04_19
+from mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots, test_tender_below_cancellation
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_cancellation,
-    patch_tender_cancellation,
     create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     create_tender_lots_cancellation,
+    patch_tender_cancellation,
+    patch_tender_lot_cancellation,
     patch_tender_lots_cancellation,
 )
 from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
+    TenderCancellationResourceNewReleaseTestMixin,
 )
 from openprocurement.tender.openua.tests.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
