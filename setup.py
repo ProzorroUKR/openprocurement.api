@@ -9,18 +9,21 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md")) as f:
     README = f.read()
 
-requires = []
+def load_requirements(filename):
+    requirements = []
+    with open(filename) as f:
+        for resource in f.readlines():
+            if not resource.startswith('git+'):
+                requirements.append(resource.strip())
+            else:
+                res = resource.strip()
+                egg = res.split("#egg=")[1]
+                requirements.append("@".join([egg, res]))
+    return requirements
 
-with open('requirements.txt') as f:
-    for resource in f.readlines():
-        if not resource.startswith('git+'):
-            requires.append(resource.strip())
-        else:
-            res = resource.strip()
-            egg = res.split("#egg=")[1]
-            requires.append("@".join([egg, res]))
-
-tests_requires = requires
+requires = load_requirements('requirements.txt')
+requires_tests = load_requirements('requirements-test.txt')
+requires_dev = load_requirements('requirements-dev.txt')
 
 
 entry_points = {
@@ -104,7 +107,10 @@ setup(
     zip_safe=False,
     install_requires=requires,
     setup_requires=["pytest-runner"],
-    tests_require=tests_requires,
-    extras_require={"test": tests_requires},
+    tests_require=requires_tests,
+    extras_require={
+        "test": requires_tests,
+        "dev": requires_dev,
+    },
     entry_points=entry_points,
 )
