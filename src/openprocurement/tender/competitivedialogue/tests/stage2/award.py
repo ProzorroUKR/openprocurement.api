@@ -502,7 +502,7 @@ class TenderStage2EU2LotAwardQualificationAfterComplaintResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderStage2EU2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+        super().setUp()
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -679,7 +679,7 @@ class TenderStage2UA2LotAwardQualificationAfterComplaintResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderStage2UA2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+        super().setUp()
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(

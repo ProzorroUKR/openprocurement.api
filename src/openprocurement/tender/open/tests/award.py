@@ -131,7 +131,7 @@ class TenderAwardResourceTest(BaseTenderUAContentWebTest):
     test_last_award_unsuccessful_next_check = snitch(last_award_unsuccessful_next_check)
 
 
-class TenderAwardQualificationAfterComplaintMixin(object):
+class TenderAwardQualificationAfterComplaintMixin:
     test_award_has_satisfied_complaint = snitch(award_has_satisfied_complaint)
     test_award_has_resolved_complaint = snitch(award_has_resolved_complaint)
     test_any_award_has_non_considered_complaint = snitch(any_award_has_not_considered_complaint)
@@ -209,7 +209,7 @@ class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase)
     test_patch_tender_award_unsuccessful_complaint_third = snitch(patch_tender_award_unsuccessful_complaint_third)
 
 
-class Tender2LotAwardQualificationAfterComplaintMixin(object):
+class Tender2LotAwardQualificationAfterComplaintMixin:
     test_lot_award_has_satisfied_complaint = snitch(lot_award_has_satisfied_complaint)
     test_lot_award_has_resolved_complaint = snitch(lot_award_has_resolved_complaint)
     test_any_lot_award_has_not_considered_complaint = snitch(any_lot_award_has_not_considered_complaint)

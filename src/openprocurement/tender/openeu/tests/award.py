@@ -224,7 +224,7 @@ class Tender2LotAwardQualificationAfterComplaintResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(Tender2LotAwardQualificationAfterComplaintResourceTest, self).setUp()
+        super().setUp()
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
