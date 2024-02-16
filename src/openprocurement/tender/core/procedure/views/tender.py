@@ -1,28 +1,28 @@
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    update_logging_context,
-    request_fetch_agreement,
-    request_init_tender,
-)
-from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    set_ownership,
-    save_tender,
-)
-from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from pyramid.security import (
-    Allow,
-    Everyone,
-)
-from cornice.resource import resource
 import logging
 
+from cornice.resource import resource
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import (
+    context_unpack,
+    json_view,
+    request_fetch_agreement,
+    request_init_tender,
+    update_logging_context,
+)
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
+from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = logging.getLogger(__name__)
@@ -128,11 +128,7 @@ class TendersResource(TenderBaseResource):
                 plan = self.request.registry.mongodb.plans.get(plan_id)
             else:
                 plan = None
-            data = ocds_format_tender(
-                tender=data,
-                tender_url=self.request.url,
-                plan=plan
-            )
+            data = ocds_format_tender(tender=data, tender_url=self.request.url, plan=plan)
             return data
         return {
             "data": data,
@@ -150,7 +146,7 @@ class TendersResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     f"Updated tender {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
                 )
         return {
             "data": self.serializer_class(tender).data,

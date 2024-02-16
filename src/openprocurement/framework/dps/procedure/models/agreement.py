@@ -2,11 +2,14 @@ from schematics.types import StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.models.item import (
+    Classification as BaseClassification,
+)
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.api.procedure.models.item import Classification as BaseClassification
-
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
     PostAgreement as BasePostAgreement,
 )
 from openprocurement.framework.core.procedure.models.framework import DKClassification
@@ -29,7 +32,8 @@ class Agreement(BaseAgreement):
         if self.status == "active":
             milestone_dueDates = [
                 milestone.dueDate
-                for contract in self.contracts for milestone in contract.milestones
+                for contract in self.contracts
+                for milestone in contract.milestones
                 if milestone.dueDate and milestone.status == "scheduled"
             ]
             if milestone_dueDates:

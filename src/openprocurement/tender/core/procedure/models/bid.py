@@ -1,24 +1,38 @@
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import MD5Type, StringType, BaseType
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
+
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
-from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.api.procedure.validation import validate_parameters_uniq
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.models.base import BaseBid
-from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.models.parameter import Parameter, PatchParameter
-from openprocurement.tender.core.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
-from openprocurement.tender.core.procedure.models.bid_document import PostDocument, Document
+from openprocurement.tender.core.procedure.models.bid_document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.tender.core.procedure.models.item import BaseItem
+from openprocurement.tender.core.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
+from openprocurement.tender.core.procedure.models.parameter import (
+    Parameter,
+    PatchParameter,
+)
+from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 
 # PATCH DATA ---
@@ -31,6 +45,8 @@ class PatchBid(BaseBid):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
+
+
 # --- PATCH DATA
 
 
@@ -75,15 +91,19 @@ class CommonBid(BaseBid):
                 i["code"]: [x["value"] for x in i["enum"]]
                 for i in tender.get("features", "")
                 if i["featureOf"] == "tenderer"
-                   or i["featureOf"] == "lot" and i["relatedItem"] in lots
-                   or i["featureOf"] == "item" and i["relatedItem"] in items
+                or i["featureOf"] == "lot"
+                and i["relatedItem"] in lots
+                or i["featureOf"] == "item"
+                and i["relatedItem"] in items
             }
-            if set(i["code"] for i in parameters) != set(codes):
+            if {i["code"] for i in parameters} != set(codes):
                 raise ValidationError("All features parameters is required.")
         elif not parameters and tender.get("features"):
             raise ValidationError("This field is required.")
-        elif set(i["code"] for i in parameters) != set(i["code"] for i in tender.get("features", "")):
+        elif {i["code"] for i in parameters} != {i["code"] for i in tender.get("features", "")}:
             raise ValidationError("All features parameters is required.")
+
+
 # --- BASE
 
 
@@ -105,6 +125,7 @@ class PostBid(CommonBid):
     financialDocuments = ListType(ModelType(PostDocument, required=True))
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+
 
 # -- POST
 

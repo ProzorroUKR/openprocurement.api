@@ -1,24 +1,38 @@
-from openprocurement.api.auth import ACCR_4
-from openprocurement.api.utils import json_view
-from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
-from openprocurement.tender.competitivedialogue.procedure.models.bid import PostBid, PatchBid, Bid
-from openprocurement.tender.competitivedialogue.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.bid import CDStage1BidState
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_deleted_bid,
-    validate_bid_operation_period,
-    validate_bid_operation_not_in_tendering,
-)
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner, unless_administrator, validate_accreditation_level,
-)
-from cornice.resource import resource
 from logging import getLogger
+
+from cornice.resource import resource
+
+from openprocurement.api.auth import ACCR_4
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_accreditation_level,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.models.bid import (
+    Bid,
+    PatchBid,
+    PostBid,
+)
+from openprocurement.tender.competitivedialogue.procedure.serializers.bid import (
+    BidSerializer,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.bid import (
+    CDStage1BidState,
+)
+from openprocurement.tender.core.procedure.models.bid import (
+    filter_administrator_bid_update,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_bid_operation_not_in_tendering,
+    validate_bid_operation_period,
+    validate_update_deleted_bid,
+)
+from openprocurement.tender.openeu.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -31,7 +45,6 @@ LOGGER = getLogger(__name__)
     description="Competitive Dialogue UA bids",
 )
 class CompetitiveDialogueUABidResource(TenderBidResource):
-
     serializer_class = BidSerializer
     state_class = CDStage1BidState
 
@@ -59,10 +72,8 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
         validators=(
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,), none_means_remove=True),
             validate_patch_data(Bid, item_name="bid"),
         ),
@@ -79,7 +90,6 @@ class CompetitiveDialogueUABidResource(TenderBidResource):
     description="Competitive Dialogue EU bids",
 )
 class CompetitiveDialogueEUBidResource(TenderBidResource):
-
     serializer_class = BidSerializer
     state_class = CDStage1BidState
 
@@ -107,10 +117,8 @@ class CompetitiveDialogueEUBidResource(TenderBidResource):
         validators=(
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-
             validate_input_data(PatchBid, filters=(filter_administrator_bid_update,)),
             validate_patch_data(Bid, item_name="bid"),
         ),

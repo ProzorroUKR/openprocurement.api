@@ -1,34 +1,28 @@
-from typing import TYPE_CHECKING, TypeVar
-
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_4
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
-    TENDERING_EXTRA_PERIOD,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
-    QUALIFICATION_COMPLAINT_STAND_STILL,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
+    QUALIFICATION_COMPLAINT_STAND_STILL,
+    TENDERING_EXTRA_PERIOD,
 )
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.openua.procedure.state.tender_details import (
+    OpenUATenderDetailsMixing,
+)
 
 
-if TYPE_CHECKING:
-    baseclass = CFAUATenderState
-else:
-    baseclass = object
-
-
-class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
     qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
@@ -58,21 +52,19 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
 
     def status_up(self, before, after, data):
         if (
-            before == "draft" and after == "active.tendering"
-            or before == "active.pre-qualification" and after == "active.pre-qualification.stand-still"
-            or before == "active.qualification" and after == "active.qualification.stand-still"
+            before == "draft"
+            and after == "active.tendering"
+            or before == "active.pre-qualification"
+            and after == "active.pre-qualification.stand-still"
+            or before == "active.qualification"
+            and after == "active.qualification.stand-still"
         ):
             pass  # allowed scenario
         else:
             raise_operation_error(
-                get_request(),
-                f"Can't update tender to {after} status",
-                status=403,
-                location="body",
-                name="status"
+                get_request(), f"Can't update tender to {after} status", status=403, location="body", name="status"
             )
         super().status_up(before, after, data)
-
 
     def validate_qualification_status_change(self, before, after):
         if before["status"] == "active.qualification":
@@ -97,7 +89,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                 ):
                     raise_operation_error(
                         get_request(),
-                        "Can't switch to 'active.qualification.stand-still' before resolve all complaints"
+                        "Can't switch to 'active.qualification.stand-still' before resolve all complaints",
                     )
 
                 if self.all_awards_are_reviewed(after):
@@ -122,7 +114,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
                 get_request(),
                 f"Can't switch to 'active.qualification.stand-still' from {before['status']}",
             )
-
 
     @staticmethod
     def watch_value_meta_changes(tender):

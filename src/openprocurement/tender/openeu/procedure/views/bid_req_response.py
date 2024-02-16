@@ -1,4 +1,3 @@
-
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.bid_req_response import (

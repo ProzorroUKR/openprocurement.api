@@ -1,44 +1,42 @@
 import unittest
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    invalid_tender_conditions,
-    create_tender_with_inn,
-    tender_milestones_required,
-    patch_tender_lots_none,
-    tender_minimalstep_validation,
-    tender_lot_minimalstep_validation,
-    patch_tender_minimalstep_validation,
     create_tender_with_earlier_non_required_unit,
+    create_tender_with_inn,
     create_tender_with_required_unit,
+    invalid_tender_conditions,
     patch_not_author,
+    patch_tender_lots_none,
+    patch_tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
+    tender_milestones_required,
+    tender_minimalstep_validation,
 )
-
+from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing,
     create_tender_generated,
-    tender_with_main_procurement_category,
+    empty_listing,
     tender_finance_milestones,
+    tender_with_main_procurement_category,
 )
-
-from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
-
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAWebTest,
-    test_tender_openuadefense_data,
     test_tender_openuadefense_bids,
+    test_tender_openuadefense_data,
 )
 from openprocurement.tender.openuadefense.tests.tender_blanks import (
     create_tender_invalid,
-    patch_tender,
-    patch_tender_ua,
-    one_valid_bid_tender_ua,
-    patch_item_with_zero_quantity,
-    one_invalid_bid_tender_new,
     one_invalid_bid_tender_after_new,
     one_invalid_bid_tender_before_new,
+    one_invalid_bid_tender_new,
+    one_valid_bid_tender_ua,
+    patch_item_with_zero_quantity,
+    patch_tender,
+    patch_tender_ua,
 )
 
 
@@ -82,8 +80,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderUAProcessTest))
-    suite.addTest(unittest.makeSuite(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
     return suite
 
 

@@ -1,57 +1,59 @@
-from unittest.mock import patch
-from datetime import timedelta
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
-from openprocurement.tender.openeu.tests.bid_blanks import bids_activation_on_tender_documents
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cd_lots,
     test_tender_cd_stage1_bids,
     test_tender_cd_tenderer,
-    test_tender_cd_lots,
     test_tender_cdeu_features_data,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
-    patch_tender_with_bids_lots_none,
-    create_tender_bidder,
-    deleted_bid_is_not_restorable,
-    create_tender_bidder_invalid,
-    status_jumping,
-    create_bid_without_parameters,
-    patch_tender_bidder,
-    get_tender_bidder,
-    deleted_bid_do_not_locks_tender_in_state,
-    get_tender_tenderers,
     bids_invalidation_on_tender_change,
+    bids_view_j1446,
+    create_bid_without_parameters,
+    create_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_description,
+    create_tender_bidder_document_nopending,
+    create_tender_bidder_invalid,
+    create_tender_bidder_invalid_confidential_document,
+    create_tender_bidder_invalid_document_description,
+    deleted_bid_do_not_locks_tender_in_state,
+    deleted_bid_is_not_restorable,
+    download_tender_bidder_document,
     features_bidder,
     features_bidder_invalid,
+    get_tender_bidder,
     get_tender_bidder_document,
-    create_tender_bidder_document,
+    get_tender_tenderers,
     patch_and_put_document_into_invalid_bid,
-    download_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    create_tender_bidder_document_description,
-    create_tender_bidder_invalid_document_description,
-    create_tender_bidder_invalid_confidential_document,
-    bids_view_j1446,
+    patch_tender_bidder,
+    patch_tender_with_bids_lots_none,
+    status_jumping,
+)
+from openprocurement.tender.openeu.tests.bid import CreateBidMixin
+from openprocurement.tender.openeu.tests.bid_blanks import (
+    bids_activation_on_tender_documents,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
 )
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
-
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_cd_stage1_bids
@@ -73,7 +75,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
     def setUp(self):
-        super(CompetitiveDialogEUBidResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         self.test_bids_data = []
         for bid in test_tender_cd_stage1_bids:
@@ -100,8 +102,10 @@ class CompetitiveDialogEUBidFeaturesResourceTest(BaseCompetitiveDialogEUContentW
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
@@ -110,7 +114,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     docservice = True
 
     def setUp(self):
-        super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bidder_data = deepcopy(test_tender_cd_stage1_bids[0])
         set_bid_lotvalues(bidder_data, self.initial_lots)
@@ -148,7 +152,7 @@ class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin,
     test_bids_data = test_tender_cd_stage1_bids
 
     def setUp(self):
-        super(TenderUABidDocumentWithDSWebTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["tenderers"] = [test_tender_cd_tenderer]
@@ -196,13 +200,13 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseEvidenceResourceTest))
 
     return suite
 

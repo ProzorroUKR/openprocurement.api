@@ -1,8 +1,9 @@
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+
 from openprocurement.api.utils import get_now
-from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.econtract.tests.utils import create_contract
 
 
 def no_items_contract_change(self):
@@ -20,7 +21,6 @@ def no_items_contract_change(self):
     response = self.app.put_json(
         f"/contracts/{contract['id']}/buyer/signer_info?acc_token={token}",
         {"data": test_signer_info},
-
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -287,7 +287,6 @@ def change_date_signed(self):
 
 
 def date_signed_on_change_creation(self):
-
     # test create change with date signed
     self.set_status("active")
 

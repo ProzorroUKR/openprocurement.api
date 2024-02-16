@@ -2,9 +2,13 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.models.bid_document import (
-    PostDocument as CDPostDocument,
-    PatchDocument as CDPatchDocument,
     Document as CDDocument,
+)
+from openprocurement.tender.competitivedialogue.procedure.models.bid_document import (
+    PatchDocument as CDPatchDocument,
+)
+from openprocurement.tender.competitivedialogue.procedure.models.bid_document import (
+    PostDocument as CDPostDocument,
 )
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
@@ -64,7 +68,6 @@ class TenderEUBidQualificationDocumentResource(BaseTenderBidQualificationDocumen
     model_class = CDDocument
     create_model_class = CDPostDocument
     update_model_class = CDPatchDocument
-
 
 
 @resource(

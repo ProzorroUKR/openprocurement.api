@@ -1,24 +1,31 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
+from openprocurement.api.procedure.validation import (
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.milestone import PatchMilestone, PostMilestone, Milestone
+from openprocurement.framework.core.procedure.models.milestone import (
+    Milestone,
+    PatchMilestone,
+    PostMilestone,
+)
 from openprocurement.framework.core.procedure.validation import (
+    validate_action_in_milestone_status,
     validate_agreement_operation_not_in_allowed_status,
     validate_contract_operation_not_in_allowed_status,
     validate_contract_suspended,
     validate_milestone_type,
-    validate_patch_not_activation_milestone,
-    validate_action_in_milestone_status,
     validate_patch_milestone_status,
+    validate_patch_not_activation_milestone,
 )
-from openprocurement.framework.core.procedure.views.milestone import AgreementContractMilestonesResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
+from openprocurement.framework.core.procedure.views.milestone import (
+    AgreementContractMilestonesResource,
+)
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
 )
 
 

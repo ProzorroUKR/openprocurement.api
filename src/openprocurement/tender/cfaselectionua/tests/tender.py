@@ -1,70 +1,67 @@
-# -*- coding: utf-8 -*-
 import unittest
-
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
 
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    create_tender_central,
+    create_tender_central_invalid,
+    create_tender_config_test,
+    patch_tender_lots_none,
+    tender_milestones_not_required,
+)
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.cfaselectionua.tests.base import (
+    BaseTenderWebTest,
+    test_tender_cfaselectionua_agreement,
+    test_tender_cfaselectionua_agreement_features,
+    test_tender_cfaselectionua_data,
+    test_tender_cfaselectionua_lots,
+)
+from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
+    create_tender,
+    create_tender_draft,
+    create_tender_from_agreement_with_changes,
+    create_tender_from_agreement_with_features,
+    create_tender_from_agreement_with_features_0_3,
+    create_tender_from_agreement_with_invalid_changes,
+    create_tender_from_terminated_agreement,
+    create_tender_generated,
+    create_tender_invalid,
+    create_tender_with_available_language,
+    create_tender_with_value,
+    dateModified_tender,
+    edit_tender_in_active_enquiries,
+    first_bid_tender,
+    get_tender,
+    invalid_tender_conditions,
+    listing,
+    listing_changes,
+    listing_draft,
+    lost_contract_for_active_award,
+    one_invalid_bid_tender,
+    one_valid_bid_tender,
+    patch_not_author,
+    patch_tender,
+    patch_tender_bot,
+    patch_tender_jsonpatch,
+    patch_tender_to_draft_pending,
+    tender_features_invalid,
+    tender_fields,
+    tender_funders,
+    tender_not_found,
+)
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    patch_tender_lots_none,
-    tender_milestones_not_required,
-    create_tender_central,
-    create_tender_central_invalid,
-    create_tender_config_test,
-)
-from openprocurement.tender.cfaselectionua.tests.base import (
-    BaseTenderWebTest,
-    test_tender_cfaselectionua_lots,
-    test_tender_cfaselectionua_data,
-    test_tender_cfaselectionua_agreement,
-    test_tender_cfaselectionua_agreement_features,
-)
-from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
-    listing,
-    get_tender,
-    tender_features_invalid,
-    tender_not_found,
-    dateModified_tender,
-    patch_not_author,
-    listing_draft,
-    tender_fields,
-    listing_changes,
-    create_tender_invalid,
-    create_tender_generated,
-    create_tender_draft,
-    create_tender_with_value,
-    patch_tender_jsonpatch,
-    patch_tender,
-    patch_tender_bot,
-    patch_tender_to_draft_pending,
-    tender_funders,
-    one_valid_bid_tender,
-    one_invalid_bid_tender,
-    first_bid_tender,
-    create_tender,
-    create_tender_from_terminated_agreement,
-    create_tender_from_agreement_with_changes,
-    create_tender_from_agreement_with_invalid_changes,
-    create_tender_from_agreement_with_features,
-    create_tender_from_agreement_with_features_0_3,
-    invalid_tender_conditions,
-    lost_contract_for_active_award,
-    create_tender_with_available_language,
-    edit_tender_in_active_enquiries,
-)
 from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
-
 
 test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)
 set_tender_lots(test_tender_cfaselectionua_data, test_tender_cfaselectionua_lots)
 test_tender_cfaselectionua_lots = deepcopy(test_tender_cfaselectionua_data["lots"])
 
 
-class TenderResourceTestMixin(object):
+class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -88,7 +85,6 @@ class TenderResourceTestMixin(object):
     test_patch_tender_bot = snitch(patch_tender_bot)
     test_create_tender_with_available_language = snitch(create_tender_with_available_language)
     test_create_tender_config_test = snitch(create_tender_config_test)
-
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
@@ -132,8 +128,8 @@ class TenderProcessTest(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
 

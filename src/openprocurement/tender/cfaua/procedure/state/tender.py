@@ -1,12 +1,15 @@
-from openprocurement.tender.core.procedure.context import get_request
+from logging import getLogger
+
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
-from openprocurement.tender.cfaua.procedure.awarding import CFAUATenderStateAwardingMixing
-from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
-from logging import getLogger
+from openprocurement.tender.cfaua.procedure.awarding import (
+    CFAUATenderStateAwardingMixing,
+)
+from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 LOGGER = getLogger(__name__)
 
@@ -17,7 +20,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
     def contract_events(self, tender):
-        yield from ()   # empty , this procedure doesn't have contracts
+        yield from ()  # empty , this procedure doesn't have contracts
 
     def qualification_stand_still_events(self, tender):
         active_lots = [lot["id"] for lot in tender.get("lots", "") if lot["status"] == "active"]
@@ -35,8 +38,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
         statuses = set()
         for lot in tender.get("lots", ""):
             active_awards_count = sum(
-                1 for i in tender.get("awards", "")
-                if i["lotID"] == lot["id"] and i["status"] == "active"
+                1 for i in tender.get("awards", "") if i["lotID"] == lot["id"] and i["status"] == "active"
             )
             if active_awards_count < tender["config"]["minBidsNumber"]:
                 LOGGER.info(
@@ -57,7 +59,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
             clarification_date = calculate_tender_business_date(get_now(), CLARIFICATIONS_UNTIL_PERIOD, tender, False)
             tender["contractPeriod"] = {
                 "startDate": get_now().isoformat(),
-                "clarificationsUntil": clarification_date.isoformat()
+                "clarificationsUntil": clarification_date.isoformat(),
             }
             self.prepare_agreements(tender)
 
@@ -75,9 +77,10 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                         "relatedItem": item["id"],
                         "value": {
                             "currency": tender["value"]["currency"],
-                            "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"]
+                            "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
                         },
-                    } for item in items
+                    }
+                    for item in items
                 ]
 
                 contracts = []
@@ -90,10 +93,9 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                                 "bidID": award["bid_id"],
                                 "date": get_now().isoformat(),
                                 "unitPrices": unit_prices,
-                                "parameters": [
-                                    b for b in tender.get("bids", "")
-                                    if b["id"] == award["bid_id"]
-                                ][0].get("parameters", []),
+                                "parameters": [b for b in tender.get("bids", "") if b["id"] == award["bid_id"]][0].get(
+                                    "parameters", []
+                                ),
                             }
                         )
                 server_id = get_request().registry.server_id
@@ -106,9 +108,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                     "status": "pending",
                 }
                 agreement = Agreement(data)
-                tender["agreements"].append(
-                    agreement.serialize()
-                )
+                tender["agreements"].append(agreement.serialize())
 
     def invalidate_bids_data(self, tender):
         tender["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()

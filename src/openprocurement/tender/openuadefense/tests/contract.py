@@ -1,41 +1,38 @@
-# -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
-from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
-    TenderContractDocumentResourceTestMixin,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
 )
-
+from openprocurement.tender.belowthreshold.tests.contract import (
+    TenderContractDocumentResourceTestMixin,
+    TenderContractResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+    create_tender_contract_document_by_others,
+    create_tender_contract_document_by_supplier,
+    patch_contract_multi_items_unit_value,
+    patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_with_status,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    patch_tender_contract_value,
+    patch_tender_contract_value_vat_not_included,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
+)
 from openprocurement.tender.openua.tests.contract_blanks import (
     create_tender_contract,
     patch_tender_contract,
 )
-
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openuadefense_bids,
-)
-
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_tender_contract_value_vat_not_included,
-    patch_tender_contract_value,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_supplier,
-    create_tender_contract_document_by_supplier,
-    create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
-    patch_tender_contract_document_by_supplier,
-    patch_contract_single_item_unit_value,
-    patch_contract_single_item_unit_value_with_status,
-    patch_contract_multi_items_unit_value,
 )
 
 
@@ -46,7 +43,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         # Create award
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -78,9 +75,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
@@ -118,7 +113,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -135,13 +130,19 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -167,9 +168,9 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
     return suite
 
 

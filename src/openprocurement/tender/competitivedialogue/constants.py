@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
 CD_EU_TYPE = "competitiveDialogueEU"

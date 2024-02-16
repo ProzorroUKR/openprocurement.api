@@ -1,8 +1,10 @@
+import re
+
+from schematics.types import EmailType, StringType
+from schematics.validate import ValidationError
+
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import URLType
-from schematics.types import StringType, EmailType
-from schematics.validate import ValidationError
-import re
 
 
 class ContactPoint(Model):
@@ -17,7 +19,7 @@ class ContactPoint(Model):
 
 def validate_telephone(telephone):
     if telephone and re.match(r"^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", telephone) is None:
-        raise ValidationError(u"wrong telephone format (could be missed +)")
+        raise ValidationError("wrong telephone format (could be missed +)")
 
 
 def validate_email(contact_point, email):

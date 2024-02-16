@@ -1,17 +1,14 @@
-from logging import getLogger
 from hashlib import sha512
+from logging import getLogger
 
-from openprocurement.api.utils import (
-    context_unpack,
-    get_now,
-    handle_store_exceptions,
-)
 from openprocurement.api.auth import extract_access_token
-
-from openprocurement.tender.core.procedure.utils import (
-    set_mode_test_titles,
+from openprocurement.api.procedure.utils import (
+    append_revision,
+    get_revision_changes,
+    is_item_owner,
 )
-from openprocurement.api.procedure.utils import append_revision, get_revision_changes, is_item_owner
+from openprocurement.api.utils import context_unpack, get_now, handle_store_exceptions
+from openprocurement.tender.core.procedure.utils import set_mode_test_titles
 
 LOGGER = getLogger("openprocurement.contracting.api.procedure")
 
@@ -38,9 +35,7 @@ def save_contract(request, insert=False, contract=None, contract_src=None):
             )
             LOGGER.info(
                 "Saved contract {}: dateModified {} -> {}".format(
-                    contract["_id"],
-                    old_date_modified,
-                    contract["dateModified"]
+                    contract["_id"], old_date_modified, contract["dateModified"]
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_contract"}, {"CONTRACT_REV": contract["_rev"]}),
             )

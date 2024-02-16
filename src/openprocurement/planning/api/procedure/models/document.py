@@ -1,9 +1,13 @@
 from schematics.types import StringType
 
 from openprocurement.tender.core.procedure.models.document import (
-    PostDocument as BasePostDocument,
-    PatchDocument as BasePatchDocument,
     Document as BaseDocument,
+)
+from openprocurement.tender.core.procedure.models.document import (
+    PatchDocument as BasePatchDocument,
+)
+from openprocurement.tender.core.procedure.models.document import (
+    PostDocument as BasePostDocument,
 )
 
 

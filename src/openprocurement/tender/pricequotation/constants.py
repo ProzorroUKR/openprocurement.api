@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 import re
 from datetime import timedelta
-
 
 PQ = "priceQuotation"
 TENDERING_DAYS = 2

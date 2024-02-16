@@ -1,25 +1,30 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
 from openprocurement.api.context import get_request
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_update_not_in_allowed_status,
-    validate_contract_owner,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    unless_administrator,
+    unless_admins,
     validate_input_data,
-    unless_administrator, unless_admins,
+    validate_patch_data_simple,
 )
+from openprocurement.api.utils import json_view
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    ContractBaseSerializer,
+)
+from openprocurement.contracting.core.procedure.validation import (
+    validate_contract_owner,
+    validate_contract_update_not_in_allowed_status,
+)
+from openprocurement.contracting.core.procedure.views.contract import ContractResource
 from openprocurement.contracting.econtract.procedure.models.contract import (
     AdministratorPatchContract,
+    Contract,
     PatchContract,
     PatchContractPending,
-    Contract,
 )
-from openprocurement.contracting.econtract.procedure.state.contract import EContractState
-from openprocurement.contracting.core.procedure.views.contract import ContractResource
-from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
+from openprocurement.contracting.econtract.procedure.state.contract import (
+    EContractState,
+)
 
 
 def conditional_contract_model(data):

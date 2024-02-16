@@ -1,6 +1,12 @@
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.core.procedure.views.complaint_post_document import BaseTenderComplaintPostDocumentResource
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.core.procedure.views.complaint_post_document import (
+    BaseTenderComplaintPostDocumentResource,
+)
 
 
 @resource(

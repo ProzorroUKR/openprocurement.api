@@ -1,8 +1,14 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.contract_document import ContractDocumentState
-from openprocurement.tender.core.procedure.views.contract import resolve_contract
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
 from pyramid.security import Allow, Everyone
+
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.state.contract_document import (
+    ContractDocumentState,
+)
+from openprocurement.tender.core.procedure.views.contract import resolve_contract
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
 
 
 class TenderContractDocumentResource(BaseDocumentResource):

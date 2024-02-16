@@ -1,7 +1,8 @@
-from openprocurement.api.procedure.models.base import Model
+from schematics.types import MD5Type, StringType
+
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.core.procedure.validation import validate_related_lot
-from schematics.types import StringType, MD5Type
 
 
 class LotValue(Model):

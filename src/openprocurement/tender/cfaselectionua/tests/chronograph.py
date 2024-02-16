@@ -1,19 +1,20 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import reset_auction_period, set_auction_period
-
+from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+    reset_auction_period,
+    set_auction_period,
+)
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
-    test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_bids,
+    test_tender_cfaselectionua_lots,
 )
 from openprocurement.tender.cfaselectionua.tests.chronograph_blanks import (
+    switch_to_auction,
+    switch_to_qualification,
     switch_to_tendering,
     switch_to_tendering_by_tender_period_start_date,
-    switch_to_qualification,
-    switch_to_auction,
     switch_to_unsuccessful,
 )
 
@@ -62,12 +63,12 @@ class TenderLotAuctionPeriodResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderSwitchTenderingPeriodStartDateResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchTenderingResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchTenderingPeriodStartDateResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchTenderingResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAuctionPeriodResourceTest))
     return suite
 
 

@@ -1,54 +1,55 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    invalid_tender_conditions,
-    guarantee,
-    tender_milestones_required,
-    create_tender_with_inn,
-    patch_tender_lots_none,
     create_tender_central,
     create_tender_central_invalid,
     create_tender_with_earlier_non_required_unit,
+    create_tender_with_inn,
+    guarantee,
+    invalid_tender_conditions,
     patch_not_author,
+    patch_tender_lots_none,
+    tender_milestones_required,
 )
-from openprocurement.tender.openua.tests.tender_blanks import empty_listing, tender_finance_milestones
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
-    test_tender_cfaua_with_lots_data,
-    BaseTenderWebTest,
     BaseTenderContentWebTest,
+    BaseTenderWebTest,
     test_tender_cfaua_bids_with_lotvalues,
     test_tender_cfaua_lots_with_ids,
+    test_tender_cfaua_with_lots_data,
 )
 from openprocurement.tender.cfaua.tests.tender_blanks import (
-    one_bid_tender,
-    unsuccessful_after_prequalification_tender,
-    one_qualificated_bid_tender,
+    active_pre_qualification_to_act_qualification_st,
+    active_qualification_to_act_pre_qualification_st,
+    agreement_duration_period,
+    awards_to_bids_number,
+    create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
-    create_tender_generated,
-    patch_tender,
-    patch_tender_period,
-    tender_contract_period,
+    create_tender_with_required_unit,
+    extract_tender_credentials,
     invalid_bid_tender_features,
     invalid_bid_tender_lot,
-    patch_tender_active_qualification_2_active_qualification_stand_still,
-    switch_tender_to_active_awarded,
+    one_bid_tender,
+    one_qualificated_bid_tender,
     patch_max_awards,
-    awards_to_bids_number,
-    active_qualification_to_act_pre_qualification_st,
-    active_pre_qualification_to_act_qualification_st,
-    agreement_duration_period,
-    tender_features_invalid,
-    extract_tender_credentials,
+    patch_tender,
+    patch_tender_active_qualification_2_active_qualification_stand_still,
+    patch_tender_period,
     patch_unitprice_with_features,
+    switch_tender_to_active_awarded,
+    tender_contract_period,
+    tender_features_invalid,
     tender_with_main_procurement_category,
-    create_tender_with_required_unit,
+    unsuccessful_after_prequalification_tender,
+)
+from openprocurement.tender.openua.tests.tender_blanks import (
+    empty_listing,
+    tender_finance_milestones,
 )
 
 
@@ -100,9 +101,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_create_cfaua_tender_with_earlier_non_required_unit = snitch(
-        create_tender_with_earlier_non_required_unit
-    )
+    test_create_cfaua_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_not_author = snitch(patch_not_author)
 
@@ -135,7 +134,7 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
         for bid in self.initial_bids:
             bid["value"] = bid["lotValues"][0]["value"]
 
-        super(TenderPendingAwardsResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification")
         response = self.check_chronograph()
@@ -196,9 +195,9 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderPendingAwardsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderPendingAwardsResourceTest))
     return suite
 
 

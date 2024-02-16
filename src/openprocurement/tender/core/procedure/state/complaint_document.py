@@ -1,7 +1,7 @@
-from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 
 
 class ComplaintDocumentState(BaseDocumentState):
@@ -37,20 +37,14 @@ class ComplaintDocumentState(BaseDocumentState):
         status = complaint.get("status")
         if status not in self.allowed_complaint_status_for_role.get(self.request.authenticated_role, []):
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(
-                self.request,
-                f"Can't {operation} document in current ({status}) complaint status"
-            )
+            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) complaint status")
 
     def validate_tender_status(self):
         tender = get_tender()
         status = tender["status"]
         if status not in self.allowed_tender_statuses:
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(
-                self.request,
-                f"Can't {operation} document in current ({status}) tender status"
-            )
+            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) tender status")
 
     def validate_lot_status(self):
         pass

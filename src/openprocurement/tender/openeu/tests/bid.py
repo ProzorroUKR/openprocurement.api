@@ -1,86 +1,83 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
+    test_tender_below_organization,
+)
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
+    create_tender_bid_document_json_bulk,
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    patch_tender_bid_with_exceeded_lot_values,
+    patch_tender_lot_values_any_order,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_document,
-    patch_tender_lot_values_any_order,
-    create_tender_bid_document_json_bulk,
-    # Tender2LotBidResourceTest
-    post_tender_bid_with_exceeded_lot_values,
-    patch_tender_bid_with_exceeded_lot_values,
-)
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_openeu_features_data,
-    test_tender_openeu_restricted_data,
     test_tender_openeu_bids,
+    test_tender_openeu_features_data,
     test_tender_openeu_lots,
-)
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
+    test_tender_openeu_restricted_data,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
-    patch_tender_bidder_document_private_json,
-    put_tender_bidder_document_private_json,
-    get_tender_bidder_document_ds,
-    not_found,
-    get_tender_bidder_document,
-    create_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    patch_and_put_document_into_invalid_bid,
-    download_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    features_bidder,
-    features_bidder_invalid,
+    bid_Administrator_change,
+    bids_activation_on_tender_documents,
+    bids_invalidation_on_tender_change,
+    create_tender_bid_no_scale_invalid,
+    create_tender_bid_with_all_documents,
+    create_tender_bid_with_eligibility_document,
+    create_tender_bid_with_eligibility_document_invalid,
+    create_tender_bid_with_eligibility_documents,
+    create_tender_bid_with_financial_document,
+    create_tender_bid_with_financial_document_invalid,
+    create_tender_bid_with_financial_documents,
+    create_tender_bid_with_qualification_document,
+    create_tender_bid_with_qualification_document_invalid,
+    create_tender_bid_with_qualification_documents,
     create_tender_biddder_invalid,
     create_tender_bidder,
-    patch_tender_bidder,
-    get_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_nopending,
     delete_tender_bidder,
-    deleted_bid_is_not_restorable,
     deleted_bid_do_not_locks_tender_in_state,
+    deleted_bid_is_not_restorable,
+    download_tender_bidder_document,
+    features_bidder,
+    features_bidder_invalid,
+    get_tender_bidder,
+    get_tender_bidder_document,
+    get_tender_bidder_document_ds,
     get_tender_tenderers,
-    bid_Administrator_change,
-    bids_invalidation_on_tender_change,
-    bids_activation_on_tender_documents,
-    create_tender_bid_with_all_documents,
-    create_tender_bid_with_eligibility_document_invalid,
-    create_tender_bid_with_financial_document_invalid,
-    create_tender_bid_with_qualification_document_invalid,
-    create_tender_bid_with_eligibility_document,
-    create_tender_bid_with_qualification_document,
-    create_tender_bid_with_financial_document,
-    create_tender_bid_with_financial_documents,
-    create_tender_bid_with_eligibility_documents,
-    create_tender_bid_with_qualification_documents,
+    not_found,
+    patch_and_put_document_into_invalid_bid,
+    patch_tender_bidder,
+    patch_tender_bidder_document,
+    patch_tender_bidder_document_private_json,
     patch_tender_draft_bidder,
-    create_tender_bid_no_scale_invalid,
+    put_tender_bidder_document,
+    put_tender_bidder_document_private_json,
 )
-from openprocurement.tender.openua.tests.bid_blanks import patch_tender_with_bids_lots_none
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    patch_tender_with_bids_lots_none,
+)
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "draft"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         # Create bid
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('broker', ''))
@@ -92,13 +89,13 @@ class CreateBidMixin(object):
         self.bid_token = response.json["access"]["token"]
 
 
-class TenderBidResourceTestMixin(object):
+class TenderBidResourceTestMixin:
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
 
-class Tender2BidResourceTestMixin(object):
+class Tender2BidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
@@ -121,7 +118,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -171,7 +168,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceWithDSTestMix
     initial_bids = test_bids_data = test_tender_openeu_bids  # TODO: change attribute identificator
 
     def setUp(self):
-        super(TenderBidDocumentWithDSResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         self.bid_id = self.initial_bids[0]["id"]
         self.bid_token = self.initial_bids_tokens[self.bid_id]
@@ -222,7 +219,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
         if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
             self.bid_data_wo_docs["selfEligible"] = True
 
-        super(TenderBidBatchDocumentsWithDSResourceTest, self).setUp()
+        super().setUp()
 
 
 class TenderBidRequirementResponseResourceTest(
@@ -247,13 +244,13 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidBatchDocumentsWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentsWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

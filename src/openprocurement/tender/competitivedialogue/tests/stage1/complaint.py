@@ -1,25 +1,30 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
+)
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
+    create_tender_complaint_document,
+    not_found,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
-    test_tender_cd_lots,
     test_tender_cd_author,
+    test_tender_cd_lots,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    not_found,
-    create_tender_complaint_document,
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
+from openprocurement.tender.openua.tests.complaint import (
+    TenderUAComplaintResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    put_tender_complaint_document,
+from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
+    create_tender_lot_complaint,
     patch_tender_complaint_document,
+    put_tender_complaint_document,
 )
 
 
@@ -34,7 +39,7 @@ class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUCo
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(CompetitiveDialogEUComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -61,7 +66,7 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(CompetitiveDialogUAComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),

@@ -1,37 +1,29 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
-
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_tender_esco_features_data,
-    test_tender_esco_bids,
-    test_tender_esco_lots,
-)
-
-from openprocurement.tender.esco.tests.auction_blanks import (
-    # TenderAuctionResourceTest
-    get_tender_auction,
-    post_tender_auction,
-    patch_tender_auction,
-    # TenderMultipleLotAuctionResourceTest
-    get_tender_lots_auction,
-    post_tender_lots_auction,
-    # TenderAuctionFieldsTest
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.esco.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderAuctionFieldsTest; TenderSameValueAuctionResourceTest
     auction_check_NBUdiscountRate,
     auction_check_noticePublicationDate,
-    # TenderSameValueAuctionResourceTest
+    get_tender_auction,
+    get_tender_lots_auction,
+    patch_tender_auction,
+    post_tender_auction,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
+    post_tender_lots_auction,
+)
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_features_data,
+    test_tender_esco_lots,
 )
 
 
@@ -76,7 +68,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
     initial_lots = test_tender_esco_lots
 
     def setUp(self):
-        super(TenderAuctionResourceTest, self).setUp()
+        super().setUp()
         prepare_for_auction(self)
 
     test_get_tender_auction = snitch(get_tender_auction)
@@ -99,7 +91,7 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
         }
         self.initial_bids = [bid_data for i in range(3)]
 
-        super(TenderSameValueAuctionResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
         response = self.check_chronograph()
@@ -143,7 +135,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     initial_lots = test_tender_esco_lots
 
     def setUp(self):
-        super(TenderAuctionFieldsTest, self).setUp()
+        super().setUp()
         prepare_for_auction(self)
 
     test_auction_check_NBUdiscountRate = snitch(auction_check_NBUdiscountRate)
@@ -160,10 +152,10 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAuctionFieldsTest))
-    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionFieldsTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderMultipleLotAuctionResourceTest))
     return suite
 
 

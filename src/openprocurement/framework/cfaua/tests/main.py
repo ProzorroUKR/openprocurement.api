@@ -1,5 +1,6 @@
 import unittest
-from openprocurement.framework.cfaua.tests import agreement, contract, document, change
+
+from openprocurement.framework.cfaua.tests import agreement, change, contract, document
 
 
 def suite():

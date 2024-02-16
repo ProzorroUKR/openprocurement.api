@@ -1,5 +1,6 @@
 import os
 from copy import deepcopy
+
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.core.tests.utils import change_auth
@@ -12,7 +13,7 @@ class BasePlanOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BasePlanOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_plan()
 
     def create_plan(self):
@@ -239,14 +240,13 @@ class PlanOwnershipChangeTest(BasePlanOwnershipChangeTest):
 
     def test_validate_status(self):
         self.app.patch_json(
-            "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token),
-            {"data": {"status": "complete"}}
+            "/plans/{}?acc_token={}".format(self.plan_id, self.plan_token), {"data": {"status": "complete"}}
         )
 
         response = self.app.post_json(
             "/plans/{}/ownership".format(self.plan_id),
             {"data": {"id": "test_id", "transfer": "test_transfer"}},
-            status=403
+            status=403,
         )
 
         self.assertEqual(response.status, "403 Forbidden")

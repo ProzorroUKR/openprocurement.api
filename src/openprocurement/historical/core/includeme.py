@@ -1,9 +1,9 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
-from pkg_resources import iter_entry_points
-from openprocurement.historical.core.utils import extract_doc, HasRequestMethod
-from openprocurement.historical.core.constants import PREDICATE_NAME
 
+from pkg_resources import iter_entry_points
+
+from openprocurement.historical.core.constants import PREDICATE_NAME
+from openprocurement.historical.core.utils import HasRequestMethod, extract_doc
 
 LOGGER = getLogger("openprocurement.historical.core")
 

@@ -1,22 +1,18 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
 
+from tests.base.constants import DOCS_URL
+from tests.base.data import test_docs_tenderer
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
+
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_framework_electronic_catalogue_data,
-    ban_milestone_data_with_documents,
     BaseFrameworkWebTest,
+    ban_milestone_data_with_documents,
+    test_framework_electronic_catalogue_data,
 )
-
-from tests.base.data import test_docs_tenderer
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
-from tests.base.constants import DOCS_URL
 
 TARGET_DIR = "docs/source/agreements/frameworks/http/"
 
@@ -31,14 +27,14 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(FrameworkAgreementResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
 
     def tearDown(self):
         self.tearDownMock()
-        super(FrameworkAgreementResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs(self):
         self.create_framework()
@@ -56,7 +52,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                     "tenderers": [test_docs_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_1_id = response.json["data"]["id"]
         self.submission_1_token = response.json["access"]["token"]
@@ -71,7 +67,7 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
                     "tenderers": [local_tenderer],
                     "frameworkID": self.framework_id,
                 }
-            }
+            },
         )
         self.submission_2_id = response.json["data"]["id"]
         self.submission_2_token = response.json["access"]["token"]

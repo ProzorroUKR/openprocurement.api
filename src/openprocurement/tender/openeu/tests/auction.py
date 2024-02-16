@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
-    test_tender_below_lots,
-)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
@@ -16,20 +10,23 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (
     get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_lots,
+    test_tender_below_organization,
+)
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
 from openprocurement.tender.openeu.tests.auction_blanks import (
     get_tender_auction,
-    post_tender_auction,
-    post_tender_auction_reversed,
-    post_tender_auction_not_changed,
     get_tender_auction_feature,
+    post_tender_auction,
     post_tender_auction_feature,
+    post_tender_auction_not_changed,
+    post_tender_auction_reversed,
 )
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_openeu_features_data,
     test_tender_openeu_bids,
+    test_tender_openeu_features_data,
 )
 
 
@@ -41,7 +38,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
     initial_lots = test_lots_data = test_tender_below_lots
 
     def setUp(self):
-        super(TenderAuctionResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.time_shift("active.pre-qualification")
         response = self.check_chronograph()
@@ -73,14 +70,11 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_organization)
-    initial_bids = test_bids_data = [
-        test_tender_openeu_bids[0]
-        for i in range(3)
-    ]
+    initial_bids = test_bids_data = [test_tender_openeu_bids[0] for i in range(3)]
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderSameValueAuctionResourceTest, self).setUp()
+        super().setUp()
         auth = self.app.authorization
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -126,9 +120,13 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_openeu_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_openeu_features_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_openeu_features_data["features"]]
-        super(TenderFeaturesAuctionResourceTest, self).setUp()
+        self.initial_bids[0]["parameters"] = [
+            {"code": i["code"], "value": 0.1} for i in test_tender_openeu_features_data["features"]
+        ]
+        self.initial_bids[1]["parameters"] = [
+            {"code": i["code"], "value": 0.15} for i in test_tender_openeu_features_data["features"]
+        ]
+        super().setUp()
 
 
 class TenderFeaturesMultilotAuctionResourceTest(
@@ -142,9 +140,9 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesAuctionResourceTest))
     return suite
 
 

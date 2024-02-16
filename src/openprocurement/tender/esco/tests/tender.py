@@ -1,65 +1,56 @@
-# -*- coding: utf-8 -*-
 import unittest
-from openprocurement.tender.openeu.constants import TENDERING_DAYS
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOWebTest,
-    BaseESCOContentWebTest,
-    test_tender_esco_data,
-    test_tender_esco_lots,
-    test_tender_esco_bids,
-)
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    # TenderProcessTest
-    invalid_tender_conditions,
-    # TenderResourceTest
-    guarantee,
-    tender_milestones_not_required,
-    patch_tender_lots_none,
+from openprocurement.tender.belowthreshold.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
     create_tender_central,
     create_tender_central_invalid,
-    patch_items_related_buyer_id,
     create_tender_config_test,
+    guarantee,
+    invalid_tender_conditions,
+    patch_items_related_buyer_id,
+    patch_tender_lots_none,
+    tender_milestones_not_required,
 )
-
-from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
-from openprocurement.tender.openua.tests.tender_blanks import (
-    tender_with_main_procurement_category,
-    tender_finance_milestones,
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    BaseESCOWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_data,
+    test_tender_esco_lots,
 )
-
-from openprocurement.tender.openeu.tests.tender_blanks import (
-    # TenderProcessTest
-    one_bid_tender,
-    unsuccessful_after_prequalification_tender,
-    one_qualificated_bid_tender,
-    multiple_bidders_tender,
-    lost_contract_for_active_award,
-    # TenderResourceTest
-    invalid_bid_tender_lot,
-)
-
-from openprocurement.tender.esco.tests.tender_blanks import (
-    # TenderESCOTest
-    tender_value,
-    tender_min_value,
-    tender_minimal_step_invalid,
-    tender_yearlyPaymentsPercentageRange,
-    tender_yearlyPaymentsPercentageRange_invalid,
-    tender_fundingKind_default,
-    tender_noticePublicationDate,
-    # TestTenderEU
+from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest; TestTenderEU
+    create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    invalid_bid_tender_features,
     patch_tender,
-    tender_fields,
-    tender_with_nbu_discount_rate,
+    patch_tender_draft,
     tender_features,
     tender_features_invalid,
-    invalid_bid_tender_features,
-    create_tender_generated,
-    patch_tender_draft,
+    tender_fields,
+    tender_fundingKind_default,
+    tender_min_value,
+    tender_minimal_step_invalid,
+    tender_noticePublicationDate,
+    tender_value,
+    tender_with_nbu_discount_rate,
+    tender_yearlyPaymentsPercentageRange,
+    tender_yearlyPaymentsPercentageRange_invalid,
+)
+from openprocurement.tender.openeu.constants import TENDERING_DAYS
+from openprocurement.tender.openeu.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
+    invalid_bid_tender_lot,
+    lost_contract_for_active_award,
+    multiple_bidders_tender,
+    one_bid_tender,
+    one_qualificated_bid_tender,
+    unsuccessful_after_prequalification_tender,
+)
+from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
+from openprocurement.tender.openua.tests.tender_blanks import (
+    tender_finance_milestones,
+    tender_with_main_procurement_category,
 )
 
 
@@ -81,7 +72,8 @@ class TenderESCOTest(BaseESCOWebTest):
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-    """ ESCO tender test """
+    """ESCO tender test"""
+
     docservice = True
     initialize_initial_data = False
     initial_data = test_tender_esco_data
@@ -129,9 +121,9 @@ class TestTenderEUProcess(BaseESCOContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderESCOTest))
-    suite.addTest(unittest.makeSuite(TestTenderEU))
-    suite.addTest(unittest.makeSuite(TestTenderEUProcess))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderESCOTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestTenderEU))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestTenderEUProcess))
     return suite
 
 

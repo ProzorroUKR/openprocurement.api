@@ -1,15 +1,19 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_claim import \
-    CDEUStage2QualificationClaimState
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_complaint import \
-    CDEUStage2QualificationComplaintState
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_claim import (
+    CDEUStage2QualificationClaimState,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_complaint import (
+    CDEUStage2QualificationComplaintState,
+)
+from openprocurement.tender.core.procedure.views.qualification_claim import (
+    QualificationClaimResource,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint import (
     QualificationComplaintGetResource,
     QualificationComplaintWriteResource,
 )
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
-from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
 
 
 @resource(
@@ -48,4 +52,3 @@ class CD2EUTenderQualificationClaimResource(QualificationClaimResource):
 )
 class CD2EUQualificationComplaintWriteResource(QualificationComplaintWriteResource):
     state_class = CDEUStage2QualificationComplaintState
-

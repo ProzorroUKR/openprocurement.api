@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
-from pytz import utc, timezone
+import unittest
+from datetime import datetime
+from unittest.mock import Mock, patch
 
+from pyramid.testing import DummyRequest, testConfig
+from pytz import timezone, utc
+from requests.exceptions import ConnectionError
+
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value
-from openprocurement.api.procedure.utils import parse_date
-from pyramid.testing import DummyRequest, testConfig
-from requests.exceptions import ConnectionError
-from datetime import datetime
-from mock import Mock, patch
-import unittest
 
 
 class GetCurrencyRatesTestCase(unittest.TestCase):
-
     @patch("openprocurement.api.utils.get_now")
     @patch("openprocurement.api.utils.requests")
     def test_get_success(self, requests_mock, get_now_mock):
@@ -40,12 +39,8 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
 
         requests_mock.get.assert_called_once_with(
             'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json',
-            proxies={
-                'http': 'http://hide-my-ip.com',
-                'https': 'http://hide-my-ip.com'
-            }
+            proxies={'http': 'http://hide-my-ip.com', 'https': 'http://hide-my-ip.com'},
         )
-
 
     @patch("openprocurement.api.utils.raise_operation_error")
     @patch("openprocurement.api.utils.get_now")
@@ -53,6 +48,7 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
     def test_fail_connection(self, requests_get_mock, get_now_mock, raise_operation_error_mock):
         class MyExc(Exception):
             pass
+
         raise_operation_error_mock.return_value = MyExc()
         get_now_mock.return_value = datetime(2021, 12, 31)
         request_obj = Mock()
@@ -67,9 +63,7 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
             "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json"
         )
         raise_operation_error_mock.assert_called_once_with(
-            request_obj,
-            "Error while getting data from bank.gov.ua: Windows update",
-            status=409
+            request_obj, "Error while getting data from bank.gov.ua: Windows update", status=409
         )
 
     @patch("openprocurement.api.utils.raise_operation_error")
@@ -92,14 +86,11 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
             "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json"
         )
         raise_operation_error_mock.assert_called_once_with(
-            request_obj,
-            "Failure of decoding data from bank.gov.ua",
-            status=409
+            request_obj, "Failure of decoding data from bank.gov.ua", status=409
         )
 
 
 class GetUAHAmountFromValueTestCase(unittest.TestCase):
-
     def test_uah_amount(self):
         request = Mock()
         value = {"amount": 12.3, "currency": "UAH"}
@@ -109,15 +100,7 @@ class GetUAHAmountFromValueTestCase(unittest.TestCase):
 
     def test_usd_amount(self):
         usd_rate = 8.2
-        request = Mock(
-            currency_rates=[
-                {
-                    "cc": "USD",
-                    "rate": usd_rate
-                }
-            ],
-            logging_context={}
-        )
+        request = Mock(currency_rates=[{"cc": "USD", "rate": usd_rate}], logging_context={})
         value = {"amount": 12.3, "currency": "USD"}
         result = get_uah_amount_from_value(request, value, {})
 
@@ -130,24 +113,14 @@ class GetUAHAmountFromValueTestCase(unittest.TestCase):
 
         raise_operation_error_mock.return_value = MyExc()
 
-        request = Mock(
-            currency_rates=[
-                {
-                    "cc": "USD",
-                    "rate": 8.2
-                }
-            ],
-            logging_context={}
-        )
+        request = Mock(currency_rates=[{"cc": "USD", "rate": 8.2}], logging_context={})
         value = {"amount": 300, "currency": "рупии"}
 
         with self.assertRaises(MyExc):
             get_uah_amount_from_value(request, value, {})
 
         raise_operation_error_mock.assert_called_once_with(
-            request,
-            "Couldn't find currency {} on bank.gov.ua".format(value["currency"]),
-            status=422
+            request, "Couldn't find currency {} on bank.gov.ua".format(value["currency"]), status=422
         )
 
 

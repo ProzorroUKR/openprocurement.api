@@ -125,13 +125,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a97c959b2210442d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240
 
 {
   "data": {
     "status": "draft",
     "procuringEntity": {
-      "id": "f2aa390c3e55435d92d2b920e099369c",
+      "id": "473320227d9d4e959c81266ac1862f55",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -170,7 +170,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a9
       },
       "breakdown": [
         {
-          "id": "80507afa635e4ea2930d44704b356f0f",
+          "id": "9b211ce8a6a646ffb43f49e0bbf010a0",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -194,7 +194,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a9
     ],
     "items": [
       {
-        "id": "874f881ccc8e4d46a61ead266914edcb",
+        "id": "80a3a54e309a4c8a8085f740da8652bc",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -227,7 +227,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a9
     ],
     "buyers": [
       {
-        "id": "81eeca4ba8e144568fe9db5031d386de",
+        "id": "e9b0fc29f3f04736be502e2a9ac44775",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -253,11 +253,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a9
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
-    "id": "395b7a73bc484239a97c959b2210442d"
+    "id": "1be4169566db4d9d931b6056c5814240"
   },
   "access": {
-    "token": "ef8025edf3df47a9a4a0f4599f00d7a4",
-    "transfer": "ec2255c4456e4be6b66841e4e1c0861a"
+    "token": "f15e08182e584559a27c58ce66508445",
+    "transfer": "652c8de65196408993c947796f63fc31"
   }
 }
 

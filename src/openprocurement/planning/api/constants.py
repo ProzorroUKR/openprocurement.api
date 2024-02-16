@@ -1,11 +1,14 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import CD_UA_TYPE, CD_EU_TYPE
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.limited.constants import (
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+    REPORTING,
+)
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
@@ -27,9 +30,7 @@ PROCEDURES = {
         ESCO,
         CFA_UA,
     ),
-    "selective": (
-        PQ,
-    ),
+    "selective": (PQ,),
     "limited": (
         REPORTING,
         NEGOTIATION,
@@ -37,9 +38,7 @@ PROCEDURES = {
     ),
 }
 
-MULTI_YEAR_BUDGET_PROCEDURES = (
-    CFA_UA,
-)
+MULTI_YEAR_BUDGET_PROCEDURES = (CFA_UA,)
 MULTI_YEAR_BUDGET_MAX_YEARS = 4
 
 BREAKDOWN_OTHER = "other"
@@ -49,5 +48,7 @@ CENTRAL_PROCUREMENT_APPROVE_TIME = timedelta(days=20)
 PROCURING_ENTITY_STANDSTILL = timedelta(days=2)
 
 MILESTONE_APPROVAL_TITLE = "Підготовка до проведення процедури"
-MILESTONE_APPROVAL_DESCRIPTION = "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "\
-                                 "товарів, послуг (крім поточного ремонту) в інтересах замовників"
+MILESTONE_APPROVAL_DESCRIPTION = (
+    "Узагальнення та аналіз отриманної інформації щодо проведення закупівель "
+    "товарів, послуг (крім поточного ремонту) в інтересах замовників"
+)

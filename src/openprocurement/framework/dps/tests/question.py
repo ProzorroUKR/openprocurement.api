@@ -2,16 +2,16 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
     FrameworkContentWebTest,
+    test_framework_dps_data,
 )
 from openprocurement.framework.dps.tests.question_blanks import (
-    create_question_invalid,
-    create_question_check_framework_status,
     create_question_check_enquiry_period,
-    patch_framework_question,
+    create_question_check_framework_status,
+    create_question_invalid,
     get_framework_question,
     get_framework_questions,
+    patch_framework_question,
 )
 
 
@@ -29,7 +29,7 @@ class QuestionResourceTest(FrameworkContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(QuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(QuestionResourceTest))
     return suite
 
 

@@ -1,17 +1,16 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
-
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks import (
-    put_tender_document,
     patch_tender_document,
+    put_tender_document,
 )
 
 
@@ -32,8 +31,8 @@ class DialogUADocumentWithDSResourceTest(BaseCompetitiveDialogUAContentWebTest, 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(DialogEUDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(DialogUADocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogEUDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogUADocumentWithDSResourceTest))
     return suite
 
 

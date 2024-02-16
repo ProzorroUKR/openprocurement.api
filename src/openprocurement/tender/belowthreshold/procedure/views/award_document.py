@@ -1,18 +1,28 @@
-from openprocurement.tender.core.procedure.views.award_document import BaseAwardDocumentResource
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.core.procedure.validation import (
-    validate_award_document_tender_not_in_allowed_status_base,
-    validate_award_document_lot_not_in_allowed_status,
-    validate_award_document_author,
-)
+from cornice.resource import resource
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_bots,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
 )
-from cornice.resource import resource
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_award_document_author,
+    validate_award_document_lot_not_in_allowed_status,
+    validate_award_document_tender_not_in_allowed_status_base,
+)
+from openprocurement.tender.core.procedure.views.award_document import (
+    BaseAwardDocumentResource,
+)
 
 
 @resource(
@@ -23,7 +33,6 @@ from cornice.resource import resource
     description="Tender award documents",
 )
 class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
-
     @json_view(
         validators=(
             unless_bots(validate_item_owner("tender")),
@@ -34,7 +43,7 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="upload_award_documents",
     )
     def collection_post(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).collection_post()
+        return super().collection_post()
 
     @json_view(
         validators=(
@@ -43,7 +52,6 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -51,7 +59,7 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="upload_award_documents",
     )
     def put(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).put()
+        return super().put()
 
     @json_view(
         content_type="application/json",
@@ -66,4 +74,4 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="edit_award_documents",
     )
     def patch(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).patch()
+        return super().patch()

@@ -1,7 +1,11 @@
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
-from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
 from decimal import Decimal
+
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
 
 
 def decimal_serializer(_, value):
@@ -51,7 +55,6 @@ class AuctionBidSerializer(BaseSerializer):
 
 
 class AuctionSerializer(BaseSerializer):
-
     serializers = {
         "bids": ListSerializer(AuctionBidSerializer),
         "features": ListSerializer(FeatureSerializer),
@@ -77,11 +80,14 @@ class AuctionSerializer(BaseSerializer):
             # "value",
             # "submissionMethodDetails",
             # "submissionMethodDetails",
-            "id", "status",
+            "id",
+            "status",
             # "status" actually expected to be returned from auction post in the tests
             # the reason that test had worked is tender.status role had been used, not "auction_view". It was quite a bug
-            "title", "title_en",
-            "description", "description_en",
+            "title",
+            "title_en",
+            "description",
+            "description_en",
             "procurementMethodType",
             # "procuringEntity",
         }

@@ -1,24 +1,17 @@
-from typing import TYPE_CHECKING
-
-from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.utils import raise_operation_error, get_first_revision_date
-from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from datetime import timedelta
 
+from openprocurement.api.constants import RELEASE_2020_04_19
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.utils import calculate_complaint_business_date
 
-if TYPE_CHECKING:
-    baseclass = TenderState
-else:
-    baseclass = object
 
-
-class CancellationStateMixing(baseclass):
+class CancellationStateMixing:
     # additionally to terminated
     cancellation_forbidden_statuses = {"active.auction", "active.qualification.stand-still", "draft"}
 
@@ -63,10 +56,7 @@ class CancellationStateMixing(baseclass):
     @staticmethod
     def validate_cancellation_status_draft_pending(request, tender, cancellation):
         if cancellation['status'] not in ("draft", "pending"):
-            raise_operation_error(
-                request,
-                f"Can't update cancellation in current ({cancellation['status']}) status"
-            )
+            raise_operation_error(request, f"Can't update cancellation in current ({cancellation['status']}) status")
 
     def validate_possible_reason_types(self, request, tender, cancellation):
         reason_type = cancellation.get("reasonType")
@@ -90,20 +80,18 @@ class CancellationStateMixing(baseclass):
             raise raise_operation_error(request, [f"Value must be one of {choices}"], status=422, name="reasonType")
 
     def validate_cancellation_possible_statuses(self, request, tender, cancellation):
-        choices = (
-            self._after_release_statuses
-            if tender_created_after_2020_rules()
-            else self._before_release_statuses
-        )
+        choices = self._after_release_statuses if tender_created_after_2020_rules() else self._before_release_statuses
         status = cancellation.get("status")
         if status and status not in choices:
             raise raise_operation_error(request, [f"Value must be one of {choices}"], status=422, name="status")
 
     @staticmethod
     def validate_cancellation_of_active_lot(request, tender, cancellation):
-        if any(lot.get("status") != "active"
-               for lot in tender.get("lots", "")
-               if lot["id"] == cancellation.get("relatedLot")):
+        if any(
+            lot.get("status") != "active"
+            for lot in tender.get("lots", "")
+            if lot["id"] == cancellation.get("relatedLot")
+        ):
             raise_operation_error(request, "Can perform cancellation only in active lot status")
 
     @staticmethod
@@ -113,17 +101,10 @@ class CancellationStateMixing(baseclass):
         # 1 for same lot
         # 2 for tender if there is a lot cancellation
         # 3 for lot if there is a tender cancellation
-        if (
-            cancellation.get("status") != "pending"
-            and any(
-                c["status"] == "pending"
-                and (
-                    c.get("relatedLot") == related_lot
-                    or c.get("relatedLot") is None
-                    or related_lot is None
-                )
-                for c in tender.get("cancellations", "")
-            )
+        if cancellation.get("status") != "pending" and any(
+            c["status"] == "pending"
+            and (c.get("relatedLot") == related_lot or c.get("relatedLot") is None or related_lot is None)
+            for c in tender.get("cancellations", "")
         ):
             raise_operation_error(request, "Forbidden because of a pending cancellation")
 
@@ -140,7 +121,7 @@ class CancellationStateMixing(baseclass):
                 complaint_period = award.get("complaintPeriod", {})
                 complaint_end = complaint_period.get("endDate")
                 if complaint_end and complaint_period.get("startDate") < get_now().isoformat() < complaint_end:
-                        raise_operation_error(request, msg)
+                    raise_operation_error(request, msg)
 
     @staticmethod
     def validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation):
@@ -159,15 +140,11 @@ class CancellationStateMixing(baseclass):
              - canceling lot if there is a non-lot complaint (not complaint_lot)
             AND complaint.status is in ("pending", "accepted", "satisfied")
             """
-            if (
-                cancellation_lot == complaint_lot  # same lot or both None
-                or None in (cancellation_lot, complaint_lot)
-            ):
+            if cancellation_lot == complaint_lot or None in (cancellation_lot, complaint_lot):  # same lot or both None
                 status = complaint.get("status")
                 if status in ("pending", "accepted", "satisfied"):
                     raise_operation_error(
-                        request,
-                        f"Can't perform operation for there is {item_name} complaint in {status} status"
+                        request, f"Can't perform operation for there is {item_name} complaint in {status} status"
                     )
 
         for c in tender.get("complaints", ""):
@@ -180,6 +157,7 @@ class CancellationStateMixing(baseclass):
         for award in tender.get("awards", ""):
             for c in award.get("complaints", ""):
                 validate_complaint(c, award.get("lotID"), "an award")
+
     # END Validations
 
     def cancellation_on_post(self, data):
@@ -207,7 +185,7 @@ class CancellationStateMixing(baseclass):
                 now = get_now()
                 cancellation["complaintPeriod"] = {
                     "startDate": now.isoformat(),
-                    "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat()
+                    "endDate": calculate_complaint_business_date(now, timedelta(days=10), tender).isoformat(),
                 }
             else:
                 self.set_object_status(cancellation, "active")
@@ -222,13 +200,7 @@ class CancellationStateMixing(baseclass):
                 or self.use_deprecated_activation(cancellation, tender)
             )
         ):
-            if (
-                tender_created_after_2020_rules()
-                and (
-                    not cancellation["reason"]
-                    or not cancellation.get("documents")
-                )
-            ):
+            if tender_created_after_2020_rules() and (not cancellation["reason"] or not cancellation.get("documents")):
                 raise_operation_error(
                     request,
                     "Fields reason, cancellationOf and documents must be filled "
@@ -239,11 +211,9 @@ class CancellationStateMixing(baseclass):
         elif before == "draft" and after == "unsuccessful":
             pass
         elif (
-            before == "pending" and after == "unsuccessful"
-            and any(
-                i["status"] == "satisfied"
-                for i in cancellation.get("complaints", "")
-            )
+            before == "pending"
+            and after == "unsuccessful"
+            and any(i["status"] == "satisfied" for i in cancellation.get("complaints", ""))
         ):
             pass
         elif after == "active" and not tender_created_after_2020_rules():

@@ -1,7 +1,7 @@
 from openprocurement.api.context import get_request
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import get_tender_by_id, request_init_tender
-from openprocurement.api.procedure.context import get_tender
 
 
 def restricted_serializer(obj, value):
@@ -31,6 +31,7 @@ def restricted_serializer(obj, value):
         return tender["config"]["restricted"]
 
     return value
+
 
 class ContractConfigSerializer(BaseConfigSerializer):
     serializers = {

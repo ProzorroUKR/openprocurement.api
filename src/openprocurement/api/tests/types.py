@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-import os
-import sys
 import unittest
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
+
 from isodate import duration_isoformat
 from isodate.duration import Duration
 from pytz import timezone
@@ -11,9 +9,9 @@ from schematics.types import BooleanType, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDurationType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, IsoDurationType
+from openprocurement.api.tests.base import BaseWebTest
 
 
 class TestModel(Model):
@@ -105,10 +103,7 @@ class TestIsoDateTimeType(unittest.TestCase):
         dt_str = "test"
         with self.assertRaises(ConversionError) as e:
             IsoDateTimeType().to_native(dt_str)
-            self.assertEqual(
-                e.exception.message,
-                IsoDateTimeType.MESSAGES["parse"].format(dt_str)
-            )
+            self.assertEqual(e.exception.message, IsoDateTimeType.MESSAGES["parse"].format(dt_str))
 
     def test_to_native_datetime(self):
         dt = TZ.localize(datetime(2020, 1, 1, 12, 0, 0))
@@ -127,11 +122,10 @@ class TestIsoDateTimeType(unittest.TestCase):
         self.assertEqual(dt_str_result, dt_str_expected)
 
 
-
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(IsoDurationTypeTest))
-    suite.addTest(unittest.makeSuite(TestIsoDateTimeType))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(IsoDurationTypeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIsoDateTimeType))
     return suite
 
 

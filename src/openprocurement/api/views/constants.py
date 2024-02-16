@@ -1,7 +1,9 @@
+import datetime
+
 from cornice.service import Service
 from pyramid.response import Response
+
 from openprocurement.api import constants
-import datetime
 
 constants_service = Service(name="constants", path="/constants", renderer="json")
 
@@ -46,6 +48,7 @@ blacklist = (
     "VERSION",
     "WORKING_DAYS",
 )
+
 
 @constants_service.get()
 def get_constants(request):

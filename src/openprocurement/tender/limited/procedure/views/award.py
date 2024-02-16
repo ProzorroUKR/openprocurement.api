@@ -1,32 +1,37 @@
+from cornice.resource import resource
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_item_owner,
-    unless_admins,
-)
+from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.limited.procedure.models.award import (
-    PostReportingAward, PatchReportingAward, ReportingAward,
-    PostNegotiationAward, PatchNegotiationAward, NegotiationAward,
+    NegotiationAward,
+    PatchNegotiationAward,
+    PatchReportingAward,
+    PostNegotiationAward,
+    PostReportingAward,
+    ReportingAward,
+)
+from openprocurement.tender.limited.procedure.state.award import (
+    NegotiationAwardState,
+    NegotiationQuickAwardState,
+    ReportingAwardState,
 )
 from openprocurement.tender.limited.procedure.validation import (
     validate_award_operation_not_in_active_status,
-    validate_create_new_award,
-    validate_lot_cancellation,
-    validate_create_new_award_with_lots,
     validate_award_same_lot_id,
+    validate_create_new_award,
+    validate_create_new_award_with_lots,
+    validate_lot_cancellation,
 )
-from openprocurement.tender.limited.procedure.state.award import (
-    ReportingAwardState,
-    NegotiationAwardState,
-    NegotiationQuickAwardState,
-)
-from pyramid.security import Allow, Everyone
-from cornice.resource import resource
 
 
 @resource(
@@ -46,12 +51,10 @@ class ReportingAwardResource(TenderAwardResource):
             (Allow, "g:brokers", "edit_award"),
             (Allow, "g:brokers", "upload_award_documents"),
             (Allow, "g:brokers", "edit_award_documents"),
-
             (Allow, "g:admins", "create_award"),
             (Allow, "g:admins", "edit_award"),
             (Allow, "g:admins", "upload_award_documents"),
             (Allow, "g:admins", "edit_award_documents"),
-
             (Allow, "g:bots", "upload_award_documents"),
         ]
         return acl
@@ -60,9 +63,7 @@ class ReportingAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="create_award",
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PostReportingAward),
             validate_award_operation_not_in_active_status,
             validate_create_new_award,
@@ -75,9 +76,7 @@ class ReportingAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchReportingAward),
             validate_patch_data(ReportingAward, item_name="award"),
             validate_award_operation_not_in_active_status,
@@ -104,12 +103,10 @@ class NegotiationAwardResource(TenderAwardResource):
             (Allow, "g:brokers", "edit_award"),
             (Allow, "g:brokers", "upload_award_documents"),
             (Allow, "g:brokers", "edit_award_documents"),
-
             (Allow, "g:admins", "create_award"),
             (Allow, "g:admins", "edit_award"),
             (Allow, "g:admins", "upload_award_documents"),
             (Allow, "g:admins", "edit_award_documents"),
-
             (Allow, "g:bots", "upload_award_documents"),
         ]
         return acl
@@ -118,9 +115,7 @@ class NegotiationAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="create_award",
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PostNegotiationAward),
             validate_award_operation_not_in_active_status,
             validate_award_with_lot_cancellation_in_pending,
@@ -135,9 +130,7 @@ class NegotiationAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="edit_award",
         validators=(
-            unless_admins(
-                validate_item_owner("tender")
-            ),
+            unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchNegotiationAward),
             validate_patch_data(NegotiationAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,

@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.contracting.core.procedure.views.change import ContractsChangesResource
+from openprocurement.contracting.core.procedure.views.change import (
+    ContractsChangesResource,
+)
 
 
 @resource(
@@ -11,5 +13,4 @@ from openprocurement.contracting.core.procedure.views.change import ContractsCha
     description="Contracts Changes",
 )
 class GeneralContractsChangesResource(ContractsChangesResource):
-    """ Contract changes resource """
-    pass
+    """Contract changes resource"""

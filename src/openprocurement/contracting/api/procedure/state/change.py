@@ -1,10 +1,9 @@
-from openprocurement.api.utils import raise_operation_error, get_now
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.contracting.api.procedure.state.contract import ContractState
 
 
 class ChangeState(ContractState):
-
     def change_on_post(self, data):
         self.change_always(data)
 

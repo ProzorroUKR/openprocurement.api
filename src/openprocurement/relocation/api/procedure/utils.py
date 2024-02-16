@@ -3,7 +3,7 @@ from logging import getLogger
 from uuid import uuid4
 
 from openprocurement.api.context import get_now
-from openprocurement.api.utils import handle_store_exceptions, context_unpack
+from openprocurement.api.utils import context_unpack, handle_store_exceptions
 
 LOGGER = getLogger("openprocurement.relocation.api")
 

@@ -1,30 +1,39 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import json_view, update_logging_context, LOGGER
-from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin, TenderClaimState
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.models.claim import (
-    PostClaim,
-    ClaimOwnerPatchClaim,
-    TenderOwnerPatchClaim,
-    Claim,
-)
-from openprocurement.tender.core.procedure.serializers.complaint import TenderComplaintSerializer, ComplaintSerializer
-from openprocurement.tender.core.procedure.utils import set_ownership
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
 )
+from openprocurement.api.utils import (
+    LOGGER,
+    context_unpack,
+    json_view,
+    update_logging_context,
+)
+from openprocurement.tender.core.procedure.models.claim import (
+    Claim,
+    ClaimOwnerPatchClaim,
+    PostClaim,
+    TenderOwnerPatchClaim,
+)
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    ComplaintSerializer,
+    TenderComplaintSerializer,
+)
+from openprocurement.tender.core.procedure.state.claim import (
+    ClaimStateMixin,
+    TenderClaimState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 from openprocurement.tender.core.procedure.validation import (
     validate_any,
     validate_input_data_from_resolved_model,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner, unless_admins,
-)
-from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
@@ -44,7 +53,7 @@ def calculate_total_complaints(tender):
 
 
 class BaseClaimResource(TenderBaseResource):
-    item_name = "tender"   # tender or award
+    item_name = "tender"  # tender or award
     serializer_class = ComplaintSerializer
 
     def __acl__(self):
@@ -85,8 +94,9 @@ class BaseClaimResource(TenderBaseResource):
         if save_tender(self.request):
             LOGGER.info(
                 f"Created {self.context} claim {claim['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.context}_claim_create"},
-                                     {"claim_id": claim["id"]}),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": f"{self.context}_claim_create"}, {"claim_id": claim["id"]}
+                ),
             )
             self.request.response.status = 201
             route_params = dict(

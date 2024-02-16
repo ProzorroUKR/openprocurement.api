@@ -1,6 +1,6 @@
-# -*- coding: utf8 -*-
+from datetime import datetime, timedelta
+
 from openprocurement.api.constants import TZ
-from datetime import timedelta, datetime
 
 TENDERING_DAYS = 7
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)

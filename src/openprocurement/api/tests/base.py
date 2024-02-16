@@ -1,14 +1,14 @@
-from contextlib import contextmanager
-
-from paste.deploy.loadwsgi import loadapp
-from types import FunctionType
-from openprocurement.api.constants import VERSION, TWO_PHASE_COMMIT_FROM
-from openprocurement.api.utils import get_now
-import webtest
-import unittest
-import pytest
 import os
+import unittest
+from contextlib import contextmanager
+from types import FunctionType
 
+import pytest
+import webtest
+from paste.deploy.loadwsgi import loadapp
+
+from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM, VERSION
+from openprocurement.api.utils import get_now
 
 wsgiapp = None
 
@@ -23,13 +23,13 @@ def loadwsgiapp(uri, **kwargs):
 
 def snitch(func):
     """
-        This method is used to add test function to TestCase classes.
-        snitch method gets test function and returns a copy of this function
-        with 'test_' prefix at the beginning (to identify this function as
-        an executable test).
-        It provides a way to implement a storage (python module that
-        contains non-executable test functions) for tests and to include
-        different set of functions into different test cases.
+    This method is used to add test function to TestCase classes.
+    snitch method gets test function and returns a copy of this function
+    with 'test_' prefix at the beginning (to identify this function as
+    an executable test).
+    It provides a way to implement a storage (python module that
+    contains non-executable test functions) for tests and to include
+    different set of functions into different test cases.
     """
     return FunctionType(func.__code__, func.__globals__, "test_" + func.__name__, closure=func.__closure__)
 
@@ -37,7 +37,7 @@ def snitch(func):
 class PrefixedTestRequest(webtest.app.TestRequest):
     @classmethod
     def blank(cls, path, *args, **kwargs):
-        path = "/api/%s%s" % (VERSION, path)
+        path = "/api/{}{}".format(VERSION, path)
         return webtest.app.TestRequest.blank(path, *args, **kwargs)
 
 
@@ -46,6 +46,7 @@ class BaseTestApp(webtest.TestApp):
 
     def set_initial_status(self, tender, status=None):
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
+
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
         response = self.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
@@ -63,6 +64,7 @@ class BaseWebTest(unittest.TestCase):
     Base Web Test to test openprocurement.api.
     It setups the database before each test and delete it after.
     """
+
     maxDiff = None
     AppClass = BaseTestApp
 

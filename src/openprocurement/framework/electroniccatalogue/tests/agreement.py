@@ -2,34 +2,34 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.agreement_blanks import (
-    create_agreement,
+    agreement_chronograph_milestones,
     change_agreement,
+    create_agreement,
+    create_agreement_config_test,
+    create_milestone_document_forbidden,
+    create_milestone_document_json_bulk,
+    create_milestone_documents,
+    get_document_by_id,
+    get_documents_list,
+    patch_activation_milestone,
+    patch_agreement_terminated_status,
+    patch_ban_milestone,
+    patch_contract_active_status,
     patch_contract_suppliers,
+    patch_several_contracts_active_status,
     post_ban_milestone,
     post_ban_milestone_with_documents,
     post_milestone_invalid,
-    get_documents_list,
-    get_document_by_id,
-    create_milestone_document_forbidden,
-    create_milestone_documents,
-    create_milestone_document_json_bulk,
-    put_milestone_document,
-    patch_agreement_terminated_status,
-    patch_contract_active_status,
-    patch_several_contracts_active_status,
-    patch_activation_milestone,
-    patch_ban_milestone,
-    search_by_classification,
-    agreement_chronograph_milestones,
     post_submission_with_active_contract,
-    create_agreement_config_test,
+    put_milestone_document,
+    search_by_classification,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    test_framework_electronic_catalogue_data,
-    test_submission_data,
     AgreementContentWebTest,
     MilestoneContentWebTest,
     ban_milestone_data_with_documents,
+    test_framework_electronic_catalogue_data,
+    test_submission_data,
 )
 from openprocurement.framework.electroniccatalogue.tests.qualification import (
     QualificationContentWebTest as BaseQualificationContentWebTest,
@@ -41,12 +41,14 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
         super().setUp()
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {"data": {
-                "title": "name name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
 

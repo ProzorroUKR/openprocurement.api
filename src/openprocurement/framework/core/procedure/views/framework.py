@@ -1,20 +1,29 @@
 from logging import getLogger
+
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.utils import (
-    json_view,
     context_unpack,
+    json_view,
+    request_fetch_agreement,
+    request_init_framework,
     update_logging_context,
-    request_init_framework, request_fetch_agreement,
 )
 from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.api.procedure.context import get_framework
-from openprocurement.framework.core.procedure.serializers.framework import FrameworkSerializer
-from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.serializers.framework import (
+    FrameworkSerializer,
+)
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.framework.core.procedure.views.qualification import QualificationsListResource
-from openprocurement.framework.core.procedure.views.submission import SubmissionsListResource
+from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
+from openprocurement.framework.core.procedure.views.qualification import (
+    QualificationsListResource,
+)
+from openprocurement.framework.core.procedure.views.submission import (
+    SubmissionsListResource,
+)
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 LOGGER = getLogger(__name__)
@@ -107,7 +116,7 @@ class FrameworksResource(FrameworkBaseResource):
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     "Updated framework by chronograph",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_chronograph_patch"}),
                 )
         elif updated:
             framework = self.request.validated["framework"] = updated
@@ -115,7 +124,7 @@ class FrameworksResource(FrameworkBaseResource):
             if save_object(self.request, "framework"):
                 self.LOGGER.info(
                     f"Updated framework {framework['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "framework_patch"}),
                 )
             self.state.after_patch(updated)
         return {

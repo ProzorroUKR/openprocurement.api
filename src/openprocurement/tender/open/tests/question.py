@@ -1,27 +1,25 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
     test_tender_below_author,
+    test_tender_below_lots,
 )
-
-from openprocurement.tender.belowthreshold.tests.question import TenderQuestionResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.question import (
+    TenderQuestionResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     create_tender_question,
-    patch_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
     lot_patch_tender_question_lots_none,
+    patch_tender_question,
 )
-
 from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest
 from openprocurement.tender.open.tests.question_blanks import (
-    tender_has_unanswered_questions,
-    lot_has_unanswered_questions,
     item_has_unanswered_questions,
+    lot_has_unanswered_questions,
+    tender_has_unanswered_questions,
 )
 
 
@@ -60,8 +58,8 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotQuestionResourceTest))
     return suite
 
 

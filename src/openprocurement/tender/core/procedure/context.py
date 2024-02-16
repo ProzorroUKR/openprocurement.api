@@ -1,4 +1,5 @@
 from typing import Union
+
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_object
 
@@ -35,6 +36,9 @@ def get_bids_before_auction_results_context():
     """
     if "bids_before_auction" not in get_request().validated:
         tender = get_request().validated["tender"]
-        from openprocurement.tender.core.procedure.utils import get_bids_before_auction_results
+        from openprocurement.tender.core.procedure.utils import (
+            get_bids_before_auction_results,
+        )
+
         get_request().validated["bids_before_auction"] = get_bids_before_auction_results(tender)
     return get_request().validated["bids_before_auction"]

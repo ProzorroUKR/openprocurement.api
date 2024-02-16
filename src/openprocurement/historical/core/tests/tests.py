@@ -1,22 +1,31 @@
-# -*- coding: utf-8 -*-
-import unittest
 import os
+import unittest
 from copy import deepcopy
 from uuid import uuid4
-from pyramid.testing import DummyRequest
-from pyramid import testing
-from openprocurement.api.auth import AuthenticationPolicy, check_accreditations, authenticated_role
-from pyramid.authorization import ACLAuthorizationPolicy
-from pyramid.events import NewRequest, ContextFound
+
 from jsonpointer import resolve_pointer
+from pyramid import testing
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.events import ContextFound, NewRequest
+from pyramid.testing import DummyRequest
 from webtest import TestApp
-from openprocurement.historical.core.constants import VERSION, HASH, PREVIOUS_HASH
-from openprocurement.historical.core.utils import Root, add_responce_headers, parse_hash, extract_doc, HasRequestMethod
 
 import openprocurement.api.tests
+from openprocurement.api.auth import (
+    AuthenticationPolicy,
+    authenticated_role,
+    check_accreditations,
+)
 from openprocurement.api.subscribers import add_logging_context, set_logging_context
-from openprocurement.historical.core.tests.utils import mock_doc, Db
-
+from openprocurement.historical.core.constants import HASH, PREVIOUS_HASH, VERSION
+from openprocurement.historical.core.tests.utils import Db, mock_doc
+from openprocurement.historical.core.utils import (
+    HasRequestMethod,
+    Root,
+    add_responce_headers,
+    extract_doc,
+    parse_hash,
+)
 
 mongodb = Db()
 
@@ -124,9 +133,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
         resp = self.app.get("/mock/{}/historical".format("invalid"), status=404)
         self.assertEqual(resp.status, "404 Not Found")
         self.assertEqual(resp.json["status"], "error")
-        self.assertEqual(
-            resp.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}]
-        )
+        self.assertEqual(resp.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}])
 
     def test_base_view_called(self):
         resp = self.app.get("/mock/{}/historical".format(mock_doc.id))
@@ -154,7 +161,6 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.assertEqual(resp.status, "200 OK")
 
     def test_get_header_invalid(self):
-
         for header in ["0", "-1", "asdsf", "10000000"]:
             resp = self.app.get("/mock/{}/historical".format(mock_doc.id), headers={"X-Revision-N": header}, status=404)
             self.assertEqual(resp.status, "404 Not Found")
@@ -168,9 +174,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
 
         response = self.app.get("/mock/{}/historical".format(mock_doc.id), status=404)
         self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}]
-        )
+        self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "mock_id"}])
 
     def test_responce_header_present(self):
         resp = self.app.get("/mock/{}/historical".format(mock_doc.id))
@@ -210,9 +214,7 @@ class HistoricalResourceTestCase(unittest.TestCase):
             status=404,
         )
         self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}]
-        )
+        self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}])
 
     def test_get_version_by_date(self):
         # The date is longer than the date of modification
@@ -310,8 +312,8 @@ class HistoricalResourceTestCase(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(HistoricalUtilsTestCase))
-    suite.addTest(unittest.makeSuite(HistoricalResourceTestCase))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(HistoricalUtilsTestCase))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(HistoricalResourceTestCase))
     return suite
 
 

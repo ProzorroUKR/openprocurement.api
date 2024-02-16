@@ -1,6 +1,6 @@
-from openprocurement.api.constants import ORA_CODES
-from schematics.types import StringType, BaseType
+from schematics.types import BaseType, StringType
 
+from openprocurement.api.constants import ORA_CODES
 from openprocurement.api.procedure.models.identifier import Identifier
 
 

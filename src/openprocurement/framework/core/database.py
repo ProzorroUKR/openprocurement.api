@@ -1,5 +1,6 @@
-from openprocurement.api.database import BaseCollection
 from pymongo import ASCENDING, IndexModel
+
+from openprocurement.api.database import BaseCollection
 
 
 class FrameworkCollection(BaseCollection):
@@ -18,8 +19,7 @@ class SubmissionCollection(BaseCollection):
     def get_indexes(self):
         indexes = super().get_indexes()
         for_framework_by_public_modified = IndexModel(
-            [("frameworkID", ASCENDING),
-             ("public_modified", ASCENDING)],
+            [("frameworkID", ASCENDING), ("public_modified", ASCENDING)],
             name="for_framework_by_public_modified",
             partialFilterExpression={
                 "is_public": True,
@@ -64,8 +64,7 @@ class AgreementCollection(BaseCollection):
     def get_indexes(self):
         indexes = super().get_indexes()
         for_framework_by_public_modified = IndexModel(
-            [("frameworkID", ASCENDING),
-             ("public_modified", ASCENDING)],
+            [("frameworkID", ASCENDING), ("public_modified", ASCENDING)],
             name="for_framework_by_public_modified",
             partialFilterExpression={
                 "is_public": True,
@@ -85,14 +84,16 @@ class AgreementCollection(BaseCollection):
         return indexes
 
     def list_by_classification_id(self, classification_id):
-        result = list(self.collection.find(
-            filter={
-                "classification.id": {"$regex": f"^{classification_id}"},
-                "is_public": True,
-                "status": "active",
-            },
-            projection=["classification", "additionalClassifications", "status", "id", "contracts", "dateModified"],
-        ))
+        result = list(
+            self.collection.find(
+                filter={
+                    "classification.id": {"$regex": f"^{classification_id}"},
+                    "is_public": True,
+                    "status": "active",
+                },
+                projection=["classification", "additionalClassifications", "status", "id", "contracts", "dateModified"],
+            )
+        )
         # print(
         #     self.collection.find(
         #         filter={
@@ -105,19 +106,23 @@ class AgreementCollection(BaseCollection):
         return result
 
     def has_active_suspended_contracts(self, framework_id, identifier_id):
-        result = list(self.collection.find(
-            filter={
-                "contracts": {"$elemMatch": {
-                    "status": {"$in": ["active", "suspended"]},
-                    "suppliers.identifier.id": identifier_id,
-                }},
-                # there is an index for these two below
-                "frameworkID": framework_id,
-                "is_public": True,
-            },
-            projection=["_id"],
-            limit=1,
-        ))
+        result = list(
+            self.collection.find(
+                filter={
+                    "contracts": {
+                        "$elemMatch": {
+                            "status": {"$in": ["active", "suspended"]},
+                            "suppliers.identifier.id": identifier_id,
+                        }
+                    },
+                    # there is an index for these two below
+                    "frameworkID": framework_id,
+                    "is_public": True,
+                },
+                projection=["_id"],
+                limit=1,
+            )
+        )
         return bool(result)
 
 
@@ -126,4 +131,3 @@ class QualificationCollection(BaseCollection):
 
     def save(self, data, insert=False, modified=True):
         self.store.save_data(self.collection, data, insert=insert, modified=modified)
-

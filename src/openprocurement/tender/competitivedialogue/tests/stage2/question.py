@@ -1,39 +1,36 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.question_blanks import (
     create_tender_question_invalid,
-    patch_tender_question,
     lot_create_tender_question,
     lot_patch_tender_question,
+    patch_tender_question,
 )
-
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cd_lots,
-    test_tender_cd_author,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cd_author,
+    test_tender_cd_lots,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
     get_tender_question_eu as get_tender_question,
+)
+from openprocurement.tender.competitivedialogue.tests.stage1.question_blanks import (
     get_tender_questions_eu as get_tender_questions,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.question_blanks import (
     create_question_bad_author,
-    create_tender_question_with_question,
     create_tender_question,
-    lot_create_tender_question_without_perm,
-    lot_create_tender_question_on_item,
     create_tender_question_on_item,
+    create_tender_question_with_question,
+    lot_create_tender_question_on_item,
+    lot_create_tender_question_without_perm,
 )
-
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 
 
 class TenderStage2QuestionResourceTestMixin:
-
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
     author_data = test_tender_cd_author  # TODO: change attribute identifier
@@ -64,7 +61,6 @@ class TenderStage2UAQuestionResourceTest(
 
 
 class TenderStage2LotQuestionResourceTestMixin:
-
     initial_lots = 2 * test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
@@ -92,10 +88,10 @@ class TenderStage2UALotQuestionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotQuestionResourceTest))
     return suite
 
 

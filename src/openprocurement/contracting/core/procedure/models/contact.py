@@ -1,6 +1,9 @@
 from schematics.types import StringType
 
-from openprocurement.api.procedure.models.contact import ContactPoint as BaseContactPoint, validate_email
+from openprocurement.api.procedure.models.contact import (
+    ContactPoint as BaseContactPoint,
+)
+from openprocurement.api.procedure.models.contact import validate_email
 
 
 class ContactPoint(BaseContactPoint):

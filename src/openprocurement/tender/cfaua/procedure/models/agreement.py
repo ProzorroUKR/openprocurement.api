@@ -1,19 +1,26 @@
-from schematics.types import MD5Type, StringType, BaseType
-from schematics.types.compound import ModelType
-from schematics.exceptions import ValidationError
-from isodate import duration_isoformat
 from uuid import uuid4
+
+from isodate import duration_isoformat
+from schematics.exceptions import ValidationError
+from schematics.types import BaseType, MD5Type, StringType
+from schematics.types.compound import ModelType
+
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
-from openprocurement.tender.cfaua.procedure.models.agreement_contract import AgreementContract
-from openprocurement.tender.cfaua.procedure.models.item import Item
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
+from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
+    AgreementContract,
+)
+from openprocurement.tender.cfaua.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.feature import (
+    Feature,
+    validate_related_items,
+)
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 class PatchAgreement(Model):
@@ -57,8 +64,7 @@ class Agreement(Model):
     def validate_dateSigned(self, data, value):
         if value:
             award_ids = [c["awardID"] for c in data["contracts"]]
-            award = next(i for i in get_tender().get("awards", [])
-                         if i["id"] in award_ids)
+            award = next(i for i in get_tender().get("awards", []) if i["id"] in award_ids)
             complaint_period = award.get("complaintPeriod")
             if (
                 complaint_period
@@ -81,4 +87,6 @@ class Agreement(Model):
 
             calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
             if value.endDate > calculated_end_date:
-                raise ValidationError(f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}.")
+                raise ValidationError(
+                    f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}."
+                )

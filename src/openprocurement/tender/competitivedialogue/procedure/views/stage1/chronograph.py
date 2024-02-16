@@ -1,7 +1,12 @@
-from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import CDStage1TenderState
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
+    CDStage1TenderState,
+)
+from openprocurement.tender.core.procedure.views.chronograph import (
+    TenderChronographResource,
+)
 
 
 @resource(

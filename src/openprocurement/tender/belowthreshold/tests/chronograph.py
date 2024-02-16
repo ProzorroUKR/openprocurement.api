@@ -1,28 +1,31 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_tender_below_lots,
     test_tender_below_bids,
+    test_tender_below_lots,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
-    switch_to_tendering_by_tender_period_start_date,
-    switch_to_qualification,
-    switch_to_qualification_one_bid,
+    award_switch_from_pending,
+    award_switch_from_pending_to_ignored,
+    award_switch_to_complaint,
+    award_switch_to_ignored_on_complete,
+    reset_auction_period,
+    set_auction_period,
+    set_auction_period_lot_separately,
+    switch_from_pending,
+    switch_from_pending_to_ignored,
     switch_to_auction,
     switch_to_auction_lot_items,
-    switch_to_unsuccessful,
-    set_auction_period,
-    reset_auction_period,
-    set_auction_period_lot_separately,
     switch_to_auction_with_non_auction_lot,
-    award_switch_to_ignored_on_complete,
-    award_switch_from_pending_to_ignored,
-    award_switch_from_pending,
-    award_switch_to_complaint,
+    switch_to_complaint,
+    switch_to_ignored_on_complete,
+    switch_to_qualification,
+    switch_to_qualification_one_bid,
+    switch_to_tendering_by_tender_period_start_date,
+    switch_to_unsuccessful,
 )
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -98,7 +101,7 @@ class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResource
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderUnsuccessfulLotAuctionPeriodResourceTest, self).setUp()
+        super().setUp()
         # Create award with an unsuccessful lot
         for bid in self.initial_bids:
             bid_id = bid["id"]
@@ -106,7 +109,7 @@ class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResource
             del lot_values[0]["date"]
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
-                {"data": {"lotValues": bid["lotValues"][:1]}}
+                {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -125,7 +128,7 @@ class TenderLotNoAuctionResourceTest(TenderContentWebTest):
         del lot_values[0]["date"]
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
-            {"data": {"lotValues": bid["lotValues"][:1]}}
+            {"data": {"lotValues": bid["lotValues"][:1]}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -137,12 +140,18 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_bids = test_tender_below_bids
 
     def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
             award = response.json["data"]
             self.award_id = award["id"]

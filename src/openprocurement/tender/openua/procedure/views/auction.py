@@ -1,6 +1,7 @@
+from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
-from cornice.resource import resource
 
 
 @resource(

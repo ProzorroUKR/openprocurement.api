@@ -1,32 +1,34 @@
-# -*- coding: utf-8 -*-
 import os
 import unittest
-from pyramid import testing
-from openprocurement.api.auth import AuthenticationPolicy
 from hashlib import sha512
+
+from pyramid import testing
 from pyramid.compat import bytes_
+
+from openprocurement.api.auth import AuthenticationPolicy
 
 
 class AuthTest(unittest.TestCase):
-
     def _makeOne(self, *args, **kwargs):
         auth_file_path = "{}/auth.ini".format(os.path.dirname(os.path.abspath(__file__)))
         return AuthenticationPolicy(auth_file_path, realm="SomeRealm")
 
     def _getTargetClass(self):
         from pyramid.authentication import BasicAuthAuthenticationPolicy as cls
+
         return cls
 
     def test_class_implements_IAuthenticationPolicy(self):
-        from zope.interface.verify import verifyClass
         from pyramid.interfaces import IAuthenticationPolicy
+        from zope.interface.verify import verifyClass
+
         verifyClass(IAuthenticationPolicy, self._getTargetClass())
 
     def test_unauthenticated_userid(self):
         import base64
+
         request = testing.DummyRequest()
-        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(
-            bytes_('chrisr:password')).decode('ascii')
+        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisr:password')).decode('ascii')
         policy = self._makeOne(None)
         self.assertEqual(policy.unauthenticated_userid(request), 'chrisr')
 
@@ -55,45 +57,47 @@ class AuthTest(unittest.TestCase):
 
     def test_authenticated_userid(self):
         import base64
+
         request = testing.DummyRequest()
-        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(
-            bytes_('chrisr:password')).decode('ascii')
+        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisr:password')).decode('ascii')
+
         def check(username, password, request):
             return []
+
         policy = self._makeOne(check)
         self.assertEqual(policy.authenticated_userid(request), 'chrisr')
 
     def test_authenticated_userid_utf8(self):
         import base64
+
         request = testing.DummyRequest()
-        inputs = (b'm\xc3\xb6rk\xc3\xb6:'
-                  b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
-        request.headers['Authorization'] = 'Basic %s' % (
-            base64.b64encode(inputs.encode('utf-8')).decode('latin-1'))
+        inputs = (b'm\xc3\xb6rk\xc3\xb6:' b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
+        request.headers['Authorization'] = 'Basic %s' % (base64.b64encode(inputs.encode('utf-8')).decode('latin-1'))
+
         def check(username, password, request):
             return []
+
         policy = self._makeOne(check)
-        self.assertEqual(policy.authenticated_userid(request),
-                         b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
+        self.assertEqual(policy.authenticated_userid(request), b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
 
     def test_authenticated_userid_latin1(self):
         import base64
+
         request = testing.DummyRequest()
-        inputs = (b'm\xc3\xb6rk\xc3\xb6:'
-                  b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
-        request.headers['Authorization'] = 'Basic %s' % (
-            base64.b64encode(inputs.encode('latin-1')).decode('latin-1'))
+        inputs = (b'm\xc3\xb6rk\xc3\xb6:' b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
+        request.headers['Authorization'] = 'Basic %s' % (base64.b64encode(inputs.encode('latin-1')).decode('latin-1'))
+
         def check(username, password, request):
             return []
+
         policy = self._makeOne(check)
-        self.assertEqual(policy.authenticated_userid(request),
-                         b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
+        self.assertEqual(policy.authenticated_userid(request), b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
 
     def test_unauthenticated_userid_invalid_payload(self):
         import base64
+
         request = testing.DummyRequest()
-        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(
-            bytes_('chrisrpassword')).decode('ascii')
+        request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisrpassword')).decode('ascii')
         policy = self._makeOne(None)
         self.assertEqual(policy.unauthenticated_userid(request), None)
 
@@ -103,8 +107,7 @@ class AuthTest(unittest.TestCase):
 
     def test_forget(self):
         policy = self._makeOne(None)
-        self.assertEqual(policy.forget(None), [
-            ('WWW-Authenticate', 'Basic realm="SomeRealm"')])
+        self.assertEqual(policy.forget(None), [('WWW-Authenticate', 'Basic realm="SomeRealm"')])
 
     def test_unauthenticated_userid_bearer(self):
         request = testing.DummyRequest()
@@ -160,7 +163,7 @@ class AuthTest(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AuthTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AuthTest))
     return suite
 
 

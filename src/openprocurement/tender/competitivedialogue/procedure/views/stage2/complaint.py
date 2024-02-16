@@ -1,5 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.claim import (
     CDEUStage2TenderClaimState,
     CDUAStage2TenderClaimState,
@@ -8,12 +12,11 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.complaint
     CDEUStage2TenderComplaintState,
     CDUAStage2TenderComplaintState,
 )
+from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
-from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 
 
 @resource(
@@ -90,4 +93,3 @@ class CD2UATenderClaimResource(TenderClaimResource):
 )
 class CD2UATenderComplaintResource(TenderComplaintResource):
     state_class = CDUAStage2TenderComplaintState
-

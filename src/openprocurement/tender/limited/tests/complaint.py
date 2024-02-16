@@ -4,10 +4,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_tender_negotiation_config,
+    test_tender_negotiation_data,
     test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
 )
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
@@ -33,16 +33,18 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
     def setUp(self):
-        super(TenderNegotiationAwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
-            {"data": {
-                "suppliers": [test_tender_below_organization],
-                "status": "pending",
-                "qualified": True,
-                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
-            }}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
 
         award = response.json["data"]
@@ -50,7 +52,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
 
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
 
 
@@ -70,12 +72,17 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(TenderNegotiationCancellationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
-            {"data": {"suppliers": [test_tender_below_organization], "qualified": True,
-                      "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}, }}
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "qualified": True,
+                    "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -84,7 +91,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
 
         self.app.patch_json(
             f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}}
+            {"data": {"status": "active"}},
         )
         self.set_all_awards_complaint_period_end()
         self.create_cancellation()

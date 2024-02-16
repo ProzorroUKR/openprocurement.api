@@ -1,41 +1,55 @@
-from openprocurement.tender.core.procedure.utils import tender_created_after, validate_features_custom_weight
-from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PostBaseTender, PatchBaseTender
-from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.procedure.models.feature import Feature, validate_related_items
-from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
-from openprocurement.tender.core.procedure.models.period import (
-    TenderAuctionPeriod,
-    EnquiryPeriod,
-    QualificationPeriod,
-)
-from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
-from openprocurement.tender.core.procedure.models.lot import (
-    PostTenderLot, PatchTenderLot, Lot,
-    validate_lots_uniq, validate_minimal_step_limits
-)
+from schematics.exceptions import ValidationError
+from schematics.types import BaseType, BooleanType, IntType, StringType
+from schematics.types.compound import ModelType
 
+from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.core.procedure.models.feature import (
+    Feature,
+    validate_related_items,
+)
+from openprocurement.tender.core.procedure.models.guarantee import (
+    Guarantee,
+    PostGuarantee,
+)
 from openprocurement.tender.core.procedure.models.item import (
     Item,
-    validate_related_buyer_in_items,
     validate_classification_id,
+    validate_related_buyer_in_items,
 )
-from schematics.exceptions import ValidationError
-from schematics.types import (
-    BaseType,
-    StringType,
-    BooleanType,
-    IntType,
+from openprocurement.tender.core.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
+    validate_lots_uniq,
+    validate_minimal_step_limits,
 )
-from schematics.types.compound import ModelType
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
-from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.procedure.models.milestone import (
+    Milestone,
+    validate_milestones_lot,
+)
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
+from openprocurement.tender.core.procedure.models.period import (
+    EnquiryPeriod,
+    QualificationPeriod,
+    TenderAuctionPeriod,
+)
+from openprocurement.tender.core.procedure.models.tender_base import (
+    BaseTender,
+    PatchBaseTender,
+    PostBaseTender,
+)
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    validate_features_custom_weight,
+)
 from openprocurement.tender.core.procedure.validation import validate_milestones
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 
 
 def validate_minimalstep(data, value):
@@ -102,15 +116,18 @@ class PostTender(PostBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(Period)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
-        if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
     def validate_minimalStep(self, data, value):
@@ -148,15 +165,15 @@ class PatchTender(PatchBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
-    items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+    )
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
-        if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
 
@@ -175,12 +192,15 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     auctionPeriod = ModelType(TenderAuctionPeriod)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)
@@ -224,11 +244,13 @@ class TenderConfig(Model):
     restricted = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
-        if value is False and any([
-            data.get("hasAuction"),
-            data.get("hasAwardingOrder"),
-            data.get("hasValueRestriction"),
-        ]):
+        if value is False and any(
+            [
+                data.get("hasAuction"),
+                data.get("hasAwardingOrder"),
+                data.get("hasValueRestriction"),
+            ]
+        ):
             raise ValidationError(
                 "valueCurrencyEquality can be False only if "
                 "hasAuction=False and "

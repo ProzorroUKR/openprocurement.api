@@ -1,12 +1,15 @@
+from schematics.types import BooleanType
+
 from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.tender.core.procedure.models.award import Award as BaseAward
 from openprocurement.tender.core.procedure.models.award import (
-    Award as BaseAward,
     PatchAward as BasePatchAward,
+)
+from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
-from openprocurement.tender.esco.procedure.models.value import BaseESCOValue
 from openprocurement.tender.esco.procedure.models.item import Item
-from schematics.types import BooleanType
+from openprocurement.tender.esco.procedure.models.value import BaseESCOValue
 
 
 class Award(BaseAward):

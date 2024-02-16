@@ -1,13 +1,19 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
+
 from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.bid import (
-    PostBid as BasePostBid,
-    PatchBid as BasePatchBid,
-    Bid as BaseBid,
+from openprocurement.tender.belowthreshold.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
 )
-from openprocurement.tender.belowthreshold.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
+from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
+from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
+from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchObjResponsesMixin,
+    PostBidResponsesMixin,
+)
 
 
 class PostBid(BasePostBid, PostBidResponsesMixin):

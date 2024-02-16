@@ -1,41 +1,40 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.dps.tests.qualification_blanks import (  # Documents
+    activate_qualification_for_submission_with_docs,
+    active_qualification_changes_atomic,
+    create_qualification_document,
+    create_qualification_document_forbidden,
+    create_qualification_document_json_bulk,
+    date_qualification,
+    dateModified_qualification,
+    document_not_found,
+    get_document_by_id,
+    get_documents_list,
+    get_qualification,
+    listing,
+    listing_changes,
+    patch_qualification_active,
+    patch_qualification_unsuccessful,
+    patch_submission_pending,
+    patch_submission_pending_config_test,
+    put_qualification_document,
+    qualification_fields,
+    qualification_not_found,
+    qualification_token_invalid,
+)
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
     test_framework_electronic_catalogue_data,
     test_submission_data,
 )
-from openprocurement.framework.dps.tests.qualification_blanks import (
-    listing,
-    listing_changes,
-    patch_submission_pending,
-    patch_qualification_active,
-    patch_qualification_unsuccessful,
-    get_qualification,
-    qualification_fields,
-    date_qualification,
-    dateModified_qualification,
-    qualification_not_found,
-    qualification_token_invalid,
-    active_qualification_changes_atomic,
-    # Documents
-    get_documents_list,
-    get_document_by_id,
-    create_qualification_document_forbidden,
-    create_qualification_document,
-    document_not_found,
-    put_qualification_document,
-    create_qualification_document_json_bulk,
-    patch_submission_pending_config_test,
-    activate_qualification_for_submission_with_docs,
-)
 
 
 class QualificationContentWebTest(SubmissionContentWebTest):
     def setUp(self):
-        super(QualificationContentWebTest, self).setUp()
+        super().setUp()
         response = self.app.patch_json(
             "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
             {"data": {"status": "active"}},
@@ -89,9 +88,9 @@ class TestQualificationDocumentsCreate(QualificationContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(QualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TestQualificationDocumentGet))
-    suite.addTest(unittest.makeSuite(TestQualificationDocumentsCreate))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(QualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestQualificationDocumentGet))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestQualificationDocumentsCreate))
     return suite
 
 

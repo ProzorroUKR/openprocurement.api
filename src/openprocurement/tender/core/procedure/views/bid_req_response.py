@@ -1,19 +1,26 @@
 from typing import Optional
 
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import RequirementResponse, PatchRequirementResponse
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchRequirementResponse,
+    RequirementResponse,
+)
 from openprocurement.tender.core.procedure.state.req_response import BidReqResponseState
 from openprocurement.tender.core.procedure.validation import (
     validate_operation_ecriteria_on_tender_status,
     validate_view_requirement_responses,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner, unless_administrator,
+from openprocurement.tender.core.procedure.views.base_req_response import (
+    BaseReqResponseResource,
+    resolve_req_response,
 )
 from openprocurement.tender.core.procedure.views.bid import resolve_bid
-from openprocurement.tender.core.procedure.views.base_req_response import BaseReqResponseResource, resolve_req_response
 
 
 class BidReqResponseResource(BaseReqResponseResource):
@@ -29,30 +36,36 @@ class BidReqResponseResource(BaseReqResponseResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_on_tender_status,
-                validate_input_data(RequirementResponse, allow_bulk=True),
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_on_tender_status,
+            validate_input_data(RequirementResponse, allow_bulk=True),
         ),
         permission="create_req_response",
     )
     def collection_post(self) -> Optional[dict]:
         return super().collection_post()
 
-    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
+    @json_view(
+        permission="view_tender",
+        validators=(validate_view_requirement_responses,),
+    )
     def collection_get(self) -> dict:
         return super().collection_get()
 
-    @json_view(permission="view_tender", validators=(validate_view_requirement_responses,))
+    @json_view(
+        permission="view_tender",
+        validators=(validate_view_requirement_responses,),
+    )
     def get(self) -> dict:
         return super().get()
 
     @json_view(
         content_type="application/json",
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_on_tender_status,
-                validate_input_data(PatchRequirementResponse),
-                validate_patch_data_simple(RequirementResponse, "requirement_response"),
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_on_tender_status,
+            validate_input_data(PatchRequirementResponse),
+            validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",
     )
@@ -61,8 +74,8 @@ class BidReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         validators=(
-                unless_administrator(validate_item_owner("bid")),
-                validate_operation_ecriteria_on_tender_status,
+            unless_administrator(validate_item_owner("bid")),
+            validate_operation_ecriteria_on_tender_status,
         ),
         permission="edit_req_response",
     )

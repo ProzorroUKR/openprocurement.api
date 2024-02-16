@@ -3,18 +3,23 @@ from itertools import chain
 
 from dateorro import calc_working_datetime
 
-from openprocurement.api.constants import PLAN_ADDRESS_KIND_REQUIRED_FROM, RELEASE_SIMPLE_DEFENSE_FROM
-from openprocurement.api.utils import raise_operation_error, error_handler
-from openprocurement.api.context import get_request, get_now
-from openprocurement.planning.api.constants import PROCURING_ENTITY_STANDSTILL, PROCEDURES
+from openprocurement.api.constants import (
+    PLAN_ADDRESS_KIND_REQUIRED_FROM,
+    RELEASE_SIMPLE_DEFENSE_FROM,
+)
+from openprocurement.api.context import get_now, get_request
+from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.planning.api.constants import (
+    PROCEDURES,
+    PROCURING_ENTITY_STANDSTILL,
+)
 from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
-from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.pricequotation.constants import PQ
 
 
 class PlanState(BaseState):
-
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
@@ -42,7 +47,6 @@ class PlanState(BaseState):
                 after["rationale"]["date"] = get_now().isoformat()
             else:
                 after["rationale"]["date"] = before.get("rationale", {}).get("date", get_now().isoformat())
-
 
     def plan_tender_on_post(self, plan, tender):
         self.plan_tender_validate_on_post(plan, tender)
@@ -89,9 +93,7 @@ class PlanState(BaseState):
                     raise_operation_error(
                         self.request,
                         "Can't update procuringEntity later than {} "
-                        "business days before tenderPeriod.StartDate".format(
-                            PROCURING_ENTITY_STANDSTILL.days
-                        )
+                        "business days before tenderPeriod.StartDate".format(PROCURING_ENTITY_STANDSTILL.days),
                     )
                 # invalidate active milestones and update milestone.dateModified
                 for m in after["milestones"]:
@@ -108,9 +110,8 @@ class PlanState(BaseState):
     def _validate_plan_availability(self, data):
         procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
         now = get_now()
-        if (
-            (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "aboveThresholdUA.defense")
-            or (now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "simple.defense")
+        if (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "aboveThresholdUA.defense") or (
+            now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "simple.defense"
         ):
             raise_operation_error(
                 get_request(),
@@ -125,7 +126,7 @@ class PlanState(BaseState):
             procedures[""] = ("centralizedProcurement",)
         procurement_method_types = list(chain(*procedures.values()))
         procurement_method_types_without_above_threshold_ua_defense = list(
-            [x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')]
+            x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')
         )
         kind_allows_procurement_method_type_mapping = {
             "defense": procurement_method_types,
@@ -144,11 +145,12 @@ class PlanState(BaseState):
             if tender_procurement_method_type not in allowed_procurement_method_types:
                 request = get_request()
                 request.errors.add(
-                    "body", "kind",
+                    "body",
+                    "kind",
                     "procuringEntity with {kind} kind cannot publish this type of procedure. "
                     "Procurement method types allowed for this kind: {methods}.".format(
                         kind=kind, methods=", ".join(allowed_procurement_method_types)
-                    )
+                    ),
                 )
                 request.errors.status = 403
 
@@ -180,16 +182,16 @@ class PlanState(BaseState):
         now = get_now()
 
         if current_pmt != new_pmt and (
-            now < RELEASE_SIMPLE_DEFENSE_FROM and new_pmt == "simple.defense"
-            or now > RELEASE_SIMPLE_DEFENSE_FROM and new_pmt == "aboveThresholdUA.defense"
+            now < RELEASE_SIMPLE_DEFENSE_FROM
+            and new_pmt == "simple.defense"
+            or now > RELEASE_SIMPLE_DEFENSE_FROM
+            and new_pmt == "aboveThresholdUA.defense"
         ):
             request = get_request()
             request.errors.add(
                 "body",
                 "tender",
-                "Plan tender.procurementMethodType can not be changed from '{}' to '{}'".format(
-                    current_pmt, new_pmt
-                )
+                "Plan tender.procurementMethodType can not be changed from '{}' to '{}'".format(current_pmt, new_pmt),
             )
             request.errors.status = 422
             raise error_handler(request)
@@ -258,9 +260,7 @@ class PlanState(BaseState):
             request.errors.add(
                 "body",
                 "procurementMethodType",
-                "procurementMethodType doesn't match: {} != {}".format(
-                    plan_type, tender_type
-                ),
+                "procurementMethodType doesn't match: {} != {}".format(plan_type, tender_type),
             )
             request.errors.status = 422
             raise error_handler(request)
@@ -273,9 +273,8 @@ class PlanState(BaseState):
         if plan["tender"]["procurementMethodType"] == "centralizedProcurement" and plan_identifier["id"] == "01101100":
             plan_identifier = plan["buyers"][0]["identifier"]
 
-        if (
-            plan_identifier["id"] != tender_identifier.get("id")
-            or plan_identifier["scheme"] != tender_identifier.get("scheme")
+        if plan_identifier["id"] != tender_identifier.get("id") or plan_identifier["scheme"] != tender_identifier.get(
+            "scheme"
         ):
             request.errors.add(
                 "body",

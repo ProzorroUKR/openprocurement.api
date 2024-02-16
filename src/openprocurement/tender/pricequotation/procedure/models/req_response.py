@@ -1,13 +1,11 @@
-# -*- coding: utf-8 -*-
+from logging import getLogger
 from uuid import uuid4
 
+from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ModelType
-from schematics.types import MD5Type
+
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType
-from schematics.types import StringType, BaseType
-
-from logging import getLogger
 
 LOGGER = getLogger(__name__)
 

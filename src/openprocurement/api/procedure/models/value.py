@@ -1,7 +1,7 @@
 from schematics.types import BooleanType, FloatType
 
-from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.models.guarantee import Guarantee
+from openprocurement.api.procedure.types import DecimalType
 
 
 class Value(Guarantee):

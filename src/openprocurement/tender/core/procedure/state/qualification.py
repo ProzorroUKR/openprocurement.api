@@ -1,14 +1,14 @@
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.tender import TenderState
 from logging import getLogger
-from openprocurement.api.utils import raise_operation_error
+
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.state.tender import TenderState
 
 LOGGER = getLogger(__name__)
 
 
 class QualificationState(TenderState):
-
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()
         if lot_id:

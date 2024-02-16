@@ -1,10 +1,8 @@
 from logging import getLogger
-from openprocurement.api.utils import handle_store_exceptions, context_unpack
+
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.utils import (
-    append_revision,
-    get_revision_changes,
-)
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes
+from openprocurement.api.utils import context_unpack, handle_store_exceptions
 
 LOGGER = getLogger(__name__)
 
@@ -27,11 +25,7 @@ def save_plan(request, modified: bool = True, insert: bool = False) -> bool:
                 insert=insert,
             )
             LOGGER.info(
-                "Saved plan {}: dateModified {} -> {}".format(
-                    plan["_id"],
-                    old_date_modified,
-                    plan["dateModified"]
-                ),
+                "Saved plan {}: dateModified {} -> {}".format(plan["_id"], old_date_modified, plan["dateModified"]),
                 extra=context_unpack(
                     request,
                     {"MESSAGE_ID": "save_plan"},

@@ -1,52 +1,51 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.contracting.api.tests.contract_blanks import (
+    contract_token_invalid,
+    contract_update_add_remove_items,
+    empty_listing,
+    generate_credentials,
+    generate_credentials_invalid,
+    get_credentials,
+    patch_tender_contract_amount_paid_zero,
+    patch_tender_contract_identical,
+    patch_tender_contract_readonly,
+    patch_tender_contract_single_request,
+    patch_tender_contract_value_amount,
+    patch_tender_contract_value_vat_change,
+    patch_tender_contract_without_value,
+    patch_tender_contract_wo_amount_net,
+    simple_add_contract,
+    skip_address_validation,
+)
 from openprocurement.contracting.econtract.tests.base import (
-    BaseEContractWebTest,
     BaseEContractTest,
-    BaseEContractWebTestTwoItems
+    BaseEContractWebTest,
+    BaseEContractWebTestTwoItems,
+)
+from openprocurement.contracting.econtract.tests.contract_blanks import (
+    cancel_tender_award,
+    contract_activate,
+    contract_administrator_change,
+    contract_cancelled,
+    contract_date_signed,
+    contract_items_change,
+    contract_status_change,
+    contract_wo_items_status_change,
+    create_contract_transfer_token,
+    create_contract_w_documents,
+    get_contract,
+    listing,
+    listing_changes,
+    not_found,
+    patch_tender_contract,
+    put_transaction_to_contract,
 )
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
     test_contract_data_wo_items,
     test_contract_data_wo_value_amount_net,
-)
-from openprocurement.contracting.econtract.tests.contract_blanks import (
-    listing,
-    listing_changes,
-    get_contract,
-    not_found,
-    create_contract_transfer_token,
-    create_contract_w_documents,
-    contract_administrator_change,
-    contract_date_signed,
-    contract_status_change,
-    contract_cancelled,
-    cancel_tender_award,
-    contract_wo_items_status_change,
-    contract_activate,
-    put_transaction_to_contract,
-    patch_tender_contract,
-    contract_items_change,
-)
-from openprocurement.contracting.api.tests.contract_blanks import (
-    empty_listing,
-    simple_add_contract,
-    contract_token_invalid,
-    patch_tender_contract_identical,
-    patch_tender_contract_readonly,
-    patch_tender_contract_value_amount,
-    patch_tender_contract_amount_paid_zero,
-    patch_tender_contract_single_request,
-    get_credentials,
-    generate_credentials,
-    generate_credentials_invalid,
-    patch_tender_contract_wo_amount_net,
-    patch_tender_contract_without_value,
-    skip_address_validation,
-    contract_update_add_remove_items,
-    patch_tender_contract_value_vat_change,
 )
 
 
@@ -73,7 +72,6 @@ class ContractResourceTest(BaseEContractTest):
 
 
 class ContractResource4BrokersTest(BaseEContractWebTest):
-
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_contract_date_signed = snitch(contract_date_signed)
     test_contract_status_change = snitch(contract_status_change)
@@ -125,12 +123,12 @@ class ContractWOAmountNetResource4BrokersTest(BaseEContractWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ContractResourceTest))
-    suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractActiveResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
-    suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractWOAmountNetResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractActiveResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4AdministratorTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOItemsResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOAmountNetResource4BrokersTest))
     return suite
 
 

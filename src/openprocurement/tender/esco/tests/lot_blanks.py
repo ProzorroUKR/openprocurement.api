@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
-from mock import patch
-from datetime import timedelta
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_organization
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_organization,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_lot_invalid(self):
@@ -15,9 +14,7 @@ def create_tender_lot_invalid(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     request_path = "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token)
 
@@ -80,7 +77,6 @@ def create_tender_lot_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
-
     response = self.app.post_json(
         request_path,
         {
@@ -139,11 +135,13 @@ def patch_tender_lot_minValue(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "minValue",
-            "description": "Rogue field",
-        }],
+        [
+            {
+                "location": "body",
+                "name": "minValue",
+                "description": "Rogue field",
+            }
+        ],
     )
 
     # Now cannot patch minValue
@@ -199,9 +197,7 @@ def get_tender_lot(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_lots(self):
@@ -227,7 +223,7 @@ def get_tender_lots(self):
             "minimalStepPercentage",
             "fundingKind",
             "yearlyPaymentsPercentageRange",
-        }
+        },
     )
 
     self.set_status("active.qualification")
@@ -244,9 +240,7 @@ def get_tender_lots(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def lot_minimal_step_invalid(self):
@@ -259,20 +253,20 @@ def lot_minimal_step_invalid(self):
     data = deepcopy(self.test_lots_data[0])
     data["minimalStep"] = {"amount": 100}
     response = self.app.post_json(
-        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": data},
-        status=422
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": data}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "minimalStep",
-            "description": "Rogue field",
-        }],
+        [
+            {
+                "location": "body",
+                "name": "minimalStep",
+                "description": "Rogue field",
+            }
+        ],
     )
 
 
@@ -289,7 +283,7 @@ def tender_minimal_step_percentage(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["data"]["minimalStepPercentage"], min([i["minimalStepPercentage"] for i in self.test_lots_data])
+        response.json["data"]["minimalStepPercentage"], min(i["minimalStepPercentage"] for i in self.test_lots_data)
     )
 
 
@@ -354,7 +348,7 @@ def tender_lot_funding_kind(self):
             "name": "fundingKind",
             "description": "Rogue field",
         },
-        response.json["errors"]
+        response.json["errors"],
     )
     self.assertIn(
         {
@@ -362,7 +356,7 @@ def tender_lot_funding_kind(self):
             "name": "minValue",
             "description": "Rogue field",
         },
-        response.json["errors"]
+        response.json["errors"],
     )
 
 
@@ -622,7 +616,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     lots = response.json["data"]["lots"]
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -631,7 +625,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -645,7 +639,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     lots = response.json["data"]["lots"]
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -660,7 +654,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
         response.json["errors"],
         [
             {
-                "description":  "when tender fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0",
+                "description": "when tender fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0",
                 "location": "body",
                 "name": "yearlyPaymentsPercentageRange",
             }
@@ -829,9 +823,7 @@ def tender_lot_fundingKind_yppr(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                ],
+                "description": ["when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
                 "location": "body",
                 "name": "lots",
             }
@@ -863,9 +855,7 @@ def tender_lot_fundingKind_yppr(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                ],
+                "description": ["when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
                 "location": "body",
                 "name": "lots",
             }
@@ -881,9 +871,7 @@ def tender_lot_fundingKind_yppr(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                ],
+                "description": ["when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"],
                 "location": "body",
                 "name": "lots",
             }
@@ -918,8 +906,9 @@ def tender_lot_Administrator_change_yppr(self):
     tender_id = response.json["data"]["id"]
 
     with change_auth(self.app, ("Basic", ("administrator", ""))):
-        response = self.app.patch_json("/tenders/{}".format(tender_id),
-                                       {"data": {"yearlyPaymentsPercentageRange": 0.7}})
+        response = self.app.patch_json(
+            "/tenders/{}".format(tender_id), {"data": {"yearlyPaymentsPercentageRange": 0.7}}
+        )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.7)
@@ -942,8 +931,7 @@ def tender_lot_Administrator_change_yppr(self):
 
     with change_auth(self.app, ("Basic", ("administrator", ""))):
         response = self.app.patch_json(
-            "/tenders/{}/lots/{}".format(tender_id, lot1_id),
-            {"data": {"yearlyPaymentsPercentageRange": 0.5}}
+            "/tenders/{}/lots/{}".format(tender_id, lot1_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
         )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -991,9 +979,7 @@ def tender_min_value(self):
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["data"]["minValue"]["amount"], 0
-    )
+    self.assertEqual(response.json["data"]["minValue"]["amount"], 0)
 
     response = self.app.post_json(
         "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token), {"data": self.test_lots_data[0]}
@@ -1006,7 +992,7 @@ def tender_min_value(self):
     self.assertEqual(len(response.json["data"]["lots"]), 3)
     self.assertEqual(
         response.json["data"]["minValue"]["amount"],
-        sum([i["minValue"]["amount"] for i in response.json["data"]["lots"]]),
+        sum(i["minValue"]["amount"] for i in response.json["data"]["lots"]),
     )
 
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token))
@@ -1018,7 +1004,7 @@ def tender_min_value(self):
     self.assertEqual(len(response.json["data"]["lots"]), 2)
     self.assertEqual(
         response.json["data"]["minValue"]["amount"],
-        sum([i["minValue"]["amount"] for i in response.json["data"]["lots"]]),
+        sum(i["minValue"]["amount"] for i in response.json["data"]["lots"]),
     )
 
 
@@ -1164,7 +1150,7 @@ def create_tender_bid_invalid(self):
                 "currency": "USD",
             },
             "relatedLot": self.initial_lots[0]["id"],
-         }
+        }
     ]
     response = self.app.post_json(
         request_path,
@@ -1222,10 +1208,12 @@ def create_tender_bid_invalid(self):
         ],
     )
 
-    bid_data.update({
-        "value": self.test_bids_data[0]["value"],
-        "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.initial_lots[0]["id"]}]
-    })
+    bid_data.update(
+        {
+            "value": self.test_bids_data[0]["value"],
+            "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.initial_lots[0]["id"]}],
+        }
+    )
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1248,9 +1236,7 @@ def patch_tender_bid(self):
     bid_data["lotValues"] = [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}]
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
     self.assertEqual(bid["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
-    self.assertEqual(
-        bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
-    )
+    self.assertEqual(bid["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance)
 
     tenderer = deepcopy(test_tender_below_organization)
     tenderer["name"] = "Державне управління управлінням справами"
@@ -1574,14 +1560,16 @@ def create_tender_feature_bid(self):
 
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
-    bid_data.update({
-        "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
-        "parameters": [
-            {"code": "code_item", "value": 0.01},
-            {"code": "code_tenderer", "value": 0.01},
-            {"code": "code_lot", "value": 0.01},
-        ]
-    })
+    bid_data.update(
+        {
+            "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": self.lot_id}],
+            "parameters": [
+                {"code": "code_item", "value": 0.01},
+                {"code": "code_tenderer", "value": 0.01},
+                {"code": "code_lot", "value": 0.01},
+            ],
+        }
+    )
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1622,7 +1610,7 @@ def tender_features_invalid(self):
                     {"value": 0.01, "title": "Більше 1000 Вт"},
                 ],
             }
-        ]
+        ],
     }
     response = self.app.patch_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1652,7 +1640,7 @@ def tender_features_invalid(self):
         [
             {
                 "description": [
-                    "Sum of max value of all features for lot should be less then or equal to {0:.0%}".format(
+                    "Sum of max value of all features for lot should be less then or equal to {:.0%}".format(
                         self.sum_of_max_value_of_all_features
                     )
                 ],

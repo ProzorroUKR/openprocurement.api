@@ -1,4 +1,5 @@
 from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
     BaseTenderBidEligibilityDocumentResource,
@@ -17,6 +18,7 @@ from openprocurement.tender.pricequotation.constants import PQ
 )
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
+
 
 @resource(
     name=f"{PQ}:Tender Bid Eligibility Documents",

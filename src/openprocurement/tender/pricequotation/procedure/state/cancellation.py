@@ -1,8 +1,12 @@
-from openprocurement.tender.belowthreshold.procedure.state.cancellation import BelowThresholdCancellationStateMixing
-from openprocurement.tender.pricequotation.procedure.state.tender import PriceQuotationTenderState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
+    BelowThresholdCancellationStateMixing,
+)
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.pricequotation.procedure.state.tender import (
+    PriceQuotationTenderState,
+)
 
 
 class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
@@ -21,8 +25,7 @@ class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
         tender = get_tender()
         if tender["status"] == 'draft.publishing':
             raise_operation_error(
-                get_request(),
-                "Can't perform cancellation in current ({}) status".format("draft.publishing")
+                get_request(), "Can't perform cancellation in current ({}) status".format("draft.publishing")
             )
 
 

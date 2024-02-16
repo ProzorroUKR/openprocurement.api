@@ -1,38 +1,37 @@
-# -*- coding: utf-8 -*-
-import requests
+from base64 import b64encode
 from contextlib import contextmanager
 from copy import deepcopy
-
-from jsonpointer import JsonPointerException
-from pymongo.errors import DuplicateKeyError, OperationFailure
-from six import b
 from datetime import datetime
-from base64 import b64encode
-from cornice.resource import view
 from functools import partial
-
-from ciso8601 import parse_datetime
-from time import time as ttime
-from urllib.parse import urlparse, urlunsplit, urlencode
-from nacl.encoding import HexEncoder
-from uuid import uuid4
-from webob.multidict import NestedMultiDict
-from binascii import hexlify, unhexlify
-from Crypto.Cipher import AES
-from cornice.util import json_error
 from json import dumps
+from time import time as ttime
+from urllib.parse import urlencode, urlparse, urlunsplit
+from uuid import uuid4
 
-from schematics.exceptions import ValidationError, ModelValidationError, ModelConversionError
-from openprocurement.api.events import ErrorDescriptorEvent
+import requests
+from ciso8601 import parse_datetime
+from cornice.resource import view
+from cornice.util import json_error
+from jsonpointer import JsonPointerException
+from nacl.encoding import HexEncoder
+from pymongo.errors import DuplicateKeyError, OperationFailure
+from schematics.exceptions import (
+    ModelConversionError,
+    ModelValidationError,
+    ValidationError,
+)
+from webob.multidict import NestedMultiDict
+
 from openprocurement.api.constants import (
-    LOGGER,
+    GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
+    LOGGER,
     ROUTE_PREFIX,
     TZ,
-    GMDN_CPV_PREFIXES,
     UA_ROAD_CPV_PREFIXES,
 )
 from openprocurement.api.database import MongodbResourceConflict
+from openprocurement.api.events import ErrorDescriptorEvent
 
 json_view = partial(view, renderer="simplejson")
 
@@ -50,7 +49,7 @@ def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool 
     elif obj is None:
         LOGGER.error(
             f"{obj_name.capitalize()} {obj_id} not found",
-            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"})
+            extra=context_unpack(request, {"MESSAGE_ID": f"get_{obj_name}_by_id"}),
         )
 
     return obj
@@ -97,7 +96,10 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         # TODO:
         #  maybe there is a better single place to do this
         #  or just delete it when we do not need it anymore
-        from openprocurement.api.procedure.validation import validate_restricted_object_action
+        from openprocurement.api.procedure.validation import (
+            validate_restricted_object_action,
+        )
+
         validate_restricted_object_action(request, obj_name, obj)
     return request.validated[obj_name]
 
@@ -189,6 +191,7 @@ def request_init_transfer(request, transfer, transfer_src=None, raise_error=True
         obj_src=transfer_src,
     )
 
+
 def request_fetch_plan(request, plan_id, raise_error=True, force=False):
     if should_fetch_object(request, "plan", force=force):
         plan = get_submission_by_id(request, plan_id, raise_error=raise_error)
@@ -239,6 +242,7 @@ def should_fetch_object(request, obj_name, force=False):
 
 def get_now():
     return datetime.now(TZ)
+
 
 def set_parent(item, parent):
     if hasattr(item, "__parent__") and item.__parent__ is None:
@@ -306,6 +310,7 @@ def raise_operation_error(request, message, status=403, location="body", name="d
 def update_file_content_type(request):  # XXX TODO
     pass
 
+
 def request_params(request):
     try:
         params = NestedMultiDict(request.GET, request.POST)
@@ -361,21 +366,6 @@ def fix_url(item, app_url):
         [fix_url(item[i], app_url) for i in item if isinstance(item[i], dict) or isinstance(item[i], list)]
 
 
-def encrypt(uuid, name, key):
-    iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
-    text = "{:^{}}".format(key, AES.block_size)
-    return hexlify(AES.new(b(uuid), AES.MODE_CBC, b(iv)).encrypt(b(text)))
-
-
-def decrypt(uuid, name, key):
-    iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
-    try:
-        text = AES.new(b(uuid), AES.MODE_CBC, b(iv)).decrypt(unhexlify(b(key))).strip()
-    except:
-        text = ""
-    return text
-
-
 def get_first_revision_date(schematics_document, default=None):
     revisions = schematics_document.get("revisions") if schematics_document else None
     return parse_datetime(revisions[0]["date"]) if revisions else default
@@ -387,6 +377,7 @@ def is_ua_road_classification(classification_id):
 
 def is_gmdn_classification(classification_id):
     return classification_id[:4] in GMDN_CPV_PREFIXES
+
 
 @contextmanager
 def handle_data_exceptions(request):
@@ -447,19 +438,11 @@ def get_currency_rates(request):
     try:
         resp = requests.get(base_url, **kwargs)
     except requests.exceptions.RequestException as e:
-        raise raise_operation_error(
-            request,
-            "Error while getting data from bank.gov.ua: {}".format(e),
-            status=409
-        )
+        raise raise_operation_error(request, "Error while getting data from bank.gov.ua: {}".format(e), status=409)
     try:
         return resp.json()
     except ValueError:
-        raise raise_operation_error(
-            request,
-            "Failure of decoding data from bank.gov.ua",
-            status=409
-        )
+        raise raise_operation_error(request, "Failure of decoding data from bank.gov.ua", status=409)
 
 
 def get_uah_amount_from_value(request, value, logging_params):
@@ -472,20 +455,15 @@ def get_uah_amount_from_value(request, value, logging_params):
                 break
         else:
             raise raise_operation_error(
-                request,
-                "Couldn't find currency {} on bank.gov.ua".format(currency),
-                status=422
+                request, "Couldn't find currency {} on bank.gov.ua".format(currency), status=422
             )
 
         amount *= currency_rate
         LOGGER.info(
             "Converting {} {} into {} UAH using rate {}".format(
-                value["amount"], value["currency"],
-                amount, currency_rate
+                value["amount"], value["currency"], amount, currency_rate
             ),
-            extra=context_unpack(
-                request, {"MESSAGE_ID": "complaint_exchange_rate"}, logging_params
-            ),
+            extra=context_unpack(request, {"MESSAGE_ID": "complaint_exchange_rate"}, logging_params),
         )
     return amount
 
@@ -500,7 +478,7 @@ def get_change_class(poly_model, data, _validation=False):
         "taxRate": "ChangeTaxRate",
         "itemPriceVariation": "ChangeItemPriceVariation",
         "partyWithdrawal": "ChangePartyWithdrawal",
-        "thirdParty": "ChangeThirdParty"
+        "thirdParty": "ChangeThirdParty",
     }
     _class_name = rationale_type_class_name_mapping.get(rationale_type)
     if not _class_name:

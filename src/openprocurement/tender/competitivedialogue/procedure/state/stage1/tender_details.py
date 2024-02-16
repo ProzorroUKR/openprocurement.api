@@ -1,9 +1,13 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.validation import raise_operation_error
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
+    CDStage1TenderState,
+)
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import validate_field
-from openprocurement.tender.openeu.procedure.state.tender_details import OpenEUTenderDetailsMixing
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import CDStage1TenderState
+from openprocurement.tender.openeu.procedure.state.tender_details import (
+    OpenEUTenderDetailsMixing,
+)
 
 
 class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState):
@@ -29,4 +33,3 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
         validate_field(data, "submissionMethodDetails", required=False)
         validate_field(data, "submissionMethodDetails_en", required=False)
         validate_field(data, "submissionMethodDetails_ru", required=False)
-

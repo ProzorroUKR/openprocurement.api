@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from cornice.resource import resource
+
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    BelowThresholdTenderState,
+)
+from openprocurement.tender.core.procedure.views.chronograph import (
+    TenderChronographResource,
+)
 
 
 @resource(
@@ -11,4 +16,3 @@ from cornice.resource import resource
 )
 class BelowThresholdChronographResource(TenderChronographResource):
     state_class = BelowThresholdTenderState
-

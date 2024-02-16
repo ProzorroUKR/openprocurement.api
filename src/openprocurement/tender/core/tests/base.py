@@ -1,23 +1,24 @@
-# -*- coding: utf-8 -*-
-
 import json
 import os
-from uuid import uuid4
-from urllib.parse import urlencode
-from nacl.encoding import HexEncoder
 from base64 import b64encode
 from datetime import datetime, timedelta
+from urllib.parse import urlencode
+from uuid import uuid4
+
+from nacl.encoding import HexEncoder
 from requests.models import Response
 from webtest import AppError
 
-from openprocurement.api.constants import TZ, SESSION
+from openprocurement.api.constants import SESSION, TZ
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCodes
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    QualificationMilestoneCodes,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_date
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING, ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
 
 now = datetime.now()
 
@@ -62,7 +63,7 @@ class BaseWebTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(BaseWebTest, self).setUp()
+        super().setUp()
         self.setUpDS()
 
     def setUpDS(self):
@@ -99,7 +100,7 @@ class BaseWebTest(BaseApiWebTest):
         ds_url_start = "http://localhost/get/"
         if url.startswith(ds_url_start):
             prefix_len = len(ds_url_start)
-            return url[prefix_len:prefix_len + 32]
+            return url[prefix_len : prefix_len + 32]
         else:
             return url.split("?download=")[1]
 
@@ -109,7 +110,7 @@ class BaseWebTest(BaseApiWebTest):
 
     def tearDown(self):
         self.tearDownDS()
-        super(BaseWebTest, self).tearDown()
+        super().tearDown()
 
 
 class BaseCoreWebTest(BaseWebTest):
@@ -128,7 +129,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def tearDown(self):
         self.delete_tender()
-        super(BaseCoreWebTest, self).tearDown()
+        super().tearDown()
 
     def activate_bids(self):
         if self.tender_document.get("bids", ""):
@@ -170,9 +171,9 @@ class BaseCoreWebTest(BaseWebTest):
             for period in self.periods[status][startend]:
                 self.tender_document_patch.update({period: {}})
                 for date in self.periods[status][startend][period]:
-                    self.tender_document_patch[period][date] = (self.calculate_period_date(
-                        date, period, startend, status
-                    ) + shift).astimezone(TZ).isoformat()
+                    self.tender_document_patch[period][date] = (
+                        (self.calculate_period_date(date, period, startend, status) + shift).astimezone(TZ).isoformat()
+                    )
 
             lots = self.tender_document.get("lots", [])
             if lots:
@@ -182,9 +183,11 @@ class BaseCoreWebTest(BaseWebTest):
                             if lot.get("status", None) == "active":
                                 lot.update({period: {}})
                                 for date in self.periods[status][startend][period]:
-                                    lot[period][date] = (self.calculate_period_date(
-                                        date, period, startend, status
-                                    ) + shift).astimezone(TZ).isoformat()
+                                    lot[period][date] = (
+                                        (self.calculate_period_date(date, period, startend, status) + shift)
+                                        .astimezone(TZ)
+                                        .isoformat()
+                                    )
                 self.tender_document_patch.update({"lots": lots})
 
     def calculate_period_date(self, date, period, startend, status):
@@ -254,7 +257,7 @@ class BaseCoreWebTest(BaseWebTest):
                     "date": now.isoformat(),
                     "dueDate": (now + timedelta(hours=24)).isoformat(),
                 }
-            ]
+            ],
         }
         if tender["procurementMethodType"] in (
             ABOVE_THRESHOLD,

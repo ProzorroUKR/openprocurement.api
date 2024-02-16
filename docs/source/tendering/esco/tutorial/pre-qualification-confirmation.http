@@ -723,7 +723,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "9a1ef15ba7d54007968866670af9a27d",
+        "id": "cd1a12fedb634aa88390b3156568df61",
         "documents": [
           {
             "id": "d39a18544f294d60a7ffb793091a64f3",
@@ -743,7 +743,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/9a1ef15ba7d54007968866670af9a27d/documents/d3c40015051747439f120cba1d646f05?download=4751b232227f4b73bc130f096dd47076",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/cd1a12fedb634aa88390b3156568df61/documents/d3c40015051747439f120cba1d646f05?download=4751b232227f4b73bc130f096dd47076",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -904,7 +904,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "3dbcbd2f02684c5396f764df67ac0762"
+        "id": "ef452425b58e4ff1a339e6f39dcaf360"
       },
       {
         "requirementResponses": [
@@ -1044,10 +1044,10 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "6bd262aa39ce4fd1b77f93239ba8ec51",
+        "id": "a5c09f985bd14b2f8c9c5c34e07f8c76",
         "documents": [
           {
-            "id": "98fa0539f8f943658fd4031942789782",
+            "id": "637a203de37b4be1bf67e9f2f973c19b",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1059,12 +1059,12 @@ Content-Type: application/json
             "confidentiality": "public"
           },
           {
-            "id": "4d0a052694514b37b891815185263e9c",
+            "id": "bbb1219624bf4bd6aa54a611eff5f699",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/6bd262aa39ce4fd1b77f93239ba8ec51/documents/4d0a052694514b37b891815185263e9c?download=78c7dc59da6a46d8ac24150e98d5678c",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/bids/a5c09f985bd14b2f8c9c5c34e07f8c76/documents/bbb1219624bf4bd6aa54a611eff5f699?download=78c7dc59da6a46d8ac24150e98d5678c",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk",
@@ -1074,7 +1074,7 @@ Content-Type: application/json
         ],
         "eligibilityDocuments": [
           {
-            "id": "ca038382bc414f82b80552e433893e89",
+            "id": "b67683a01fd048a4a9554dc4afaaa562",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -1211,7 +1211,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "id": "ce7777a3b9954a00a43ea3c722f5af5b",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
@@ -1250,7 +1250,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
       },
       {
         "id": "f0a94f5146424cdeb3e9103add626234",
@@ -1275,7 +1275,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
       }
     ],
     "milestones": [
@@ -1321,27 +1321,27 @@ Content-Type: application/json
     },
     "qualifications": [
       {
-        "id": "4ddae86101af432ba8f3c7e37c68278c",
-        "bidID": "9a1ef15ba7d54007968866670af9a27d",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "id": "b65d0c22559a4547a8df25f2e17aed44",
+        "bidID": "cd1a12fedb634aa88390b3156568df61",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "4a80c3d921314d98a0ce72c45f0bbd09",
-        "bidID": "3dbcbd2f02684c5396f764df67ac0762",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "id": "1fa00365bbc642a7bfe77722e1639a08",
+        "bidID": "ef452425b58e4ff1a339e6f39dcaf360",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
         "eligible": true
       },
       {
-        "id": "ff4e936e38554009b213d7aa6e6885d1",
-        "bidID": "6bd262aa39ce4fd1b77f93239ba8ec51",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "id": "c98cd796b6ee496caa67d81734d23473",
+        "bidID": "a5c09f985bd14b2f8c9c5c34e07f8c76",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,

@@ -1,30 +1,31 @@
-from typing import Optional, List, Tuple
+from logging import getLogger
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-    validate_operation_with_lot_cancellation_in_pending,
-    validate_delete_lot_related_object,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.core.procedure.models.lot import Lot, PostLot, PatchLot
+from openprocurement.api.utils import (
+    context_unpack,
+    get_now,
+    json_view,
+    update_logging_context,
+)
+from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
+from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.state.lot import LotState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from logging import getLogger
-
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_delete_lot_related_object,
+    validate_lot_operation_in_disallowed_tender_statuses,
+    validate_operation_with_lot_cancellation_in_pending,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
@@ -39,7 +40,6 @@ def resolve_lot(request: Request) -> None:
 
 
 class TenderLotResource(TenderBaseResource):
-
     state_class = LotState
     serializer_class = LotSerializer
 
@@ -50,7 +50,6 @@ class TenderLotResource(TenderBaseResource):
             (Allow, "g:Administrator", "create_lot"),
             (Allow, "g:brokers", "edit_lot"),
             (Allow, "g:Administrator", "edit_lot"),
-
             (Allow, "g:admins", ALL_PERMISSIONS),
         ]
 
@@ -89,9 +88,7 @@ class TenderLotResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender lot {lot['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_lot_create"},
-                                     {"award_id": lot["id"]}),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_create"}, {"award_id": lot["id"]}),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)

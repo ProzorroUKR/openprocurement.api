@@ -1,17 +1,25 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    unless_admins,
+    validate_input_data,
+)
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_owner,
     validate_contract_supplier,
     validate_signer_info_update_in_not_allowed_status,
 )
-from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.api.procedure.validation import validate_input_data, unless_administrator, unless_admins
-from openprocurement.contracting.econtract.procedure.models.organization import SignerInfo
-from openprocurement.contracting.econtract.procedure.state.signer_info import EContractSignerInfoState
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.contracting.econtract.procedure.models.organization import (
+    SignerInfo,
+)
+from openprocurement.contracting.econtract.procedure.state.signer_info import (
+    EContractSignerInfoState,
+)
 
 
 class BaseSignerInfoResource(ContractBaseResource):
@@ -50,7 +58,6 @@ class BaseSignerInfoResource(ContractBaseResource):
     accept="application/json",
 )
 class EContractBuyerSignerInfoResource(BaseSignerInfoResource):
-
     parent_obj_name = "buyer"
 
     @json_view(

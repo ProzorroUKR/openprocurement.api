@@ -1,4 +1,7 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.complaint_objection_argument import (
     ComplaintObjectionArgumentSerializer,
 )

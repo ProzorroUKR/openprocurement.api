@@ -1,20 +1,20 @@
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from unittest.mock import patch
 
-from openprocurement.tender.pricequotation.tests.base import (
-    TenderContentWebTest,
-    test_tender_pq_bids,
-    test_tender_pq_cancellation,
-)
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
+)
+from openprocurement.tender.pricequotation.tests.base import (
+    TenderContentWebTest,
+    test_tender_pq_bids,
+    test_tender_pq_cancellation,
 )
 from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     create_tender_cancellation,
@@ -23,7 +23,7 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTestMixin(object):
+class TenderCancellationResourceTestMixin:
     initial_status = 'active.tendering'
 
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
@@ -33,7 +33,10 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderCancellationActiveTenderingResourceTest(
     TenderContentWebTest,
     TenderCancellationResourceTestMixin,
@@ -64,12 +67,10 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
         cancellation = dict(**test_tender_pq_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
 
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -81,8 +82,8 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationActiveTenderingResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationActiveTenderingResourceTest))
     return suite
 
 

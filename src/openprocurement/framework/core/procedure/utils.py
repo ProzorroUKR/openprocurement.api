@@ -1,5 +1,5 @@
-from hashlib import sha512
 from datetime import timedelta
+from hashlib import sha512
 from logging import getLogger
 
 from jsonpointer import resolve_pointer
@@ -10,17 +10,17 @@ from openprocurement.api.auth import extract_access_token
 from openprocurement.api.context import get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.utils import get_revision_changes, append_revision
+from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 from openprocurement.api.utils import (
-    handle_store_exceptions,
     context_unpack,
     error_handler,
+    handle_store_exceptions,
 )
 from openprocurement.framework.core.constants import DAYS_TO_UNSUCCESSFUL_STATUS
 from openprocurement.framework.core.procedure.mask import (
-    SUBMISSION_MASK_MAPPING,
-    QUALIFICATION_MASK_MAPPING,
     AGREEMENT_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    SUBMISSION_MASK_MAPPING,
 )
 from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -29,18 +29,13 @@ LOGGER = getLogger(__name__)
 
 
 def append_obj_revision(request, obj, patch, date):
-    status_changes = [p for p in patch if all(
-        [
-            p["path"].endswith("/status"),
-            p["op"] == "replace"
-        ]
-    )]
+    status_changes = [p for p in patch if all([p["path"].endswith("/status"), p["op"] == "replace"])]
     changed_obj = obj
     for change in status_changes:
         changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
         if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
             date_path = change["path"].replace("/status", "/date")
-            if changed_obj.date and not any([p for p in patch if date_path == p["path"]]):
+            if changed_obj.date and not any(p for p in patch if date_path == p["path"]):
                 patch.append({"op": "replace", "path": date_path, "value": changed_obj.date.isoformat()})
             elif not changed_obj.date:
                 patch.append({"op": "remove", "path": date_path})
@@ -51,12 +46,7 @@ def append_obj_revision(request, obj, patch, date):
 
 
 def save_object(
-    request,
-    obj_name,
-    modified: bool = True,
-    insert: bool = False,
-    additional_obj_names="",
-    raise_error_handler=False
+    request, obj_name, modified: bool = True, insert: bool = False, additional_obj_names="", raise_error_handler=False
 ) -> bool:
     obj = request.validated[obj_name]
     patch = get_revision_changes(obj, request.validated[f"{obj_name}_src"])
@@ -139,8 +129,11 @@ def extract_agreement_doc(request):
 def get_framework_unsuccessful_status_check_date(framework):
     if period_start := framework.get("period", {}).get("startDate"):
         return calculate_framework_date(
-            dt_from_iso(period_start), timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework, working_days=True, ceil=True
+            dt_from_iso(period_start),
+            timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+            framework,
+            working_days=True,
+            ceil=True,
         )
 
 
@@ -161,4 +154,6 @@ def is_tender_owner(request, item):
     if len(acc_token) == 32 and len(item["tender_token"]) > 32:
         acc_token = sha512(acc_token.encode()).hexdigest()
     return request.authenticated_userid == item["owner"] and acc_token == item["tender_token"]
+
+
 # --- ACL

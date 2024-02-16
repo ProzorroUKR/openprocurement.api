@@ -1,12 +1,19 @@
+from schematics.exceptions import ValidationError
+
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.models.contract import (
     Contract as BaseContract,
-    PostContract as BasePostContract,
+)
+from openprocurement.tender.core.procedure.models.contract import (
     PatchContract as BasePatchContract,
+)
+from openprocurement.tender.core.procedure.models.contract import (
     PatchContractSupplier as BasePatchContractSupplier,
 )
-from schematics.exceptions import ValidationError
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.models.contract import (
+    PostContract as BasePostContract,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
@@ -19,8 +26,7 @@ class Contract(BaseContract):
             active_award = [award for award in parent.get("awards", []) if award.get("status") == "active"]
             if active_award and value < dt_from_iso(active_award[0].get("date")):
                 raise ValidationError(
-                    f"Contract signature date should be "
-                    f"after award activation date ({active_award[0]['date']})"
+                    f"Contract signature date should be " f"after award activation date ({active_award[0]['date']})"
                 )
 
 

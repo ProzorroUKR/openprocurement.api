@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
+
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_claim,
     test_tender_below_author,
+    test_tender_below_claim,
 )
 
 # TenderSwitchPreQualificationResourceTest
@@ -26,22 +26,18 @@ def active_tendering_to_pre_qual_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
     self.check_chronograph()
 
-    response = self.check_chronograph(data={"data": {"lots": [
-        {"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}},
-        {},
-        {}
-    ]}})
+    response = self.check_chronograph(
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-04T14:05:00+02:00"}}, {}, {}]}}
+    )
     lots = response.json["data"]["lots"]
     self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-04T14:05:00+02:00")
     self.assertNotIn("auctionPeriod", lots[1])
     self.assertNotIn("auctionPeriod", lots[2])
 
     # second update had a bug, and `"auctionPeriod": null` appeared for second and third lots
-    response = self.check_chronograph(data={"data": {"lots": [
-        {"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}},
-        {},
-        {}
-    ]}})
+    response = self.check_chronograph(
+        data={"data": {"lots": [{"auctionPeriod": {"startDate": "2021-11-05T14:05:00+02:00"}}, {}, {}]}}
+    )
     lots = response.json["data"]["lots"]
     self.assertEqual(lots[0]["auctionPeriod"]["startDate"], "2021-11-05T14:05:00+02:00")
     self.assertNotIn("auctionPeriod", lots[1])
@@ -59,7 +55,7 @@ def active_tendering_to_unsuccessful(self):
     tender = response.json["data"]
     self.assertNotIn("qualifications", tender)
     for b in tender["bids"]:
-        self.assertEquals("unsuccessful", b["status"])
+        self.assertEqual("unsuccessful", b["status"])
         self.assertNotIn("lotValues", b)
         self.assertNotIn("value", b)
 

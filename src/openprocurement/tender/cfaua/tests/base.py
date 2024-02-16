@@ -1,24 +1,30 @@
-# -*- coding: utf-8 -*-
 import json
 import os
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
-from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_cancellation
-from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_lots,
-    set_bid_lotvalues,
+
+from openprocurement.api.constants import (
+    RELEASE_2020_04_19,
+    RELEASE_ECRITERIA_ARTICLE_17,
+    SANDBOX_MODE,
 )
-from openprocurement.tender.cfaua.tests.periods import PERIODS
-from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseBaseTenderWebTest
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_with_complaints_after_2020_04_19
+from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import get_now
-from openprocurement.api.constants import RELEASE_2020_04_19, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.cfaua.constants import (
-    TENDERING_DAYS,
-    MIN_BIDS_NUMBER,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_cancellation,
+)
+from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_lotvalues,
+    set_tender_lots,
+)
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER, TENDERING_DAYS
+from openprocurement.tender.cfaua.tests.periods import PERIODS
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_with_complaints_after_2020_04_19,
+)
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseBaseTenderWebTest,
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -119,24 +125,20 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     periods = PERIODS
 
     forbidden_agreement_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
     forbidden_question_add_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which adding tender questions is forbidden
+        "active.pre-qualification"  # status, in which adding tender questions is forbidden
+    )
     forbidden_question_update_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which updating tender questions is forbidden
-    question_claim_block_status = (
-        "active.pre-qualification"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+        "active.pre-qualification"  # status, in which updating tender questions is forbidden
+    )
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
+    )
 
     @classmethod
     def setUpClass(cls):
@@ -167,7 +169,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
     def tearDown(self):
-        super(BaseTenderWebTest, self).tearDown()
+        super().tearDown()
         self.restore_pure_data()
 
     def generate_bids(self, status, startend):
@@ -183,12 +185,15 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 bid = deepcopy(meta_bid)
                 if lots:
                     value = bid.pop("value")
-                    bid["lotValues"] = [{
-                        "status": "pending",
-                        "value": value,
-                        "relatedLot": l["id"],
-                        "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
-                    } for l in lots]
+                    bid["lotValues"] = [
+                        {
+                            "status": "pending",
+                            "value": value,
+                            "relatedLot": l["id"],
+                            "date": (tenderPeriod_startDate + timedelta(seconds=(position + 1))).isoformat(),
+                        }
+                        for l in lots
+                    ]
                 bid.update(
                     {
                         "id": uuid4().hex,
@@ -207,7 +212,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         qualificationPeriod_startDate = self.now + self.periods[status][startend]["qualificationPeriod"]["startDate"]
         qualifications = self.tender_document.get("qualifications", [])
         active_lots = [lot["id"] for lot in lots if lot["status"] == "active"]
-        active_bids = any([bid["status"] not in ["invalid", "deleted"] for bid in bids])
+        active_bids = any(bid["status"] not in ["invalid", "deleted"] for bid in bids)
         if not qualifications:
             if active_bids:
                 self.tender_document_patch["qualifications"] = []
@@ -215,8 +220,10 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                     if bid.get("status") not in ["invalid", "deleted"]:
                         if lots:
                             for lotValue in bid["lotValues"]:
-                                if lotValue.get("status", "pending") == "pending" \
-                                        and lotValue["relatedLot"] in active_lots:
+                                if (
+                                    lotValue.get("status", "pending") == "pending"
+                                    and lotValue["relatedLot"] in active_lots
+                                ):
                                     self.tender_document_patch["qualifications"].append(
                                         {
                                             "id": uuid4().hex,
@@ -286,7 +293,6 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
                 active_lots = {lot["id"]: 0 for lot in lots if lot["status"] == "active"}
                 self.tender_document_patch["awards"] = []
                 for bid in bids:
-
                     for lot_value in bid["lotValues"]:
                         if lot_value["relatedLot"] in active_lots:
                             if active_lots[lot_value["relatedLot"]] == maxAwards:
@@ -342,9 +348,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     def generate_agreement_data(self, lot=None):
         data = {
             "id": uuid4().hex,
-            "items": self.tender_document["items"]
-            if not lot
-            else [i for i in self.tender_document["items"] if i["relatedLot"] == lot["id"]],
+            "items": (
+                self.tender_document["items"]
+                if not lot
+                else [i for i in self.tender_document["items"] if i["relatedLot"] == lot["id"]]
+            ),
             "agreementID": "{}-{}{}".format(
                 self.tender_document["tenderID"], uuid4().hex, len(self.tender_document_patch["agreements"]) + 1
             ),
@@ -565,9 +573,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :return: None
         """
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "status": "active",
-        })
+        cancellation.update(
+            {
+                "status": "active",
+            }
+        )
         if lot_id:
             cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id})
         response = self.app.post_json(
@@ -603,7 +613,7 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     meta_initial_lots = deepcopy(test_tender_cfaua_lots)
 
     def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
         self.check_chronograph()
@@ -611,6 +621,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
         # for ex auctionPeriod.shouldStartAfter is added
 
 
-class BidsOverMaxAwardsMixin(object):
+class BidsOverMaxAwardsMixin:
     initial_bids = deepcopy(test_tender_cfaua_bids) + deepcopy(test_tender_cfaua_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2

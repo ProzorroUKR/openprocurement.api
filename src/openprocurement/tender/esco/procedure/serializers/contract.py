@@ -1,5 +1,11 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer, decimal_serializer
-from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+    decimal_serializer,
+)
+from openprocurement.tender.core.procedure.serializers.document import (
+    ConfidentialDocumentSerializer,
+)
 
 
 class ContractValueSerializer(BaseSerializer):

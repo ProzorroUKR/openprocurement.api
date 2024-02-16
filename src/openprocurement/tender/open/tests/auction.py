@@ -1,28 +1,24 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_features_data,
-    test_tender_below_lots,
-)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
-    patch_tender_lots_auction,
     get_tender_lots_auction_features,
+    patch_tender_lots_auction,
     post_tender_lots_auction_features,
 )
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_features_data,
+    test_tender_below_lots,
+)
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_open_features_data,
     test_tender_open_bids,
+    test_tender_open_features_data,
 )
-
 
 # class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourceTestMixin):
 #     docservice = True
@@ -80,9 +76,13 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
     def setUp(self):
         self.initial_bids = deepcopy(test_tender_open_bids[:2])
-        self.initial_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]]
-        self.initial_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]]
-        super(TenderFeaturesMultilotAuctionResourceTest, self).setUp()
+        self.initial_bids[0]["parameters"] = [
+            {"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]
+        ]
+        self.initial_bids[1]["parameters"] = [
+            {"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]
+        ]
+        super().setUp()
 
 
 def suite():
@@ -90,8 +90,8 @@ def suite():
     # suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     # suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     # suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderMultipleLotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 

@@ -1,12 +1,18 @@
 from cornice.resource import resource
 
-from openprocurement.tender.cfaua.procedure.state.qualification_claim import CFAUAQualificationClaimState
-from openprocurement.tender.cfaua.procedure.state.qualification_complaint import CFAUAQualificationComplaintState
+from openprocurement.tender.cfaua.procedure.state.qualification_claim import (
+    CFAUAQualificationClaimState,
+)
+from openprocurement.tender.cfaua.procedure.state.qualification_complaint import (
+    CFAUAQualificationComplaintState,
+)
+from openprocurement.tender.core.procedure.views.qualification_claim import (
+    QualificationClaimResource,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint import (
     QualificationComplaintGetResource,
     QualificationComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
 
 
 @resource(
@@ -45,4 +51,3 @@ class CFAUATenderQualificationClaimResource(QualificationClaimResource):
 )
 class CFAUAQualificationComplaintWriteResource(QualificationComplaintWriteResource):
     state_class = CFAUAQualificationComplaintState
-

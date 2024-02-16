@@ -1,19 +1,23 @@
-from openprocurement.api.utils import json_view, context_unpack
+from cornice.resource import resource
+
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
+    AgreementContract,
+    PatchAgreementContract,
+)
+from openprocurement.tender.cfaua.procedure.state.agreement_contract import (
+    AgreementContractState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.cfaua.procedure.state.agreement_contract import AgreementContractState
-from openprocurement.tender.cfaua.procedure.models.agreement_contract import AgreementContract, PatchAgreementContract
-from cornice.resource import resource
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 def resolve_agreement_contract(request):
@@ -77,7 +81,6 @@ class CFAUAAgreementContractResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender agreement contract {}".format(contract["id"]),
-                    extra=context_unpack(self.request,
-                                         {"MESSAGE_ID": "tender_agreement_contract_patch"}),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_contract_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

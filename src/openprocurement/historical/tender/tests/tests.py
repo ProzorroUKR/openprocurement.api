@@ -1,20 +1,21 @@
-# -*- coding: utf-8 -*-
 import os.path
 from copy import deepcopy
-from jsonpointer import resolve_pointer
-from jsonpatch import apply_patch
 
+from jsonpatch import apply_patch
+from jsonpointer import resolve_pointer
+
+from openprocurement.historical.core.constants import HASH
+from openprocurement.historical.core.constants import PREVIOUS_HASH as PHASH
+from openprocurement.historical.core.constants import VERSION
+from openprocurement.historical.core.tests.tests import mock_doc
 from openprocurement.historical.core.utils import parse_hash
-from openprocurement.historical.core.constants import VERSION, PREVIOUS_HASH as PHASH, HASH
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
-    test_tender_below_data,
-    test_tender_below_organization,
-    test_tender_below_lots,
     test_tender_below_config,
+    test_tender_below_data,
+    test_tender_below_lots,
+    test_tender_below_organization,
 )
-from openprocurement.historical.core.tests.tests import mock_doc
-
 
 test_data_with_revisions = deepcopy(mock_doc)
 test_data_with_revisions["doc_type"] = "Tender"
@@ -22,11 +23,10 @@ test_data_with_revisions["config"] = test_tender_below_config
 
 
 class HistoricalTenderTestCase(BaseTenderWebTest):
-
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(HistoricalTenderTestCase, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 
@@ -113,7 +113,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             self.assertEqual(headers[HASH], parse_hash(rev["rev"]))
             self.assertEqual(headers[VERSION], str(i))
             self.assertEqual(headers[PHASH], parse_hash(revisions[i - 1].get("rev", "")))
-            for ch in [r for r in rev["changes"]]:
+            for ch in list(rev["changes"]):
                 val = ch["value"] if ch["op"] != "remove" else "missing"
                 if not all(p for p in ["next_check", "shouldStartAfter"] if ch["path"] in p):
                     self.assertEqual(resolve_pointer(tender, ch["path"], "missing"), val)
@@ -139,9 +139,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
         )
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}]
-        )
+        self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "header", "name": "hash"}])
 
     def test_get_tender_equal_with_api(self):
         data = test_data_with_revisions.copy()
@@ -193,7 +191,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(TestGetHistoricalData, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 
@@ -225,8 +223,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -245,10 +242,12 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender["id"]),
-            {"data": {
-                "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
-                "tenderers": [test_tender_below_organization]
-            }},
+            {
+                "data": {
+                    "lotValues": [{"value": {"amount": 499}, "relatedLot": self.initial_lots[0]["id"]}],
+                    "tenderers": [test_tender_below_organization],
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -269,8 +268,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello again"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello again"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -294,8 +292,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello third"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello third"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -321,8 +318,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
         tender = response.json["data"]
 
         response = self.app.patch_json(
-            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "hello, I said"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token), {"data": {"title": "hello, I said"}}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
@@ -349,7 +345,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
 
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender["id"], self.tender_token),
-            {"data": {"title": "I dunno what this test is about I just change thing and it works"}}
+            {"data": {"title": "I dunno what this test is about I just change thing and it works"}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")

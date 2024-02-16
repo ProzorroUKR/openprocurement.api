@@ -1,19 +1,22 @@
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from unittest.mock import patch
 
-from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin
+    TenderDocumentWithDSResourceTestMixin,
 )
+from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.document_blanks import (
     create_document_active_tendering_status,
 )
 
 
-@patch("openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 
@@ -22,7 +25,7 @@ class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithD
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
     return suite
 
 

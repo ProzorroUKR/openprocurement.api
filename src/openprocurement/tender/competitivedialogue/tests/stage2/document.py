@@ -1,19 +1,23 @@
-# -*- coding: utf-8 -*-
 import unittest
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.document import TenderDocumentWithDSResourceTestMixin
+from openprocurement.tender.belowthreshold.tests.document import (
+    TenderDocumentWithDSResourceTestMixin,
+)
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_lots,
 )
 from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks import (
-    put_tender_document,
     patch_tender_document,
+    put_tender_document,
 )
 
 
-class TenderStage2DocumentWithDSResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderStage2DocumentWithDSResourceTest(
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
+):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cd_lots
@@ -22,7 +26,9 @@ class TenderStage2DocumentWithDSResourceTest(BaseCompetitiveDialogEUStage2Conten
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class TenderStage2UADocumentWithDSResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderStage2UADocumentWithDSResourceTest(
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
+):
     docservice = True
     initial_lots = test_tender_cd_lots
 
@@ -32,8 +38,8 @@ class TenderStage2UADocumentWithDSResourceTest(BaseCompetitiveDialogUAStage2Cont
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2DocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UADocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2DocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UADocumentWithDSResourceTest))
     return suite
 
 

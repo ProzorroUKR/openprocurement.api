@@ -1,6 +1,11 @@
-from openprocurement.tender.core.procedure.views.contract_items_unit_value import ContractItemsUnitValueResource
-from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractState
 from cornice.resource import resource
+
+from openprocurement.tender.cfaselectionua.procedure.state.contract import (
+    CFASelectionContractState,
+)
+from openprocurement.tender.core.procedure.views.contract_items_unit_value import (
+    ContractItemsUnitValueResource,
+)
 
 
 @resource(

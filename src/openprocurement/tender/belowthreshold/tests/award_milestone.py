@@ -1,4 +1,6 @@
-from openprocurement.tender.belowthreshold.tests.award import TenderAwardPendingResourceTestCase
+from openprocurement.tender.belowthreshold.tests.award import (
+    TenderAwardPendingResourceTestCase,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,

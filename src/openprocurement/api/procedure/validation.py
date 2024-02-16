@@ -3,14 +3,22 @@ from copy import deepcopy
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.auth import ACCR_RESTRICTED
-from openprocurement.api.utils import handle_data_exceptions, raise_operation_error, delete_nones
+from openprocurement.api.procedure.utils import apply_data_patch, is_item_owner
+from openprocurement.api.utils import (
+    delete_nones,
+    handle_data_exceptions,
+    raise_operation_error,
+)
 from openprocurement.api.validation import (
-    validate_json_data,
     validate_accreditation_level_base,
     validate_accreditation_level_mode,
+    validate_json_data,
 )
-from openprocurement.api.procedure.utils import is_item_owner, apply_data_patch
-from openprocurement.tender.core.procedure.documents import check_document_batch, check_document, update_document_url
+from openprocurement.tender.core.procedure.documents import (
+    check_document,
+    check_document_batch,
+    update_document_url,
+)
 
 
 def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_remove=False):
@@ -21,6 +29,7 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, none_means_
     :param none_means_remove: null values passed cause deleting saved values at those keys
     :return:
     """
+
     def validate(request, **_):
         request.validated["json_data"] = json_data = validate_json_data(request, allow_bulk=allow_bulk)
         # now you can use context.get_json_data() in model validators to access the whole passed object
@@ -68,11 +77,13 @@ def validate_data_model(input_model):
     :param input_model:
     :return:
     """
+
     def validate(request, **_):
         data = request.validated["data"]
         data = validate_data(request, input_model, data)
         request.validated["data"] = data
         return data
+
     return validate
 
 
@@ -110,6 +121,7 @@ def unless_administrator(*validations):
         if request.authenticated_role != "Administrator":
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -118,6 +130,7 @@ def unless_admins(*validations):
         if request.authenticated_role != "admins":
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -126,6 +139,7 @@ def unless_bots(*validations):
         if request.authenticated_role != "bots":
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -135,6 +149,7 @@ def unless_item_owner(*validations, item_name):
         if not is_item_owner(request, item):
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -143,6 +158,7 @@ def unless_bots_or_auction(*validations):
         if request.authenticated_role not in ("bots", "auction"):
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -150,17 +166,13 @@ def validate_item_owner(item_name, token_field_name="owner_token"):
     def validator(request, **_):
         item = request.validated[item_name]
         if not is_item_owner(request, item, token_field_name=token_field_name):
-            raise_operation_error(
-                request,
-                "Forbidden",
-                location="url",
-                name="permission"
-            )
+            raise_operation_error(request, "Forbidden", location="url", name="permission")
         else:
             if item_name == "claim":
                 request.authenticated_role = "complaint_owner"  # we have complaint_owner is documents.author
             else:
                 request.authenticated_role = f"{item_name}_owner"
+
     return validator
 
 
@@ -179,6 +191,7 @@ def validate_patch_data(model, item_name):
     :param item_name:
     :return:
     """
+
     def validate(request, **_):
         data_patch = request.validated["data"]
         data_src = request.validated[item_name]
@@ -187,6 +200,7 @@ def validate_patch_data(model, item_name):
             data = validate_data(request, model, data)
         request.validated["data"] = data
         return data
+
     return validate
 
 
@@ -198,6 +212,7 @@ def validate_patch_data_simple(model, item_name):
     :param item_name:
     :return:
     """
+
     def validate(request, **_):
         patch_data = request.validated["data"]
         data = deepcopy(request.validated[item_name])
@@ -231,6 +246,7 @@ def validate_patch_data_simple(model, item_name):
         data.update(patch_data)
         request.validated["data"] = validate_data(request, model, data)
         return request.validated["data"]
+
     return validate
 
 
@@ -244,11 +260,13 @@ def validate_config_data(input_model, default=None):
     :return:
     """
     default = default or {}
+
     def validate(request, **_):
         config = request.json.get("config") or default
         config = validate_data(request, input_model, config) or {}
         request.validated["data"]["config"] = config
         return config
+
     return validate
 
 
@@ -280,6 +298,7 @@ def validate_input_data_from_resolved_model():
         request.validated[f"{method}_data_model"] = model
         validate = validate_input_data(model)
         return validate(request, **_)
+
     return validated
 
 
@@ -289,19 +308,20 @@ def validate_patch_data_from_resolved_model(item_name):
         model = state.get_parent_patch_data_model()
         validate = validate_patch_data(model, item_name)
         return validate(request, **_)
+
     return validated
 
 
 def validate_values_uniq(values):
     codes = [i.get("value") for i in values]
-    if any([codes.count(i) > 1 for i in set(codes)]):
+    if any(codes.count(i) > 1 for i in set(codes)):
         raise ValidationError("Feature value should be uniq for feature")
 
 
 def validate_features_uniq(features):
     if features:
         codes = [feature.get("code") for feature in features]
-        if any([codes.count(i) > 1 for i in set(codes)]):
+        if any(codes.count(i) > 1 for i in set(codes)):
             raise ValidationError("Feature code should be uniq for all features")
 
 
@@ -330,6 +350,7 @@ def validate_data_documents(route_key="tender_id", uid_key="_id"):
                     if docs:
                         data[key] = docs
         return data
+
     return validate
 
 
@@ -359,16 +380,16 @@ def update_doc_fields_on_put_document(request, **_):
         if key in force_replace or (key not in black_list and key not in json_data):
             document[key] = value
 
+
 def validate_restricted_object_action(request, obj_name, obj):
     if request.method in ("GET", "HEAD"):
         # Skip validation.
         # Data will be masked for requests with no access to restricted object
         return
 
-    if all([
-        obj["config"].get("restricted", False) is False,
-        obj["config"].get("restrictedDerivatives", False) is False
-    ]):
+    if all(
+        [obj["config"].get("restricted", False) is False, obj["config"].get("restrictedDerivatives", False) is False]
+    ):
         # Skip validation.
         # It's not a restricted object
         return

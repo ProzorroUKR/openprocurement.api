@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/1f9e8f05428c41fd9c397a731d8d4a09
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5ca67c8db208720fe2/complaints/379051e428734c148aea805b08e76ff1
 
 {
   "data": {
@@ -65,7 +65,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "draft",
     "type": "complaint",
-    "id": "1f9e8f05428c41fd9c397a731d8d4a09",
+    "id": "379051e428734c148aea805b08e76ff1",
     "date": "2023-10-10T01:00:00+03:00",
     "complaintID": "UA-2023-10-10-000001-a.4",
     "value": {
@@ -74,8 +74,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2a71069de9654c5c
     }
   },
   "access": {
-    "token": "0255d7a92efc4d58ba6054c8bd96010f",
-    "transfer": "058cc186725d4d92b3217fd8df524c03"
+    "token": "c328a958334844f29c7f9a85bd0a890d",
+    "transfer": "6bcb0e29831d44fc99f6f48384d04338"
   }
 }
 

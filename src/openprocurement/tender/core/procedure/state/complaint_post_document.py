@@ -1,9 +1,11 @@
-from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.tender.core.procedure.context import get_complaint, get_post
-from openprocurement.tender.core.procedure.state.complaint_post import ComplaintPostValidationsMixin
-from openprocurement.tender.core.constants import POST_SUBMIT_TIME
 from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.constants import POST_SUBMIT_TIME
+from openprocurement.tender.core.procedure.context import get_complaint, get_post
+from openprocurement.tender.core.procedure.state.complaint_post import (
+    ComplaintPostValidationsMixin,
+)
+from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 
 
 class ComplaintPostDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):

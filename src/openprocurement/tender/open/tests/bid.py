@@ -1,74 +1,72 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    not_found,
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
     create_tender_bid_with_document,
-    post_tender_bid_with_disabled_lot_values_restriction,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    not_found,
     patch_tender_bid_with_disabled_lot_values_restriction,
+    post_tender_bid_with_disabled_lot_values_restriction,
 )
-
+from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
+    test_tender_open_bids,
     test_tender_open_data,
     test_tender_open_features_data,
-    test_tender_open_bids,
 )
 from openprocurement.tender.open.tests.bid_blanks import (
+    bid_activate,
+    bid_activate_with_cancelled_tenderer_criterion,
+    bid_Administrator_change,
+    bid_invalidation_after_requirement_put,
+    bids_activation_on_tender_documents,
+    bids_invalidation_on_tender_change,
+    create_bid_after_removing_lot,
+    create_bid_requirement_response,
+    create_bid_requirement_response_evidence,
+    create_tender_bid_no_scale_invalid,
     create_tender_biddder_invalid,
     create_tender_bidder,
-    create_bid_after_removing_lot,
-    patch_tender_bidder,
-    get_tender_bidder,
+    create_tender_bidder_document,
+    create_tender_bidder_document_json,
+    create_tender_bidder_document_nopending,
+    create_tender_bidder_document_nopending_json,
+    create_tender_bidder_value_greater_then_lot,
     delete_tender_bidder,
-    deleted_bid_is_not_restorable,
     deleted_bid_do_not_locks_tender_in_state,
-    get_tender_tenderers,
-    bid_Administrator_change,
+    deleted_bid_is_not_restorable,
+    doc_date_modified,
     draft1_bid,
     draft2_bids,
-    bids_invalidation_on_tender_change,
-    bids_activation_on_tender_documents,
-    create_tender_bid_no_scale_invalid,
     features_bidder,
     features_bidder_invalid,
-    create_tender_bidder_document,
-    put_tender_bidder_document,
-    patch_tender_bidder_document,
-    create_tender_bidder_document_nopending,
-    create_tender_bidder_document_json,
-    put_tender_bidder_document_json,
-    patch_tender_bidder_document_json,
-    tender_bidder_confidential_document,
-    create_tender_bidder_document_nopending_json,
-    create_bid_requirement_response,
-    patch_bid_requirement_response,
     get_bid_requirement_response,
-    patch_bid_with_responses,
-    bid_activate_with_cancelled_tenderer_criterion,
-    bid_invalidation_after_requirement_put,
-    create_bid_requirement_response_evidence,
-    patch_bid_requirement_response_evidence,
     get_bid_requirement_response_evidence,
-    bid_activate,
-    doc_date_modified,
+    get_tender_bidder,
+    get_tender_tenderers,
+    patch_bid_requirement_response,
+    patch_bid_requirement_response_evidence,
+    patch_bid_with_responses,
+    patch_tender_bid_with_disabled_value_restriction,
+    patch_tender_bidder,
+    patch_tender_bidder_decimal_problem,
+    patch_tender_bidder_document,
+    patch_tender_bidder_document_json,
     patch_tender_draft_bidder,
     patch_tender_with_bids_lots_none,
-    patch_tender_bidder_decimal_problem,
-    create_tender_bidder_value_greater_then_lot,
     post_tender_bid_with_disabled_value_restriction,
-    patch_tender_bid_with_disabled_value_restriction,
+    put_tender_bidder_document,
+    put_tender_bidder_document_json,
+    tender_bidder_confidential_document,
 )
 
 
@@ -105,7 +103,7 @@ class TenderBidRequirementResponseTestMixin:
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderBidRequirementResponseTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
@@ -128,7 +126,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderBidRequirementResponseEvidenceTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
@@ -136,17 +134,20 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.requirement_title = requirement["title"]
 
         request_path = "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.bid_id, self.bid_token)
+            self.tender_id, self.bid_id, self.bid_token
+        )
 
-        rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": True,
-        }]
+        rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": self.requirement_id,
+                    "title": self.requirement_title,
+                },
+                "value": True,
+            }
+        ]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")
@@ -154,8 +155,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.rr_id = response.json["data"][0]["id"]
 
         response = self.app.post_json(
-            "/tenders/{}/bids/{}/documents?acc_token={}".format(
-                self.tender_id, self.bid_id, self.bid_token),
+            "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
             {
                 "data": {
                     "title": "name.doc",
@@ -170,11 +170,11 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.doc_id = response.json["data"]["id"]
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "pending"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         bid_data = deepcopy(test_tender_open_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
@@ -214,7 +214,7 @@ class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
         test_amount = 319400.52
         self.initial_lots[0]["value"]["amount"] = test_amount
         self.initial_lots[0]["minimalStep"]["amount"] = test_amount / 100
-        super(TenderBidDecimalResourceTest, self).setUp()
+        super().setUp()
 
     test_patch_tender_bidder_decimal_problem = snitch(patch_tender_bidder_decimal_problem)
 
@@ -334,13 +334,13 @@ class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueRestriction))
     return suite
 
 

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentWithDSResourceTestMixin,
 )
-
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 
@@ -15,7 +13,7 @@ class TenderDocumentWithDSResourceTest(BaseESCOContentWebTest, TenderDocumentWit
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
     return suite
 
 

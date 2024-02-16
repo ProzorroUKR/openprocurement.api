@@ -1,18 +1,28 @@
-from openprocurement.api.context import get_request
 from openprocurement.api.constants import TENDER_CONFIG_OPTIONALITY
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
+from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_complaints import (
     has_award_complaints_populator,
-    has_tender_complaints_populator,
     has_cancellation_complaints_populator,
+    has_tender_complaints_populator,
 )
-from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
-from openprocurement.tender.core.migrations.add_config_has_auction_field import has_auction_populator
-from openprocurement.tender.core.migrations.add_config_min_bids_number import min_bids_number_populator
-from openprocurement.tender.core.migrations.add_config_has_value_restriction import has_value_restriction_populator
-from openprocurement.tender.core.migrations.add_config_has_prequalification_field import has_prequalification_populator
-from openprocurement.tender.core.migrations.add_config_pre_selection import pre_selection_populator
+from openprocurement.tender.core.migrations.add_config_has_auction_field import (
+    has_auction_populator,
+)
+from openprocurement.tender.core.migrations.add_config_has_prequalification_field import (
+    has_prequalification_populator,
+)
+from openprocurement.tender.core.migrations.add_config_has_value_restriction import (
+    has_value_restriction_populator,
+)
+from openprocurement.tender.core.migrations.add_config_min_bids_number import (
+    min_bids_number_populator,
+)
+from openprocurement.tender.core.migrations.add_config_pre_selection import (
+    pre_selection_populator,
+)
 
 
 def has_auction_serializer(obj, value):

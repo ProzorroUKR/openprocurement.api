@@ -1,20 +1,23 @@
 from uuid import uuid4
 
-from schematics.types import StringType, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.models.value import ContractValue
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
 from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.value import ContractValue
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_items_uniq
-
 from openprocurement.contracting.core.procedure.models.change import Change
-from openprocurement.contracting.core.procedure.models.implementation import Implementation
-from openprocurement.contracting.core.procedure.models.item import Item
-from openprocurement.contracting.core.procedure.models.organization import BusinessOrganization
 from openprocurement.contracting.core.procedure.models.document import Document
+from openprocurement.contracting.core.procedure.models.implementation import (
+    Implementation,
+)
+from openprocurement.contracting.core.procedure.models.item import Item
+from openprocurement.contracting.core.procedure.models.organization import (
+    BusinessOrganization,
+)
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 
 
@@ -69,7 +72,8 @@ class BasePatchContract(Model):
 
 
 class BaseContract(Model):
-    """ Contract """
+    """Contract"""
+
     _id = StringType(deserialize_from=['id', 'doc_id'])
     _rev = StringType()
     doc_type = StringType()
@@ -122,7 +126,6 @@ class BaseContract(Model):
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
             return self.amountPaid
-
 
 
 class ContractConfig(Model):

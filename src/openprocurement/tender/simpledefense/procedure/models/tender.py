@@ -1,7 +1,12 @@
 from schematics.types import StringType
+
+from openprocurement.tender.openuadefense.procedure.models.tender import (
+    PatchTender as BasePatchTender,
+)
 from openprocurement.tender.openuadefense.procedure.models.tender import (
     PostTender as BasePostTender,
-    PatchTender as BasePatchTender,
+)
+from openprocurement.tender.openuadefense.procedure.models.tender import (
     Tender as BaseTender,
 )
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE

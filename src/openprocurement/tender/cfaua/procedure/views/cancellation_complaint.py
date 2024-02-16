@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.tender.cfaua.procedure.state.cancellation_complaint import CFAUACancellationComplaintState
+from openprocurement.tender.cfaua.procedure.state.cancellation_complaint import (
+    CFAUACancellationComplaintState,
+)
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
@@ -30,4 +32,3 @@ class CFAUACancellationClaimAndComplaintGetResource(CancellationComplaintGetReso
 )
 class CFAUACancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = CFAUACancellationComplaintState
-

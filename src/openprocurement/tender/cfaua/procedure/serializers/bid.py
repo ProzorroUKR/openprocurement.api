@@ -1,10 +1,12 @@
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.procedure.serializers.base import ListSerializer
-from openprocurement.tender.core.procedure.serializers.document import ConfidentialDocumentSerializer
+from openprocurement.api.procedure.utils import is_item_owner
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.serializers.bid import (
     BidSerializer as BaseBidSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.document import (
+    ConfidentialDocumentSerializer,
 )
 
 
@@ -40,11 +42,23 @@ class BidSerializer(BaseBidSerializer):
             self.whitelist = {"id", "status"}
         elif data["status"] == "unsuccessful":
             self.whitelist = {
-                "id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses",
-                "selfEligible", "selfQualified", "parameters", "subcontractingDetails",
+                "id",
+                "status",
+                "tenderers",
+                "documents",
+                "eligibilityDocuments",
+                "requirementResponses",
+                "selfEligible",
+                "selfQualified",
+                "parameters",
+                "subcontractingDetails",
             }
         elif is_item_owner(get_request(), data):
             self.whitelist = None
-        elif tender["status"] in ("invalid.pre-qualification", "active.pre-qualification",
-                                  "active.pre-qualification.stand-still", "active.auction"):
+        elif tender["status"] in (
+            "invalid.pre-qualification",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+        ):
             self.whitelist = {"id", "status", "tenderers", "documents", "eligibilityDocuments", "requirementResponses"}

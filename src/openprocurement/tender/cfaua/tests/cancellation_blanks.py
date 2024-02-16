@@ -1,14 +1,13 @@
-# -*- coding: utf-8 -*-
 import jmespath
 
 import openprocurement.api.procedure.context
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_complaint,
     test_tender_below_claim,
+    test_tender_below_complaint,
 )
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def assert_statuses(self, rules: dict):
@@ -24,9 +23,7 @@ def add_tender_complaints(self, statuses):
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
-            {
-                "data": test_tender_below_complaint
-            },
+            {"data": test_tender_below_complaint},
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -59,10 +56,9 @@ def add_tender_complaints(self, statuses):
             data = {"decision": "decision", "status": status}
             if RELEASE_2020_04_19 < now:
                 if status in ["invalid", "stopped"]:
-                    data.update({
-                        "rejectReason": "tenderCancelled",
-                        "rejectReasonDescription": "reject reason description"
-                    })
+                    data.update(
+                        {"rejectReason": "tenderCancelled", "rejectReasonDescription": "reject reason description"}
+                    )
             response = self.app.patch_json(url_patch_complaint, {"data": data})
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
@@ -127,9 +123,7 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
-        {
-            "data": test_tender_below_complaint
-        },
+        {"data": test_tender_below_complaint},
     )
     self.assertEqual(response.status, "201 Created")
     complaint_id = response.json["data"]["id"]
@@ -138,8 +132,7 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     if RELEASE_2020_04_19 < get_now():
         with change_auth(self.app, ("Basic", ("bot", ""))):
             response = self.app.patch_json(
-                "/tenders/{}/complaints/{}".format(
-                    self.tender_id, complaint_id),
+                "/tenders/{}/complaints/{}".format(self.tender_id, complaint_id),
                 {"data": {"status": "pending"}},
             )
         self.assertEqual(response.status, "200 OK")
@@ -151,13 +144,8 @@ def cancellation_tender_active_pre_qualification_stand_still(self):
     now = get_now()
     data = {"status": "invalid"}
     if RELEASE_2020_04_19 < now:
-        data.update({
-            "rejectReason": "tenderCancelled",
-            "rejectReasonDescription": "reject reason description"
-        })
-    response = self.app.patch_json(
-        "/tenders/{}/complaints/{}".format(self.tender_id, complaint_id), {"data": data}
-    )
+        data.update({"rejectReason": "tenderCancelled", "rejectReasonDescription": "reject reason description"})
+    response = self.app.patch_json("/tenders/{}/complaints/{}".format(self.tender_id, complaint_id), {"data": data})
     self.assertEqual(response.status, "200 OK")
     self.check_chronograph()
     self.set_status("active.pre-qualification.stand-still")
@@ -253,10 +241,8 @@ def cancellation_tender_active_qualification_stand_still(self):
         award_id = response.json["data"]["awards"][0]["id"]
         owner_token = self.initial_bids_tokens[response.json["data"]["bids"][0]["id"]]
         response = self.app.post_json(
-            "/tenders/{0}/awards/{1}/complaints?acc_token={2}".format(self.tender_id, award_id, owner_token),
-            {
-                "data": test_tender_below_complaint
-            },
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, owner_token),
+            {"data": test_tender_below_complaint},
         )
         self.assertEqual(response.status, "201 Created")
         complaint = response.json["data"]
@@ -265,8 +251,7 @@ def cancellation_tender_active_qualification_stand_still(self):
         if RELEASE_2020_04_19 < get_now():
             with change_auth(self.app, ("Basic", ("bot", ""))):
                 response = self.app.patch_json(
-                     "/tenders/{}/awards/{}/complaints/{}".format(
-                         self.tender_id, award_id, complaint["id"]),
+                    "/tenders/{}/awards/{}/complaints/{}".format(self.tender_id, award_id, complaint["id"]),
                     {"data": {"status": "pending"}},
                 )
             self.assertEqual(response.status, "200 OK")
@@ -279,10 +264,12 @@ def cancellation_tender_active_qualification_stand_still(self):
                 "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                     self.tender_id, award_id, complaint["id"], complaint_token
                 ),
-                {"data": {
-                    "status": "stopping",
-                    "cancellationReason": "want this test to pass",
-                }},
+                {
+                    "data": {
+                        "status": "stopping",
+                        "cancellationReason": "want this test to pass",
+                    }
+                },
             )
             assert response.status_code == 200
         else:
@@ -291,11 +278,7 @@ def cancellation_tender_active_qualification_stand_still(self):
                     "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint["id"], complaint_token
                     ),
-                    {"data": {
-                        "status": "accepted",
-                        "reviewDate": get_now().isoformat(),
-                        "reviewPlace": "some place"
-                    }},
+                    {"data": {"status": "accepted", "reviewDate": get_now().isoformat(), "reviewPlace": "some place"}},
                 )
                 assert response.status_code == 200
 
@@ -303,10 +286,12 @@ def cancellation_tender_active_qualification_stand_still(self):
                     "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                         self.tender_id, award_id, complaint["id"], complaint_token
                     ),
-                    {"data": {
-                        "status": "stopped",
-                        "rejectReason": "tenderCancelled",
-                    }},
+                    {
+                        "data": {
+                            "status": "stopped",
+                            "rejectReason": "tenderCancelled",
+                        }
+                    },
                 )
                 assert response.status_code == 200
 
@@ -464,7 +449,7 @@ def cancel_lot_active_auction(self):
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"reasonType": "noDemand", "reason": "cancellation reason"}},
-            status=403
+            status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(

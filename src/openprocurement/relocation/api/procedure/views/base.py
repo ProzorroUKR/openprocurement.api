@@ -1,11 +1,10 @@
-from pyramid.security import Allow, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow
 
 from openprocurement.api.utils import request_init_object, request_init_transfer
 from openprocurement.api.views.base import BaseResource
 
 
 class TransferBaseResource(BaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, "g:brokers", "view_transfer"),

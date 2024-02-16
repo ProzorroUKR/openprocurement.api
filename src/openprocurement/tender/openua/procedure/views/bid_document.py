@@ -1,4 +1,5 @@
 from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
     BaseTenderBidEligibilityDocumentResource,
@@ -16,6 +17,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
 )
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
+
 
 @resource(
     name="aboveThresholdUA:Tender Bid Eligibility Documents",

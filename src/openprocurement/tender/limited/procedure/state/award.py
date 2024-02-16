@@ -1,15 +1,18 @@
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
-from openprocurement.api.procedure.context import get_tender
+from datetime import timedelta
+
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.contracting import add_contracts, save_contracts_to_contracting, update_econtracts_statuses
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.contracting import (
+    add_contracts,
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.contract import Contract
+from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
-from openprocurement.api.utils import raise_operation_error
-from datetime import timedelta
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
@@ -22,10 +25,7 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before['status']}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
@@ -38,10 +38,7 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
         elif before == "active" and after == "cancelled":
             self.cancel_award(award)
         else:  # any other state transitions are forbidden
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
 
@@ -56,7 +53,9 @@ class NegotiationAwardState(ReportingAwardState):
         if before == "pending" and after == "active":
             award["complaintPeriod"] = {
                 "startDate": now.isoformat(),
-                "endDate": calculate_complaint_business_date(now, self.award_stand_still_time, get_tender()).isoformat()
+                "endDate": calculate_complaint_business_date(
+                    now, self.award_stand_still_time, get_tender()
+                ).isoformat(),
             }
             contracts = add_contracts(get_request(), award)
             save_contracts_to_contracting(contracts, award)
@@ -66,7 +65,7 @@ class NegotiationAwardState(ReportingAwardState):
                 "endDate": now.isoformat(),
             }
         elif before == "active" and after == "cancelled":
-            if any([i["status"] == "satisfied" for i in award.get("complaints", "")]):
+            if any(i["status"] == "satisfied" for i in award.get("complaints", "")):
                 for i in get_tender().get("awards", ""):
                     if i.get("lotID") == award.get("lotID"):
                         period = i.get("complaintPeriod")
@@ -79,10 +78,7 @@ class NegotiationAwardState(ReportingAwardState):
                     award["complaintPeriod"]["endDate"] = now.isoformat()
                 self.cancel_award(award)
         else:  # any other state transitions are forbidden
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
 

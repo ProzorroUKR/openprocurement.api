@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b238b0d24c6e40b78d0f58ba1fa489ad?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+GET /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/4812f5c2e01041e9b8a8969467bc02a3?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -144,10 +144,10 @@ Content-Type: application/json
       }
     ],
     "status": "unsuccessful",
-    "id": "b238b0d24c6e40b78d0f58ba1fa489ad",
+    "id": "4812f5c2e01041e9b8a8969467bc02a3",
     "documents": [
       {
-        "id": "238f29be724140168bbc61e60be3fd47",
+        "id": "5c60f4da8bed4e8fa19b42288951e60c",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -159,12 +159,12 @@ Content-Type: application/json
         "confidentiality": "public"
       },
       {
-        "id": "1bb2683797354be2b5c51fa8c188cebf",
+        "id": "1bcfeae774094497ad385822d9185cd7",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/b238b0d24c6e40b78d0f58ba1fa489ad/documents/1bb2683797354be2b5c51fa8c188cebf?download=ed54157e228e45f6a32068f85a790948",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/bids/4812f5c2e01041e9b8a8969467bc02a3/documents/1bcfeae774094497ad385822d9185cd7?download=ed54157e228e45f6a32068f85a790948",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk",
@@ -174,7 +174,7 @@ Content-Type: application/json
     ],
     "eligibilityDocuments": [
       {
-        "id": "3f3e17b0deb64330ba540c46f6ae271e",
+        "id": "42dea9644f674ca0b336285ba42454d0",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",

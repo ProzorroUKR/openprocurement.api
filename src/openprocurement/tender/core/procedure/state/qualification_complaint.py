@@ -1,14 +1,16 @@
-from openprocurement.tender.core.procedure.models.complaint import DraftPatchQualificationComplaint
+from logging import getLogger
+
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.utils import is_item_owner
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.models.complaint import (
+    DraftPatchQualificationComplaint,
+)
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.api.validation import OPERATIONS
-from logging import getLogger
-from openprocurement.api.utils import raise_operation_error
-
 
 LOGGER = getLogger(__name__)
 
@@ -36,11 +38,7 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
         tender = get_tender()
         qualification = self.request.validated["qualification"]
         lot_id = qualification.get("lotID")
-        if lot_id and any(
-            lot.get("status") != "active"
-            for lot in tender.get("lots", [])
-            if lot["id"] == lot_id
-        ):
+        if lot_id and any(lot.get("status") != "active" for lot in tender.get("lots", []) if lot["id"] == lot_id):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")
 

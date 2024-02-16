@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -6,33 +5,37 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
-)
-from openprocurement.tender.open.tests.complaint import (
-    ComplaintObjectionMixin,
-    TenderComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
-    TenderAwardComplaintObjectionMixin,
-)
-
-from openprocurement.tender.openua.tests.complaint import TenderUAComplaintResourceTestMixin
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    patch_tender_complaint_document,
-)
-
-from openprocurement.tender.openeu.tests.complaint_blanks import (
-    put_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
-    test_tender_cfaua_lots,
     test_tender_cfaua_bids,
+    test_tender_cfaua_lots,
 )
-
-from openprocurement.tender.cfaua.tests.complaint_blanks import create_tender_complaint
+from openprocurement.tender.cfaua.tests.complaint_blanks import (
+    create_tender_complaint,
+    create_tender_lot_complaint,
+)
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+)
+from openprocurement.tender.openeu.tests.complaint_blanks import (
+    put_tender_complaint_document,
+)
+from openprocurement.tender.openua.tests.complaint import (
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (
+    patch_tender_complaint_document,
+)
 
 
 class TenderComplaintResourceTest(
@@ -45,12 +48,11 @@ class TenderComplaintResourceTest(
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
-
     test_author = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -86,7 +88,7 @@ class TenderCancellationComplaintObjectionTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 
@@ -103,7 +105,7 @@ class TenderAwardComplaintObjectionTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAwardComplaintObjectionTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}/awards")
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
@@ -111,11 +113,11 @@ class TenderAwardComplaintObjectionTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintObjectionTest))
     return suite
 
 

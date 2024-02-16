@@ -1,45 +1,41 @@
-# -*- coding: utf-8 -*-
-from copy import deepcopy
-
 import unittest
-from mock import patch
+from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
     test_tender_below_cancellation,
-)
-
-from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_openeu_bids,
-    test_tender_cd_author,
-    test_tender_cd_shortlisted_firms,
-    BaseCompetitiveDialogEUStage2ContentWebTest,
-    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation import (
-    TenderCancellationResourceTestMixin,
     TenderCancellationDocumentResourceTestMixin,
+    TenderCancellationResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
     create_tender_lot_cancellation,
-    patch_tender_lot_cancellation,
     create_tender_lots_cancellation,
+    patch_tender_lot_cancellation,
     patch_tender_lots_cancellation,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUStage2ContentWebTest,
+    BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cd_author,
+    test_tender_cd_shortlisted_firms,
+    test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
 from openprocurement.tender.openua.tests.cancellation import (
-    TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationComplaintResourceTestMixin,
-
+    TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import activate_cancellation
-
+from openprocurement.tender.openua.tests.cancellation_blanks import (
+    activate_cancellation,
+)
 
 test_bids = deepcopy(test_tender_openeu_bids)
 for bid in test_bids:
@@ -84,7 +80,7 @@ class TenderStage2EUCancellationDocumentResourceTest(
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderStage2EUCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
 
         response = self.app.post_json(
@@ -98,19 +94,16 @@ class TenderStage2EUCancellationDocumentResourceTest(
 class TenderStage2EUCancellationComplaintResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderCancellationComplaintResourceTestMixin
 ):
-
     initial_bids = test_bids
     initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderStage2EUCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -122,7 +115,7 @@ class TenderStage2EUCancellationComplaintResourceTest(
 class TenderStage2UACancellationResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest,
     TenderCancellationResourceTestMixin,
-    TenderCancellationResourceNewReleaseTestMixin
+    TenderCancellationResourceNewReleaseTestMixin,
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
@@ -150,12 +143,11 @@ class TenderStage2UALotsCancellationResourceTest(BaseCompetitiveDialogUAStage2Co
 class TenderStage2UACancellationDocumentResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
-
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderStage2UACancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -168,14 +160,14 @@ class TenderStage2UACancellationDocumentResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UACancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UACancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UACancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UACancellationDocumentResourceTest))
     return suite
 
 

@@ -1,15 +1,20 @@
-from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwardComplaint
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules, dt_from_iso
-from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
-from openprocurement.tender.core.procedure.context import get_award
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.api.validation import OPERATIONS
-from logging import getLogger
-from openprocurement.api.utils import raise_operation_error
 from datetime import timedelta
+from logging import getLogger
 
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.tender.core.procedure.models.complaint import (
+    DraftPatchAwardComplaint,
+)
+from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    tender_created_after_2020_rules,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -63,9 +68,7 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
         award = get_award()
         lot_id = award.get("lotID")
         if lot_id and any(
-            lot.get("status") != "active"
-            for lot in tender.get("lots", [])
-            if lot["id"] == award.get("lotID")
+            lot.get("status") != "active" for lot in tender.get("lots", []) if lot["id"] == award.get("lotID")
         ):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")

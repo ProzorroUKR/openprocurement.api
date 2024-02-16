@@ -1,6 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.contracting.core.procedure.views.contract_document import ContractDocumentResource
+from openprocurement.contracting.core.procedure.views.contract_document import (
+    ContractDocumentResource,
+)
 
 
 @resource(

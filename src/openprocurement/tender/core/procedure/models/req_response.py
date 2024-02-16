@@ -1,29 +1,30 @@
-from typing import Optional, List, Tuple
 from logging import getLogger
+from typing import List, Optional, Tuple
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import IntType
-from schematics.types import MD5Type
-from schematics.types import StringType
+from schematics.types import IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.reference import Reference
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    get_criterion_requirement,
-    bid_in_invalid_status,
-    tender_created_before,
-    tender_created_after,
+from openprocurement.api.constants import (
+    CRITERION_REQUIREMENT_STATUSES_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
 )
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.reference import Reference
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.tender.core.procedure.models.evidence import Evidence
+from openprocurement.tender.core.procedure.utils import (
+    bid_in_invalid_status,
+    get_criterion_requirement,
+    tender_created_after,
+    tender_created_before,
+)
 from openprocurement.tender.core.procedure.validation import (
-    validate_value_type, validate_object_id_uniq,
+    validate_object_id_uniq,
+    validate_value_type,
 )
 
 LOGGER = getLogger(__name__)
@@ -37,6 +38,7 @@ class ExtendPeriod(Period):
 
 
 # ECriteria
+
 
 class BaseRequirementResponse(Model):
     title = StringType()
@@ -132,8 +134,8 @@ def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[d
             for req in reversed(group.get("requirements", "")):
                 if req["id"] == requirement_id:
                     if (
-                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM) and
-                        req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
+                        tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM)
+                        and req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
                     ):
                         continue
                     return req, group, criteria
@@ -144,11 +146,8 @@ def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[d
 
 # Validations ---
 
-def validate_req_response_requirement(
-        req_response: dict,
-        parent_obj_name: str = "bid"
-) -> None:
 
+def validate_req_response_requirement(req_response: dict, parent_obj_name: str = "bid") -> None:
     # Finding out what the f&#ck is going on
     # parent is mist be Bid
     requirement_ref = req_response.get("requirement") or {}
@@ -173,27 +172,31 @@ def validate_req_response_requirement(
     source = criterion.get("source", "tenderer")
     available_parents = source_map.get(source)
     if available_parents and parent_obj_name.lower() not in available_parents:
-        raise ValidationError([{
-            "requirement": [f"Requirement response in {parent_obj_name} "
-                            f"can't have requirement criteria with source: {source}"]
-        }])
+        raise ValidationError(
+            [
+                {
+                    "requirement": [
+                        f"Requirement response in {parent_obj_name} "
+                        f"can't have requirement criteria with source: {source}"
+                    ]
+                }
+            ]
+        )
 
 
 def validate_req_response_related_tenderer(parent_data: dict, req_response: dict) -> None:
-
     related_tenderer = req_response.get("relatedTenderer")
 
     if related_tenderer and related_tenderer["id"] not in [
-        organization["identifier"]["id"]
-        for organization in parent_data.get("tenderers", "")
+        organization["identifier"]["id"] for organization in parent_data.get("tenderers", "")
     ]:
         raise ValidationError([{"relatedTenderer": ["relatedTenderer should be one of bid tenderers"]}])
 
 
 def validate_req_response_evidences_relatedDocument(
-        parent_data: dict,
-        req_response: dict,
-        parent_obj_name: str,
+    parent_data: dict,
+    req_response: dict,
+    parent_obj_name: str,
 ) -> None:
     for evidence in req_response.get("evidences", ""):
         error = validate_evidence_relatedDocument(parent_data, evidence, parent_obj_name, raise_error=False)
@@ -202,19 +205,19 @@ def validate_req_response_evidences_relatedDocument(
 
 
 def validate_evidence_relatedDocument(
-        parent_data: dict,
-        evidence: dict,
-        parent_obj_name: str,
-        raise_error: bool = True,
+    parent_data: dict,
+    evidence: dict,
+    parent_obj_name: str,
+    raise_error: bool = True,
 ) -> List[dict]:
     related_doc = evidence.get("relatedDocument")
     if related_doc:
         doc_id = related_doc["id"]
         if (
-                not is_doc_id_in_container(parent_data, "documents", doc_id) and
-                not is_doc_id_in_container(parent_data, "financialDocuments", doc_id) and
-                not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id) and
-                not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
+            not is_doc_id_in_container(parent_data, "documents", doc_id)
+            and not is_doc_id_in_container(parent_data, "financialDocuments", doc_id)
+            and not is_doc_id_in_container(parent_data, "eligibilityDocuments", doc_id)
+            and not is_doc_id_in_container(parent_data, "qualificationDocuments", doc_id)
         ):
             error_msg = [{"relatedDocument": [f"relatedDocument.id should be one of {parent_obj_name} documents"]}]
             if not raise_error:
@@ -235,7 +238,7 @@ def validate_evidence_type(req_response_data: dict, evidence: dict) -> None:
 def validate_response_requirement_uniq(requirement_responses):
     if requirement_responses:
         req_ids = [i["requirement"]["id"] for i in requirement_responses]
-        if any([i for i in set(req_ids) if req_ids.count(i) > 1]):
+        if any(i for i in set(req_ids) if req_ids.count(i) > 1):
             raise ValidationError([{"requirement": "Requirement id should be uniq for all requirement responses"}])
 
 
@@ -283,6 +286,7 @@ class PostBidResponsesMixin(ObjResponseMixin):
     """
     this model is used to update "full" data during patch and post requests
     """
+
     def validate_selfEligible(self, data: dict, value: Optional[bool]):
         tender = get_tender()
         if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
@@ -315,7 +319,9 @@ class PostBidResponsesMixin(ObjResponseMixin):
                         break
                 else:
                     continue
-            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith("GUARANTEE"):
+            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith(
+                "GUARANTEE"
+            ):
                 continue
             if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 active_requirements = [
@@ -350,5 +356,6 @@ class PostBidResponsesMixin(ObjResponseMixin):
             rg_id = list(group_answered_requirement_ids.keys())[0]
             if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
                 raise ValidationError("Inside requirement group must get answered all of requirements")
+
 
 # --- requirementResponses mixin

@@ -1,17 +1,19 @@
+from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,
-    QUESTIONS_STAND_STILL,
     ENQUIRY_STAND_STILL_TIME,
+    QUESTIONS_STAND_STILL,
 )
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.openeu.procedure.state.tender_details import OpenEUTenderDetailsState as BaseTenderDetailsState
+from openprocurement.tender.openeu.procedure.state.tender_details import (
+    OpenEUTenderDetailsState as BaseTenderDetailsState,
+)
 
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
-    enquiry_period_timedelta = - QUESTIONS_STAND_STILL
+    enquiry_period_timedelta = -QUESTIONS_STAND_STILL
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     def on_post(self, tender):

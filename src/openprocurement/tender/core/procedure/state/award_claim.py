@@ -1,13 +1,13 @@
-from openprocurement.tender.core.procedure.context import get_award, get_request
+from logging import getLogger
+
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
-from logging import getLogger
-from openprocurement.api.validation import OPERATIONS
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.context import get_now
-
 
 LOGGER = getLogger(__name__)
 
@@ -47,9 +47,7 @@ class AwardClaimStateMixin(ClaimStateMixin):
         award = get_award()
         lot_id = award.get("lotID")
         if lot_id and any(
-            lot.get("status") != "active"
-            for lot in tender.get("lots", [])
-            if lot["id"] == award.get("lotID")
+            lot.get("status") != "active" for lot in tender.get("lots", []) if lot["id"] == award.get("lotID")
         ):
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(self.request, f"Can {operation} complaint only in active lot status")

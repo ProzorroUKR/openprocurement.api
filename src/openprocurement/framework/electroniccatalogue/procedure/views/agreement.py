@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
@@ -7,12 +6,17 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.validation import (
-    validate_agreement_operation_not_in_allowed_status,
     validate_agreement_framework,
+    validate_agreement_operation_not_in_allowed_status,
 )
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
-from openprocurement.framework.electroniccatalogue.procedure.models.agreement import PostAgreement, Agreement
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
+from openprocurement.framework.electroniccatalogue.procedure.models.agreement import (
+    Agreement,
+    PostAgreement,
+)
 
 
 @resource(
@@ -30,7 +34,7 @@ class ElectronicCatalogueAgreementResource(AgreementsResource):
             validate_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),
             validate_agreement_framework,
-            validate_agreement_operation_not_in_allowed_status
+            validate_agreement_operation_not_in_allowed_status,
         ),
         permission="edit_agreement",
     )

@@ -1,51 +1,49 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.contracting.api.tests.base import (
-    BaseContractWebTest,
     BaseContractTest,
-    BaseContractWebTestTwoItems
+    BaseContractWebTest,
+    BaseContractWebTestTwoItems,
+)
+from openprocurement.contracting.api.tests.contract_blanks import (
+    contract_administrator_change,
+    contract_items_change,
+    contract_status_change,
+    contract_token_invalid,
+    contract_update_add_remove_items,
+    contract_wo_items_status_change,
+    create_contract,
+    create_contract_already_exists,
+    create_contract_generated,
+    create_contract_invalid,
+    create_contract_transfer_token,
+    create_contract_w_documents,
+    empty_listing,
+    generate_credentials,
+    generate_credentials_invalid,
+    get_contract,
+    get_credentials,
+    listing,
+    listing_changes,
+    not_found,
+    patch_tender_contract,
+    patch_tender_contract_amount_paid_zero,
+    patch_tender_contract_identical,
+    patch_tender_contract_readonly,
+    patch_tender_contract_single_request,
+    patch_tender_contract_value_amount,
+    patch_tender_contract_value_vat_change,
+    patch_tender_contract_without_value,
+    patch_tender_contract_wo_amount_net,
+    put_transaction_to_contract,
+    simple_add_contract,
+    skip_address_validation,
 )
 from openprocurement.contracting.api.tests.data import (
     test_contract_data,
     test_contract_data_wo_items,
     test_contract_data_wo_value_amount_net,
-)
-from openprocurement.contracting.api.tests.contract_blanks import (
-    empty_listing,
-    listing,
-    listing_changes,
-    get_contract,
-    not_found,
-    create_contract_invalid,
-    create_contract_generated,
-    create_contract,
-    create_contract_already_exists,
-    create_contract_transfer_token,
-    simple_add_contract,
-    create_contract_w_documents,
-    contract_administrator_change,
-    contract_token_invalid,
-    contract_status_change,
-    contract_items_change,
-    patch_tender_contract,
-    patch_tender_contract_identical,
-    patch_tender_contract_readonly,
-    patch_tender_contract_value_amount,
-    patch_tender_contract_amount_paid_zero,
-    patch_tender_contract_single_request,
-    get_credentials,
-    generate_credentials,
-    generate_credentials_invalid,
-    contract_wo_items_status_change,
-    patch_tender_contract_wo_amount_net,
-    patch_tender_contract_without_value,
-    skip_address_validation,
-    put_transaction_to_contract,
-    contract_update_add_remove_items,
-    patch_tender_contract_value_vat_change,
 )
 
 
@@ -118,11 +116,11 @@ class ContractWOAmountNetResource4BrokersTest(BaseContractWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ContractResourceTest))
-    suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
-    suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractWOAmountNetResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4AdministratorTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOItemsResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOAmountNetResource4BrokersTest))
     return suite
 
 

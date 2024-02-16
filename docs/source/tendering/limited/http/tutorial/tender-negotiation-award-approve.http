@@ -49,7 +49,7 @@ Content-Type: application/json
         }
       }
     ],
-    "lotID": "79e5f434045c4d8698d3423133f65438",
+    "lotID": "713734a991cb4312814142c19d41494f",
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-16T00:00:00+03:00"

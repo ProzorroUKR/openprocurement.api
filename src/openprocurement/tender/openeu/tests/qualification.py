@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
 import unittest
-from mock import patch
-from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -10,65 +7,64 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
     test_tender_openeu_lots,
 )
 from openprocurement.tender.openeu.tests.qualification_blanks import (
-    create_tender_2lot_qualification_complaint_document,
-    put_tender_2lot_qualification_complaint_document,
-    complaint_not_found,
-    create_tender_qualification_complaint_document,
-    put_tender_qualification_complaint_document,
-    patch_tender_qualification_complaint_document,
-    create_tender_qualification_claim,
-    create_tender_2lot_qualification_complaint,
-    create_tender_lot_qualification_complaint,
-    patch_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaints,
-    create_tender_qualification_complaint_invalid,
-    create_tender_qualification_complaint,
-    patch_tender_qualification_complaint,
-    review_tender_qualification_complaint,
-    review_tender_qualification_stopping_complaint,
-    review_tender_award_claim,
-    get_tender_qualification_complaint,
-    get_tender_qualification_complaints,
-    change_status_to_standstill_with_complaint,
-    not_found,
-    tender_owner_create_qualification_document,
-    create_qualification_document,
-    put_qualification_document,
-    patch_qualification_document,
-    create_qualification_document_after_status_change,
-    put_qualification_document_after_status_change,
-    lot_patch_tender_qualifications,
-    lot_get_tender_qualifications_collection,
-    tender_qualification_cancelled,
-    post_tender_qualifications,
-    get_tender_qualifications_collection,
-    patch_tender_qualifications,
-    get_tender_qualifications,
-    check_reporting_date_publication,
-    patch_tender_qualifications_after_status_change,
-    switch_bid_status_unsuccessul_to_active,
-    lot_patch_tender_qualifications_lots_none,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
+    change_status_to_standstill_with_complaint,
+    check_reporting_date_publication,
+    complaint_not_found,
+    create_qualification_document,
+    create_qualification_document_after_status_change,
     create_qualification_requirement_response,
-    patch_qualification_requirement_response,
-    get_qualification_requirement_response,
     create_qualification_requirement_response_evidence,
-    patch_qualification_requirement_response_evidence,
-    get_qualification_requirement_response_evidence,
+    create_tender_2lot_qualification_complaint,
+    create_tender_2lot_qualification_complaint_document,
+    create_tender_lot_qualification_complaint,
+    create_tender_qualification_claim,
+    create_tender_qualification_complaint,
+    create_tender_qualification_complaint_document,
+    create_tender_qualification_complaint_invalid,
     create_tender_qualifications_document_json_bulk,
+    get_qualification_requirement_response,
+    get_qualification_requirement_response_evidence,
+    get_tender_lot_qualification_complaint,
+    get_tender_lot_qualification_complaints,
+    get_tender_qualification_complaint,
+    get_tender_qualification_complaints,
+    get_tender_qualifications,
+    get_tender_qualifications_collection,
+    lot_get_tender_qualifications_collection,
+    lot_patch_tender_qualifications,
+    lot_patch_tender_qualifications_lots_none,
+    not_found,
+    patch_qualification_document,
+    patch_qualification_requirement_response,
+    patch_qualification_requirement_response_evidence,
+    patch_tender_lot_qualification_complaint,
+    patch_tender_qualification_complaint,
+    patch_tender_qualification_complaint_document,
+    patch_tender_qualifications,
+    patch_tender_qualifications_after_status_change,
+    post_tender_qualifications,
+    put_qualification_document,
+    put_qualification_document_after_status_change,
+    put_tender_2lot_qualification_complaint_document,
+    put_tender_qualification_complaint_document,
+    review_tender_award_claim,
+    review_tender_qualification_complaint,
+    review_tender_qualification_stopping_complaint,
+    switch_bid_status_unsuccessul_to_active,
+    tender_owner_create_qualification_document,
+    tender_qualification_cancelled,
 )
 
 
-class TenderQualificationRequirementResponseTestMixin(object):
+class TenderQualificationRequirementResponseTestMixin:
     test_create_qualification_requirement_response = snitch(create_qualification_requirement_response)
     test_patch_qualification_requirement_response = snitch(patch_qualification_requirement_response)
     test_get_qualification_requirement_response = snitch(get_qualification_requirement_response)
@@ -76,7 +72,7 @@ class TenderQualificationRequirementResponseTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderQualificationRequirementResponseTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
@@ -84,7 +80,7 @@ class TenderQualificationRequirementResponseTestMixin(object):
         self.requirement_title = requirement["title"]
 
 
-class TenderQualificationRequirementResponseEvidenceTestMixin(object):
+class TenderQualificationRequirementResponseEvidenceTestMixin:
     test_create_qualification_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
     test_patch_qualification_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
     test_get_qualification_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
@@ -92,7 +88,7 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderQualificationRequirementResponseEvidenceTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
@@ -100,17 +96,20 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
         self.requirement_title = requirement["title"]
 
         request_path = "/tenders/{}/qualifications/{}/requirement_responses?acc_token={}".format(
-            self.tender_id, self.qualification_id, self.tender_token)
+            self.tender_id, self.qualification_id, self.tender_token
+        )
 
-        rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": self.requirement_id,
-                "title": self.requirement_title,
-            },
-            "value": True,
-        }]
+        rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": self.requirement_id,
+                    "title": self.requirement_title,
+                },
+                "value": True,
+            }
+        ]
 
         response = self.app.post_json(request_path, {"data": rr_data})
         self.assertEqual(response.status, "201 Created")
@@ -121,13 +120,16 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
         self.app.authorization = ("Basic", ("bot", ""))
         response = self.app.post_json(
             "/tenders/{}/qualifications/{}/documents?acc_token={}".format(
-                self.tender_id, self.qualification_id, self.tender_token),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+                self.tender_id, self.qualification_id, self.tender_token
+            ),
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -145,7 +147,7 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -158,7 +160,6 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
 
 
 class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
-
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
     test_patch_tender_qualifications = snitch(patch_tender_qualifications)
@@ -186,7 +187,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -201,6 +202,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
 
+
 class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
     docservice = True
 
@@ -214,7 +216,7 @@ class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -312,9 +314,8 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
-        super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -379,14 +380,15 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationBaseTestCase,
 ):
     docservice = True
-    pass
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationRequirementResponseResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationRequirementResponseEvidenceResourceTest)
+    )
     return suite
 
 

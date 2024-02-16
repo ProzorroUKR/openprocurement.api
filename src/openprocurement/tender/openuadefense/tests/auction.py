@@ -1,31 +1,28 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_features_data,
-    test_tender_below_lots,
-    test_tender_below_organization,
-)
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (
+    get_tender_auction_feature,
+    get_tender_lots_auction_features,
+    patch_tender_lots_auction,
+    post_tender_auction_feature,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
-    patch_tender_lots_auction,
-    get_tender_auction_feature,
-    post_tender_auction_feature,
-    get_tender_lots_auction_features,
     post_tender_lots_auction_features,
 )
-
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_features_data,
+    test_tender_below_lots,
+    test_tender_below_organization,
+)
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_openuadefense_features_data,
     test_tender_openuadefense_bids,
+    test_tender_openuadefense_features_data,
 )
 
 
@@ -101,10 +98,10 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 

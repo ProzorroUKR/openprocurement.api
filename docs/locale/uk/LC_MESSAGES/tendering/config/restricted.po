@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 19:12+0200\n"
+"POT-Creation-Date: 2024-02-14 13:39+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "restricted"
 msgstr ""
@@ -77,8 +77,8 @@ msgstr "Правила створюються з JSONPath виразів. Для
 msgid "Rules for tender masking:"
 msgstr "Правила приховування закупівлі:"
 
-msgid "rule"
-msgstr "правило"
+msgid "path"
+msgstr "шлях"
 
 msgid "value"
 msgstr "значення"
@@ -117,6 +117,18 @@ msgid "Hidden"
 msgstr ""
 
 msgid "$.items[*].deliveryAddress.countryName_ru"
+msgstr ""
+
+msgid "$.documents[?(@.documentType=='notice')].url"
+msgstr ""
+
+msgid "$.documents[?(@.documentType=='notice')].title"
+msgstr ""
+
+msgid "$.documents[?(@.title=='sign.p7s')].url"
+msgstr ""
+
+msgid "$.documents[?(@.title=='sign.p7s')].title"
 msgstr ""
 
 msgid "$.bids[*].tenderers[*].name"
@@ -847,7 +859,4 @@ msgstr ""
 
 msgid "$..documents[*].url"
 msgstr ""
-
-#~ msgid "1111-11-11T00:00:00+02:00"
-#~ msgstr ""
 

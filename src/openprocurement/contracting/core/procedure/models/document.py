@@ -1,12 +1,13 @@
-from openprocurement.api.procedure.types import HashType
-from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.document import BaseDocument
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, MD5Type
+from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_contract
+from openprocurement.api.procedure.types import HashType
+from openprocurement.tender.core.procedure.models.document import BaseDocument
 
 DOCUMENT_OFS = (
     "tender",
@@ -18,6 +19,7 @@ DOCUMENT_OFS = (
 
 
 # --- Base models ---
+
 
 class BaseContractDocument(BaseDocument):
     documentOf = StringType(choices=DOCUMENT_OFS)
@@ -31,6 +33,7 @@ class BaseTransactionDocument(BaseDocument):
 
 
 # --- Contract document models ---
+
 
 class PostDocument(BaseContractDocument):
     @serializable
@@ -47,7 +50,7 @@ class PostDocument(BaseContractDocument):
 
     hash = HashType()
     title = StringType(required=True)
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)
     documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
     author = StringType()
@@ -58,6 +61,7 @@ class PostDocument(BaseContractDocument):
 
 class PatchDocument(BaseContractDocument):
     documentOf = StringType(choices=DOCUMENT_OFS)
+
     @serializable
     def dateModified(self):
         return get_now().isoformat()
@@ -67,7 +71,7 @@ class Document(BaseContractDocument):
     id = MD5Type(required=True)
     hash = HashType()
     title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
     datePublished = StringType(required=True)
@@ -102,5 +106,3 @@ def validate_relatedItem(related_item: str, document_of: str) -> None:
         raise ValidationError("relatedItem should be one of changes")
     if document_of == "item" and not any(i and related_item == i["id"] for i in contract.get("items", "")):
         raise ValidationError("relatedItem should be one of items")
-
-

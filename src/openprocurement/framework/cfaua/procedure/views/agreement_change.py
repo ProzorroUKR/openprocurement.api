@@ -2,24 +2,31 @@ from copy import deepcopy
 
 from cornice.resource import resource
 
+from openprocurement.api.procedure.context import get_object
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import apply_data_patch, get_items, set_item
 from openprocurement.api.procedure.validation import (
+    unless_administrator,
     validate_input_data_from_resolved_model,
-    validate_patch_data_from_resolved_model, validate_item_owner, unless_administrator,
+    validate_item_owner,
+    validate_patch_data_from_resolved_model,
 )
-from openprocurement.api.utils import json_view, update_logging_context, context_unpack, raise_operation_error
+from openprocurement.api.utils import (
+    context_unpack,
+    json_view,
+    raise_operation_error,
+    update_logging_context,
+)
+from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.state.change import ChangeState
 from openprocurement.framework.cfaua.procedure.utils import apply_modifications
 from openprocurement.framework.cfaua.procedure.validation import (
     validate_agreement_change_add_not_in_allowed_agreement_status,
-    validate_create_agreement_change,
     validate_agreement_change_update_not_in_allowed_change_status,
+    validate_create_agreement_change,
 )
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
-from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.api.procedure.context import get_object
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 def resolve_change(request):
@@ -37,7 +44,8 @@ def resolve_change(request):
     description="Agreement Changes",
 )
 class AgreementChangesResource(AgreementBaseResource):
-    """ Agreement changes resource """
+    """Agreement changes resource"""
+
     serializer_class = BaseSerializer
     state_class = ChangeState
 
@@ -48,30 +56,28 @@ class AgreementChangesResource(AgreementBaseResource):
 
     @json_view(permission="view_agreement")
     def collection_get(self):
-        """ Return Agreement Changes list """
+        """Return Agreement Changes list"""
         agreement = self.request.validated["agreement"]
         data = tuple(self.serializer_class(change).data for change in agreement.get("changes", []))
         return {"data": data}
 
     @json_view(permission="view_agreement")
     def get(self):
-        """ Return Agreement Change """
+        """Return Agreement Change"""
         return {"data": self.serializer_class(get_object("change")).data}
 
     @json_view(
         content_type="application/json",
         permission="edit_agreement",
         validators=(
-            unless_administrator(
-                validate_item_owner("agreement")
-            ),
+            unless_administrator(validate_item_owner("agreement")),
             validate_input_data_from_resolved_model(),
             validate_agreement_change_add_not_in_allowed_agreement_status,
             validate_create_agreement_change,
         ),
     )
     def collection_post(self):
-        """ Agreement Change create """
+        """Agreement Change create"""
         update_logging_context(self.request, {"change_id": "__new__"})
         agreement = self.request.validated["agreement"]
 
@@ -110,16 +116,14 @@ class AgreementChangesResource(AgreementBaseResource):
         content_type="application/json",
         permission="edit_agreement",
         validators=(
-            unless_administrator(
-                validate_item_owner("agreement")
-            ),
+            unless_administrator(validate_item_owner("agreement")),
             validate_input_data_from_resolved_model(),
             validate_patch_data_from_resolved_model(item_name="change"),
             validate_agreement_change_update_not_in_allowed_change_status,
         ),
     )
     def patch(self):
-        """ Agreement change edit """
+        """Agreement change edit"""
         change = self.request.validated["change"]
         data = self.request.validated["data"]
 

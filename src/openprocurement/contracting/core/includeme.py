@@ -1,10 +1,12 @@
 from logging import getLogger
+
 from pkg_resources import iter_entry_points
 
 from openprocurement.contracting.core.database import ContractCollection
-from openprocurement.contracting.core.procedure.serializers.config import ContractConfigSerializer
+from openprocurement.contracting.core.procedure.serializers.config import (
+    ContractConfigSerializer,
+)
 from openprocurement.contracting.core.utils import ContractTypePredicate
-
 
 LOGGER = getLogger("openprocurement.contracting.core")
 

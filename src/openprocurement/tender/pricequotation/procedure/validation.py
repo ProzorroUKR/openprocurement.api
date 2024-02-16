@@ -1,10 +1,15 @@
+from schematics.exceptions import ValidationError
 from schematics.types import DateTimeType
 
-from openprocurement.api.procedure.types import StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType
-from openprocurement.api.validation import OPERATIONS
 from openprocurement.api.procedure.context import get_tender
-from schematics.exceptions import ValidationError
+from openprocurement.api.procedure.types import (
+    StrictBooleanType,
+    StrictDecimalType,
+    StrictIntType,
+    StrictStringType,
+)
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.validation import validate_value_factory
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
@@ -29,17 +34,15 @@ def validate_document_operation_in_not_allowed_period(request, **_):
     status = request.validated["tender"]["status"]
     if status not in ("active.tendering", "draft"):
         operation = OPERATIONS.get(request.method)
-        raise_operation_error(
-            request,
-            f"Can't {operation} document in current ({status}) tender status"
-        )
+        raise_operation_error(request, f"Can't {operation} document in current ({status}) tender status")
 
 
 def unless_administrator_or_bots(*validations):
     def decorated(request, **_):
-        if request.authenticated_role  not in ("bots", "Administrator"):
+        if request.authenticated_role not in ("bots", "Administrator"):
             for validation in validations:
                 validation(request)
+
     return decorated
 
 
@@ -47,12 +50,10 @@ def validate_contract_document_status(operation):
     def validate(request, **_):
         tender_status = request.validated["tender"]["status"]
         if tender_status not in ["active.qualification", "active.awarded"]:
-            raise_operation_error(
-                request,
-                f"Can't {operation} document in current ({tender_status}) tender status"
-            )
+            raise_operation_error(request, f"Can't {operation} document in current ({tender_status}) tender status")
         if request.validated["contract"]["status"] not in ["pending", "active"]:
             raise_operation_error(request, f"Can't {operation} document in current contract status")
+
     return validate
 
 
@@ -101,19 +102,13 @@ def validate_expected_items(requirement):
             raise ValidationError("expectedMinItems couldn't be higher then expectedMaxItems")
 
         if expected_min_items and expected_min_items > len(expected_values):
-            raise ValidationError(
-                "expectedMinItems couldn't be higher then count of items in expectedValues"
-            )
+            raise ValidationError("expectedMinItems couldn't be higher then count of items in expectedValues")
 
         if expected_max_items and expected_max_items > len(expected_values):
-            raise ValidationError(
-                "expectedMaxItems couldn't be higher then count of items in expectedValues"
-            )
+            raise ValidationError("expectedMaxItems couldn't be higher then count of items in expectedValues")
 
     elif expected_min_items or expected_max_items:
-        raise ValidationError(
-            "expectedMinItems and expectedMaxItems couldn't exist without expectedValues"
-        )
+        raise ValidationError("expectedMinItems and expectedMaxItems couldn't exist without expectedValues")
 
 
 def validate_requirement_values(requirement):
@@ -123,10 +118,7 @@ def validate_requirement_values(requirement):
     }
 
     for k, v in field_conflict_map.items():
-        if (
-            requirement.get(k) is not None
-            and any(requirement.get(i) is not None for i in v)
-        ):
+        if requirement.get(k) is not None and any(requirement.get(i) is not None for i in v):
             raise ValidationError(f"{k} conflicts with {v}")
     validate_expected_items(requirement)
 

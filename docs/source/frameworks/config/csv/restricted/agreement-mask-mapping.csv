@@ -1,4 +1,4 @@
-rule,value
+path,value
 $.contracts[*].suppliers[*].address.streetAddress,Приховано
 $.contracts[*].suppliers[*].address.locality,Приховано
 $.contracts[*].suppliers[*].address.region,Приховано

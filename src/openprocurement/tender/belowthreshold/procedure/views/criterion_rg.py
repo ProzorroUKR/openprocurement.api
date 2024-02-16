@@ -1,7 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.tender.core.procedure.views.criterion_rg import BaseRequirementGroupResource
-from openprocurement.tender.belowthreshold.procedure.state.criterion_rg import BelowThresholdRequirementGroupState
+from openprocurement.tender.belowthreshold.procedure.state.criterion_rg import (
+    BelowThresholdRequirementGroupState,
+)
+from openprocurement.tender.core.procedure.views.criterion_rg import (
+    BaseRequirementGroupResource,
+)
 
 
 @resource(

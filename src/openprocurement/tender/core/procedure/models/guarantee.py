@@ -1,9 +1,7 @@
-from schematics.types import StringType, FloatType, BooleanType
+from schematics.types import BooleanType, FloatType, StringType
 
+from openprocurement.api.procedure.models.guarantee import Guarantee as BaseGuarantee
 from openprocurement.api.procedure.types import DecimalType
-from openprocurement.api.procedure.models.guarantee import (
-    Guarantee as BaseGuarantee,
-)
 
 
 class Guarantee(BaseGuarantee):

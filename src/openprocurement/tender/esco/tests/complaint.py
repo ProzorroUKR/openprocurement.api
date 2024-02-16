@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -6,29 +5,36 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
+    not_found,
+)
+from openprocurement.tender.esco.tests.base import (
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_lots,
 )
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,
-    TenderQualificationComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
     TenderComplaintObjectionMixin,
+    TenderQualificationComplaintObjectionMixin,
 )
-
-from openprocurement.tender.openua.tests.complaint import CreateAwardComplaintMixin, TenderUAComplaintResourceTestMixin
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    patch_tender_complaint_document,
-)
-
 from openprocurement.tender.openeu.tests.complaint_blanks import (
     put_tender_complaint_document,
 )
-
-from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest, test_tender_esco_lots, test_tender_esco_bids
+from openprocurement.tender.openua.tests.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (
+    create_tender_lot_complaint,
+    patch_tender_complaint_document,
+)
 
 
 class TenderComplaintResourceTest(
@@ -39,12 +45,11 @@ class TenderComplaintResourceTest(
 
 
 class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
-
     test_author = test_tender_below_author
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -81,7 +86,7 @@ class TenderQualificationComplaintPostResourceTest(
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         self.create_qualification()
 
 
@@ -97,7 +102,7 @@ class TenderAwardComplaintObjectionResourceTest(
     initial_lots = test_tender_esco_lots
 
     def setUp(self):
-        super(TenderAwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
 
@@ -109,7 +114,7 @@ class TenderCancellationComplaintObjectionResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 

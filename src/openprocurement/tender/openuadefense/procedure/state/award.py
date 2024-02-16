@@ -1,23 +1,23 @@
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.utils import tender_created_in
-from openprocurement.tender.core.procedure.context import (
-    get_request,
+from openprocurement.api.constants import (
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
 )
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
 )
 from openprocurement.tender.core.procedure.models.contract import Contract
+from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.utils import tender_created_in
 from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
-from openprocurement.tender.openuadefense.procedure.state.tender import OpenUADefenseTenderState
-from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.constants import (
-    NEW_DEFENSE_COMPLAINTS_FROM,
-    NEW_DEFENSE_COMPLAINTS_TO,
+from openprocurement.tender.openuadefense.procedure.state.tender import (
+    OpenUADefenseTenderState,
 )
+from openprocurement.tender.openuadefense.utils import calculate_complaint_business_date
 
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):
@@ -37,10 +37,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before['status']}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
@@ -73,7 +70,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     "startDate": now,
                     "endDate": calculate_complaint_business_date(
                         get_now(), self.award_stand_still_time, tender, True
-                    ).isoformat()
+                    ).isoformat(),
                 }
             self.add_next_award()
 
@@ -94,10 +91,7 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
                     award["complaintPeriod"]["endDate"] = now
                 self.cancel_award(award)
                 self.add_next_award()
-        elif (
-            before == "unsuccessful" and after == "cancelled"
-            and any(i["status"] == "satisfied" for i in award.get("complaints", ""))
-        ):
+        elif before == "unsuccessful" and after == "cancelled" and self.has_considered_award_complaints(award, tender):
             if tender["status"] == "active.awarded":
                 self.set_object_status(tender, "active.qualification")
                 if "endDate" in tender["awardPeriod"]:
@@ -118,9 +112,6 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
             self.add_next_award()
 
         else:  # any other state transitions are forbidden
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()

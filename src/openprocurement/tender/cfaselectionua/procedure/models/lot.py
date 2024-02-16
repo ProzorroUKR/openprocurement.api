@@ -1,18 +1,18 @@
+from schematics.types import BaseType, MD5Type, StringType, URLType
 from schematics.types.compound import ModelType
-from schematics.types import URLType, StringType, MD5Type, BaseType
 from schematics.validate import ValidationError
 
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee, Value
-from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.lot import (
+    BaseLot,
+    LotGuaranteeSerializerMixin,
     PostBaseLot,
     TenderLotMixin,
-    LotGuaranteeSerializerMixin,
-    BaseLot,
 )
-
+from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 
 # -- START model for view ---
+
 
 class PostLot(PostBaseLot, LotGuaranteeSerializerMixin):
     guarantee = ModelType(Guarantee)
@@ -23,6 +23,7 @@ class PatchLot(BaseLot):
     guarantee = ModelType(Guarantee)
     minimalStep = ModelType(Value)
     status = StringType(choices=["active"])
+
 
 # -- END models for view ---
 
@@ -48,10 +49,5 @@ class Lot(BaseLot, TenderLotMixin, LotGuaranteeSerializerMixin):
     numberOfBids = BaseType()  # deprecated
 
     def validate_minimalStep(self, data, value):
-        if (
-            value
-            and value.amount
-            and data.get("value")
-            and data.get("value").amount < value.amount
-        ):
+        if value and value.amount and data.get("value") and data.get("value").amount < value.amount:
             raise ValidationError("value should be less than value of lot")

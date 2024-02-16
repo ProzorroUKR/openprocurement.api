@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
@@ -8,10 +7,10 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_lots,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 
@@ -44,10 +43,10 @@ class TenderCriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementEvidenceTest))
     return suite
 
 

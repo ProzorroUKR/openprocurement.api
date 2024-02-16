@@ -1,16 +1,18 @@
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from uuid import uuid4
+
+from schematics.exceptions import ValidationError
+from schematics.types import BooleanType, MD5Type, StringType
+from schematics.types.serializable import serializable
+
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.organization import Organization
-from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.validation import validate_related_lot
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_item_owner
-from schematics.types import StringType, MD5Type, BooleanType
-from schematics.types.serializable import serializable
-from schematics.exceptions import ValidationError
-from uuid import uuid4
+from openprocurement.tender.core.procedure.models.document import Document
+from openprocurement.tender.core.procedure.models.organization import Organization
+from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.procedure.validation import validate_related_lot
 
 
 class PostClaim(Model):

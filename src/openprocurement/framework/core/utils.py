@@ -1,19 +1,17 @@
 from datetime import timedelta
 from functools import wraps
 from logging import getLogger
-from dateorro import (
-    calc_datetime,
-    calc_normalized_datetime,
-    calc_working_datetime,
-)
+
+from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.constants import WORKING_DAYS, DST_AWARE_PERIODS_FROM, TZ
+from openprocurement.api.constants import DST_AWARE_PERIODS_FROM, TZ, WORKING_DAYS
 from openprocurement.api.utils import (
     error_handler,
+    get_now,
+    get_registry_object,
     update_logging_context,
-    get_now, get_registry_object,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.utils import ACCELERATOR_RE
@@ -29,14 +27,14 @@ MILESTONE_CONTRACT_STATUSES = {
 }
 
 
-class FrameworkTypePredicate(object):
-    """Framework Route predicate. """
+class FrameworkTypePredicate:
+    """Framework Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "frameworkType = %s" % (self.val,)
+        return "frameworkType = {}".format(self.val)
 
     phash = text
 
@@ -51,14 +49,14 @@ class FrameworkTypePredicate(object):
         return False
 
 
-class SubmissionTypePredicate(object):
-    """Submission Route predicate. """
+class SubmissionTypePredicate:
+    """Submission Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "submissionType = %s" % (self.val,)
+        return "submissionType = {}".format(self.val)
 
     phash = text
 
@@ -73,14 +71,14 @@ class SubmissionTypePredicate(object):
         return False
 
 
-class QualificationTypePredicate(object):
-    """Qualification Route predicate. """
+class QualificationTypePredicate:
+    """Qualification Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "qualificationType = %s" % (self.val,)
+        return "qualificationType = {}".format(self.val)
 
     phash = text
 
@@ -95,14 +93,14 @@ class QualificationTypePredicate(object):
         return False
 
 
-class AgreementTypePredicate(object):
-    """ Agreement route predicate. """
+class AgreementTypePredicate:
+    """Agreement route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "agreementType = %s" % (self.val,)
+        return "agreementType = {}".format(self.val)
 
     phash = text
 
@@ -121,7 +119,10 @@ def generate_framework_pretty_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"framework_{ctime.isoformat()}")
     return "UA-F-{:04}-{:02}-{:02}-{:06}".format(
-        ctime.year, ctime.month, ctime.day, index,
+        ctime.year,
+        ctime.month,
+        ctime.day,
+        index,
     )
 
 
@@ -129,8 +130,12 @@ def generate_agreement_id(request):
     ctime = get_now().date()
     index = request.registry.mongodb.get_next_sequence_value(f"agreement_{ctime.isoformat()}")
     return "UA-{:04}-{:02}-{:02}-{:06}".format(
-        ctime.year, ctime.month, ctime.day, index,
+        ctime.year,
+        ctime.month,
+        ctime.day,
+        index,
     )
+
 
 def get_framework_accelerator(context):
     if context and "frameworkDetails" in context and context["frameworkDetails"]:
@@ -175,6 +180,9 @@ def calculate_framework_date(
 def get_framework_unsuccessful_status_check_date(framework):
     if framework.period and framework.period.startDate:
         return calculate_framework_date(
-            framework.period.startDate, timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
-            framework, working_days=True, ceil=True
+            framework.period.startDate,
+            timedelta(days=DAYS_TO_UNSUCCESSFUL_STATUS),
+            framework,
+            working_days=True,
+            ceil=True,
         )

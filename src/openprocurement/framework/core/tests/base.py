@@ -2,10 +2,11 @@ import os.path
 
 from openprocurement.api.constants import SESSION
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest, change_auth
+from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.framework.core.procedure.models.framework import Framework
+from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 here = os.path.dirname(os.path.abspath(__file__))
@@ -36,7 +37,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def tearDown(self):
         self.delete_framework()
-        super(BaseCoreWebTest, self).tearDown()
+        super().tearDown()
 
     def set_status(self, status, extra=None):
         self.now = get_now()
@@ -53,16 +54,14 @@ class BaseCoreWebTest(BaseWebTest):
             for period in self.periods[status][startend]:
                 self.framework_document_patch.update({period: {}})
                 for date in self.periods[status][startend][period]:
-                    self.framework_document_patch[period][date] = (self.calculate_period_date(
-                        date, period, startend, status
-                    )).isoformat()
+                    self.framework_document_patch[period][date] = (
+                        self.calculate_period_date(date, period, startend, status)
+                    ).isoformat()
 
     def calculate_period_date(self, date, period, startend, status):
         framework = self.framework_class(self.framework_document)
         period_date_item = self.periods[status][startend][period][date]
-        return calculate_framework_date(
-            self.now, period_date_item, framework, working_days=False
-        )
+        return calculate_framework_date(self.now, period_date_item, framework, working_days=False)
 
     def save_changes(self):
         if self.framework_document_patch:
@@ -71,7 +70,6 @@ class BaseCoreWebTest(BaseWebTest):
             self.mongodb.frameworks.save(Framework(self.framework_document))
             self.framework_document = self.mongodb.frameworks.get(self.framework_id)
             self.framework_document_patch = {}
-
 
     def get_auth(self, role=None):
         if role:

@@ -8,9 +8,9 @@ from openprocurement.tender.pricequotation.constants import PQ
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 
@@ -99,10 +99,7 @@ def run(env, args):
                     set_data["bids"] = updated_bids
 
             if update_tender:
-                collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": set_data}
-                )
+                collection.update_one({"_id": tender["_id"]}, {"$set": set_data})
                 count += 1
             if count and count % log_every == 0:
                 logger.info(f"Updating PQ tenders from expected value to values field: updated {count} tenders")
@@ -126,9 +123,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

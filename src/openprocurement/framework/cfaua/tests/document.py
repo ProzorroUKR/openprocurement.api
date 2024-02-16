@@ -1,15 +1,17 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.framework.cfaua.tests.base import BaseAgreementContentWebTest, BaseDSAgreementContentWebTest
+from openprocurement.framework.cfaua.tests.base import (
+    BaseAgreementContentWebTest,
+    BaseDSAgreementContentWebTest,
+)
 from openprocurement.framework.cfaua.tests.data import TEST_AGREEMENT, TEST_DOCUMENTS
 from openprocurement.framework.cfaua.tests.document_blanks import (
-    get_documents_list,
-    get_document_by_id,
     create_agreement_document_forbidden,
     create_agreement_documents,
+    get_document_by_id,
+    get_documents_list,
     not_found,
     put_contract_document,
 )
@@ -39,7 +41,7 @@ class AgreementDocumentWithDSResourceTest(BaseDSAgreementContentWebTest):
 
 def suite():
     _suite = unittest.TestSuite()
-    _suite.addTest(unittest.makeSuite(TestDocumentGet))
-    _suite.addTest(unittest.makeSuite(TestDocumentsCreate))
-    _suite.addTest(unittest.makeSuite(AgreementDocumentWithDSResourceTest))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentGet))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentsCreate))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementDocumentWithDSResourceTest))
     return _suite

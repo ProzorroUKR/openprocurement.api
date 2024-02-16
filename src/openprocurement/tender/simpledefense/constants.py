@@ -1,8 +1,8 @@
-# -*- coding: utf-8 -*-
-from datetime import timedelta, datetime
-from openprocurement.api.constants import TZ
+from datetime import datetime, timedelta
 
 import standards
+
+from openprocurement.api.constants import TZ
 
 WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")

@@ -1,20 +1,29 @@
 from cornice.resource import resource
 
-from openprocurement.contracting.core.procedure.views.contract_document import ContractDocumentResource
-from openprocurement.api.utils import json_view
-
-from openprocurement.contracting.econtract.procedure.models.document import Document, PostDocument, PatchDocument
-from openprocurement.contracting.econtract.procedure.state.document import EContractDocumentState
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_admins,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
-    unless_admins, validate_upload_document, update_doc_fields_on_put_document,
+    validate_patch_data,
+    validate_upload_document,
 )
+from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-    validate_contract_document_operation_not_in_allowed_contract_status,
     validate_add_document_to_active_change,
+    validate_contract_document_operation_not_in_allowed_contract_status,
+    validate_contract_owner,
+)
+from openprocurement.contracting.core.procedure.views.contract_document import (
+    ContractDocumentResource,
+)
+from openprocurement.contracting.econtract.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.contracting.econtract.procedure.state.document import (
+    EContractDocumentState,
 )
 
 
@@ -56,11 +65,11 @@ class EContractDocumentResource(ContractDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_admins(validate_contract_owner),
-                validate_input_data(PatchDocument, none_means_remove=True),
-                validate_patch_data(Document, item_name="document"),
-                validate_contract_document_operation_not_in_allowed_contract_status,
-                validate_add_document_to_active_change,
+            unless_admins(validate_contract_owner),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data(Document, item_name="document"),
+            validate_contract_document_operation_not_in_allowed_contract_status,
+            validate_add_document_to_active_change,
         ),
         permission="edit_contract_documents",
     )

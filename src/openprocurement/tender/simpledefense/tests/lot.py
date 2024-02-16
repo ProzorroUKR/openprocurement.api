@@ -1,47 +1,44 @@
 import unittest
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
 
+from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin,
+    TenderLotResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_lot_milestones,
     create_tender_lot_minimalstep_validation,
     patch_tender_lot_minimalstep_validation,
+    tender_lot_milestones,
 )
-
-from openprocurement.tender.openua.tests.lot import TenderUALotResourceTestMixin, TenderUALotProcessTestMixin
-from openprocurement.tender.openua.tests.lot_blanks import (
-    # TenderLotFeatureResourceTest
+from openprocurement.tender.openua.tests.lot import (
+    TenderUALotProcessTestMixin,
+    TenderUALotResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.lot_blanks import (  # TenderLotFeatureResourceTest; TenderLotFeatureBidderResourceTest
+    create_tender_bidder_feature,
+    create_tender_bidder_feature_invalid,
     create_tender_bidder_invalid,
     patch_tender_bidder,
-    # TenderLotFeatureBidderResourceTest
-    create_tender_bidder_feature_invalid,
-    create_tender_bidder_feature,
+)
+from openprocurement.tender.openuadefense.tests.lot_blanks import (  # TenderLotEdgeCasesTest; TenderLotProcessTest
     claim_blocking,
     next_check_value_with_unanswered_claim,
-)
-
-from openprocurement.tender.simpledefense.tests.base import (
-    BaseSimpleDefContentWebTest,
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_bids,
-)
-from openprocurement.tender.openuadefense.tests.lot_blanks import (
-    # TenderLotEdgeCasesTest
-    question_blocking,
     next_check_value_with_unanswered_question,
-    # TenderLotProcessTest
     one_lot_1bid,
-    two_lot_1bid_0com_1can,
+    question_blocking,
     two_lot_1bid_0com_0win,
+    two_lot_1bid_0com_1can,
     two_lot_1bid_1com_1win,
     two_lot_1bid_2com_1win,
     two_lot_2bid_on_first_and_1_on_second_awarding,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    BaseSimpleDefContentWebTest,
+    test_tender_simpledefense_bids,
+    test_tender_simpledefense_data,
 )
 
 
@@ -87,7 +84,7 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
     test_bids_data = test_tender_simpledefense_bids
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update({"relatedLot": self.lot_id, "id": "1"})
@@ -122,7 +119,7 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
             },
         )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type,  "application/json")
+        self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["items"][0]["relatedLot"], self.lot_id)
 
     # TODO: uncomment when bid activation will be removed
@@ -148,10 +145,10 @@ class TenderLotProcessTest(BaseSimpleDefContentWebTest, TenderLotProcessTestMixi
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

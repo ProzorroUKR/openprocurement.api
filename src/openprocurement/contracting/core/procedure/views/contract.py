@@ -1,25 +1,30 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import context_unpack, json_view, request_init_contract
-from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
 from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.procedure.context import get_contract
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_input_data,
+)
+from openprocurement.api.utils import context_unpack, json_view, request_init_contract
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
+from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
 from openprocurement.contracting.core.procedure.models.contract import ContractConfig
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    ContractBaseSerializer,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
     validate_credentials_generate,
     validate_tender_owner,
 )
-from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.procedure.validation import (
-    validate_config_data,
-    validate_input_data,
-    unless_admins,
-    validate_accreditation_level,
-)
-from openprocurement.contracting.api.procedure.models.contract import PostContract
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.core.procedure.serializers.contract import ContractBaseSerializer
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 
@@ -60,7 +65,7 @@ class ContractsResource(RestrictedResourceListingMixin, MongodbResourceListing, 
                 operation="creation",
                 source="data",
             ),
-        )
+        ),
     )
     def post(self):
         contract = self.request.validated["data"]
@@ -94,13 +99,9 @@ class ContractResource(ContractBaseResource):
             "config": contract["config"],
         }
 
-    @json_view(
-        content_type="application/json",
-        permission="edit_contract"
-    )
+    @json_view(content_type="application/json", permission="edit_contract")
     def patch(self):
-        """Contract Edit (partial)
-        """
+        """Contract Edit (partial)"""
         updated = self.request.validated["data"]
         contract = self.request.validated["contract"]
         contract_src = self.request.validated["contract_src"]
@@ -124,7 +125,6 @@ class ContractResource(ContractBaseResource):
     description="Contract credentials",
 )
 class ContractCredentialsResource(ContractBaseResource):
-
     serializer_class = ContractBaseSerializer
 
     @json_view(
@@ -132,7 +132,8 @@ class ContractCredentialsResource(ContractBaseResource):
         validators=(
             unless_admins(validate_tender_owner),
             validate_credentials_generate,
-        ))
+        ),
+    )
     def patch(self):
         contract = self.request.validated["contract"]
         access = set_ownership(contract, self.request)

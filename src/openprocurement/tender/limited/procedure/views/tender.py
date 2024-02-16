@@ -1,35 +1,36 @@
-from openprocurement.tender.core.procedure.models.tender import TenderConfig
-from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.api.utils import json_view
+from cornice.resource import resource
+
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.limited.procedure.state.tender_details import (
-    ReportingTenderDetailsState,
-    NegotiationTenderDetailsState,
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.limited.procedure.models.tender import (
-    PostReportingTender,
-    PatchReportingTender,
-    ReportingTender,
-    PostNegotiationTender,
-    PatchNegotiationTender,
-    NegotiationTender,
-    PostNegotiationQuickTender,
-    PatchNegotiationQuickTender,
-    NegotiationQuickTender,
-)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_config_data,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_administrator,
-    validate_accreditation_level,
+from openprocurement.tender.core.procedure.views.tender import TendersResource
+from openprocurement.tender.limited.procedure.models.tender import (
+    NegotiationQuickTender,
+    NegotiationTender,
+    PatchNegotiationQuickTender,
+    PatchNegotiationTender,
+    PatchReportingTender,
+    PostNegotiationQuickTender,
+    PostNegotiationTender,
+    PostReportingTender,
+    ReportingTender,
 )
-from cornice.resource import resource
+from openprocurement.tender.limited.procedure.state.tender_details import (
+    NegotiationTenderDetailsState,
+    ReportingTenderDetailsState,
+)
 
 
 @resource(
@@ -54,7 +55,7 @@ class ReportingTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -65,12 +66,8 @@ class ReportingTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchReportingTender, none_means_remove=True),
             validate_patch_data_simple(ReportingTender, item_name="tender"),
         ),
@@ -102,7 +99,7 @@ class NegotiationTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -113,12 +110,8 @@ class NegotiationTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchNegotiationTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationTender, item_name="tender"),
         ),
@@ -150,7 +143,7 @@ class NegotiationQuickTenderResource(TendersResource):
                 kind_central_levels=(ACCR_5,),
                 item="tender",
                 operation="creation",
-                source="data"
+                source="data",
             ),
             validate_data_documents(),
         ),
@@ -161,12 +154,8 @@ class NegotiationQuickTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("tender")
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update("draft", "active")
-            ),
+            unless_administrator(validate_item_owner("tender")),
+            unless_administrator(validate_tender_status_allows_update("draft", "active")),
             validate_input_data(PatchNegotiationQuickTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationQuickTender, item_name="tender"),
         ),

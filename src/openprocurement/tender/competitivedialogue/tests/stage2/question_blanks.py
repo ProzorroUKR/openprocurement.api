@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from uuid import uuid4
 
 
 def create_question_bad_author(self):
-
     request_path = "/tenders/{}/questions".format(self.tender_id)
     bad_author = deepcopy(self.author_data)
     good_id = bad_author["identifier"]["id"]
@@ -213,6 +211,7 @@ def lot_create_tender_question_on_item(self):
 
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
+
 
 def create_tender_question_on_item(self):
     tender = self.mongodb.tenders.get(self.tender_id)

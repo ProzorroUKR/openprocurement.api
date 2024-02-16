@@ -1,34 +1,34 @@
-import simplejson
 from logging import getLogger
 
+import simplejson
+from cornice.resource import resource
 from cornice.util import json_error
 from pyramid.request import Request
-from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
 from openprocurement.api.constants import VERSION
+from openprocurement.api.procedure.validation import (
+    unless_administrator,
+    validate_accreditation_level,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
-    update_logging_context,
     request_init_plan,
+    update_logging_context,
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.planning.api.procedure.models.plan import PostPlan, PatchPlan, Plan
+from openprocurement.planning.api.procedure.models.plan import PatchPlan, Plan, PostPlan
 from openprocurement.planning.api.procedure.serializers.plan import PlanSerializer
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 from openprocurement.tender.core.procedure.utils import set_ownership
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_data_documents,
-    validate_item_owner,
-    unless_administrator,
-    validate_accreditation_level,
-)
 
 LOGGER = getLogger(__name__)
 
@@ -52,7 +52,7 @@ class PlansListResource(MongodbResourceListing):
     }
 
     def __init__(self, request, context=None):
-        super(PlansListResource, self).__init__(request, context)
+        super().__init__(request, context)
         self.db_listing_method = request.registry.mongodb.plans.list
 
     def __acl__(self):
@@ -84,10 +84,7 @@ class PlansResource(PlanBaseResource):
         validators=(
             validate_input_data(PostPlan),
             validate_accreditation_level(
-                levels=(ACCR_1, ACCR_3, ACCR_5),
-                item="plan",
-                operation="creation",
-                source="data"
+                levels=(ACCR_1, ACCR_3, ACCR_5), item="plan", operation="creation", source="data"
             ),
             validate_data_documents(route_key="plan_id"),
         ),
@@ -107,7 +104,7 @@ class PlansResource(PlanBaseResource):
                     {
                         "plan_id": plan["_id"],
                         "planID": plan["planID"],
-                    }
+                    },
                 ),
             )
             self.request.response.status = 201
@@ -120,9 +117,7 @@ class PlansResource(PlanBaseResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator(
-                validate_item_owner("plan")
-            ),
+            unless_administrator(validate_item_owner("plan")),
             validate_input_data(PatchPlan, none_means_remove=True),
             validate_patch_data_simple(Plan, item_name="plan"),
         ),
@@ -137,8 +132,7 @@ class PlansResource(PlanBaseResource):
             self.state.on_patch(plan_src, plan)
             if save_plan(self.request):
                 self.LOGGER.info(
-                    f"Updated plan {updated['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
+                    f"Updated plan {updated['_id']}", extra=context_unpack(self.request, {"MESSAGE_ID": "plan_patch"})
                 )
         return {
             "data": self.serializer_class(plan).data,
@@ -158,9 +152,7 @@ class PlanTendersResource(PlanBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_json_data,
-        ),
+        validators=(validate_json_data,),
         permission="create_tender_from_plan",
     )
     def post(self):

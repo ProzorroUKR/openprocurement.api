@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth
@@ -67,9 +66,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "agreement_id"}])
 
     response = self.app.get("/agreements/{}/changes".format(self.agreement["id"]))
     self.assertEqual(response.status, "200 OK")
@@ -79,9 +76,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}])
 
     response = self.app.patch_json(
         "/agreements/{}/changes/some_id".format(self.agreement["id"]), {"data": {}}, status=404
@@ -89,9 +84,7 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "change_id"}])
 
 
 def get_change(self):
@@ -477,8 +470,7 @@ def patch_change(self):
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "rationaleType", "description": "Rogue field"}
+        response.json["errors"][0], {"location": "body", "name": "rationaleType", "description": "Rogue field"}
     )
 
     response = self.app.patch_json(
@@ -487,10 +479,7 @@ def patch_change(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "id", "description": "Rogue field"}
-    )
+    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "id", "description": "Rogue field"})
 
     self.app.authorization = None
     response = self.app.patch_json(

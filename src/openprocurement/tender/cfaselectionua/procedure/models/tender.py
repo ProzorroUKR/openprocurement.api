@@ -1,47 +1,59 @@
-from schematics.validate import ValidationError
-from schematics.types import StringType, IntType, BaseType
-from schematics.types.serializable import serializable
-from schematics.types.compound import ModelType, ListType
 from decimal import Decimal
-from openprocurement.tender.core.procedure.models.item import (
-    validate_related_buyer_in_items,
-    validate_classification_id,
-)
-from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+
+from schematics.types import BaseType, IntType, StringType
+from schematics.types.compound import ListType, ModelType
+from schematics.types.serializable import serializable
+from schematics.validate import ValidationError
+
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
-from openprocurement.tender.core.procedure.models.guarantee import Guarantee, PostGuarantee
-from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
-from openprocurement.tender.cfaselectionua.procedure.models.lot import (
-    PostTenderLot,
-    PatchTenderLot,
-    Lot,
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDurationType
+from openprocurement.api.procedure.validation import validate_features_uniq
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.cfaselectionua.constants import (
+    CFA_SELECTION,
+    TENDERING_DURATION,
 )
-from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.cfaselectionua.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import Agreement
-from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
+from openprocurement.tender.cfaselectionua.procedure.models.feature import Feature
 from openprocurement.tender.cfaselectionua.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.tender import (
-    validate_items_related_lot,
-    PostBaseTender,
-    PatchBaseTender,
-    BaseTender,
+from openprocurement.tender.cfaselectionua.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
 )
+from openprocurement.tender.cfaselectionua.procedure.models.organization import (
+    ProcuringEntity,
+)
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.guarantee import (
+    Guarantee,
+    PostGuarantee,
+)
+from openprocurement.tender.core.procedure.models.item import (
+    validate_classification_id,
+    validate_related_buyer_in_items,
+)
+from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
+from openprocurement.tender.core.procedure.models.milestone import (
+    Milestone,
+    validate_milestones_lot,
+)
+from openprocurement.tender.core.procedure.models.tender import (
+    BaseTender,
+    PatchBaseTender,
+    PostBaseTender,
+    validate_items_related_lot,
+)
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.core.procedure.validation import (
     validate_milestones,
     validate_tender_period_duration,
 )
-from openprocurement.api.procedure.validation import validate_features_uniq
-from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.cfaselectionua.constants import TENDERING_DURATION
-from openprocurement.api.validation import validate_items_uniq
-from openprocurement.api.procedure.types import IsoDurationType
-from openprocurement.api.procedure.models.value import Value
 
 
 def validate_features(data, features):
@@ -51,8 +63,10 @@ def validate_features(data, features):
 
 def validate_tender_period(data, period):
     if (
-        period and period.startDate
-        and data.get("enquiryPeriod") and data.get("enquiryPeriod").endDate
+        period
+        and period.startDate
+        and data.get("enquiryPeriod")
+        and data.get("enquiryPeriod").endDate
         and period.startDate < data.get("enquiryPeriod").endDate
     ):
         raise ValidationError("period should begin after enquiryPeriod")
@@ -71,13 +85,17 @@ class PostTender(PostBaseTender):
     status = StringType(choices=["draft"], default="draft")
 
     agreements = ListType(ModelType(AgreementUUID, required=True), required=True, min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
+    lots = ListType(
+        ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     guarantee = ModelType(PostGuarantee)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
@@ -127,14 +145,13 @@ class PatchTender(PatchBaseTender):
     )
 
     # agreements = ListType(ModelType(Agreement, required=True), min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq, validate_classification_id]
+    )
+    lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1, validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
@@ -164,18 +181,22 @@ class Tender(BaseTender):
             "active.pre-qualification",
             "active.qualification",
         ],
-        required=True
+        required=True,
     )
 
     agreements = ListType(ModelType(Agreement, required=True), required=True, min_size=1, max_size=1)
-    items = ListType(ModelType(Item, required=True), required=True, min_size=1,
-                     validators=[validate_items_uniq, validate_classification_id])
-    lots = ListType(ModelType(Lot, required=True), min_size=1, max_size=1, required=True,
-                    validators=[validate_lots_uniq])
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
+    lots = ListType(
+        ModelType(Lot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
+    )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     tenderPeriod = ModelType(PeriodEndRequired)
     enquiryPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable

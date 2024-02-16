@@ -1,78 +1,78 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
-    TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
-    TenderBidRequirementResponseEvidenceTestMixin,
-)
-from openprocurement.tender.openua.tests.bid_blanks import (
-    # TenderStage2UABidResourceTest
-    patch_tender_bidder as patch_tender_bidder_ua,
-    get_tender_bidder as get_tender_bidder_ua,
-    delete_tender_bidder as delete_tender_bidder_ua,
-    deleted_bid_do_not_locks_tender_in_state as deleted_bid_do_not_locks_tender_in_state_ua,
-    get_tender_tenderers as get_tender_tenderers_ua,
-    bid_Administrator_change as bid_Administrator_change_ua,
-    draft1_bid as one_draft_bid,
-    draft2_bids as two_draft_bids,
-)
-
-from openprocurement.tender.openeu.tests.bid import (
-    TenderBidResourceTestMixin,
-    Tender2BidResourceTestMixin,
-    TenderBidDocumentResourceWithDSTestMixin,
-)
-
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
-    test_tender_openeu_bids,
+    test_tender_cd_author,
+    test_tender_cd_lots,
+    test_tender_cd_tenderer,
     test_tender_cdeu_stage2_data,
     test_tender_cdua_stage2_data,
-    test_tender_cd_tenderer,
-    test_tender_cd_lots,
-    test_tender_cd_author,
+    test_tender_openeu_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
-    # TenderStage2BidResourceTest
-    deleted_bid_is_not_restorable,
-    # TenderStage2BidFeaturesResourceTest
-    features_bidder_invalid,
-    # TenderStage2EUBidResourceTest
-    create_tender_bidder_firm,
-    delete_tender_bidder_eu,
-    bids_invalidation_on_tender_change_eu,
-    ukrainian_author_id,
-    # TenderStage2EUBidFeaturesResourceTest
-    features_bidder_eu,
-    # TenderStage2EUBidDocumentResourceTest
-    create_tender_bidder_document_nopending_eu,
-    # TenderStage2UABidResourceTest
-    create_tender_biddder_invalid_ua,
-    create_tender_bidder_ua,
-    bids_invalidation_on_tender_change_ua,
+from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (  # TenderStage2BidResourceTest; TenderStage2BidFeaturesResourceTest; TenderStage2EUBidResourceTest; TenderStage2EUBidFeaturesResourceTest; TenderStage2EUBidDocumentResourceTest; TenderStage2UABidResourceTest; TenderStage2UABidFeaturesResourceTest
     bids_activation_on_tender_documents_ua,
-    # TenderStage2UABidFeaturesResourceTest
+    bids_invalidation_on_tender_change_eu,
+    bids_invalidation_on_tender_change_ua,
+    create_tender_biddder_invalid_ua,
+    create_tender_bidder_document_nopending_eu,
+    create_tender_bidder_firm,
+    create_tender_bidder_ua,
+    delete_tender_bidder_eu,
+    deleted_bid_is_not_restorable,
+    features_bidder_eu,
+    features_bidder_invalid,
     features_bidder_ua,
+    ukrainian_author_id,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
-
+from openprocurement.tender.openeu.tests.bid import (
+    Tender2BidResourceTestMixin,
+    TenderBidDocumentResourceWithDSTestMixin,
+    TenderBidResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.bid import (
+    TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    bid_Administrator_change as bid_Administrator_change_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    delete_tender_bidder as delete_tender_bidder_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    deleted_bid_do_not_locks_tender_in_state as deleted_bid_do_not_locks_tender_in_state_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import draft1_bid as one_draft_bid
+from openprocurement.tender.openua.tests.bid_blanks import draft2_bids as two_draft_bids
+from openprocurement.tender.openua.tests.bid_blanks import (
+    get_tender_bidder as get_tender_bidder_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    get_tender_tenderers as get_tender_tenderers_ua,
+)
+from openprocurement.tender.openua.tests.bid_blanks import (
+    patch_tender_bidder as patch_tender_bidder_ua,  # TenderStage2UABidResourceTest
+)
 
 test_bids_stage2 = deepcopy(test_tender_openeu_bids)
 test_bids_stage2[0]["tenderers"][0] = test_tender_cd_tenderer
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -102,7 +102,7 @@ class TenderStage2EUBidResourceTest(
     test_create_tender_biddder_invalid = None
 
     def setUp(self):
-        super(TenderStage2EUBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -121,12 +121,12 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUBidFeaturesResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
-            super(TenderStage2EUBidFeaturesResourceTest, self).create_tender(initial_data=initial_data)
+            super().create_tender(initial_data=initial_data)
 
     test_features_bidder = snitch(features_bidder_eu)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -142,7 +142,7 @@ class TenderStage2EUBidDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         test_bid_1 = deepcopy(test_tender_openeu_bids[0])
         test_bid_1["tenderers"] = [test_tender_cd_tenderer]
@@ -184,19 +184,18 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-
     initial_status = "active.tendering"
     initial_data = test_tender_cdua_stage2_data
     test_bids_data = test_bids_stage2
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2UABidFeaturesResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
-            super(TenderStage2UABidFeaturesResourceTest, self).create_tender(initial_data=initial_data)
+            super().create_tender(initial_data=initial_data)
 
     test_features_bidder_ua = snitch(features_bidder_ua)
     test_features_bidder_invalid_ua = snitch(features_bidder_invalid)
@@ -208,7 +207,7 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(BaseCDUAStage2BidContentWebTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -219,7 +218,8 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
 
 
 class TenderStage2UABidDocumentWithDSResourceTest(
-    TenderUABidDocumentWithDSResourceTestMixin, BaseCDUAStage2BidContentWebTest,
+    TenderUABidDocumentWithDSResourceTestMixin,
+    BaseCDUAStage2BidContentWebTest,
 ):
     pass
 
@@ -266,15 +266,15 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UABidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UABidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UABidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UABidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseEvidenceResourceTest))
     return suite
 
 

@@ -1,11 +1,11 @@
-# -*- coding: utf-8 -*-
-from docutils import nodes
-from docutils.statemachine import StringList
-from docutils.parsers.rst import directives
-from sphinx.directives.code import CodeBlock
-from . import utils
-
 import os
+
+from docutils import nodes
+from docutils.parsers.rst import directives
+from docutils.statemachine import StringList
+from sphinx.directives.code import CodeBlock
+
+from . import utils
 
 
 class HTTPExample(CodeBlock):
@@ -24,8 +24,7 @@ class HTTPExample(CodeBlock):
         if self.arguments:
             response = utils.resolve_path(self.arguments[0], cwd)
             with open(response) as fp:
-                self.content = StringList(
-                    list(map(str.rstrip, fp.readlines())), response)
+                self.content = StringList(list(map(str.rstrip, fp.readlines())), response)
 
         # Enable 'http' language for http part
         self.arguments = ['http']
@@ -42,16 +41,14 @@ class HTTPExample(CodeBlock):
             if in_response:
                 response_content.append(line, source)
             else:
-                if emptylines_count >= 2 and \
-                        (line.startswith('HTTP/') or line.startswith('HTTP ')):
+                if emptylines_count >= 2 and (line.startswith('HTTP/') or line.startswith('HTTP ')):
                     in_response = True
                     response_content = StringList()
                     response_content.append(line, source)
                 elif line == '':
                     emptylines_count += 1
                 else:
-                    request_content.extend(
-                        StringList([''] * emptylines_count, source))
+                    request_content.extend(StringList([''] * emptylines_count, source))
                     request_content.append(line, source)
 
                     emptylines_count = 0
@@ -63,7 +60,7 @@ class HTTPExample(CodeBlock):
         klass = 'http-example-http'
         container = nodes.container('', classes=[klass])
         container.append(nodes.caption('', 'Request' if response_content else 'Example'))
-        container.extend(super(HTTPExample, self).run())
+        container.extend(super().run())
 
         # Init result node list
         result = [container]
@@ -83,7 +80,7 @@ class HTTPExample(CodeBlock):
                 self.content_offset,
                 self.block_text,
                 self.state,
-                self.state_machine
+                self.state_machine,
             )
 
             # Wrap and render main directive as 'http-example-response'

@@ -157,7 +157,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364ae37165578663a04
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c710ed7a14274e5c969285e368125b9c
 
 {
   "data": {
@@ -181,7 +181,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364
     },
     "items": [
       {
-        "id": "047111adb9dd4faf882bf0981ecae32a",
+        "id": "c38231f6a2e24ff1899ff69758f08c0e",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -218,7 +218,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364
         }
       },
       {
-        "id": "386ee0c34e8e4ab694ac6953d2b34c9e",
+        "id": "e786d23dd6d243d4b1d9136541866b9b",
         "description": "футляри до державних нагород",
         "unit": {
           "name": "кг",
@@ -269,7 +269,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364
         "sequenceNumber": 0
       },
       {
-        "id": "089f8a38a633468ba169f6c0bfd1f9ac",
+        "id": "054e167d8b7c4b74b887f71705f45375",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -315,7 +315,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "7838682b871d4364ae37165578663a04"
+    "id": "c710ed7a14274e5c969285e368125b9c"
   },
   "config": {
     "hasAuction": true,
@@ -331,8 +331,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7838682b871d4364
     "restricted": false
   },
   "access": {
-    "token": "8b833c555e0f4dffb548f296e5ef5584",
-    "transfer": "3e272201ed634df4b4239d31b4701d07"
+    "token": "65fcb9f8dae2415bafa9c76b76f77151",
+    "transfer": "6d25791d89994de4bb70f222c937647f"
   }
 }
 

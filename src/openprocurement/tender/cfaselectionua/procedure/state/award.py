@@ -1,21 +1,19 @@
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
-from openprocurement.api.procedure.context import get_tender
+import logging
+
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import context_unpack, raise_operation_error
+from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
     save_contracts_to_contracting,
 )
 from openprocurement.tender.core.procedure.models.contract import Contract
-from openprocurement.api.utils import (
-    raise_operation_error,
-    context_unpack,
-)
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
-import logging
 
 LOGGER = logging.getLogger(__name__)
 
@@ -31,10 +29,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
         elif award["status"] == "pending":
             pass  # allowing to update award in pending status
         else:
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before['status']}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
@@ -63,10 +58,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                     )
             self.add_next_award()
         else:  # any other state transitions are forbidden
-            raise_operation_error(
-                get_request(),
-                f"Can't update award in current ({before}) status"
-            )
+            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
 
         # code from openprocurement.tender.cfaselectionua.utils.check_tender_status
         # TODO: find a better place ?
@@ -81,9 +73,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                             LOGGER.info(
                                 f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                                 extra=context_unpack(
-                                    get_request(),
-                                    {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                    {"LOT_ID": lot["id"]}
+                                    get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
                                 ),
                             )
                             self.set_object_status(lot, "unsuccessful")
@@ -102,9 +92,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                                 LOGGER.info(
                                     f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
                                     extra=context_unpack(
-                                        get_request(),
-                                        {"MESSAGE_ID": "switched_lot_complete"},
-                                        {"LOT_ID": lot["id"]}
+                                        get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot["id"]}
                                     ),
                                 )
                                 self.set_object_status(lot, "complete")
@@ -127,11 +115,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                     self.get_change_tender_status_handler("unsuccessful")(tender)
 
             contract_statuses = {c["status"] for c in tender.get("contracts", [])}
-            if (
-                contract_statuses
-                and "active" in contract_statuses
-                and "pending" not in contract_statuses
-            ):
+            if contract_statuses and "active" in contract_statuses and "pending" not in contract_statuses:
                 self.get_change_tender_status_handler("complete")(tender)
 
         # date updated when status updated

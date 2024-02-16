@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -6,57 +5,56 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_esco_bids,
     test_tender_esco_lots,
 )
 from openprocurement.tender.openeu.tests.qualification import (
-    TenderQualificationRequirementResponseTestMixin,
     TenderQualificationRequirementResponseEvidenceTestMixin,
+    TenderQualificationRequirementResponseTestMixin,
 )
 from openprocurement.tender.openeu.tests.qualification_blanks import (
-    create_tender_2lot_qualification_complaint_document,
-    put_tender_2lot_qualification_complaint_document,
-    complaint_not_found,
-    create_tender_qualification_complaint_document,
-    put_tender_qualification_complaint_document,
-    patch_tender_qualification_complaint_document,
-    create_tender_qualification_claim,
-    create_tender_2lot_qualification_complaint,
-    create_tender_lot_qualification_complaint,
-    patch_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaint,
-    get_tender_lot_qualification_complaints,
-    create_tender_qualification_complaint_invalid,
-    create_tender_qualification_complaint,
-    patch_tender_qualification_complaint,
-    review_tender_qualification_complaint,
-    review_tender_qualification_stopping_complaint,
-    review_tender_award_claim,
-    get_tender_qualification_complaint,
-    get_tender_qualification_complaints,
-    change_status_to_standstill_with_complaint,
-    not_found,
-    create_qualification_document,
-    put_qualification_document,
-    patch_qualification_document,
-    create_qualification_document_after_status_change,
-    put_qualification_document_after_status_change,
-    tender_owner_create_qualification_document,
-    lot_patch_tender_qualifications,
-    lot_get_tender_qualifications_collection,
-    tender_qualification_cancelled,
-    lot_patch_tender_qualifications_lots_none,
-    post_tender_qualifications,
-    get_tender_qualifications_collection,
-    patch_tender_qualifications,
-    get_tender_qualifications,
-    patch_tender_qualifications_after_status_change,
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
+    change_status_to_standstill_with_complaint,
+    complaint_not_found,
+    create_qualification_document,
+    create_qualification_document_after_status_change,
+    create_tender_2lot_qualification_complaint,
+    create_tender_2lot_qualification_complaint_document,
+    create_tender_lot_qualification_complaint,
+    create_tender_qualification_claim,
+    create_tender_qualification_complaint,
+    create_tender_qualification_complaint_document,
+    create_tender_qualification_complaint_invalid,
     create_tender_qualifications_document_json_bulk,
+    get_tender_lot_qualification_complaint,
+    get_tender_lot_qualification_complaints,
+    get_tender_qualification_complaint,
+    get_tender_qualification_complaints,
+    get_tender_qualifications,
+    get_tender_qualifications_collection,
+    lot_get_tender_qualifications_collection,
+    lot_patch_tender_qualifications,
+    lot_patch_tender_qualifications_lots_none,
+    not_found,
+    patch_qualification_document,
+    patch_tender_lot_qualification_complaint,
+    patch_tender_qualification_complaint,
+    patch_tender_qualification_complaint_document,
+    patch_tender_qualifications,
+    patch_tender_qualifications_after_status_change,
+    post_tender_qualifications,
+    put_qualification_document,
+    put_qualification_document_after_status_change,
+    put_tender_2lot_qualification_complaint_document,
+    put_tender_qualification_complaint_document,
+    review_tender_award_claim,
+    review_tender_qualification_complaint,
+    review_tender_qualification_stopping_complaint,
+    tender_owner_create_qualification_document,
+    tender_qualification_cancelled,
 )
 
 
@@ -69,7 +67,7 @@ class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -87,7 +85,7 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderQualificationResourceTest, self).setUp()
+        super().setUp()
 
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
@@ -106,9 +104,8 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
-        super(TenderQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -123,6 +120,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
 
+
 class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
     docservice = True
 
@@ -130,9 +128,8 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 
 class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
-        super(TenderQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -189,7 +186,6 @@ class Tender2LotQualificationComplaintResourceTest(TenderLotQualificationComplai
 
 
 class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintResourceTest):
-
     after_qualification_switch_to = "unsuccessful"
 
     def setUp(self):
@@ -231,9 +227,8 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
-        super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -294,20 +289,21 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationBaseTestCase,
 ):
     docservice = True
-    pass
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationClaimResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationClaimResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintDocumentResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationComplaintDocumentResourceTest)
+    )
     return suite
 
 

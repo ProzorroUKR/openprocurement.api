@@ -37,5 +37,5 @@ class AgreementContractsResourceTest(BaseAgreementContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AgreementContractsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementContractsResourceTest))
     return suite

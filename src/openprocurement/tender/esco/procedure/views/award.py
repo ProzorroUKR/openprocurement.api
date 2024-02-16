@@ -1,24 +1,29 @@
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_award_in_not_allowed_status,
-    validate_update_award_only_for_active_lots,
-    validate_award_with_lot_cancellation_in_pending,
-    validate_update_award_with_accepted_complaint,
-    validate_update_award_status_before_milestone_due_date,
-    validate_create_award_not_in_allowed_period,
-    validate_create_award_only_for_active_lot,
-)
+from cornice.resource import resource
+
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_admins,
     validate_input_data,
     validate_item_owner,
-    unless_admins,
+    validate_patch_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.validation import (
+    validate_award_with_lot_cancellation_in_pending,
+    validate_create_award_not_in_allowed_period,
+    validate_create_award_only_for_active_lot,
+    validate_update_award_in_not_allowed_status,
+    validate_update_award_only_for_active_lots,
+    validate_update_award_status_before_milestone_due_date,
+    validate_update_award_with_accepted_complaint,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.esco.procedure.models.award import PatchAward, Award, PostAward
-from openprocurement.tender.esco.procedure.state.award import AwardState
+from openprocurement.tender.esco.procedure.models.award import (
+    Award,
+    PatchAward,
+    PostAward,
+)
 from openprocurement.tender.esco.procedure.serializers.award import AwardSerializer
-from cornice.resource import resource
-from openprocurement.api.utils import json_view
+from openprocurement.tender.esco.procedure.state.award import AwardState
 
 
 @resource(
@@ -48,18 +53,15 @@ class EUTenderAwardResource(TenderAwardResource):
         content_type="application/json",
         permission="edit_award",  # brokers
         validators=(
-                unless_admins(
-                    validate_item_owner("tender")
-                ),
-                validate_input_data(PatchAward),
-                validate_patch_data(Award, item_name="award"),
-                validate_award_with_lot_cancellation_in_pending,
-                validate_update_award_in_not_allowed_status,
-                validate_update_award_only_for_active_lots,
-                validate_update_award_with_accepted_complaint,
-                validate_update_award_status_before_milestone_due_date,
+            unless_admins(validate_item_owner("tender")),
+            validate_input_data(PatchAward),
+            validate_patch_data(Award, item_name="award"),
+            validate_award_with_lot_cancellation_in_pending,
+            validate_update_award_in_not_allowed_status,
+            validate_update_award_only_for_active_lots,
+            validate_update_award_with_accepted_complaint,
+            validate_update_award_status_before_milestone_due_date,
         ),
     )
     def patch(self):
         return super().patch()
-

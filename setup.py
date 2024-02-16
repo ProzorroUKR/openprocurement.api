@@ -1,7 +1,8 @@
 import os
-from setuptools import setup, find_packages
 
-version = "2.6.260"
+from setuptools import find_packages, setup
+
+version = "2.6.267"
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -10,7 +11,7 @@ with open(os.path.join(here, "README.md")) as f:
 
 requires = []
 
-with open('requirements.txt', 'r') as f:
+with open('requirements.txt') as f:
     for resource in f.readlines():
         if not resource.startswith('git+'):
             requires.append(resource.strip())
@@ -24,10 +25,10 @@ tests_requires = requires
 
 entry_points = {
     "paste.app_factory": [
-        "main = openprocurement.api.app:main"
+        "main = openprocurement.api.app:main",
     ],
     "paste.filter_app_factory": [
-        "translogger = openprocurement.api.translogger:make_filter"
+        "translogger = openprocurement.api.translogger:make_filter",
     ],
     "openprocurement.api.plugins": [
         "api = openprocurement.api.includeme:includeme",
@@ -72,7 +73,7 @@ entry_points = {
         "frameworks = openprocurement.framework.core.migration:migrate_data",
     ],
     "console_scripts": [
-        "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security"
+        "bootstrap_api_security = openprocurement.api.database:bootstrap_api_security",
     ],
 }
 
@@ -86,7 +87,7 @@ setup(
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
         "Topic :: Internet :: WWW/HTTP",
-        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application"
+        "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
     ],
     keywords="web services",
     author="Quintagroup, Ltd.",

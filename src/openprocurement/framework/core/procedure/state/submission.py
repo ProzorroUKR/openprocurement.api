@@ -1,4 +1,5 @@
 from logging import getLogger
+
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_object
@@ -8,7 +9,6 @@ LOGGER = getLogger(__name__)
 
 
 class SubmissionState(BaseState):
-
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework

@@ -1,51 +1,44 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_author,
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
+from openprocurement.tender.cfaua.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_cfaua_bids,
+    test_tender_cfaua_data,
+    test_tender_cfaua_lots,
+)
+from openprocurement.tender.cfaua.tests.lot_blanks import (
+    claim_blocking,
+    create_tender_feature_bidder,
+    create_tender_feature_bidder_invalid,
+    create_tender_lot,
+    get_tender_lot,
+    get_tender_lots,
+    one_lot_1bid,
+    one_lot_2bid,
+    one_lot_2bid_1unqualified,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_vat,
+    proc_1lot_0bid,
+    proc_1lot_1can,
+    question_blocking,
+    tender_features_invalid,
+    tender_lot_document,
+    tender_lot_guarantee,
+    tender_value,
+    two_lot_3bid_1win_bug,
 )
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
-
-
-from openprocurement.tender.cfaua.tests.base import (
-    BaseTenderContentWebTest,
-    test_tender_cfaua_data,
-    test_tender_cfaua_lots,
-    test_tender_cfaua_bids,
-)
-from openprocurement.tender.openeu.tests.lot_blanks import (
-    patch_tender_bidder,
-)
-from openprocurement.tender.cfaua.tests.lot_blanks import (
-    get_tender_lot,
-    get_tender_lots,
-    proc_1lot_0bid,
-    one_lot_1bid,
-    one_lot_2bid,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un,
-    two_lot_3bid_1win_bug,
-    proc_1lot_1can,
-    create_tender_lot,
-    tender_lot_guarantee,
-    claim_blocking,
-    question_blocking,
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    one_lot_2bid_1unqualified,
-    create_tender_feature_bidder,
-    create_tender_feature_bidder_invalid,
-    patch_tender_currency,
-    patch_tender_lot,
-    patch_tender_vat,
-)
-
+from openprocurement.tender.openeu.tests.lot_blanks import patch_tender_bidder
 
 one_lot_restriction = True
 
@@ -114,13 +107,10 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
-        items[0].update(
-            relatedLot=self.lot_id,
-            id="1"
-        )
+        items[0].update(relatedLot=self.lot_id, id="1")
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {
@@ -197,10 +187,10 @@ class TenderLotProcessTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

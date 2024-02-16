@@ -1,19 +1,22 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.utils import (
-    get_first_revision_date,
-    get_now,
-    error_handler,
-)
-from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import base_validate_operation_ecriteria_objects
+from openprocurement.api.utils import error_handler, get_first_revision_date, get_now
+from openprocurement.api.validation import validate_tender_first_revision_date
+from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.tender.core.procedure.models.criterion import (
+    validate_criteria_requirement_id_uniq,
+    validate_requirement,
+)
+from openprocurement.tender.core.procedure.state.criterion import (
+    BaseCriterionStateMixin,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.criterion import BaseCriterionStateMixin
-from openprocurement.tender.core.procedure.models.criterion import validate_requirement, validate_criteria_requirement_id_uniq
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
+from openprocurement.tender.core.procedure.validation import (
+    base_validate_operation_ecriteria_objects,
+)
 
 
 class RequirementValidationsMixin:
@@ -23,8 +26,8 @@ class RequirementValidationsMixin:
         tender_creation_date = get_first_revision_date(tender, default=get_now())
         criterion = self.request.validated["criterion"]
         if (
-                tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM
-                or criterion["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
+            tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM
+            or criterion["classification"]["id"] in CRITERION_LIFE_CYCLE_COST_IDS
         ):
             valid_statuses.append("active.tendering")
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)

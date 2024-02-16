@@ -1,12 +1,23 @@
 from logging import getLogger
+
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
-from openprocurement.api.utils import json_view, request_fetch_submission, request_fetch_agreement
-from openprocurement.api.views.base import MongodbResourceListing, RestrictedResourceListingMixin
-from openprocurement.framework.core.procedure.mask import QUALIFICATION_MASK_MAPPING
-from openprocurement.framework.core.procedure.state.framework import FrameworkState
+
 from openprocurement.api.procedure.context import get_qualification
-from openprocurement.framework.core.procedure.serializers.qualification import QualificationSerializer
+from openprocurement.api.utils import (
+    json_view,
+    request_fetch_agreement,
+    request_fetch_submission,
+)
+from openprocurement.api.views.base import (
+    MongodbResourceListing,
+    RestrictedResourceListingMixin,
+)
+from openprocurement.framework.core.procedure.mask import QUALIFICATION_MASK_MAPPING
+from openprocurement.framework.core.procedure.serializers.qualification import (
+    QualificationSerializer,
+)
+from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 
 LOGGER = getLogger(__name__)

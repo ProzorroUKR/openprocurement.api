@@ -1,38 +1,51 @@
 def is_test():
-    import sys
     import os
-    return any([
-        "test" in sys.argv[0],
-        "setup.py" in sys.argv[0],
-        "PYTEST_XDIST_WORKER" in os.environ,
-    ])
+    import sys
+
+    return any(
+        [
+            "test" in sys.argv[0],
+            "setup.py" in sys.argv[0],
+            "PYTEST_XDIST_WORKER" in os.environ,
+        ]
+    )
 
 
 if not is_test():
     import gevent.monkey
+
     gevent.monkey.patch_all()
 
-import os
-import simplejson
-import sentry_sdk
 from datetime import datetime
+from logging import getLogger
+
+import sentry_sdk
+import simplejson
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
-from logging import getLogger
-from openprocurement.api.auth import AuthenticationPolicy, authenticated_role, check_accreditations
-from openprocurement.api.database import MongodbStore
-from openprocurement.api.utils import forbidden, request_params, precondition, get_currency_rates
-from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from pkg_resources import iter_entry_points
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
+from pyramid.httpexceptions import HTTPPreconditionFailed
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
-from pyramid.httpexceptions import HTTPPreconditionFailed
+from pytz import utc
 from sentry_sdk.integrations.logging import LoggingIntegration
 from sentry_sdk.integrations.pyramid import PyramidIntegration
-from pytz import utc
 
+from openprocurement.api.auth import (
+    AuthenticationPolicy,
+    authenticated_role,
+    check_accreditations,
+)
+from openprocurement.api.constants import ROUTE_PREFIX, TZ
+from openprocurement.api.database import MongodbStore
+from openprocurement.api.utils import (
+    forbidden,
+    get_currency_rates,
+    precondition,
+    request_params,
+)
 
 LOGGER = getLogger("{}.init".format(__name__))
 
@@ -58,9 +71,7 @@ def main(global_config, **settings):
         LOGGER.info("Init sentry sdk for {}".format(dsn))
         sentry_sdk.init(
             dsn=dsn,
-            integrations=[
-                LoggingIntegration(level=None, event_level=None),
-                PyramidIntegration()],
+            integrations=[LoggingIntegration(level=None, event_level=None), PyramidIntegration()],
             send_default_pii=True,
             request_bodies="always",
             environment=settings.get("sentry.environment", None),
@@ -113,9 +124,7 @@ def main(global_config, **settings):
     config.registry.docservice_key = signer
     verifier = signer.verify_key
 
-    config.registry.keyring = {
-        verifier.encode(encoder=HexEncoder)[:8].decode(): verifier
-    }
+    config.registry.keyring = {verifier.encode(encoder=HexEncoder)[:8].decode(): verifier}
     dockeys = settings.get('dockeys', '')
     for key in dockeys.split('\0'):
         if key:

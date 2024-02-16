@@ -1,15 +1,20 @@
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.utils import set_ownership, save_tender, context_unpack
-from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.validation import (
-    validate_dialogue_owner,
-)
+from cornice.resource import resource
+
+from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.api.utils import json_view, raise_operation_error
-from cornice.resource import resource
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
+from openprocurement.tender.core.procedure.utils import (
+    context_unpack,
+    save_tender,
+    set_ownership,
+)
+from openprocurement.tender.core.procedure.validation import validate_dialogue_owner
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
 @resource(
@@ -23,16 +28,13 @@ class CD2EUCredentialsResource(TenderBaseResource):
 
     @json_view(
         permission="edit_tender",
-        validators=(
-            validate_dialogue_owner,
-        )
+        validators=(validate_dialogue_owner,),
     )
     def patch(self):
         tender = self.request.validated["tender"]
         if tender["status"] != "draft.stage2":
             raise_operation_error(
-                self.request,
-                f"Can't generate credentials in current ({tender['status']}) contract status"
+                self.request, f"Can't generate credentials in current ({tender['status']}) contract status"
             )
 
         access = set_ownership(tender, self.request)

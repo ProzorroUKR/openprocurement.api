@@ -1,17 +1,13 @@
-# -*- coding: utf-8 -*-
 import os
 import re
+from configparser import DEFAULTSECT, ConfigParser
+from logging import getLogger
 
 import pytz
-
-from configparser import ConfigParser, DEFAULTSECT
+import standards
 from ciso8601 import parse_datetime
 from pytz import timezone
-from datetime import datetime
-from logging import getLogger
 from requests import Session
-
-import standards
 
 LOGGER = getLogger("openprocurement.api")
 VERSION = "2.5"
@@ -61,8 +57,7 @@ CPV_CODES = list(standards.load("classifiers/cpv_en.json"))
 CPV_CODES.append(CPV_NOT_CPV)
 DK_CODES = list(standards.load("classifiers/dk021_uk.json"))
 FUNDERS = [
-    (i["identifier"]["scheme"], i["identifier"]["id"])
-    for i in standards.load("codelists/tender/tender_funder.json")
+    (i["identifier"]["scheme"], i["identifier"]["id"]) for i in standards.load("codelists/tender/tender_funder.json")
 ]
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
 # extended keys gmdn contains actual and obsolete codes, since deleted codes can block un-refactored endpoints
@@ -73,9 +68,9 @@ UA_ROAD = standards.load("classifiers/ua_road.json")
 UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 
 # complaint objections classifications
-ARTICLE_16 = set(criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json"))
-ARTICLE_17 = set(criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json"))
-OTHER_CRITERIA = set(criterion["classification"]["id"] for criterion in standards.load("criteria/other.json"))
+ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
+ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
+OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
 REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
@@ -98,7 +93,9 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "aboveThresholdUA.defense": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
     "aboveThresholdUA": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.json"),
     "belowThreshold": standards.load(f"data_model/schema/TenderConfig/belowThreshold.json"),
-    "closeFrameworkAgreementSelectionUA": standards.load(f"data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"),
+    "closeFrameworkAgreementSelectionUA": standards.load(
+        f"data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"
+    ),
     "closeFrameworkAgreementUA": standards.load(f"data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"),
     "competitiveDialogueEU": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.json"),
     "competitiveDialogueEU.stage2": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"),
@@ -117,6 +114,7 @@ FRAMEWORK_CONFIG_JSONSCHEMAS = {
     "dynamicPurchasingSystem": standards.load(f"data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
 }
 
+
 def get_default_constants_file_path():
     return os.path.join(os.path.dirname(os.path.realpath(__file__)), "constants.ini")
 
@@ -128,7 +126,7 @@ def load_constants(file_path):
             config.readfp(fp)
     except Exception as e:
         raise type(e)(
-            "Can't read file '{0}': use current path or override using "
+            "Can't read file '{}': use current path or override using "
             "CONSTANTS_FILE_PATH env variable".format(file_path)
         )
     return config
@@ -140,14 +138,18 @@ def parse_date(value):
         date = TZ.localize(date)
     return date
 
+
 def parse_bool(value):
-    if str(value).lower() in ("yes", "y", "true",  "t", "1"): return True
-    if str(value).lower() in ("no",  "n", "false", "f", "0", "0.0", "", "none", "[]", "{}"): return False
+    if str(value).lower() in ("yes", "y", "true", "t", "1"):
+        return True
+    if str(value).lower() in ("no", "n", "false", "f", "0", "0.0", "", "none", "[]", "{}"):
+        return False
     raise ValueError('Invalid value for boolean conversion: ' + str(value))
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
+
 
 JOURNAL_PREFIX = os.environ.get("JOURNAL_PREFIX", "JOURNAL_")
 

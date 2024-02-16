@@ -1,6 +1,8 @@
-from openprocurement.tender.openua.procedure.views.contract import UAContractResource
-from cornice.resource import resource
 from logging import getLogger
+
+from cornice.resource import resource
+
+from openprocurement.tender.openua.procedure.views.contract import UAContractResource
 
 LOGGER = getLogger(__name__)
 

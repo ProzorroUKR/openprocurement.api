@@ -74,7 +74,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9"
+        "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b"
       }
     ]
   }
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/0dc55b6076b54e3a8d12e319660bdc44
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/bids/3b1586f7cadd487b84c8d86b5f485eac
 
 {
   "data": {
@@ -120,7 +120,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
+        "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
@@ -132,7 +132,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3e41aa3266f24b9980125cb78364eb93?Signature=mhxSI9BsuM3ZpxlDAJN0o%2BUlFmp5J0zw7iyAadRF73Syhi8FiNpZaR9%2B0K7PqesH1a%2BUgzzXXMWCx6yjI0DeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "d1d06295972d46ec9c22633b541d2571",
+        "id": "4e9c6586794b488d908c67516746cf64",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -144,7 +144,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ebbf9207d9d40238691d14be83d98ab?Signature=USenzreniFdmFIKZS0A8SrzWsk%2FNJAbLR%2FHbw9RRaurdjlzinVZeGruiYCn3itI8h3xPbrmhGzyd8t25uWRRDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "e938f210161445f19901e64348b4e5eb",
+        "id": "463709d8a5bb421b9b9038b098b8c417",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -158,7 +158,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d6482cffb6e542068865551d52794911?Signature=aQzkFkHctVQar10T9fRkjoqdU1eGHVWDIyPExLWgeyiATJsp%2BWcwgLTw4xFF%2FUjo27KLyoX1CcGHzPcW20qnAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "3dfe8d5af5ce4b419ccba1675adb6814",
+        "id": "7a2b81cc064b46d980f92fff792af857",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -172,7 +172,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f4edcff934f64be5941b4dd15202a07f?Signature=hvXycTPfnORnYBe%2FLRrhQnYouVrHiVZM71uSXxB7UVyCDv2HaofKnRx8OK7NL%2FwApqwF0TkXqNbILgJ7D%2F5NAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "7e89d1b6944545eeb69c325632357d08",
+        "id": "9f5431b6807d4681866b37f338fe4fb0",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -186,19 +186,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5f55e79d771f4c2bb7099132b547d242?Signature=aUIaf3RXJct4daa8KvFpx%2FJ4JVGuTFYmD64495onR9X8b41Ti8Lv6cY821fV6TgH1VETwjI4%2FZEdziQb1vT0Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "00bf7c0dfdec42b5945aa3f56f000a1e",
+        "id": "d348d1e25d9a470da6c57ae84755872b",
         "confidentiality": "public",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "selfQualified": true,
-    "id": "0dc55b6076b54e3a8d12e319660bdc44",
+    "id": "3b1586f7cadd487b84c8d86b5f485eac",
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "bef08df84d6e4bcda51c02497a0d8f99",
-    "transfer": "b2af00cef1f8428c81c958c8a0ce6ae5"
+    "token": "788353658aee489f90485ec93dce11a7",
+    "transfer": "e58ab47e2a8b424a9a50ba17e61be8be"
   }
 }
 

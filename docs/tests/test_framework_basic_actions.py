@@ -1,24 +1,18 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.tests.base import change_auth
-from tests.base.data import (
-    test_docs_tenderer,
-)
 from tests.base.constants import DOCS_URL
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.data import test_docs_tenderer
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
-    test_framework_dps_config,
-    test_question_data,
     BaseFrameworkWebTest,
+    test_framework_dps_config,
+    test_framework_dps_data,
+    test_question_data,
 )
 
 TARGET_DIR_QUESTIONS = 'docs/source/frameworks/basic-actions/http/questions/'
@@ -36,12 +30,12 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(QuestionsFrameworkOpenResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(QuestionsFrameworkOpenResourceTest, self).tearDown()
+        super().tearDown()
 
     def create_framework(self):
         pass
@@ -56,12 +50,7 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
         self.assertEqual(response.json['data'], [])
 
         # create frameworks
-        response = self.app.post_json(
-            '/frameworks', {
-                'data': data,
-                'config': test_framework_open_config
-            }
-        )
+        response = self.app.post_json('/frameworks', {'data': data, 'config': test_framework_open_config})
         self.assertEqual(response.status, '201 Created')
 
         framework = response.json['data']
@@ -80,17 +69,14 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
         # Questions
 
         with open(TARGET_DIR_QUESTIONS + 'ask-question.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                f"/frameworks/{framework['id']}/questions",
-                {'data': test_question_data}
-            )
+            response = self.app.post_json(f"/frameworks/{framework['id']}/questions", {'data': test_question_data})
             self.assertEqual(response.status, '201 Created')
             question = response.json["data"]
 
         with open(TARGET_DIR_QUESTIONS + 'answer-question.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
-                {'data': {"answer": "Таблицю додано в файлі"}}
+                {'data': {"answer": "Таблицю додано в файлі"}},
             )
             self.assertEqual(response.status, '200 OK')
 

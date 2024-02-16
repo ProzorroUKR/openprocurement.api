@@ -1,12 +1,16 @@
 from openprocurement.api.context import get_request
-from openprocurement.framework.core.procedure.models.framework import FrameworkChronographData
+from openprocurement.framework.core.procedure.models.framework import (
+    FrameworkChronographData,
+)
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.framework.dps.procedure.state.qualification import DPSQualificationState
-from openprocurement.framework.dps.procedure.state.submission import DPSSubmissionState
 from openprocurement.framework.dps.procedure.models.framework import (
     PatchActiveFramework,
     PatchFramework,
 )
+from openprocurement.framework.dps.procedure.state.qualification import (
+    DPSQualificationState,
+)
+from openprocurement.framework.dps.procedure.state.submission import DPSSubmissionState
 
 
 class DPSFrameworkState(FrameworkState):

@@ -1,43 +1,51 @@
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
-    PLAN_BUYERS_REQUIRED_FROM, CPV_PREFIX_LENGTH_TO_NAME,
+    CPV_PREFIX_LENGTH_TO_NAME,
+    PLAN_BUYERS_REQUIRED_FROM,
 )
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.context import get_request, get_now
-from openprocurement.api.procedure.utils import (
-    is_obj_const_active,
-    get_cpv_prefix_length,
-    get_cpv_uniq_prefixes,
-    to_decimal,
-)
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification,
     validate_items_uniq,
 )
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.utils import (
+    get_cpv_prefix_length,
+    get_cpv_uniq_prefixes,
+    is_obj_const_active,
+    to_decimal,
+)
+from openprocurement.planning.api.constants import (
+    MULTI_YEAR_BUDGET_MAX_YEARS,
+    MULTI_YEAR_BUDGET_PROCEDURES,
+)
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.models.budget import Budget
 from openprocurement.planning.api.procedure.models.cancellation import (
-    PostCancellation,
-    PatchCancellation,
     Cancellation,
+    PatchCancellation,
+    PostCancellation,
 )
 from openprocurement.planning.api.procedure.models.document import Document
-from openprocurement.planning.api.procedure.models.item import Item, CPVClassification
-from openprocurement.planning.api.procedure.models.milestone import PatchMilestone, Milestone
-from openprocurement.planning.api.procedure.models.organization import PlanOrganization, BuyerOrganization
+from openprocurement.planning.api.procedure.models.item import CPVClassification, Item
+from openprocurement.planning.api.procedure.models.milestone import (
+    Milestone,
+    PatchMilestone,
+)
+from openprocurement.planning.api.procedure.models.organization import (
+    BuyerOrganization,
+    PlanOrganization,
+)
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import Tender
 from openprocurement.planning.api.utils import generate_plan_id
-from openprocurement.planning.api.constants import (
-    MULTI_YEAR_BUDGET_PROCEDURES,
-    MULTI_YEAR_BUDGET_MAX_YEARS,
-)
 from openprocurement.tender.core.procedure.models.document import PostDocument
 
 
@@ -95,7 +103,6 @@ class PatchPlan(Model):
     cancellation = ModelType(PatchCancellation)
     milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_items_uniq])
     rationale = ModelType(RationaleObject)
-
 
 
 class Plan(Model):
@@ -159,10 +166,7 @@ def validate_status(plan, status):
         if not plan.get("tender_id"):
             method = plan.get("tender").get("procurementMethodType")
             if method not in ("belowThreshold", "reporting", ""):
-                raise ValidationError(
-                    "Can't complete plan with '{}' "
-                    "tender.procurementMethodType".format(method)
-                )
+                raise ValidationError("Can't complete plan with '{}' " "tender.procurementMethodType".format(method))
 
 
 def validate_items(plan, items):
@@ -216,9 +220,7 @@ def validate_budget_breakdown_amounts(plan, budget):
         if breakdown:
             amounts = [to_decimal(i["value"]["amount"]) for i in breakdown]
             if sum(amounts) > to_decimal(budget["amount"]):
-                raise ValidationError(
-                    "Sum of the breakdown values amounts can't be greater than budget amount"
-                )
+                raise ValidationError("Sum of the breakdown values amounts can't be greater than budget amount")
 
 
 def validate_budget_end_date_multi_year(plan, budget):

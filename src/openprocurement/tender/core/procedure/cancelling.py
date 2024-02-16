@@ -22,9 +22,10 @@ class CancellationBlockMixing:
             return False
 
         related_cancellations = [
-            c for c in tender.get("cancellations", "")
+            c
+            for c in tender.get("cancellations", "")
             if lot_id is None  # we don't care of lot
-               or c.get("relatedLot") in (None, lot_id)  # it's tender or this lot cancellation
+            or c.get("relatedLot") in (None, lot_id)  # it's tender or this lot cancellation
         ]
 
         if any(i["status"] == "pending" for i in related_cancellations):

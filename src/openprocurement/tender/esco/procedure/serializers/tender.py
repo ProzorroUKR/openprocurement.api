@@ -1,11 +1,24 @@
-from openprocurement.api.procedure.serializers.base import ListSerializer, decimal_serializer
-from openprocurement.tender.core.procedure.serializers.tender import TenderBaseSerializer
-from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
-from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer
-from openprocurement.tender.core.procedure.serializers.qualification import QualificationSerializer
+from openprocurement.api.procedure.serializers.base import (
+    ListSerializer,
+    decimal_serializer,
+)
+from openprocurement.tender.core.procedure.serializers.cancellation import (
+    CancellationSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    ComplaintSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.qualification import (
+    QualificationSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.tender import (
+    TenderBaseSerializer,
+)
 from openprocurement.tender.esco.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.esco.procedure.serializers.contract import ContractSerializer
+from openprocurement.tender.esco.procedure.serializers.contract import (
+    ContractSerializer,
+)
 from openprocurement.tender.esco.procedure.serializers.lot import LotSerializer
 
 

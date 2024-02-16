@@ -1,21 +1,34 @@
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
+from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    update_doc_fields_on_put_document,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_document_operation_in_not_allowed_period,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+from openprocurement.tender.core.procedure.views.tender_document import (
+    TenderDocumentResource,
 )
-from openprocurement.api.utils import json_view
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
-
-from openprocurement.tender.open.procedure.state.tender_document import UATenderDocumentState
-from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
-from cornice.resource import resource
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
+)
+from openprocurement.tender.open.procedure.state.tender_document import (
+    UATenderDocumentState,
+)
 
 
 @resource(
@@ -43,10 +56,8 @@ class UATenderDocumentResource(TenderDocumentResource):
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument),
-
             validate_document_operation_in_not_allowed_period,
             validate_tender_document_update_not_by_author_or_tender_owner,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -62,7 +73,6 @@ class UATenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-
             validate_document_operation_in_not_allowed_period,
             validate_tender_document_update_not_by_author_or_tender_owner,
         ),

@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from uuid import uuid4
+
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.contracting.api.tests.data import test_contract_data
 from openprocurement.contracting.api.tests.data import (
     test_tender_token as test_contract_tender_token,
-    test_contract_data,
 )
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 class BaseContractOwnershipChangeTest(BaseWebTest):
@@ -18,7 +18,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseContractOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_contract()
 
     def create_contract(self):
@@ -30,8 +30,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
         self.contract = response.json["data"]
         self.contract_id = self.contract["id"]
         response = self.app.patch_json(
-            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}",
-            {"data": ""}
+            f"/contracts/{self.contract_id}/credentials?acc_token={self.tender_token}", {"data": ""}
         )
         self.assertEqual(response.status, "200 OK")
         self.contract_token = response.json["access"]["token"]

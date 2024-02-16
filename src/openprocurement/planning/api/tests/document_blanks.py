@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-from email.header import Header
-
-
 def create_plan_document_json_invalid(self):
     response = self.app.post_json(
         "/plans/{}/documents?acc_token={}".format(self.plan_id, self.plan_token),
@@ -141,9 +137,7 @@ def create_plan_document_json(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}])
 
     response = self.app.get("/plans/{}/documents/{}?download={}".format(self.plan_id, doc_id, key))
     self.assertEqual(response.status, "302 Moved Temporarily")

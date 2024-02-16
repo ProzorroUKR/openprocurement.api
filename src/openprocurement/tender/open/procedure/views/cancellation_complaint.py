@@ -1,10 +1,16 @@
 from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_GROUP_NAME, ABOVE_THRESHOLD_GROUP
-from openprocurement.tender.open.procedure.state.cancellation_complaint import OpenCancellationComplaintState
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
+)
+from openprocurement.tender.open.procedure.state.cancellation_complaint import (
+    OpenCancellationComplaintState,
+)
 
 
 @resource(
@@ -30,4 +36,3 @@ class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResou
 )
 class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = OpenCancellationComplaintState
-

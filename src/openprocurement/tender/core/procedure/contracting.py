@@ -1,20 +1,19 @@
-from uuid import uuid4
-from typing import List, Dict
-
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_award,
-)
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.context import get_now
-from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
-from openprocurement.api.utils import get_contract_by_id, request_init_contract
-from openprocurement.tender.core.procedure.utils import is_new_contracting
-from openprocurement.contracting.econtract.procedure.models.contract import PostContract
-from openprocurement.contracting.core.procedure.utils import save_contract
 from collections import defaultdict
 from copy import deepcopy
 from logging import getLogger
+from typing import Dict, List
+from uuid import uuid4
+
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import get_contract_by_id, request_init_contract
+from openprocurement.contracting.core.procedure.utils import save_contract
+from openprocurement.contracting.econtract.procedure.models.contract import PostContract
+from openprocurement.tender.belowthreshold.procedure.utils import (
+    prepare_tender_item_for_contract,
+)
+from openprocurement.tender.core.procedure.context import get_award, get_request
+from openprocurement.tender.core.procedure.utils import is_new_contracting
 
 LOGGER = getLogger(__name__)
 
@@ -58,7 +57,11 @@ def add_contracts(request, award):
     if multi_contracts:
         for buyer_id, items in items_by_buyer.items():
             contract = add_contract_to_tender(
-                tender, items, value, buyer_id, award,
+                tender,
+                items,
+                value,
+                buyer_id,
+                award,
             )
             contracts_added.append(contract)
     else:  # ignoring "buyer_id", even if not None
@@ -66,7 +69,11 @@ def add_contracts(request, award):
         for _, items in items_by_buyer.items():
             contract_items.extend(items)
         contract = add_contract_to_tender(
-            tender, contract_items, value, None, award,
+            tender,
+            contract_items,
+            value,
+            None,
+            award,
         )
         contracts_added.append(contract)
 
@@ -88,7 +95,6 @@ def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
 
 
 def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award):
-
     server_id = get_request().registry.server_id
     contract_number = len(tender.get('contracts', '')) + 1
     if "contracts" not in tender:
@@ -136,8 +142,7 @@ def delete_buyers_attr(objs):
 
 def set_attributes_to_contract_items(tender, bid, contract):
     req_responses = {
-        rr["requirement"]["id"]: rr["values"]
-        if rr.get("values") else [rr["value"]]
+        rr["requirement"]["id"]: rr["values"] if rr.get("values") else [rr["value"]]
         for rr in bid.get("requirementResponses", "")
     }
 

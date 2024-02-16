@@ -1,40 +1,39 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
-)
-
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.tests.chronograph import (
-    switch_award_complaints_draft,
-    switch_tender_complaints_draft,
-    switch_tender_cancellation_complaints_draft,
-    switch_qualification_complaints_draft,
-    switch_tender_after_cancellation_unsuccessful,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful,
 )
+from openprocurement.tender.core.tests.chronograph import (
+    switch_award_complaints_draft,
+    switch_qualification_complaints_draft,
+    switch_tender_after_cancellation_unsuccessful,
+    switch_tender_cancellation_complaints_draft,
+    switch_tender_complaints_draft,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
     test_tender_openeu_lots,
 )
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_auction,
-    pre_qual_switch_to_auction,
-    pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
     active_tendering_to_pre_qual_unsuccessful,
     active_tendering_to_unsuccessful,
+    pre_qual_switch_to_auction,
+    pre_qual_switch_to_stand_still,
+    switch_to_auction,
+    switch_to_complaint,
 )
-
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,
+)
+from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
 
@@ -80,7 +79,7 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
             del lot_values[0]["status"]
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
-                {"data": {"lotValues": bid["lotValues"][:1]}}
+                {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -147,12 +146,18 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_bids = test_tender_openeu_bids
 
     def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
             award = response.json["data"]
             self.award_id = award["id"]
@@ -162,12 +167,12 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchUnsuccessfulResourceTest))
     return suite
 
 

@@ -2,11 +2,11 @@ import os
 from copy import deepcopy
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.framework.cfaua.tests.data import test_agreement_data
 from openprocurement.framework.cfaua.tests.data import (
     test_tender_token as test_agreement_tender_token,
-    test_agreement_data,
 )
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 class BaseAgreementOwnershipChangeTest(BaseWebTest):
@@ -17,7 +17,7 @@ class BaseAgreementOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseAgreementOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_agreement()
 
     def create_agreement(self):

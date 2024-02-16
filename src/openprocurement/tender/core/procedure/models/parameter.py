@@ -1,8 +1,8 @@
 from schematics.exceptions import ValidationError
-from schematics.types import FloatType
-from openprocurement.api.procedure.models.base import Model
-from schematics.types import StringType
+from schematics.types import FloatType, StringType
+
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
 
 
 class Parameter(Model):
@@ -20,8 +20,7 @@ class Parameter(Model):
             tender = get_tender()
             for feature in tender.get("features", ""):
                 if data["code"] == feature["code"]:
-                    if not any(float(e["value"]) == value
-                               for e in feature["enum"]):
+                    if not any(float(e["value"]) == value for e in feature["enum"]):
                         raise ValidationError("value should be one of feature value.")
 
 

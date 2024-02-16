@@ -1,22 +1,35 @@
 from cornice.resource import resource
+from pyramid.security import Allow, Everyone
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.document import BaseDocumentResource, resolve_document
-from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
-from openprocurement.tender.core.procedure.validation import get_qualification_document_role
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.core.procedure.validation import (
-    validate_qualification_update_with_cancellation_lot_pending,
-    validate_qualification_document_operation_not_in_allowed_status,
-    validate_qualification_document_operation_not_in_pending,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
+    unless_bots,
+    update_doc_fields_on_put_document,
     validate_data_model,
     validate_input_data,
-    validate_item_owner, unless_bots, validate_upload_document, update_doc_fields_on_put_document,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
 )
-from pyramid.security import Allow, Everyone
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.validation import (
+    get_qualification_document_role,
+    validate_qualification_document_operation_not_in_allowed_status,
+    validate_qualification_document_operation_not_in_pending,
+    validate_qualification_update_with_cancellation_lot_pending,
+)
+from openprocurement.tender.core.procedure.views.document import (
+    BaseDocumentResource,
+    resolve_document,
+)
+from openprocurement.tender.core.procedure.views.qualification import (
+    resolve_qualification,
+)
+
 
 @resource(
     name="Tender Qualification Documents",
@@ -30,16 +43,12 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
-
             (Allow, "g:bots", "upload_qualification_documents"),
             (Allow, "g:bots", "edit_qualification_documents"),
-
             (Allow, "g:brokers", "upload_qualification_documents"),
             (Allow, "g:brokers", "edit_qualification_documents"),
-
             (Allow, "g:admins", "upload_qualification_documents"),
             (Allow, "g:admins", "edit_qualification_documents"),
-
         ]
         return acl
 
@@ -56,7 +65,6 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
         validators=(
             unless_bots(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
-
             validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,
@@ -70,11 +78,9 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
         validators=(
             unless_bots(validate_item_owner("tender")),
             validate_input_data(PostDocument),
-
             validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -90,7 +96,6 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
             unless_bots(validate_item_owner("tender")),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-
             validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,
             validate_qualification_document_operation_not_in_pending,

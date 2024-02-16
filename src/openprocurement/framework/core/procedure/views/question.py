@@ -1,19 +1,19 @@
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
+    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
-    validate_input_data,
 )
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    update_logging_context,
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.framework.core.procedure.models.question import (
+    PatchQuestion,
+    PostQuestion,
+    Question,
 )
-from openprocurement.framework.core.procedure.models.question import PostQuestion, PatchQuestion, Question
 from openprocurement.framework.core.procedure.state.question import QuestionState
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 def resolve_question(request):
@@ -53,9 +53,7 @@ class CoreQuestionResource(FrameworkBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_question",
-        validators=(
-            validate_input_data(PostQuestion),
-        ),
+        validators=(validate_input_data(PostQuestion),),
     )
     def collection_post(self):
         update_logging_context(self.request, {"question_id": "__new__"})
@@ -81,7 +79,7 @@ class CoreQuestionResource(FrameworkBaseResource):
             self.request.response.headers["Location"] = self.request.route_url(
                 f"{framework['frameworkType']}:Framework Questions",
                 framework_id=framework["_id"],
-                question_id=question["id"]
+                question_id=question["id"],
             )
             return {"data": self.serializer_class(question).data}
 

@@ -1,10 +1,7 @@
-# -*- coding: utf-8 -*-
-
-
 # CompetitiveDialogEUQuestionResourceTest
 def create_tender_question_invalid_eu(self):
     """
-      Test the creating invalid question
+    Test the creating invalid question
     """
 
     # Try create question with invalid tender_id
@@ -16,9 +13,7 @@ def create_tender_question_invalid_eu(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     request_path = "/tenders/{}/questions".format(self.tender_id)
 
@@ -211,7 +206,7 @@ def create_tender_question_invalid_eu(self):
 
 def create_tender_question_eu(self):
     """
-      Create question with many posible ways
+    Create question with many posible ways
     """
 
     # Create question, and check fields match
@@ -255,7 +250,7 @@ def create_tender_question_eu(self):
 
 def get_tender_question_eu(self):
     """
-      Try get tender question
+    Try get tender question
     """
     # Create question
     response = self.app.post_json(
@@ -270,7 +265,7 @@ def get_tender_question_eu(self):
     response = self.app.get("/tenders/{}/questions/{}".format(self.tender_id, question["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"]), set(["id", "date", "title", "description", "questionOf"]))
+    self.assertEqual(set(response.json["data"]), {"id", "date", "title", "description", "questionOf"})
 
     # Add answer to question
     response = self.app.patch_json(
@@ -298,23 +293,19 @@ def get_tender_question_eu(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "question_id"}])
 
     # Try get question by bad token_id, and question_id
     response = self.app.get("/tenders/some_id/questions/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_questions_eu(self):
     """
-      Test the get questions
+    Test the get questions
     """
     # Create question
     response = self.app.post_json(
@@ -329,7 +320,7 @@ def get_tender_questions_eu(self):
     response = self.app.get("/tenders/{}/questions".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"][0]), set(["id", "date", "title", "description", "questionOf"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "date", "title", "description", "questionOf"})
 
     # Add answer on question
     response = self.app.patch_json(
@@ -357,6 +348,4 @@ def get_tender_questions_eu(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])

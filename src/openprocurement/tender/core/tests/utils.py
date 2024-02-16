@@ -1,19 +1,19 @@
-# -*- coding: utf-8 -*-
-from contextlib import contextmanager
-
 import unittest
+from contextlib import contextmanager
 from copy import deepcopy
-
 from datetime import datetime, timedelta
-from mock import patch, MagicMock, call
+from unittest.mock import MagicMock, call, patch
+
 from pyramid.exceptions import URLDecodeError
 
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.tender.core.utils import (
-    calculate_tender_business_date,
-)
-from openprocurement.tender.core.procedure.utils import generate_tender_id, extract_tender_id, extract_tender_doc
 from openprocurement.api.constants import TZ
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.tender.core.procedure.utils import (
+    extract_tender_doc,
+    extract_tender_id,
+    generate_tender_id,
+)
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 
 class TestUtilsBase(unittest.TestCase):
@@ -36,8 +36,7 @@ class TestUtilsBase(unittest.TestCase):
                 "title": "Mars",
                 "value": {"amount": 600000},
                 "minimalStep": {"amount": 2000},
-            }
-
+            },
         ]
         self.items = [{"description": "Some item", "relatedLot": "11111111111111111111111111111111"}]
 
@@ -72,9 +71,7 @@ class TestUtils(TestUtilsBase):
         request.registry.mongodb.get_next_sequence_value.return_value = 99
 
         tender_id = generate_tender_id(request)
-        tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(
-            ctime.year, ctime.month, ctime.day, 99
-        )
+        tid = "UA-{:04}-{:02}-{:02}-{:06}-a".format(ctime.year, ctime.month, ctime.day, 99)
         self.assertEqual(tid, tender_id)
 
     @patch("openprocurement.tender.core.procedure.utils.decode_path_info")
@@ -203,7 +200,7 @@ class TestCalculateTenderBusinessDate(TestUtilsBase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestUtils))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestUtils))
     return suite
 
 

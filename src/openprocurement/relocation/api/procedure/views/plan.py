@@ -1,21 +1,25 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
-from openprocurement.relocation.api.procedure.serializers.plan import TransferredPlanSerializer
-from openprocurement.relocation.api.procedure.utils import update_ownership, save_transfer
+from openprocurement.relocation.api.procedure.serializers.plan import (
+    TransferredPlanSerializer,
+)
+from openprocurement.relocation.api.procedure.utils import (
+    save_transfer,
+    update_ownership,
+)
 from openprocurement.relocation.api.procedure.validation import (
     validate_ownership_data,
+    validate_plan,
     validate_plan_owner_accreditation_level,
     validate_plan_transfer_accreditation_level,
-    validate_plan,
     validate_plan_transfer_token,
 )
 from openprocurement.relocation.api.utils import (
-    get_transfer_location,
     extract_transfer_doc,
+    get_transfer_location,
 )
 
 

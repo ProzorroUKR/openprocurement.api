@@ -1,67 +1,65 @@
-from unittest.mock import patch
-from datetime import timedelta
 import unittest
 from copy import deepcopy
-from esculator import npv, escp
-from openprocurement.api.utils import get_now
-from openprocurement.api.tests.base import snitch
+from datetime import timedelta
+from unittest.mock import patch
 
+from esculator import escp, npv
+
+from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.lot import TenderLotProcessTestMixin
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
     create_tender_lot,
-    patch_tender_lot,
     delete_tender_lot,
-    tender_lot_guarantee,
+    patch_tender_lot,
     tender_lot_document,
+    tender_lot_guarantee,
     tender_lot_milestones,
 )
-
+from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.esco.tests.base import (
+    NBU_DISCOUNT_RATE,
+    BaseESCOContentWebTest,
+    test_tender_esco_bids,
+    test_tender_esco_data,
+    test_tender_esco_lots,
+)
+from openprocurement.tender.esco.tests.lot_blanks import (
+    bids_invalidation_on_lot_change,
+    create_tender_bid_invalid,
+    create_tender_feature_bid,
+    create_tender_feature_bid_invalid,
+    create_tender_lot_invalid,
+    get_tender_lot,
+    get_tender_lots,
+    lot_minimal_step_invalid,
+    lot_yppr_validation,
+    patch_tender_bid,
+    patch_tender_lot_minValue,
+    tender_1lot_fundingKind_default,
+    tender_2lot_fundingKind_default,
+    tender_features_invalid,
+    tender_lot_Administrator_change_yppr,
+    tender_lot_funding_kind,
+    tender_lot_fundingKind_yppr,
+    tender_lot_yearlyPaymentsPercentageRange,
+    tender_min_value,
+    tender_minimal_step_percentage,
+)
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
 from openprocurement.tender.openeu.tests.lot_blanks import (
     one_lot_1bid,
-    one_lot_2bid_1unqualified,
     one_lot_2bid,
-    two_lot_2bid_1lot_del,
+    one_lot_2bid_1unqualified,
     one_lot_3bid_1del,
     one_lot_3bid_1un,
     two_lot_1can,
     two_lot_2bid_0com_1can,
+    two_lot_2bid_1lot_del,
     two_lot_2bid_2com_2win,
     two_lot_3bid_1win_bug,
 )
-
-from openprocurement.tender.esco.tests.base import (
-    BaseESCOContentWebTest,
-    test_tender_esco_data,
-    test_tender_esco_lots,
-    test_tender_esco_bids,
-    NBU_DISCOUNT_RATE,
-)
-
-from openprocurement.tender.esco.tests.lot_blanks import (
-    create_tender_lot_invalid,
-    patch_tender_lot_minValue,
-    get_tender_lot,
-    get_tender_lots,
-    tender_min_value,
-    lot_minimal_step_invalid,
-    lot_yppr_validation,
-    tender_minimal_step_percentage,
-    tender_lot_funding_kind,
-    tender_1lot_fundingKind_default,
-    tender_2lot_fundingKind_default,
-    tender_lot_yearlyPaymentsPercentageRange,
-    tender_lot_fundingKind_yppr,
-    tender_lot_Administrator_change_yppr,
-    create_tender_feature_bid_invalid,
-    create_tender_feature_bid,
-    tender_features_invalid,
-    create_tender_bid_invalid,
-    patch_tender_bid,
-    bids_invalidation_on_lot_change,
-)
-from openprocurement.tender.esco.procedure.utils import to_decimal
 
 lot_bid_amountPerformance = round(
     float(
@@ -95,8 +93,10 @@ lot_bid_amount = round(
 )
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
@@ -133,8 +133,10 @@ class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin
     test_author = test_tender_below_author
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = 2 * test_tender_esco_lots
@@ -153,8 +155,10 @@ class TenderLotFeatureResourceTest(BaseESCOContentWebTest):
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_tender_esco_lots
@@ -168,8 +172,10 @@ class TenderLotBidResourceTest(BaseESCOContentWebTest):
     test_bids_invalidation_on_lot_change = snitch(bids_invalidation_on_lot_change)
 
 
-@patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-       get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+    get_now() + timedelta(days=1),
+)
 class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_lots = test_tender_esco_lots
@@ -178,13 +184,15 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     test_bids_data = test_tender_esco_bids  # TODO: change attribute identifier
 
     def setUp(self):
-        super(TenderLotFeatureBidResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update(relatedLot=self.lot_id, id="1")
 
-        with patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-               get_now() + timedelta(days=1)):
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+            get_now() + timedelta(days=1),
+        ):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
                 {
@@ -246,12 +254,12 @@ class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotEdgeCasesTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotEdgeCasesTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

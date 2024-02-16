@@ -1,28 +1,23 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
-
 from datetime import timedelta
 
-from openprocurement.api.constants import (
-    SANDBOX_MODE,
-    RELEASE_2020_04_19,
-)
+from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
 from openprocurement.tender.belowthreshold.tests.utils import (
-    set_tender_lots,
-    set_tender_criteria,
-    set_bid_responses,
     set_bid_lotvalues,
+    set_bid_responses,
+    set_tender_criteria,
+    set_tender_lots,
     set_tender_multi_buyers,
 )
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     test_contract_guarantee_criteria,
 )
-from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 
 now = get_now()
 
@@ -168,16 +163,14 @@ test_tender_below_cancellation = {
     "reason": "cancellation reason",
 }
 if RELEASE_2020_04_19 < get_now():
-    test_tender_below_cancellation.update({
-        "reasonType": "noDemand"
-    })
+    test_tender_below_cancellation.update({"reasonType": "noDemand"})
 
 test_tender_below_draft_claim = {
     "title": "complaint title",
     "status": "draft",
     "type": "claim",
     "description": "complaint description",
-    "author": test_tender_below_author
+    "author": test_tender_below_author,
 }
 
 test_tender_below_claim = {
@@ -185,7 +178,7 @@ test_tender_below_claim = {
     "status": "claim",
     "type": "claim",
     "description": "complaint description",
-    "author": test_tender_below_author
+    "author": test_tender_below_author,
 }
 
 test_tender_below_complaint = {
@@ -193,14 +186,14 @@ test_tender_below_complaint = {
     "status": "pending",
     "type": "complaint",
     "description": "complaint description",
-    "author": test_tender_below_author
+    "author": test_tender_below_author,
 }
 
 test_tender_below_draft_complaint = {
     "title": "complaint title",
     "type": "complaint",
     "description": "complaint description",
-    "author": test_tender_below_author
+    "author": test_tender_below_author,
 }
 
 test_tender_below_multi_buyers_data = set_tender_multi_buyers(
@@ -241,25 +234,21 @@ class BaseTenderWebTest(BaseCoreWebTest):
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "active.enquiries"  # status, to which tender should be switched from 'draft'
-    forbidden_question_add_actions_status = (
-        "active.tendering"
-    )  # status, in which adding tender questions is forbidden
+    forbidden_question_add_actions_status = "active.tendering"  # status, in which adding tender questions is forbidden
     forbidden_question_update_actions_status = (
-        "active.auction"
-    )  # status, in which updating tender questions is forbidden
+        "active.auction"  # status, in which updating tender questions is forbidden
+    )
     forbidden_lot_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.tendering"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.tendering"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
     guarantee_criterion = None
@@ -268,7 +257,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.set_status("active.tendering", extra={"status": "active.enquires"})
 
     def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
+        super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
@@ -288,7 +277,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
                 self.initial_data.get("items", []),
             )
 
-
     def create_tender(self, config=None):
         data = deepcopy(self.initial_data)
         config = config if config else deepcopy(self.initial_config)
@@ -300,16 +288,14 @@ class BaseTenderWebTest(BaseCoreWebTest):
         if self.initial_criteria:
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {"data": self.initial_criteria}
+                {"data": self.initial_criteria},
             )
             criteria = response.json["data"]
         if self.guarantee_criterion:
             self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-                {
-                    "data": getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)
-                },
-                status=201
+                {"data": getattr(self, "guarantee_criterion_data", test_contract_guarantee_criteria)},
+                status=201,
             )
 
         status = tender["status"]
@@ -343,5 +329,5 @@ class TenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(TenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

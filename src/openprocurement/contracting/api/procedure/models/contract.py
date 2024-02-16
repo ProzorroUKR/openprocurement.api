@@ -2,23 +2,23 @@ from schematics.types import StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.contracting.core.procedure.models.contract import (
     BaseContract,
     BasePatchContract,
     BasePostContract,
 )
+from openprocurement.contracting.core.procedure.models.organization import (
+    BusinessOrganization,
+    ProcuringEntity,
+)
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
-from openprocurement.contracting.core.procedure.models.organization import BusinessOrganization, ProcuringEntity
 
 
 class PostContract(BasePostContract):
     status = StringType(choices=["terminated", "active"], default="active")
     dateSigned = IsoDateTimeType()
-    procuringEntity = ModelType(
-        ProcuringEntity, required=True
-    )
+    procuringEntity = ModelType(ProcuringEntity, required=True)
 
 
 class PatchContract(BasePatchContract):
@@ -34,9 +34,8 @@ class AdministratorPatchContract(Model):
 
 
 class Contract(BaseContract):
-    """ Contract """
+    """Contract"""
 
     procuringEntity = ModelType(
         ProcuringEntity, required=True
     )  # The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
-

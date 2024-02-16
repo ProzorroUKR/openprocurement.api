@@ -1,4 +1,5 @@
 from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
@@ -6,7 +7,7 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
 from openprocurement.tender.simpledefense.procedure.state.cancellation_complaint import (
     SimpleDefenseCancellationComplaintState,
 )
-    
+
 
 @resource(
     name="simple.defense:Tender Cancellation Complaints Get",
@@ -31,4 +32,3 @@ class SimpleDefenseCancellationClaimAndComplaintGetResource(CancellationComplain
 )
 class SimpleDefenseCancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = SimpleDefenseCancellationComplaintState
-

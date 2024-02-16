@@ -1,8 +1,11 @@
-from openprocurement.tender.openua.procedure.state.contract import OpenUAContractStateMixing
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.procedure.utils import to_decimal
 from decimal import Decimal
+
+from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
+from openprocurement.tender.openua.procedure.state.contract import (
+    OpenUAContractStateMixing,
+)
 
 
 class ESCOContractStateMixing:
@@ -27,7 +30,7 @@ class ESCOContractStateMixing:
                     # This made because of not everywhere DecimalType is new
                     # and when old model validate whole tender, value here become
                     # form 1E+2, but in request.validated['data'] we get '100'
-                    field[ro_attr] = ['{0:f}'.format(to_decimal(i)) for i in field[ro_attr]]
+                    field[ro_attr] = ['{:f}'.format(to_decimal(i)) for i in field[ro_attr]]
                 if field:
                     passed = value.get(ro_attr)
                     actual = field.get(ro_attr)
@@ -38,8 +41,6 @@ class ESCOContractStateMixing:
 
 
 class ESCOContractState(OpenUAContractStateMixing, ESCOContractStateMixing, ESCOTenderState):
-
     def validate_contract_patch(self, request, before, after):
         super().validate_contract_patch(request, before, after)
         self.validate_update_contract_value_esco(request, before, after)
-

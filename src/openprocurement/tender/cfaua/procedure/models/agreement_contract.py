@@ -1,12 +1,16 @@
 from uuid import uuid4
+
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
+
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.procedure.validation import validate_parameters_uniq
 from openprocurement.tender.cfaua.procedure.models.unitprice import UnitPrice
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
 from openprocurement.tender.core.procedure.models.parameter import Parameter
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
 
 
 class PatchAgreementContract(Model):

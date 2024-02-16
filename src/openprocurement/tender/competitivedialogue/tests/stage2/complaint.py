@@ -1,54 +1,60 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.open.tests.complaint import (
-    ComplaintObjectionMixin,
-    TenderCancellationComplaintObjectionMixin,
-    TenderAwardComplaintObjectionMixin,
-    TenderQualificationComplaintObjectionMixin,
-    TenderComplaintObjectionMixin,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
 )
-from openprocurement.tender.openua.tests.complaint import CreateAwardComplaintMixin, TenderUAComplaintResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    not_found,
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
     create_tender_complaint_document,
-)
-from openprocurement.tender.openua.tests.complaint_blanks import (
-    # TenderStage2EU(UA)ComplaintDocumentResourceTest
-    put_tender_complaint_document,
-    patch_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cd_lots,
-    test_tender_openeu_bids,
-    test_tender_cd_shortlisted_firms,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_author,
+    test_tender_cd_lots,
+    test_tender_cd_shortlisted_firms,
+    test_tender_openeu_bids,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.award import test_tender_bids
+from openprocurement.tender.competitivedialogue.tests.stage2.award import (
+    test_tender_bids,
+)
+from openprocurement.tender.open.tests.complaint import (
+    ComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+    TenderQualificationComplaintObjectionMixin,
+)
+from openprocurement.tender.openua.tests.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
+    create_tender_lot_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
+)
 
 
 class TenderStage2EUComplaintResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, TenderUAComplaintResourceTestMixin
 ):
-
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
     initial_lots = test_tender_cd_lots
 
 
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         claim_data = deepcopy(test_tender_below_draft_complaint)
         claim_data["author"] = test_tender_cd_author
@@ -79,7 +85,7 @@ class TenderStage2UAComplaintDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         claim_data = deepcopy(test_tender_below_draft_complaint)
         claim_data["author"] = test_tender_cd_author
@@ -122,7 +128,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
 
@@ -160,7 +166,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
 
@@ -177,7 +183,7 @@ class TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.create_qualification()
 
 
@@ -190,7 +196,7 @@ class TenderCancellationComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 

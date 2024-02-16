@@ -1,10 +1,12 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsState
+from openprocurement.tender.openua.procedure.state.tender_details import (
+    OpenUATenderDetailsState,
+)
 from openprocurement.tender.openuadefense.constants import (
-    TENDERING_EXTRA_PERIOD,
+    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
-    COMPLAINT_SUBMIT_TIME,
+    TENDERING_EXTRA_PERIOD,
 )
 
 
@@ -17,7 +19,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = True
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     period_working_day = True
 

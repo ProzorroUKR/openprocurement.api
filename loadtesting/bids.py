@@ -1,9 +1,9 @@
-from locust import HttpUser, task, constant
-from collections import deque
-from data import tender, bid, USERS
-from time import sleep
 import random
+from collections import deque
+from time import sleep
 
+from data import USERS, bid, tender
+from locust import HttpUser, constant, task
 
 TENDERS_URL = "/api/2.5/tenders"
 TENDER_URL = None
@@ -63,18 +63,12 @@ class User(HttpUser):
 
     @task(20)
     def post_bid(self):
-        result = self.client.post(
-            f"{TENDER_URL}/bids",
-            name="/api/tenders/{uuid}/bid",
-            json=bid
-        )
+        result = self.client.post(f"{TENDER_URL}/bids", name="/api/tenders/{uuid}/bid", json=bid)
         if result.status_code != 201:
             print(result.content)
         else:
             response = result.json()
-            BIDS.append(
-                (response["data"]["id"], response["access"]["token"])
-            )
+            BIDS.append((response["data"]["id"], response["access"]["token"]))
 
     @task(10)
     def get_bid(self):
@@ -100,14 +94,12 @@ class User(HttpUser):
         response = self.client.patch(
             f"{TENDER_URL}/bids/{uid}?acc_token={token}",
             name="/api/tenders/{uuid}/bid/{uuid}",
-            json={"data": {"value": {"amount": random.randint(100, 499)}}}
+            json={"data": {"value": {"amount": random.randint(100, 499)}}},
         )
         if response.status_code != 200:
             print(response.json())
 
-        BIDS.append(
-            (uid, token)
-        )
+        BIDS.append((uid, token))
 
     @task
     def delete_bid(self):
@@ -119,14 +111,12 @@ class User(HttpUser):
         response = self.client.patch(
             f"{TENDER_URL}/bids/{uid}?acc_token={token}",
             name="/api/tenders/{uuid}/bid/{uuid}",
-            json={"data": {"value": {"amount": random.randint(100, 499)}}}
+            json={"data": {"value": {"amount": random.randint(100, 499)}}},
         )
         if response.status_code != 200:
             print(response.json())
 
-        BIDS.append(
-            (uid, token)
-        )
+        BIDS.append((uid, token))
 
     @task(20)
     def post_bid_document(self):
@@ -138,11 +128,9 @@ class User(HttpUser):
         response = self.client.post(
             f"{TENDER_URL}/bids/{uid}/documents?acc_token={token}",
             name="/api/tenders/{uuid}/bid/{uuid}/documents",
-            json={"data": bid["documents"]}
+            json={"data": bid["documents"]},
         )
         if response.status_code != 201:
             print(response.json())
 
-        BIDS.append(
-            (uid, token)
-        )
+        BIDS.append((uid, token))

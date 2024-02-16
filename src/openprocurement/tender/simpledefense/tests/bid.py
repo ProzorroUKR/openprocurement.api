@@ -1,46 +1,41 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_organization,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    not_found,
-    create_tender_bid_with_documents,
-    create_tender_bid_with_document_invalid,
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
     create_tender_bid_with_document,
-    # Tender2LotBidResourceTest
-    post_tender_bid_with_exceeded_lot_values,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
+    not_found,
     patch_tender_bid_with_exceeded_lot_values,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidResourceTestMixin,
     TenderBidDocumentWithDSResourceTestMixin,
-    TenderBidRequirementResponseTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
+    TenderBidResourceTestMixin,
     patch_tender_with_bids_lots_none,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
-    features_bidder,
-)
+from openprocurement.tender.openua.tests.bid_blanks import features_bidder
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
-    test_tender_simpledefense_features_data,
     test_tender_simpledefense_bids,
+    test_tender_simpledefense_features_data,
 )
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "draft"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         bid_data = deepcopy(test_tender_simpledefense_bids[0])
         bid_data["status"] = self.base_bid_status
 
@@ -62,7 +57,7 @@ class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMi
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -99,7 +94,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
     docservice = True
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
 
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -128,12 +123,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
@@ -156,12 +153,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.put_json(
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, doc_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -173,12 +172,14 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
 
         response = self.app.post_json(
             "/tenders/{}/bids/{}/documents?acc_token={}".format(self.tender_id, bid_id, bid_token),
-            {"data": {
-                "title": "name_3.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "name_3.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -227,12 +228,12 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

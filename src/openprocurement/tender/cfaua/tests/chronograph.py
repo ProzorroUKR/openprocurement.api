@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
 import unittest
-
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.cfaua.tests.chronograph_blanks import next_check_field_in_active_qualification
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
-    test_tender_cfaua_lots,
     test_tender_cfaua_features_data,
+    test_tender_cfaua_lots,
 )
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     # TenderSwitchAuctionResourceTest
@@ -17,14 +15,22 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     # TenderSwitchPreQualificationResourceTest
     pre_qual_switch_to_stand_still,
     active_tendering_to_pre_qual,
-    switch_to_unsuccessful,
-    # TenderSwitchPreQualificationStandStillResourceTest
+    next_check_field_in_active_qualification,
+    pre_qual_switch_to_stand_still,
+)
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+    set_auction_period_0bid as set_auction_period,  # TenderComplaintSwitchResourceTest; TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest; TenderSwitchPreQualificationStandStillResourceTest
+)
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+    switch_to_auction,
     switch_to_awarded,
-    set_auction_period_0bid as set_auction_period,
+    switch_to_complaint,
+    switch_to_unsuccessful,
     switch_to_unsuccessful_from_qualification_stand_still,
 )
-
-from openprocurement.tender.openua.tests.chronograph_blanks import set_auction_period_lot_0bid as set_auction_period_lot
+from openprocurement.tender.openua.tests.chronograph_blanks import (
+    set_auction_period_lot_0bid as set_auction_period_lot,
+)
 
 
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
@@ -95,7 +101,7 @@ class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         for bid in self.initial_bids:
             bid.update({"parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]})
-        super(TenderSwitchQualificationStandStillResourceTest, self).setUp()
+        super().setUp()
 
     test_switch_to_awarded = snitch(switch_to_awarded)
 
@@ -106,15 +112,15 @@ class TenderLotSwitchQualificationStandStillResourceTest(TenderSwitchQualificati
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationStandStillResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationStandStillResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchStatusesForNextCheckResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchQualificationStandStillResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationStandStillResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchStatusesForNextCheckResourceTest))
     return suite
 
 

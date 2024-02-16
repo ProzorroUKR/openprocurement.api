@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
-from openprocurement.tender.limited.tests import tender, award, contract, document, cancellation
+from openprocurement.tender.limited.tests import (
+    award,
+    cancellation,
+    contract,
+    document,
+    tender,
+)
 
 
 def suite():

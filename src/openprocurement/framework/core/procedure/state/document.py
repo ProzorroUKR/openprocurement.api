@@ -1,8 +1,10 @@
+from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.procedure.state.milestone import MilestoneState
-from openprocurement.framework.core.procedure.state.qualification import QualificationState
+from openprocurement.framework.core.procedure.state.qualification import (
+    QualificationState,
+)
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
-from openprocurement.framework.core.procedure.state.framework import FrameworkState
 
 
 class BaseFrameworkDocumentState(BaseDocumentStateMixing, FrameworkState):

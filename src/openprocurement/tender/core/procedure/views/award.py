@@ -1,21 +1,20 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
+from logging import getLogger
+
+from pyramid.security import Allow, Everyone
+
 from openprocurement.api.context import get_db_session
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.state.award import AwardState
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_create_award_not_in_allowed_period,
     validate_create_award_only_for_active_lot,
 )
-from openprocurement.api.procedure.validation import validate_input_data
-from openprocurement.tender.core.procedure.models.award import PostAward
-from pyramid.security import Allow, Everyone
-from logging import getLogger
-
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
@@ -33,7 +32,6 @@ def resolve_award(request):
 
 
 class TenderAwardResource(TenderBaseResource):
-
     serializer_class = AwardSerializer
     state_class = AwardState
 
@@ -41,7 +39,6 @@ class TenderAwardResource(TenderBaseResource):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "edit_award"),
-
             (Allow, "g:admins", "create_award"),
             (Allow, "g:admins", "edit_award"),
         ]
@@ -74,9 +71,7 @@ class TenderAwardResource(TenderBaseResource):
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender award {award['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_award_create"},
-                                     {"award_id": award["id"]}),
+                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_create"}, {"award_id": award["id"]}),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
@@ -116,7 +111,6 @@ class TenderAwardResource(TenderBaseResource):
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender award {}".format(award["id"]),
-                    extra=context_unpack(self.request,
-                                         {"MESSAGE_ID": "tender_award_patch"}),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

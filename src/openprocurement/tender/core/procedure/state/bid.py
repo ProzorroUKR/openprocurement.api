@@ -1,13 +1,19 @@
 import logging
 from decimal import Decimal
 
-from openprocurement.api.utils import error_handler, context_unpack, raise_operation_error
-from openprocurement.tender.cfaselectionua.procedure.utils import equals_decimal_and_corrupted
-from openprocurement.tender.core.procedure.utils import get_supplier_contract
-from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import (
+    context_unpack,
+    error_handler,
+    raise_operation_error,
+)
+from openprocurement.tender.cfaselectionua.procedure.utils import (
+    equals_decimal_and_corrupted,
+)
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import get_supplier_contract
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +79,7 @@ class BidState(BaseState):
                                     "BID_ID": after["id"],
                                     "LOT_ID": after_lot["relatedLot"],
                                 },
-                            )
+                            ),
                         )
                         after_lot["date"] = now
                     else:
@@ -146,9 +152,8 @@ class BidState(BaseState):
             contract_parameters = {p["code"]: p["value"] for p in supplier_contract.get("parameters", "")}
             for p in data["parameters"]:
                 code = p["code"]
-                if (
-                    code not in contract_parameters
-                    or not equals_decimal_and_corrupted(Decimal(p["value"]), contract_parameters[code])
+                if code not in contract_parameters or not equals_decimal_and_corrupted(
+                    Decimal(p["value"]), contract_parameters[code]
                 ):
                     raise_operation_error(self.request, "Can't post inconsistent bid")
 
@@ -158,4 +163,3 @@ class BidState(BaseState):
 
         if bid_items_id - tender_items_id:
             raise_operation_error(self.request, "Bid items ids should be on tender items ids", status=422)
-

@@ -4,8 +4,8 @@
 import re
 
 from cornice.service import Service, get_services
-from openprocurement.api.constants import VERSION
 
+from openprocurement.api.constants import VERSION
 
 URL_PLACEHOLDER = re.compile(r'\{([a-zA-Z0-9_-]*)\}')
 
@@ -19,14 +19,17 @@ def generate_spore_description(services, name, base_url, version, **kwargs):
         name=name,
         base_url=base_url,
         version=version,
-        expected_status=[200, ],
+        expected_status=[
+            200,
+        ],
         methods={},
-        **kwargs)
+        **kwargs
+    )
 
     for service in services:
         # the :foobar syntax should be removed.
         # see https://github.com/SPORE/specifications/issues/5
-        service_path = URL_PLACEHOLDER.sub(':\g<1>', service.path)
+        service_path = URL_PLACEHOLDER.sub(r':\g<1>', service.path)
 
         # get the list of placeholders
         service_params = URL_PLACEHOLDER.findall(service.path)
@@ -36,11 +39,7 @@ def generate_spore_description(services, name, base_url, version, **kwargs):
             if 'json' in format_name:
                 format_name = 'json'
 
-            view_info = {
-                'path': service_path,
-                'method': method,
-                'formats': [format_name]
-            }
+            view_info = {'path': service_path, 'method': method, 'formats': [format_name]}
             if service_params:
                 view_info['required_params'] = service_params
 
@@ -49,13 +48,14 @@ def generate_spore_description(services, name, base_url, version, **kwargs):
 
             # we have the values, but we need to merge this with
             # possible previous values for this method.
-            method_name = '{method}_{service}'.format(
-                method=method.lower(), service=service.name.lower())
+            method_name = '{method}_{service}'.format(method=method.lower(), service=service.name.lower())
             spore_doc['methods'][method_name] = view_info
 
     return spore_doc
 
+
 spore = Service(name="spore", path="/spore", renderer="json")
+
 
 @spore.get()
 def get_spore(request):

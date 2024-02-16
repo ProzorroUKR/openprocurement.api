@@ -3,10 +3,13 @@ from logging import getLogger
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
-from openprocurement.planning.api.procedure.serializers.plan import PlanRevisionsSerializer
+from openprocurement.planning.api.procedure.serializers.plan import (
+    PlanRevisionsSerializer,
+)
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 
 LOGGER = getLogger(__name__)
+
 
 @resource(
     name="Plan Revisions",

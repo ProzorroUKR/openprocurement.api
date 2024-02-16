@@ -1,23 +1,26 @@
 from schematics.types import BooleanType
 from schematics.types.compound import ModelType
-from openprocurement.tender.openua.procedure.models.bid import (
-    Bid as BaseBid,
-    PostBid as BasePostBid,
-    PatchBid as BasePatchBid,
-)
+
 from openprocurement.api.procedure.types import ListType
-from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
 from openprocurement.tender.core.procedure.models.bid_document import (
-    PostDocument,
     Document,
+    PostDocument,
 )
-from openprocurement.tender.openeu.procedure.models.lot_value import LotValue, PostLotValue, PatchLotValue
+from openprocurement.tender.core.procedure.models.guarantee import WeightedValue
+from openprocurement.tender.openeu.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
+from openprocurement.tender.openua.procedure.models.bid import Bid as BaseBid
+from openprocurement.tender.openua.procedure.models.bid import PatchBid as BasePatchBid
+from openprocurement.tender.openua.procedure.models.bid import PostBid as BasePostBid
 
 
 class PatchBid(BasePatchBid):
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     selfQualified = BooleanType(choices=[True])  # selfQualified, selfEligible are the same as in the parent but
-    selfEligible = BooleanType(choices=[True])   # tests fail because they in different order
+    selfEligible = BooleanType(choices=[True])  # tests fail because they in different order
 
 
 class PostBid(BasePostBid):

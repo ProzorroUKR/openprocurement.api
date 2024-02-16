@@ -1,12 +1,16 @@
 import re
 from datetime import datetime, timedelta
-from decimal import Decimal, ROUND_HALF_UP, InvalidOperation
-from hashlib import algorithms_guaranteed, new as hash_new
+from decimal import ROUND_HALF_UP, Decimal, InvalidOperation
+from hashlib import algorithms_guaranteed
+from hashlib import new as hash_new
 
-from isodate import Duration, parse_duration, ISO8601Error, duration_isoformat
+from isodate import Duration, ISO8601Error, duration_isoformat, parse_duration
 from schematics.exceptions import ConversionError, StopValidation, ValidationError
-from schematics.types import DecimalType as BaseDecimalType, StringType, IntType, BooleanType, BaseType
-from schematics.types.compound import ListType as BaseListType, ModelType as BaseModelType
+from schematics.types import BaseType, BooleanType
+from schematics.types import DecimalType as BaseDecimalType
+from schematics.types import IntType, StringType
+from schematics.types.compound import ListType as BaseListType
+from schematics.types.compound import ModelType as BaseModelType
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
@@ -24,7 +28,7 @@ class ModelType(BaseModelType):
 
 class DecimalType(BaseDecimalType):
     def __init__(self, precision=-3, min_value=None, max_value=None, **kwargs):
-        super(DecimalType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.min_value, self.max_value = min_value, max_value
         self.precision = Decimal("1E{:d}".format(precision))
 
@@ -46,7 +50,7 @@ class StringDecimalType(BaseDecimalType):
     def to_primitive(self, *args, **kwargs):
         value = super().to_primitive(*args, **kwargs)
         if isinstance(value, Decimal):
-            return '{0:f}'.format(value)
+            return '{:f}'.format(value)
         return value
 
 
@@ -54,37 +58,27 @@ class URLType(StringType):
     # TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
 
     MESSAGES = {
-        'invalid_url': u"Not a well formed URL.",
-        'not_found': u"URL does not exist.",
+        'invalid_url': "Not a well formed URL.",
     }
 
     URL_REGEX = re.compile(r'^https?://\S+$', re.IGNORECASE)
 
-    def __init__(self, verify_exists=False, **kwargs):
-        self.verify_exists = verify_exists
-        super(URLType, self).__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def validate_url(self, value):
         if not URLType.URL_REGEX.match(value):
             raise StopValidation(self.messages['invalid_url'])
-        if self.verify_exists:
-            from six.moves import urllib
-            try:
-                request = urllib.Request(value)
-                urllib.urlopen(request)
-            except Exception:
-                raise StopValidation(self.messages['not_found'])
 
 
 class StrictStringType(StringType):
     allow_casts = (str,)
 
 
-class StrictIntType(IntType): # There are can be problem with old tenders where int values stores in string
+class StrictIntType(IntType):  # There are can be problem with old tenders where int values stores in string
     def to_native(self, value, context=None):
         if not isinstance(value, int):
-            raise ConversionError(self.messages['number_coerce']
-                                  .format(value, self.number_type.lower()))
+            raise ConversionError(self.messages['number_coerce'].format(value, self.number_type.lower()))
         return super().to_native(value, context=context)
 
 
@@ -122,17 +116,17 @@ class IsoDateTimeType(BaseType):
 
 
 class IsoDurationType(BaseType):
-    """ Iso Duration format
-           P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
-           Y is the year designator that follows the value for the number of years.
-           M is the month designator that follows the value for the number of months.
-           W is the week designator that follows the value for the number of weeks.
-           D is the day designator that follows the value for the number of days.
-           T is the time designator that precedes the time components.
-           H is the hour designator that follows the value for the number of hours.
-           M is the minute designator that follows the value for the number of minutes.
-           S is the second designator that follows the value for the number of seconds.
-           examples:  'P5000Y72M8W10DT55H3000M5S'
+    """Iso Duration format
+    P is the duration designator (referred to as "period"), and is always placed at the beginning of the duration.
+    Y is the year designator that follows the value for the number of years.
+    M is the month designator that follows the value for the number of months.
+    W is the week designator that follows the value for the number of weeks.
+    D is the day designator that follows the value for the number of days.
+    T is the time designator that precedes the time components.
+    H is the hour designator that follows the value for the number of hours.
+    M is the minute designator that follows the value for the number of minutes.
+    S is the second designator that follows the value for the number of seconds.
+    examples:  'P5000Y72M8W10DT55H3000M5S'
     """
 
     MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601 Durations."}
@@ -152,7 +146,6 @@ class IsoDurationType(BaseType):
 
 
 class HashType(StringType):
-
     MESSAGES = {
         "hash_invalid": "Hash type is not supported.",
         "hash_length": "Hash value is wrong length.",
@@ -160,7 +153,7 @@ class HashType(StringType):
     }
 
     def to_native(self, value, context=None):
-        value = super(HashType, self).to_native(value, context)
+        value = super().to_native(value, context)
 
         if ":" not in value:
             raise ValidationError(self.messages["hash_invalid"])

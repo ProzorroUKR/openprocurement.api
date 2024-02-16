@@ -1,19 +1,20 @@
-# -*- coding: utf-8 -*-
+import unittest
 from copy import deepcopy
 from datetime import timedelta
-from mock import patch
-from mock.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
-from openprocurement.api.context import set_request, set_now
-from openprocurement.api.utils import get_now
-from schematics.types.compound import ModelType, ListType
 from schematics.exceptions import ModelValidationError
-import unittest
+from schematics.types.compound import ListType, ModelType
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_data, test_tender_below_lots
+from openprocurement.api.context import set_now, set_request
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_data,
+    test_tender_below_lots,
+)
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.core.procedure.models.lot import Lot
-from openprocurement.tender.core.procedure.models.tender import Tender, PostTender
+from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 
 test_tender_data = deepcopy(test_tender_below_data)
 del test_tender_data["procurementMethodType"]
@@ -42,12 +43,12 @@ class TestTenderMilestones(unittest.TestCase):
     initial_tender_data = test_tender_data
 
     def __init__(self, *args, **kwargs):
-        super(TestTenderMilestones, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def test_validate_without_milestones(self):
         with patch(
             "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
-            get_now() - timedelta(days=1)
+            get_now() - timedelta(days=1),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
             data = tender.serialize()
@@ -59,7 +60,7 @@ class TestTenderMilestones(unittest.TestCase):
     def test_regression_milestones(self):
         with patch(
             "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
-            get_now() + timedelta(days=1)
+            get_now() + timedelta(days=1),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
             tender.validate()
@@ -250,27 +251,27 @@ class TestTenderMilestones(unittest.TestCase):
         initial_data = dict(self.initial_tender_data)
         initial_data.update(
             milestones=[
-                           {
-                               "title": "deliveryOfGoods",
-                               "code": "prepayment",
-                               "type": "financing",
-                               "duration": {"days": 2, "type": "banking"},
-                               "sequenceNumber": 2,
-                               "percentage": 8.34,
-                           }
-                       ]
-                       * 4
-                       + [
-                           {
-                               "title": "endDateOfTheReportingPeriod",
-                               "code": "postpayment",
-                               "type": "financing",
-                               "duration": {"days": 2, "type": "banking"},
-                               "sequenceNumber": 2,
-                               "percentage": 8.33,
-                           }
-                       ]
-                       * 8
+                {
+                    "title": "deliveryOfGoods",
+                    "code": "prepayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 8.34,
+                }
+            ]
+            * 4
+            + [
+                {
+                    "title": "endDateOfTheReportingPeriod",
+                    "code": "postpayment",
+                    "type": "financing",
+                    "duration": {"days": 2, "type": "banking"},
+                    "sequenceNumber": 2,
+                    "percentage": 8.33,
+                }
+            ]
+            * 8
         )
 
         tender = create_tender_instance(Tender, initial_data)
@@ -321,9 +322,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
 
-        self.assertEqual(
-            e.exception.messages, {"milestones": ["relatedLot should be one of the lots."]}
-        )
+        self.assertEqual(e.exception.messages, {"milestones": ["relatedLot should be one of the lots."]})
 
     def test_validate_lot_sum_incorrect(self):
         initial_data = dict(self.initial_tender_data)

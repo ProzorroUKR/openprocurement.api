@@ -1,37 +1,36 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
-    BaseFrameworkWebTest,
     BaseApiWebTest,
+    BaseFrameworkWebTest,
+    test_framework_dps_data,
 )
 from openprocurement.framework.dps.tests.framework_blanks import (
-    simple_add_framework,
+    accreditation_level,
+    complete_status,
+    create_framework_config_restricted,
+    create_framework_config_test,
+    create_framework_draft,
+    create_framework_draft_invalid,
+    create_framework_draft_invalid_kind,
+    create_framework_draft_url_validation,
+    date_framework,
+    dateModified_framework,
+    framework_fields,
+    framework_not_found,
+    framework_token_invalid,
+    get_framework,
     listing,
     listing_changes,
     listing_draft,
-    date_framework,
-    dateModified_framework,
-    periods_deletion,
-    framework_not_found,
-    create_framework_draft,
-    create_framework_draft_invalid,
+    patch_framework_active,
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
-    create_framework_draft_invalid_kind,
-    patch_framework_active,
-    get_framework,
-    framework_token_invalid,
-    framework_fields,
+    periods_deletion,
+    simple_add_framework,
     unsuccessful_status,
-    complete_status,
-    create_framework_config_test,
-    accreditation_level,
-    create_framework_config_restricted,
-    create_framework_draft_url_validation,
 )
 
 
@@ -73,8 +72,8 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(FrameworkTest))
-    suite.addTest(unittest.makeSuite(FrameworkResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworkResourceTest))
     return suite
 
 

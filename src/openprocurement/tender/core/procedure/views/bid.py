@@ -1,17 +1,15 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    set_ownership,
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.core.procedure.validation import validate_view_bids
-from openprocurement.api.procedure.validation import unless_item_owner
-from openprocurement.tender.core.procedure.state.bid import BidState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import unless_item_owner
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
+from openprocurement.tender.core.procedure.validation import validate_view_bids
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
@@ -26,14 +24,13 @@ def resolve_bid(request):
 
 
 class TenderBidResource(TenderBaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_bid"),
             (Allow, "g:brokers", "edit_bid"),
             (Allow, "g:Administrator", "edit_bid"),  # wtf ???
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
         return acl
 
@@ -75,9 +72,7 @@ class TenderBidResource(TenderBaseResource):
 
     @json_view(
         permission="view_tender",
-        validators=(
-            validate_view_bids,
-        )
+        validators=(validate_view_bids,),
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
@@ -90,9 +85,9 @@ class TenderBidResource(TenderBaseResource):
         validators=(
             unless_item_owner(
                 validate_view_bids,
-                item_name="bid"
+                item_name="bid",
             ),
-        )
+        ),
     )
     def get(self):
         # data depends on tender status

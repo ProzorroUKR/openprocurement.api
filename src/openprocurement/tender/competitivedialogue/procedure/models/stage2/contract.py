@@ -1,15 +1,23 @@
 from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.tender.competitivedialogue.procedure.models.item import Item
+from openprocurement.tender.openeu.procedure.models.contract import (
+    Contract as EUBaseContract,
+)
+from openprocurement.tender.openeu.procedure.models.contract import (
+    PatchContract as EUBasePatchContract,
+)
 from openprocurement.tender.openeu.procedure.models.contract import (
     PatchContractSupplier as EUBasePatchContractSupplier,
-    PatchContract as EUBasePatchContract,
-    Contract as EUBaseContract,
+)
+from openprocurement.tender.openua.procedure.models.contract import (
+    Contract as UABaseContract,
+)
+from openprocurement.tender.openua.procedure.models.contract import (
+    PatchContract as UABasePatchContract,
 )
 from openprocurement.tender.openua.procedure.models.contract import (
     PatchContractSupplier as UABasePatchContractSupplier,
-    PatchContract as UABasePatchContract,
-    Contract as UABaseContract,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.item import Item
 
 
 class UAContract(UABaseContract):

@@ -1,12 +1,15 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
+from openprocurement.api.utils import (
+    get_tender_by_id,
+    request_init_contract,
+    request_init_tender,
+)
 from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import get_tender_by_id, request_init_contract, request_init_tender
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
 
 
 class ContractBaseResource(BaseResource):
-
     state_class = BaseContractState
 
     def __acl__(self):
@@ -16,14 +19,11 @@ class ContractBaseResource(BaseResource):
             (Allow, "g:contracting", "create_contract"),
             (Allow, "g:brokers", "edit_contract"),
             (Allow, "g:Administrator", "edit_contract"),
-
             (Allow, "g:brokers", "upload_contract_documents"),
             (Allow, "g:brokers", "edit_contract_documents"),
-
             (Allow, "g:bots", "edit_contract_transactions"),
             (Allow, "g:brokers", "edit_contract_transactions"),
-
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
         return acl
 
@@ -36,10 +36,8 @@ class ContractBaseResource(BaseResource):
         # init is called twice (with and without context), thanks to cornice.
 
         if not context:
-
             match_dict = request.matchdict
             if match_dict and match_dict.get("contract_id"):
-
                 contract_doc = request.contract_doc
                 request_init_contract(request, contract_doc)
 
@@ -47,7 +45,8 @@ class ContractBaseResource(BaseResource):
                     tender_doc = get_tender_by_id(request, contract_doc["tender_id"])
                     request_init_tender(request, tender_doc)
                     award = [
-                        award for award in tender_doc.get("awards", [])
+                        award
+                        for award in tender_doc.get("awards", [])
                         if award.get("id") == contract_doc.get("awardID")
                     ][0]
                     request.validated["award"] = award

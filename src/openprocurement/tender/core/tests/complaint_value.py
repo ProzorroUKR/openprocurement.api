@@ -1,4 +1,3 @@
-# # -*- coding: utf-8 -*-
 # import pytest
 # from copy import deepcopy
 # from mock import patch, Mock

@@ -1,7 +1,8 @@
 from schematics.exceptions import ValidationError
 from schematics.types.compound import ModelType
-from openprocurement.tender.core.procedure.models.address import Address
+
 from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.tender.core.procedure.models.address import Address
 from openprocurement.tender.core.procedure.models.item import Item as BaseItem
 
 
@@ -14,4 +15,3 @@ class ReportingItem(Item):
     def validate_relatedLot(self, data, value):
         if value:
             raise ValidationError("This option is not available")
-

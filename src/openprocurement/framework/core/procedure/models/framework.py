@@ -1,20 +1,25 @@
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.constants import DK_CODES, SANDBOX_MODE
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.constants import SANDBOX_MODE, DK_CODES
-from openprocurement.api.procedure.models.organization import Organization as BaseOrganization
-from openprocurement.api.procedure.models.item import Classification as BaseClassification
+from openprocurement.api.procedure.models.item import (
+    Classification as BaseClassification,
+)
+from openprocurement.api.procedure.models.organization import (
+    Organization as BaseOrganization,
+)
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.framework.core.procedure.models.document import Document
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.api.procedure.models.period import PeriodEndRequired
 
 
 class DKClassification(BaseClassification):

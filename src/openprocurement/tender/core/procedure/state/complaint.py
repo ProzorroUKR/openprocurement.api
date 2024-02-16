@@ -1,31 +1,34 @@
-from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from datetime import timedelta
+from logging import getLogger
+
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import (
-    tender_created_after_2020_rules,
-    dt_from_iso,
-    round_up_to_ten,
-    restrict_value_to_bounds,
+from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
+from openprocurement.api.validation import validate_json_data
+from openprocurement.tender.core.constants import (
+    COMPLAINT_AMOUNT_RATE,
+    COMPLAINT_ENHANCED_AMOUNT_RATE,
+    COMPLAINT_ENHANCED_MAX_AMOUNT,
+    COMPLAINT_ENHANCED_MIN_AMOUNT,
+    COMPLAINT_MAX_AMOUNT,
+    COMPLAINT_MIN_AMOUNT,
 )
 from openprocurement.tender.core.procedure.models.complaint import (
-    DraftPatchComplaint,
-    CancellationPatchComplaint,
+    AdministratorPatchComplaint,
     BotPatchComplaint,
+    CancellationPatchComplaint,
+    DraftPatchComplaint,
+    ReviewPatchComplaint,
     TendererActionPatchComplaint,
     TendererResolvePatchComplaint,
-    ReviewPatchComplaint,
-    AdministratorPatchComplaint,
 )
-from openprocurement.tender.core.constants import (
-    COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT,
-    COMPLAINT_ENHANCED_AMOUNT_RATE, COMPLAINT_ENHANCED_MIN_AMOUNT, COMPLAINT_ENHANCED_MAX_AMOUNT,
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    restrict_value_to_bounds,
+    round_up_to_ten,
+    tender_created_after_2020_rules,
 )
-from openprocurement.api.utils import get_uah_amount_from_value
-from logging import getLogger
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.api.context import get_now
-from datetime import timedelta
-
 
 LOGGER = getLogger(__name__)
 
@@ -33,10 +36,7 @@ LOGGER = getLogger(__name__)
 class BaseComplaintStateMixin:
     def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
         if tender_created_after_2020_rules():
-            if any(
-                i.get("status") == "pending" and not i.get("relatedLot")
-                for i in tender.get("cancellations", "")
-            ):
+            if any(i.get("status") == "pending" and not i.get("relatedLot") for i in tender.get("cancellations", "")):
                 raise_operation_error(self.request, "Can't add complaint if tender have cancellation in pending status")
 
 
@@ -132,47 +132,39 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         if auth_role == "bots":
             if new_rules and status == "draft" and new_status in ("pending", "mistaken"):
                 if new_status == "mistaken":
+
                     def handler(complaint):
                         complaint["rejectReason"] = "incorrectPayment"
+
                     return BotPatchComplaint, handler
                 elif new_status == "pending":
+
                     def handler(complaint):
                         complaint["dateSubmitted"] = get_now().isoformat()
+
                     return BotPatchComplaint, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         elif auth_role == "complaint_owner":
-            if (
-                new_status == "cancelled"
-                and status == "draft"
-                and not new_rules
-            ):
+            if new_status == "cancelled" and status == "draft" and not new_rules:
+
                 def handler(complaint):
                     complaint["dateCanceled"] = get_now().isoformat()
+
                 return CancellationPatchComplaint, handler
-            elif (
-                new_rules
-                and status == "draft"
-                and new_status == "mistaken"
-            ):
+            elif new_rules and status == "draft" and new_status == "mistaken":
+
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
+
                 return self.draft_patch_model, handler
-            elif (
-                status in ["pending", "accepted"]
-                and new_status == "stopping"
-                and not new_rules
-            ):
+            elif status in ["pending", "accepted"] and new_status == "stopping" and not new_rules:
+
                 def handler(complaint):
                     complaint["dateCanceled"] = get_now().isoformat()
+
                 return CancellationPatchComplaint, handler
-            elif (
-                status == "draft"
-                and new_status == status
-            ):
+            elif status == "draft" and new_status == status:
                 return self.draft_patch_model, empty_handler
             elif (
                 tender["status"] == "active.tendering"
@@ -180,15 +172,14 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 and new_status == "pending"
                 and not new_rules
             ):
+
                 def handler(complaint):
                     self.validate_tender_in_complaint_period(tender)
                     complaint["dateSubmitted"] = get_now().isoformat()
+
                 return self.draft_patch_model, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
 
         elif auth_role == "tender_owner":
             if status == "satisfied" and new_status == status:
@@ -205,52 +196,41 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 raise_operation_error(self.request, "Forbidden")
 
         elif auth_role == "aboveThresholdReviewers":
-            if (
-                status in ["pending", "accepted", "stopping"]
-                and new_status == status
-            ):
+            if status in ["pending", "accepted", "stopping"] and new_status == status:
                 return ReviewPatchComplaint, empty_handler
-            elif (
-                status in ["pending", "stopping"]
-                and (
-                    (not new_rules and new_status in ["invalid", "mistaken"])
-                    or (new_status == "invalid")
-                )
+            elif status in ["pending", "stopping"] and (
+                (not new_rules and new_status in ["invalid", "mistaken"]) or (new_status == "invalid")
             ):
+
                 def handler(complaint):
                     complaint["dateDecision"] = get_now().isoformat()
                     complaint["acceptance"] = False
+
                 return ReviewPatchComplaint, handler
             elif status == "pending" and new_status == "accepted":
+
                 def handler(complaint):
                     complaint["dateAccepted"] = get_now().isoformat()
                     complaint["acceptance"] = True
+
                 return ReviewPatchComplaint, handler
-            elif (
-                status in ["accepted", "stopping"]
-                and new_status == "declined"
-            ):
+            elif status in ["accepted", "stopping"] and new_status == "declined":
                 return ReviewPatchComplaint, self.reviewers_declined_handler
-            elif (
-                status in ["accepted", "stopping"]
-                and new_status == "satisfied"
-            ):
+            elif status in ["accepted", "stopping"] and new_status == "satisfied":
                 return ReviewPatchComplaint, self.reviewers_satisfied_handler
             elif (
                 (not new_rules and status in ["pending", "accepted", "stopping"])
                 or (new_rules and status == "accepted")
                 and new_status == "stopped"
             ):
+
                 def handler(complaint):
                     complaint["dateDecision"] = get_now().isoformat()
                     complaint["dateCanceled"] = complaint.get("dateCanceled") or get_now().isoformat()
 
                 return ReviewPatchComplaint, handler
             else:
-                raise_operation_error(
-                    self.request,
-                    f"Can't update complaint from {status} to {new_status} status"
-                )
+                raise_operation_error(self.request, f"Can't update complaint from {status} to {new_status} status")
         elif auth_role == "Administrator":
             return AdministratorPatchComplaint, empty_handler
         else:
@@ -279,9 +259,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             raise_operation_error(
                 self.request,
                 "Can submit complaint not later than {duration.days} "
-                "full calendar days before tenderPeriod ends".format(
-                    duration=complaint_submit_time
-                ),
+                "full calendar days before tenderPeriod ends".format(duration=complaint_submit_time),
             )
 
     def validate_lot_status(self):
@@ -296,20 +274,16 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     def get_complaint_amount(self, tender, complaint):
         related_lot = self.get_related_lot_obj(tender, complaint)
         value = related_lot["value"] if related_lot else tender["value"]
-        base_amount = get_uah_amount_from_value(
-            self.request, value, {"complaint_id": complaint["id"]}
-        )
+        base_amount = get_uah_amount_from_value(self.request, value, {"complaint_id": complaint["id"]})
         if tender["status"] == "active.tendering":
             amount = restrict_value_to_bounds(
-                base_amount * COMPLAINT_AMOUNT_RATE,
-                COMPLAINT_MIN_AMOUNT,
-                COMPLAINT_MAX_AMOUNT
+                base_amount * COMPLAINT_AMOUNT_RATE, COMPLAINT_MIN_AMOUNT, COMPLAINT_MAX_AMOUNT
             )
         else:
             amount = restrict_value_to_bounds(
                 base_amount * COMPLAINT_ENHANCED_AMOUNT_RATE,
                 COMPLAINT_ENHANCED_MIN_AMOUNT,
-                COMPLAINT_ENHANCED_MAX_AMOUNT
+                COMPLAINT_ENHANCED_MAX_AMOUNT,
             )
         return amount
 

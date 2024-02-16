@@ -1,9 +1,9 @@
-from openprocurement.api.utils import raise_operation_error, error_handler
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsState
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-)
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsState,
+)
 
 
 class LotStateMixin:
@@ -89,7 +89,6 @@ class LotStateMixin:
 
 
 class LotInvalidationBidStateMixin(LotStateMixin):
-
     def lot_always(self, data: dict) -> None:
         super().lot_always(data)
         self.invalidate_lot_bids_data()

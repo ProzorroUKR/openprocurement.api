@@ -1,12 +1,15 @@
 import os
 import unittest
 from datetime import datetime
-from mock import MagicMock, patch
+from unittest.mock import MagicMock
+
 from schematics.transforms import wholelist
 from schematics.types import StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.framework.core.procedure.models.framework import Framework as BaseFramework
+from openprocurement.framework.core.procedure.models.framework import (
+    Framework as BaseFramework,
+)
 from openprocurement.framework.core.tests.base import BaseFrameworkTest
 from openprocurement.framework.core.utils import FrameworkTypePredicate
 
@@ -15,9 +18,7 @@ class Framework(BaseFramework):
     class Options:
         roles = {"draft": wholelist()}
 
-    frameworkType = StringType(
-        choices=["electronicCatalogue"], default="electronicCatalogue"
-    )
+    frameworkType = StringType(choices=["electronicCatalogue"], default="electronicCatalogue")
 
     @serializable(serialized_name="date")
     def old_date(self):
@@ -71,8 +72,7 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{"description": "Invalid offset provided: latest",
-              "location": "querystring", "name": "offset"}],
+            [{"description": "Invalid offset provided: latest", "location": "querystring", "name": "offset"}],
         )
 
         response = self.app.get("/frameworks?descending=1&limit=10")
@@ -83,7 +83,6 @@ class FrameworksResourceTest(BaseFrameworkTest):
         self.assertIn("limit=10", response.json["next_page"]["uri"])
         self.assertNotIn("descending=1", response.json["prev_page"]["uri"])
         self.assertIn("limit=10", response.json["prev_page"]["uri"])
-
 
 
 class ResourcesFrameworkTest(BaseFrameworkTest):
@@ -105,8 +104,8 @@ class ResourcesFrameworkTest(BaseFrameworkTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(FrameworksResourceTest))
-    suite.addTest(unittest.makeSuite(ResourcesFrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworksResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ResourcesFrameworkTest))
     return suite
 
 

@@ -40,7 +40,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+      "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
@@ -78,7 +78,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "d541c05743244541b944c5a9fd51637c",
+      "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
@@ -116,7 +116,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "032d97a4cc414cf5ba9e7c9437899ac7",
+      "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d",
       "qualified": true,
       "eligible": true
@@ -153,7 +153,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "fb7351e7fb3b44e3ad41b5646d2cac65",
+      "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
       "lotID": "9dea7e57fca24c0fa6c43f752611342d"
     }
   ]

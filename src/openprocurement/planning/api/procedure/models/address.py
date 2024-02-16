@@ -1,11 +1,11 @@
 from openprocurement.api.constants import VALIDATE_ADDRESS_FROM
-from openprocurement.api.procedure.utils import is_obj_const_active
-from openprocurement.planning.api.procedure.context import get_plan
+from openprocurement.api.procedure.models.address import Address as BaseAddress
 from openprocurement.api.procedure.models.address import (
-    Address as BaseAddress,
     validate_country_name,
     validate_region,
 )
+from openprocurement.api.procedure.utils import is_obj_const_active
+from openprocurement.planning.api.procedure.context import get_plan
 
 
 class Address(BaseAddress):

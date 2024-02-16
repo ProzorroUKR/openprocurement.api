@@ -4,71 +4,61 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
-    test_tender_below_features_data,
-    test_tender_below_organization,
-    test_tender_below_lots,
     test_tender_below_bids,
-    test_tender_below_simple_data,
     test_tender_below_data,
+    test_tender_below_features_data,
+    test_tender_below_lots,
+    test_tender_below_organization,
+    test_tender_below_simple_data,
 )
-from openprocurement.tender.core.tests.base import test_language_criteria
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
-    # TenderBidResourceTest
-    create_tender_bid_invalid,
-    create_tender_bid,
-    patch_tender_bid,
-    get_tender_bid,
-    delete_tender_bid,
-    get_tender_tenderers,
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeaturesResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidBatchDocumentWithDSResourceTest; Tender2LotBidResourceTest; TenderLotsWithDisabledValueRestriction; TenderWithDisabledValueRestriction; TenderLotsWithDisabledValueCurrencyEquality; TenderWithDisabledValueCurrencyEquality
+    bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
-    create_tender_bid_no_scale_invalid,
-    # TenderBidFeaturesResourceTest
-    features_bid,
-    features_bid_invalid,
-    # TenderBidDocumentResourceTest
-    not_found,
-    patch_tender_bid_document,
+    create_one_tender_bid_document_json_bulk,
+    create_tender_bid,
+    create_tender_bid_document_active_qualification,
     create_tender_bid_document_invalid_award_status,
-    # TenderBidDocumentWithDSResourceTest
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
-    create_one_tender_bid_document_json_bulk,
-    put_tender_bid_document_json,
     create_tender_bid_document_with_award_json,
     create_tender_bid_document_with_award_json_bulk,
-    create_tender_bid_document_active_qualification,
-    # TenderBidBatchDocumentWithDSResourceTest
-    create_tender_bid_with_document_invalid,
+    create_tender_bid_invalid,
+    create_tender_bid_no_scale_invalid,
     create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
-    # Tender2LotBidResourceTest
-    patch_tender_with_bids_lots_none,
-    post_tender_bid_with_exceeded_lot_values,
-    patch_tender_bid_with_exceeded_lot_values,
-    bid_activate_with_cancelled_tenderer_criterion,
-    update_tender_bid_pmr_related_doc,
-    update_tender_rr_evidence_id,
-    update_tender_bid_pmr_related_tenderer,
-    patch_tender_lot_values_any_order,
-    # TenderLotsWithDisabledValueRestriction
-    post_tender_bid_with_disabled_lot_values_restriction,
-    patch_tender_bid_with_disabled_lot_values_restriction,
-    # TenderWithDisabledValueRestriction
-    post_tender_bid_with_disabled_value_restriction,
-    patch_tender_bid_with_disabled_value_restriction,
-    post_tender_bid_with_another_currency,
+    delete_tender_bid,
+    features_bid,
+    features_bid_invalid,
+    get_tender_bid,
+    get_tender_tenderers,
+    not_found,
+    patch_tender_bid,
+    patch_tender_bid_document,
     patch_tender_bid_with_another_currency,
-    # TenderLotsWithDisabledValueCurrencyEquality
-    post_tender_bid_with_disabled_lot_values_currency_equality,
     patch_tender_bid_with_disabled_lot_values_currency_equality,
-    # TenderWithDisabledValueCurrencyEquality
-    post_tender_bid_with_disabled_value_currency_equality,
+    patch_tender_bid_with_disabled_lot_values_restriction,
     patch_tender_bid_with_disabled_value_currency_equality,
+    patch_tender_bid_with_disabled_value_restriction,
+    patch_tender_bid_with_exceeded_lot_values,
+    patch_tender_lot_values_any_order,
+    patch_tender_with_bids_lots_none,
+    post_tender_bid_with_another_currency,
+    post_tender_bid_with_disabled_lot_values_currency_equality,
+    post_tender_bid_with_disabled_lot_values_restriction,
+    post_tender_bid_with_disabled_value_currency_equality,
+    post_tender_bid_with_disabled_value_restriction,
+    post_tender_bid_with_exceeded_lot_values,
+    put_tender_bid_document_json,
+    update_tender_bid_pmr_related_doc,
+    update_tender_bid_pmr_related_tenderer,
+    update_tender_rr_evidence_id,
 )
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
+from openprocurement.tender.core.tests.base import test_language_criteria
 from openprocurement.tender.openeu.tests.bid import (
-    TenderBidRequirementResponseTestMixin,
+    CreateBidMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
+    TenderBidRequirementResponseTestMixin,
 )
 
 
@@ -112,7 +102,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     guarantee_criterion = True
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -122,27 +112,33 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_id = bid["id"]
         self.bid_token = response.json["access"]["token"]
 
-        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+        requirement = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]["criteria"][0][
+            "requirementGroups"
+        ][0]["requirements"][0]
 
-        self.rr_data = [{
-            "title": "Requirement response",
-            "description": "some description",
-            "requirement": {
-                "id": requirement["id"],
-                "title": requirement["title"],
-            },
-            "value": "True",
-        }]
+        self.rr_data = [
+            {
+                "title": "Requirement response",
+                "description": "some description",
+                "requirement": {
+                    "id": requirement["id"],
+                    "title": requirement["title"],
+                },
+                "value": "True",
+            }
+        ]
 
         response = self.app.post_json(
-            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+            "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
+                self.tender_id, self.bid_id, self.bid_token
+            ),
             {"data": self.rr_data},
         )
 
         self.rr_guarantee_id = response.json["data"][0]["id"]
         self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-            {"data": {"status": "pending"}}
+            {"data": {"status": "pending"}},
         )
 
     test_not_found = snitch(not_found)
@@ -180,7 +176,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     test_create_tender_bid_document_active_qualification = snitch(create_tender_bid_document_active_qualification)
 
     def setUp(self):
-        super(SimpleTenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -191,7 +187,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         self.bid_token = response.json["access"]["token"]
         self.app.patch_json(
             "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
-            {"data": {"status": "pending"}}
+            {"data": {"status": "pending"}},
         )
 
 
@@ -275,12 +271,14 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False
-        })
+        config.update(
+            {
+                "hasAuction": False,
+                "hasAwardingOrder": False,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": False,
+            }
+        )
         self.create_tender(config=config)
 
 
@@ -300,26 +298,29 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
         config = deepcopy(self.initial_config)
-        config.update({
-            "hasAuction": False,
-            "hasAwardingOrder": False,
-            "hasValueRestriction": False,
-            "valueCurrencyEquality": False
-        })
+        config.update(
+            {
+                "hasAuction": False,
+                "hasAwardingOrder": False,
+                "hasValueRestriction": False,
+                "valueCurrencyEquality": False,
+            }
+        )
         self.create_tender(config=config)
+
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueCurrencyEquality))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueCurrencyEquality))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueCurrencyEquality))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueCurrencyEquality))
     return suite
 
 

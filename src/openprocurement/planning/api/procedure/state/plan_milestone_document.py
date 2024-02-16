@@ -1,4 +1,4 @@
-from openprocurement.planning.api.procedure.context import get_plan, get_milestone
+from openprocurement.planning.api.procedure.context import get_milestone, get_plan
 from openprocurement.planning.api.procedure.state.plan_milestone import MilestoneState
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 
@@ -16,7 +16,6 @@ class PlanMilestoneDocumentState(BaseDocumentStateMixing, MilestoneState):
         super().document_on_post(data)
         self.milestone_always(get_milestone())
         self.always(get_plan())
-
 
     def document_on_patch(self, before, after):
         super().document_on_patch(before, after)

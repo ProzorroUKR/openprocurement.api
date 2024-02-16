@@ -1,18 +1,25 @@
-# -*- coding: utf-8 -*-
-from decimal import Decimal
 from datetime import datetime, timedelta
+from decimal import Decimal
+
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.cfaselectionua.constants import MIN_PERIOD_UNTIL_AGREEMENT_END, MIN_ACTIVE_CONTRACTS
+from openprocurement.tender.cfaselectionua.constants import (
+    MIN_ACTIVE_CONTRACTS,
+    MIN_PERIOD_UNTIL_AGREEMENT_END,
+)
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
-    CD_UA_TYPE,
     CD_EU_TYPE,
-    STAGE_2_UA_TYPE,
+    CD_UA_TYPE,
     STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.limited.constants import (
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+    REPORTING,
+)
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
@@ -66,7 +73,7 @@ FIRST_STAGE_PROCUREMENT_TYPES = {
     ABOVE_THRESHOLD_UA,
     ABOVE_THRESHOLD_UA_DEFENSE,
     SIMPLE_DEFENSE,
-    PRICEQUOTATION
+    PRICEQUOTATION,
 }
 
 CRITERION_LIFE_CYCLE_COST_IDS = [
@@ -88,7 +95,7 @@ ALP_MILESTONE_REASONS = (
     "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення "
     "ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону",
     "найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/"
-    "приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону"
+    "приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
 )
 
 AWARD_CRITERIA_LOWEST_COST = "lowestCost"

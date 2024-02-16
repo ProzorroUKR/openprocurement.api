@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
 import os
-from hashlib import sha512
-from datetime import datetime, timedelta
-from uuid import uuid4
 from copy import deepcopy
-from mock import patch
+from datetime import datetime, timedelta
+from hashlib import sha512
+from unittest.mock import patch
+from uuid import uuid4
+
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.competitivedialogue.tests.periods import PERIODS, PERIODS_UA_STAGE_2
-from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest as BaseTenderWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
@@ -17,16 +15,23 @@ from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
 )
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_features_data,
-    test_tender_openeu_bids,
-)
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.tests.periods import (
+    PERIODS,
+    PERIODS_UA_STAGE_2,
+)
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_bids,
+    test_tender_openeu_data,
+    test_tender_openeu_features_data,
+)
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseTenderWebTest,
 )
 from openprocurement.tender.openua.tests.base import test_tender_openua_data
 
@@ -129,15 +134,11 @@ if SANDBOX_MODE:
 
 
 test_tender_cdeu_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdeu_stage2_data,
-    test_tender_cdeu_stage2_data["items"][0],
-    test_tender_below_organization
+    test_tender_cdeu_stage2_data, test_tender_cdeu_stage2_data["items"][0], test_tender_below_organization
 )
 
 test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_cdua_stage2_data,
-    test_tender_cdua_stage2_data["items"][0],
-    test_tender_below_organization
+    test_tender_cdua_stage2_data, test_tender_cdua_stage2_data["items"][0], test_tender_below_organization
 )
 
 test_tender_cdeu_config = {
@@ -208,8 +209,8 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
     initial_lots = None
     initial_auth = None
     forbidden_lot_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "unsuccessful"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", startend="enquiry_end")
@@ -218,7 +219,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         self.set_status("active.tendering", startend="complaint_end")
 
     def setUp(self):
-        super(BaseCompetitiveDialogWebTest, self).setUp()
+        super().setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
 
@@ -241,16 +242,12 @@ class BaseCompetitiveDialogUAStage2WebTest(BaseCompetitiveDialogWebTest):
 class BaseCompetitiveDialogEUWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdeu_data
     initial_config = test_tender_cdeu_config
-    question_claim_block_status = (
-        "active.pre-qualification"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 
@@ -259,12 +256,10 @@ class BaseCompetitiveDialogUAWebTest(BaseCompetitiveDialogWebTest):
     initial_data = test_tender_cdua_data
     initial_config = test_tender_cdua_config
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.tendering"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.tendering"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 
@@ -276,7 +271,7 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogUAContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     periods = PERIODS
@@ -289,7 +284,7 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
 
@@ -305,16 +300,12 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
         return create_tender_stage2(
-            self,
-            initial_lots=initial_lots,
-            initial_data=initial_data,
-            features=features,
-            initial_bids=initial_bids
+            self, initial_lots=initial_lots, initial_data=initial_data, features=features, initial_bids=initial_bids
         )
 
 
@@ -340,16 +331,12 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
         return create_tender_stage2(
-            self,
-            initial_lots=initial_lots,
-            initial_data=initial_data,
-            features=features,
-            initial_bids=initial_bids
+            self, initial_lots=initial_lots, initial_data=initial_data, features=features, initial_bids=initial_bids
         )
 
 
@@ -410,7 +397,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
     # TODO add criteria to the test data ?
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-        get_now() + timedelta(days=1)
+        get_now() + timedelta(days=1),
     ):
         self.app.patch_json(
             "/tenders/{id}?acc_token={token}".format(id=self.tender_id, token=self.tender_token),

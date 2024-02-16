@@ -1,26 +1,20 @@
-import json
-import traceback
 import io
+import json
 import mimetypes
 import re
-
+import traceback
 from datetime import timedelta
+from hashlib import md5
+from unittest import mock
+from uuid import UUID
 
-import mock
 from freezegun import freeze_time
+from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
+from webtest import forms
+from webtest.compat import to_bytes
+
 from openprocurement.api.tests.base import BaseTestApp
 from openprocurement.api.utils import get_now
-from uuid import UUID
-from hashlib import md5
-from six import text_type
-from webtest.compat import to_bytes
-from webtest import forms
-
-from tests.base.constants import (
-    API_HOST,
-    MOCK_DATETIME,
-    PUBLIC_API_HOST,
-)
 
 
 class DumpsWebTestApp(BaseTestApp):
@@ -35,19 +29,19 @@ class DumpsWebTestApp(BaseTestApp):
         else:
             req.headers.environ["HTTP_HOST"] = self.hostname
         self.write_request(req)
-        resp = super(DumpsWebTestApp, self).do_request(req, status=status, expect_errors=expect_errors)
+        resp = super().do_request(req, status=status, expect_errors=expect_errors)
         self.write_response(resp)
         return resp
 
     def write_request(self, req):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
             host = req.host_url
-            url = req.url[len(host):]
-            parts = ['%s %s %s' % (req.method, url, req.http_version)]
+            url = req.url[len(host) :]
+            parts = ['{} {} {}'.format(req.method, url, req.http_version)]
 
             headerlist = self.filter_headerlist(req.headers.items())
             for k, v in sorted(headerlist):
-                header = '%s: %s' % (k, v)
+                header = '{}: {}'.format(k, v)
                 parts.append(header)
 
             parts.append('')
@@ -58,11 +52,7 @@ class DumpsWebTestApp(BaseTestApp):
                 except ValueError:
                     parts.append(req.body.decode('utf8'))
                 else:
-                    parts.append(json.dumps(
-                        obj,
-                        indent=self.indent,
-                        ensure_ascii=self.ensure_ascii
-                    ))
+                    parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
                 parts.append('')
 
@@ -78,11 +68,11 @@ class DumpsWebTestApp(BaseTestApp):
     def write_response(self, resp):
         if hasattr(self, 'file_obj') and not self.file_obj.closed:
 
-            parts = ['', '%s %s' % (resp.request.http_version, resp.status)]
+            parts = ['', '{} {}'.format(resp.request.http_version, resp.status)]
 
             headerlist = self.filter_headerlist(resp.headerlist)
             for k, v in sorted(headerlist):
-                header = '%s: %s' % (k, v)
+                header = '{}: {}'.format(k, v)
                 parts.append(header)
 
             parts.append('')
@@ -93,11 +83,7 @@ class DumpsWebTestApp(BaseTestApp):
                 except ValueError:
                     pass
                 else:
-                    parts.append(json.dumps(
-                        obj,
-                        indent=self.indent,
-                        ensure_ascii=self.ensure_ascii
-                    ))
+                    parts.append(json.dumps(obj, indent=self.indent, ensure_ascii=self.ensure_ascii))
 
                     parts.append('')
 
@@ -116,9 +102,7 @@ class DumpsWebTestApp(BaseTestApp):
             'content-length',
             'set-cookie',
         )
-        exclude_prefixes = (
-            'x-',
-        )
+        exclude_prefixes = ('x-',)
         filtered_headerlist = []
         for k, v in headerlist:
             if k.lower() in exclude_headers:
@@ -140,12 +124,12 @@ class DumpsWebTestApp(BaseTestApp):
 
         def _append_file(file_info):
             key, filename, value, fcontent = self._get_file_info(file_info)
-            if isinstance(key, text_type):
+            if isinstance(key, str):
                 try:
                     key = key.encode('ascii')
                 except:  # pragma: no cover
                     raise  # file name must be ascii
-            if isinstance(filename, text_type):
+            if isinstance(filename, str):
                 try:
                     filename = filename.encode('utf8')
                 except:  # pragma: no cover
@@ -157,13 +141,15 @@ class DumpsWebTestApp(BaseTestApp):
             lines.extend(
                 [
                     b'--' + boundary,
-                    b'Content-Disposition: form-data; ' +
-                    b'name="' + key + b'"; filename="' + filename + b'"',
-                    b'Content-Type: ' + fcontent, b'', value]
+                    b'Content-Disposition: form-data; ' + b'name="' + key + b'"; filename="' + filename + b'"',
+                    b'Content-Type: ' + fcontent,
+                    b'',
+                    value,
+                ]
             )
 
         for key, value in params:
-            if isinstance(key, text_type):
+            if isinstance(key, str):
                 try:
                     key = key.encode('ascii')
                 except:  # pragma: no cover
@@ -179,14 +165,9 @@ class DumpsWebTestApp(BaseTestApp):
                         file_info.append(value.content_type)
                 _append_file(file_info)
             else:
-                if isinstance(value, text_type):
+                if isinstance(value, str):
                     value = value.encode('utf8')
-                lines.extend(
-                    [
-                        b'--' + boundary,
-                        b'Content-Disposition: form-data; name="' + key + b'"',
-                        b'', value]
-                )
+                lines.extend([b'--' + boundary, b'Content-Disposition: form-data; name="' + key + b'"', b'', value])
 
         for file_info in files:
             _append_file(file_info)
@@ -208,9 +189,7 @@ class DumpsWebTestApp(BaseTestApp):
     def set_authorization(self, value):
         self.authorization_value = value
         if value is not None:
-            invalid_value = (
-                "You should use a value like ('Basic', ('user', 'password'))"
-            )
+            invalid_value = "You should use a value like ('Basic', ('user', 'password'))"
             if isinstance(value, (list, tuple)) and len(value) == 2:
                 authtype, val = value
                 if authtype == 'Basic' and val and isinstance(val, (list, tuple)):
@@ -232,7 +211,7 @@ class DumpsWebTestApp(BaseTestApp):
     authorization = property(get_authorization, set_authorization)
 
 
-class MockWebTestMixin(object):
+class MockWebTestMixin:
     uuid_patch = None
     uuid_counters = None
     freezer = None
@@ -241,15 +220,12 @@ class MockWebTestMixin(object):
     freezing_datetime = MOCK_DATETIME
 
     whitelist = ('/openprocurement/', '/openprocurement/.*/tests/', 'docs/tests')
-    blacklist = ('/tests/base/test\.py',)
+    blacklist = (r'/tests/base/test\.py',)
 
     def setUpMock(self):
         self.uuid_patch = mock.patch('uuid.UUID', side_effect=self.uuid)
         self.uuid_patch.start()
-        self.db_now_path = mock.patch(
-            'openprocurement.api.database.get_public_modified',
-            lambda: get_now().timestamp()
-        )
+        self.db_now_path = mock.patch('openprocurement.api.database.get_public_modified', lambda: get_now().timestamp())
         self.db_now_path.start()
         self.freezer = freeze_time(self.freezing_datetime)
         self.freezer.start()
@@ -272,15 +248,19 @@ class MockWebTestMixin(object):
             for whitelist_item in self.whitelist:
                 found = re.search(whitelist_item, path)
                 if found:
-                    return path[found.span()[0]:]
+                    return path[found.span()[0] :]
 
         stack = traceback.extract_stack()
-        return [(trim_path(item[0]), item[2], item[3]) for item in stack if all(
-            [
-                any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
-                all([re.search(pattern, item[0]) is None for pattern in self.blacklist])
-            ]
-        )]
+        return [
+            (trim_path(item[0]), item[2], item[3])
+            for item in stack
+            if all(
+                [
+                    any([re.search(pattern, item[0]) is not None for pattern in self.whitelist]),
+                    all([re.search(pattern, item[0]) is None for pattern in self.blacklist]),
+                ]
+            )
+        ]
 
     def count(self, name):
         if self.uuid_counters is None:

@@ -1,16 +1,21 @@
-from schematics.types import MD5Type, StringType, IntType, FloatType
-from openprocurement.api.context import get_now
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.utils import calculate_tender_date, calculate_complaint_business_date
-from openprocurement.tender.core.procedure.validation import is_positive_float
-from schematics.exceptions import ValidationError
-from schematics.types.serializable import serializable
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from datetime import timedelta
 from uuid import uuid4
+
+from schematics.exceptions import ValidationError
+from schematics.types import FloatType, IntType, MD5Type, StringType
+from schematics.types.serializable import serializable
+
+from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.utils import get_first_revision_date
+from openprocurement.tender.core.procedure.validation import is_positive_float
+from openprocurement.tender.core.utils import (
+    calculate_complaint_business_date,
+    calculate_tender_date,
+)
 
 
 class QualificationMilestone(Model):
@@ -26,9 +31,7 @@ class QualificationMilestone(Model):
     def set_due_date(self):
         if not self.dueDate:
             if self.code == self.CODE_24_HOURS:
-                self.dueDate = calculate_tender_date(
-                    self.date, timedelta(hours=24), get_tender()
-                )
+                self.dueDate = calculate_tender_date(self.date, timedelta(hours=24), get_tender())
             elif self.code == self.CODE_LOW_PRICE:
                 self.dueDate = calculate_complaint_business_date(
                     self.date, timedelta(days=1), get_tender(), working_days=True
@@ -45,7 +48,7 @@ class QualificationMilestoneListMixin(Model):
         because there is a way to post milestone to different zones (couchdb masters)
         and concord will merge them, that shouldn't be the case
         """
-        if milestones and len(list([m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS])) > 1:
+        if milestones and len(list(m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS)) > 1:
             raise ValidationError("There can be only one '24h' milestone")
 
 
@@ -95,5 +98,5 @@ class Milestone(Model):
 def validate_milestones_lot(data, milestones):
     lot_ids = {l.get("id") for l in data.get("lots") or ""}
     for milestone in milestones or "":
-        if milestone.relatedLot is not None and  milestone.relatedLot not in lot_ids:
+        if milestone.relatedLot is not None and milestone.relatedLot not in lot_ids:
             raise ValidationError("relatedLot should be one of the lots.")

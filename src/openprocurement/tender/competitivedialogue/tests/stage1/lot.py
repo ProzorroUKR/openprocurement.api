@@ -1,49 +1,49 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
+from openprocurement.tender.belowthreshold.tests.lot import (
+    TenderLotResourceTestMixin,
+    TenderLotValueTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+    create_tender_lot_minimalstep_validation,
+    get_tender_lot,
+    get_tender_lots,
+    patch_tender_lot_minimalstep_validation,
+    tender_features_invalid,
+    tender_value,
+)
+from openprocurement.tender.competitivedialogue.tests.base import (
+    BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cd_lots,
+    test_tender_cd_stage1_bids,
+    test_tender_cdeu_data,
+    test_tender_cdua_config,
+    test_tender_cdua_data,
+)
+from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
+    create_tender_bidder_invalid,
+    create_tender_with_features_bidder_invalid,
+    one_lot_0bid,
+    one_lot_2bid,
+    one_lot_2bid_1unqualified,
+    one_lot_3bid_1del,
+    one_lot_3bid_1un,
+    patch_tender_bidder,
+    two_lot_0bid,
+    two_lot_2bid_0com_1can,
+    two_lot_2bid_1lot_del,
+    two_lot_2bid_2com_2win,
+    two_lot_2can,
+)
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
-
-from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
-    BaseCompetitiveDialogEUContentWebTest,
-    test_tender_cd_stage1_bids,
-    test_tender_cd_lots,
-    test_tender_cdeu_data,
-    test_tender_cdua_data,
-    test_tender_cdua_config,
-)
-from openprocurement.tender.belowthreshold.tests.lot import TenderLotResourceTestMixin, TenderLotValueTestMixin
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_value,
-    tender_features_invalid,
-    get_tender_lot,
-    get_tender_lots,
-    create_tender_lot_minimalstep_validation,
-    patch_tender_lot_minimalstep_validation,
-)
 from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
-from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
-    create_tender_bidder_invalid,
-    patch_tender_bidder,
-    create_tender_with_features_bidder_invalid,
-    one_lot_0bid,
-    one_lot_2bid_1unqualified,
-    one_lot_2bid,
-    two_lot_2bid_1lot_del,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un,
-    two_lot_0bid,
-    two_lot_2can,
-    two_lot_2bid_0com_1can,
-    two_lot_2bid_2com_2win,
-)
 
 
 class CompetitiveDialogueEULotResourceTest(
@@ -70,7 +70,7 @@ class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTes
         for n, bid in enumerate(uniq_bids):
             bid["tenderers"][0]["identifier"]["id"] = "00000{}".format(n)
         self.initial_bids = uniq_bids
-        super(CompetitiveDialogueEULotEdgeCasesTest, self).setUp()
+        super().setUp()
 
 
 class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -161,7 +161,7 @@ class CompetitiveDialogueUALotFeatureBidderResourceTest(BaseCompetitiveDialogUAC
     initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
-        super(CompetitiveDialogueUALotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0]["id"] = "1"
@@ -222,15 +222,15 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotProcessTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotProcessTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotFeatureBidderResourceTest))
 
     return suite
 

@@ -1,22 +1,24 @@
 from uuid import uuid4
 
-from schematics.types import StringType, FloatType
+from schematics.types import FloatType, StringType
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.item import (
-    Classification,
+    CPVClassification as BaseCPVClassification,
+)
+from openprocurement.api.procedure.models.item import (
     validate_additional_classifications,
     validate_scheme,
 )
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.item import (
-    CPVClassification as BaseCPVClassification,
-)
-from openprocurement.tender.pricequotation.procedure.validation import validate_profile_pattern
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.models.address import Address
 from openprocurement.planning.api.procedure.models.unit import Unit
+from openprocurement.tender.pricequotation.procedure.validation import (
+    validate_profile_pattern,
+)
 
 
 class CPVClassification(BaseCPVClassification):

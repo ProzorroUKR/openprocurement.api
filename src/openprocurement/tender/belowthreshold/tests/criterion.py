@@ -1,26 +1,25 @@
-# -*- coding: utf-8 -*-
 import unittest
 
+from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_data,
     test_tender_below_lots,
 )
-from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
-    TenderCriteriaRGRequirementEvidenceTestMixin,
-)
-from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
     activate_tender,
-    patch_tender_criteria_invalid,
-    patch_criteria_rg,
+    create_patch_delete_evidences_from_requirement,
     delete_requirement_evidence,
+    patch_criteria_rg,
+    patch_tender_criteria_invalid,
     put_rg_requirement_invalid,
     put_rg_requirement_valid,
-    create_patch_delete_evidences_from_requirement,
+)
+from openprocurement.tender.openua.tests.criterion import (
+    TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 
@@ -41,10 +40,7 @@ class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, TenderContentWebTest):
     test_patch_criteria_rg = snitch(patch_criteria_rg)
 
 
-class TenderCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    TenderContentWebTest
-):
+class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, TenderContentWebTest):
     initial_data = test_tender_below_data
     test_lots_data = test_tender_below_lots
     initial_status = "draft"
@@ -68,10 +64,10 @@ class TenderCriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementEvidenceTest))
     return suite
 
 

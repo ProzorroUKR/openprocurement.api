@@ -2,14 +2,13 @@ from datetime import datetime
 from logging import getLogger
 
 from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
-from openprocurement.api.context import set_request, set_now
+from openprocurement.api.context import set_now, set_request
 from openprocurement.api.mask import mask_object_data
-from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import json_view, raise_operation_error
 
 
 class BaseResource:
-
     def __init__(self, request, context=None):
         self.context = context
         self.request = request
@@ -73,8 +72,11 @@ class MongodbResourceListing(BaseResource):
                 offset = parse_offset(offset_param)
             except ValueError:
                 raise_operation_error(
-                    self.request, f"Invalid offset provided: {offset_param}",
-                    status=404, location="querystring", name="offset"
+                    self.request,
+                    f"Invalid offset provided: {offset_param}",
+                    status=404,
+                    location="querystring",
+                    name="offset",
                 )
             params["offset"] = compose_offset(self.request, offset)
 
@@ -84,10 +86,7 @@ class MongodbResourceListing(BaseResource):
             try:
                 limit = int(limit_param)
             except ValueError as e:
-                raise_operation_error(
-                    self.request, e.args[0],
-                    status=400, location="querystring", name="limit"
-                )
+                raise_operation_error(self.request, e.args[0], status=400, location="querystring", name="limit")
             else:
                 params["limit"] = min(limit, self.max_limit)
 
@@ -132,10 +131,7 @@ class MongodbResourceListing(BaseResource):
             if self.offset_field not in self.listing_allowed_fields:
                 for r in results:
                     r.pop(self.offset_field)
-        data = {
-            "data": self.filter_results_fields(results, data_fields),
-            "next_page": self.get_page(keys, params)
-        }
+        data = {"data": self.filter_results_fields(results, data_fields), "next_page": self.get_page(keys, params)}
         if self.request.params.get("descending") or self.request.params.get("offset"):
             data["prev_page"] = self.get_page(keys, prev_params)
 
@@ -145,7 +141,7 @@ class MongodbResourceListing(BaseResource):
         return {
             "offset": params.get("offset", ""),
             "path": self.request.route_path(self.listing_name, _query=params, **keys),
-            "uri": self.request.route_url(self.listing_name, _query=params, **keys)
+            "uri": self.request.route_url(self.listing_name, _query=params, **keys),
         }
 
     def db_fields(self, fields):
@@ -158,6 +154,7 @@ class MongodbResourceListing(BaseResource):
                 if k not in all_fields:
                     del r[k]
         return results
+
 
 class RestrictedResourceListingMixin:
     mask_mapping = {}

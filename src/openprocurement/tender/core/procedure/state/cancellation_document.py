@@ -1,29 +1,28 @@
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
-from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.context import (
-    get_request,
-    get_cancellation,
+from openprocurement.tender.core.procedure.context import get_cancellation, get_request
+from openprocurement.tender.core.procedure.state.cancellation import (
+    CancellationStateMixing,
 )
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
-
     @staticmethod
     def validate_cancellation_document_allowed(request, _, cancellation):
         if tender_created_after_2020_rules():
             status = cancellation["status"]
             if status == "draft":
                 pass
-            elif status == "pending" and any(i.get("status") == "satisfied"
-                                             for i in cancellation.get("complaints", "")):
+            elif status == "pending" and any(
+                i.get("status") == "satisfied" for i in cancellation.get("complaints", "")
+            ):
                 raise_operation_error(
                     request,
-                    f"Document can't be {OPERATIONS.get(request.method)} in current({status}) cancellation status"
+                    f"Document can't be {OPERATIONS.get(request.method)} in current({status}) cancellation status",
                 )
 
     def validate_document_post(self, data):

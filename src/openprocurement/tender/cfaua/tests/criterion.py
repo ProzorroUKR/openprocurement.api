@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -8,10 +7,10 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_data,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 tender_data = deepcopy(test_tender_cfaua_data)
@@ -29,10 +28,7 @@ class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
     test_lots_data = test_tender_below_lots
 
 
-class TenderCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseTenderContentWebTest
-):
+class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_cfaua_data
     test_lots_data = test_tender_below_lots
 
@@ -47,10 +43,10 @@ class TenderCriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementEvidenceTest))
     return suite
 
 

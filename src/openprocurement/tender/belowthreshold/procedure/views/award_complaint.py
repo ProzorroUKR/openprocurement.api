@@ -1,14 +1,23 @@
-from openprocurement.api.utils import json_view
-from openprocurement.tender.belowthreshold.procedure.state.award_claim import BelowThresholdAwardClaimState
-from openprocurement.tender.core.procedure.models.claim import PostClaim
-from openprocurement.tender.core.procedure.validation import (
-    validate_any_bid_owner,
-)
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
-from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
-from openprocurement.tender.core.procedure.views.award_complaint import AwardComplaintGetResource
-from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer
 from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.belowthreshold.procedure.state.award_claim import (
+    BelowThresholdAwardClaimState,
+)
+from openprocurement.tender.core.procedure.models.claim import PostClaim
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    ComplaintSerializer,
+)
+from openprocurement.tender.core.procedure.validation import validate_any_bid_owner
+from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
+from openprocurement.tender.core.procedure.views.award_complaint import (
+    AwardComplaintGetResource,
+)
 
 
 @resource(
@@ -32,8 +41,6 @@ class BelowThresholdAwardClaimAndComplaintGetResource(AwardComplaintGetResource)
     complaintType="claim",
     description="Tender award claims",
 )
-
-
 class BelowThresholdAwardClaimResource(AwardClaimResource):
     state_class = BelowThresholdAwardClaimState
 
@@ -41,9 +48,7 @@ class BelowThresholdAwardClaimResource(AwardClaimResource):
         content_type="application/json",
         permission="create_claim",
         validators=(
-            unless_admins(
-                validate_any_bid_owner()
-            ),
+            unless_admins(validate_any_bid_owner()),
             validate_input_data(PostClaim),
             validate_data_documents(route_key="claim", uid_key="id"),
         ),

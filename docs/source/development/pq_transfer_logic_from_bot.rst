@@ -92,67 +92,7 @@ Tender creation remains unchanged for PQ. A tender is created in the same way as
         "agreement": {
           "id": "2e14a78a2074952d5a2d256c3c004dda"
         },
-        "criteria": [
-          {
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "dataType": "string",
-                    "expectedValue": "Розчин для інфузій",
-                    "title": "Форма випуску"
-                  }
-                ]
-              }
-            ],
-            "title": "Форма випуску"
-          },
-          {
-            "description": "Доза діючої речовини",
-            "requirementGroups": [
-              {
-                "description": "Доза діючої речовини",
-                "requirements": [
-                  {
-                    "dataType": "integer",
-                    "minValue": 5,
-                    "title": "Доза діючої речовини",
-                    "unit": {
-                      "code": "KGM",
-                      "name": "кілограми"
-                    }
-                  }
-                ]
-              }
-            ],
-            "title": "Доза діючої речовини"
-          },
-          {
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "dataType": "string",
-                    "expectedValues": [
-                      "Відповідь1",
-                      "Відповідь2",
-                      "Відповідь3",
-                      "Відповідь4"
-                    ],
-                    "expectedMinItems": 2,
-                    "expectedMaxItems": 3,
-                    "title": "Форма випуску"
-                  }
-                ]
-              }
-            ],
-            "title": "Форма випуску"
-          }
-        ]
+        "criteria": [...]
       },
       "config": {
         "hasAuction": false,
@@ -250,76 +190,7 @@ Tender creation remains unchanged for PQ. A tender is created in the same way as
             "profile": "655360-30230000-889652-40000777"
           }
         ],
-        "criteria": [
-          {
-            "id": "8cc74439d2954c768f5dcfb5cb05e7dc",
-            "title": "Форма випуску",
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "id": "f7534cb234fe46a2a30f0d69d7d10914",
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "id": "25ad302697704d249e9d653933f909ee",
-                    "title": "Форма випуску",
-                    "dataType": "string",
-                    "expectedValue": "Розчин для інфузій"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "e6f67e9363e646798af5218a387229af",
-            "title": "Доза діючої речовини",
-            "description": "Доза діючої речовини",
-            "requirementGroups": [
-              {
-                "id": "cd0fab014c454a63aee04b3f154244f6",
-                "description": "Доза діючої речовини",
-                "requirements": [
-                  {
-                    "id": "d3cb95288b334796b1562a0c638e526b",
-                    "title": "Доза діючої речовини",
-                    "dataType": "integer",
-                    "unit": {
-                      "code": "KGM",
-                      "name": "кілограми"
-                    },
-                    "minValue": 5
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "04c9bc91e999415dbe174b1605adb116",
-            "title": "Форма випуску",
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "id": "1336eff0d6df4ffb839bda177861dd2b",
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "id": "a917b3e240d94416aac128cd1c3775e1",
-                    "title": "Форма випуску",
-                    "dataType": "string",
-                    "expectedValues": [
-                      "Відповідь1",
-                      "Відповідь2",
-                      "Відповідь3",
-                      "Відповідь4"
-                    ],
-                    "expectedMinItems": 2,
-                    "expectedMaxItems": 3
-                  }
-                ]
-              }
-            ]
-          }
-        ],
+        "criteria": [...],
         "tenderID": "UA-2023-09-20-000001-a",
         "owner": "broker",
         "date": "2023-09-20T01:00:00+03:00",
@@ -432,7 +303,7 @@ If Procuring Entity will try to activate PQ procedure with non-existed agreement
         {
           "location": "body",
           "name": "agreement",
-          "description": "Agreement not found by agreement_id 2e14a78a2074952d5a2d256c3c004dda"
+          "description": "Agreement not found"
         }
       ]
     }
@@ -494,7 +365,7 @@ If agreement is in terminated status:
         {
           "location": "body",
           "name": "agreement",
-          "description": "Agreement 2e14a78a2074952d5a2d256c3c004dda not in active status"
+          "description": "Agreement status is not active"
         }
       ]
     }
@@ -525,7 +396,7 @@ In case agreement doesn't have qualified suppliers:
         {
           "location": "body",
           "name": "agreement",
-          "description": "Agreement 2e14a78a2074952d5a2d256c3c004dda doesn't have qualified suppliers"
+          "description": "Agreement has less than 1 active contracts"
         }
       ]
     }
@@ -565,7 +436,7 @@ If there is problem with connection to ProZorro e-Catalogues, we will see error:
 Successful scenario
 -------------------
 
-If PQ procedure matches all requirements, it will be switched to `active.tendering` status and `shortListedFirms` will be added to procedure from ProZorro e-Catalogues database:
+If PQ procedure matches all requirements, it will be switched to `active.tendering`:
 
 .. sourcecode:: http
 
@@ -593,54 +464,6 @@ If PQ procedure matches all requirements, it will be switched to `active.tenderi
         "agreement": {
           "id": "2e14a78a2074952d5a2d256c3c004dda"
         },
-        "shortlistedFirms": [
-          {
-            "name": "Товариство з обмеженою відповідальністю «Пікселі»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00037256",
-              "legalName": "Товариство з обмеженою відповідальністю «Пікселі»"
-            },
-            "address": {
-              "streetAddress": "бул.Дружби Народів, 8",
-              "locality": "м.Київ",
-              "region": "Київська область",
-              "postalCode": "01100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "email": "contact@pixel.pix",
-              "telephone": "+0671234567",
-              "name": "Оксана Піксель"
-            },
-            "scale": "large",
-            "id": "UA-EDR-12345678",
-            "status": "active"
-          },
-          {
-            "name": "Товариство з обмеженою відповідальністю «Штекер-Пекер»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "87654321",
-              "legalName": "Товариство з обмеженою відповідальністю «Штекер-Пекер»"
-            },
-            "address": {
-              "streetAddress": "вул. Кластерна, 777-К",
-              "locality": "м.Тернопіль",
-              "region": "Тернопільська область",
-              "postalCode": "46000",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "email": "info@shteker.pek",
-              "telephone": "+0951234567",
-              "name": "Олег Штекер"
-            },
-            "scale": "large",
-            "id": "UA-EDR-87654321",
-            "status": "active"
-          }
-        ],
         "value": {
           "amount": 22000.0,
           "currency": "UAH",
@@ -711,76 +534,7 @@ If PQ procedure matches all requirements, it will be switched to `active.tenderi
             "profile": "655360-30230000-889652-40000777"
           }
         ],
-        "criteria": [
-          {
-            "id": "fc286b057a6f4e90af906d671cabd8c4",
-            "title": "Форма випуску",
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "id": "94d7ddacdb7c4428872b19615e455e5c",
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "id": "eb40cc8ae615437cb0f97f4e4e584d14",
-                    "title": "Форма випуску",
-                    "dataType": "string",
-                    "expectedValue": "Розчин для інфузій"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "09832e562d6049089f1b2d6806e45a20",
-            "title": "Доза діючої речовини",
-            "description": "Доза діючої речовини",
-            "requirementGroups": [
-              {
-                "id": "1de5131390d041a98c0333e4b1a5bd27",
-                "description": "Доза діючої речовини",
-                "requirements": [
-                  {
-                    "id": "3b6248539c3d4ff1a69d98d3f79a941e",
-                    "title": "Доза діючої речовини",
-                    "dataType": "integer",
-                    "unit": {
-                      "code": "KGM",
-                      "name": "кілограми"
-                    },
-                    "minValue": 5
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "id": "52aa71c7eee743f18b0d05ea705e76aa",
-            "title": "Форма випуску",
-            "description": "Форма випуску",
-            "requirementGroups": [
-              {
-                "id": "76232039d4ce4994824d26510f0bf484",
-                "description": "Форма випуску",
-                "requirements": [
-                  {
-                    "id": "e75acce3b5eb403ca05b2428c5f7592f",
-                    "title": "Форма випуску",
-                    "dataType": "string",
-                    "expectedValues": [
-                      "Відповідь1",
-                      "Відповідь2",
-                      "Відповідь3",
-                      "Відповідь4"
-                    ],
-                    "expectedMinItems": 2,
-                    "expectedMaxItems": 3
-                  }
-                ]
-              }
-            ]
-          }
-        ],
+        "criteria": [...],
         "contractTemplateName": "00000000-0.0001.01",
         "next_check": "2023-10-04T01:00:00+03:00",
         "id": "bb8949e735294cbaa864bd3bc68a1e5f"
@@ -796,6 +550,9 @@ If PQ procedure matches all requirements, it will be switched to `active.tenderi
       }
     }
 
+
+There will not be `shortlistedFirms` field in procedure anymore.
+During bid creation/activation there will be validation that `bid.tenderers` is a member of agreement.
 
 Conclusion
 ----------

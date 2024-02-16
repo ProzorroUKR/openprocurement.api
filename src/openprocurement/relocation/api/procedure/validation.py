@@ -1,32 +1,50 @@
 from hashlib import sha512
 
-from openprocurement.api.auth import ACCR_3, ACCR_5, ACCR_1
+from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5
+from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import error_handler
 from openprocurement.api.validation import (
-    validate_json_data,
     validate_accreditation_level_owner,
+    validate_json_data,
 )
-from openprocurement.tender.belowthreshold.procedure.state.tender_details import BelowThresholdTenderDetailsState
-from openprocurement.tender.cfaselectionua.procedure.state.tender_details import CFASelectionTenderDetailsState
-from openprocurement.tender.cfaua.procedure.state.tender_details import CFAUATenderDetailsState
+from openprocurement.tender.belowthreshold.procedure.state.tender_details import (
+    BelowThresholdTenderDetailsState,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
+)
+from openprocurement.tender.cfaua.procedure.state.tender_details import (
+    CFAUATenderDetailsState,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDStage1TenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDUAStage2TenderDetailsState,
     CDEUStage2TenderDetailsState,
+    CDUAStage2TenderDetailsState,
 )
-from openprocurement.api.procedure.validation import validate_accreditation_level
-from openprocurement.tender.esco.procedure.state.tender_details import ESCOTenderDetailsState
+from openprocurement.tender.esco.procedure.state.tender_details import (
+    ESCOTenderDetailsState,
+)
 from openprocurement.tender.limited.procedure.state.tender_details import (
-    ReportingTenderDetailsState,
     NegotiationTenderDetailsState,
+    ReportingTenderDetailsState,
 )
-from openprocurement.tender.open.procedure.state.tender_details import OpenTenderDetailsState
-from openprocurement.tender.openeu.procedure.state.tender_details import OpenEUTenderDetailsState
-from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsState
-from openprocurement.tender.openuadefense.procedure.state.tender_details import DefenseTenderDetailsState
-from openprocurement.tender.simpledefense.procedure.state.tender_details import SimpleDefenseTenderDetailsState
+from openprocurement.tender.open.procedure.state.tender_details import (
+    OpenTenderDetailsState,
+)
+from openprocurement.tender.openeu.procedure.state.tender_details import (
+    OpenEUTenderDetailsState,
+)
+from openprocurement.tender.openua.procedure.state.tender_details import (
+    OpenUATenderDetailsState,
+)
+from openprocurement.tender.openuadefense.procedure.state.tender_details import (
+    DefenseTenderDetailsState,
+)
+from openprocurement.tender.simpledefense.procedure.state.tender_details import (
+    SimpleDefenseTenderDetailsState,
+)
 
 
 def validate_ownership_data(request, **kwargs):
@@ -38,6 +56,7 @@ def validate_ownership_data(request, **kwargs):
         request.errors.status = 422
         raise error_handler(request)
     request.validated["ownership_data"] = data
+
 
 def validate_tender_transfer_accreditation_level(request, **kwargs):
     state_mapping = {
@@ -86,6 +105,7 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
         kind_central_levels=kind_central_levels,
     )(request, **kwargs)
 
+
 def validate_contract_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
         levels=(ACCR_3, ACCR_5),
@@ -94,6 +114,7 @@ def validate_contract_transfer_accreditation_level(request, **kwargs):
         source="contract",
     )(request, **kwargs)
 
+
 def validate_plan_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(
         levels=(ACCR_1, ACCR_3, ACCR_5),
@@ -101,6 +122,7 @@ def validate_plan_transfer_accreditation_level(request, **kwargs):
         operation="change",
         source="plan",
     )(request, **kwargs)
+
 
 def validate_agreement_transfer_accreditation_level(request, **kwargs):
     validate_accreditation_level(

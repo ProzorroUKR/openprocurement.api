@@ -1,11 +1,15 @@
-from openprocurement.tender.esco.procedure.models.value import ContractESCOValue
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.contract import (
-    PatchContractSupplier as BasePatchContractSupplier,
-    PatchContract as BasePatchContract,
     Contract as BaseContract,
 )
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContract as BasePatchContract,
+)
+from openprocurement.tender.core.procedure.models.contract import (
+    PatchContractSupplier as BasePatchContractSupplier,
+)
 from openprocurement.tender.esco.procedure.models.item import Item
+from openprocurement.tender.esco.procedure.models.value import ContractESCOValue
 
 
 class Contract(BaseContract):
@@ -24,4 +28,3 @@ class PatchContract(BasePatchContract):
 
 class PatchContractSupplier(BasePatchContractSupplier):
     pass
-

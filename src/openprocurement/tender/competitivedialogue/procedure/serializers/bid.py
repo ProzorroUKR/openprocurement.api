@@ -1,11 +1,12 @@
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.tender.core.procedure.serializers.bid import BidSerializer as BaseBidSerializer
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.serializers.bid import (
+    BidSerializer as BaseBidSerializer,
+)
 
 
 class BidSerializer(BaseBidSerializer):
-
     def __init__(self, data: dict):
         super().__init__(data)
         tender_status = get_tender()["status"]

@@ -1,9 +1,10 @@
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    BelowThresholdTenderState,
+)
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 
 
 class BelowThresholdContractState(ContractStateMixing, BelowThresholdTenderState):
-
     def check_tender_status_method(self) -> None:
         super().check_tender_status_method()
         tender = self.request.validated["tender"]

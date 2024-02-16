@@ -1,13 +1,19 @@
-from schematics.types import StringType, MD5Type
-from schematics.types.compound import ModelType
 from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType
+from schematics.types.compound import ModelType
+
+from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType
-from openprocurement.api.utils import get_now, get_first_revision_date
-from openprocurement.tender.pricequotation.procedure.models.requirement import Requirement, ValidateIdMixing
-from openprocurement.tender.pricequotation.procedure.validation import validate_requirement_groups
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM
+from openprocurement.api.utils import get_first_revision_date, get_now
+from openprocurement.tender.pricequotation.procedure.models.requirement import (
+    Requirement,
+    ValidateIdMixing,
+)
+from openprocurement.tender.pricequotation.procedure.validation import (
+    validate_requirement_groups,
+)
 
 
 class RequirementGroup(ValidateIdMixing, Model):

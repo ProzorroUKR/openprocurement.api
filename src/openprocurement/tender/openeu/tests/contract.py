@@ -1,44 +1,36 @@
-# -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_author,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractResourceTestMixin,
     TenderContractDocumentResourceTestMixin,
+    TenderContractResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_tender_contract_value,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_supplier,
-    create_tender_contract_document_by_supplier,
     create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
-    patch_tender_contract_document_by_supplier,
+    create_tender_contract_document_by_supplier,
+    patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_with_status,
-    patch_contract_multi_items_unit_value,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    patch_tender_contract_value,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
-
-from openprocurement.tender.openua.tests.contract_blanks import (
-    create_tender_contract,
-    patch_tender_contract_datesigned,
-)
-
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
@@ -47,6 +39,10 @@ from openprocurement.tender.openeu.tests.base import (
 from openprocurement.tender.openeu.tests.contract_blanks import (
     contract_termination,
     patch_tender_contract,
+)
+from openprocurement.tender.openua.tests.contract_blanks import (
+    create_tender_contract,
+    patch_tender_contract_datesigned,
 )
 
 
@@ -84,7 +80,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_contract_termination = snitch(contract_termination)
@@ -96,9 +92,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
@@ -111,7 +105,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
@@ -151,7 +145,7 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -166,9 +160,9 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
     return suite
 
 

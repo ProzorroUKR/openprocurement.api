@@ -1,20 +1,18 @@
-# -*- coding: utf-8 -*-
 import copy
 import os
-
 from datetime import datetime, timedelta
-from openprocurement.api.constants import SANDBOX_MODE, RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.tender.core.tests.utils import change_auth
+
+from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.openeu.tests.periods import PERIODS
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
-from openprocurement.api.utils import get_now
-from openprocurement.tender.openeu.constants import TENDERING_DAYS
-
 
 test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
 
@@ -86,36 +84,38 @@ for bid in test_tender_openeu_bids:
         bid["selfEligible"] = True
 
 test_tender_openeu_three_bids = copy.deepcopy(test_tender_openeu_bids)
-test_tender_openeu_three_bids.append({
-    "tenderers": [
-        {
-            "name": "Державне управління справами",
-            "name_en": "State administration",
-            "identifier": {
-                "legalName_en": "dus.gov.ua",
-                "legalName": "Державне управління справами",
-                "scheme": "UA-EDR",
-                "id": "00037256",
-                "uri": "http://www.dus.gov.ua/",
-            },
-            "address": {
-                "countryName": "Україна",
-                "postalCode": "01220",
-                "region": "м. Київ",
-                "locality": "м. Київ",
-                "streetAddress": "вул. Банкова, 11, корпус 1",
-            },
-            "contactPoint": {
+test_tender_openeu_three_bids.append(
+    {
+        "tenderers": [
+            {
                 "name": "Державне управління справами",
                 "name_en": "State administration",
-                "telephone": "+0440000000",
-            },
-            "scale": "micro",
-        }
-    ],
-    "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
-    "selfQualified": True,
-})
+                "identifier": {
+                    "legalName_en": "dus.gov.ua",
+                    "legalName": "Державне управління справами",
+                    "scheme": "UA-EDR",
+                    "id": "00037256",
+                    "uri": "http://www.dus.gov.ua/",
+                },
+                "address": {
+                    "countryName": "Україна",
+                    "postalCode": "01220",
+                    "region": "м. Київ",
+                    "locality": "м. Київ",
+                    "streetAddress": "вул. Банкова, 11, корпус 1",
+                },
+                "contactPoint": {
+                    "name": "Державне управління справами",
+                    "name_en": "State administration",
+                    "telephone": "+0440000000",
+                },
+                "scale": "micro",
+            }
+        ],
+        "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "selfQualified": True,
+    }
+)
 for bid in test_tender_openeu_three_bids:
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
@@ -163,11 +163,7 @@ test_tender_openeu_data = {
                     "description": "папір і картон гофровані, паперова й картонна тара",
                 }
             ],
-            "unit": {
-                "name": "item",
-                "code": "KGM",
-                "value": {"amount": 6}
-            },
+            "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
             "quantity": 5,
             "deliveryDate": {
                 "startDate": (now + timedelta(days=2)).isoformat(),
@@ -227,9 +223,7 @@ test_tender_openeu_lots = [
 ]
 
 test_tender_openeu_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_openeu_data,
-    test_tender_openeu_data["items"][0],
-    test_tender_below_organization
+    test_tender_openeu_data, test_tender_openeu_data["items"][0], test_tender_below_organization
 )
 
 test_tender_openeu_restricted_data = test_tender_openeu_features_data.copy()
@@ -250,6 +244,7 @@ test_tender_openeu_config = {
     "restricted": False,
 }
 
+
 class BaseTenderWebTest(BaseTenderUAWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_openeu_data
@@ -259,21 +254,17 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     initial_lots = None
     initial_auth = None
     forbidden_question_add_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which adding tender questions is forbidden
+        "active.pre-qualification"  # status, in which adding tender questions is forbidden
+    )
     forbidden_question_update_actions_status = (
-        "active.pre-qualification"
-    )  # status, in which updating tender questions is forbidden
-    question_claim_block_status = (
-        "active.pre-qualification"
-    )  # status, tender cannot be switched to while it has questions/complaints related to its lot
+        "active.pre-qualification"  # status, in which updating tender questions is forbidden
+    )
+    question_claim_block_status = "active.pre-qualification"  # status, tender cannot be switched to while it has questions/complaints related to its lot
     # auction role actions
-    forbidden_auction_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
+    forbidden_auction_actions_status = "active.pre-qualification.stand-still"  # status, in which operations with tender auction (getting auction info, reporting auction results, updating auction urls) and adding tender documents are forbidden
     forbidden_auction_document_create_actions_status = (
-        "active.pre-qualification.stand-still"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
+    )
 
     periods = PERIODS
 
@@ -286,7 +277,6 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     def setUp(self):
         super(BaseTenderUAWebTest, self).setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("token", ""))
-
 
     def prepare_award(self):
         # switch to active.pre-qualification
@@ -323,17 +313,30 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
             for lot_id in self.initial_lots:
                 response = self.app.post_json(
                     "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
-                    {"data": {"bids": [
-                        {"id": b["id"],
-                         "lotValues": [
-                             {"relatedLot": l["relatedLot"],
-                              "value": {
-                                  "yearlyPaymentsPercentage": l["value"]["yearlyPaymentsPercentage"],
-                                  "contractDuration": l["value"]["contractDuration"]
-                              } if "contractDuration" in l["value"] else {
-                                  "amount": l["value"]["amount"]}
-                              } for l in b["lotValues"]]}
-                        for b in auction_bids_data]}}
+                    {
+                        "data": {
+                            "bids": [
+                                {
+                                    "id": b["id"],
+                                    "lotValues": [
+                                        {
+                                            "relatedLot": l["relatedLot"],
+                                            "value": (
+                                                {
+                                                    "yearlyPaymentsPercentage": l["value"]["yearlyPaymentsPercentage"],
+                                                    "contractDuration": l["value"]["contractDuration"],
+                                                }
+                                                if "contractDuration" in l["value"]
+                                                else {"amount": l["value"]["amount"]}
+                                            ),
+                                        }
+                                        for l in b["lotValues"]
+                                    ],
+                                }
+                                for b in auction_bids_data
+                            ]
+                        }
+                    },
                 )
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.content_type, "application/json")
@@ -347,5 +350,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

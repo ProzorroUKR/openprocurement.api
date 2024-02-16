@@ -1,7 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
-from openprocurement.tender.openuadefense.procedure.state.question import DefenseTenderQuestionState
+from openprocurement.tender.openuadefense.procedure.state.question import (
+    DefenseTenderQuestionState,
+)
 
 
 @resource(

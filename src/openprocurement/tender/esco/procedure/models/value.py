@@ -1,14 +1,17 @@
+from datetime import datetime
 from decimal import Decimal
+
+from esculator import escp, npv
+from schematics.exceptions import ValidationError
 from schematics.types import IntType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from schematics.exceptions import ValidationError
-from datetime import datetime
-from esculator import npv, escp
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, DecimalType, StringDecimalType as StringDecimalType
-from openprocurement.api.procedure.models.value import Value
+
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import DecimalType, ListType
+from openprocurement.api.procedure.types import StringDecimalType as StringDecimalType
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.esco.procedure.utils import to_decimal
 
@@ -40,7 +43,6 @@ class BaseESCOValue(Value):
 
 
 class PatchESCOValue(BaseESCOValue):
-
     def validate_annualCostsReduction(self, data, value):
         if value is not None and len(value) != 21:
             raise ValidationError("annual costs reduction should be set for 21 period")
@@ -61,7 +63,7 @@ class ESCOValue(BaseESCOValue):
 
     @serializable(serialized_name="amountPerformance", type=DecimalType(precision=-2))
     def amountPerformance_npv(self):
-        """ Calculated energy service contract performance indicator """
+        """Calculated energy service contract performance indicator"""
         tender = get_tender()
         return to_decimal(
             npv(

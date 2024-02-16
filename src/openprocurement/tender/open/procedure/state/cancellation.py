@@ -1,12 +1,13 @@
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
-from openprocurement.tender.open.procedure.state.tender import OpenTenderState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.cancellation import (
+    CancellationStateMixing,
+)
+from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
 class OpenUACancellationStateMixing(CancellationStateMixing):
-
     def validate_cancellation_post(self, data):
         super().validate_cancellation_post(data)
         request, tender = get_request(), get_tender()

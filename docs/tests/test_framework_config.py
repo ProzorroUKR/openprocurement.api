@@ -1,28 +1,22 @@
-# -*- coding: utf-8 -*-
 import csv
 import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.core.procedure.mask import (
-    SUBMISSION_MASK_MAPPING,
-    QUALIFICATION_MASK_MAPPING,
-    AGREEMENT_MASK_MAPPING,
-)
-from tests.base.data import (
-    test_docs_tenderer,
-)
 from tests.base.constants import DOCS_URL
-from tests.base.test import (
-    DumpsWebTestApp,
-    MockWebTestMixin,
-)
+from tests.base.data import test_docs_tenderer
+from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.procedure.mask import (
+    AGREEMENT_MASK_MAPPING,
+    QUALIFICATION_MASK_MAPPING,
+    SUBMISSION_MASK_MAPPING,
+)
 from openprocurement.framework.dps.tests.base import (
-    test_framework_dps_data,
     BaseFrameworkWebTest,
+    test_framework_dps_data,
 )
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
@@ -39,26 +33,26 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(RestrictedFrameworkOpenResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(RestrictedFrameworkOpenResourceTest, self).tearDown()
+        super().tearDown()
 
     def create_framework(self):
         pass
 
     def write_config_mask_csv(self, mapping, file_path):
         headers = [
-            "rule",
+            "path",
             "value",
         ]
 
         rows = []
 
-        for rule, value in mapping.items():
-            rows.append([rule, value])
+        for path, rule in mapping.items():
+            rows.append([path, rule["value"]])
 
         with open(file_path, 'w', newline='') as file_csv:
             writer = csv.writer(file_csv, lineterminator='\n')
@@ -95,12 +89,13 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
             with open(TARGET_DIR_RESTRICTED + 'framework-create-broker.http', 'w') as self.app.file_obj:
                 response = self.app.post_json(
-                    '/frameworks', {
+                    '/frameworks',
+                    {
                         'data': data,
                         'config': {
                             'restrictedDerivatives': True,
-                        }
-                    }
+                        },
+                    },
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -129,7 +124,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         'config': {
                             'restricted': True,
                         },
-                    }
+                    },
                 )
                 self.assertEqual(response.status, '201 Created')
 
@@ -148,7 +143,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         "format": "application/msword",
                     }
                 },
-                status=201
+                status=201,
             )
 
         # Activate Submission
@@ -161,7 +156,6 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                 self.assertEqual(response.status, '200 OK')
 
             self.qualification1_id = response.json["data"]["qualificationID"]
-
 
         # Check by Broker, can see submissions
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
@@ -197,7 +191,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         "format": "application/msword",
                     }
                 },
-                status=201
+                status=201,
             )
 
         # Check by Broker, can see qualifications

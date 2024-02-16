@@ -1,7 +1,8 @@
+from cornice.resource import resource
+
 from openprocurement.tender.core.procedure.views.cancellation_complaint_post_document import (
     BaseCancellationComplaintPostDocumentResource,
 )
-from cornice.resource import resource
 
 
 @resource(

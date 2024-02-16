@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-from pyramid.events import subscriber
-from pyramid.events import NewRequest, BeforeRender, ContextFound
+from pyramid.events import BeforeRender, ContextFound, NewRequest, subscriber
+
 from openprocurement.api.constants import VERSION
-from openprocurement.api.utils import get_now, update_logging_context, fix_url
+from openprocurement.api.utils import fix_url, get_now, update_logging_context
 
 
 @subscriber(NewRequest)

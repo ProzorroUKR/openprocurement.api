@@ -1,6 +1,5 @@
-# -*- coding: utf-8 -*-
-
 import unittest
+
 from openprocurement.tender.cfaua.tests import tender
 
 

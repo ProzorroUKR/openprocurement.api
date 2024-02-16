@@ -1,30 +1,41 @@
-from typing import Optional, List, Tuple
+from typing import Optional
 
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg import BaseCDRequirementGroupResource
-from openprocurement.tender.core.procedure.models.criterion import RequirementGroup, PatchRequirementGroup
-from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import CDRequirementGroupState
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    unless_administrator,
+    unless_admins,
     validate_input_data,
-    validate_item_owner, unless_administrator, unless_admins,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import unless_cd_bridge
+from openprocurement.api.utils import json_view
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_TYPE,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
+    CDRequirementGroupState,
+)
+from openprocurement.tender.competitivedialogue.procedure.validation import (
+    unless_cd_bridge,
+)
+from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion_rg import (
+    BaseCDRequirementGroupResource,
+)
+from openprocurement.tender.core.procedure.models.criterion import (
+    PatchRequirementGroup,
+    RequirementGroup,
+)
 
 
 class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):
-
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(RequirementGroup),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(RequirementGroup),
         ),
         permission="create_rg",
     )
@@ -34,11 +45,9 @@ class BaseStage2RequirementGroupResource(BaseCDRequirementGroupResource):
     @json_view(
         content_type="application/json",
         validators=(
-                unless_cd_bridge(unless_admins(unless_administrator(
-                    validate_item_owner("tender")
-                ))),
-                validate_input_data(PatchRequirementGroup),
-                validate_patch_data_simple(RequirementGroup, "requirement_group"),
+            unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
+            validate_input_data(PatchRequirementGroup),
+            validate_patch_data_simple(RequirementGroup, "requirement_group"),
         ),
         permission="edit_rg",
     )

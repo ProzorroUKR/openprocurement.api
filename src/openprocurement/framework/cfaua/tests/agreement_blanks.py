@@ -1,6 +1,7 @@
 import uuid
 from copy import deepcopy
 from datetime import datetime
+
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
@@ -185,7 +186,9 @@ def agreement_patch_invalid(self):
     change_id = response.json["data"]["id"]
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": {"status": "terminated"}}, status=403
+        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token),
+        {"data": {"status": "terminated"}},
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -206,7 +209,8 @@ def agreement_patch_invalid(self):
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
     response = self.app.patch_json(
-        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token), {"data": {"status": "terminated"}}
+        "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token),
+        {"data": {"status": "terminated"}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -274,8 +278,7 @@ def empty_listing(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Invalid offset provided: latest",
-          "location": "querystring", "name": "offset"}],
+        [{"description": "Invalid offset provided: latest", "location": "querystring", "name": "offset"}],
     )
 
     response = self.app.get("/agreements?descending=1&limit=10")
@@ -314,10 +317,8 @@ def listing(self):
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in agreements])
-    )
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in agreements})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in agreements})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in agreements])
     )
@@ -352,7 +353,7 @@ def listing(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in agreements})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in agreements], reverse=True),
@@ -795,46 +796,46 @@ def agreement_token_invalid(self):
         "/agreements/{}?acc_token={}".format(self.agreement_id, "fake token"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(self.agreement_id, "токен з кирилицею"), {"data": {}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [
+        response.json["errors"],
+        [
             {
-                'location': 'body', 'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+                'location': 'body',
+                'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
-        ]
+        ],
     )
 
 
 def generate_credentials_invalid(self):
     response = self.app.patch_json(
-        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "fake token"), {"data": ""}, status=403
+        "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, "fake token"), {"data": ""}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
-        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "токен з кирилицею"),
+        "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, "токен з кирилицею"),
         {"data": ""},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"], [
+        response.json["errors"],
+        [
             {
-                'location': 'body', 'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)"
+                'location': 'body',
+                'name': 'UnicodeEncodeError',
+                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
-        ]
+        ],
     )
 
 
@@ -847,6 +848,3 @@ def skip_address_validation(self):
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual(response.status, "201 Created")
-
-
-

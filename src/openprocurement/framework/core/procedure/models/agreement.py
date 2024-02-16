@@ -1,14 +1,15 @@
 from uuid import uuid4
-from schematics.types import MD5Type, StringType, BaseType, BooleanType
+
+from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
 from openprocurement.api.procedure.models.organization import Organization
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.framework.core.procedure.models.contract import Contract
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.api.procedure.models.period import PeriodEndRequired
 
 
 class PatchAgreement(Model):

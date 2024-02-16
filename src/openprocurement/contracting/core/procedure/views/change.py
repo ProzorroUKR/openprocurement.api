@@ -1,24 +1,26 @@
-from openprocurement.api.utils import context_unpack, json_view
-
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_input_data,
     unless_administrator,
     unless_admins,
+    validate_input_data,
+    validate_patch_data,
 )
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-
-from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
+from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.api.procedure.state.change import ChangeState
-from openprocurement.contracting.core.procedure.models.change import PostChange, PatchChange, Change
+from openprocurement.contracting.core.procedure.models.change import (
+    Change,
+    PatchChange,
+    PostChange,
+)
 from openprocurement.contracting.core.procedure.utils import save_contract
 from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-    validate_create_contract_change,
     validate_contract_change_action_not_in_allowed_contract_status,
     validate_contract_change_update_not_in_allowed_change_status,
+    validate_contract_owner,
+    validate_create_contract_change,
 )
+from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 
 
 def resolve_change(request):
@@ -31,7 +33,7 @@ def resolve_change(request):
 
 
 class ContractsChangesResource(ContractBaseResource):
-    """ Contract changes resource """
+    """Contract changes resource"""
 
     serializer_class = BaseSerializer
     state_class = ChangeState
@@ -43,12 +45,12 @@ class ContractsChangesResource(ContractBaseResource):
 
     @json_view(permission="view_contract")
     def collection_get(self):
-        """ Return Contract Changes list """
+        """Return Contract Changes list"""
         return {"data": [self.serializer_class(i).data for i in self.request.validated["contract"].get("changes", "")]}
 
     @json_view(permission="view_contract")
     def get(self):
-        """ Return Contract Change """
+        """Return Contract Change"""
         return {"data": self.serializer_class(self.request.validated["change"]).data}
 
     @json_view(
@@ -62,7 +64,7 @@ class ContractsChangesResource(ContractBaseResource):
         ),
     )
     def collection_post(self):
-        """ Contract Change create """
+        """Contract Change create"""
         contract = self.request.validated["contract"]
 
         change = self.request.validated["data"]
@@ -98,7 +100,7 @@ class ContractsChangesResource(ContractBaseResource):
         ),
     )
     def patch(self):
-        """ Contract change edit """
+        """Contract change edit"""
 
         updated = self.request.validated["data"]
         if updated:

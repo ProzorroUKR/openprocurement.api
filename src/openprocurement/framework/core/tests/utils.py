@@ -1,19 +1,22 @@
-from datetime import datetime, timedelta
 import os
 import unittest
 from copy import deepcopy
+from datetime import datetime, timedelta
+from unittest.mock import MagicMock
 
-from mock import MagicMock, call, patch
 from pyramid.exceptions import URLDecodeError
 from schematics.types import StringType
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.framework.core.tests.base import BaseFrameworkTest, test_framework_data
+from openprocurement.api.utils import get_now
+from openprocurement.framework.core.tests.base import (
+    BaseFrameworkTest,
+    test_framework_data,
+)
 from openprocurement.framework.core.tests.framework import Framework
 from openprocurement.framework.core.utils import (
-    generate_framework_pretty_id,
     calculate_framework_date,
+    generate_framework_pretty_id,
 )
 
 
@@ -28,7 +31,10 @@ class UtilsFrameworkTest(BaseFrameworkTest):
 
         framework_id = generate_framework_pretty_id(request)
         tid = "UA-F-{:04}-{:02}-{:02}-{:06}".format(
-            ctime.year, ctime.month, ctime.day, 103,
+            ctime.year,
+            ctime.month,
+            ctime.day,
+            103,
         )
         self.assertEqual(tid, framework_id)
 
@@ -109,8 +115,8 @@ class TestCalculateFrameworkDate(BaseFrameworkTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(UtilsFrameworkTest))
-    suite.addTest(unittest.makeSuite(TestCalculateFrameworkDate))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(UtilsFrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestCalculateFrameworkDate))
     return suite
 
 

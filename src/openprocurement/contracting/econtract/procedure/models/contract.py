@@ -3,19 +3,22 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_items_uniq
-
 from openprocurement.contracting.core.procedure.models.contract import (
-    BasePostContract,
-    BasePatchContract,
     BaseContract,
+    BasePatchContract,
+    BasePostContract,
 )
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 from openprocurement.contracting.econtract.procedure.models.item import Item
-from openprocurement.contracting.econtract.procedure.models.organization import Organization
+from openprocurement.contracting.econtract.procedure.models.organization import (
+    Organization,
+)
 from openprocurement.contracting.econtract.procedure.models.value import ContractValue
-from openprocurement.tender.core.procedure.models.contract import validate_item_unit_values
+from openprocurement.tender.core.procedure.models.contract import (
+    validate_item_unit_values,
+)
 
 
 class PostContract(BasePostContract):
@@ -30,9 +33,7 @@ class PostContract(BasePostContract):
     amountPaid = ModelType(AmountPaid)
     contractTemplateName = StringType()
     items = ListType(ModelType(Item, required=True))
-    buyer = ModelType(
-        Organization, required=True
-    )
+    buyer = ModelType(Organization, required=True)
     value = ModelType(ContractValue)
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)
@@ -70,9 +71,7 @@ class AdministratorPatchContract(Model):
 
 class Contract(BaseContract):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    buyer = ModelType(
-        Organization, required=True
-    )
+    buyer = ModelType(Organization, required=True)
     suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateName = StringType()

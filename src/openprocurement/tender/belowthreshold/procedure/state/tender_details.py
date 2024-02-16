@@ -1,15 +1,28 @@
 from datetime import timedelta
 
-from openprocurement.api.auth import ACCR_1, ACCR_5, ACCR_2
+from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.belowthreshold.constants import ENQUIRY_STAND_STILL_TIME, TENDERING_EXTRA_PERIOD
-from openprocurement.tender.belowthreshold.procedure.models.tender import PatchActiveTender, PatchTender
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.belowthreshold.procedure.state.tender import BelowThresholdTenderState
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.utils import dt_from_iso, check_auction_period
+from openprocurement.tender.belowthreshold.constants import (
+    ENQUIRY_STAND_STILL_TIME,
+    TENDERING_EXTRA_PERIOD,
+)
+from openprocurement.tender.belowthreshold.procedure.models.tender import (
+    PatchActiveTender,
+    PatchTender,
+)
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    BelowThresholdTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsMixing,
+)
+from openprocurement.tender.core.procedure.utils import (
+    check_auction_period,
+    dt_from_iso,
+)
 from openprocurement.tender.core.utils import calculate_clarif_business_date
 
 
@@ -34,7 +47,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
                 {"startDate": ["This field cannot be deleted"]},
                 status=422,
                 location="body",
-                name="enquiryPeriod"
+                name="enquiryPeriod",
             )
 
         tendering_start = before.get("tenderPeriod", {}).get("startDate")
@@ -44,7 +57,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
                 {"startDate": ["This field cannot be deleted"]},
                 status=422,
                 location="body",
-                name="tenderPeriod"
+                name="tenderPeriod",
             )
 
         # bid invalidation rules
@@ -78,7 +91,9 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     def initialize_enquiry_period(self, tender):
         enquiry_end = dt_from_iso(tender["enquiryPeriod"]["endDate"])
         clarifications_until = calculate_clarif_business_date(
-            enquiry_end, self.enquiry_stand_still_timedelta, tender,
+            enquiry_end,
+            self.enquiry_stand_still_timedelta,
+            tender,
         )
         enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"]["clarificationsUntil"] = clarifications_until.isoformat()
@@ -92,4 +107,3 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-

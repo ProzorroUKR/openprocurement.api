@@ -1,17 +1,26 @@
 from cornice.resource import resource
 
+from openprocurement.api.procedure.validation import (
+    update_doc_fields_on_put_document,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+    validate_upload_document,
+)
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.framework.core.procedure.views.document import CoreSubmissionDocumentResource
+from openprocurement.framework.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
 from openprocurement.framework.core.procedure.validation import (
     validate_document_operation_in_not_allowed_period,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_data_model,
-    validate_input_data, validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+from openprocurement.framework.core.procedure.views.document import (
+    CoreSubmissionDocumentResource,
 )
+from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
@@ -62,10 +71,10 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(
         content_type="application/json",
         validators=(
-                validate_item_owner("submission"),
-                validate_input_data(PatchDocument, none_means_remove=True),
-                validate_patch_data_simple(Document, item_name="document"),
-                validate_document_operation_in_not_allowed_period,
+            validate_item_owner("submission"),
+            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_patch_data_simple(Document, item_name="document"),
+            validate_document_operation_in_not_allowed_period,
         ),
         permission="edit_submission",
     )

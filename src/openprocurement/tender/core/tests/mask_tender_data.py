@@ -1,21 +1,22 @@
+import json
+from copy import deepcopy
 from hashlib import sha224
-from unittest import TestCase
+from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now
 from openprocurement.api.mask import MASK_STRING
-from openprocurement.api.tests.base import singleton_app, app, change_auth
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from unittest.mock import patch, MagicMock
-from copy import deepcopy
-import json
-
+from openprocurement.api.tests.base import app, change_auth, singleton_app
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224(b"00000000").hexdigest(),
+    ],
+)
 def test_mask_function():
     with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         data = json.load(f)
@@ -29,9 +30,12 @@ def test_mask_function():
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)
-@patch("openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS", [
-    sha224("00000000".encode()).hexdigest(),
-])
+@patch(
+    "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
+    [
+        sha224(b"00000000").hexdigest(),
+    ],
+)
 def test_mask_tender_by_identifier(app):
     set_now()
     with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
@@ -84,7 +88,7 @@ def test_mask_tender_by_is_masked(app):
     assert response.status_code == 200
     data = response.json["data"]
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
-    assert data["items"][0]["description"] ==  "0" * len(data["items"][0]["description"])
+    assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
     # Check field
     assert "is_masked" in data
@@ -101,7 +105,7 @@ def test_mask_tender_by_is_masked(app):
     assert response.status_code == 200
     data = response.json["data"]
     assert data["description"] == "test"
-    assert data["items"][0]["description"] !=  "0" * len(data["items"][0]["description"])
+    assert data["items"][0]["description"] != "0" * len(data["items"][0]["description"])
 
     # Check field
     assert "is_masked" in data
@@ -111,7 +115,7 @@ def test_mask_tender_by_is_masked(app):
     assert response.status_code == 200
     data = response.json["data"]
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
-    assert data["items"][0]["description"] ==  "0" * len(data["items"][0]["description"])
+    assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
 
     # Unmask tender
     initial_data["_rev"] = app.app.registry.mongodb.tenders.get(id)["_rev"]

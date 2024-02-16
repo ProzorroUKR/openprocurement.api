@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def answering_question(self):
     response = self.app.post_json(
         "/tenders/{}/questions".format(self.tender_id),

@@ -1,5 +1,8 @@
-from openprocurement.tender.core.procedure.validation import validate_lot_value_currency, validate_lot_value_vat
 from openprocurement.tender.core.procedure.utils import find_lot
+from openprocurement.tender.core.procedure.validation import (
+    validate_lot_value_currency,
+    validate_lot_value_vat,
+)
 
 
 def validate_lotvalue_value(tender, related_lot, value):

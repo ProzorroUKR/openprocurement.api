@@ -1,63 +1,53 @@
 import math
 from copy import deepcopy
+from datetime import datetime
+from hashlib import sha512
+from logging import getLogger
 from typing import Optional
+from uuid import uuid4
 
 from barbecue import vnmax
+from dateorro import calc_normalized_datetime
+from jsonpatch import JsonPatchException
+from jsonpatch import apply_patch as apply_json_patch
+from jsonpointer import JsonPointerException, resolve_pointer
 from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.context import (
-    get_json_data,
-    get_now,
+from openprocurement.api.constants import (
+    NEW_CONTRACTING_FROM,
+    PQ_NEW_CONTRACTING_FROM,
+    RELEASE_2020_04_19,
+    TZ,
 )
+from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import (
-    apply_data_patch,
     append_revision,
-    get_revision_changes, parse_date,
+    apply_data_patch,
+    get_revision_changes,
+    parse_date,
 )
 from openprocurement.api.utils import (
-    handle_store_exceptions,
     context_unpack,
-    raise_operation_error,
-    get_first_revision_date,
     error_handler,
     get_child_items,
-)
-from openprocurement.api.constants import (
-    TZ,
-    RELEASE_2020_04_19,
-    PQ_NEW_CONTRACTING_FROM,
-    NEW_CONTRACTING_FROM,
+    get_first_revision_date,
+    handle_store_exceptions,
+    raise_operation_error,
 )
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.constants import BIDDER_TIME, SERVICE_TIME, AUCTION_STAND_STILL_TIME
-from openprocurement.tender.core.procedure.context import (
-    get_bid,
-    get_request,
+from openprocurement.tender.core.constants import (
+    AUCTION_STAND_STILL_TIME,
+    BIDDER_TIME,
+    SERVICE_TIME,
 )
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.context import get_bid, get_request
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.utils import (
-    QUICK,
-    calculate_tender_date,
-)
-from dateorro import calc_normalized_datetime
-from jsonpatch import (
-    apply_patch as apply_json_patch,
-    JsonPatchException,
-)
-from jsonpointer import (
-    resolve_pointer,
-    JsonPointerException,
-)
-from hashlib import sha512
-from uuid import uuid4
-from logging import getLogger
-from datetime import datetime
-
+from openprocurement.tender.core.utils import QUICK, calculate_tender_date
 from openprocurement.tender.openua.constants import AUCTION_PERIOD_TIME
 
 LOGGER = getLogger(__name__)
@@ -118,9 +108,7 @@ def save_tender(
             )
             LOGGER.info(
                 "Saved tender {}: dateModified {} -> {}".format(
-                    tender["_id"],
-                    old_date_modified,
-                    tender["dateModified"]
+                    tender["_id"], old_date_modified, tender["dateModified"]
                 ),
                 extra=context_unpack(request, {"MESSAGE_ID": "save_tender"}, {"RESULT": tender["_rev"]}),
             )
@@ -129,16 +117,16 @@ def save_tender(
 
 
 def append_tender_revision(request, tender, patch, date):
-    status_changes = [p for p in patch if all([
-        not p["path"].startswith("/bids/"),
-        p["path"].endswith("/status"),
-        p["op"] == "replace"
-    ])]
+    status_changes = [
+        p
+        for p in patch
+        if all([not p["path"].startswith("/bids/"), p["path"].endswith("/status"), p["op"] == "replace"])
+    ]
     for change in status_changes:
         obj = resolve_pointer(tender, change["path"].replace("/status", ""))
         if obj and hasattr(obj, "date"):
             date_path = change["path"].replace("/status", "/date")
-            if obj.date and not any([p for p in patch if date_path == p["path"]]):
+            if obj.date and not any(p for p in patch if date_path == p["path"]):
                 patch.append({"op": "replace", "path": date_path, "value": obj.date.isoformat()})
             elif not obj.date:
                 patch.append({"op": "remove", "path": date_path})
@@ -163,6 +151,7 @@ def apply_tender_patch(request, data, src, save=True, modified=True):
     # it should link to request.validated["tender"]
     if patch and save:
         return save_tender(request, modified=modified)
+
 
 # --- PATCHING
 
@@ -274,8 +263,7 @@ def get_bids_before_auction_results(tender):
     request = get_request()
     initial_doc = request.validated["tender_src"]
     auction_revisions = (
-        revision for revision in reversed(tender.get("revisions", []))
-        if revision["author"] == "auction"
+        revision for revision in reversed(tender.get("revisions", [])) if revision["author"] == "auction"
     )
     for revision in auction_revisions:
         try:
@@ -305,19 +293,17 @@ def tender_created_after_2020_rules():
 
 def filter_features(features, items, lot_ids=None):
     lot_ids = lot_ids or [None]
-    lot_items = [
-        i["id"]
-        for i in items
-        if i.get("relatedLot") in lot_ids
-    ]  # all items in case of non-lot tender
+    lot_items = [i["id"] for i in items if i.get("relatedLot") in lot_ids]  # all items in case of non-lot tender
     features = [
         feature
         for feature in (features or tuple())
-        if any((
-            feature["featureOf"] == "tenderer",
-            feature["featureOf"] == "lot" and feature["relatedItem"] in lot_ids,
-            feature["featureOf"] == "item" and feature["relatedItem"] in lot_items,
-        ))
+        if any(
+            (
+                feature["featureOf"] == "tenderer",
+                feature["featureOf"] == "lot" and feature["relatedItem"] in lot_ids,
+                feature["featureOf"] == "item" and feature["relatedItem"] in lot_items,
+            )
+        )
     ]  # all features in case of non-lot tender
     return features
 
@@ -335,8 +321,9 @@ def activate_bids(bids):
 
 def is_new_contracting():
     tender = get_tender()
-    new_contracting_after = PQ_NEW_CONTRACTING_FROM \
-        if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
+    new_contracting_after = (
+        PQ_NEW_CONTRACTING_FROM if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
+    )
 
     return tender_created_after(new_contracting_after)
 
@@ -350,10 +337,12 @@ def find_lot(tender, lot_id):
 def validate_features_custom_weight(data, features, max_sum):
     if features:
         if data["lots"]:
-            if any([
-                round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
-                for lot in data["lots"]
-            ]):
+            if any(
+                [
+                    round(vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])), 15) > max_sum
+                    for lot in data["lots"]
+                ]
+            ):
                 raise ValidationError(
                     "Sum of max value of all features for lot should be "
                     "less then or equal to {:.0f}%".format(max_sum * 100)
@@ -361,13 +350,12 @@ def validate_features_custom_weight(data, features, max_sum):
         else:
             if round(vnmax(features), 15) > max_sum:
                 raise ValidationError(
-                    "Sum of max value of all features should be "
-                    "less then or equal to {:.0f}%".format(max_sum * 100)
+                    "Sum of max value of all features should be " "less then or equal to {:.0f}%".format(max_sum * 100)
                 )
 
 
 def round_up_to_ten(value):
-    return int(math.ceil(value / 10.) * 10)
+    return int(math.ceil(value / 10.0) * 10)
 
 
 def restrict_value_to_bounds(value, min_value, max_value):
@@ -402,12 +390,12 @@ def generate_tender_id(request):
 
 def extract_complaint_type(request):
     """
-        request method
-        determines which type of complaint is processed
-        returns complaint_type
-        used in isComplaint route predicate factory
-        to match complaintType predicate
-        to route to Claim or Complaint view
+    request method
+    determines which type of complaint is processed
+    returns complaint_type
+    used in isComplaint route predicate factory
+    to match complaintType predicate
+    to route to Claim or Complaint view
     """
 
     path = extract_path(request)
@@ -496,7 +484,6 @@ def _extract_resource(request, matchdict, parent_resource, resource_name):
     return None
 
 
-
 def get_supplier_contract(contracts, tenderers):
     for contract in contracts:
         if contract["status"] == "active":
@@ -504,3 +491,10 @@ def get_supplier_contract(contracts, tenderers):
                 for tenderer in tenderers:
                     if supplier["identifier"]["id"] == tenderer["identifier"]["id"]:
                         return contract
+
+
+def extract_document_id(request):
+    path = extract_path(request)
+    if "documents" in path:
+        matchdict = matchdict_from_path(path, root_resource="documents")
+        return matchdict.get("document_id")

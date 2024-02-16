@@ -1,44 +1,43 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from mock import patch
-from datetime import timedelta
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-
-from openprocurement.tender.open.tests.base import test_tender_open_data, BaseTenderUAContentWebTest
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_open_data,
+)
 from openprocurement.tender.open.tests.criterion_blanks import (
-    create_tender_criteria_valid,
-    create_tender_criteria_invalid,
-    patch_tender_criteria_valid,
-    patch_tender_criteria_invalid,
-    get_tender_criteria,
     activate_tender,
-    lcc_criterion_valid,
-    lcc_criterion_invalid,
     create_criteria_rg,
-    patch_criteria_rg,
-    get_criteria_rg,
-    create_rg_requirement_valid,
-    create_rg_requirement_invalid,
-    patch_rg_requirement,
-    get_rg_requirement,
-    create_requirement_evidence_valid,
-    create_requirement_evidence_invalid,
-    patch_requirement_evidence,
-    delete_requirement_evidence,
-    get_requirement_evidence,
-    validate_requirement_evidence_document,
     create_patch_delete_evidences_from_requirement,
-    put_rg_requirement_valid,
+    create_requirement_evidence_invalid,
+    create_requirement_evidence_valid,
+    create_rg_requirement_invalid,
+    create_rg_requirement_valid,
+    create_tender_criteria_invalid,
+    create_tender_criteria_valid,
+    delete_requirement_evidence,
+    get_criteria_rg,
+    get_requirement_evidence,
+    get_rg_requirement,
+    get_tender_criteria,
+    lcc_criterion_invalid,
+    lcc_criterion_valid,
+    patch_criteria_rg,
+    patch_requirement_evidence,
+    patch_rg_requirement,
+    patch_tender_criteria_invalid,
+    patch_tender_criteria_valid,
     put_rg_requirement_invalid,
+    put_rg_requirement_valid,
+    validate_requirement_evidence_document,
 )
 
 
-class TenderCriteriaTestMixin(object):
+class TenderCriteriaTestMixin:
     test_create_tender_criteria_valid = snitch(create_tender_criteria_valid)
     test_create_tender_criteria_invalid = snitch(create_tender_criteria_invalid)
     test_patch_tender_criteria_valid = snitch(patch_tender_criteria_valid)
@@ -47,13 +46,13 @@ class TenderCriteriaTestMixin(object):
     test_activate_tender = snitch(activate_tender)
 
 
-class TenderCriteriaRGTestMixin(object):
+class TenderCriteriaRGTestMixin:
     test_create_criteria_rg_valid = snitch(create_criteria_rg)
     test_patch_criteria_rg = snitch(patch_criteria_rg)
     test_get_criteria_rg = snitch(get_criteria_rg)
 
     def setUp(self):
-        super(TenderCriteriaRGTestMixin, self).setUp()
+        super().setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
@@ -64,7 +63,7 @@ class TenderCriteriaRGTestMixin(object):
         self.criteria_id = response.json["data"][0]["id"]
 
 
-class TenderCriteriaRGRequirementTestMixin(object):
+class TenderCriteriaRGRequirementTestMixin:
     test_create_rg_requirement_valid = snitch(create_rg_requirement_valid)
     test_create_rg_requirement_invalid = snitch(create_rg_requirement_invalid)
     test_patch_rg_requirement = snitch(patch_rg_requirement)
@@ -81,7 +80,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
     allowed_put_statuses = ["active.tendering"]
 
     def setUp(self):
-        super(TenderCriteriaRGRequirementTestMixin, self).setUp()
+        super().setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
         criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"
 
@@ -96,7 +95,7 @@ class TenderCriteriaRGRequirementTestMixin(object):
         self.exclusion_rg_id = response.json["data"][1]["requirementGroups"][0]["id"]
 
 
-class TenderCriteriaRGRequirementEvidenceTestMixin(object):
+class TenderCriteriaRGRequirementEvidenceTestMixin:
     test_create_requirement_evidence_valid = snitch(create_requirement_evidence_valid)
     test_create_requirement_evidence_invalid = snitch(create_requirement_evidence_invalid)
     test_patch_requirement_evidence = snitch(patch_requirement_evidence)
@@ -112,7 +111,7 @@ class TenderCriteriaRGRequirementEvidenceTestMixin(object):
     }
 
     def setUp(self):
-        super(TenderCriteriaRGRequirementEvidenceTestMixin, self).setUp()
+        super().setUp()
         criteria_data = deepcopy(test_exclusion_criteria)
         response = self.app.post_json(
             "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
@@ -141,7 +140,7 @@ class TenderUACriteriaLccTest(BaseTenderUAContentWebTest):
     def setUp(self):
         self.initial_data = deepcopy(self.initial_data)
         self.initial_data["awardCriteria"] = "lifeCycleCost"
-        super(TenderUACriteriaLccTest, self).setUp()
+        super().setUp()
 
     test_lcc_criterion_valid = snitch(lcc_criterion_valid)
     test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
@@ -152,10 +151,7 @@ class TenderUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderUAContentWebTe
     test_lots_data = test_tender_below_lots
 
 
-class TenderUACriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseTenderUAContentWebTest
-):
+class TenderUACriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderUAContentWebTest):
     initial_data = test_tender_open_data
     test_lots_data = test_tender_below_lots
 
@@ -170,10 +166,10 @@ class TenderUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderUACriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderUACriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderUACriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUACriteriaRGRequirementEvidenceTest))
     return suite
 
 

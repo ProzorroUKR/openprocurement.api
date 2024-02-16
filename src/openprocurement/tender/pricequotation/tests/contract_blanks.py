@@ -1,7 +1,7 @@
-# -*- coding: utf-8 -*-
-from datetime import timedelta
-from openprocurement.api.utils import get_now
 from copy import deepcopy
+from datetime import timedelta
+
+from openprocurement.api.utils import get_now
 
 
 def patch_tender_contract(self):
@@ -17,7 +17,6 @@ def patch_tender_contract(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-
     new_items = deepcopy(contract["items"])
     new_items[0]["description"] = "New Description"
     response = self.app.patch_json(
@@ -28,9 +27,11 @@ def patch_tender_contract(self):
                 "items": new_items,
             }
         },
-        status=422
+        status=422,
     )
-    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "contractID", "description": "Rogue field"})
+    self.assertEqual(
+        response.json["errors"][0], {"location": "body", "name": "contractID", "description": "Rogue field"}
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
@@ -39,7 +40,7 @@ def patch_tender_contract(self):
                 "items": new_items,
             }
         },
-        status=403
+        status=403,
     )
     self.assertEqual(response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item")
 
@@ -72,7 +73,7 @@ def patch_tender_contract(self):
         ],
     )
 
-    custom_signature_date = (get_now()-timedelta(days=1)).isoformat()
+    custom_signature_date = (get_now() - timedelta(days=1)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"dateSigned": custom_signature_date}},
@@ -81,7 +82,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"][0].split("(")[0],
-        "Contract signature date should be after award activation date "
+        "Contract signature date should be after award activation date ",
     )
 
     custom_signature_date = get_now().isoformat()
@@ -103,7 +104,7 @@ def patch_tender_contract(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"items": items}},
-        status=403
+        status=403,
     )
     self.assertEqual(response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item")
 
@@ -134,9 +135,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json(
         "/tenders/some_id/contracts/some_id?acc_token={}".format(self.tender_token),
@@ -146,9 +145,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
     self.assertEqual(response.status, "200 OK")

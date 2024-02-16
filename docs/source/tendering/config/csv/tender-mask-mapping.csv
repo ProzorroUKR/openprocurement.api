@@ -1,4 +1,4 @@
-rule,value
+path,value
 $.items[*].deliveryDate.startDate,1970-01-01T03:00:00+03:00
 $.items[*].deliveryDate.endDate,1970-01-01T03:00:00+03:00
 $.items[*].deliveryAddress.streetAddress,Приховано
@@ -8,6 +8,10 @@ $.items[*].deliveryAddress.postalCode,Приховано
 $.items[*].deliveryAddress.countryName,Приховано
 $.items[*].deliveryAddress.countryName_en,Hidden
 $.items[*].deliveryAddress.countryName_ru,Приховано
+$.documents[?(@.documentType=='notice')].url,Приховано
+$.documents[?(@.documentType=='notice')].title,Приховано
+$.documents[?(@.title=='sign.p7s')].url,Приховано
+$.documents[?(@.title=='sign.p7s')].title,Приховано
 $.bids[*].tenderers[*].name,Приховано
 $.bids[*].tenderers[*].name_en,Hidden
 $.bids[*].tenderers[*].name_ru,Приховано

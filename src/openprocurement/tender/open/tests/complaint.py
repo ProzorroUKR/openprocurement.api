@@ -1,43 +1,47 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_lots,
-    test_tender_below_draft_complaint,
     test_tender_below_author,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
     test_tender_below_organization,
 )
+from openprocurement.tender.belowthreshold.tests.complaint import (
+    TenderComplaintResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
-    not_found,
     create_tender_complaint_document,
+    not_found,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-
-from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest, test_tender_open_bids
+from openprocurement.tender.open.tests.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_open_bids,
+)
 from openprocurement.tender.open.tests.complaint_blanks import (
-    create_tender_complaint,
-    patch_tender_complaint,
-    review_tender_complaint,
-    review_tender_stopping_complaint,
-    mistaken_status_tender_complaint,
     bot_patch_tender_complaint,
-    bot_patch_tender_complaint_mistaken,
     bot_patch_tender_complaint_forbidden,
-    patch_tender_complaint_document,
-    put_tender_complaint_document,
+    bot_patch_tender_complaint_mistaken,
     create_complaint_objection_validation,
-    patch_complaint_objection,
-    objection_related_item_equals_related_lot,
-    objection_related_item_equals_related_cancellation,
+    create_tender_complaint,
+    create_tender_lot_complaint,
+    mistaken_status_tender_complaint,
     objection_related_award_statuses,
     objection_related_document_of_evidence,
+    objection_related_item_equals_related_cancellation,
+    objection_related_item_equals_related_lot,
+    patch_complaint_objection,
+    patch_tender_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
+    review_tender_complaint,
+    review_tender_stopping_complaint,
 )
 
 
-class TenderUAComplaintResourceTestMixin(object):
+class TenderUAComplaintResourceTestMixin:
     test_create_tender_complaint = snitch(create_tender_complaint)
     test_patch_tender_complaint = snitch(patch_tender_complaint)
     test_review_tender_complaint = snitch(review_tender_complaint)
@@ -60,7 +64,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -124,16 +128,16 @@ class TenderCancellationComplaintObjectionMixin:
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
-        url = f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints/{complaint_id}?" \
-              f"acc_token={complaint_token}"
+        url = (
+            f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/complaints/{complaint_id}?"
+            f"acc_token={complaint_token}"
+        )
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
     def create_cancellation(self, related_lot=None):
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         if self.initial_data.get("lots"):
             cancellation.update({"relatedLot": related_lot if related_lot else self.initial_data["lots"][0]["id"]})
         response = self.app.post_json(
@@ -147,12 +151,14 @@ class TenderCancellationComplaintObjectionMixin:
 
         self.app.post_json(
             f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}/documents?acc_token={self.tender_token}",
-            {"data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.app.patch_json(
             f"/tenders/{self.tender_id}/cancellations/{self.cancellation_id}?acc_token={self.tender_token}",
@@ -183,20 +189,14 @@ class TenderQualificationComplaintObjectionMixin:
         for qualification in qualifications:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/qualifications/{qualification['id']}?acc_token={self.tender_token}",
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {
-                "status": "active.pre-qualification.stand-still"
-            }},
+            {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -204,8 +204,10 @@ class TenderQualificationComplaintObjectionMixin:
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = self.qualification_id
-        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/" \
-              f"complaints?acc_token={list(self.initial_bids_tokens.values())[0]}"
+        url = (
+            f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/"
+            f"complaints?acc_token={list(self.initial_bids_tokens.values())[0]}"
+        )
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
     def add_complaint_document(self, complaint_id, complaint_token, status=201):
@@ -215,13 +217,17 @@ class TenderQualificationComplaintObjectionMixin:
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
         }
-        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/" \
-              f"complaints/{complaint_id}/documents?acc_token={complaint_token}"
+        url = (
+            f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/"
+            f"complaints/{complaint_id}/documents?acc_token={complaint_token}"
+        )
         return self.app.post_json(url, {"data": doc_data}, status=status)
 
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
-        url = f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}?" \
-              f"acc_token={complaint_token}"
+        url = (
+            f"/tenders/{self.tender_id}/qualifications/{self.qualification_id}/complaints/{complaint_id}?"
+            f"acc_token={complaint_token}"
+        )
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
 
@@ -237,12 +243,14 @@ class TenderAwardComplaintObjectionMixin:
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 f"/tenders/{self.tender_id}/awards",
-                {"data": {
-                    "suppliers": [test_tender_below_organization],
-                    "status": "pending",
-                    "bid_id": self.initial_bids[0]["id"],
-                    "lotID": self.initial_lots[0]["id"]
-                }}
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_lots[0]["id"],
+                    }
+                },
             )
 
         award = response.json["data"]
@@ -251,19 +259,17 @@ class TenderAwardComplaintObjectionMixin:
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 f"/tenders/{self.tender_id}/awards/{self.award_id}",
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }}
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
 
     def create_complaint(self, complaint_data, status=201, with_valid_relates_to=False):
         if with_valid_relates_to:
             complaint_data["objections"][0]["relatesTo"] = self.complaint_on
             complaint_data["objections"][0]["relatedItem"] = self.award_id
-        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints" \
-              f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
+        url = (
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints"
+            f"?acc_token={list(self.initial_bids_tokens.values())[0]}"
+        )
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
     def add_complaint_document(self, complaint_id, complaint_token, status=201):
@@ -273,13 +279,17 @@ class TenderAwardComplaintObjectionMixin:
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
         }
-        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/" \
-              f"{complaint_id}/documents?acc_token={complaint_token}"
+        url = (
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/"
+            f"{complaint_id}/documents?acc_token={complaint_token}"
+        )
         return self.app.post_json(url, {"data": doc_data}, status=status)
 
     def patch_complaint(self, complaint_id, complaint_data, complaint_token, status=200):
-        url = f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?" \
-              f"acc_token={complaint_token}"
+        url = (
+            f"/tenders/{self.tender_id}/awards/{self.award_id}/complaints/{complaint_id}?"
+            f"acc_token={complaint_token}"
+        )
         return self.app.patch_json(url, {"data": complaint_data}, status=status)
 
 
@@ -305,7 +315,7 @@ class TenderCancellationComplaintObjectionTest(
     test_objection_related_item_equals_related_cancellation = snitch(objection_related_item_equals_related_cancellation)
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 
@@ -324,17 +334,17 @@ class TenderAwardComplaintObjectionTest(
     test_objection_related_document_of_evidence = snitch(objection_related_document_of_evidence)
 
     def setUp(self):
-        super(TenderAwardComplaintObjectionTest, self).setUp()
+        super().setUp()
         self.create_award()
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintObjectionTest))
     return suite
 
 

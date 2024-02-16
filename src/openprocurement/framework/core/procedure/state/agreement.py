@@ -1,15 +1,22 @@
-from logging import getLogger
 from hashlib import sha512
-from openprocurement.api.context import get_request, get_now
+from logging import getLogger
+
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_framework
-from openprocurement.api.utils import generate_id, context_unpack, request_init_agreement
-from openprocurement.framework.core.procedure.models.agreement import (
-    PatchAgreement,
-    AgreementChronographData,
-)
-from openprocurement.framework.core.procedure.state.chronograph import ChronographEventsMixing
-from openprocurement.framework.core.utils import generate_agreement_id
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import (
+    context_unpack,
+    generate_id,
+    request_init_agreement,
+)
+from openprocurement.framework.core.procedure.models.agreement import (
+    AgreementChronographData,
+    PatchAgreement,
+)
+from openprocurement.framework.core.procedure.state.chronograph import (
+    ChronographEventsMixing,
+)
+from openprocurement.framework.core.utils import generate_agreement_id
 
 LOGGER = getLogger(__name__)
 
@@ -19,7 +26,8 @@ def get_agreement_next_check(data):
     if data["status"] == "active":
         milestone_due_dates = [
             milestone["dueDate"]
-            for contract in data.get("contracts", []) for milestone in contract.get("milestones", [])
+            for contract in data.get("contracts", [])
+            for milestone in contract.get("milestones", [])
             if milestone.get("dueDate") and milestone["status"] == "scheduled"
         ]
         if milestone_due_dates:
@@ -29,7 +37,6 @@ def get_agreement_next_check(data):
 
 
 class AgreementState(BaseState, ChronographEventsMixing):
-
     def __init__(self, request, framework=None):
         super().__init__(request)
         self.framework = framework
@@ -72,10 +79,7 @@ class AgreementState(BaseState, ChronographEventsMixing):
                 "frameworkID": framework["_id"],
                 "agreementType": framework["frameworkType"],
                 "status": "active",
-                "period": {
-                    "startDate": now,
-                    "endDate": framework.get("qualificationPeriod").get("endDate")
-                },
+                "period": {"startDate": now, "endDate": framework.get("qualificationPeriod").get("endDate")},
                 "procuringEntity": framework.get("procuringEntity"),
                 "classification": framework.get("classification"),
                 "additionalClassifications": framework.get("additionalClassifications"),

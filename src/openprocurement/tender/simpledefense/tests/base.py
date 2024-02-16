@@ -1,25 +1,26 @@
-# -*- coding: utf-8 -*-
 import os
-from datetime import timedelta
 from copy import deepcopy
+from datetime import timedelta
 
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.tender.simpledefense.tests.periods import PERIODS
-from openprocurement.tender.openua.tests.base import (
-    BaseTenderUAWebTest as BaseTenderWebTest,
-    now,
-    test_tender_below_features_data,
-)
-from openprocurement.tender.openuadefense.tests.base import (
-    test_tender_openuadefense_procuring_entity,
-    test_tender_openuadefense_data,
-)
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.openua.tests.base import (
+    BaseTenderUAWebTest as BaseTenderWebTest,
+)
+from openprocurement.tender.openua.tests.base import (
+    now,
+    test_tender_below_features_data,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_data,
+    test_tender_openuadefense_procuring_entity,
+)
+from openprocurement.tender.simpledefense.tests.periods import PERIODS
 
 test_tender_simpledefense_data = test_tender_openuadefense_data.copy()
 test_tender_simpledefense_data["procurementMethodType"] = "simple.defense"
@@ -33,8 +34,12 @@ test_tender_simpledefense_features_data["procurementMethodType"] = "simple.defen
 test_tender_simpledefense_features_data["procuringEntity"] = test_tender_simpledefense_procuring_entity
 del test_tender_simpledefense_features_data["enquiryPeriod"]
 test_tender_simpledefense_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
-test_tender_simpledefense_features_data["items"][0]["deliveryDate"] = test_tender_simpledefense_data["items"][0]["deliveryDate"]
-test_tender_simpledefense_features_data["items"][0]["deliveryAddress"] = test_tender_simpledefense_data["items"][0]["deliveryAddress"]
+test_tender_simpledefense_features_data["items"][0]["deliveryDate"] = test_tender_simpledefense_data["items"][0][
+    "deliveryDate"
+]
+test_tender_simpledefense_features_data["items"][0]["deliveryAddress"] = test_tender_simpledefense_data["items"][0][
+    "deliveryAddress"
+]
 
 test_tender_simpledefense_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_simpledefense_bids:
@@ -42,9 +47,7 @@ for bid in test_tender_simpledefense_bids:
     bid["selfEligible"] = True
 
 test_tender_simpledefense_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_data["items"][0],
-    test_tender_below_organization
+    test_tender_simpledefense_data, test_tender_simpledefense_data["items"][0], test_tender_below_organization
 )
 
 test_tender_simpledefense_config = {
@@ -61,6 +64,7 @@ test_tender_simpledefense_config = {
     "restricted": False,
 }
 
+
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
 
@@ -73,8 +77,8 @@ class BaseSimpleDefWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     forbidden_lot_actions_status = (
-        "active.auction"
-    )  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+        "active.auction"  # status, in which operations with tender lots (adding, updating, deleting) are forbidden
+    )
 
     periods = PERIODS
 
@@ -92,5 +96,5 @@ class BaseSimpleDefContentWebTest(BaseSimpleDefWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(BaseSimpleDefContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

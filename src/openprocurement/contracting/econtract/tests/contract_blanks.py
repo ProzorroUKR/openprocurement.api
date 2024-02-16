@@ -1,13 +1,13 @@
-from uuid import uuid4
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.contracting.econtract.tests.utils import create_contract
 from openprocurement.contracting.econtract.tests.data import test_signer_info
+from openprocurement.contracting.econtract.tests.utils import create_contract
+from openprocurement.tender.core.tests.utils import change_auth
 
 
 def listing(self):
@@ -31,11 +31,9 @@ def listing(self):
     self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
-    )
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in contracts})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts]))
 
     response = self.app.get(f"/contracts?offset={offset}")
@@ -60,15 +58,15 @@ def listing(self):
     response = self.app.get("/contracts", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "contractID"})
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
     )
@@ -132,11 +130,9 @@ def listing_changes(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
-    )
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in contracts})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts]))
 
     response = self.app.get("/contracts?feed=changes&limit=2")
@@ -157,15 +153,15 @@ def listing_changes(self):
     response = self.app.get("/contracts?feed=changes", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "contractID"})
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
     )
@@ -256,21 +252,16 @@ def not_found(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json("/contracts/some_id", {"data": {}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
 
 def put_transaction_to_contract(self):
-
     response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -283,41 +274,35 @@ def put_transaction_to_contract(self):
     token = response.json["access"]["token"]
 
     response = self.app.put_json(
-        f"/contracts/{self.contract['id']}/transactions/{12345}?acc_token={'fake_token'}",
-        {"data": ""}, status=403
+        f"/contracts/{self.contract['id']}/transactions/{12345}?acc_token={'fake_token'}", {"data": ""}, status=403
     )
 
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.put_json(
         f"/contracts/{self.contract['id']}/transactions/{12345}?acc_token={self.tender_token}",
         {
             "data": {
                 "date": "2020-05-20T18:47:47.136678+02:00",
-                "value": {
-                    "amount": 500,
-                    "currency": "UAH"
-                },
+                "value": {"amount": 500, "currency": "UAH"},
                 "payer": {
                     "bankAccount": {
                         "id": 789,
                         "scheme": "IBAN",
                     },
-                    "name": "payer1"
+                    "name": "payer1",
                 },
                 "payee": {
                     "bankAccount": {
                         "id": 888,
                         "scheme": "IBAN",
                     },
-                    "name": "payee1"
+                    "name": "payee1",
                 },
-                "status": 0
+                "status": 0,
             }
-        }
+        },
     )
 
     self.assertEqual(
@@ -330,50 +315,45 @@ def put_transaction_to_contract(self):
                         "id": "789",
                         "scheme": "IBAN",
                     },
-                    "name": "payer1"
+                    "name": "payer1",
                 },
-                'value': {
-                    'currency': 'UAH', 
-                    'amount': 500.0
-                },
+                'value': {'currency': 'UAH', 'amount': 500.0},
                 'payee': {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
-                    "name": "payee1"
+                    "name": "payee1",
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345'
+                'id': '12345',
             }
-        ]
+        ],
     )
 
     response = self.app.put_json(
         f"/contracts/{self.contract['id']}/transactions/{12345}?acc_token={self.tender_token}",
-        {"data": {
-            "date": "2020-05-20T18:47:47.136678+02:00",
-            "value": {
-                "amount": 500,
-                "currency": "UAH"
-            },
-            "payer": {
-                "bankAccount": {
+        {
+            "data": {
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "value": {"amount": 500, "currency": "UAH"},
+                "payer": {
+                    "bankAccount": {
                         "id": 800000000,
                         "scheme": "IBAN",
                     },
-                "name": "payer_should_not_applied1"
-            },
-            "payee": {
-                "bankAccount": {
+                    "name": "payer_should_not_applied1",
+                },
+                "payee": {
+                    "bankAccount": {
                         "id": 90000000,
                         "scheme": "IBAN",
                     },
-                "name": "payee_should_not_applied1"
-            },
-            "status": "new_status_123"
-        }
-        }
+                    "name": "payee_should_not_applied1",
+                },
+                "status": "new_status_123",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -387,52 +367,48 @@ def put_transaction_to_contract(self):
                         "id": "789",
                         "scheme": "IBAN",
                     },
-                    "name": "payer1"
+                    "name": "payer1",
                 },
-                'value': {
-                    'currency': 'UAH', 'amount': 500.0
-                },
+                'value': {'currency': 'UAH', 'amount': 500.0},
                 'payee': {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
-                    "name": "payee1"
+                    "name": "payee1",
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345'
+                'id': '12345',
             }
-        ]
+        ],
     )
 
     response = self.app.put_json(
         f"/contracts/{self.contract['id']}/transactions/{90800777}?acc_token={self.tender_token}",
-        {"data": {
-            "date": "2020-06-10T10:47:47.136678+02:00",
-            "value": {
-                "amount": 14500.5,
-                "currency": "UAH"
-            },
-            "payer": {
-                "bankAccount": {
-                    "id": 78999,
-                    "scheme": "IBAN",
+        {
+            "data": {
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "value": {"amount": 14500.5, "currency": "UAH"},
+                "payer": {
+                    "bankAccount": {
+                        "id": 78999,
+                        "scheme": "IBAN",
+                    },
+                    "name": "payer2",
                 },
-                "name": "payer2"
-            },
-            "payee": {
-                "bankAccount": {
-                    "id": 199000,
-                    "scheme": "IBAN",
+                "payee": {
+                    "bankAccount": {
+                        "id": 199000,
+                        "scheme": "IBAN",
+                    },
+                    "name": "payee2",
                 },
-                "name": "payee2"
-            },
-            "status": -1
-        }
-        }
+                "status": -1,
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
-    
+
     self.assertEqual(
         response.json['data']['implementation']['transactions'],
         [
@@ -443,20 +419,18 @@ def put_transaction_to_contract(self):
                         "id": "789",
                         "scheme": "IBAN",
                     },
-                    "name": "payer1"
+                    "name": "payer1",
                 },
-                'value': {
-                    'currency': 'UAH', 'amount': 500.0
-                },
+                'value': {'currency': 'UAH', 'amount': 500.0},
                 'payee': {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
-                    "name": "payee1"
+                    "name": "payee1",
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345'
+                'id': '12345',
             },
             {
                 'status': 'canceled',
@@ -465,22 +439,20 @@ def put_transaction_to_contract(self):
                         "id": "78999",
                         "scheme": "IBAN",
                     },
-                    "name": "payer2"
+                    "name": "payer2",
                 },
-                'value': {
-                    'currency': 'UAH', 'amount': 14500.5
-                },
+                'value': {'currency': 'UAH', 'amount': 14500.5},
                 'payee': {
                     "bankAccount": {
                         "id": "199000",
                         "scheme": "IBAN",
                     },
-                    'name': 'payee2'
+                    'name': 'payee2',
                 },
                 'date': '2020-06-10T10:47:47.136678+02:00',
-                'id': '90800777'
-            }
-        ]
+                'id': '90800777',
+            },
+        ],
     )
 
     response = self.app.put_json(
@@ -493,23 +465,18 @@ def put_transaction_to_contract(self):
                     "currency": "UAH",
                 },
             }
-        }, status=422
+        },
+        status=422,
     )
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
         [
-            {
-                'description': ['This field is required.'], 'location': 'body', 'name': 'payer'
-            },
-            {
-                'description': ['This field is required.'], 'location': 'body', 'name': 'payee'
-            },
-            {
-                'description': ['This field is required.'], 'location': 'body', 'name': 'status'
-            }
-        ]
+            {'description': ['This field is required.'], 'location': 'body', 'name': 'payer'},
+            {'description': ['This field is required.'], 'location': 'body', 'name': 'payee'},
+            {'description': ['This field is required.'], 'location': 'body', 'name': 'status'},
+        ],
     )
 
     response = self.app.put_json(
@@ -517,21 +484,19 @@ def put_transaction_to_contract(self):
         {
             "data": {
                 "date": "2020-06-10T10:47:47.136678+02:00",
-                "value": {
-                    "amount": 14500.5,
-                    "currency": "UAH"
-                },
+                "value": {"amount": 14500.5, "currency": "UAH"},
                 "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "IBAN",
                     },
-                    "name": "payer2"
+                    "name": "payer2",
                 },
                 "payee": "payee_invalid_structure",
-                "status": "Accepted_status_123"
+                "status": "Accepted_status_123",
             }
-        }, status=422
+        },
+        status=422,
     )
 
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -542,9 +507,10 @@ def put_transaction_to_contract(self):
                 'description': [
                     'Please use a mapping for this field or OrganizationReference instance instead of str.'
                 ],
-                'location': 'body', 'name': 'payee'
+                'location': 'body',
+                'name': 'payee',
             }
-        ]
+        ],
     )
     response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
@@ -559,20 +525,18 @@ def put_transaction_to_contract(self):
                         "id": "789",
                         "scheme": "IBAN",
                     },
-                    "name": "payer1"
+                    "name": "payer1",
                 },
-                'value': {
-                    'currency': 'UAH', 'amount': 500.0
-                },
+                'value': {'currency': 'UAH', 'amount': 500.0},
                 'payee': {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
-                    "name": "payee1"
+                    "name": "payee1",
                 },
                 'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345'
+                'id': '12345',
             },
             {
                 'status': 'canceled',
@@ -581,28 +545,25 @@ def put_transaction_to_contract(self):
                         "id": "78999",
                         "scheme": "IBAN",
                     },
-                    "name": "payer2"
+                    "name": "payer2",
                 },
-                'value': {
-                    'currency': 'UAH', 'amount': 14500.5
-                },
+                'value': {'currency': 'UAH', 'amount': 14500.5},
                 'payee': {
                     "bankAccount": {
                         "id": "199000",
                         "scheme": "IBAN",
                     },
-                    "name": "payee2"
+                    "name": "payee2",
                 },
                 'date': '2020-06-10T10:47:47.136678+02:00',
-                'id': '90800777'
-            }
-        ]
+                'id': '90800777',
+            },
+        ],
     )
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{2222222}", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(
-        response.json["errors"],
-        [{'description': 'Not Found', 'location': 'url', 'name': 'transaction_id'}]
+        response.json["errors"], [{'description': 'Not Found', 'location': 'url', 'name': 'transaction_id'}]
     )
 
     response = self.app.put_json(
@@ -610,50 +571,35 @@ def put_transaction_to_contract(self):
         {
             "data": {
                 "date": "2020-06-10T10:47:47.136678+02:00",
-                "value": {
-                    "amount": 14500.5,
-                    "currency": "UAH"
-                },
+                "value": {"amount": 14500.5, "currency": "UAH"},
                 "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "INCORRECT_SCHEMA",
                     },
-                    "name": "payer2"
+                    "name": "payer2",
                 },
-                "payee": {
-                    "bankAccount": {
-                        "id": "789"
-                    },
-                    "name": "payee2"
-                },
-                "status": 0
+                "payee": {"bankAccount": {"id": "789"}, "name": "payee2"},
+                "status": 0,
             }
-        }, status=422
+        },
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                'description': {
-                    'bankAccount': {
-                        'scheme': ["Value must be one of ['IBAN']."]
-                    }  
-                },
-                'location': 'body', 
-                'name': 'payer'
+                'description': {'bankAccount': {'scheme': ["Value must be one of ['IBAN']."]}},
+                'location': 'body',
+                'name': 'payer',
             },
             {
-                'description': {
-                    'bankAccount': {
-                        'scheme': ["This field is required."]
-                    }
-                },
+                'description': {'bankAccount': {'scheme': ["This field is required."]}},
                 'location': 'body',
-                'name': 'payee'
+                'name': 'payee',
             },
-        ]
+        ],
     )
 
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{12345}")
@@ -666,26 +612,23 @@ def put_transaction_to_contract(self):
                     "id": "789",
                     "scheme": "IBAN",
                 },
-                'name': 'payer1'
+                'name': 'payer1',
             },
-            'value': {
-                'currency': 'UAH', 'amount': 500.0
-            },
+            'value': {'currency': 'UAH', 'amount': 500.0},
             'payee': {
                 "bankAccount": {
                     "id": "888",
                     "scheme": "IBAN",
                 },
-                'name': 'payee1'
+                'name': 'payee1',
             },
             'date': '2020-05-20T18:47:47.136678+02:00',
-            'id': '12345'
-        }
+            'id': '12345',
+        },
     )
 
 
 def create_contract_transfer_token(self):
-
     contract = create_contract(self, self.initial_data)
     self.assertNotIn("transfer_token", contract)
 
@@ -720,10 +663,12 @@ def contract_status_change(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {
-            "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 2},
-            "title": "Changed title",
-        }},
+        {
+            "data": {
+                "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 2},
+                "title": "Changed title",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 2)
@@ -746,14 +691,12 @@ def contract_status_change(self):
     self.assertNotIn("description", response.json["data"])
 
     response = self.app.put_json(
-        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
-        {"data": test_signer_info}
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}", {"data": test_signer_info}
     )
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.put_json(
-        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
-        {"data": test_signer_info}
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}", {"data": test_signer_info}
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -779,9 +722,7 @@ def contract_status_change(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {
-            "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 3}}
-        },
+        {"data": {"value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 3}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amount"] - 3)
@@ -800,7 +741,8 @@ def contract_status_change(self):
 
     # active > terminated allowed
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}", {"data": {"status": "terminated"}},
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"status": "terminated"}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -856,11 +798,7 @@ def contract_cancelled(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": "Can't update contract status"
-        }],
+        [{"location": "body", "name": "data", "description": "Can't update contract status"}],
     )
 
     # response = self.app.patch_json(
@@ -891,7 +829,7 @@ def cancel_tender_award(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/awards/{self.contract['awardID']}?acc_token={self.tender_token}",
-        {"data": {"status": "cancelled"}}
+        {"data": {"status": "cancelled"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "cancelled")
@@ -913,10 +851,7 @@ def contract_administrator_change(self):
         {
             "data": {
                 "mode": "test",
-                "suppliers": [{
-                    **supplier,
-                    "address": {**supplier["address"], "postalCode": "79014"}
-                }],
+                "suppliers": [{**supplier, "address": {**supplier["address"], "postalCode": "79014"}}],
                 "buyer": {
                     **buyer,
                     "identifier": {**buyer["identifier"], "id": "11111111"},
@@ -1011,17 +946,18 @@ def contract_wo_items_status_change(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{
-            'location': 'body',
-            'name': 'data',
-            'description': 'signerInfo field for buyer and suppliers is required for contract in `active` status'
-        }]
+        [
+            {
+                'location': 'body',
+                'name': 'data',
+                'description': 'signerInfo field for buyer and suppliers is required for contract in `active` status',
+            }
+        ],
     )
 
     response = self.app.put_json(
         f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
         {"data": test_signer_info},
-
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1040,7 +976,9 @@ def contract_wo_items_status_change(self):
 
     # active > terminated allowed
     response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}", {"data": {"status": "terminated"}}, status=403
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {"data": {"status": "terminated"}},
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -1095,18 +1033,18 @@ def contract_activate(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": "signerInfo field for buyer and suppliers is required for contract in `active` status"
-        }]
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "signerInfo field for buyer and suppliers is required for contract in `active` status",
+            }
+        ],
     )
 
 
 def patch_tender_contract(self):
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}", {"data": {"title": "New Title"}}, status=403
-    )
+    response = self.app.patch_json(f"/contracts/{self.contract['id']}", {"data": {"title": "New Title"}}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
 
     tender_token = self.initial_data["tender_token"]
@@ -1125,13 +1063,15 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
-        {"data": {
-            "value": {
-                **self.contract["value"],
-                "amount": self.contract["value"]["amount"] - 10,
-                "amountNet": self.contract["value"]["amount"] - 11
+        {
+            "data": {
+                "value": {
+                    **self.contract["value"],
+                    "amount": self.contract["value"]["amount"] - 10,
+                    "amountNet": self.contract["value"]["amount"] - 11,
+                }
             }
-        }},
+        },
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1144,7 +1084,7 @@ def patch_tender_contract(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={token}",
         {"data": {"amountPaid": {"amount": 100, "amountNet": 90}}},
-        status=422
+        status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
@@ -1192,9 +1132,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
@@ -1209,7 +1147,6 @@ def patch_tender_contract(self):
 
 
 def contract_items_change(self):
-
     response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1218,26 +1155,18 @@ def contract_items_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": {"amountNet": self.contract["value"]["amount"] - 1}}},
-        status=422
+        status=422,
     )
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "value",
-            "description": {
-                "amount": [
-                    "This field is required."
-                ]
-            }
-        }]
+        [{"location": "body", "name": "value", "description": {"amount": ["This field is required."]}}],
     )
 
     item = self.contract["items"][0]
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
-        status=403
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -1246,10 +1175,9 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit', 'quantity') in item, "
-                               "description change forbidden",
+                "description": "Updated could be only ('unit', 'quantity') in item, " "description change forbidden",
             }
-        ]
+        ],
     )
 
     response = self.app.patch_json(
@@ -1264,7 +1192,7 @@ def contract_items_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": [{**item, "quantity": 12, "description": "тапочки для тараканів"}]}},
-        status=403
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
@@ -1273,60 +1201,57 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Total amount of unit values can't be greater than contract.value.amount"
+                "description": "Total amount of unit values can't be greater than contract.value.amount",
             }
-        ]
-    )
-
-    response = self.app.patch_json(
-        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {
-            "items": [{
-                **item,
-                "quantity": -1,
-                "description": "тапочки для тараканів"
-            }],
-        }},
-        status=422
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(
-        response.json["errors"],
-        [{
-            "description": [{"quantity": ["Float value should be greater than 0."]}],
-            "location": "body",
-            "name": "items"
-        }],
+        ],
     )
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {
-            "data":
-                {
-                    "items":
-                        [
-                            {
-                                **item,
-                                "quantity": 12,
-                                "description": "тапочки для тараканів",
-                                "unit": {
-                                    "code": "KGM",
-                                    "name": "кг",
-                                    "value": {
-                                        "currency": "UAH",
-                                        "amount": 3.2394,
-                                        "valueAddedTaxIncluded": True
-                                    }
-                                }
-                            }
-                        ]
-                }
+            "data": {
+                "items": [{**item, "quantity": -1, "description": "тапочки для тараканів"}],
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [{"quantity": ["Float value should be greater than 0."]}],
+                "location": "body",
+                "name": "items",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "items": [
+                    {
+                        **item,
+                        "quantity": 12,
+                        "description": "тапочки для тараканів",
+                        "unit": {
+                            "code": "KGM",
+                            "name": "кг",
+                            "value": {"currency": "UAH", "amount": 3.2394, "valueAddedTaxIncluded": True},
+                        },
+                    }
+                ]
+            }
         },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["quantity"], 12)
-    self.assertEqual(response.json["data"]["items"][0]["classification"], {"scheme": "CPV", "description": "Cartons", "id": "44617100-9"})
+    self.assertEqual(
+        response.json["data"]["items"][0]["classification"],
+        {"scheme": "CPV", "description": "Cartons", "id": "44617100-9"},
+    )
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 3.2394)
     self.assertEqual(response.json["data"]["items"][0]["description"], "тапочки для тараканів")
 
@@ -1360,17 +1285,19 @@ def contract_items_change(self):
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": [{**old_item, "classification": {"id": "19433000-0", "description": "Cartons"}}]}},
-        status=403
+        status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item, "
-                           f"classification change forbidden",
-        }],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": f"Updated could be only {item_patch_fields} in item, "
+                f"classification change forbidden",
+            }
+        ],
     )
 
     response = self.app.patch_json(
@@ -1384,20 +1311,29 @@ def contract_items_change(self):
     item_classific = deepcopy(self.initial_data["items"][0]["classification"])
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.tender_token}",
-        {"data": {"items": [
-            {**old_item, "additionalClassifications": [old_item["additionalClassifications"][0], item_classific]}]
-        }},
+        {
+            "data": {
+                "items": [
+                    {
+                        **old_item,
+                        "additionalClassifications": [old_item["additionalClassifications"][0], item_classific],
+                    }
+                ]
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{
-            "location": "body",
-            "name": "data",
-            "description": f"Updated could be only {item_patch_fields} in item, "
-                           f"additionalClassifications change forbidden",
-        }],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": f"Updated could be only {item_patch_fields} in item, "
+                f"additionalClassifications change forbidden",
+            }
+        ],
     )
 
     # update item fields
@@ -1413,7 +1349,8 @@ def contract_items_change(self):
                         "quantity": 0.005,
                         "deliveryAddress": {
                             **old_item["deliveryAddress"],
-                            "postalCode": "79011", "streetAddress": "вул. Літаючого Хом’яка"
+                            "postalCode": "79011",
+                            "streetAddress": "вул. Літаючого Хом’яка",
                         },
                         "deliveryDate": {"startDate": startDate, "endDate": endDate},
                     }

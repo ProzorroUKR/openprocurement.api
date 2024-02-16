@@ -1,31 +1,30 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.award import (
+    TenderAwardDocumentResourceTestMixin,
+)
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
+    create_tender_award_no_scale_invalid,
+    get_tender_award,
+)
+from openprocurement.tender.pricequotation.tests.award_blanks import (
+    check_tender_award,
+    check_tender_award_cancellation,
+    create_tender_award,
+    create_tender_award_invalid,
+    move_award_contract_to_contracting,
+    patch_tender_award,
+    tender_award_transitions,
+)
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_tender_pq_bids,
     test_tender_pq_organization,
 )
-from openprocurement.tender.pricequotation.tests.award_blanks import (
-    check_tender_award,
-    create_tender_award_invalid,
-    create_tender_award,
-    patch_tender_award,
-    tender_award_transitions,
-    check_tender_award_cancellation,
-    move_award_contract_to_contracting,
-)
-from openprocurement.tender.belowthreshold.tests.award import (
-    TenderAwardDocumentResourceTestMixin,
-)
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    get_tender_award,
-    create_tender_award_no_scale_invalid,
-)
 
 
-class TenderAwardResourceTestMixin(object):
+class TenderAwardResourceTestMixin:
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_get_tender_award = snitch(get_tender_award)
@@ -49,9 +48,7 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
     initial_bids = test_tender_pq_bids
     reverse = False
 
-    test_create_tender_award_no_scale_invalid = snitch(
-        create_tender_award_no_scale_invalid
-    )
+    test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
@@ -60,7 +57,7 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
 
@@ -72,9 +69,9 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceScaleTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceScaleTest))
     return suite
 
 

@@ -1,17 +1,12 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
+
 from freezegun import freeze_time
 
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.tests.base import (
-    BaseWebTest,
-    change_auth,
-)
-from openprocurement.api.utils import (
-    get_now,
-)
+from openprocurement.api.tests.base import BaseWebTest, change_auth
+from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import BaseCoreWebTest
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.framework import Framework
@@ -21,16 +16,8 @@ now = get_now()
 test_framework_dps_data = {
     "frameworkType": DPS_TYPE,
     "procuringEntity": {
-        "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000",
-            "email": "aa@aa.com"
-        },
-        "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00037256",
-            "legalName": "Назва організації"
-        },
+        "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000", "email": "aa@aa.com"},
+        "identifier": {"scheme": "UA-EDR", "id": "00037256", "legalName": "Назва організації"},
         "kind": "general",
         "address": {
             "countryName": "Україна",
@@ -39,23 +26,15 @@ test_framework_dps_data = {
             "locality": "м. Київ",
             "streetAddress": "вул. Банкова, 11, корпус 1",
         },
-        "name": "Державне управління справами"
+        "name": "Державне управління справами",
     },
     "additionalClassifications": [
-        {
-            "scheme": "ДК003",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-        }
+        {"scheme": "ДК003", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
     ],
-    "classification": {
-        "scheme": "ДК021",
-        "description": "Mustard seeds",
-        "id": "03111600-8"
-    },
+    "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()}
+    "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()},
 }
 
 test_framework_dps_config = {
@@ -69,7 +48,7 @@ test_dps_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00",
     },
     {
         "hash": "md5:00000000000000000000000000000000",
@@ -77,7 +56,7 @@ test_dps_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b648",
-        "dateModified": "2020-09-08T01:00:00+03:00"
+        "dateModified": "2020-09-08T01:00:00+03:00",
     },
     {
         "hash": "md5:00000000000000000000000000000000",
@@ -85,8 +64,8 @@ test_dps_documents = [
         "format": "application/msword",
         "datePublished": "2020-09-08T01:00:00+03:00",
         "id": "3fe9486c38a1473ca201e42ebbf9b643",
-        "dateModified": "2020-09-08T01:00:00+03:00"
-    }
+        "dateModified": "2020-09-08T01:00:00+03:00",
+    },
 ]
 
 tenderer = {
@@ -97,14 +76,14 @@ tenderer = {
         "legalName": "Державне управління справами",
         "scheme": "UA-EDR",
         "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
+        "uri": "http://www.dus.gov.ua/",
     },
     "address": {
         "countryName": "Україна",
         "postalCode": "01220",
         "region": "м. Київ",
         "locality": "м. Київ",
-        "streetAddress": "вул. Банкова, 11, корпус 1"
+        "streetAddress": "вул. Банкова, 11, корпус 1",
     },
     "contactPoint": {
         "name": "Державне управління справами",
@@ -112,7 +91,7 @@ tenderer = {
         "telephone": "+0440000000",
         "email": "aa@aa.com",
     },
-    "scale": "micro"
+    "scale": "micro",
 }
 
 test_submission_data = {
@@ -124,9 +103,7 @@ test_submission_config = {
     "restricted": False,
 }
 
-ban_milestone_data = {
-    "type": "ban"
-}
+ban_milestone_data = {"type": "ban"}
 
 ban_milestone_data_with_documents = {
     "type": "ban",
@@ -137,9 +114,9 @@ ban_milestone_data_with_documents = {
             "format": "application/msword",
             "datePublished": "2020-09-08T01:00:00+03:00",
             "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-            "dateModified": "2020-09-08T01:00:00+03:00"
+            "dateModified": "2020-09-08T01:00:00+03:00",
         }
-    ]
+    ],
 }
 
 test_question_data = {
@@ -151,21 +128,17 @@ test_question_data = {
             "locality": "м. Львів",
             "postalCode": "79013",
             "region": "Львівська область",
-            "streetAddress": "вул. Островського, 34"
+            "streetAddress": "вул. Островського, 34",
         },
-        "contactPoint": {
-            "email": "aagt@gmail.com",
-            "name": "Андрій Олексюк",
-            "telephone": "+380322916930"
-        },
+        "contactPoint": {"email": "aagt@gmail.com", "name": "Андрій Олексюк", "telephone": "+380322916930"},
         "identifier": {
             "scheme": "UA-EDR",
             "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
             "id": "00137226",
-            "uri": "http://www.sc.gov.ua/"
+            "uri": "http://www.sc.gov.ua/",
         },
-        "name": "ДКП «Книга»"
-    }
+        "name": "ДКП «Книга»",
+    },
 }
 
 
@@ -187,10 +160,13 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
         data = data if data is not None else deepcopy(self.initial_data)
         config = config if config is not None else deepcopy(self.initial_config)
 
-        response = self.app.post_json("/frameworks", {
-            "data": data,
-            "config": config,
-        })
+        response = self.app.post_json(
+            "/frameworks",
+            {
+                "data": data,
+                "config": config,
+            },
+        )
         self.framework_token = response.json["access"]["token"]
         self.framework_id = response.json["data"]["id"]
         self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
@@ -200,7 +176,7 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
         with freeze_time((get_now() - timedelta(hours=1)).isoformat()):
             response = self.app.patch_json(
                 "/frameworks/{}?acc_token={}".format(self.framework_id, self.framework_token),
-                {"data": {"status": "active"}}
+                {"data": {"status": "active"}},
             )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["frameworkType"], self.framework_type)
@@ -219,7 +195,7 @@ class FrameworkContentWebTest(BaseFrameworkWebTest):
     initial_status = None
 
     def setUp(self):
-        super(FrameworkContentWebTest, self).setUp()
+        super().setUp()
         self.create_framework()
 
 
@@ -261,10 +237,14 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         data = data if data is not None else deepcopy(self.initial_submission_data)
         config = config if config is not None else deepcopy(self.initial_submission_config)
         data["frameworkID"] = self.framework_id
-        response = self.app.post_json("/submissions", {
-            "data": data,
-            "config": config,
-        }, status=status)
+        response = self.app.post_json(
+            "/submissions",
+            {
+                "data": data,
+                "config": config,
+            },
+            status=status,
+        )
         if status == 201:
             self.submission_id = response.json["data"]["id"]
             self.submission_token = response.json["access"]["token"]
@@ -284,12 +264,14 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     def activate_qualification(self):
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
-            {"data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }},
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
         response = self.app.patch_json(
@@ -300,19 +282,20 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         self.assertEqual(response.json["data"]["qualificationType"], self.framework_type)
         return response
 
-
     def setUp(self):
-        super(BaseSubmissionContentWebTest, self).setUp()
+        super().setUp()
         self.initial_submission_data["frameworkID"] = self.framework_id
         self.activate_framework()
+
     def tearDown(self):
-        super(BaseSubmissionContentWebTest, self).tearDown()
+        super().tearDown()
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):
     def setUp(self):
-        super(SubmissionContentWebTest, self).setUp()
+        super().setUp()
         self.create_submission()
+
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
     def set_agreement_status(self, status, extra=None):
@@ -381,7 +364,7 @@ class MilestoneContentWebTest(AgreementContentWebTest):
     def create_milestone(self):
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
-            {"data": self.initial_milestone_data}
+            {"data": self.initial_milestone_data},
         )
         self.assertEqual(response.status, "201 Created")
         return response

@@ -1,13 +1,16 @@
 from schematics.exceptions import ValidationError
+
 from openprocurement.api.utils import error_handler
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.criterion import BaseCriterionStateMixin
 from openprocurement.tender.core.procedure.models.criterion import (
-    validate_requirement,
     validate_criteria_requirement_id_uniq,
+    validate_requirement,
 )
-from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
+from openprocurement.tender.core.procedure.state.criterion import (
+    BaseCriterionStateMixin,
+)
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
+from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 
 
 class RequirementGroupStateMixin(BaseCriterionStateMixin):

@@ -1,11 +1,16 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
     TenderComplaintResource,
 )
-from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.simpledefense.procedure.state.claim import SimpleDefenseTenderClaimState
-from openprocurement.tender.simpledefense.procedure.state.complaint import SimpleDefenseTenderComplaintState
+from openprocurement.tender.simpledefense.procedure.state.claim import (
+    SimpleDefenseTenderClaimState,
+)
+from openprocurement.tender.simpledefense.procedure.state.complaint import (
+    SimpleDefenseTenderComplaintState,
+)
 
 
 @resource(
@@ -44,4 +49,3 @@ class SimpleDefenseTenderClaimResource(TenderClaimResource):
 )
 class SimpleDefenseTenderComplaintResource(TenderComplaintResource):
     state_class = SimpleDefenseTenderComplaintState
-

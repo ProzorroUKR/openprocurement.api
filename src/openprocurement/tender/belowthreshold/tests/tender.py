@@ -2,68 +2,68 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest,
     BaseApiWebTest,
+    BaseTenderWebTest,
     test_tender_below_data,
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
-    one_valid_bid_tender,
-    one_invalid_bid_tender,
-    first_bid_tender,
     create_tender,
-    invalid_tender_conditions,
-    lost_contract_for_active_award,
-    listing,
-    get_tender,
-    tender_features_invalid,
-    tender_not_found,
-    dateModified_tender,
-    guarantee,
-    patch_not_author,
-    listing_draft,
-    tender_fields,
-    tender_items_float_quantity,
-    tender_items_zero_quantity,
-    tender_items_negative_quantity,
-    listing_changes,
-    create_tender_invalid,
-    validate_enquiry_period,
-    validate_tender_period,
-    create_tender_generated,
-    create_tender_draft,
-    patch_tender_draft,
-    patch_tender_active_tendering,
-    tender_features,
-    patch_tender_jsonpatch,
-    patch_tender,
-    required_field_deletion,
-    tender_funders,
-    tender_with_main_procurement_category,
-    tender_finance_milestones,
-    patch_tender_lots_none,
-    create_tender_with_inn,
-    tender_milestones_required,
-    tender_token_invalid,
     create_tender_central,
     create_tender_central_invalid,
-    tender_minimalstep_validation,
-    tender_lot_minimalstep_validation,
-    patch_tender_minimalstep_validation,
+    create_tender_config_test,
+    create_tender_draft,
+    create_tender_generated,
+    create_tender_invalid,
+    create_tender_invalid_config,
     create_tender_with_earlier_non_required_unit,
+    create_tender_with_inn,
     create_tender_with_required_unit,
+    dateModified_tender,
+    first_bid_tender,
+    get_tender,
+    guarantee,
+    invalid_tender_conditions,
+    listing,
+    listing_changes,
+    listing_draft,
+    lost_contract_for_active_award,
+    one_invalid_bid_tender,
+    one_valid_bid_tender,
+    patch_enquiry_tender_periods,
     patch_item_with_zero_quantity,
     patch_items_related_buyer_id,
-    patch_enquiry_tender_periods,
-    create_tender_config_test,
-    create_tender_invalid_config,
-    tender_item_related_lot_validation,
-    tender_created_before_related_lot_is_required,
+    patch_not_author,
+    patch_tender,
+    patch_tender_active_tendering,
+    patch_tender_draft,
+    patch_tender_jsonpatch,
+    patch_tender_lots_none,
+    patch_tender_minimalstep_validation,
+    required_field_deletion,
     tender_created_after_related_lot_is_required,
+    tender_created_before_related_lot_is_required,
+    tender_features,
+    tender_features_invalid,
+    tender_fields,
+    tender_finance_milestones,
+    tender_funders,
+    tender_item_related_lot_validation,
+    tender_items_float_quantity,
+    tender_items_negative_quantity,
+    tender_items_zero_quantity,
+    tender_lot_minimalstep_validation,
+    tender_milestones_required,
+    tender_minimalstep_validation,
+    tender_not_found,
+    tender_token_invalid,
+    tender_with_main_procurement_category,
+    validate_enquiry_period,
+    validate_tender_period,
 )
 
 
-class TenderResourceTestMixin(object):
+class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -140,9 +140,9 @@ class TenderProcessTest(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
     return suite
 
 

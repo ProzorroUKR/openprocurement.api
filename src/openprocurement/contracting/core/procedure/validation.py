@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-from openprocurement.api.utils import (
-    raise_operation_error,
+from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS, validate_accreditation_level_base
+from openprocurement.contracting.core.procedure.utils import (
+    is_bid_owner,
+    is_contract_owner,
+    is_tender_owner,
 )
-from openprocurement.api.validation import (
-    validate_accreditation_level_base,
-    OPERATIONS,
-)
-from openprocurement.contracting.core.procedure.utils import is_tender_owner, is_contract_owner, is_bid_owner
 
 
 def _validate_contract_accreditation_level(request, model):
@@ -45,9 +43,7 @@ def validate_contract_update_not_in_allowed_status(request, **_):
 def validate_credentials_generate(request, **_):
     contract = request.validated["contract"]
     if contract["status"] not in ["pending", "active"]:
-        raise_operation_error(
-            request, f"Can't generate credentials in current ({contract['status']}) contract status"
-        )
+        raise_operation_error(request, f"Can't generate credentials in current ({contract['status']}) contract status")
 
 
 # contract document
@@ -56,7 +52,7 @@ def validate_contract_document_operation_not_in_allowed_contract_status(request,
         raise_operation_error(
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current "
-            f"({request.validated['contract']['status']}) contract status"
+            f"({request.validated['contract']['status']}) contract status",
         )
 
 
@@ -70,6 +66,7 @@ def validate_add_document_to_active_change(request, **_):
 
 # Signer info
 
+
 def validate_signer_info_update_in_not_allowed_status(request, **_):
     contract = request.validated["contract"]
     if contract["status"] != "pending":
@@ -80,23 +77,13 @@ def validate_signer_info_update_in_not_allowed_status(request, **_):
 def validate_tender_owner(request, **_):
     contract = request.validated["contract"]
     if not is_tender_owner(request, contract):
-        raise_operation_error(
-            request,
-            "Forbidden",
-            location="url",
-            name="permission"
-        )
+        raise_operation_error(request, "Forbidden", location="url", name="permission")
 
 
 def validate_contract_owner(request, **_):
     contract = request.validated["contract"]
     if not is_contract_owner(request, contract):
-        raise_operation_error(
-            request,
-            "Forbidden",
-            location="url",
-            name="permission"
-        )
+        raise_operation_error(request, "Forbidden", location="url", name="permission")
 
 
 def validate_contract_supplier(request, **_):
@@ -106,28 +93,13 @@ def validate_contract_supplier(request, **_):
     limited_procedures = ("reporting", "negotiation", "negotiation.quick")
 
     if not (
-        is_bid_owner(request, contract)
-        or tender_type in limited_procedures
-        and is_contract_owner(request, contract)
+        is_bid_owner(request, contract) or tender_type in limited_procedures and is_contract_owner(request, contract)
     ):
-        raise_operation_error(
-            request,
-            "Forbidden",
-            location="url",
-            name="permission"
-        )
+        raise_operation_error(request, "Forbidden", location="url", name="permission")
 
 
 def validate_contract_participant(request, **_):
     contract = request.validated["contract"]
 
-    if (
-        not is_contract_owner(request, contract)
-        and not is_bid_owner(request, contract)
-    ):
-        raise_operation_error(
-            request,
-            "Forbidden",
-            location="url",
-            name="permission"
-        )
+    if not is_contract_owner(request, contract) and not is_bid_owner(request, contract):
+        raise_operation_error(request, "Forbidden", location="url", name="permission")

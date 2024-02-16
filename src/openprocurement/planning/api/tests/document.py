@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.planning.api.tests.base import BasePlanWebTest
 from openprocurement.planning.api.tests.document_blanks import (
-    create_plan_document_json_invalid,
     create_plan_document_json,
+    create_plan_document_json_invalid,
     put_plan_document_json,
 )
 
@@ -21,7 +19,7 @@ class PlanDocumentWithDSResourceTest(BasePlanWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PlanDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(PlanDocumentWithDSResourceTest))
     return suite
 
 

@@ -1,7 +1,8 @@
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.utils import request_fetch_agreement, request_init_tender
 from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 
 
 class TenderBaseResource(BaseResource):
@@ -13,9 +14,7 @@ class TenderBaseResource(BaseResource):
             (Allow, "g:brokers", "create_tender"),
             (Allow, "g:brokers", "edit_tender"),
             (Allow, "g:Administrator", "edit_tender"),
-
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
-
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
             (Allow, "g:auction", "auction"),
             (Allow, "g:chronograph", "chronograph"),
             (Allow, "g:contracting", "extract_credentials"),

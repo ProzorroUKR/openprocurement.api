@@ -1,49 +1,56 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
 
-from esculator import npv, escp
-from openprocurement.api.utils import get_now
+from esculator import escp, npv
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.award import (
+    Tender2LotAwardDocumentResourceTestMixin,
+    TenderAwardComplaintDocumentResourceTestMixin,
+    TenderAwardComplaintResourceTestMixin,
+    TenderAwardDocumentResourceTestMixin,
+    TenderLotAwardCheckResourceTestMixin,
+)
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_tender_award_document_json_bulk,
 )
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_draft_complaint,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.award import (
-    TenderLotAwardCheckResourceTestMixin,
-    TenderAwardComplaintResourceTestMixin,
-    TenderAwardDocumentResourceTestMixin,
-    TenderAwardComplaintDocumentResourceTestMixin,
-    Tender2LotAwardDocumentResourceTestMixin,
-)
-from openprocurement.tender.openua.tests.award import TenderUAAwardComplaintResourceTestMixin
-from openprocurement.tender.openeu.tests.award import (
-    TenderLotAwardResourceTestMixin,
-    Tender2LotAwardResourceTestMixin,
-    TenderLotAwardComplaintResourceTestMixin,
-    Tender2LotAwardComplaintResourceTestMixin,
-)
-from openprocurement.tender.openeu.tests.award_blanks import (
-    patch_tender_award_complaint_document,
-    create_tender_2lot_award_complaint_document,
-    put_tender_2lot_award_complaint_document,
-    patch_tender_2lot_award_complaint_document,
-    check_tender_award_complaint_period_dates,
-)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.esco.tests.award_blanks import patch_tender_lot_award
 from openprocurement.tender.esco.tests.base import (
+    NBU_DISCOUNT_RATE,
     BaseESCOContentWebTest,
     test_tender_esco_bids,
     test_tender_esco_lots,
-    NBU_DISCOUNT_RATE,
 )
-from openprocurement.tender.esco.tests.award_blanks import (
-    patch_tender_lot_award,
+from openprocurement.tender.open.tests.award import (
+    Tender2LotAwardQualificationAfterComplaintMixin,
+    TenderAwardQualificationAfterComplaintMixin,
 )
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.openeu.tests.award import (
+    Tender2LotAwardComplaintResourceTestMixin,
+    Tender2LotAwardResourceTestMixin,
+    TenderLotAwardComplaintResourceTestMixin,
+    TenderLotAwardResourceTestMixin,
+    TenderUAAwardComplaintResourceTestMixin,
+)
+from openprocurement.tender.openeu.tests.award_blanks import (
+    check_tender_award_complaint_period_dates,
+    create_tender_2lot_award_complaint_document,
+    patch_tender_2lot_award_complaint_document,
+    patch_tender_award_complaint_document,
+    put_tender_2lot_award_complaint_document,
+)
+from openprocurement.tender.openua.tests.award import (
+    TenderUAAwardComplaintResourceTestMixin,
+)
 
 award_amount_performance = round(
     float(
@@ -99,7 +106,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardCheckResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
 
         self.prepare_award()
@@ -121,7 +128,7 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
         # Get award
@@ -134,6 +141,26 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
+    get_now() - timedelta(days=1),
+)
+class TenderAwardQualificationAfterComplaint(TenderAwardQualificationAfterComplaintMixin, BaseESCOContentWebTest):
+    initial_status = "active.tendering"
+    initial_bids = test_tender_esco_bids
+    initial_lots = test_tender_esco_lots
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super().setUp()
+
+        self.prepare_award()
+
+        # Get award
+        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+        self.award_id = response.json["data"][0]["id"]
+
+
 class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourceTestMixin):
     initial_status = "active.tendering"
     initial_lots = 2 * test_tender_esco_lots
@@ -142,7 +169,7 @@ class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourc
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -163,7 +190,7 @@ class TenderAwardComplaintResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -187,7 +214,7 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -221,18 +248,51 @@ class Tender2LotAwardComplaintResourceTest(
     initial_lots = 2 * test_tender_esco_lots
 
 
+class Tender2LotAwardQualificationAfterComplaintResourceTest(
+    BaseESCOContentWebTest, Tender2LotAwardQualificationAfterComplaintMixin
+):
+    initial_bids = test_tender_esco_bids
+    initial_lots = 2 * test_tender_esco_lots
+    initial_status = "active.qualification"
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super().setUp()
+
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"],
+                    }
+                },
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+
 class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -244,8 +304,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
         self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
-                self.tender_id, self.award_id,
-                list(self.initial_bids_tokens.values())[0]
+                self.tender_id, self.award_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_tender_below_draft_complaint},
         )
@@ -263,7 +322,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -287,8 +346,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
         # Create complaint for award
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(
-                self.tender_id, self.award_id,
-                list(self.initial_bids_tokens.values())[0]
+                self.tender_id, self.award_id, list(self.initial_bids_tokens.values())[0]
             ),
             {"data": test_tender_below_draft_complaint},
         )
@@ -307,12 +365,18 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
                 "/tenders/{}/awards".format(self.tender_id),
-                {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_organization],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
             )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -325,7 +389,7 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwar
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -352,15 +416,15 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardDocumentResourceTest))
     return suite
 
 

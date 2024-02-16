@@ -1,12 +1,16 @@
+from decimal import Decimal
+
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseSerializer,
+    ListSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.auction import (
     AuctionSerializer as BaseAuctionSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.feature import FeatureSerializer
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.serializers.value import ValueSerializer
-from decimal import Decimal
 
 
 def decimal_serializer(_, value):
@@ -16,7 +20,6 @@ def decimal_serializer(_, value):
 
 
 class AuctionBidSerializer(BidSerializer):
-
     def __init__(self, data: dict):
         super().__init__(data)
 
@@ -50,7 +53,6 @@ class AuctionLotSerializer(BaseSerializer):
 
 
 class AuctionSerializer(BaseAuctionSerializer):
-
     serializers = {
         "bids": ListSerializer(AuctionBidSerializer),
         "awards": ListSerializer(AuctionAwardSerializer),
@@ -70,7 +72,8 @@ class AuctionSerializer(BaseAuctionSerializer):
             "bids",
             "items",
             "auctionPeriod",
-            "minimalStep", "minimalStepPercentage",
+            "minimalStep",
+            "minimalStepPercentage",
             "auctionUrl",
             "features",
             "lots",
@@ -81,15 +84,20 @@ class AuctionSerializer(BaseAuctionSerializer):
             # "value",
             # "submissionMethodDetails",
             # "submissionMethodDetails",
-            "id", "status",
+            "id",
+            "status",
             # "status" actually expected to be returned from auction post in the tests
             # the reason that test had worked is tender.status role had been used, not "auction_view". It was quite a bug
-            "title", "title_en",
-            "description", "description_en",
+            "title",
+            "title_en",
+            "description",
+            "description_en",
             "procurementMethodType",
             # "procuringEntity",
-            "NBUdiscountRate", "noticePublicationDate",
-            "fundingKind", "yearlyPaymentsPercentageRange",
+            "NBUdiscountRate",
+            "noticePublicationDate",
+            "fundingKind",
+            "yearlyPaymentsPercentageRange",
         }
 
         tender = get_tender()

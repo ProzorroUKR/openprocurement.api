@@ -1,36 +1,34 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
     test_tender_cfaselectionua_lots,
 )
 from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
+    create_tender_bid_invalid,
+    create_tender_bid_invalid_feature,
     create_tender_lot_invalid,
-    patch_tender_lot,
-    patch_tender_lot_invalid,
-    patch_tender_currency,
-    patch_tender_vat,
     get_tender_lot,
     get_tender_lots,
-    tender_lot_guarantee,
-    tender_value,
-    tender_features_invalid,
-    tender_lot_document,
-    create_tender_bid_invalid,
+    patch_lot_guarantee_on_active_enquiries,
     patch_tender_bid,
-    create_tender_bid_invalid_feature,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_lot_invalid,
+    patch_tender_vat,
     proc_1lot_0bid,
     proc_1lot_1bid,
     proc_1lot_2bid,
-    patch_lot_guarantee_on_active_enquiries,
+    tender_features_invalid,
+    tender_lot_document,
+    tender_lot_guarantee,
+    tender_value,
 )
 
 
-class TenderLotResourceTestMixin(object):
+class TenderLotResourceTestMixin:
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     # test_create_tender_lot = snitch(create_tender_lot)
     test_patch_tender_lot = snitch(patch_tender_lot)
@@ -38,19 +36,19 @@ class TenderLotResourceTestMixin(object):
     # test_delete_tender_lot = snitch(delete_tender_lot)
 
 
-class TenderLotValueTestMixin(object):
+class TenderLotValueTestMixin:
     test_patch_tender_currency = snitch(patch_tender_currency)
     test_patch_tender_vat = snitch(patch_tender_vat)
     test_tender_lot_guarantee = snitch(tender_lot_guarantee)
 
 
-class TenderLotFeatureResourceTestMixin(object):
+class TenderLotFeatureResourceTestMixin:
     test_tender_value = snitch(tender_value)
     test_tender_features_invalid = snitch(tender_features_invalid)
     test_tender_lot_document = snitch(tender_lot_document)
 
 
-class TenderLotProcessTestMixin(object):
+class TenderLotProcessTestMixin:
     test_proc_1lot_0bid = snitch(proc_1lot_0bid)
     # test_proc_2lot_0bid = snitch(proc_2lot_0bid)
     # test_proc_2lot_2can = snitch(proc_2lot_2can)
@@ -89,7 +87,7 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     initial_lots = test_tender_cfaselectionua_lots
 
     def setUp(self):
-        super(TenderLotFeatureBidResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -150,10 +148,10 @@ class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

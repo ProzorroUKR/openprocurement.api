@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
-from openprocurement.tender.core.procedure.views.qualification_document import BaseQualificationDocumentResource
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from cornice.resource import resource
+
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
+from openprocurement.tender.core.procedure.views.qualification_document import (
+    BaseQualificationDocumentResource,
+)
 
 
 @resource(

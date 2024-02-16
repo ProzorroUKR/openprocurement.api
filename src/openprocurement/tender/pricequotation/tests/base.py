@@ -1,14 +1,15 @@
 import os
-
 from datetime import datetime
 from uuid import uuid4
 
-from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
-from openprocurement.tender.belowthreshold.procedure.utils import prepare_tender_item_for_contract
+from openprocurement.tender.belowthreshold.procedure.utils import (
+    prepare_tender_item_for_contract,
+)
+from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.pricequotation.tests.data import *
 
 
@@ -32,25 +33,23 @@ class BaseTenderWebTest(BaseCoreWebTest):
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.publishing"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
-        "active.qualification"
-    )  # status, in which operations with tender documents (adding, updating) are forbidden
-    forbidden_question_add_actions_status = (
-        "active.tendering"
-    )  # status, in which adding tender questions is forbidden
+        "active.qualification"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
+    forbidden_question_add_actions_status = "active.tendering"  # status, in which adding tender questions is forbidden
     forbidden_question_update_actions_status = (
-        "active.tendering"
-    )  # status, in which updating tender questions is forbidden
+        "active.tendering"  # status, in which updating tender questions is forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "unsuccessful"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "unsuccessful"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
     forbidden_auction_document_create_actions_status = (
-        "active.tendering"
-    )  # status, in which adding document to tender auction is forbidden
+        "active.tendering"  # status, in which adding document to tender auction is forbidden
+    )
     periods = PERIODS
     meta_initial_bids = test_tender_pq_bids
 
     def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
+        super().setUp()
         if PQ_MULTI_PROFILE_RELEASED:
             self.create_agreement()
             self.initial_data["agreement"] = {"id": self.agreement_id}
@@ -58,7 +57,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def tearDown(self):
         if PQ_MULTI_PROFILE_RELEASED:
             self.delete_agreement()
-        super(BaseTenderWebTest, self).tearDown()
+        super().tearDown()
 
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
@@ -189,20 +188,24 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def patch_tender_bot(self):
         items = deepcopy(self.initial_data["items"])
         for item in items:
-            item.update({
-                "classification": test_tender_pq_short_profile["classification"],
-                "unit": test_tender_pq_short_profile["unit"]
-            })
+            item.update(
+                {
+                    "classification": test_tender_pq_short_profile["classification"],
+                    "unit": test_tender_pq_short_profile["unit"],
+                }
+            )
         value = deepcopy(test_tender_pq_short_profile['value'])
-        amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
+        amount = sum(item["quantity"] for item in items) * test_tender_pq_short_profile['value']['amount']
         value["amount"] = amount
         # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
-        self.tender_document_patch.update({
-            "shortlistedFirms": test_tender_pq_shortlisted_firms,
-            # 'criteria': criteria,
-            "items": items,
-            'value': value
-        })
+        self.tender_document_patch.update(
+            {
+                "shortlistedFirms": test_tender_pq_shortlisted_firms,
+                # 'criteria': criteria,
+                "items": items,
+                'value': value,
+            }
+        )
         self.save_changes()
 
     @property
@@ -242,6 +245,6 @@ class TenderContentWebTest(BaseTenderWebTest):
     need_tender = True
 
     def setUp(self):
-        super(TenderContentWebTest, self).setUp()
+        super().setUp()
         if self.need_tender:
             self.create_tender()

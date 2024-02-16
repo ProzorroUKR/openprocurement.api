@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -7,7 +6,7 @@ def switch_to_unsuccessful_lot_0bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
-    self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), set(["unsuccessful"]))
+    self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
 def set_auction_period_lot_0bid(self):
@@ -50,9 +49,14 @@ def switch_to_unsuccessful_lot(self):
         for lot in response.json["data"]["lots"]:
             response = self.app.post_json(
                 "/tenders/{}/auction/{}".format(self.tender_id, lot["id"]),
-                {"data": {"bids": [
-                    {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
-                    for b in auction_bids_data]}}
+                {
+                    "data": {
+                        "bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"]} for l in b["lotValues"]]}
+                            for b in auction_bids_data
+                        ]
+                    }
+                },
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -60,7 +64,7 @@ def switch_to_unsuccessful_lot(self):
 
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        while any([i["status"] == "pending" for i in response.json["data"]]):
+        while any(i["status"] == "pending" for i in response.json["data"]):
             award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
@@ -84,8 +88,7 @@ def set_auction_period_lot(self):
     self.assertIn("shouldStartAfter", item["auctionPeriod"])
     self.assertGreaterEqual(item["auctionPeriod"]["shouldStartAfter"], response.json["data"]["tenderPeriod"]["endDate"])
     self.assertEqual(
-        parse_date(response.json["data"]["next_check"]),
-        parse_date(response.json["data"]["tenderPeriod"]["endDate"])
+        parse_date(response.json["data"]["next_check"]), parse_date(response.json["data"]["tenderPeriod"]["endDate"])
     )
 
     start_date = "9999-01-01T00:00:00+00:00"

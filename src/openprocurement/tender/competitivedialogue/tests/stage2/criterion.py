@@ -1,24 +1,25 @@
-# -*- coding: utf-8 -*-
 import unittest
-from mock import patch
 from datetime import timedelta
+from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdua_stage2_data,
-    test_tender_cdeu_stage2_data,
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_stage2_data,
+)
+from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks import (
+    activate_tender,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
-from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks import activate_tender
 
 
 class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -28,12 +29,16 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
 
     test_activate_tender = snitch(activate_tender)
 
-    @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-           get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
-           get_now() - timedelta(days=1))
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+        get_now() - timedelta(days=1),
+    )
+    @patch(
+        "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
-        super(TenderCDEUCriteriaTest, self).setUp()
+        super().setUp()
 
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -43,12 +48,16 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
 
     test_activate_tender = snitch(activate_tender)
 
-    @patch("openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
-           get_now() - timedelta(days=1))
-    @patch("openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
-           get_now() - timedelta(days=1))
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
+        get_now() - timedelta(days=1),
+    )
+    @patch(
+        "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
-        super(TenderCDUACriteriaTest, self).setUp()
+        super().setUp()
 
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -62,8 +71,7 @@ class TenderCDUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogU
 
 
 class TenderCDEUCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseCompetitiveDialogEUStage2ContentWebTest
+    TenderCriteriaRGRequirementTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest
 ):
     initial_data = test_tender_cdeu_stage2_data
     initial_lots = test_lots_data = test_tender_below_lots
@@ -95,14 +103,14 @@ class TenderCDUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementEvidenceTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementEvidenceTest))
     return suite
 
 

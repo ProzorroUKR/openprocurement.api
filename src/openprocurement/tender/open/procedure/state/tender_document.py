@@ -1,12 +1,15 @@
-from openprocurement.tender.open.procedure.state.tender_details import OpenTenderDetailsState
-from openprocurement.tender.core.procedure.state.tender_document import TenderDocumentState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_document import (
+    TenderDocumentState,
+)
+from openprocurement.tender.open.procedure.state.tender_details import (
+    OpenTenderDetailsState,
+)
 
 
 class UATenderDocumentState(TenderDocumentState):
-
     def document_on_post(self, data):
         super().document_on_post(data)
         self.invalidate_bids_data()

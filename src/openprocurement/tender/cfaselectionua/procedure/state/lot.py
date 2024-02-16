@@ -1,11 +1,12 @@
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
+)
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin
-from openprocurement.tender.cfaselectionua.procedure.state.tender_details import CFASelectionTenderDetailsState
 from openprocurement.tender.core.procedure.utils import validate_field
 
 
 class TenderLotState(LotStateMixin, CFASelectionTenderDetailsState):
-
     def validate_minimal_step(self, data, before=None):
         """
         Override to skip minimalStep required validation.

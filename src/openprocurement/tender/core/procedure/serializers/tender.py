@@ -1,11 +1,20 @@
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.serializers.base import ListSerializer, BaseUIDSerializer
-from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
-from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer
+from openprocurement.api.procedure.serializers.base import (
+    BaseUIDSerializer,
+    ListSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
+from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
+from openprocurement.tender.core.procedure.serializers.cancellation import (
+    CancellationSerializer,
+)
+from openprocurement.tender.core.procedure.serializers.complaint import (
+    ComplaintSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
-from openprocurement.tender.core.procedure.serializers.qualification import QualificationSerializer
+from openprocurement.tender.core.procedure.serializers.qualification import (
+    QualificationSerializer,
+)
 
 
 class TenderBaseSerializer(BaseUIDSerializer):

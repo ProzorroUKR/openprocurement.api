@@ -1,6 +1,9 @@
-from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.chronograph import (
+    TenderChronographResource,
+)
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
 @resource(
@@ -11,4 +14,3 @@ from cornice.resource import resource
 )
 class OpenEUChronographResource(TenderChronographResource):
     state_class = BaseOpenEUTenderState
-

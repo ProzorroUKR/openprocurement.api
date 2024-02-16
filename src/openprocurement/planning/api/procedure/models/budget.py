@@ -1,19 +1,16 @@
 from uuid import uuid4
 
-from openprocurement.planning.api.constants import (
-    BREAKDOWN_TITLES,
-    BREAKDOWN_OTHER,
-)
 from schematics.exceptions import ValidationError
-from schematics.types import StringType, FloatType, IntType, BaseType, MD5Type
+from schematics.types import BaseType, FloatType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.constants import BUDGET_PERIOD_FROM, LOGGER
-from openprocurement.api.procedure.utils import is_const_active
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
-from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.item import validate_items_uniq
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.utils import is_const_active
+from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 from openprocurement.planning.api.procedure.models.guarantee import Guarantee
 
 

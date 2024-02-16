@@ -1,17 +1,21 @@
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.state.award_complaint import AwardComplaintState
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
+from openprocurement.tender.core.procedure.state.award_complaint import (
+    AwardComplaintState,
+)
+from openprocurement.tender.core.procedure.validation import validate_any_bid_owner
 from openprocurement.tender.core.procedure.views.award import resolve_award
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.complaint import (
-    resolve_complaint,
     BaseComplaintGetResource,
     BaseComplaintWriteResource,
+    resolve_complaint,
 )
-from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
-from openprocurement.tender.core.procedure.validation import (
-    validate_any_bid_owner,
-)
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
-from openprocurement.api.utils import json_view
 
 
 class AwardComplaintGetResource(BaseComplaintGetResource):
@@ -38,9 +42,7 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
         content_type="application/json",
         permission="create_complaint",
         validators=(
-            unless_admins(
-                validate_any_bid_owner(statuses=("active",))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active",))),
             validate_input_data(PostAwardComplaint),
             validate_data_documents(route_key="complaint_id", uid_key="id"),
         ),

@@ -1,7 +1,11 @@
-from openprocurement.api.utils import error_handler
 from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.tender.core.procedure.models.req_response import validate_evidence_relatedDocument, validate_evidence_type
+from openprocurement.api.utils import error_handler
+from openprocurement.tender.core.procedure.models.req_response import (
+    validate_evidence_relatedDocument,
+    validate_evidence_type,
+)
 
 
 class ReqResponseEvidenceState(BaseState):
@@ -35,7 +39,7 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
         bid = self.request.validated["bid"]
         if bid["status"] not in ["active", "pending"]:
             return
-        super(BidReqResponseEvidenceState, self).pre_save_validate(data)
+        super().pre_save_validate(data)
 
 
 class AwardReqResponseEvidenceState(ReqResponseEvidenceState):

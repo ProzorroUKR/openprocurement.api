@@ -1,17 +1,21 @@
+from uuid import uuid4
+
+from schematics.exceptions import ValidationError
+from schematics.types import FloatType, MD5Type, StringType
+from schematics.types.serializable import serializable
+
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.api.procedure.context import get_tender, get_contract
-from schematics.types import StringType, MD5Type, FloatType
-from schematics.types.serializable import serializable
-from schematics.exceptions import ValidationError
-from uuid import uuid4
 
 
 class ContractValue(Value):
@@ -55,15 +59,17 @@ class CommonContract(Model):
         award = [i for i in tender.get("awards", []) if i["id"] == data["awardID"]][0]
         if award.get("complaintPeriod"):
             if not skip_award_complaint_period:
-                if (award.get("complaintPeriod", {}).get("endDate") and
-                        value <= dt_from_iso(award["complaintPeriod"]["endDate"])):
+                if award.get("complaintPeriod", {}).get("endDate") and value <= dt_from_iso(
+                    award["complaintPeriod"]["endDate"]
+                ):
                     raise ValidationError(
                         "Contract signature date should be after award complaint period end date ({})".format(
                             award.get("complaintPeriod", {}).get("endDate", "")
                         )
                     )
-            elif (award.get("complaintPeriod", {}).get("startDate") and
-                  value <= dt_from_iso(award["complaintPeriod"]["startDate"])):
+            elif award.get("complaintPeriod", {}).get("startDate") and value <= dt_from_iso(
+                award["complaintPeriod"]["startDate"]
+            ):
                 raise ValidationError(
                     "Contract signature date should be after award activation date ({})".format(
                         award.get("complaintPeriod", {}).get("startDate")
@@ -71,6 +77,8 @@ class CommonContract(Model):
                 )
         if value > get_now():
             raise ValidationError("Contract signature date can't be in the future")
+
+
 # --- BASE
 
 
@@ -86,6 +94,8 @@ class PostContract(CommonContract):
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
+
+
 # -- POST
 
 
@@ -107,12 +117,16 @@ class PatchContract(Model):
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
+
+
 # --- PATCH
 
 
 # PATCH Supplier---
 class PatchContractSupplier(Model):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
+
+
 # --- PATCH Supplier
 
 
@@ -145,5 +159,3 @@ def validate_item_unit_values(data, items):
                         f"Value mismatch. Expected: currency {base_value['currency']} and "
                         f"valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
                     )
-
-

@@ -1,8 +1,11 @@
 from openprocurement.api.procedure.models.contact import (
-    validate_email,
-    validate_telephone,
     ContactPoint as BaseContactPoint,
 )
+from openprocurement.api.procedure.models.contact import (
+    validate_email,
+    validate_telephone,
+)
+
 
 class ContactPoint(BaseContactPoint):
     def validate_email(self, contact_point, email):

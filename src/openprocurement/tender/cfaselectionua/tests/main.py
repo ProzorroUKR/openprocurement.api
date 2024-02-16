@@ -1,8 +1,12 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
-from openprocurement.tender.cfaselectionua.tests import auction, award, bid, document, tender
+from openprocurement.tender.cfaselectionua.tests import (
+    auction,
+    award,
+    bid,
+    document,
+    tender,
+)
 
 
 def suite():

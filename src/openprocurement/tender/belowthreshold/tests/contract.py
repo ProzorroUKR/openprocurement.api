@@ -1,75 +1,68 @@
-# -*- coding: utf-8 -*-
 import unittest
-from unittest.mock import patch
 from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
-    test_tender_below_organization,
     test_tender_below_multi_buyers_data,
+    test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    # TenderContractResourceTest
-    create_tender_contract_invalid,
+from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest; Econtract
+    cancelling_award_contract_sync,
+    create_econtract,
     create_tender_contract,
+    create_tender_contract_document,
+    create_tender_contract_document_by_others,
+    create_tender_contract_document_by_supplier,
     create_tender_contract_in_complete_status,
-    patch_tender_contract,
-    patch_tender_contract_rationale_simple,
+    create_tender_contract_invalid,
     get_tender_contract,
     get_tender_contracts,
-    # Tender2LotContractResourceTest
-    lot2_patch_tender_contract,
-    lot2_patch_tender_contract_rationale_simple,
-    # TenderContractDocumentResourceTest
-    not_found,
-    create_tender_contract_document,
-    put_tender_contract_document,
-    patch_tender_contract_document,
-    # Tender2LotContractDocumentResourceTest
     lot2_create_tender_contract_document,
-    lot2_put_tender_contract_document,
+    lot2_create_tender_contract_document_by_others,
+    lot2_create_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract,
     lot2_patch_tender_contract_document,
-    patch_tender_contract_value_vat_not_included,
-    patch_tender_contract_value,
+    lot2_patch_tender_contract_document_by_supplier,
+    lot2_patch_tender_contract_rationale_simple,
+    lot2_put_tender_contract_document,
+    lot2_put_tender_contract_document_by_supplier,
+    not_found,
+    patch_contract_multi_items_unit_value,
+    patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_round,
+    patch_contract_single_item_unit_value_with_status,
+    patch_multiple_contracts_in_contracting,
+    patch_tender_contract,
+    patch_tender_contract_document,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_rationale_simple,
+    patch_tender_contract_status_by_others,
     patch_tender_contract_status_by_owner,
     patch_tender_contract_status_by_supplier,
-    patch_tender_contract_status_by_others,
-    create_tender_contract_document_by_supplier,
-    create_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-    put_tender_contract_document_by_others,
-    patch_tender_contract_document_by_supplier,
-    lot2_create_tender_contract_document_by_supplier,
-    lot2_create_tender_contract_document_by_others,
-    lot2_put_tender_contract_document_by_supplier,
-    lot2_patch_tender_contract_document_by_supplier,
-    patch_contract_single_item_unit_value,
-    patch_contract_single_item_unit_value_with_status,
-    patch_contract_single_item_unit_value_round,
-    patch_contract_multi_items_unit_value,
+    patch_tender_contract_value,
+    patch_tender_contract_value_vat_not_included,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
     patch_tender_multi_contracts_cancelled_validate_amount,
-    # Econtract
-    create_econtract,
-    cancelling_award_contract_sync,
-    patch_multiple_contracts_in_contracting,
+    patch_tender_multi_contracts_cancelled_with_one_activated,
+    put_tender_contract_document,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
 
 
-class TenderContractResourceTestMixin(object):
+class TenderContractResourceTestMixin:
     test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
     test_get_tender_contract = snitch(get_tender_contract)
     test_get_tender_contracts = snitch(get_tender_contracts)
 
 
-class TenderContractDocumentResourceTestMixin(object):
+class TenderContractDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
@@ -123,7 +116,7 @@ class TenderContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin, T
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -135,12 +128,8 @@ class TenderContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin, T
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(
-        patch_contract_single_item_unit_value_with_status
-    )
-    test_patch_contract_single_item_unit_value_round = snitch(
-        patch_contract_single_item_unit_value_round
-    )
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
+    test_patch_contract_single_item_unit_value_round = snitch(patch_contract_single_item_unit_value_round)
     test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
@@ -177,7 +166,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -194,7 +183,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(Tender2LotContractResourceTest, self).setUp()
+        super().setUp()
         # Create award
 
         auth = self.app.authorization
@@ -230,14 +219,20 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
 
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
+            {
+                "data": {
+                    "suppliers": [test_tender_below_organization],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                }
+            },
         )
         award = response.json["data"]
         self.award_id = award["id"]
@@ -276,7 +271,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(Tender2LotContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -328,7 +323,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -350,7 +345,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderLotContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         # Create award
 
         auth = self.app.authorization
@@ -411,13 +406,13 @@ class TenderEContractMultiBuyersResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotContractMultiBuyersResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEContractResourceTest))
     return suite
 
 

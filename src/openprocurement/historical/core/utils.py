@@ -1,26 +1,24 @@
 import pytz
-from jsonpointer import JsonPointerException
 from jsonpatch import JsonPatchException, apply_patch
-
+from jsonpointer import JsonPointerException
+from pyramid.interfaces import IRouteRequest, IRoutesMapper
+from pyramid.security import Allow
+from pyramid.view import _call_view
 from zope.interface import providedBy
 
-from pyramid.view import _call_view
-from pyramid.security import Allow
-from pyramid.interfaces import IRouteRequest, IRoutesMapper
-
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import context_unpack, error_handler, json_view
+from openprocurement.api.views.base import BaseResource
 from openprocurement.historical.core.constants import (
-    VERSION,
+    ACCREDITATION_LEVELS,
     HASH,
     PREVIOUS_HASH,
-    ACCREDITATION_LEVELS,
+    VERSION,
     VERSION_BY_DATE,
 )
-from openprocurement.api.utils import error_handler, json_view, context_unpack
-from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.views.base import BaseResource
 
 
-class Root(object):
+class Root:
     __name__ = None
     __parent__ = None
     __acl__ = [(Allow, "g:brokers", "view_historical"), (Allow, "g:Administrator", "view_historical")]
@@ -52,7 +50,6 @@ def get_version_from_date(request, doc, revisions):
 
 
 def extract_doc(request, doc_type):
-
     doc_id = request.matchdict["doc_id"]
     if doc_id is None:
         return404(request, "url", "{}_id".format(doc_type.lower()))  # pragma: no cover
@@ -135,7 +132,7 @@ def get_route(request):
         if match is not None:
             preds = r.predicates
             info = {"match": match, "route": r}
-            if preds and not all((p(info, request) for p in preds)):
+            if preds and not all(p(info, request) for p in preds):
                 continue  # pragma: no cover
             return info["route"]
     return None
@@ -186,12 +183,12 @@ def validate_accreditation(request, **kwargs):
         return
 
 
-class HasRequestMethod(object):
+class HasRequestMethod:
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "HasRequestMethod = %s" % (self.val,)
+        return "HasRequestMethod = {}".format(self.val)
 
     phash = text
 
@@ -201,10 +198,13 @@ class HasRequestMethod(object):
 
 class APIHistoricalResource(BaseResource):
     def __init__(self, request, context):
-        super(APIHistoricalResource, self).__init__(request, context)
+        super().__init__(request, context)
         self.resource = request.context.doc_type.lower()
 
-    @json_view(permission="view_historical", validators=(validate_accreditation,))
+    @json_view(
+        permission="view_historical",
+        validators=(validate_accreditation,),
+    )
     def get(self):
         route = get_route(self.request)
         if route is None:

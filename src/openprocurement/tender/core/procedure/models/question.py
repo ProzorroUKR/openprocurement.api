@@ -1,13 +1,13 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
-from schematics.types import StringType, MD5Type
 
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ModelType, IsoDateTimeType
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
 from openprocurement.tender.core.procedure.models.organization import Organization
 
 

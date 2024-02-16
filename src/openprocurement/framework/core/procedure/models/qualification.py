@@ -1,8 +1,8 @@
-from schematics.types import StringType, BaseType, BooleanType
+from schematics.types import BaseType, BooleanType, StringType
 from schematics.types.compound import DictType
 
 from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.types import ListType, ModelType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.document import Document
 
@@ -10,11 +10,7 @@ from openprocurement.framework.core.procedure.models.document import Document
 class PatchQualification(Model):
     documents = ListType(ModelType(Document, required=True), default=list())
     status = StringType(
-        choices=[
-            "pending",
-            "active",
-            "unsuccessful"
-        ],
+        choices=["pending", "active", "unsuccessful"],
         default="pending",
     )
 
@@ -24,11 +20,7 @@ class Qualification(RootModel):
     submissionID = StringType(required=True)
     frameworkID = StringType(required=True)
     status = StringType(
-        choices=[
-            "pending",
-            "active",
-            "unsuccessful"
-        ],
+        choices=["pending", "active", "unsuccessful"],
         default="pending",
     )
 

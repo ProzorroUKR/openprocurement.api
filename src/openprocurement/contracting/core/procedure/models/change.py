@@ -1,13 +1,13 @@
 from uuid import uuid4
 
 import standards
-from schematics.types import StringType, MD5Type
-from schematics.types.serializable import serializable
 from schematics.exceptions import ValidationError
+from schematics.types import MD5Type, StringType
+from schematics.types.serializable import serializable
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, IsoDateTimeType
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.utils import get_now
 
 RATIONALE_TYPES = tuple(standards.load("codelists/contract_change_rationale_type.json").keys())
 
@@ -46,7 +46,6 @@ class PostChange(BaseChange):
 
 
 class PatchChange(BaseChange):
-
     status = StringType(choices=["pending", "active"])
     rationale = StringType(min_length=1)
     rationaleTypes = ListType(

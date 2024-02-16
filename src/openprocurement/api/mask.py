@@ -1,4 +1,4 @@
-from jsonpath_ng import parse
+from jsonpath_ng.ext import parse
 
 from openprocurement.api.auth import ACCR_RESTRICTED
 
@@ -19,13 +19,26 @@ EXCLUDED_ROLES = (
     "Administrator",
 )
 
+
 def mask_data(data, mask_mapping):
-    for json_path, replacement_value in mask_mapping.items():
-        jsonpath_expr = parse(json_path)
-        jsonpath_expr.update(data, replacement_value)
+    for rule in mask_mapping.values():
+        rule["expr"].update(data, rule["value"])
 
 
-def mask_object_data(request, data, mask_mapping):
+def compile_mask_mapping(mask_mapping):
+    """
+    Pre-compile the JSONPath expressions in the mask mapping for efficient reuse.
+    """
+    compiled_mapping = {}
+    for path, value in mask_mapping.items():
+        compiled_mapping[path] = {
+            "value": value,
+            "expr": parse(path),
+        }
+    return compiled_mapping
+
+
+def mask_object_data(request, data, mask_mapping, mask_func=mask_data):
     if not mask_mapping:
         # Nothing to mask
         return
@@ -44,4 +57,17 @@ def mask_object_data(request, data, mask_mapping):
         # that allows access to restricted data
         return
 
-    mask_data(data, mask_mapping)
+    from openprocurement.tender.core.procedure.utils import extract_document_id
+
+    if extract_document_id(request) and request.params and request.params.get("download"):
+        # Masking is not required when non-authorized user download document by link
+        return
+
+    # Extract revisions before masking
+    revisions = data.pop("revisions", None)
+
+    # Mask data
+    mask_func(data, mask_mapping)
+
+    # Restore revisions after masking
+    data["revisions"] = revisions

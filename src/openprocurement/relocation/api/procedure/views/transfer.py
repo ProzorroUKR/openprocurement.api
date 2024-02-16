@@ -1,23 +1,19 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.relocation.api.procedure.models.transfer import PostTransfer
-from openprocurement.relocation.api.procedure.serializers.transfer import TransferSerializer
-from openprocurement.relocation.api.procedure.utils import set_ownership
-from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
-from openprocurement.relocation.api.procedure.utils import save_transfer
 from openprocurement.api.procedure.validation import validate_input_data
-
-
-@resource(
-    name="Transfers",
-    path="/transfers/{transfer_id}",
-    collection_path="/transfers",
-    description="Transfers"
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.relocation.api.procedure.models.transfer import PostTransfer
+from openprocurement.relocation.api.procedure.serializers.transfer import (
+    TransferSerializer,
 )
+from openprocurement.relocation.api.procedure.utils import save_transfer, set_ownership
+from openprocurement.relocation.api.procedure.views.base import TransferBaseResource
+
+
+@resource(name="Transfers", path="/transfers/{transfer_id}", collection_path="/transfers", description="Transfers")
 class TransferResource(TransferBaseResource):
-    """ Resource handler for Transfers """
+    """Resource handler for Transfers"""
+
     serializer_class = TransferSerializer
 
     @json_view(permission="view_transfer")
@@ -28,9 +24,7 @@ class TransferResource(TransferBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_transfer",
-        validators=(
-            validate_input_data(PostTransfer),
-        ),
+        validators=(validate_input_data(PostTransfer),),
     )
     def collection_post(self):
         transfer = self.request.validated["data"]

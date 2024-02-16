@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/438aef21947a4a09b39118b30a029983/qualifications/a09286a840f5410aaee1d4d2d34f5f14?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
+PATCH /api/2.5/tenders/438aef21947a4a09b39118b30a029983/qualifications/19d8145759324c759e0b9fe8fc9b0b49?acc_token=0a7bc93b7888415684a0ce45d6271f2d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a09286a840f5410aaee1d4d2d34f5f14",
+    "id": "19d8145759324c759e0b9fe8fc9b0b49",
     "bidID": "e147c97dce694dfb8977d31e05225485",
     "lotID": "b107fd651779457994cf8d66f0c66b75",
     "status": "active",

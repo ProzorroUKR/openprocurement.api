@@ -1,9 +1,11 @@
-from openprocurement.tender.openuadefense.tests.award import TenderAwardPendingResourceTestCase
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestone24HMixin,
     TenderAwardMilestoneALPMixin,
+)
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.openuadefense.tests.award import (
+    TenderAwardPendingResourceTestCase,
 )
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
@@ -25,18 +27,14 @@ class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUA
         """
         # sending auction results
         auction_results = [
-            {"id": b["id"], "lotValues": [
-                {"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]
-            ]}
+            {"id": b["id"], "lotValues": [{"relatedLot": l["relatedLot"], "value": l["value"]} for l in b["lotValues"]]}
             for b in self.initial_bids
         ]
         lot_id = auction_results[0]["lotValues"][0]["relatedLot"]
         auction_results[0]["lotValues"][0]["value"]["amount"] = 1
         with change_auth(self.app, ("Basic", ("auction", ""))):
             response = self.app.post_json(
-                "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
-                {"data": {"bids": auction_results}},
-                status=200
+                "/tenders/{}/auction/{}".format(self.tender_id, lot_id), {"data": {"bids": auction_results}}, status=200
             )
         tender = response.json["data"]
         self.assertEqual("active.qualification", tender["status"])
@@ -47,4 +45,3 @@ class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderUA
 
         # check that a milestone's been created
         self.assertNotIn("milestones", award)
-

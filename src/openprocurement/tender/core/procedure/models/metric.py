@@ -1,10 +1,12 @@
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.value import Value
-from schematics.validate import ValidationError
-from schematics.types import StringType, MD5Type
-from schematics.types.compound import ListType, ModelType
 from uuid import uuid4
+
+from schematics.types import MD5Type, StringType
+from schematics.types.compound import ListType, ModelType
+from schematics.validate import ValidationError
+
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.models.value import Value
 
 
 class Unit(Model):
@@ -56,12 +58,11 @@ def validate_metric_ids_uniq(metrics):
     if metrics:
         metrics_ids = [i.id for i in metrics]
         if len(metrics_ids) > len(set(metrics_ids)):
-            raise ValidationError(u"Metric identifier should be uniq")
+            raise ValidationError("Metric identifier should be uniq")
 
 
 def validate_observation_ids_uniq(metrics):
     if metrics:
         obs_ids = [observation.id for metric in metrics for observation in metric.observations]
         if len(obs_ids) > len(set(obs_ids)):
-            raise ValidationError(u"Observation identifier should be uniq for all observation in tender")
-
+            raise ValidationError("Observation identifier should be uniq for all observation in tender")

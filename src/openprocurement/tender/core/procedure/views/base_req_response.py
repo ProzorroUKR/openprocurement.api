@@ -1,15 +1,17 @@
 from logging import getLogger
-from typing import Optional, List, Tuple
+from typing import List, Optional, Tuple
 
 from pyramid.request import Request
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.serializers.req_response import RequirementResponseSerializer
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack
+from openprocurement.tender.core.procedure.serializers.req_response import (
+    RequirementResponseSerializer,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
 
@@ -23,14 +25,13 @@ def resolve_req_response(request: Request, parent_obj_name: str) -> None:
 
 
 class BaseReqResponseResource(TenderBaseResource):
-
     def __acl__(self) -> List[Tuple[str, str, str]]:
         return [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "create_req_response"),
             (Allow, "g:brokers", "edit_req_response"),
             (Allow, "g:Administrator", "edit_req_response"),  # wtf ???
-            (Allow, "g:admins", ALL_PERMISSIONS),    # some tests use this, idk why
+            (Allow, "g:admins", ALL_PERMISSIONS),  # some tests use this, idk why
         ]
 
     serializer_class = RequirementResponseSerializer
@@ -41,7 +42,6 @@ class BaseReqResponseResource(TenderBaseResource):
         return self.request.validated[self.parent_obj_name]
 
     def collection_post(self) -> Optional[dict]:
-
         parent = self.get_parent()
         req_responses = self.request.validated["data"]
         if "requirementResponses" not in parent:
@@ -86,8 +86,7 @@ class BaseReqResponseResource(TenderBaseResource):
             self.LOGGER.info(
                 f"Updated {self.parent_obj_name} requirement response {req_response['id']}",
                 extra=context_unpack(
-                    self.request,
-                    {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_patch"}
+                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_patch"}
                 ),
             )
             return {"data": self.serializer_class(updated_req_response).data}
@@ -103,6 +102,8 @@ class BaseReqResponseResource(TenderBaseResource):
         if save_tender(self.request, modified=False):
             self.LOGGER.info(
                 f"Deleted {self.parent_obj_name} requirement response {req_response['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_delete"}),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": f"{self.parent_obj_name}_requirement_response_delete"}
+                ),
             )
             return {"data": self.serializer_class(req_response).data}

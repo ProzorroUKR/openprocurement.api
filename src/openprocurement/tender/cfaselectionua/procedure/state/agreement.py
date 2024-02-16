@@ -1,12 +1,13 @@
-from openprocurement.tender.cfaselectionua.procedure.state.tender import CFASelectionTenderState
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaselectionua.procedure.state.tender import (
+    CFASelectionTenderState,
+)
+from openprocurement.tender.core.procedure.context import get_request
 
 
 class AgreementStateMixing:
-
     def validate_agreement_on_patch(self, *_):
         pass
 
@@ -16,8 +17,7 @@ class AgreementStateMixing:
         tender_status = tender["status"]
         if tender_status != "draft.pending":
             raise_operation_error(
-                request,
-                f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender_status}) tender status"
+                request, f"Can't {OPERATIONS.get(request.method)} agreement in current ({tender_status}) tender status"
             )
 
 

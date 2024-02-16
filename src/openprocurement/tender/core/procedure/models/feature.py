@@ -1,10 +1,12 @@
-from openprocurement.api.procedure.validation import validate_values_uniq
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType
-from schematics.types import StringType, FloatType
+from uuid import uuid4
+
+from schematics.types import FloatType, StringType
 from schematics.types.compound import ModelType
 from schematics.validate import ValidationError
-from uuid import uuid4
+
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.validation import validate_values_uniq
 
 
 class FeatureValue(Model):

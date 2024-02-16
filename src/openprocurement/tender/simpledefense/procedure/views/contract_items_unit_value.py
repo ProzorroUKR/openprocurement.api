@@ -1,6 +1,9 @@
-from openprocurement.tender.core.procedure.views.contract_items_unit_value import ContractItemsUnitValueResource
-from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.contract_items_unit_value import (
+    ContractItemsUnitValueResource,
+)
+from openprocurement.tender.openua.procedure.state.contract import OpenUAContractState
 
 
 @resource(

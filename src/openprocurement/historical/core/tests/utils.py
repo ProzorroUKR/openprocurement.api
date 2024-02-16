@@ -1,10 +1,11 @@
-import os.path
 import json
-from cornice.resource import resource
+import os.path
 from copy import deepcopy
 from uuid import uuid4
-from openprocurement.historical.core.utils import Root, APIHistoricalResource, json_view
 
+from cornice.resource import resource
+
+from openprocurement.historical.core.utils import APIHistoricalResource, Root, json_view
 
 here = os.path.dirname(__file__)
 with open(os.path.join(here, "data.json")) as in_json:
@@ -19,7 +20,7 @@ class Doc(dict):
     rev = test_data_with_revisions["_rev"]
 
     def __init___(self, *args, **kwargs):
-        super(Doc, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 mock_doc = Doc(test_data_with_revisions)
@@ -29,7 +30,7 @@ class Db(dict):
     save = dict.__setitem__
 
     def __init__(self, *args, **kwargs):
-        super(Db, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self[mock_doc.id] = deepcopy(mock_doc)
         broken = deepcopy(mock_doc)
         broken["revisions"][:] = [

@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
-
 
 LOGGER = getLogger("openprocurement.tender.open")
 

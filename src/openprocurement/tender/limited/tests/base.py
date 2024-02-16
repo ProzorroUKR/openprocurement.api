@@ -1,17 +1,17 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
+
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    BaseTenderWebTest as BaseBaseTenderWebTest,
+)
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest as BaseBaseTenderWebTest,
-)
 
 now = datetime.now()
 test_tender_reporting_data = test_tender_below_data.copy()
@@ -55,18 +55,15 @@ test_lots = [
 ]
 
 test_tender_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_reporting_data, test_tender_reporting_data["items"][0],
-    test_tender_below_organization
+    test_tender_reporting_data, test_tender_reporting_data["items"][0], test_tender_below_organization
 )
 
 test_tender_negotiation_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_data, test_tender_negotiation_data["items"][0],
-    test_tender_below_organization
+    test_tender_negotiation_data, test_tender_negotiation_data["items"][0], test_tender_below_organization
 )
 
 test_tender_negotiation_quick_data_multi_buyers = set_tender_multi_buyers(
-    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0],
-    test_tender_below_organization
+    test_tender_negotiation_quick_data, test_tender_negotiation_quick_data["items"][0], test_tender_below_organization
 )
 
 test_tender_reporting_config = {
@@ -122,11 +119,11 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
     initial_auth = ("Basic", ("broker", ""))
     primary_tender_status = "active"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
-        "complete"
-    )  # status, in which operations with tender documents (adding, updating) are forbidden
+        "complete"  # status, in which operations with tender documents (adding, updating) are forbidden
+    )
     forbidden_contract_document_modification_actions_status = (
-        "complete"
-    )  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+        "complete"  # status, in which operations with tender's contract documents (adding, updating) are forbidden
+    )
 
     periods = {}
 
@@ -146,5 +143,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

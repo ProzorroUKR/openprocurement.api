@@ -1,9 +1,10 @@
-# -*- coding: utf-8 -*-
-from base64 import b64encode, b64decode
-from rfc6266 import build_header
-from urllib.parse import urlparse, urlunsplit, parse_qsl, quote, unquote, urlencode
-from nacl.exceptions import BadSignatureError
+from base64 import b64decode
 from binascii import Error as BinasciiError
+from urllib.parse import parse_qsl, quote, unquote, urlparse
+
+from nacl.exceptions import BadSignatureError
+from rfc6266 import build_header
+
 from openprocurement.api.utils import error_handler, generate_docservice_url
 
 
@@ -42,7 +43,8 @@ def check_document(request, document):
     if (
         not (
             url.startswith(request.registry.docservice_url)
-            or request.registry.dep_docservice_url and url.startswith(request.registry.dep_docservice_url)
+            or request.registry.dep_docservice_url
+            and url.startswith(request.registry.dep_docservice_url)
         )
         or len(parsed_url.path.split("/")) != 3
         or {"Signature", "KeyID"} != set(parsed_query)

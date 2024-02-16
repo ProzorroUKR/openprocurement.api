@@ -4,21 +4,18 @@ from gevent import monkey
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_UA_TYPE,
-    CD_EU_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.limited.constants import (
-    REPORTING,
     NEGOTIATION,
     NEGOTIATION_QUICK,
+    REPORTING,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
@@ -48,6 +45,7 @@ def has_auction_populator(tender, ignore_submission_method_details=False):
         return False
     return True
 
+
 def run(env, args):
     migration_name = os.path.basename(__file__).split(".")[0]
 
@@ -70,8 +68,7 @@ def run(env, args):
         for tender in cursor:
             if tender.get("config", {}).get("hasAuction") is None:
                 collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": {"config.hasAuction": has_auction_populator(tender)}}
+                    {"_id": tender["_id"]}, {"$set": {"config.hasAuction": has_auction_populator(tender)}}
                 )
                 count += 1
                 if count % log_every == 0:
@@ -82,6 +79,7 @@ def run(env, args):
     logger.info("Updating tenders with hasAuction field finished: updated %s tenders", count)
 
     logger.info("Successful migration: %s", migration_name)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -95,9 +93,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

@@ -1,11 +1,14 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
     AwardComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.open.procedure.state.award_claim import OpenAwardClaimState
-from openprocurement.tender.open.procedure.state.award_complaint import OpenAwardComplaintState
+from openprocurement.tender.open.procedure.state.award_complaint import (
+    OpenAwardComplaintState,
+)
 
 
 @resource(
@@ -44,4 +47,3 @@ class OpenUATenderAwardClaimResource(AwardClaimResource):
 )
 class OpenUAAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = OpenAwardComplaintState
-

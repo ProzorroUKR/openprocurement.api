@@ -1,39 +1,39 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
 
+from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.lot import (
-    TenderLotResourceTestMixin,
     TenderLotFeatureResourceTestMixin,
     TenderLotProcessTestMixin,
+    TenderLotResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
-    tender_lot_milestones,
     create_tender_lot_minimalstep_validation,
     patch_tender_lot_minimalstep_validation,
+    tender_lot_milestones,
 )
-
-from openprocurement.tender.openua.tests.lot import TenderUALotResourceTestMixin, TenderUALotProcessTestMixin
+from openprocurement.tender.openua.tests.lot import (
+    TenderUALotProcessTestMixin,
+    TenderUALotResourceTestMixin,
+)
 from openprocurement.tender.openua.tests.lot_blanks import (
-    patch_tender_bidder,
     create_tender_bidder_feature,
-    claim_blocking,
-    next_check_value_with_unanswered_claim,
+    patch_tender_bidder,
 )
-
 from openprocurement.tender.openuadefense.tests.base import (
     BaseTenderUAContentWebTest,
-    test_tender_openuadefense_data,
     test_tender_openuadefense_bids,
+    test_tender_openuadefense_data,
 )
 from openprocurement.tender.openuadefense.tests.lot_blanks import (
-    question_blocking,
+    claim_blocking,
+    next_check_value_with_unanswered_claim,
     next_check_value_with_unanswered_question,
     one_lot_1bid,
-    two_lot_1bid_0com_1can,
+    question_blocking,
     two_lot_1bid_0com_0win,
+    two_lot_1bid_0com_1can,
     two_lot_1bid_1com_1win,
     two_lot_1bid_2com_1win,
     two_lot_2bid_on_first_and_1_on_second_awarding,
@@ -85,7 +85,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     test_bids_data = test_tender_openuadefense_bids
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0]["id"] = "1"
@@ -147,10 +147,10 @@ class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

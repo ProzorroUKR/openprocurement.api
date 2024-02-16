@@ -3,9 +3,9 @@ from gevent import monkey
 if __name__ == "__main__":
     monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
 
 from pyramid.paster import bootstrap
 
@@ -36,10 +36,7 @@ def run(env, args):
     try:
         for tender in cursor:
             if tender.get("config", {}).get("valueCurrencyEquality") is None:
-                collection.update_one(
-                    {"_id": tender["_id"]},
-                    {"$set": {"config.valueCurrencyEquality": True}}
-                )
+                collection.update_one({"_id": tender["_id"]}, {"$set": {"config.valueCurrencyEquality": True}})
                 count += 1
                 if count % log_every == 0:
                     logger.info(f"Updating tenders with valueCurrencyEquality field: updated {count} tenders")
@@ -63,9 +60,8 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
     args = parser.parse_args()
     with bootstrap(args.p) as env:

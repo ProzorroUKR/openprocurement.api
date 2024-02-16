@@ -1,26 +1,27 @@
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import json_view, update_logging_context
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.state.question import TenderQuestionState
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.serializers.question import QuestionSerializer
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
+from openprocurement.api.procedure.validation import (
+    validate_accreditation_level,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.models.question import (
-    PostQuestion,
     PatchQuestion,
+    PostQuestion,
     Question,
 )
+from openprocurement.tender.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionState
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_operation_with_lot_cancellation_in_pending,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_item_owner, validate_accreditation_level,
-)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
@@ -53,25 +54,21 @@ class TenderQuestionResource(TenderBaseResource):
 
     @json_view(permission="view_tender")
     def collection_get(self):
-        """List questions
-        """
+        """List questions"""
         tender = self.request.validated["tender"]
         data = tuple(self.serializer_class(question).data for question in tender.get("questions", []))
         return {"data": data}
 
     @json_view(permission="view_tender")
     def get(self):
-        """Retrieving the question
-        """
+        """Retrieving the question"""
         data = self.serializer_class(self.request.validated["question"]).data
         return {"data": data}
 
     @json_view(
         content_type="application/json",
         permission="create_question",
-        validators=(
-            validate_input_data(PostQuestion),
-        ),
+        validators=(validate_input_data(PostQuestion),),
     )
     def collection_post(self):
         update_logging_context(self.request, {"question_id": "__new__"})
@@ -116,8 +113,7 @@ class TenderQuestionResource(TenderBaseResource):
         permission="edit_question",
     )
     def patch(self):
-        """Patch a question
-        """
+        """Patch a question"""
         updated = self.request.validated["data"]
         if updated:
             question = self.request.validated["question"]

@@ -1,21 +1,27 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view, update_logging_context, context_unpack
-from openprocurement.tender.core.procedure.utils import set_ownership
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
+    validate_data_documents,
     validate_input_data,
-    validate_data_documents, validate_item_owner,
+    validate_item_owner,
+    validate_patch_data_simple,
 )
-from openprocurement.planning.api.procedure.models.milestone import PostMilestone, PatchMilestone, Milestone
-from openprocurement.planning.api.procedure.serializers.milestone import MilestoneSerializer
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.planning.api.procedure.models.milestone import (
+    Milestone,
+    PatchMilestone,
+    PostMilestone,
+)
+from openprocurement.planning.api.procedure.serializers.milestone import (
+    MilestoneSerializer,
+)
 from openprocurement.planning.api.procedure.state.plan_milestone import MilestoneState
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
+from openprocurement.tender.core.procedure.utils import set_ownership
 
 LOGGER = getLogger(__name__)
 

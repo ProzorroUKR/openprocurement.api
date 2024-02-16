@@ -1,20 +1,26 @@
-from logging import getLogger
 from datetime import datetime
+from logging import getLogger
 
+from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.api.procedure.utils import get_items, to_decimal
+from openprocurement.api.utils import context_unpack, get_now, raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
-from openprocurement.api.utils import raise_operation_error, context_unpack, get_now
+from openprocurement.tender.belowthreshold.procedure.state.tender import (
+    IgnoredClaimMixing,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.contract import (
+    CFASelectionContractStateMixing,
+)
+from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.utils import (
-    save_tender,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
+    save_tender,
 )
-from openprocurement.api.procedure.utils import get_items, to_decimal
-from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
-from openprocurement.tender.cfaselectionua.procedure.state.contract import CFASelectionContractStateMixing
-from openprocurement.tender.limited.procedure.state.contract import LimitedContractStateMixing
-from openprocurement.tender.belowthreshold.procedure.state.tender import IgnoredClaimMixing
-from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.tender.limited.procedure.state.contract import (
+    LimitedContractStateMixing,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -106,7 +112,7 @@ class EContractState(
             "belowThreshold": self.check_belowtreshold_status_method,
             "reporting": self.check_reporting_tender_status_method,
             "negotiation": self.check_negotiation_tender_status_method,
-            "negotiation.quick": self.check_negotiation_tender_status_method
+            "negotiation.quick": self.check_negotiation_tender_status_method,
         }
         tender_type = self.request.validated["tender"]["procurementMethodType"]
         tender_status_method = tender_status_methods.get(tender_type, super().check_tender_status_method)
@@ -120,9 +126,15 @@ class EContractState(
     def validate_contract_pending_patch(self, request, before: dict, after: dict) -> None:
         tender = request.validated["tender"]
         tender_type = tender["procurementMethodType"]
-        if tender_type in ("belowThreshold", "aboveThresholdEU",
-                           "aboveThresholdUA", "aboveThreshold", "simple.defense",
-                           "competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
+        if tender_type in (
+            "belowThreshold",
+            "aboveThresholdEU",
+            "aboveThresholdUA",
+            "aboveThreshold",
+            "simple.defense",
+            "competitiveDialogueEU.stage2",
+            "competitiveDialogueUA.stage2",
+        ):
             self.validate_threshold_contract(request, before, after)
         elif tender_type == "esco":
             self.validate_esco_contract(request, before, after)
@@ -166,47 +178,38 @@ class EContractState(
         if esco_fields_in_contract:
             raise_operation_error(
                 request,
-                [{f: "Rogue field"for f in esco_fields_in_contract}],
+                [{f: "Rogue field" for f in esco_fields_in_contract}],
                 status=422,
                 name="value",
             )
 
     @staticmethod
-    def validate_update_contract_value_with_award(request, tender:dict, before: dict, after: dict) -> None:
+    def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
         value = after.get("value")
-        if value and (
-                before.get("value") != after.get("value") or
-                before.get("status") != after.get("status")
-        ):
-
+        if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):
             award = request.validated["award"]
             contracts_ids = [
                 i["id"]
                 for i in tender.get("contracts")
-                if i.get("status", "") != "cancelled"
-                   and i["awardID"] == after["awardID"]
-                   and i["id"] != after["id"]
+                if i.get("status", "") != "cancelled" and i["awardID"] == after["awardID"] and i["id"] != after["id"]
             ]
 
             _contracts_values = []
 
             if contracts_ids:
                 _contracts_values = request.registry.mongodb.contracts.list(
-                    fields={"value"},
-                    filters={"_id": {"$in": contracts_ids}}
+                    fields={"value"}, filters={"_id": {"$in": contracts_ids}}
                 )
 
             _contracts_values.append({"value": value})
 
-            amount = sum([to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values])
-            amount_net = sum([to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values])
+            amount = sum(to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values)
+            amount_net = sum(to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values)
             tax_included = value.get("valueAddedTaxIncluded")
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):
                     if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(
-                            request, "Amount should be less or equal to awarded amount", name="value"
-                        )
+                        raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
                 else:
                     if amount_net > to_decimal(award.get("value", {}).get("amount")):
                         raise_operation_error(
@@ -214,9 +217,7 @@ class EContractState(
                         )
             else:
                 if amount > to_decimal(award.get("value", {}).get("amount")):
-                    raise_operation_error(
-                        request, "Amount should be less or equal to awarded amount", name="value"
-                    )
+                    raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
     def validate_required_signed_info(self, data: dict) -> None:
         if not ECONTRACT_SIGNER_INFO_REQUIRED:
@@ -228,7 +229,7 @@ class EContractState(
                 self.request,
                 f"signerInfo field for buyer and suppliers "
                 f"is required for contract in `{data.get('status')}` status",
-                status=422
+                status=422,
             )
 
     def validate_dateSigned(self, request, tender, before: dict, after: dict) -> None:
@@ -240,19 +241,25 @@ class EContractState(
 
         if award.get("complaintPeriod"):
             if not self.check_skip_award_complaint_period():
-                if (award.get("complaintPeriod", {}).get("endDate") and
-                        date_signed <= dt_from_iso(award["complaintPeriod"]["endDate"])):
+                if award.get("complaintPeriod", {}).get("endDate") and date_signed <= dt_from_iso(
+                    award["complaintPeriod"]["endDate"]
+                ):
                     raise_operation_error(
                         self.request,
-                        [f"Contract signature date should be after award complaint period end date ({award['complaintPeriod']['endDate']})"],
+                        [
+                            f"Contract signature date should be after award complaint period end date ({award['complaintPeriod']['endDate']})"
+                        ],
                         name="dateSigned",
                         status=422,
                     )
-            elif (award.get("complaintPeriod", {}).get("startDate") and
-                  date_signed <= dt_from_iso(award["complaintPeriod"]["startDate"])):
+            elif award.get("complaintPeriod", {}).get("startDate") and date_signed <= dt_from_iso(
+                award["complaintPeriod"]["startDate"]
+            ):
                 raise_operation_error(
                     self.request,
-                    [f"Contract signature date should be after award activation date ({award['complaintPeriod']['startDate']})"],
+                    [
+                        f"Contract signature date should be after award activation date ({award['complaintPeriod']['startDate']})"
+                    ],
                     name="dateSigned",
                     status=422,
                 )
@@ -264,23 +271,16 @@ class EContractState(
                 status=422,
             )
 
-        if (
-            tender.get("procurementMethodType") == "priceQuotation"
-            and date_signed < dt_from_iso(award.get("date"))
-        ):
+        if tender.get("procurementMethodType") == "priceQuotation" and date_signed < dt_from_iso(award.get("date")):
             raise_operation_error(
                 self.request,
-                [
-                    f"Contract signature date should be "
-                    f"after award activation date ({award['date']})"
-                ],
+                [f"Contract signature date should be " f"after award activation date ({award['date']})"],
                 name="dateSigned",
                 status=422,
             )
 
     @classmethod
     def validate_update_contract_status(cls, request, tender: dict, before: dict, after: dict) -> None:
-
         status_map = {
             "pending": ("pending.winner-signing", "active"),
             "pending.winner-signing": ("pending", "active"),
@@ -292,30 +292,28 @@ class EContractState(
         # Allow change contract status to cancelled for multi buyers tenders
         multi_contracts = len(tender.get("buyers", [])) > 1
         if multi_contracts:
-            status_map["pending"] += ("cancelled", )
+            status_map["pending"] += ("cancelled",)
             status_map["pending.winner-signing"] += ("cancelled",)
 
         allowed_statuses_to = status_map.get(before["status"], list())
 
         # Validate status change
-        if (
-            current_status != new_status
-            and new_status not in allowed_statuses_to
-        ):
+        if current_status != new_status and new_status not in allowed_statuses_to:
             raise_operation_error(request, "Can't update contract status")
 
         not_cancelled_contracts_count = sum(
-            1 for contract in tender.get("contracts", [])
+            1
+            for contract in tender.get("contracts", [])
             if (
-                    contract.get("status") != "cancelled"
-                    and contract.get("awardID") == request.validated["contract"]["awardID"]
+                contract.get("status") != "cancelled"
+                and contract.get("awardID") == request.validated["contract"]["awardID"]
             )
         )
         if multi_contracts and new_status == "cancelled" and not_cancelled_contracts_count == 1:
             raise_operation_error(
                 request,
                 f"Can't update contract status from {current_status} to {new_status} "
-                f"for last not cancelled contract. Cancel award instead."
+                f"for last not cancelled contract. Cancel award instead.",
             )
 
     def synchronize_contracts_data(self, data: dict) -> bool:
@@ -342,7 +340,6 @@ class EContractState(
                 contract_changed = True
 
         return contract_changed
-
 
     def check_skip_award_complaint_period(self) -> bool:
         tender = self.request.validated["tender"]

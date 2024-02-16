@@ -1,18 +1,27 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.serializers.cancellation import CancellationSerializer
-from openprocurement.tender.core.procedure.models.cancellation import PostCancellation, PatchCancellation, Cancellation
-from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_input_data,
-    validate_data_documents, validate_item_owner, unless_admins,
-)
-from openprocurement.tender.core.procedure.state.cancellation import CancellationState
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
 from logging import getLogger
 
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.models.cancellation import (
+    Cancellation,
+    PatchCancellation,
+    PostCancellation,
+)
+from openprocurement.tender.core.procedure.serializers.cancellation import (
+    CancellationSerializer,
+)
+from openprocurement.tender.core.procedure.state.cancellation import CancellationState
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
@@ -27,7 +36,6 @@ def resolve_cancellation(request):
 
 
 class BaseCancellationResource(TenderBaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, Everyone, "view_tender"),
@@ -51,7 +59,7 @@ class BaseCancellationResource(TenderBaseResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(PostCancellation),
-        )
+        ),
     )
     def collection_post(self):
         tender = self.request.validated["tender"]
@@ -68,9 +76,9 @@ class BaseCancellationResource(TenderBaseResource):
         if save_tender(self.request):
             LOGGER.info(
                 "Created tender cancellation {}".format(cancellation["id"]),
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": "tender_cancellation_create"},
-                                     {"cancellation_id": cancellation["id"]}),
+                extra=context_unpack(
+                    self.request, {"MESSAGE_ID": "tender_cancellation_create"}, {"cancellation_id": cancellation["id"]}
+                ),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
@@ -103,7 +111,7 @@ class BaseCancellationResource(TenderBaseResource):
             unless_admins(validate_item_owner("tender")),
             validate_input_data(PatchCancellation),
             validate_patch_data_simple(Cancellation, item_name="cancellation"),
-        )
+        ),
     )
     def patch(self):
         updated = self.request.validated["data"]
@@ -118,4 +126,3 @@ class BaseCancellationResource(TenderBaseResource):
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_cancellation_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}
-

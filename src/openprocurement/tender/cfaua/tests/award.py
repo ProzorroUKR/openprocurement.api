@@ -1,64 +1,58 @@
-# -*- coding: utf-8 -*-
 import unittest
-
 from copy import deepcopy
-from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_draft_complaint
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
 
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
-    # TenderLotAwardComplaintResourceTest
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.belowthreshold.tests.award_blanks import (  # TenderLotAwardComplaintResourceTest; TenderAwardDocumentResourceTest; TenderAwardDocumentWithDSResourceTest
+    create_award_document_bot,
+    create_tender_award_complaint_document,
+    create_tender_award_complaint_invalid,
+    create_tender_award_document,
+    create_tender_award_document_json_bulk,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
-    create_tender_award_complaint_invalid,
     not_found,
-    create_tender_award_complaint_document,
-    put_tender_award_complaint_document,
-    # TenderAwardDocumentResourceTest
     not_found_award_document,
-    create_tender_award_document,
-    put_tender_award_document,
-    patch_tender_award_document,
-    create_award_document_bot,
     patch_not_author,
-    # TenderAwardDocumentWithDSResourceTest
-    create_tender_award_document_json_bulk,
+    patch_tender_award_document,
+    put_tender_award_complaint_document,
+    put_tender_award_document,
 )
-
-from openprocurement.tender.openua.tests.award_blanks import (
-    patch_tender_award_complaint,
-    patch_tender_lot_award_complaint,
-    review_tender_award_stopping_complaint,
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_draft_complaint,
 )
-
-from openprocurement.tender.openeu.tests.award_blanks import (
-    # TenderAwardResourceTest
-    create_tender_award_invalid,
-    get_tender_award,
+from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.tests.award_blanks import (
+    award_complaint_document_in_active_qualification,
+    bot_patch_tender_award_complaint,
+    bot_patch_tender_award_complaint_forbidden,
+    create_tender_award_claim,
+    create_tender_award_complaint,
+    create_tender_award_complaint_not_active,
+    create_tender_lot_award_complaint,
+    get_tender_award_complaint,
+    get_tender_award_complaints,
+    patch_tender_award,
+    patch_tender_award_active,
+    patch_tender_award_complaint_document,
+    patch_tender_award_in_qualification_st_st,
+    patch_tender_award_unsuccessful,
+    patch_tender_lot_award_lots_none,
+    review_tender_award_claim,
+    review_tender_award_complaint,
 )
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.cfaua.tests.award_blanks import (
-    create_tender_award_claim,
-    create_tender_award_complaint,
-    create_tender_award_complaint_not_active,
-    get_tender_award_complaint,
-    get_tender_award_complaints,
-    patch_tender_award,
-    patch_tender_award_active,
-    review_tender_award_complaint,
-    review_tender_award_claim,
-    patch_tender_award_unsuccessful,
-    bot_patch_tender_award_complaint,
-    bot_patch_tender_award_complaint_forbidden,
-    create_tender_lot_award_complaint,
-    patch_tender_award_complaint_document,
-    patch_tender_award_in_qualification_st_st,
-    award_complaint_document_in_active_qualification,
-    patch_tender_lot_award_lots_none,
+from openprocurement.tender.openeu.tests.award_blanks import (  # TenderAwardResourceTest
+    create_tender_award_invalid,
+    get_tender_award,
+)
+from openprocurement.tender.openua.tests.award_blanks import (
+    patch_tender_award_complaint,
+    patch_tender_lot_award_complaint,
+    review_tender_award_stopping_complaint,
 )
 
 
@@ -70,7 +64,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardResourceTest, self).setUp()
+        super().setUp()
         # Get awards
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
@@ -102,7 +96,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardResourceTest, self).setUp()
+        super().setUp()
         # Get awards
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
@@ -125,7 +119,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
@@ -158,12 +152,11 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
-
 
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
@@ -178,7 +171,7 @@ class TenderAwardComplaintExtendedResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintExtendedResourceTest, self).setUp()
+        super().setUp()
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
@@ -202,7 +195,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.award_bid_id = response.json["data"][0]["bid_id"]
@@ -234,7 +227,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
 
@@ -253,13 +246,13 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardBidsOverMaxAwardsResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintExtendedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardBidsOverMaxAwardsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintExtendedResourceTest))
     return suite
 
 

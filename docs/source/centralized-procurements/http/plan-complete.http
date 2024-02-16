@@ -1,4 +1,4 @@
-GET /api/2.5/plans/395b7a73bc484239a97c959b2210442d HTTP/1.0
+GET /api/2.5/plans/1be4169566db4d9d931b6056c5814240 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "status": "complete",
     "procuringEntity": {
-      "id": "f2aa390c3e55435d92d2b920e099369c",
+      "id": "473320227d9d4e959c81266ac1862f55",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -49,7 +49,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "80507afa635e4ea2930d44704b356f0f",
+          "id": "9b211ce8a6a646ffb43f49e0bbf010a0",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -74,7 +74,7 @@ Content-Type: application/json
     "planID": "UA-P-2023-10-10-000001-a",
     "items": [
       {
-        "id": "874f881ccc8e4d46a61ead266914edcb",
+        "id": "80a3a54e309a4c8a8085f740da8652bc",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -107,7 +107,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "81eeca4ba8e144568fe9db5031d386de",
+        "id": "e9b0fc29f3f04736be502e2a9ac44775",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -141,7 +141,7 @@ Content-Type: application/json
         "type": "approval",
         "dueDate": "2023-10-10T01:00:07+03:00",
         "author": {
-          "id": "73a703c6efc84140ad4e9d8a9b08b94d",
+          "id": "f2aa390c3e55435d92d2b920e099369c",
           "name": "ЦЗО №1",
           "identifier": {
             "scheme": "UA-EDR",
@@ -165,7 +165,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Notice.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/395b7a73bc484239a97c959b2210442d/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/f01c5f2cac9d4e5eb180ab17304e1c91?download=e02eb47c177f4e078fd10eb781a99616",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/plans/1be4169566db4d9d931b6056c5814240/milestones/38af1af8923e4f2ab7bdda3b7d94c002/documents/f01c5f2cac9d4e5eb180ab17304e1c91?download=e02eb47c177f4e078fd10eb781a99616",
             "language": "uk",
             "id": "f01c5f2cac9d4e5eb180ab17304e1c91",
             "datePublished": "2023-10-10T01:00:10+03:00",
@@ -175,7 +175,7 @@ Content-Type: application/json
       }
     ],
     "tender_id": "420fdea4c7d7481687b0e10f8e0d2704",
-    "id": "395b7a73bc484239a97c959b2210442d"
+    "id": "1be4169566db4d9d931b6056c5814240"
   }
 }
 

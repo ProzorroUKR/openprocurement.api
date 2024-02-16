@@ -1,18 +1,28 @@
-from openprocurement.api.utils import json_view, update_logging_context
-from openprocurement.tender.core.procedure.validation import (
-    validate_any,
-    unless_reviewers,
-)
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, validate_item_owner
-from openprocurement.tender.core.procedure.serializers.complaint_post import ComplaintPostSerializer
-from openprocurement.tender.core.procedure.state.complaint_post import ComplaintPostState
-from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
-from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.utils import save_tender
+from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+
 from openprocurement.api.procedure.utils import get_items
-from pyramid.security import Allow, Everyone, ALL_PERMISSIONS
-from openprocurement.api.utils import context_unpack
+from openprocurement.api.procedure.validation import (
+    validate_data_documents,
+    validate_input_data,
+    validate_item_owner,
+)
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.models.complaint_post import (
+    CreateComplaintPost,
+)
+from openprocurement.tender.core.procedure.serializers.complaint_post import (
+    ComplaintPostSerializer,
+)
+from openprocurement.tender.core.procedure.state.complaint_post import (
+    ComplaintPostState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    unless_reviewers,
+    validate_any,
+)
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
+from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
@@ -76,16 +86,13 @@ class BaseComplaintPostResource(TenderBaseResource):
                 kwargs[f"{self.item_name}_id"] = context["id"]
             self.LOGGER.info(
                 f"Created post {post['id']}",
-                extra=context_unpack(self.request,
-                                     {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"},
-                                     kwargs),
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"{self.item_name}_complaint_post_create"}, kwargs),
             )
             self.request.response.status = 201
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             extended_item_name = f"Tender {self.item_name.capitalize()}" if self.item_name != "tender" else "Tender"
             self.request.response.headers["Location"] = self.request.route_url(
-                f"{route_prefix}:{extended_item_name} Complaint Posts",
-                **kwargs
+                f"{route_prefix}:{extended_item_name} Complaint Posts", **kwargs
             )
             return {"data": self.serializer_class(post).data}
 

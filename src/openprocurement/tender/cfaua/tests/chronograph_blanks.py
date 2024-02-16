@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 from copy import deepcopy
+
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 
 
 def next_check_field_in_active_qualification(self):
-
     response = self.set_status("active.pre-qualification", "end")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -56,7 +55,7 @@ def switch_to_unsuccessful(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:
-        self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), {"unsuccessful"})
+        self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
 def switch_to_unsuccessful_from_qualification_stand_still(self):
@@ -110,8 +109,12 @@ def set_auction_period_0bid(self):
     response = self.check_chronograph({"data": {"auctionPeriod": {"startDate": start_date}}}, status=422)
     self.assertEqual(
         response.json,
-        {"status": "error", "errors": [
-            {"location": "body", "name": "auctionPeriod", "description": ["Auction url at tender lvl forbidden"]}]}
+        {
+            "status": "error",
+            "errors": [
+                {"location": "body", "name": "auctionPeriod", "description": ["Auction url at tender lvl forbidden"]}
+            ],
+        },
     )
 
     response = self.check_chronograph()

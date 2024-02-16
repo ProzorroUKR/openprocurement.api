@@ -1,27 +1,21 @@
-from typing import TYPE_CHECKING
-
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.openeu.constants import PREQUALIFICATION_COMPLAINT_STAND_STILL
-from openprocurement.tender.openua.constants import (
-    TENDERING_EXTRA_PERIOD,
-    ENQUIRY_PERIOD_TIME,
-    COMPLAINT_SUBMIT_TIME,
-    ENQUIRY_STAND_STILL_TIME,
+from openprocurement.tender.openeu.constants import (
+    PREQUALIFICATION_COMPLAINT_STAND_STILL,
 )
-from openprocurement.tender.openua.procedure.state.tender_details import OpenUATenderDetailsMixing
+from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
+from openprocurement.tender.openua.constants import (
+    COMPLAINT_SUBMIT_TIME,
+    ENQUIRY_PERIOD_TIME,
+    ENQUIRY_STAND_STILL_TIME,
+    TENDERING_EXTRA_PERIOD,
+)
+from openprocurement.tender.openua.procedure.state.tender_details import (
+    OpenUATenderDetailsMixing,
+)
 
 
-if TYPE_CHECKING:
-    baseclass = BaseOpenEUTenderState
-else:
-    baseclass = object
-
-
-class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
@@ -29,7 +23,7 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
-    enquiry_period_timedelta = - ENQUIRY_PERIOD_TIME
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
 

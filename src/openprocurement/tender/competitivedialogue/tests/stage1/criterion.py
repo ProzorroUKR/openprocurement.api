@@ -1,18 +1,17 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdua_data,
-    test_tender_cdeu_data,
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
+    test_tender_cdeu_data,
+    test_tender_cdua_data,
 )
 from openprocurement.tender.openua.tests.criterion import (
-    TenderCriteriaTestMixin,
-    TenderCriteriaRGTestMixin,
-    TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGRequirementEvidenceTestMixin,
+    TenderCriteriaRGRequirementTestMixin,
+    TenderCriteriaRGTestMixin,
+    TenderCriteriaTestMixin,
 )
 
 
@@ -38,18 +37,12 @@ class TenderCDUACriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogU
     test_lots_data = test_tender_below_lots
 
 
-class TenderCDEUCriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseCompetitiveDialogEUContentWebTest
-):
+class TenderCDEUCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseCompetitiveDialogEUContentWebTest):
     initial_data = test_tender_cdeu_data
     test_lots_data = test_tender_below_lots
 
 
-class TenderCDUACriteriaRGRequirementTest(
-    TenderCriteriaRGRequirementTestMixin,
-    BaseCompetitiveDialogUAContentWebTest
-):
+class TenderCDUACriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_data = test_tender_cdua_data
     test_lots_data = test_tender_below_lots
 
@@ -72,14 +65,14 @@ class TenderCDUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementEvidenceTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementEvidenceTest))
     return suite
 
 

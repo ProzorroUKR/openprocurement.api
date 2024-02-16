@@ -6,7 +6,7 @@ from uuid import uuid4
 
 import pytz
 from ciso8601 import parse_datetime
-from jsonpatch import make_patch, apply_patch
+from jsonpatch import apply_patch, make_patch
 
 from openprocurement.api.auth import extract_access_token
 from openprocurement.api.constants import CPV_PHARM_PRODUCTS
@@ -35,8 +35,9 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
     if isinstance(patch, dict):
         for i in patch:
             if i in orig:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
-                              none_means_remove=none_means_remove)
+                prepare_patch(
+                    changes, orig[i], patch[i], "{}/{}".format(basepath, i), none_means_remove=none_means_remove
+                )
             elif patch[i] is None and none_means_remove:
                 pass  # already deleted
             else:
@@ -47,8 +48,9 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
                 changes.append({"op": "remove", "path": "{}/{}".format(basepath, i)})
         for i, j in enumerate(patch):
             if len(orig) > i:
-                prepare_patch(changes, orig[i], patch[i], "{}/{}".format(basepath, i),
-                              none_means_remove=none_means_remove)
+                prepare_patch(
+                    changes, orig[i], patch[i], "{}/{}".format(basepath, i), none_means_remove=none_means_remove
+                )
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
     elif none_means_remove and patch is None:
@@ -113,6 +115,7 @@ def get_items(request, parent, key, uid, raise_404=True):
         return items
     elif raise_404:
         from openprocurement.api.utils import error_handler
+
         obj_name = "document" if "Document" in key else key.rstrip('s')
         request.errors.add("url", f"{obj_name}_id", "Not Found")
         request.errors.status = 404
@@ -139,16 +142,13 @@ def get_cpv_prefix_length(classifications, default=4):
     DEFAULT_PREFIX_LENGTH = 4
     CPV_PHARM_PREFIX_LENGTH = 3
     CPV_PHARM_PREFIX = CPV_PHARM_PRODUCTS[:CPV_PHARM_PREFIX_LENGTH]
-    if any(
-        classification['id'][:CPV_PHARM_PREFIX_LENGTH] == CPV_PHARM_PREFIX
-        for classification in classifications
-    ):
+    if any(classification['id'][:CPV_PHARM_PREFIX_LENGTH] == CPV_PHARM_PREFIX for classification in classifications):
         return CPV_PHARM_PREFIX_LENGTH
     return DEFAULT_PREFIX_LENGTH
 
 
 def get_cpv_uniq_prefixes(classifications, prefix_length):
-    return set(i["id"][:prefix_length] for i in classifications)
+    return {i["id"][:prefix_length] for i in classifications}
 
 
 def parse_date(value, default_timezone=pytz.utc):

@@ -1,5 +1,8 @@
-from openprocurement.tender.core.procedure.views.award_milestone import BaseAwardMilestoneResource
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.award_milestone import (
+    BaseAwardMilestoneResource,
+)
 
 
 @resource(

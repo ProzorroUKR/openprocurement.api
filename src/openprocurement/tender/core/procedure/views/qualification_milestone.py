@@ -1,15 +1,28 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.tender.core.procedure.validation import validate_24h_milestone_released
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_item_owner,
+)
+from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    PostQualificationMilestone,
+)
+from openprocurement.tender.core.procedure.serializers.qualification_milestone import (
+    QualificationMilestoneSerializer,
+)
+from openprocurement.tender.core.procedure.state.qualification_milestone import (
+    QualificationMilestoneState,
+)
 from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_24h_milestone_released,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.tender.core.procedure.views.qualification import resolve_qualification
-from openprocurement.tender.core.procedure.serializers.qualification_milestone import QualificationMilestoneSerializer
-from openprocurement.tender.core.procedure.state.qualification_milestone import QualificationMilestoneState
-from openprocurement.api.procedure.validation import validate_input_data, validate_item_owner
-from openprocurement.tender.core.procedure.models.qualification_milestone import PostQualificationMilestone
+from openprocurement.tender.core.procedure.views.qualification import (
+    resolve_qualification,
+)
 
 
 def resolve_milestone(request, context_name: str = "qualification"):
@@ -65,7 +78,7 @@ class BaseMilestoneResource(TenderBaseResource):
                 extra=context_unpack(
                     self.request,
                     {"MESSAGE_ID": "tender_{}_milestone_create".format(self.context_name)},
-                    {"milestone_id": milestone["id"]}
+                    {"milestone_id": milestone["id"]},
                 ),
             )
             self.request.response.status = 201
@@ -74,7 +87,6 @@ class BaseMilestoneResource(TenderBaseResource):
 
     def set_location(self, tender, milestone):
         pass
-
 
 
 @resource(
@@ -96,6 +108,6 @@ class QualificationMilestoneResource(BaseMilestoneResource):
             **{
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],
-                "milestone_id": milestone["id"]
+                "milestone_id": milestone["id"],
             }
         )

@@ -1,35 +1,32 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,
-    test_tender_negotiation_data,
-    test_tender_negotiation_quick_data,
     test_tender_negotiation_config,
+    test_tender_negotiation_data,
     test_tender_negotiation_quick_config,
+    test_tender_negotiation_quick_data,
 )
-from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
-from openprocurement.tender.limited.tests.lot_blanks import (
-    # TenderLotNegotiationResourceTest
-    create_tender_lot_invalid,
-    create_tender_lot,
-    create_complete_tender_lot,
-    create_cancelled_tender_lot,
-    create_unsuccessful_tender_lot,
-    patch_tender_lot,
-    patch_tender_currency,
-    patch_tender_vat,
-    delete_unsuccessful_tender_lot,
-    delete_tender_lot,
-    delete_complete_tender_lot,
+from openprocurement.tender.limited.tests.lot_blanks import (  # TenderLotNegotiationResourceTest
+    all_cancelled_lots,
     cancel_lot_after_sing_contract,
     cancel_lot_with_complaint,
-    last_lot_complete,
-    all_cancelled_lots,
     cancel_lots_check_awards,
+    create_cancelled_tender_lot,
+    create_complete_tender_lot,
+    create_tender_lot,
+    create_tender_lot_invalid,
+    create_unsuccessful_tender_lot,
+    delete_complete_tender_lot,
     delete_lot_after_first_award,
+    delete_tender_lot,
+    delete_unsuccessful_tender_lot,
+    last_lot_complete,
     patch_lot_with_cancellation,
+    patch_tender_currency,
+    patch_tender_lot,
+    patch_tender_vat,
 )
 
 

@@ -1,34 +1,35 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
+from schematics.types import BaseType, FloatType, MD5Type, StringType
 
-from openprocurement.api.procedure.models.item import (
-    validate_additional_classifications,
-    validate_scheme,
-    CPVClassification as BaseCPVClassification,
-    AdditionalClassification, Location,
-)
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.tender.core.procedure.models.address import Address
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.tender.core.procedure.models.unit import Unit
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.utils import is_obj_const_active
-from schematics.types import (
-    StringType,
-    MD5Type,
-    FloatType,
-    BaseType,
-)
 from openprocurement.api.constants import (
+    CPV_PHARM_PRODUCTS,
+    INN_SCHEME,
+    MULTI_CONTRACTS_REQUIRED_FROM,
     UNIT_CODE_REQUIRED_FROM,
     UNIT_PRICE_REQUIRED_FROM,
-    MULTI_CONTRACTS_REQUIRED_FROM,
-    INN_SCHEME,
-    CPV_PHARM_PRODUCTS,
 )
-from openprocurement.tender.core.procedure.validation import validate_ua_road, validate_gmdn
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.item import AdditionalClassification
+from openprocurement.api.procedure.models.item import (
+    CPVClassification as BaseCPVClassification,
+)
+from openprocurement.api.procedure.models.item import (
+    Location,
+    validate_additional_classifications,
+    validate_scheme,
+)
+from openprocurement.api.procedure.models.period import Period
+from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.utils import is_obj_const_active
+from openprocurement.tender.core.procedure.models.address import Address
+from openprocurement.tender.core.procedure.models.unit import Unit
+from openprocurement.tender.core.procedure.validation import (
+    validate_gmdn,
+    validate_ua_road,
+)
 
 
 class CPVClassification(BaseCPVClassification):
@@ -114,7 +115,8 @@ def validate_classification_id(items, *args):
             raise ValidationError(
                 "Item with classification.id that starts with {} and contains additionalClassification "
                 "objects have to contain no more than one additionalClassifications "
-                "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME))
+                "with scheme={}".format(CPV_PHARM_PRODUCTS[:3], INN_SCHEME)
+            )
 
 
 def validate_items_uniq(items, *args):

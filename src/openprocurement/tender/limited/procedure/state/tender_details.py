@@ -1,8 +1,10 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_3, ACCR_4, ACCR_5
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
-from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import (
+    TenderDetailsMixing,
+)
+from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
 class ReportingTenderDetailsState(TenderDetailsMixing, NegotiationTenderState):

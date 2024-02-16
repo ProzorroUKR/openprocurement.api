@@ -1,10 +1,10 @@
-from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 class AgreementStateMixing:
@@ -23,8 +23,7 @@ class AgreementStateMixing:
             tender = get_tender()
 
             award_ids = {c["awardID"] for c in agreement.get("contracts", [])}
-            lot_ids = {award["lotID"] for award in tender.get("awards", [])
-                       if award["id"] in award_ids}
+            lot_ids = {award["lotID"] for award in tender.get("awards", []) if award["id"] in award_ids}
             lot_ids.add(None)
 
             pending_complaints = (
@@ -47,8 +46,9 @@ class AgreementStateMixing:
                 if contract["status"] == "active"
                 for unit_price in contract.get("unitPrices", "")
             ):
-                raise_operation_error(request, "Can't sign agreement without all contracts.unitPrices.value.amount",
-                                      status=422)
+                raise_operation_error(
+                    request, "Can't sign agreement without all contracts.unitPrices.value.amount", status=422
+                )
 
             config = tender["config"]
             if sum(1 for c in agreement.get("contracts", "") if c["status"] == "active") < config.get("minBidsNumber"):
@@ -85,20 +85,14 @@ class AgreementStateMixing:
     @staticmethod
     def validate_update_agreement_only_for_active_lots(request, tender, agreement):
         award_ids = {c["awardID"] for c in agreement.get("contracts", "")}
-        lot_ids = {award["lotID"] for award in tender.get("awards", "")
-                   if award["id"] in award_ids}
-        if any(
-            lot["status"] != "active"
-            for lot in tender.get("lots", "")
-            if lot["id"] in lot_ids
-        ):
+        lot_ids = {award["lotID"] for award in tender.get("awards", "") if award["id"] in award_ids}
+        if any(lot["status"] != "active" for lot in tender.get("lots", "") if lot["id"] in lot_ids):
             raise_operation_error(request, "Can update agreement only in active lot status")
 
     @staticmethod
     def validate_agreement_update_with_accepted_complaint(request, tender, agreement):
         award_ids = {c["awardID"] for c in agreement.get("contracts", "")}
-        lot_ids = {award["lotID"] for award in tender.get("awards", "")
-                   if award["id"] in award_ids}
+        lot_ids = {award["lotID"] for award in tender.get("awards", "") if award["id"] in award_ids}
         if any(
             any(c["status"] == "accepted" for c in award.get("complaints", ""))
             for award in tender.get("awards", "")

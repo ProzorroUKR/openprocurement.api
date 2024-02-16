@@ -1,57 +1,57 @@
-import uuid
-
 import os
+import uuid
 from copy import deepcopy
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-)
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
-    test_tender_below_data,
     test_tender_below_config,
-)
-from openprocurement.tender.open.tests.base import test_tender_open_data, test_tender_open_config
-from openprocurement.tender.openeu.constants import TENDERING_DURATION
-from openprocurement.tender.openua.tests.base import (
-    test_tender_openua_data,
-    test_tender_openua_config,
-)
-from openprocurement.tender.openuadefense.tests.base import (
-    test_tender_openuadefense_data,
-    test_tender_openuadefense_config,
-)
-from openprocurement.tender.simpledefense.tests.base import (
-    test_tender_simpledefense_data,
-    test_tender_simpledefense_config,
-)
-from openprocurement.tender.openeu.tests.base import (
-    test_tender_openeu_data,
-    test_tender_openeu_config,
+    test_tender_below_data,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
-    test_tender_cdeu_data,
-    test_tender_cdua_data,
-    test_tender_cdeu_stage2_data,
-    test_tender_cdua_stage2_data,
     test_tender_cd_access_token,
-    test_tender_cdua_config,
-    test_tender_cdeu_config,
-    test_tender_cdua_stage2_config,
-    test_tender_cdeu_stage2_config,
     test_tender_cd_lots,
+    test_tender_cdeu_config,
+    test_tender_cdeu_data,
+    test_tender_cdeu_stage2_config,
+    test_tender_cdeu_stage2_data,
+    test_tender_cdua_config,
+    test_tender_cdua_data,
+    test_tender_cdua_stage2_config,
+    test_tender_cdua_stage2_data,
 )
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.limited.tests.base import (
-    test_tender_reporting_data,
+    test_tender_negotiation_config,
     test_tender_negotiation_data,
+    test_tender_negotiation_quick_config,
     test_tender_negotiation_quick_data,
     test_tender_reporting_config,
-    test_tender_negotiation_config,
-    test_tender_negotiation_quick_config,
+    test_tender_reporting_data,
+)
+from openprocurement.tender.open.tests.base import (
+    test_tender_open_config,
+    test_tender_open_data,
+)
+from openprocurement.tender.openeu.constants import TENDERING_DURATION
+from openprocurement.tender.openeu.tests.base import (
+    test_tender_openeu_config,
+    test_tender_openeu_data,
+)
+from openprocurement.tender.openua.tests.base import (
+    test_tender_openua_config,
+    test_tender_openua_data,
+)
+from openprocurement.tender.openuadefense.tests.base import (
+    test_tender_openuadefense_config,
+    test_tender_openuadefense_data,
+)
+from openprocurement.tender.simpledefense.tests.base import (
+    test_tender_simpledefense_config,
+    test_tender_simpledefense_data,
 )
 
 
@@ -63,7 +63,7 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseTenderOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self):
@@ -84,7 +84,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self):
@@ -303,11 +303,13 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         # first try on non 5th level broker
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["procuringEntity"]["kind"] = "central"
-        tender["buyers"] = [{
-            "id": uuid.uuid4().hex,
-            "name": tender["procuringEntity"]["name"],
-            "identifier": tender["procuringEntity"]["identifier"]
-        }]
+        tender["buyers"] = [
+            {
+                "id": uuid.uuid4().hex,
+                "name": tender["procuringEntity"]["name"],
+                "identifier": tender["procuringEntity"]["identifier"],
+            }
+        ]
         for item in tender["items"]:
             item["relatedBuyer"] = tender["buyers"][0]["id"]
         self.mongodb.tenders.save(tender)
@@ -355,7 +357,6 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
         self.assertIn("owner", response.json["data"])
         self.assertEqual(response.json["data"]["owner"], self.central_owner)
 
-
     def test_validate_status(self):
         # terminated contract is also protected
         self.set_status("cancelled")
@@ -400,7 +401,6 @@ class OpenUADefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
     second_owner = "broker3"
     test_owner = "broker3t"
     invalid_owner = "broker1"
-
 
 
 class SimpleDefenseTenderOwnershipChangeTest(TenderOwnershipChangeTest):
@@ -497,16 +497,18 @@ class OpenUACompetitiveDialogueStage2TenderOwnershipChangeTest(TenderOwnershipCh
         self.assertNotEqual(transfer_creation_date, transfer_modification_date)
 
         # second owner can change the tender
-        end_date = calculate_tender_business_date(
-            get_now(), TENDERING_DURATION
-        )
+        end_date = calculate_tender_business_date(get_now(), TENDERING_DURATION)
         with change_auth(self.app, ("Basic", (self.second_owner, ""))):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, new_access_token),
-                {"data": {"tenderPeriod": {
-                    "startDate": tender["tenderPeriod"]["startDate"],
-                    "endDate": end_date.isoformat(),
-                }}},
+                {
+                    "data": {
+                        "tenderPeriod": {
+                            "startDate": tender["tenderPeriod"]["startDate"],
+                            "endDate": end_date.isoformat(),
+                        }
+                    }
+                },
             )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("transfer", response.json["data"])

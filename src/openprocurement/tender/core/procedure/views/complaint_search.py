@@ -11,7 +11,6 @@ from openprocurement.api.views.base import BaseResource
     description="Complaint search",
 )
 class ComplaintsResource(BaseResource):
-
     def __acl__(self):
         acl = [
             (Allow, "g:bots", "search_complaints"),

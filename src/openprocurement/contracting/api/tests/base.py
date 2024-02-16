@@ -23,7 +23,7 @@ class BaseContractWebTest(BaseCoreWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(BaseContractWebTest, self).setUp()
+        super().setUp()
         self.create_contract()
 
     def create_contract(self):
@@ -39,7 +39,7 @@ class BaseContractWebTest(BaseCoreWebTest):
 
 class BaseContractContentWebTest(BaseContractWebTest):
     def setUp(self):
-        super(BaseContractContentWebTest, self).setUp()
+        super().setUp()
         response = self.app.patch_json(
             "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["tender_token"]),
             {"data": {}},

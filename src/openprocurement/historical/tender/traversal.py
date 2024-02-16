@@ -1,13 +1,14 @@
+from pyramid.security import Allow, Everyone
+
 from openprocurement.api.utils import request_init_tender
 from openprocurement.historical.core.utils import Root as BaseRoot
-from pyramid.security import Allow, Everyone
 
 
 class Root(BaseRoot):
     __acl__ = BaseRoot.__acl__ + [
         (Allow, Everyone, "view_tender"),
         (Allow, "g:brokers", "view_historical"),
-        (Allow, "g:Administrator", "view_historical")
+        (Allow, "g:Administrator", "view_historical"),
     ]
 
 

@@ -1,5 +1,6 @@
 import unittest
 from datetime import datetime
+
 from openprocurement.tender.core.tests.base import BaseWebTest
 
 
@@ -32,22 +33,18 @@ class TenderResourceTest(BaseWebTest):
         self.assertIn('{\n    "', response.body.decode())
         self.assertIn("callback({", response.body.decode())
 
-        response = self.app.get(
-            "/tenders?offset=last&descending=1&limit=10",
-            status=404
-        )
+        response = self.app.get("/tenders?offset=last&descending=1&limit=10", status=404)
         self.assertEqual(
             response.json,
-            {"status": "error", "errors": [
-                {"location": "querystring",
-                 "name": "offset",
-                 "description": "Invalid offset provided: last"}]}
+            {
+                "status": "error",
+                "errors": [
+                    {"location": "querystring", "name": "offset", "description": "Invalid offset provided: last"}
+                ],
+            },
         )
 
-        response = self.app.get(
-            f"/tenders?offset=2015-01-01T00:00:00+02:00"
-            "&descending=1&limit=10"
-        )
+        response = self.app.get(f"/tenders?offset=2015-01-01T00:00:00+02:00" "&descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.get(
@@ -81,7 +78,7 @@ class TenderResourceTest(BaseWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
 

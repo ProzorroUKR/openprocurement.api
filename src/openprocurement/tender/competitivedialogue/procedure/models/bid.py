@@ -1,18 +1,35 @@
 from uuid import uuid4
-from schematics.types.compound import ModelType
+
 from schematics.types import BooleanType, StringType
+from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
-from openprocurement.api.validation import validate_items_uniq
-from openprocurement.tender.core.procedure.models.organization import BusinessOrganization
-from openprocurement.tender.core.procedure.models.base import BaseBid
-from openprocurement.api.procedure.types import ListType
+
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.validation import validate_bid_value
-from openprocurement.tender.core.procedure.models.req_response import PostBidResponsesMixin, PatchObjResponsesMixin
-from openprocurement.tender.core.procedure.models.bid import MetaBid, validate_lot_values
+from openprocurement.api.procedure.types import ListType
+from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.competitivedialogue.procedure.models.bid_document import (
+    Document,
+    PostDocument,
+)
+from openprocurement.tender.competitivedialogue.procedure.models.lot_value import (
+    LotValue,
+    PatchLotValue,
+    PostLotValue,
+)
+from openprocurement.tender.core.procedure.models.base import BaseBid
+from openprocurement.tender.core.procedure.models.bid import (
+    MetaBid,
+    validate_lot_values,
+)
 from openprocurement.tender.core.procedure.models.item import BaseItem
-from openprocurement.tender.competitivedialogue.procedure.models.bid_document import PostDocument, Document
-from openprocurement.tender.competitivedialogue.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
+from openprocurement.tender.core.procedure.models.organization import (
+    BusinessOrganization,
+)
+from openprocurement.tender.core.procedure.models.req_response import (
+    PatchObjResponsesMixin,
+    PostBidResponsesMixin,
+)
+from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 
 class PatchBid(PatchObjResponsesMixin, BaseBid):
@@ -28,7 +45,6 @@ class PatchBid(PatchObjResponsesMixin, BaseBid):
 
 
 class PostBid(PostBidResponsesMixin, BaseBid):
-
     @serializable
     def id(self):
         return uuid4().hex

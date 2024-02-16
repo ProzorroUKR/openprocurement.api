@@ -1,22 +1,21 @@
-# -*- coding: utf-8 -*-
-import unittest
 import time
+import unittest
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
-
-from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.tests.cancellation import activate_cancellation_after_2020_04_19
+from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_organization,
     test_tender_below_cancellation,
+    test_tender_below_organization,
 )
+from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.core.tests.cancellation import (
+    activate_cancellation_after_2020_04_19,
+)
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.limited.tests.base import test_lots
-
 
 # TenderContractResourceTest
 
@@ -88,9 +87,11 @@ def create_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-    })
+    cancellation.update(
+        {
+            "status": "active",
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
         {"data": cancellation},
@@ -187,8 +188,13 @@ def patch_tender_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending",
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
+        {
+            "data": {
+                "suppliers": [test_tender_below_organization],
+                "status": "pending",
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
     )
     award_id = response.json["data"]["id"]
     self.app.patch_json(
@@ -200,9 +206,11 @@ def patch_tender_contract(self):
     contract_id = response.json["data"][0]["id"]
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-    })
+    cancellation.update(
+        {
+            "status": "active",
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
         {"data": cancellation},
@@ -226,17 +234,13 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json("/tenders/some_id/contracts/some_id", {"data": {"status": "active"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
@@ -302,17 +306,13 @@ def get_tender_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.get("/tenders/some_id/contracts/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def get_tender_contracts(self):
@@ -324,9 +324,7 @@ def get_tender_contracts(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
 
 def award_id_change_is_not_allowed(self):
@@ -339,8 +337,12 @@ def award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_tender_below_organization],
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
+        {
+            "data": {
+                "suppliers": [test_tender_below_organization],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
     )
     award = response.json["data"]
     response = self.app.patch_json(
@@ -356,12 +358,9 @@ def award_id_change_is_not_allowed(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"awardID": old_award_id}},
-        status=422
+        status=422,
     )
-    self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "awardID", "description": "Rogue field"}
-    )
+    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "awardID", "description": "Rogue field"})
 
 
 # TenderNegotiationContractResourceTest
@@ -474,12 +473,14 @@ def patch_tender_negotiation_contract(self):
 
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(tender_id, tender_token),
-        {"data": {
-            "lotID": lot1["id"],
-            "suppliers": [test_tender_below_organization],
-            "status": "pending",
-            "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
-        }},
+        {
+            "data": {
+                "lotID": lot1["id"],
+                "suppliers": [test_tender_below_organization],
+                "status": "pending",
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -492,9 +493,11 @@ def patch_tender_negotiation_contract(self):
     self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-    })
+    cancellation.update(
+        {
+            "status": "active",
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
         {"data": cancellation},
@@ -538,17 +541,13 @@ def patch_tender_negotiation_contract(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
 
     response = self.app.patch_json("/tenders/some_id/contracts/some_id", {"data": {"status": "active"}}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     response = self.app.get("/tenders/{}/contracts/{}".format(old_tender_id, self.contract_id))
     self.assertEqual(response.status, "200 OK")
@@ -669,8 +668,13 @@ def lot_award_id_change_is_not_allowed(self):
     # upload new award
     response = self.app.post_json(
         "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"suppliers": [test_tender_below_organization], "lotID": self.lot1["id"],
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},}},
+        {
+            "data": {
+                "suppliers": [test_tender_below_organization],
+                "lotID": self.lot1["id"],
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
     )
     award = response.json["data"]
     self.app.patch_json(
@@ -686,12 +690,9 @@ def lot_award_id_change_is_not_allowed(self):
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"awardID": old_award_id}},
-        status=422
+        status=422,
     )
-    self.assertEqual(
-        response.json["errors"][0],
-        {"location": "body", "name": "awardID", "description": "Rogue field"}
-    )
+    self.assertEqual(response.json["errors"][0], {"location": "body", "name": "awardID", "description": "Rogue field"})
 
 
 def activate_contract_cancelled_lot(self):
@@ -701,10 +702,12 @@ def activate_contract_cancelled_lot(self):
     # Create cancellation on lot
     self.set_all_awards_complaint_period_end()
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "cancellationOf": "lot",
-        "relatedLot": lot["id"],
-    })
+    cancellation.update(
+        {
+            "cancellationOf": "lot",
+            "relatedLot": lot["id"],
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation},
@@ -719,20 +722,20 @@ def activate_contract_cancelled_lot(self):
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, cancellation_id, self.tender_token
             ),
-            {"data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
-            "/tenders/{}/cancellations/{}?acc_token={}".format(
-                self.tender_id, cancellation_id, self.tender_token
-            ),
-            {"data": {"status": "pending"}}
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+            {"data": {"status": "pending"}},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "pending")
@@ -752,11 +755,11 @@ def activate_contract_cancelled_lot(self):
     resp = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
         {"data": {"value": value}},
-        status=403
+        status=403,
     )
     self.assertEqual(
         resp.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': "Can't perform action due to a pending cancellation"}]
+        [{'location': 'body', 'name': 'data', 'description': "Can't perform action due to a pending cancellation"}],
     )
 
     # update value by admin
@@ -930,9 +933,11 @@ def create_two_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-    })
+    cancellation.update(
+        {
+            "status": "active",
+        }
+    )
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, tender_token),
         {"data": cancellation},
@@ -1032,9 +1037,7 @@ def create_tender_contract_document(self):
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}]
-    )
+    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "download"}])
 
     response = self.app.get(
         "/tenders/{}/contracts/{}/documents/{}?download={}".format(self.tender_id, self.contract_id, doc_id, key)
@@ -1375,8 +1378,14 @@ def patch_tender_negotiation_econtract(self):
 
     response = self.app.post_json(
         f"/tenders/{tender_id}/awards?acc_token={tender_token}",
-        {"data": {"suppliers": [test_tender_below_organization], "status": "pending", "lotID": lot_id,
-                  "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False}}},
+        {
+            "data": {
+                "suppliers": [test_tender_below_organization],
+                "status": "pending",
+                "lotID": lot_id,
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
     )
     award_id = response.json["data"]["id"]
     response = self.app.patch_json(
@@ -1389,9 +1398,11 @@ def patch_tender_negotiation_econtract(self):
     self.set_all_awards_complaint_period_end()
 
     cancellation = dict(**test_tender_below_cancellation)
-    cancellation.update({
-        "status": "active",
-    })
+    cancellation.update(
+        {
+            "status": "active",
+        }
+    )
     response = self.app.post_json(
         f"/tenders/{tender_id}/cancellations?acc_token={tender_token}",
         {"data": cancellation},
@@ -1411,6 +1422,4 @@ def patch_tender_negotiation_econtract(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (cancelled) status"
-    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can't update contract in current (cancelled) status")

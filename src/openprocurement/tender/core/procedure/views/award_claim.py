@@ -1,13 +1,17 @@
-from openprocurement.tender.core.procedure.views.award import resolve_award
-from openprocurement.tender.core.procedure.views.claim import resolve_claim
-from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
-from openprocurement.tender.core.procedure.views.claim import BaseClaimResource
-from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState
-from openprocurement.tender.core.procedure.validation import (
-    validate_any_bid_owner,
+from openprocurement.api.procedure.validation import (
+    unless_admins,
+    validate_data_documents,
+    validate_input_data,
 )
-from openprocurement.api.procedure.validation import validate_input_data, validate_data_documents, unless_admins
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
+from openprocurement.tender.core.procedure.state.award_claim import AwardClaimState
+from openprocurement.tender.core.procedure.validation import validate_any_bid_owner
+from openprocurement.tender.core.procedure.views.award import resolve_award
+from openprocurement.tender.core.procedure.views.claim import (
+    BaseClaimResource,
+    resolve_claim,
+)
 
 
 class AwardClaimResource(BaseClaimResource):
@@ -24,9 +28,7 @@ class AwardClaimResource(BaseClaimResource):
         content_type="application/json",
         permission="create_claim",
         validators=(
-            unless_admins(
-                validate_any_bid_owner(statuses=("active",))
-            ),
+            unless_admins(validate_any_bid_owner(statuses=("active",))),
             validate_input_data(PostClaimFromBid),
             validate_data_documents(route_key="claim", uid_key="id"),
         ),

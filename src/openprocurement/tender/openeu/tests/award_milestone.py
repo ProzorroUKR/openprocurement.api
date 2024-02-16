@@ -1,4 +1,6 @@
-from openprocurement.tender.core.tests.qualification_milestone import TenderAwardMilestoneALPMixin
+from openprocurement.tender.core.tests.qualification_milestone import (
+    TenderAwardMilestoneALPMixin,
+)
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,

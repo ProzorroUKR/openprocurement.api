@@ -2,23 +2,23 @@ from typing import Optional
 
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.views.lot import TenderLotResource
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_with_lot_cancellation_in_pending,
-    validate_delete_lot_related_object,
-)
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
     validate_input_data,
     validate_item_owner,
+    validate_patch_data_simple,
 )
+from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.validation import (
+    validate_delete_lot_related_object,
+    validate_operation_with_lot_cancellation_in_pending,
+)
+from openprocurement.tender.core.procedure.views.lot import TenderLotResource
+from openprocurement.tender.limited.procedure.models.lot import Lot, PatchLot, PostLot
+from openprocurement.tender.limited.procedure.state.lot import NegotiationLotState
 from openprocurement.tender.limited.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_lot_operation_with_awards,
 )
-from openprocurement.tender.limited.procedure.models.lot import PostLot, PatchLot, Lot
-from openprocurement.tender.limited.procedure.state.lot import NegotiationLotState
 
 
 @resource(

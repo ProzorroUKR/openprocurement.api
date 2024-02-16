@@ -1,8 +1,13 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
-from openprocurement.tender.belowthreshold.tests import auction, award, bid, document, tender, question
+from openprocurement.tender.belowthreshold.tests import (
+    auction,
+    award,
+    bid,
+    document,
+    question,
+    tender,
+)
 
 
 def suite():

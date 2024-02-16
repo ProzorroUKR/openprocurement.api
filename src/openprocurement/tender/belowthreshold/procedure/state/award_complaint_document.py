@@ -1,9 +1,11 @@
-from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
-from openprocurement.tender.core.procedure.context import get_award
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.belowthreshold.constants import STATUS4ROLE
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.belowthreshold.constants import STATUS4ROLE
+from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.tender.core.procedure.state.complaint_document import (
+    ComplaintDocumentState,
+)
 
 
 class BTAwardComplaintDocumentState(ComplaintDocumentState):
@@ -29,10 +31,7 @@ class BTAwardComplaintDocumentState(ComplaintDocumentState):
         status = complaint.get("status")
         if status not in STATUS4ROLE.get(self.request.authenticated_role, []):
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(
-                self.request,
-                f"Can't {operation} document in current ({status}) complaint status"
-            )
+            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) complaint status")
 
     def validate_tender_status(self):
         tender = get_tender()
@@ -42,10 +41,7 @@ class BTAwardComplaintDocumentState(ComplaintDocumentState):
             "active.awarded",
         ):
             operation = OPERATIONS.get(self.request.method)
-            raise_operation_error(
-                self.request,
-                f"Can't {operation} document in current ({status}) tender status"
-            )
+            raise_operation_error(self.request, f"Can't {operation} document in current ({status}) tender status")
 
     def validate_document_author(self, document):
         if self.request.authenticated_role != document["author"]:

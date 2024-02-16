@@ -1,16 +1,15 @@
 from logging import getLogger
 
-from openprocurement.api.utils import (
-    json_view,
-    context_unpack,
-    update_logging_context)
-from openprocurement.framework.core.procedure.serializers.milestone import MilestoneSerializer
-from openprocurement.framework.core.procedure.state.milestone import MilestoneState
-from openprocurement.framework.core.procedure.views.contract import resolve_contract
 from openprocurement.api.procedure.context import get_object
-from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
-from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.framework.core.procedure.serializers.milestone import (
+    MilestoneSerializer,
+)
+from openprocurement.framework.core.procedure.state.milestone import MilestoneState
+from openprocurement.framework.core.procedure.utils import save_object
+from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
+from openprocurement.framework.core.procedure.views.contract import resolve_contract
 
 LOGGER = getLogger(__name__)
 
@@ -59,7 +58,7 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         if save_object(self.request, "agreement", insert=True):
             self.LOGGER.info(
                 f"Updated agreement milestone {milestone['id']}",
-                extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_create"})
+                extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_create"}),
             )
             self.request.response.status = 201
             return {"data": self.serializer_class(milestone).data}
@@ -73,6 +72,6 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
             if save_object(self.request, "agreement"):
                 self.LOGGER.info(
                     f"Updated agreement milestone {self.request.validated['milestone']['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_patch"})
+                    extra=context_unpack(self.request, {"MESSAGE_ID": f"agreement_milestone_patch"}),
                 )
                 return {"data": self.serializer_class(updated).data}

@@ -1,19 +1,32 @@
-from openprocurement.tender.belowthreshold.procedure.state.tender_document import BelowThresholdTenderDocumentState
-from openprocurement.tender.core.procedure.models.document import PostDocument, PatchDocument, Document
-from openprocurement.tender.belowthreshold.procedure.validation import validate_document_operation_in_not_allowed_period
+from cornice.resource import resource
+
+from openprocurement.api.procedure.validation import (
+    update_doc_fields_on_put_document,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+    validate_upload_document,
+)
+from openprocurement.api.utils import json_view
+from openprocurement.tender.belowthreshold.procedure.state.tender_document import (
+    BelowThresholdTenderDocumentState,
+)
+from openprocurement.tender.belowthreshold.procedure.validation import (
+    validate_document_operation_in_not_allowed_period,
+)
+from openprocurement.tender.core.procedure.models.document import (
+    Document,
+    PatchDocument,
+    PostDocument,
+)
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
-from openprocurement.api.procedure.validation import (
-    validate_patch_data,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner, validate_upload_document, update_doc_fields_on_put_document,
+from openprocurement.tender.core.procedure.views.tender_document import (
+    TenderDocumentResource,
 )
-from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
-from cornice.resource import resource
-from openprocurement.api.utils import json_view
 
 
 @resource(
@@ -41,10 +54,8 @@ class BelowThresholdTenderDocumentResource(TenderDocumentResource):
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument),
-
             validate_document_operation_in_not_allowed_period,
             validate_tender_document_update_not_by_author_or_tender_owner,
-
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -60,7 +71,6 @@ class BelowThresholdTenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-
             validate_document_operation_in_not_allowed_period,
             validate_tender_document_update_not_by_author_or_tender_owner,
         ),

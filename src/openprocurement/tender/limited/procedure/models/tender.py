@@ -1,42 +1,54 @@
-from schematics.types import StringType, BaseType
-from schematics.types.compound import ModelType, ListType
+from schematics.types import BaseType, StringType
+from schematics.types.compound import ListType, ModelType
+
 from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
-from openprocurement.api.validation import ValidationError
-from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.tender.core.procedure.validation import (
-    validate_milestones,
-    validate_funders_unique,
-    validate_funders_ids,
-)
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.models.tender import (
-    PostBaseTender,
-    PatchBaseTender,
-    BaseTender,
-)
-from openprocurement.tender.core.procedure.models.milestone import Milestone, validate_milestones_lot
-from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
-from openprocurement.tender.core.procedure.models.tender import validate_items_related_lot
+from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.item import validate_items_uniq
+from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.validation import ValidationError
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,
 )
-from openprocurement.api.procedure.models.item import validate_items_uniq
-from openprocurement.tender.openua.procedure.models.item import Item
+from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
+from openprocurement.tender.core.procedure.models.milestone import (
+    Milestone,
+    validate_milestones_lot,
+)
+from openprocurement.tender.core.procedure.models.tender import (
+    BaseTender,
+    PatchBaseTender,
+    PostBaseTender,
+    validate_items_related_lot,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_funders_ids,
+    validate_funders_unique,
+    validate_milestones,
+)
+from openprocurement.tender.limited.constants import (
+    NEGOTIATION,
+    NEGOTIATION_QUICK,
+    REPORTING,
+)
 from openprocurement.tender.limited.procedure.models.item import ReportingItem
-from openprocurement.tender.limited.procedure.models.lot import PostTenderLot, PatchTenderLot, Lot
+from openprocurement.tender.limited.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
+)
 from openprocurement.tender.limited.procedure.models.organization import (
-    ReportingProcuringEntity,
     NegotiationProcuringEntity,
     ReportFundOrganization,
+    ReportingProcuringEntity,
 )
-from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.openua.procedure.models.item import Item
 
 
 # reporting
@@ -51,12 +63,10 @@ class PostReportingTender(PostBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft"], default="draft")
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
     def validate_items(self, data, items):
@@ -73,12 +83,10 @@ class PatchReportingTender(PatchBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft", "active"])
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
 
@@ -92,24 +100,14 @@ class ReportingTender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     value = ModelType(Value)
-    status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "complete",
-            "cancelled",
-            "unsuccessful"
-        ]
-    )
+    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     awards = BaseType()
     # contracts = BaseType()
     cancellations = BaseType()
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids]
+        ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
 
     def validate_items(self, data, items):
@@ -136,7 +134,7 @@ cause_choices_new = [
     "contestWinner",
     "technicalReasons",
     "intProperty",
-    "lastHope"
+    "lastHope",
 ] + basic_cause_choices
 
 
@@ -164,8 +162,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -198,22 +195,13 @@ class PatchNegotiationTender(PatchBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
 
 class NegotiationTender(BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
     procuringEntity = ModelType(NegotiationProcuringEntity, required=True)
-    status = StringType(
-        choices=[
-            "draft",
-            "active",
-            "complete",
-            "cancelled",
-            "unsuccessful"
-        ]
-    )
+    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
     items = ListType(
         ModelType(Item, required=True),
@@ -227,8 +215,7 @@ class NegotiationTender(BaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True),
-                          validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
     awards = BaseType()
 
     def validate_items(self, data, items):

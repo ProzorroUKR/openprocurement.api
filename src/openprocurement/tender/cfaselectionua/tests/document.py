@@ -1,31 +1,27 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
-
+from openprocurement.tender.belowthreshold.tests.document_blanks import (
+    create_tender_document_json,
+    create_tender_document_json_bulk,
+    create_tender_document_json_invalid,
+    put_tender_document_json,
+)
 from openprocurement.tender.cfaselectionua.tests.base import (
     TenderContentWebTest,
     test_tender_cfaselectionua_lots,
 )
-
-from openprocurement.tender.belowthreshold.tests.document_blanks import (
-    create_tender_document_json_invalid,
-    create_tender_document_json,
-    create_tender_document_json_bulk,
-    put_tender_document_json,
-)
-
 from openprocurement.tender.cfaselectionua.tests.document_blanks import (
-    not_found,
-    create_document_active_tendering_status,
     create_document_active_enquiries_status,
+    create_document_active_tendering_status,
     create_tender_document,
-    put_tender_document,
+    not_found,
     patch_tender_document,
+    put_tender_document,
 )
 
 
-class TenderDocumentWithDSResourceTestMixin(object):
+class TenderDocumentWithDSResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
@@ -46,7 +42,7 @@ class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithD
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
     return suite
 
 

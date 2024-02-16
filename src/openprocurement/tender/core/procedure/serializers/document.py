@@ -1,10 +1,11 @@
+from string import hexdigits
+from urllib.parse import parse_qs, urlparse
+
+from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import generate_docservice_url
-from openprocurement.api.constants import ROUTE_PREFIX
-from urllib.parse import urlparse, parse_qs
-from string import hexdigits
+from openprocurement.tender.core.procedure.context import get_request
 
 
 def download_url_serialize(s, url):
@@ -27,10 +28,10 @@ def download_url_serialize(s, url):
     #             return url
 
     if not s.get_raw("hash"):
-        path = [i for i in urlparse(url).path.split("/")
-                if len(i) == 32 and not set(i).difference(hexdigits)]
+        path = [i for i in urlparse(url).path.split("/") if len(i) == 32 and not set(i).difference(hexdigits)]
         return generate_docservice_url(request, doc_id, False, "{}/{}".format(path[0], path[-1]))
     return generate_docservice_url(request, doc_id, False)
+
 
 #  WARNING, there is a
 #  `@subscriber(BeforeRender)`

@@ -1,8 +1,9 @@
-from openprocurement.api.views.base import BaseResource
-from openprocurement.api.utils import json_view, error_handler
-from pyramid.security import Allow, Everyone
 from cornice.resource import resource
 from jsonpatch import apply_patch
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.utils import error_handler, json_view
+from openprocurement.api.views.base import BaseResource
 
 
 @resource(
@@ -36,16 +37,15 @@ class PlanHistoryResource(BaseResource):
                 revisions = doc.get("revisions") or []
                 for rev in reversed(revisions):
                     # filter changes
-                    changes = [
-                        c for c in rev["changes"]
-                        if c["path"].split("/")[1] in opt_fields
-                    ]
+                    changes = [c for c in rev["changes"] if c["path"].split("/")[1] in opt_fields]
                     if changes:
                         # apply changes and proceed
-                        history.append({
-                            "date": rev["date"],
-                            "data": actual_data,
-                        })
+                        history.append(
+                            {
+                                "date": rev["date"],
+                                "data": actual_data,
+                            }
+                        )
                         actual_data = apply_patch(actual_data, changes)
                 # history already in the desc order
                 descending = bool(self.request.params.get("descending", ""))

@@ -1,14 +1,15 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.tender.core.procedure.serializers.contract import ContractSerializer
-from openprocurement.tender.core.procedure.state.contract import ContractState
-from pyramid.security import Allow, Everyone
 from logging import getLogger
 
+from pyramid.security import Allow, Everyone
+
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.serializers.contract import (
+    ContractSerializer,
+)
+from openprocurement.tender.core.procedure.state.contract import ContractState
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 LOGGER = getLogger(__name__)
@@ -27,7 +28,6 @@ def resolve_contract(request):
 
 
 class TenderContractResource(TenderBaseResource):
-
     serializer_class = ContractSerializer
     state_class = ContractState
 
@@ -35,11 +35,9 @@ class TenderContractResource(TenderBaseResource):
         acl = [
             (Allow, Everyone, "view_tender"),
             (Allow, "g:brokers", "edit_contract"),
-
             (Allow, "g:Administrator", "edit_contract"),
             (Allow, "g:admins", "create_contract"),
             (Allow, "g:admins", "edit_contract"),
-
             (Allow, "g:contracting", "create_contract"),
         ]
         return acl

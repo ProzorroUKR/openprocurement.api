@@ -1,17 +1,23 @@
 from decimal import Decimal
 from uuid import uuid4
+
 from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, ModelType, DecimalType, IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
 from openprocurement.framework.cfaua.procedure.validation import (
-    validate_modifications_items_uniq,
-    validate_modifications_contracts_uniq,
-    validate_only_addend_or_only_factor,
     validate_item_price_variation_modifications,
+    validate_modifications_contracts_uniq,
+    validate_modifications_items_uniq,
+    validate_only_addend_or_only_factor,
     validate_third_party_modifications,
 )
 
@@ -28,7 +34,7 @@ class Change(Model):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Agreement signature date can't be in the future")
+            raise ValidationError("Agreement signature date can't be in the future")
 
 
 class PatchChange(Model):
@@ -41,7 +47,7 @@ class PatchChange(Model):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Agreement signature date can't be in the future")
+            raise ValidationError("Agreement signature date can't be in the future")
 
 
 class PostChange(Model):
@@ -59,7 +65,7 @@ class PostChange(Model):
 
     def validate_dateSigned(self, data, value):
         if value and value > get_now():
-            raise ValidationError(u"Agreement signature date can't be in the future")
+            raise ValidationError("Agreement signature date can't be in the future")
 
 
 class UnitPriceModification(Model):

@@ -1,10 +1,11 @@
-from openprocurement.api.utils import error_handler
 from schematics.exceptions import ValidationError
+
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.utils import error_handler
 from openprocurement.tender.core.procedure.models.req_response import (
-    validate_req_response_requirement,
-    validate_req_response_related_tenderer,
     validate_req_response_evidences_relatedDocument,
+    validate_req_response_related_tenderer,
+    validate_req_response_requirement,
     validate_response_requirement_uniq,
 )
 
@@ -16,7 +17,6 @@ class BaseReqResponseState(BaseState):
         self.pre_save_validations(data)
 
     def pre_save_validations(self, data: dict) -> None:
-
         parent = self.request.validated[self.parent_obj_name]
         if isinstance(data, dict):
             data = [data]

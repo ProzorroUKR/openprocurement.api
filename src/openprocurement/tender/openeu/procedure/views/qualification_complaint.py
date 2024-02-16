@@ -1,11 +1,18 @@
 from cornice.resource import resource
+
+from openprocurement.tender.core.procedure.views.qualification_claim import (
+    QualificationClaimResource,
+)
 from openprocurement.tender.core.procedure.views.qualification_complaint import (
     QualificationComplaintGetResource,
     QualificationComplaintWriteResource,
 )
-from openprocurement.tender.core.procedure.views.qualification_claim import QualificationClaimResource
-from openprocurement.tender.openeu.procedure.state.qualification_claim import OpenEUQualificationClaimState
-from openprocurement.tender.openeu.procedure.state.qualification_complaint import OpenEUQualificationComplaintState
+from openprocurement.tender.openeu.procedure.state.qualification_claim import (
+    OpenEUQualificationClaimState,
+)
+from openprocurement.tender.openeu.procedure.state.qualification_complaint import (
+    OpenEUQualificationComplaintState,
+)
 
 
 @resource(
@@ -44,4 +51,3 @@ class OpenEUTenderQualificationClaimResource(QualificationClaimResource):
 )
 class OpenEUQualificationComplaintWriteResource(QualificationComplaintWriteResource):
     state_class = OpenEUQualificationComplaintState
-

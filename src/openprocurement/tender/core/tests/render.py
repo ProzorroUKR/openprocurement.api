@@ -1,8 +1,8 @@
-from openprocurement.api.tests.base import singleton_app, app
-from openprocurement.api.context import set_now
-from json import loads
 import os.path
-import difflib
+from json import loads
+
+from openprocurement.api.context import set_now
+from openprocurement.api.tests.base import app, singleton_app
 
 
 def get_fixture(name, ext="json"):

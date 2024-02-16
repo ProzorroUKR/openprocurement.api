@@ -1,17 +1,23 @@
 from schematics.types import StringType
-from openprocurement.api.procedure.types import ModelType
 
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,
-    PostFramework as BasePostFramework,
-    PatchFramework as BasePatchFramework,
+)
+from openprocurement.framework.core.procedure.models.framework import (
     PatchActiveFramework as BasePatchActiveFramework,
+)
+from openprocurement.framework.core.procedure.models.framework import (
+    PatchFramework as BasePatchFramework,
+)
+from openprocurement.framework.core.procedure.models.framework import (
+    PostFramework as BasePostFramework,
 )
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.models.organization import (
     PatchActiveProcuringEntity,
-    ProcuringEntity,
     PatchProcuringEntity,
+    ProcuringEntity,
 )
 
 

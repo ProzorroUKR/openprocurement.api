@@ -1,37 +1,29 @@
 import re
-from functools import wraps
-from dateorro import (
-    calc_datetime,
-    calc_working_datetime,
-    calc_normalized_datetime,
-)
 from datetime import timedelta
+from functools import wraps
 from logging import getLogger
 
+from dateorro import calc_datetime, calc_normalized_datetime, calc_working_datetime
+
 from openprocurement.api.constants import (
-    WORKING_DAYS,
-    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
+    DST_AWARE_PERIODS_FROM,
     NORMALIZED_CLARIFICATIONS_PERIOD_FROM,
     NORMALIZED_TENDER_PERIOD_FROM,
-    DST_AWARE_PERIODS_FROM,
     TZ,
+    WORKING_DATE_ALLOW_MIDNIGHT_FROM,
+    WORKING_DAYS,
 )
-from openprocurement.api.utils import (
-    get_now,
-    get_first_revision_date,
-)
+from openprocurement.api.utils import get_first_revision_date, get_now
 from openprocurement.api.validation import validate_json_data
-from openprocurement.tender.core.constants import (
-    NORMALIZED_COMPLAINT_PERIOD_FROM,
-)
+from openprocurement.tender.core.constants import NORMALIZED_COMPLAINT_PERIOD_FROM
 from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD_GROUP_NAME,
     ABOVE_THRESHOLD_GROUP,
+    ABOVE_THRESHOLD_GROUP_NAME,
 )
 
 LOGGER = getLogger("openprocurement.tender.core")
 
-ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
+ACCELERATOR_RE = re.compile(r".accelerator=(?P<accelerator>\d+)")
 
 
 QUICK = "quick"
@@ -40,14 +32,14 @@ QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
 QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
 
 
-class ProcurementMethodTypePredicate(object):
-    """ Route predicate factory for procurementMethodType route predicate. """
+class ProcurementMethodTypePredicate:
+    """Route predicate factory for procurementMethodType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "procurementMethodType = %s" % (self.val,)
+        return "procurementMethodType = {}".format(self.val)
 
     phash = text
 
@@ -82,20 +74,19 @@ class ProcurementMethodTypePredicate(object):
         return procurement_method_type
 
 
-class ComplaintTypePredicate(object):
-    """ Route predicate factory for complaintType route predicate. """
+class ComplaintTypePredicate:
+    """Route predicate factory for complaintType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "complaintType = %s" % (self.val,)
+        return "complaintType = {}".format(self.val)
 
     phash = text
 
     def __call__(self, context, request):
         return request.complaint_type == self.val
-
 
 
 def get_tender_accelerator(context):
@@ -113,6 +104,7 @@ def acceleratable(wrapped):
         if accelerator:
             return calc_datetime(date_obj, timedelta_obj, accelerator=accelerator)
         return wrapped(date_obj, timedelta_obj, tender=tender, working_days=working_days, calendar=calendar)
+
     return wrapper
 
 

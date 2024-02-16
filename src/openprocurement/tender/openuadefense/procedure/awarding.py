@@ -1,17 +1,22 @@
 from logging import getLogger
-from openprocurement.api.utils import context_unpack
-from openprocurement.tender.core.procedure.context import get_request
+
+from openprocurement.api.constants import (
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.core.procedure.utils import tender_created_in
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
-from openprocurement.tender.openuadefense.procedure.settings import BLOCK_COMPLAINT_STATUSES
-from openprocurement.api.constants import NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.utils import tender_created_in
+from openprocurement.tender.openuadefense.procedure.settings import (
+    BLOCK_COMPLAINT_STATUSES,
+)
 
 LOGGER = getLogger("openprocurement.tender.openuadefense")
 
 
 class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
-
     def add_next_award(self):
         super().add_next_award()
         self.process_new_defense_complaints()
@@ -37,25 +42,17 @@ class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
                             continue
 
                         pending_complaints = any(
-                            i["status"] in BLOCK_COMPLAINT_STATUSES
-                            and i.get("relatedLot") == lot["id"]
+                            i["status"] in BLOCK_COMPLAINT_STATUSES and i.get("relatedLot") == lot["id"]
                             for i in tender.get("complaints", "")
                         )
                         awards_no_complaint_periods = all(
-                            not a.get("complaintPeriod")
-                            for a in lot_awards
-                            if a["status"] == "unsuccessful"
+                            not a.get("complaintPeriod") for a in lot_awards if a["status"] == "unsuccessful"
                         )
-                        if (
-                            not pending_complaints
-                            and awards_no_complaint_periods
-                        ):
+                        if not pending_complaints and awards_no_complaint_periods:
                             LOGGER.info(
                                 "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
                                 extra=context_unpack(
-                                    get_request(),
-                                    {"MESSAGE_ID": "switched_lot_unsuccessful"},
-                                    {"LOT_ID": lot["id"]}
+                                    get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
                                 ),
                             )
                             self.set_object_status(lot, "unsuccessful")
@@ -66,13 +63,8 @@ class DefenseTenderStateAwardingMixing(TenderStateAwardingMixing):
 
         else:
             if (
-                tender["awards"][-1]["status"] == "unsuccessful" and
-                all(i["status"] not in BLOCK_COMPLAINT_STATUSES
-                    for i in tender.get("complaints", "")) and
-                all(
-                    not a.get("complaintPeriod")
-                    for a in tender.get("awards", "")
-                    if a["status"] == "unsuccessful"
-                )
+                tender["awards"][-1]["status"] == "unsuccessful"
+                and all(i["status"] not in BLOCK_COMPLAINT_STATUSES for i in tender.get("complaints", ""))
+                and all(not a.get("complaintPeriod") for a in tender.get("awards", "") if a["status"] == "unsuccessful")
             ):
                 self.get_change_tender_status_handler("unsuccessful")(tender)

@@ -1,7 +1,12 @@
 from cornice.resource import resource
-from openprocurement.tender.core.procedure.views.complaint import BaseTenderComplaintGetResource
+
+from openprocurement.tender.belowthreshold.procedure.state.claim import (
+    BelowThresholdTenderClaimState,
+)
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
-from openprocurement.tender.belowthreshold.procedure.state.claim import BelowThresholdTenderClaimState
+from openprocurement.tender.core.procedure.views.complaint import (
+    BaseTenderComplaintGetResource,
+)
 
 
 @resource(
