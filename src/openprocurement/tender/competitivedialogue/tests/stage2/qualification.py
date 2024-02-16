@@ -240,7 +240,6 @@ class TenderStageEUQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationBaseTestCase,
 ):
     docservice = True
-    pass
 
 
 def suite():

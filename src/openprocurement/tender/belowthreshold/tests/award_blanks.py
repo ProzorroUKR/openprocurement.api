@@ -1,6 +1,4 @@
 from copy import deepcopy
-from datetime import timedelta
-from unittest import mock
 
 from webtest import AppError
 

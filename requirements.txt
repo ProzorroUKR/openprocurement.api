@@ -40,6 +40,7 @@ isort==5.13.2
 pylint==3.0.3
 pylint-pytest==1.1.7
 bandit[toml]==1.7.7
+autoflake==2.2.1
 
 
 git+https://github.com/ProzorroUKR/request_id_middleware.git@0.1.2#egg=request_id_middleware

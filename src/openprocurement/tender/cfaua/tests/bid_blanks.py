@@ -1,6 +1,5 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
-from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now

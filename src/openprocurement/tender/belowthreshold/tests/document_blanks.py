@@ -1,7 +1,4 @@
-from email.header import Header
-
 # TenderDocumentResourceTest
-from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,

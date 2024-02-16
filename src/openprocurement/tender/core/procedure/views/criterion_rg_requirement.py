@@ -1,4 +1,3 @@
-from copy import copy
 from logging import getLogger
 from typing import List, Optional, Tuple
 

@@ -1,6 +1,3 @@
-from datetime import timedelta
-from unittest import mock
-
 from webtest import AppError
 
 from openprocurement.api.utils import get_now

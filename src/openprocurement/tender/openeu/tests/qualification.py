@@ -1,6 +1,4 @@
 import unittest
-from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -382,7 +380,6 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationBaseTestCase,
 ):
     docservice = True
-    pass
 
 
 def suite():

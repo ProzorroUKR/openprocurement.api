@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from openprocurement.api.constants import FAST_CATALOGUE_FLOW_FRAMEWORK_IDS
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import (

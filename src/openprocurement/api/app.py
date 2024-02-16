@@ -16,7 +16,6 @@ if not is_test():
 
     gevent.monkey.patch_all()
 
-import os
 from datetime import datetime
 from logging import getLogger
 

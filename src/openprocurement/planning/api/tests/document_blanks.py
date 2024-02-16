@@ -1,6 +1,3 @@
-from email.header import Header
-
-
 def create_plan_document_json_invalid(self):
     response = self.app.post_json(
         "/plans/{}/documents?acc_token={}".format(self.plan_id, self.plan_token),
