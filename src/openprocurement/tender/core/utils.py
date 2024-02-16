@@ -23,7 +23,7 @@ from openprocurement.tender.open.constants import (
 
 LOGGER = getLogger("openprocurement.tender.core")
 
-ACCELERATOR_RE = re.compile(".accelerator=(?P<accelerator>\d+)")
+ACCELERATOR_RE = re.compile(r".accelerator=(?P<accelerator>\d+)")
 
 
 QUICK = "quick"
@@ -32,14 +32,14 @@ QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
 QUICK_FAST_AUCTION = "quick(mode:fast-auction)"
 
 
-class ProcurementMethodTypePredicate(object):
+class ProcurementMethodTypePredicate:
     """Route predicate factory for procurementMethodType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "procurementMethodType = %s" % (self.val,)
+        return "procurementMethodType = {}".format(self.val)
 
     phash = text
 
@@ -74,14 +74,14 @@ class ProcurementMethodTypePredicate(object):
         return procurement_method_type
 
 
-class ComplaintTypePredicate(object):
+class ComplaintTypePredicate:
     """Route predicate factory for complaintType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "complaintType = %s" % (self.val,)
+        return "complaintType = {}".format(self.val)
 
     phash = text
 

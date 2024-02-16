@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -76,7 +75,7 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EULotAwardResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         response = self.check_chronograph()
@@ -136,7 +135,7 @@ class TenderStage2EU2LotAwardResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EU2LotAwardResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         response = self.check_chronograph()
@@ -197,7 +196,7 @@ class TenderStage2EUAwardComplaintResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EUAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
         response = self.check_chronograph()
@@ -262,7 +261,7 @@ class TenderStage2EULotAwardComplaintResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EULotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -348,7 +347,7 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -387,7 +386,7 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EU2LotAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -444,7 +443,7 @@ class TenderStage2EUAwardDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -471,7 +470,7 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EU2LotAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -528,7 +527,7 @@ class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(BaseTenderUAAwardPendingTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -550,7 +549,7 @@ class BaseTenderUAAwardActiveTest(BaseTenderUAAwardPendingTest):
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(BaseTenderUAAwardActiveTest, self).setUp()
+        super().setUp()
         with change_auth(self.app, ("Basic", ("token", ""))):
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
@@ -587,7 +586,7 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(
     BaseTenderUAAwardActiveTest, TenderAwardComplaintDocumentResourceTestMixin
 ):
     def setUp(self):
-        super(TenderStage2UAAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create complaint for award
         bid_token = self.initial_bids_tokens[self.bids[0]["id"]]
@@ -609,7 +608,7 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActi
     docservice = True
 
     def setUp(self):
-        super(TenderStage2UA2LotAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create complaint for award
         claim_data = deepcopy(test_tender_below_draft_complaint)
@@ -641,14 +640,16 @@ class TenderStage2UA2LotAwardDocumentResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotAwardResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotAwardComplaintDocumentResourceTest)
+    )
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotAwardResourceTest))
     return suite
 
 

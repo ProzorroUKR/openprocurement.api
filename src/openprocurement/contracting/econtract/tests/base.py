@@ -254,7 +254,7 @@ class BaseEContractWebTest(BaseEContractTest):
 
 class BaseEContractContentWebTest(BaseEContractWebTest):
     def setUp(self):
-        super(BaseEContractContentWebTest, self).setUp()
+        super().setUp()
         response = self.app.patch_json(
             "/contracts/{}/credentials?acc_token={}".format(self.contract_id, self.initial_data["tender_token"]),
             {"data": {}},

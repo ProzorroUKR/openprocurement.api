@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
@@ -141,7 +140,7 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -181,7 +180,7 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         self.bid_id = self.initial_bids[0]["id"]
         self.bid_token = self.initial_bids_tokens[self.bid_id]
         self.bid2_id = self.initial_bids[1]["id"]
@@ -240,7 +239,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
 
         self.bid_data_wo_docs = bid_data
 
-        super(TenderBidBatchDocumentsWithDSResourceTest, self).setUp()
+        super().setUp()
 
 
 class TenderBidRequirementResponseResourceTest(

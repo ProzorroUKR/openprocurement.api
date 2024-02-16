@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import unittest
 from copy import deepcopy
@@ -313,8 +312,8 @@ class HistoricalResourceTestCase(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(HistoricalUtilsTestCase))
-    suite.addTest(unittest.makeSuite(HistoricalResourceTestCase))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(HistoricalUtilsTestCase))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(HistoricalResourceTestCase))
     return suite
 
 

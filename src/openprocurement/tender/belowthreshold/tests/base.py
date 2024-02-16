@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -258,7 +257,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.set_status("active.tendering", extra={"status": "active.enquires"})
 
     def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
+        super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_lots:
@@ -330,5 +329,5 @@ class TenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(TenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

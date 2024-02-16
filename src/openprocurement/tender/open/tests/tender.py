@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -50,13 +49,13 @@ from openprocurement.tender.open.tests.tender_blanks import (
 )
 
 
-class TenderUAResourceTestMixin(object):
+class TenderUAResourceTestMixin:
     test_empty_listing = snitch(empty_listing)
     test_tender_fields = snitch(tender_fields)
     test_patch_tender_period = snitch(patch_tender_period)
 
 
-class TenderUaProcessTestMixin(object):
+class TenderUaProcessTestMixin:
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_first_bid_tender = snitch(first_bid_tender)
@@ -69,7 +68,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderUAResourceTest, self).setUp()
+        super().setUp()
         self.test_lots_data = deepcopy(self.initial_lots)
 
     test_create_tender_invalid = snitch(create_tender_invalid)
@@ -101,7 +100,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     initial_bids = test_tender_open_bids
 
     def setUp(self):
-        super(TenderUAProcessTest, self).setUp()
+        super().setUp()
         self.test_bids_data = deepcopy(self.initial_bids)
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
@@ -121,8 +120,8 @@ class TenderDPSResourceTest(BaseTenderUAWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderUAProcessTest))
-    suite.addTest(unittest.makeSuite(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
     return suite
 
 

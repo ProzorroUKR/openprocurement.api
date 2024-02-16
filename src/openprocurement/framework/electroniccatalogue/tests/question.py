@@ -29,7 +29,7 @@ class QuestionResourceTest(FrameworkContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(QuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(QuestionResourceTest))
     return suite
 
 

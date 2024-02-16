@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -32,8 +31,8 @@ class DialogUADocumentWithDSResourceTest(BaseCompetitiveDialogUAContentWebTest, 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(DialogEUDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(DialogUADocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogEUDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogUADocumentWithDSResourceTest))
     return suite
 
 

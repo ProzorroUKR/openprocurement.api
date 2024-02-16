@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
 import dateutil
-from mock import patch
 
 from openprocurement.api.constants import (
     COMPLAINT_IDENTIFIER_REQUIRED_FROM,

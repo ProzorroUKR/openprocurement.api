@@ -54,7 +54,7 @@ class CriterionClassification(BaseClassification):
             and code in criteria_to_check
             and tender["procurementMethodType"] not in GUARANTEE_ALLOWED_TENDER_TYPES
         ):
-            raise ValidationError(u"{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
+            raise ValidationError("{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
 
     @staticmethod
     def _validate_lcc_id(code, tender):

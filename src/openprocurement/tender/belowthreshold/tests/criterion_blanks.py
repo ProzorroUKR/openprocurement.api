@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 from copy import deepcopy
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import test_exclusion_criteria

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
 from unittest.mock import patch
@@ -57,13 +56,13 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # Ten
 )
 
 
-class TenderContractResourceTestMixin(object):
+class TenderContractResourceTestMixin:
     test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
     test_get_tender_contract = snitch(get_tender_contract)
     test_get_tender_contracts = snitch(get_tender_contracts)
 
 
-class TenderContractDocumentResourceTestMixin(object):
+class TenderContractDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_contract_document = snitch(create_tender_contract_document)
     test_put_tender_contract_document = snitch(put_tender_contract_document)
@@ -117,7 +116,7 @@ class TenderContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin, T
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -167,7 +166,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -184,7 +183,7 @@ class Tender2LotContractResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(Tender2LotContractResourceTest, self).setUp()
+        super().setUp()
         # Create award
 
         auth = self.app.authorization
@@ -220,7 +219,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -272,7 +271,7 @@ class Tender2LotContractDocumentResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(Tender2LotContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -324,7 +323,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -346,7 +345,7 @@ class TenderLotContractMultiBuyersResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderLotContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         # Create award
 
         auth = self.app.authorization
@@ -407,13 +406,13 @@ class TenderEContractMultiBuyersResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotContractMultiBuyersResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEContractResourceTest))
     return suite
 
 

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -94,7 +92,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderStage2EUContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_contract_termination = snitch(contract_termination)
@@ -118,7 +116,7 @@ class TenderStage2EUContractDocumentResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderStage2EUContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         supplier_info = deepcopy(test_tender_cd_tenderer)
         self.app.authorization = ("Basic", ("token", ""))
@@ -190,7 +188,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
         )
 
     def setUp(self):
-        super(TenderStage2UAContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -239,7 +237,7 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -259,7 +257,7 @@ class TenderStage2UAContractDocumentResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderStage2UAContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -304,7 +302,7 @@ class TenderStage2EUContractUnitValueResourceTest(BaseCompetitiveDialogEUStage2C
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderStage2EUContractUnitValueResourceTest, self).setUp()
+        super().setUp()
         auth = self.app.authorization
         TenderStage2EUContractResourceTest.create_award(self)
         self.app.authorization = auth
@@ -322,7 +320,7 @@ class TenderContractEUStage2MultiBuyersResourceTest(BaseCompetitiveDialogEUStage
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractEUStage2MultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderStage2EUContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -344,7 +342,7 @@ class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractUAStage2MultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderStage2UAContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -359,13 +357,13 @@ class TenderContractUAStage2MultiBuyersResourceTest(BaseCompetitiveDialogUAStage
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractEUStage2MultiBuyersResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractUAStage2MultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractEUStage2MultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractUAStage2MultiBuyersResourceTest))
     return suite
 
 

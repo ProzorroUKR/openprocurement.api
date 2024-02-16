@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import csv
 import os
 from copy import deepcopy
@@ -34,12 +33,12 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(RestrictedFrameworkOpenResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(RestrictedFrameworkOpenResourceTest, self).tearDown()
+        super().tearDown()
 
     def create_framework(self):
         pass

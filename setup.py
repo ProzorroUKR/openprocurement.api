@@ -11,7 +11,7 @@ with open(os.path.join(here, "README.md")) as f:
 
 requires = []
 
-with open('requirements.txt', 'r') as f:
+with open('requirements.txt') as f:
     for resource in f.readlines():
         if not resource.startswith('git+'):
             requires.append(resource.strip())

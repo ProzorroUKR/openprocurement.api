@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -24,7 +23,7 @@ from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
 )
 
 
-class TenderComplaintResourceTestMixin(object):
+class TenderComplaintResourceTestMixin:
     test_create_tender_complaint_invalid = snitch(create_tender_complaint_invalid)
     test_get_tender_complaint = snitch(get_tender_complaint)
     test_get_tender_complaints = snitch(get_tender_complaints)
@@ -49,7 +48,7 @@ class TenderLotAwardComplaintResourceTest(TenderContentWebTest):
 
 class TenderComplaintDocumentResourceTest(TenderContentWebTest):
     def setUp(self):
-        super(TenderComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -67,8 +66,8 @@ class TenderComplaintDocumentResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
     return suite
 
 

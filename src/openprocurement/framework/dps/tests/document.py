@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -27,7 +26,7 @@ class TestDocumentGet(FrameworkContentWebTest):
         self.initial_data["documents"] = deepcopy(test_dps_documents)
         for document in self.initial_data["documents"]:
             document["url"] = self.generate_docservice_url()
-        super(TestDocumentGet, self).setUp()
+        super().setUp()
 
     test_get_documents_list = snitch(get_documents_list)
     test_get_document_by_id = snitch(get_document_by_id)
@@ -51,7 +50,7 @@ class OpenDocumentWithDSResourceTest(BaseDSFrameworkContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestDocumentGet))
-    suite.addTest(unittest.makeSuite(TestDocumentsCreate))
-    suite.addTest(unittest.makeSuite(OpenDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentGet))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentsCreate))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(OpenDocumentWithDSResourceTest))
     return suite

@@ -1,8 +1,8 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
-import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import (
@@ -67,8 +67,8 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
     response = self.app.get("/tenders?offset={}".format(offset))
@@ -107,7 +107,7 @@ def listing(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders], reverse=True)
     )
@@ -210,9 +210,9 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
     response = self.app.get("/tenders?feed=changes&limit=2")
@@ -233,21 +233,21 @@ def listing_changes(self):
     response = self.app.get("/tenders?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?feed=changes", params=[("opt_fields", "status,enquiryPeriod")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders], reverse=True)
     )
@@ -314,9 +314,9 @@ def listing_draft(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
 
@@ -651,9 +651,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -1191,7 +1191,7 @@ def create_tender_with_required_unit(self):
         response.json['errors'],
         [
             {
-                'description': [{u'unit': {u'code': [u'Code should be one of valid unit codes.']}}],
+                'description': [{'unit': {'code': ['Code should be one of valid unit codes.']}}],
                 'location': 'body',
                 'name': 'items',
             }
@@ -3459,9 +3459,9 @@ def activate_bid_guarantee_multilot(self):
         response.json["errors"],
         [
             {
-                u'description': [u'Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
-                u'location': u'body',
-                u'name': u'requirementResponses',
+                'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+                'location': 'body',
+                'name': 'requirementResponses',
             }
         ],
     )
@@ -3493,9 +3493,9 @@ def activate_bid_guarantee_multilot(self):
         response.json["errors"],
         [
             {
-                u'description': [u'Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
-                u'location': u'body',
-                u'name': u'requirementResponses',
+                'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+                'location': 'body',
+                'name': 'requirementResponses',
             }
         ],
     )

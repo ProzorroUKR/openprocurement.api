@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -108,10 +107,10 @@ class TenderGuarantee(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
-    suite.addTest(unittest.makeSuite(TenderGuarantee))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderGuarantee))
     return suite
 
 

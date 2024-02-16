@@ -35,7 +35,7 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
         ),
     )
     def collection_post(self):
-        return super(BaseAwardMilestoneResource, self).collection_post()
+        return super().collection_post()
 
     def set_location(self, tender, milestone):
         parent_obj = self.request.validated[self.context_name]

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
-import mock
 from isodate import duration_isoformat
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17, SANDBOX_MODE, TZ
@@ -366,9 +365,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -2064,7 +2063,7 @@ def create_tender_with_required_unit(self):
         response.json['errors'],
         [
             {
-                'description': [{u'unit': {u'code': [u'Code should be one of valid unit codes.']}}],
+                'description': [{'unit': {'code': ['Code should be one of valid unit codes.']}}],
                 'location': 'body',
                 'name': 'items',
             }

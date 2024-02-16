@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
@@ -904,7 +903,7 @@ def tender_features_invalid(self):
         [
             {
                 "description": [
-                    "Sum of max value of all features for lot should be less then or equal to {0:.0%}".format(
+                    "Sum of max value of all features for lot should be less then or equal to {:.0%}".format(
                         self.sum_of_max_value_of_all_features
                     )
                 ],

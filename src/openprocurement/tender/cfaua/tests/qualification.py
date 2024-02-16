@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -64,7 +63,7 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -87,7 +86,7 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -118,7 +117,7 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
         qualifications = response.json["data"]
@@ -149,7 +148,7 @@ class TenderLotQualificationComplaintResourceTest(TenderQualificationComplaintRe
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -204,7 +203,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
     return suite
 
 

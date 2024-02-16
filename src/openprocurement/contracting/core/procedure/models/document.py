@@ -50,7 +50,7 @@ class PostDocument(BaseContractDocument):
 
     hash = HashType()
     title = StringType(required=True)
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)
     documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
     author = StringType()
@@ -71,7 +71,7 @@ class Document(BaseContractDocument):
     id = MD5Type(required=True)
     hash = HashType()
     title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     documentOf = StringType(choices=DOCUMENT_OFS, default="contract")
     datePublished = StringType(required=True)

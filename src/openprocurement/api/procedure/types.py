@@ -28,7 +28,7 @@ class ModelType(BaseModelType):
 
 class DecimalType(BaseDecimalType):
     def __init__(self, precision=-3, min_value=None, max_value=None, **kwargs):
-        super(DecimalType, self).__init__(**kwargs)
+        super().__init__(**kwargs)
         self.min_value, self.max_value = min_value, max_value
         self.precision = Decimal("1E{:d}".format(precision))
 
@@ -50,7 +50,7 @@ class StringDecimalType(BaseDecimalType):
     def to_primitive(self, *args, **kwargs):
         value = super().to_primitive(*args, **kwargs)
         if isinstance(value, Decimal):
-            return '{0:f}'.format(value)
+            return '{:f}'.format(value)
         return value
 
 
@@ -58,27 +58,17 @@ class URLType(StringType):
     # TODO: remove custom URLType after newer version of schematics will be used. The latest version has universal regex.
 
     MESSAGES = {
-        'invalid_url': u"Not a well formed URL.",
-        'not_found': u"URL does not exist.",
+        'invalid_url': "Not a well formed URL.",
     }
 
     URL_REGEX = re.compile(r'^https?://\S+$', re.IGNORECASE)
 
-    def __init__(self, verify_exists=False, **kwargs):
-        self.verify_exists = verify_exists
-        super(URLType, self).__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def validate_url(self, value):
         if not URLType.URL_REGEX.match(value):
             raise StopValidation(self.messages['invalid_url'])
-        if self.verify_exists:
-            from six.moves import urllib
-
-            try:
-                request = urllib.Request(value)
-                urllib.urlopen(request)
-            except Exception:
-                raise StopValidation(self.messages['not_found'])
 
 
 class StrictStringType(StringType):
@@ -163,7 +153,7 @@ class HashType(StringType):
     }
 
     def to_native(self, value, context=None):
-        value = super(HashType, self).to_native(value, context)
+        value = super().to_native(value, context)
 
         if ":" not in value:
             raise ValidationError(self.messages["hash_invalid"])

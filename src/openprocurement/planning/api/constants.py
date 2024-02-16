@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD

@@ -1,9 +1,9 @@
 from datetime import timedelta
+from unittest import mock
+from unittest.mock import patch
 
-import mock
 from freezegun import freeze_time
 from iso8601 import parse_date
-from mock import patch
 
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,

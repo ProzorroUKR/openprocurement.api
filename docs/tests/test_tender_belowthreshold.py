@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -45,12 +44,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(

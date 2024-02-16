@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
 from freezegun import freeze_time
-from mock import patch
 
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now

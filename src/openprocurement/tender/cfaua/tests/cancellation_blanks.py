@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import jmespath
 
 import openprocurement.api.procedure.context
@@ -244,7 +243,7 @@ def cancellation_tender_active_qualification_stand_still(self):
         award_id = response.json["data"]["awards"][0]["id"]
         owner_token = self.initial_bids_tokens[response.json["data"]["bids"][0]["id"]]
         response = self.app.post_json(
-            "/tenders/{0}/awards/{1}/complaints?acc_token={2}".format(self.tender_id, award_id, owner_token),
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, owner_token),
             {"data": test_tender_below_complaint},
         )
         self.assertEqual(response.status, "201 Created")

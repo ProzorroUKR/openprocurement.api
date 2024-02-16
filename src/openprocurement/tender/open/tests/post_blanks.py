@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth
@@ -418,9 +416,7 @@ def get_complaint_post(self):
     response = self.get_post()
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        set(response.json["data"]), set(["id", "title", "description", "author", "recipient", "datePublished"])
-    )
+    self.assertEqual(set(response.json["data"]), {"id", "title", "description", "author", "recipient", "datePublished"})
 
     self.post_id = "some_id"
 
@@ -455,7 +451,7 @@ def get_complaint_posts(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        set(response.json["data"][0]), set(["id", "title", "description", "author", "recipient", "datePublished"])
+        set(response.json["data"][0]), {"id", "title", "description", "author", "recipient", "datePublished"}
     )
 
 

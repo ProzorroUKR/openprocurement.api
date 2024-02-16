@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -39,7 +38,7 @@ from openprocurement.tender.open.tests.post_blanks import (
 date_after_2020_04_19 = get_now() - timedelta(days=1)
 
 
-class TenderComplaintPostResourceMixin(object):
+class TenderComplaintPostResourceMixin:
     app = None
     tender_id = None
     complaint_id = None
@@ -104,7 +103,7 @@ class TenderComplaintPostResourceMixin(object):
         return self.app.get(url, status=status)
 
 
-class TenderQualificationComplaintPostResourceMixin(object):
+class TenderQualificationComplaintPostResourceMixin:
     app = None
     tender_id = None
     qualification_id = None
@@ -186,7 +185,7 @@ class TenderQualificationComplaintPostResourceMixin(object):
         return self.app.get(url, status=status)
 
 
-class TenderAwardComplaintPostResourceMixin(object):
+class TenderAwardComplaintPostResourceMixin:
     app = None
     tender_id = None
     award_id = None
@@ -262,7 +261,7 @@ class TenderAwardComplaintPostResourceMixin(object):
         return self.app.get(url, status=status)
 
 
-class TenderCancellationComplaintPostResourceMixin(object):
+class TenderCancellationComplaintPostResourceMixin:
     app = None
     tender_id = None
     cancellation_id = None
@@ -335,11 +334,11 @@ class TenderCancellationComplaintPostResourceMixin(object):
         return self.app.get(url, status=status)
 
 
-class ClaimPostResourceMixin(object):
+class ClaimPostResourceMixin:
     test_create_complaint_post_claim_forbidden = snitch(create_complaint_post_claim_forbidden)
 
 
-class ComplaintPostResourceMixin(object):
+class ComplaintPostResourceMixin:
     test_create_complaint_post_release_forbidden = snitch(create_complaint_post_release_forbidden)
     test_create_complaint_post_status_forbidden = snitch(create_complaint_post_status_forbidden)
     test_create_complaint_post_review_date_forbidden = snitch(create_complaint_post_review_date_forbidden)
@@ -368,7 +367,7 @@ class TenderComplaintPostResourceTest(
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
@@ -391,7 +390,7 @@ class TenderAwardComplaintPostResourceTest(
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderAwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -437,7 +436,7 @@ class TenderCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)

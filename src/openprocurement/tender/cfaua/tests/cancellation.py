@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.tests.base import snitch
@@ -91,7 +89,7 @@ class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCa
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
@@ -110,7 +108,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         if RELEASE_2020_04_19 < get_now():
             self.set_complaint_period_end()
@@ -162,9 +160,9 @@ class CancellationTenderAndLotOnAllStage(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CancellationTenderAndLotOnAllStage))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CancellationTenderAndLotOnAllStage))
     return suite
 
 

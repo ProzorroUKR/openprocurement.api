@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -42,7 +41,7 @@ class AgreementDocumentWithDSResourceTest(BaseDSAgreementContentWebTest):
 
 def suite():
     _suite = unittest.TestSuite()
-    _suite.addTest(unittest.makeSuite(TestDocumentGet))
-    _suite.addTest(unittest.makeSuite(TestDocumentsCreate))
-    _suite.addTest(unittest.makeSuite(AgreementDocumentWithDSResourceTest))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentGet))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestDocumentsCreate))
+    _suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementDocumentWithDSResourceTest))
     return _suite

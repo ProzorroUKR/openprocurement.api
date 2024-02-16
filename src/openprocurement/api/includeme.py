@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from openprocurement.api.utils import json_body, register_config_serializer

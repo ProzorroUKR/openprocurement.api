@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest import mock
 from uuid import uuid4
-
-import mock
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
@@ -115,11 +113,9 @@ def listing(self):
     self.assertTrue(ids.startswith(",".join([i["id"] for i in response.json["data"]])))
 
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
-    )
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in contracts})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts]))
 
     response = self.app.get(f"/contracts?offset={offset}")
@@ -144,15 +140,15 @@ def listing(self):
     response = self.app.get("/contracts", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "contractID"})
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
     )
@@ -223,11 +219,9 @@ def listing_changes(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in contracts])
-    )
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in contracts})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts]))
 
     response = self.app.get("/contracts?feed=changes&limit=2")
@@ -248,15 +242,15 @@ def listing_changes(self):
     response = self.app.get("/contracts?feed=changes", params=[("opt_fields", "contractID")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "contractID"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "contractID"})
     self.assertIn("opt_fields=contractID", response.json["next_page"]["uri"])
 
     response = self.app.get("/contracts?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in contracts]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in contracts})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in contracts], reverse=True)
     )

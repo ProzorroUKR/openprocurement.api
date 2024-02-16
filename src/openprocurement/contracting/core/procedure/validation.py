@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS, validate_accreditation_level_base
 from openprocurement.contracting.core.procedure.utils import (

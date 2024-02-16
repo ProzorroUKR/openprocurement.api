@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import os
 from copy import deepcopy
@@ -382,5 +381,5 @@ class TenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(TenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

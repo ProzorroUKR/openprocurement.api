@@ -233,9 +233,9 @@ def create_tender_invalid_eu(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -920,9 +920,9 @@ def create_tender_invalid_ua(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.core.tests import models, tender, tender_credentials, utils

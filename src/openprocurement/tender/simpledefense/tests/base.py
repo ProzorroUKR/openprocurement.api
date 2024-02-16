@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -97,5 +96,5 @@ class BaseSimpleDefContentWebTest(BaseSimpleDefWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(BaseSimpleDefContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

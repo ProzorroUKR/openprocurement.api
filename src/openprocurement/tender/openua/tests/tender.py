@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -46,13 +45,13 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 )
 
 
-class TenderUAResourceTestMixin(object):
+class TenderUAResourceTestMixin:
     test_empty_listing = snitch(empty_listing)
     test_tender_fields = snitch(tender_fields)
     test_patch_tender_period = snitch(patch_tender_period)
 
 
-class TenderUaProcessTestMixin(object):
+class TenderUaProcessTestMixin:
     test_invalid_bid_tender_features = snitch(invalid_bid_tender_features)
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_first_bid_tender = snitch(first_bid_tender)
@@ -104,9 +103,9 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderUAProcessTest))
-    suite.addTest(unittest.makeSuite(TenderUAResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUATest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUATest))
     return suite
 
 

@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import Mock, patch
 
 import pytest
-from mock import Mock, patch
 
 from openprocurement.api.context import set_now, set_request
 from openprocurement.api.utils import get_now

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -32,11 +31,11 @@ from openprocurement.tender.simpledefense.tests.base import (
 )
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "draft"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         bid_data = deepcopy(test_tender_simpledefense_bids[0])
         bid_data["status"] = self.base_bid_status
 
@@ -58,7 +57,7 @@ class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMi
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -95,7 +94,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
     docservice = True
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
 
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -229,12 +228,12 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

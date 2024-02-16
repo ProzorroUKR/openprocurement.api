@@ -25,7 +25,7 @@ class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithD
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
     return suite
 
 

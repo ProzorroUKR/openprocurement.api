@@ -148,7 +148,7 @@ def get_cpv_prefix_length(classifications, default=4):
 
 
 def get_cpv_uniq_prefixes(classifications, prefix_length):
-    return set(i["id"][:prefix_length] for i in classifications)
+    return {i["id"][:prefix_length] for i in classifications}
 
 
 def parse_date(value, default_timezone=pytz.utc):

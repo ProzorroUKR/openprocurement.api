@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 STAND_STILL_TIME = timedelta(days=2)

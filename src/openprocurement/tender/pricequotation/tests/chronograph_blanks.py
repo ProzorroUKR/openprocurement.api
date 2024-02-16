@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from freezegun import freeze_time
 
 from openprocurement.api.utils import get_now
@@ -36,7 +35,7 @@ def switch_to_unsuccessful(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:
-        self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), {"unsuccessful"})
+        self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
 def ensure_no_auction_period(self):

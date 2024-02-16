@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_c
 @patch(
     "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
     [
-        sha224("00000000".encode()).hexdigest(),
+        sha224(b"00000000").hexdigest(),
     ],
 )
 def test_mask_function():
@@ -34,7 +34,7 @@ def test_mask_function():
 @patch(
     "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
     [
-        sha224("00000000".encode()).hexdigest(),
+        sha224(b"00000000").hexdigest(),
     ],
 )
 def test_mask_tender_by_identifier(app):

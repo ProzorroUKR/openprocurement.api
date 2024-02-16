@@ -43,7 +43,7 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="upload_award_documents",
     )
     def collection_post(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).collection_post()
+        return super().collection_post()
 
     @json_view(
         validators=(
@@ -59,7 +59,7 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="upload_award_documents",
     )
     def put(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).put()
+        return super().put()
 
     @json_view(
         content_type="application/json",
@@ -74,4 +74,4 @@ class BelowThresholdTenderBidDocumentResource(BaseAwardDocumentResource):
         permission="edit_award_documents",
     )
     def patch(self):
-        return super(BelowThresholdTenderBidDocumentResource, self).patch()
+        return super().patch()

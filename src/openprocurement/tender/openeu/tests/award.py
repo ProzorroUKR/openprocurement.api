@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import get_now
@@ -73,7 +71,7 @@ class TenderAwardQualificationAfterComplaint(BaseTenderContentWebTest):
     test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
 
     def setUp(self):
-        super(TenderAwardQualificationAfterComplaint, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -82,7 +80,7 @@ class TenderAwardQualificationAfterComplaint(BaseTenderContentWebTest):
         self.award_id = response.json["data"][0]["id"]
 
 
-class TenderLotAwardResourceTestMixin(object):
+class TenderLotAwardResourceTestMixin:
     test_create_tender_award = snitch(create_tender_lot_award)
     test_patch_tender_award = snitch(patch_tender_lot_award)
     test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
@@ -101,7 +99,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
     expected_award_amount = test_tender_openeu_bids[0]["value"]["amount"]
 
     def setUp(self):
-        super(TenderLotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -114,7 +112,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
 
 
-class Tender2LotAwardResourceTestMixin(object):
+class Tender2LotAwardResourceTestMixin:
     test_create_tender_award = snitch(create_tender_2lot_award)
     test_patch_tender_award = snitch(patch_tender_2lot_award)
 
@@ -126,7 +124,7 @@ class Tender2LotAwardResourceTest(BaseTenderContentWebTest, Tender2LotAwardResou
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(Tender2LotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -146,7 +144,7 @@ class TenderAwardComplaintResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -161,7 +159,7 @@ class TenderAwardComplaintResourceTest(
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 
 
-class TenderLotAwardComplaintResourceTestMixin(object):
+class TenderLotAwardComplaintResourceTestMixin:
     test_create_tender_award_complaint = snitch(create_tender_lot_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lot_award_complaint)
     test_get_tender_award_complaint = snitch(get_tender_lot_award_complaint)
@@ -176,7 +174,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -203,7 +201,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest, TenderLotAwa
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 
 
-class Tender2LotAwardComplaintResourceTestMixin(object):
+class Tender2LotAwardComplaintResourceTestMixin:
     test_create_tender_award_complaint = snitch(create_tender_lots_award_complaint)
     test_patch_tender_award_complaint = snitch(patch_tender_lots_award_complaint)
 
@@ -221,7 +219,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -260,7 +258,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -302,7 +300,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -327,7 +325,7 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -348,14 +346,14 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
     return suite
 
 

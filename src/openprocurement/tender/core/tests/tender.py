@@ -78,7 +78,7 @@ class TenderResourceTest(BaseWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
 

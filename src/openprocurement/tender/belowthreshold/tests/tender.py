@@ -63,7 +63,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 )
 
 
-class TenderResourceTestMixin(object):
+class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -140,9 +140,9 @@ class TenderProcessTest(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
     return suite
 
 

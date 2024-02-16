@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import csv
 import datetime
 import json
@@ -178,15 +177,15 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
     auctions_url = AUCTIONS_URL
 
     whitelist = ('/openprocurement/.*models.*',)
-    blacklist = ('/tests/.*\.py',)
+    blacklist = (r'/tests/.*\.py',)
 
     def setUp(self):
-        super(TenderConfigBaseResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderConfigBaseResourceTest, self).tearDown()
+        super().tearDown()
 
     def add_criteria(self, tender_id, owner_token):
         # add criteria

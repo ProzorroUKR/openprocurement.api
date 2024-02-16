@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 
 

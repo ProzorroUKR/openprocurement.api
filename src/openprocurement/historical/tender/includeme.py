@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from openprocurement.historical.core.constants import PREDICATE_NAME

@@ -33,7 +33,7 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
         return self.app.post_json(url, {"data": complaint_data}, status=status)
 
     def setUp(self):
-        super(TenderNegotiationAwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
@@ -72,7 +72,7 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(TenderNegotiationCancellationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",

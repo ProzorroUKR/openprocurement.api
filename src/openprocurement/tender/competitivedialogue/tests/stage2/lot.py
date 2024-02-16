@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from uuid import uuid4
@@ -92,7 +91,7 @@ class TenderStage2EULotEdgeCasesTest(BaseCompetitiveDialogEUStage2ContentWebTest
             bid["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
         self.initial_bids = s2_bids
         self.test_author = test_tender_cd_author
-        super(TenderStage2EULotEdgeCasesTest, self).setUp()
+        super().setUp()
 
 
 class TenderStage2EULotFeatureResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -150,10 +149,10 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
         self.initial_data["items"][0]["id"] = self.id_first_item
         self.initial_features[0]["relatedItem"] = self.id_first_lot
         self.initial_features[1]["relatedItem"] = self.id_first_item
-        super(TenderStage2EULotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def setUp(self):
-        super(TenderStage2EULotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
         self.lot_id = self.initial_lots[0]["id"]
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
@@ -168,7 +167,7 @@ class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
 
     def setUp(self):
-        super(TenderStage2EULotProcessTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tenderers(self, count=1):
@@ -268,7 +267,7 @@ class TenderStage2UALotEdgeCasesTest(BaseCompetitiveDialogUAStage2ContentWebTest
             bid["tenderers"][0]["identifier"]["scheme"] = identifier["scheme"]
         self.initial_bids = s2_bids
         self.test_author = test_tender_cd_author
-        super(TenderStage2UALotEdgeCasesTest, self).setUp()
+        super().setUp()
 
 
 class TenderStage2UALotFeatureResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -324,10 +323,10 @@ class TenderStage2UALotFeatureBidderResourceTest(BaseCompetitiveDialogUAStage2Co
         self.initial_data["items"][0]["id"] = self.id_first_item
         self.initial_features[0]["relatedItem"] = self.id_first_lot
         self.initial_features[1]["relatedItem"] = self.id_first_item
-        super(TenderStage2UALotFeatureBidderResourceTest, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def setUp(self):
-        super(TenderStage2UALotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
         self.lot_id = self.initial_lots[0]["id"]
         self.create_tender(initial_lots=self.initial_lots, features=self.initial_features)
@@ -416,14 +415,14 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EULotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotProcessTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotFeatureBidderResourceTest))
     return suite
 
 

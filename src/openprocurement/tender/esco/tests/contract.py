@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
@@ -112,7 +111,7 @@ class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, Tende
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_contract_termination = snitch(contract_termination)
@@ -133,7 +132,7 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
@@ -182,9 +181,9 @@ class TenderEContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, Tend
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEContractResourceTest))
     return suite
 
 

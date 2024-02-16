@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 
-import mock
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid,
@@ -48,12 +47,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderUAResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderUAResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
@@ -485,7 +484,7 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
     initial_bids = test_bids
 
     def setUp(self):
-        super(TenderUADefenceNewComplaintsResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
         self.create_tender()
         with change_auth(self.app, ("Basic", ("token", ""))):

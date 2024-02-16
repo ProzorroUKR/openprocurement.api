@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 
 from openprocurement.api.procedure.utils import parse_date
@@ -96,7 +95,7 @@ def switch_to_unsuccessful_lot_0bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
-    self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), set(["unsuccessful"]))
+    self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"unsuccessful"})
 
 
 def set_auction_period_lot_0bid(self):

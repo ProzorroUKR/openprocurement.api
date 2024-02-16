@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 
 from schematics.types import BaseType

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -83,7 +82,7 @@ class TenderFeaturesMultilotAuctionResourceTest(
         self.initial_bids[1]["parameters"] = [
             {"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]
         ]
-        super(TenderFeaturesMultilotAuctionResourceTest, self).setUp()
+        super().setUp()
 
 
 def suite():
@@ -91,8 +90,8 @@ def suite():
     # suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
     # suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
     # suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderMultipleLotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 

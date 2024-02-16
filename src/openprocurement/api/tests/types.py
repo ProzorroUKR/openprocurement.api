@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import sys
 import unittest
@@ -127,8 +126,8 @@ class TestIsoDateTimeType(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(IsoDurationTypeTest))
-    suite.addTest(unittest.makeSuite(TestIsoDateTimeType))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(IsoDurationTypeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestIsoDateTimeType))
     return suite
 
 

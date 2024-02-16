@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 import unittest
 from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest.mock import MagicMock, call, patch
 
-from mock import MagicMock, call, patch
 from pyramid.exceptions import URLDecodeError
 
 from openprocurement.api.constants import TZ
@@ -201,7 +200,7 @@ class TestCalculateTenderBusinessDate(TestUtilsBase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestUtils))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestUtils))
     return suite
 
 

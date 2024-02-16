@@ -1,4 +1,4 @@
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -32,7 +32,7 @@ from openprocurement.tender.openua.tests.post_blanks import (
 )
 
 
-class ComplaintPostResourceMixin(object):
+class ComplaintPostResourceMixin:
     test_create_complaint_post_status_forbidden = snitch(create_complaint_post_status_forbidden)
     test_create_complaint_post_complaint_owner = snitch(create_complaint_post_complaint_owner)
     test_create_complaint_post_tender_owner = snitch(create_complaint_post_tender_owner)
@@ -53,7 +53,7 @@ class TenderNegotiationAwardComplaintPostResourceTest(
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(TenderNegotiationAwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
@@ -102,7 +102,7 @@ class TenderNegotiationCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderNegotiationCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
 
         response = self.app.post_json(

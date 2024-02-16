@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -74,9 +73,9 @@ class AgreementResourceTest4BrokerTest(BaseAgreementContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AgreementResourceTest))
-    suite.addTest(unittest.makeSuite(AgreementResourceTest4BrokerTest))
-    suite.addTest(unittest.makeSuite(AgreementListingTests))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementResourceTest4BrokerTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementListingTests))
     return suite
 
 

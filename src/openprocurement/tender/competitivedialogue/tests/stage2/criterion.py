@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -40,7 +38,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
         get_now() - timedelta(days=1),
     )
     def setUp(self):
-        super(TenderCDEUCriteriaTest, self).setUp()
+        super().setUp()
 
 
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -59,7 +57,7 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
         get_now() - timedelta(days=1),
     )
     def setUp(self):
-        super(TenderCDUACriteriaTest, self).setUp()
+        super().setUp()
 
 
 class TenderCDEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -105,14 +103,14 @@ class TenderCDUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementEvidenceTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementEvidenceTest))
     return suite
 
 

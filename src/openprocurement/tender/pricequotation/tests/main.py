@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import unittest
 
 from openprocurement.tender.pricequotation.tests import award, bid, document, tender

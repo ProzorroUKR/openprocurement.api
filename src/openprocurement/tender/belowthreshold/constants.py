@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 BELOW_THRESHOLD = "belowThreshold"

@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 def patch_tender_lot_award(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/some_id".format(self.tender_id), {"data": {"status": "unsuccessful"}}, status=404

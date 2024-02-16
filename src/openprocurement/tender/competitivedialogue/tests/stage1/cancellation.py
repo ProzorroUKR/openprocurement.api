@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -75,7 +73,7 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(CompetitiveDialogUACancellationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
@@ -92,7 +90,7 @@ class CompetitiveDialogUACancellationDocumentResourceTest(
     BaseCompetitiveDialogUAContentWebTest, TenderCancellationDocumentResourceTestMixin
 ):
     def setUp(self):
-        super(CompetitiveDialogUACancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -140,7 +138,7 @@ class CompetitiveDialogEUCancellationDocumentResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(CompetitiveDialogEUCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -153,12 +151,12 @@ class CompetitiveDialogEUCancellationDocumentResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUACancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUALotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUALotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEULotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEULotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUACancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUALotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUALotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEULotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEULotsCancellationResourceTest))
     return suite
 
 

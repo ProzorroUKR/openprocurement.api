@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -53,10 +52,10 @@ class TenderCriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCriteriaRGRequirementEvidenceTest))
     return suite
 
 

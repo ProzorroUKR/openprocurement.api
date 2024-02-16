@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19

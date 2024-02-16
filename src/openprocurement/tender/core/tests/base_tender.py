@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import MagicMock, patch
 
-from mock import patch
-from mock.mock import MagicMock
 from schematics.exceptions import ModelValidationError
 from schematics.types.compound import ListType, ModelType
 
@@ -45,7 +43,7 @@ class TestTenderMilestones(unittest.TestCase):
     initial_tender_data = test_tender_data
 
     def __init__(self, *args, **kwargs):
-        super(TestTenderMilestones, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def test_validate_without_milestones(self):
         with patch(

@@ -23,7 +23,7 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTestMixin(object):
+class TenderCancellationResourceTestMixin:
     initial_status = 'active.tendering'
 
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
@@ -67,7 +67,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
         cancellation = dict(**test_tender_pq_cancellation)
         cancellation.update({"reasonType": "noDemand"})
@@ -82,8 +82,8 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationActiveTenderingResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationActiveTenderingResourceTest))
     return suite
 
 

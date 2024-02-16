@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -85,7 +83,7 @@ class TenderNegotiationCancellationResourceTest(
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(TenderNegotiationCancellationResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
@@ -150,7 +148,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
     initial_data = test_tender_reporting_data
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -174,7 +172,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderNegotiationQuickCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
@@ -215,7 +213,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderNegotiationCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
             {
@@ -274,8 +272,8 @@ class TenderNegotiationQuickLotsCancellationResourceTest(TenderNegotiationLotsCa
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -196,7 +195,7 @@ class FrameworkContentWebTest(BaseFrameworkWebTest):
     initial_status = None
 
     def setUp(self):
-        super(FrameworkContentWebTest, self).setUp()
+        super().setUp()
         self.create_framework()
 
 
@@ -284,17 +283,17 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         return response
 
     def setUp(self):
-        super(BaseSubmissionContentWebTest, self).setUp()
+        super().setUp()
         self.initial_submission_data["frameworkID"] = self.framework_id
         self.activate_framework()
 
     def tearDown(self):
-        super(BaseSubmissionContentWebTest, self).tearDown()
+        super().tearDown()
 
 
 class SubmissionContentWebTest(BaseSubmissionContentWebTest):
     def setUp(self):
-        super(SubmissionContentWebTest, self).setUp()
+        super().setUp()
         self.create_submission()
 
 

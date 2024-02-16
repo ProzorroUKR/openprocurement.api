@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -63,7 +62,7 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         claim_data = deepcopy(test_tender_below_draft_complaint)
         claim_data["author"] = test_tender_cd_author
@@ -101,7 +100,7 @@ class TenderStage2UAComplaintDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2UAComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         claim_data = deepcopy(test_tender_below_draft_complaint)
         claim_data["author"] = test_tender_cd_author
@@ -144,7 +143,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
 
@@ -182,7 +181,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
 
@@ -199,7 +198,7 @@ class TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.create_qualification()
 
 
@@ -212,25 +211,37 @@ class TenderCancellationComplaintObjectionResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogEUObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAObjectionResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest
+        )
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest
+        )
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest
+        )
+    )
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
 

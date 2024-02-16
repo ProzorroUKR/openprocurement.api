@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
 from unittest.mock import patch
@@ -77,7 +76,7 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest, TenderContractReso
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -98,7 +97,7 @@ class TenderContractVATNotIncludedResourceTest(BaseSimpleDefContentWebTest, Tend
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self, value_vat_included=False)
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -115,7 +114,7 @@ class TenderContractDocumentResourceTest(BaseSimpleDefContentWebTest, TenderCont
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -159,7 +158,7 @@ class TenderContractMultiBuyersResourceTest(BaseSimpleDefContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self, value_vat_included=True)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -174,9 +173,9 @@ class TenderContractMultiBuyersResourceTest(BaseSimpleDefContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
     return suite
 
 

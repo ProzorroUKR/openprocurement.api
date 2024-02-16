@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -40,11 +39,11 @@ from openprocurement.tender.openua.tests.bid import (
 )
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "draft"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = {
             "status": self.base_bid_status,
@@ -81,7 +80,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
     test_patch_features_bid_invalid = snitch(patch_features_bid_invalid)
 
     def setUp(self):
-        super(TenderBidFeaturesResourceTest, self).setUp()
+        super().setUp()
         tender = self.mongodb.tenders.get(self.tender_id)
         agreement = test_tender_cfaselectionua_agreement_features
         agreement["contracts"][0]["parameters"] = [
@@ -164,12 +163,12 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

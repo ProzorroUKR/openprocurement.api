@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import datetime, timedelta
 from hashlib import sha512
@@ -548,7 +547,7 @@ test_docs_tender_stage1 = {
 
 test_docs_tender_stage2_multiple_lots = {
     "procurementMethod": "selective",
-    "dialogue_token": sha512('secret'.encode()).hexdigest(),
+    "dialogue_token": sha512(b'secret').hexdigest(),
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "minimalStep": {"currency": "UAH", "amount": 5},

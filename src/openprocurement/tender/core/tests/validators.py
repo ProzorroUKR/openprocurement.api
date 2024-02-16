@@ -1,4 +1,3 @@
-# # -*- coding: utf-8 -*-
 # TODO: Rewrite for new models
 # import copy
 # from datetime import timedelta

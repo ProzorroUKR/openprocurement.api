@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
+from unittest.mock import MagicMock
 
 import pytest
-from mock import MagicMock
 
 from openprocurement.api.constants import RELEASE_SIMPLE_DEFENSE_FROM
 from openprocurement.api.utils import get_now

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -71,7 +70,7 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -104,7 +103,7 @@ class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTes
     docservice = True
 
     def setUp(self):
-        super(TenderStage2EUQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -128,7 +127,7 @@ class TenderStage2EUQualificationDocumentWithDSResourceTest(TenderStage2EUQualif
 
 class TenderStage2EUQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderStage2EUQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -180,7 +179,7 @@ class TenderStage2EU2LotQualificationComplaintResourceTest(TenderStage2EULotQual
 
 class TenderStage2EUQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderStage2EUQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -246,14 +245,20 @@ class TenderStageEUQualificationRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUQualificationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUQualificationComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EU2LotQualificationComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUQualificationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotQualificationComplaintResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotQualificationComplaintResourceTest)
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUQualificationComplaintDocumentResourceTest)
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EU2LotQualificationComplaintDocumentResourceTest)
+    )
     return suite
 
 

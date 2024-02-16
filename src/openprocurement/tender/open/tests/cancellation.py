@@ -1,8 +1,7 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -146,7 +145,7 @@ class TenderCancellationComplaintResourceTest(BaseTenderUAContentWebTest, Tender
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
@@ -167,7 +166,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderC
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -180,8 +179,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderUAContentWebTest, TenderC
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
     return suite
 
 

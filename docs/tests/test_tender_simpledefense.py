@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -21,12 +20,12 @@ class SimpleDefenseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderCon
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(SimpleDefenseResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(SimpleDefenseResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(

@@ -27,14 +27,14 @@ MILESTONE_CONTRACT_STATUSES = {
 }
 
 
-class FrameworkTypePredicate(object):
+class FrameworkTypePredicate:
     """Framework Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "frameworkType = %s" % (self.val,)
+        return "frameworkType = {}".format(self.val)
 
     phash = text
 
@@ -49,14 +49,14 @@ class FrameworkTypePredicate(object):
         return False
 
 
-class SubmissionTypePredicate(object):
+class SubmissionTypePredicate:
     """Submission Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "submissionType = %s" % (self.val,)
+        return "submissionType = {}".format(self.val)
 
     phash = text
 
@@ -71,14 +71,14 @@ class SubmissionTypePredicate(object):
         return False
 
 
-class QualificationTypePredicate(object):
+class QualificationTypePredicate:
     """Qualification Route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "qualificationType = %s" % (self.val,)
+        return "qualificationType = {}".format(self.val)
 
     phash = text
 
@@ -93,14 +93,14 @@ class QualificationTypePredicate(object):
         return False
 
 
-class AgreementTypePredicate(object):
+class AgreementTypePredicate:
     """Agreement route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "agreementType = %s" % (self.val,)
+        return "agreementType = {}".format(self.val)
 
     phash = text
 

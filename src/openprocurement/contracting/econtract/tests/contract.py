@@ -123,12 +123,12 @@ class ContractWOAmountNetResource4BrokersTest(BaseEContractWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ContractResourceTest))
-    suite.addTest(unittest.makeSuite(ContractResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractActiveResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractResource4AdministratorTest))
-    suite.addTest(unittest.makeSuite(ContractWOItemsResource4BrokersTest))
-    suite.addTest(unittest.makeSuite(ContractWOAmountNetResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractActiveResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractResource4AdministratorTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOItemsResource4BrokersTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractWOAmountNetResource4BrokersTest))
     return suite
 
 

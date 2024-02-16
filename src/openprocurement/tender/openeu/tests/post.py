@@ -1,4 +1,4 @@
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
@@ -30,7 +30,7 @@ class TenderComplaintPostResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
@@ -55,7 +55,7 @@ class TenderQualificationComplaintPostResourceTest(
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
 
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
@@ -110,7 +110,7 @@ class TenderAwardComplaintPostResourceTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -155,7 +155,7 @@ class TenderCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
 
         # Create cancellation

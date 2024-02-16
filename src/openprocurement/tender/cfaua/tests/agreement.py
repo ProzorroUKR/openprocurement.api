@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -28,14 +27,14 @@ from openprocurement.tender.cfaua.tests.base import (
 )
 
 
-class TenderAgreementResourceTestMixin(object):
+class TenderAgreementResourceTestMixin:
     test_get_tender_agreement = snitch(get_tender_agreement)
     test_get_tender_agreements = snitch(get_tender_agreements)
     test_get_tender_agreement_contract = snitch(get_tender_agreement_contract)
     test_get_tender_agreement_contracts = snitch(get_tender_agreement_contracts)
 
 
-class TenderAgreementDocumentResourceTestMixin(object):
+class TenderAgreementDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_agreement_document = snitch(create_tender_agreement_document)
     test_put_tender_agreement_document = snitch(put_tender_agreement_document)
@@ -49,7 +48,7 @@ class TenderAgreementResourceTest(BaseTenderContentWebTest, TenderAgreementResou
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAgreementResourceTest, self).setUp()
+        super().setUp()
         self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
         self.agreement_id = self.tender["agreements"][0]["id"]
         self.contract_id = self.tender["agreements"][0]["contracts"][0]["id"]
@@ -74,7 +73,7 @@ class TenderAgreement4ContractsResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAgreement4ContractsResourceTest, self).setUp()
+        super().setUp()
         self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
         self.agreement_id = self.tender["agreements"][0]["id"]
 
@@ -89,7 +88,7 @@ class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreem
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAgreementDocumentResourceTest, self).setUp()
+        super().setUp()
         self.tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
         self.agreement_id = self.tender["agreements"][0]["id"]
         self.contract_id = self.tender["agreements"][0]["contracts"][0]["id"]
@@ -98,9 +97,9 @@ class TenderAgreementDocumentResourceTest(BaseTenderContentWebTest, TenderAgreem
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAgreementResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAgreement4ContractsResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAgreementDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAgreementResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAgreement4ContractsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAgreementDocumentResourceTest))
     return suite
 
 

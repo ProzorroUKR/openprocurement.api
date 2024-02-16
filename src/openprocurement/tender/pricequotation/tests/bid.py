@@ -108,7 +108,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     test_criteria = test_tender_pq_criteria
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -156,9 +156,9 @@ class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     return suite
 
 

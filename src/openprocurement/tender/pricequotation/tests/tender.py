@@ -161,8 +161,8 @@ class TenderProcessTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
 

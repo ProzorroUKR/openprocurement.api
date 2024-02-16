@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 from base64 import b64encode
-from binascii import hexlify, unhexlify
 from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime
@@ -14,7 +12,6 @@ import requests
 from ciso8601 import parse_datetime
 from cornice.resource import view
 from cornice.util import json_error
-from Crypto.Cipher import AES
 from jsonpointer import JsonPointerException
 from nacl.encoding import HexEncoder
 from pymongo.errors import DuplicateKeyError, OperationFailure
@@ -23,7 +20,6 @@ from schematics.exceptions import (
     ModelValidationError,
     ValidationError,
 )
-from six import b
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
@@ -368,21 +364,6 @@ def fix_url(item, app_url):
             item["url"] = app_url + ROUTE_PREFIX + path
             return
         [fix_url(item[i], app_url) for i in item if isinstance(item[i], dict) or isinstance(item[i], list)]
-
-
-def encrypt(uuid, name, key):
-    iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
-    text = "{:^{}}".format(key, AES.block_size)
-    return hexlify(AES.new(b(uuid), AES.MODE_CBC, b(iv)).encrypt(b(text)))
-
-
-def decrypt(uuid, name, key):
-    iv = "{:^{}.{}}".format(name, AES.block_size, AES.block_size)
-    try:
-        text = AES.new(b(uuid), AES.MODE_CBC, b(iv)).decrypt(unhexlify(b(key))).strip()
-    except:
-        text = ""
-    return text
 
 
 def get_first_revision_date(schematics_document, default=None):

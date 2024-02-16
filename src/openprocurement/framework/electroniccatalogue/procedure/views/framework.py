@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
 from openprocurement.api.auth import ACCR_1, ACCR_3, ACCR_5

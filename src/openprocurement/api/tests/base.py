@@ -37,7 +37,7 @@ def snitch(func):
 class PrefixedTestRequest(webtest.app.TestRequest):
     @classmethod
     def blank(cls, path, *args, **kwargs):
-        path = "/api/%s%s" % (VERSION, path)
+        path = "/api/{}{}".format(VERSION, path)
         return webtest.app.TestRequest.blank(path, *args, **kwargs)
 
 

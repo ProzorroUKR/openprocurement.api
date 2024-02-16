@@ -29,7 +29,7 @@ def generate_spore_description(services, name, base_url, version, **kwargs):
     for service in services:
         # the :foobar syntax should be removed.
         # see https://github.com/SPORE/specifications/issues/5
-        service_path = URL_PLACEHOLDER.sub(':\g<1>', service.path)
+        service_path = URL_PLACEHOLDER.sub(r':\g<1>', service.path)
 
         # get the list of placeholders
         service_params = URL_PLACEHOLDER.findall(service.path)

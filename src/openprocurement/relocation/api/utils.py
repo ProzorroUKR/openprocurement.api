@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from openprocurement.api.constants import ROUTE_PREFIX

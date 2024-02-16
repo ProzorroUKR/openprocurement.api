@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -110,7 +109,7 @@ class TenderSwitchQualificationStandStillResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         for bid in self.initial_bids:
             bid.update({"parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]})
-        super(TenderSwitchQualificationStandStillResourceTest, self).setUp()
+        super().setUp()
 
     test_switch_to_awarded = snitch(switch_to_awarded)
 
@@ -121,15 +120,15 @@ class TenderLotSwitchQualificationStandStillResourceTest(TenderSwitchQualificati
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationStandStillResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationStandStillResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchStatusesForNextCheckResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchQualificationStandStillResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationStandStillResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchStatusesForNextCheckResourceTest))
     return suite
 
 

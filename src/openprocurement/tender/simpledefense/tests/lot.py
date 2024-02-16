@@ -84,7 +84,7 @@ class TenderLotFeatureBidderResourceTest(BaseSimpleDefContentWebTest):
     test_bids_data = test_tender_simpledefense_bids
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update({"relatedLot": self.lot_id, "id": "1"})
@@ -145,10 +145,10 @@ class TenderLotProcessTest(BaseSimpleDefContentWebTest, TenderLotProcessTestMixi
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

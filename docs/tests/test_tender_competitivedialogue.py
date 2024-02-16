@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
 from hashlib import sha512
+from unittest.mock import patch
 from uuid import uuid4
 
-from mock import patch
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bad_author,
@@ -111,12 +110,12 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_eu_stage1_csv(self):
         self.write_config_pmt_csv(
@@ -702,7 +701,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
-        test_docs_tender_stage2EU['dialogue_token'] = sha512("super_secret_token".encode()).hexdigest()
+        test_docs_tender_stage2EU['dialogue_token'] = sha512(b"super_secret_token").hexdigest()
         test_docs_tender_stage2EU['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         lot = deepcopy(test_lots[0])
         lot["id"] = lot_id = uuid4().hex
@@ -1686,12 +1685,12 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderResourceTestStage2UA, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderResourceTestStage2UA, self).tearDown()
+        super().tearDown()
 
     def test_stage2_UA(self):
         request_path = '/tenders?opt_pretty=1'
@@ -1700,7 +1699,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
 
         self.app.authorization = ('Basic', ('competitive_dialogue', ''))
 
-        test_docs_tender_stage2UA['dialogue_token'] = sha512("super_secret_token".encode()).hexdigest()
+        test_docs_tender_stage2UA['dialogue_token'] = sha512(b"super_secret_token").hexdigest()
         test_docs_tender_stage2UA['tenderID'] = f"UA-{get_now().date().isoformat()}-000016-a.2"
         lot = deepcopy(test_lots[0])
         lot["id"] = lot_id = uuid4().hex

@@ -317,10 +317,8 @@ def listing(self):
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in agreements])
-    )
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in agreements})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in agreements})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in agreements])
     )
@@ -355,7 +353,7 @@ def listing(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in agreements]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in agreements})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in agreements], reverse=True),
@@ -818,13 +816,13 @@ def agreement_token_invalid(self):
 
 def generate_credentials_invalid(self):
     response = self.app.patch_json(
-        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "fake token"), {"data": ""}, status=403
+        "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, "fake token"), {"data": ""}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
-        "/agreements/{0}/credentials?acc_token={1}".format(self.agreement_id, "токен з кирилицею"),
+        "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, "токен з кирилицею"),
         {"data": ""},
         status=422,
     )

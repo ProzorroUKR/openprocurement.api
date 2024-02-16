@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -44,8 +43,8 @@ class ContractChangesResourceTest(BaseContractContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ContractNoItemsChangeTest))
-    suite.addTest(unittest.makeSuite(ContractChangesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractNoItemsChangeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractChangesResourceTest))
     return suite
 
 

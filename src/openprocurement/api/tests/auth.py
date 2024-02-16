@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import unittest
 from hashlib import sha512
@@ -164,7 +163,7 @@ class AuthTest(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AuthTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AuthTest))
     return suite
 
 

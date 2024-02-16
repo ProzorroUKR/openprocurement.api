@@ -24,7 +24,7 @@ BLOCK_COMPLAINT_STATUS = ("answered", "pending")
 
 
 def tender_switch_status(tender):
-    statuses = set([lot.get("status") for lot in tender.get("lots", [])])
+    statuses = {lot.get("status") for lot in tender.get("lots", [])}
     if statuses == {"cancelled"}:
         tender["status"] = "cancelled"
     elif not statuses - {"unsuccessful", "cancelled"}:

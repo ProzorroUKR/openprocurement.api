@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -71,7 +70,7 @@ class CompetitiveDialogueEULotEdgeCasesTest(BaseCompetitiveDialogEUContentWebTes
         for n, bid in enumerate(uniq_bids):
             bid["tenderers"][0]["identifier"]["id"] = "00000{}".format(n)
         self.initial_bids = uniq_bids
-        super(CompetitiveDialogueEULotEdgeCasesTest, self).setUp()
+        super().setUp()
 
 
 class CompetitiveDialogueEULotFeatureResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -162,7 +161,7 @@ class CompetitiveDialogueUALotFeatureBidderResourceTest(BaseCompetitiveDialogUAC
     initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
-        super(CompetitiveDialogueUALotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0]["id"] = "1"
@@ -223,15 +222,15 @@ class CompetitiveDialogueUALotProcessTest(BaseCompetitiveDialogUAContentWebTest)
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueEULotProcessTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotProcessTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogueUALotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueEULotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogueUALotFeatureBidderResourceTest))
 
     return suite
 

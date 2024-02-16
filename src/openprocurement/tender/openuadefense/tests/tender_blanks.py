@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,
@@ -316,9 +314,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )

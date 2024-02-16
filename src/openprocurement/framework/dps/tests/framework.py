@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -73,8 +72,8 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(FrameworkTest))
-    suite.addTest(unittest.makeSuite(FrameworkResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworkResourceTest))
     return suite
 
 

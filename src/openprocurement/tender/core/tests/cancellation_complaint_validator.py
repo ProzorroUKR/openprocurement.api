@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 from datetime import timedelta
+from unittest import mock
 
-import mock
 import pytest
 
 from openprocurement.api.context import get_now, set_now

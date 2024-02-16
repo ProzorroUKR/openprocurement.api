@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -100,7 +99,7 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardCheckResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
 
         self.prepare_award()
@@ -122,7 +121,7 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
         # Get award
@@ -143,7 +142,7 @@ class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourc
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -164,7 +163,7 @@ class TenderAwardComplaintResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -188,7 +187,7 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
 
         self.prepare_award()
 
@@ -228,7 +227,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwa
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
@@ -269,7 +268,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -312,7 +311,7 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -336,7 +335,7 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwar
     docservice = True
 
     def setUp(self):
-        super(Tender2LotAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         bid = self.initial_bids[0]
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -363,15 +362,15 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardDocumentResourceTest))
     return suite
 
 

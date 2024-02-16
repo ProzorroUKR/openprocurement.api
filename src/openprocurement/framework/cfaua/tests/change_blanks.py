@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth

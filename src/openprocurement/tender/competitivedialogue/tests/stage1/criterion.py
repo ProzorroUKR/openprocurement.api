@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
@@ -66,14 +65,14 @@ class TenderCDUACriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDEUCriteriaRGRequirementEvidenceTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderCDUACriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDEUCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCDUACriteriaRGRequirementEvidenceTest))
     return suite
 
 

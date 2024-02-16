@@ -39,7 +39,7 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
         bid = self.request.validated["bid"]
         if bid["status"] not in ["active", "pending"]:
             return
-        super(BidReqResponseEvidenceState, self).pre_save_validate(data)
+        super().pre_save_validate(data)
 
 
 class AwardReqResponseEvidenceState(ReqResponseEvidenceState):

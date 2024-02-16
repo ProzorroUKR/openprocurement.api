@@ -210,7 +210,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         permission="view_tender",
     )
     def collection_get(self):
-        return super(BaseTenderBidFinancialDocumentResource, self).collection_get()
+        return super().collection_get()
 
     @json_view(
         validators=(
@@ -221,7 +221,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         permission="view_tender",
     )
     def get(self):
-        return super(BaseTenderBidFinancialDocumentResource, self).get()
+        return super().get()
 
     @json_view(
         validators=(
@@ -299,7 +299,7 @@ class BaseTenderBidQualificationDocumentResource(BaseTenderBidDocumentResource):
         permission="view_tender",
     )
     def collection_get(self):
-        return super(BaseTenderBidQualificationDocumentResource, self).collection_get()
+        return super().collection_get()
 
     @json_view(
         validators=(
@@ -310,4 +310,4 @@ class BaseTenderBidQualificationDocumentResource(BaseTenderBidDocumentResource):
         permission="view_tender",
     )
     def get(self):
-        return super(BaseTenderBidQualificationDocumentResource, self).get()
+        return super().get()

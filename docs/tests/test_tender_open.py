@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
-from mock import patch
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
@@ -53,12 +52,12 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(

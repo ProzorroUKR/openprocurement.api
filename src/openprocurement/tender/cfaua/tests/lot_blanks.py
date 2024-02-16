@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -1167,7 +1165,7 @@ def two_lot_3bid_1win_bug(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertEqual(set([i["status"] for i in response.json["data"]["lots"]]), set(["complete", "unsuccessful"]))
+    self.assertEqual({i["status"] for i in response.json["data"]["lots"]}, {"complete", "unsuccessful"})
     self.assertEqual(response.json["data"]["status"], "complete")
 
 

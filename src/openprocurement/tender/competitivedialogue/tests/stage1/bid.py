@@ -75,7 +75,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
     def setUp(self):
-        super(CompetitiveDialogEUBidResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         self.test_bids_data = []
         for bid in test_tender_cd_stage1_bids:
@@ -114,7 +114,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     docservice = True
 
     def setUp(self):
-        super(CompetitiveDialogEUBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bidder_data = deepcopy(test_tender_cd_stage1_bids[0])
         set_bid_lotvalues(bidder_data, self.initial_lots)
@@ -152,7 +152,7 @@ class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin,
     test_bids_data = test_tender_cd_stage1_bids
 
     def setUp(self):
-        super(TenderUABidDocumentWithDSWebTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["tenderers"] = [test_tender_cd_tenderer]
@@ -200,13 +200,13 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseEvidenceResourceTest))
 
     return suite
 

@@ -152,9 +152,9 @@ class TenderNegotiationQuickProcessTest(TenderNegotiationProcessTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
     return suite
 
 

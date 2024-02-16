@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 import json
 import uuid
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest import mock
 
-import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
@@ -183,8 +182,8 @@ def listing(self):
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in plans]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in plans})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in plans})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in plans]))
 
     response = self.app.get("/plans?offset={}".format(offset))
@@ -225,7 +224,7 @@ def listing(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in plans]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in plans})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in plans], reverse=True),

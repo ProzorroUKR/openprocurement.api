@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -48,12 +47,12 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(PlanResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(PlanResourceTest, self).tearDown()
+        super().tearDown()
 
     def create_plan(self):
         pass

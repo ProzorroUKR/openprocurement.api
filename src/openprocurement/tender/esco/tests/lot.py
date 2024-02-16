@@ -184,7 +184,7 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     test_bids_data = test_tender_esco_bids  # TODO: change attribute identifier
 
     def setUp(self):
-        super(TenderLotFeatureBidResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update(relatedLot=self.lot_id, id="1")
@@ -254,12 +254,12 @@ class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotEdgeCasesTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotEdgeCasesTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

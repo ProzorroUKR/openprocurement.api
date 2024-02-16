@@ -57,7 +57,7 @@ class TenderContractResourceTest(TenderContentWebTest, TenderContractResourceTes
         self.award_date = award["date"]
 
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.get_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -79,7 +79,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest, TenderContr
     initial_bids = test_tender_pq_bids
 
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.get_award(self)
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -96,7 +96,7 @@ class TenderContractDocumentResourceTest(TenderContentWebTest, TenderContractDoc
     docservice = True
 
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
 
 
 @patch(
@@ -111,7 +111,7 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.PQ_NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.get_award(self)
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -130,9 +130,9 @@ class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
 
     return suite
 

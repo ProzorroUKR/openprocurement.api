@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 import os
 from copy import deepcopy
@@ -170,7 +169,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
     def tearDown(self):
-        super(BaseTenderWebTest, self).tearDown()
+        super().tearDown()
         self.restore_pure_data()
 
     def generate_bids(self, status, startend):
@@ -614,7 +613,7 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     meta_initial_lots = deepcopy(test_tender_cfaua_lots)
 
     def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
         self.check_chronograph()
@@ -622,6 +621,6 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
         # for ex auctionPeriod.shouldStartAfter is added
 
 
-class BidsOverMaxAwardsMixin(object):
+class BidsOverMaxAwardsMixin:
     initial_bids = deepcopy(test_tender_cfaua_bids) + deepcopy(test_tender_cfaua_bids)  # double testbids
     min_bids_number = MIN_BIDS_NUMBER * 2

@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -140,7 +138,7 @@ class PlanBuyersTestCase(BasePlanTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(PlanResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(PlanResourceTest))
     return suite
 
 

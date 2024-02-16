@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -74,11 +73,11 @@ from openprocurement.tender.openua.tests.bid_blanks import (
 )
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "draft"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         # Create bid
         auth = self.app.authorization
         self.app.authorization = ('Basic', ('broker', ''))
@@ -90,13 +89,13 @@ class CreateBidMixin(object):
         self.bid_token = response.json["access"]["token"]
 
 
-class TenderBidResourceTestMixin(object):
+class TenderBidResourceTestMixin:
     test_create_tender_bidder = snitch(create_tender_bidder)
     test_deleted_bid_is_not_restorable = snitch(deleted_bid_is_not_restorable)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
 
 
-class Tender2BidResourceTestMixin(object):
+class Tender2BidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
@@ -119,7 +118,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -169,7 +168,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceWithDSTestMix
     initial_bids = test_bids_data = test_tender_openeu_bids  # TODO: change attribute identificator
 
     def setUp(self):
-        super(TenderBidDocumentWithDSResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         self.bid_id = self.initial_bids[0]["id"]
         self.bid_token = self.initial_bids_tokens[self.bid_id]
@@ -220,7 +219,7 @@ class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderContentWebTest):
         if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
             self.bid_data_wo_docs["selfEligible"] = True
 
-        super(TenderBidBatchDocumentsWithDSResourceTest, self).setUp()
+        super().setUp()
 
 
 class TenderBidRequirementResponseResourceTest(
@@ -245,13 +244,13 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidBatchDocumentsWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentsWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

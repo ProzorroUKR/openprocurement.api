@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import re
 from configparser import DEFAULTSECT, ConfigParser
@@ -70,9 +69,9 @@ UA_ROAD = standards.load("classifiers/ua_road.json")
 UA_ROAD_CPV_PREFIXES = standards.load("classifiers/ua_road_cpv_prefixes.json")
 
 # complaint objections classifications
-ARTICLE_16 = set(criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json"))
-ARTICLE_17 = set(criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json"))
-OTHER_CRITERIA = set(criterion["classification"]["id"] for criterion in standards.load("criteria/other.json"))
+ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
+ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
+OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
 REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
@@ -128,7 +127,7 @@ def load_constants(file_path):
             config.readfp(fp)
     except Exception as e:
         raise type(e)(
-            "Can't read file '{0}': use current path or override using "
+            "Can't read file '{}': use current path or override using "
             "CONSTANTS_FILE_PATH env variable".format(file_path)
         )
     return config

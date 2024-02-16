@@ -48,7 +48,7 @@ class ContractStateMixing:
         return max(stand_still_ends) if stand_still_ends else now
 
     def switch_status(self, tender: dict) -> None:
-        statuses = set([lot.get("status") for lot in tender.get("lots", [])])
+        statuses = {lot.get("status") for lot in tender.get("lots", [])}
         if statuses == {"cancelled"}:
             LOGGER.info(
                 f"Switched tender {tender.get('id')} to cancelled",
