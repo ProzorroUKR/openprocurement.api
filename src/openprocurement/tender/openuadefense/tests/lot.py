@@ -18,7 +18,9 @@ from openprocurement.tender.openua.tests.lot import (
     TenderUALotResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.lot_blanks import (
+    claim_blocking,
     create_tender_bidder_feature,
+    next_check_value_with_unanswered_claim,
     patch_tender_bidder,
 )
 from openprocurement.tender.openuadefense.tests.base import (
