@@ -1579,7 +1579,7 @@ def patch_tender_bot(self):
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
     agreement_contracts = response.json["data"]["agreements"][0]["contracts"]
-    max_value = max([contract["value"] for contract in agreement_contracts], key=lambda value: value["amount"])
+    max_value = max((contract["value"] for contract in agreement_contracts), key=lambda value: value["amount"])
     self.assertEqual(response.json["data"]["value"], max_value)
     self.assertEqual(response.json["data"]["lots"][0]["value"], max_value)
     # чому цей ассерт не працює не можу роздебажити

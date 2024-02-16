@@ -490,7 +490,7 @@ def patch_contract_multi_items_unit_value(self):
     contracts = contracts_response.json["data"]
     self.assertEqual(len(contracts), 2)
     total_contracts_amount = sum(
-        [contract["value"]["amount"] for contract in contracts if contract["awardID"] == self.award_id]
+        contract["value"]["amount"] for contract in contracts if contract["awardID"] == self.award_id
     )
     self.assertTrue(total_contracts_amount > award["value"]["amount"])
 
@@ -544,11 +544,9 @@ def patch_contract_multi_items_unit_value(self):
     self.assertEqual(response.json["data"]["status"], "pending")
 
     unit_value_amount_sum = sum(
-        [
-            item['unit']['value']['amount'] * item['quantity']
-            for item in response.json['data']['items']
-            if item['unit'].get('value')
-        ]
+        item['unit']['value']['amount'] * item['quantity']
+        for item in response.json['data']['items']
+        if item['unit'].get('value')
     )
     self.assertEqual(unit_value_amount_sum, 2000)  # 10 * 200 for first item
 

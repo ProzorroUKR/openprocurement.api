@@ -35,7 +35,7 @@ def append_obj_revision(request, obj, patch, date):
         changed_obj = resolve_pointer(obj, change["path"].replace("/status", ""))
         if changed_obj and hasattr(changed_obj, "date") and hasattr(changed_obj, "revisions"):
             date_path = change["path"].replace("/status", "/date")
-            if changed_obj.date and not any([p for p in patch if date_path == p["path"]]):
+            if changed_obj.date and not any(p for p in patch if date_path == p["path"]):
                 patch.append({"op": "replace", "path": date_path, "value": changed_obj.date.isoformat()})
             elif not changed_obj.date:
                 patch.append({"op": "remove", "path": date_path})

@@ -194,7 +194,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def generate_tender_lot_value(self, status, start_end="start"):
         agreements = self.tender_document.get("agreements", [])
         max_value = max(
-            [contract["value"] for contract in agreements[0]["contracts"]], key=lambda value: value["amount"]
+            (contract["value"] for contract in agreements[0]["contracts"]), key=lambda value: value["amount"]
         )
         self.tender_document["value"] = max_value
         self.tender_document["lots"][0]["value"] = max_value

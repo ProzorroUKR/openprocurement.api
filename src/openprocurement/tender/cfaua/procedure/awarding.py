@@ -51,7 +51,7 @@ class CFAUATenderStateAwardingMixing:
                     selected_bids = selected_bids[: tender["maxAwardsCount"]]
 
                 active_award_bid_ids = {a["bid_id"] for a in lot_awards if a["status"] in ("active", "pending")}
-                selected_bids = list([b for b in selected_bids if b["id"] not in active_award_bid_ids])
+                selected_bids = list(b for b in selected_bids if b["id"] not in active_award_bid_ids)
                 if selected_bids:
                     for bid in selected_bids:
                         self.tender_append_award(tender, bid, all_bids, lot_id=lot["id"])

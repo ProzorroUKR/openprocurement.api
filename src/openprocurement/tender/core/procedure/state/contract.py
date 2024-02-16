@@ -124,7 +124,7 @@ class ContractStateMixing:
                     "agreements" in tender
                     and tender["config"]["hasPreSelectionAgreement"] is False  # tender produces agreements
                 ):
-                    allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
+                    allow_complete_lot = any(a["status"] == "active" for a in tender.get("agreements", []))
                 else:
                     if awarding_order_enabled is False:
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
@@ -432,8 +432,8 @@ class ContractStateMixing:
                 value,
                 request.validated["contract"].get("awardID"),
             )
-            amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
-            amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
+            amount = sum(to_decimal(value.get("amount", 0)) for value in _contracts_values)
+            amount_net = sum(to_decimal(value.get("amountNet", 0)) for value in _contracts_values)
             tax_included = value.get("valueAddedTaxIncluded")
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):

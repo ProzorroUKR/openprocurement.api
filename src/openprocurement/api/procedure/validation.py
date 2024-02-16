@@ -314,14 +314,14 @@ def validate_patch_data_from_resolved_model(item_name):
 
 def validate_values_uniq(values):
     codes = [i.get("value") for i in values]
-    if any([codes.count(i) > 1 for i in set(codes)]):
+    if any(codes.count(i) > 1 for i in set(codes)):
         raise ValidationError("Feature value should be uniq for feature")
 
 
 def validate_features_uniq(features):
     if features:
         codes = [feature.get("code") for feature in features]
-        if any([codes.count(i) > 1 for i in set(codes)]):
+        if any(codes.count(i) > 1 for i in set(codes)):
             raise ValidationError("Feature code should be uniq for all features")
 
 

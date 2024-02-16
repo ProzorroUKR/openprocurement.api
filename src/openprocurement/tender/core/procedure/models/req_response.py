@@ -238,7 +238,7 @@ def validate_evidence_type(req_response_data: dict, evidence: dict) -> None:
 def validate_response_requirement_uniq(requirement_responses):
     if requirement_responses:
         req_ids = [i["requirement"]["id"] for i in requirement_responses]
-        if any([i for i in set(req_ids) if req_ids.count(i) > 1]):
+        if any(i for i in set(req_ids) if req_ids.count(i) > 1):
             raise ValidationError([{"requirement": "Requirement id should be uniq for all requirement responses"}])
 
 

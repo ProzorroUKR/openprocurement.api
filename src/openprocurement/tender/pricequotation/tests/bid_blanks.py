@@ -1054,10 +1054,8 @@ def delete_tender_bid(self):
     self.assertFalse("date" in response.json["data"])
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-    self.assertTrue(
-        any([i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"])
-    )
+    self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
+    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "replace" and i["path"] == "/bids/0/status"))
 
     # finished tender does not show deleted bid info
     self.set_status("complete")

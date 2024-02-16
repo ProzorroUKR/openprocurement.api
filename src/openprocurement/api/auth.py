@@ -125,7 +125,7 @@ def check_accreditation(request, level):
 
 
 def check_accreditations(request, levels):
-    return any([check_accreditation(request, level) for level in levels])
+    return any(check_accreditation(request, level) for level in levels)
 
 
 def check_user_accreditation(request, userid, level, default=False):
@@ -137,7 +137,7 @@ def check_user_accreditation(request, userid, level, default=False):
 
 
 def check_user_accreditations(request, userid, levels, default=False):
-    return any([check_user_accreditation(request, userid, level, default=default) for level in levels])
+    return any(check_user_accreditation(request, userid, level, default=default) for level in levels)
 
 
 def extract_http_credentials(request):

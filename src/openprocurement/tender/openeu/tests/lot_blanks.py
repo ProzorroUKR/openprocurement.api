@@ -1374,8 +1374,8 @@ def two_lot_1can(self):
         activate_cancellation_after_2020_04_19(self, cancellation_id, tender_id, owner_token)
 
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertFalse(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
-    self.assertTrue(any([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertFalse(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
+    self.assertTrue(any(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # try to restore lot back by old cancellation
@@ -1409,8 +1409,8 @@ def two_lot_1can(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertFalse(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
-    self.assertTrue(any([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertFalse(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
+    self.assertTrue(any(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
 
@@ -1684,7 +1684,7 @@ def two_lot_2bid_2com_2win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 

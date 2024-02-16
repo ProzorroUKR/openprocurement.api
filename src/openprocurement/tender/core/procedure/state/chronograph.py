@@ -190,7 +190,7 @@ class ChronographEventsMixing:
         if (
             awarding_is_unsuccessful(awards)
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
-            and not any([c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", "")])
+            and not any(c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", ""))
         ):
             stand_still_ends = [
                 a.get("complaintPeriod").get("endDate")

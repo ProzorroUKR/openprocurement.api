@@ -506,7 +506,7 @@ def two_lot_3bid_3com_3win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -1193,7 +1193,7 @@ def proc_1lot_1can(self):
     # response = self.set_status('active.tendering', {"lots": [
     #     {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
     # ]})
-    # self.assertTrue(all(["auctionPeriod" in i for i in response.json['data']['lots']]))
+    # self.assertTrue(all("auctionPeriod" in i for i in response.json['data']['lots']))
     # cancel lot
 
     cancellation = dict(**test_tender_below_cancellation)
@@ -1214,7 +1214,7 @@ def proc_1lot_1can(self):
         activate_cancellation_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
@@ -1511,9 +1511,9 @@ def tender_value(self):
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["value"]["amount"], sum([i["value"]["amount"] for i in self.initial_lots]))
+    self.assertEqual(response.json["data"]["value"]["amount"], sum(i["value"]["amount"] for i in self.initial_lots))
     self.assertEqual(
-        response.json["data"]["minimalStep"]["amount"], min([i["minimalStep"]["amount"] for i in self.initial_lots])
+        response.json["data"]["minimalStep"]["amount"], min(i["minimalStep"]["amount"] for i in self.initial_lots)
     )
 
 

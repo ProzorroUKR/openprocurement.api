@@ -31,7 +31,6 @@ disable = [
     "consider-using-dict-items",
     "consider-using-enumerate",
     "consider-using-f-string",
-    "consider-using-generator",
     "consider-using-in",
     "consider-using-set-comprehension",
     "dangerous-default-value",

@@ -479,7 +479,7 @@ def patch_tender(self):
 
     revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
     self.assertTrue(
-        any([i for i in revisions[-1]["changes"] if i["op"] == "remove" and i["path"] == "/procurementMethodRationale"])
+        any(i for i in revisions[-1]["changes"] if i["op"] == "remove" and i["path"] == "/procurementMethodRationale")
     )
 
     response = self.app.patch_json(

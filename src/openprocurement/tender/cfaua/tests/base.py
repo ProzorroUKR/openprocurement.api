@@ -213,7 +213,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         qualificationPeriod_startDate = self.now + self.periods[status][startend]["qualificationPeriod"]["startDate"]
         qualifications = self.tender_document.get("qualifications", [])
         active_lots = [lot["id"] for lot in lots if lot["status"] == "active"]
-        active_bids = any([bid["status"] not in ["invalid", "deleted"] for bid in bids])
+        active_bids = any(bid["status"] not in ["invalid", "deleted"] for bid in bids)
         if not qualifications:
             if active_bids:
                 self.tender_document_patch["qualifications"] = []
