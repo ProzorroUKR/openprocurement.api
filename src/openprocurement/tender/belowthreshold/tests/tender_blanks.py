@@ -1,8 +1,8 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
-from unittest import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import (

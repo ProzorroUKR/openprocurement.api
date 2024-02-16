@@ -209,9 +209,21 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUObjectionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAObjectionResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest
+        )
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest
+        )
+    )
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(
+            TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest
+        )
+    )
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
