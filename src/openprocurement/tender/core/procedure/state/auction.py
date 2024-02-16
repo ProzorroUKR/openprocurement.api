@@ -114,7 +114,7 @@ class ShouldStartAfterMixing:
     def get_tender_qualification_complaints_decision_dates(cls, tender):
         decision_dates = []
         for qualification in tender.get("qualifications", ""):
-            complaints = tender.get("complaints", "")
+            complaints = qualification.get("complaints", "")
             decision_dates.extend(cls.get_complaints_decision_dates(complaints))
         return decision_dates
 
