@@ -143,18 +143,18 @@ class TenderStage2UA2LotSwitchAuctionResourceTest(TenderStage2UALotSwitchAuction
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUSwitchPreQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UASwitch0BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UASwitch1BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UASwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotSwitch0BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotSwitch1BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UA2LotSwitch0BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UA2LotSwitch0BidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UA2LotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchPreQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitch0BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitch1BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotSwitch0BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotSwitch1BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UA2LotSwitch0BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UA2LotSwitch0BidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UA2LotSwitchAuctionResourceTest))
     return suite
 
 

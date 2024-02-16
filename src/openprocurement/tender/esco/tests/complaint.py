@@ -37,9 +37,7 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
 )
 
 
-class TenderComplaintResourceTest(
-    BaseESCOContentWebTest, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseESCOContentWebTest, TenderUAComplaintResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_below_author
 
@@ -121,12 +119,12 @@ class TenderCancellationComplaintObjectionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationComplaintPostResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintPostResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
 

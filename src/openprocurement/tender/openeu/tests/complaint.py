@@ -40,9 +40,7 @@ from openprocurement.tender.openua.tests.complaint_blanks import (
 )
 
 
-class TenderComplaintResourceTest(
-    BaseTenderContentWebTest, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseTenderContentWebTest, TenderUAComplaintResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_below_author
 

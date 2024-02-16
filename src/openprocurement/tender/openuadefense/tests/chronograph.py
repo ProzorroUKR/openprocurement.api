@@ -6,13 +6,13 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+    switch_to_auction_lot as switch_to_auction_lot_ua,
+)
+from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_qualification as not_switch_to_unsuccessful,
 )
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful as switch_to_unsuccessful_belowthreshold,
-)
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
-    switch_to_auction_lot as switch_to_auction_lot_ua,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid,

@@ -84,10 +84,10 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintDocumentResourceTest))
     return suite
 
 

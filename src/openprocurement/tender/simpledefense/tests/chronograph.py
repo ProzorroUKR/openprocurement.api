@@ -15,7 +15,6 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
-    switch_to_auction_lot as switch_to_auction_lot_ua,
     set_auction_period_lot as set_auction_period_lot_ua,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (

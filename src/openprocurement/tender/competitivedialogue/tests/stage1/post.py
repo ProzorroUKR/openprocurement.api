@@ -1,41 +1,38 @@
 from copy import deepcopy
-from mock import patch
+
+from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
     test_tender_below_cancellation,
+    test_tender_below_draft_complaint,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.competitivedialogue.tests.base import (
-    BaseCompetitiveDialogUAContentWebTest,
     BaseCompetitiveDialogEUContentWebTest,
+    BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_author,
-    test_tender_cd_stage1_bids,
     test_tender_cd_lots,
+    test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.openua.tests.post import (
-    ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
+    ComplaintPostResourceMixin,
+    TenderCancellationComplaintPostResourceMixin,
     TenderComplaintPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
-    TenderCancellationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
 
 
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
-    BaseCompetitiveDialogUAContentWebTest,
-    ComplaintPostResourceMixin,
-    TenderComplaintPostResourceMixin
+    BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
-            "/tenders/{}/complaints".format(
-                self.tender_id
-            ),
+            "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
@@ -44,20 +41,15 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
-    BaseCompetitiveDialogEUContentWebTest,
-    ComplaintPostResourceMixin,
-    TenderComplaintPostResourceMixin
+    BaseCompetitiveDialogEUContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
-            "/tenders/{}/complaints".format(
-                self.tender_id
-            ),
+            "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]
@@ -70,7 +62,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest,
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
-    TenderQualificationComplaintPostResourceMixin
+    TenderQualificationComplaintPostResourceMixin,
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
@@ -80,7 +72,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     author_data = test_tender_cd_author
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(test_tender_cd_stage1_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
@@ -123,20 +115,14 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
                 "/tenders/{}/qualifications/{}?acc_token={}".format(
                     self.tender_id, qualification["id"], self.tender_token
                 ),
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {
-                "status": "active.pre-qualification.stand-still"
-            }},
+            {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -160,7 +146,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     BaseCompetitiveDialogEUContentWebTest,
     ComplaintPostResourceMixin,
     ClaimPostResourceMixin,
-    TenderQualificationComplaintPostResourceMixin
+    TenderQualificationComplaintPostResourceMixin,
 ):
     docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
@@ -171,7 +157,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     author_data = test_tender_cd_author
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.initial_bid_data[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
@@ -214,20 +200,14 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
                 "/tenders/{}/qualifications/{}?acc_token={}".format(
                     self.tender_id, qualification["id"], self.tender_token
                 ),
-                {"data": {
-                    "status": "active",
-                    "qualified": True,
-                    "eligible": True
-                }},
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": {
-                "status": "active.pre-qualification.stand-still"
-            }},
+            {"data": {"status": "active.pre-qualification.stand-still"}},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -249,22 +229,18 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
 
 @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
-    BaseCompetitiveDialogUAContentWebTest,
-    ComplaintPostResourceMixin,
-    TenderCancellationComplaintPostResourceMixin
+    BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
     docservice = True
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({
-            "reasonType": "noDemand"
-        })
+        cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": cancellation},
@@ -278,26 +254,24 @@ class TenderCancellationComplaintPostResourceTest(
             "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
                 self.tender_id, self.cancellation_id, self.tender_token
             ),
-            {"data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }}
+            {
+                "data": {
+                    "title": "укр.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                }
+            },
         )
         self.app.patch_json(
-            "/tenders/{}/cancellations/{}?acc_token={}".format(
-                self.tender_id, self.cancellation_id, self.tender_token
-            ),
+            "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, self.cancellation_id, self.tender_token),
             {"data": {"status": "pending"}},
         )
 
         # Create complaint for cancellation
 
         response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/complaints".format(
-                self.tender_id, self.cancellation_id
-            ),
+            "/tenders/{}/cancellations/{}/complaints".format(self.tender_id, self.cancellation_id),
             {"data": test_tender_below_draft_complaint},
         )
         self.complaint_id = response.json["data"]["id"]

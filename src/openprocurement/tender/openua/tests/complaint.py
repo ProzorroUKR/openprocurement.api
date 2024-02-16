@@ -51,9 +51,7 @@ class TenderUAComplaintResourceTestMixin:
     test_bot_patch_tender_complaint_forbidden = snitch(bot_patch_tender_complaint_forbidden)
 
 
-class TenderComplaintResourceTest(
-    BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin):
     test_author = test_tender_below_author
 
 

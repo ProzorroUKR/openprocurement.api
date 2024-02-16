@@ -35,9 +35,7 @@ from openprocurement.tender.openuadefense.tests.base import (
 )
 
 
-class TenderComplaintResourceTest(
-    BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin):
     test_author = test_tender_below_author
     test_mistaken_status_tender_complaint = snitch(mistaken_status_tender_complaint)
 

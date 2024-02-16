@@ -27,6 +27,7 @@ def switch_to_unsuccessful_1bid(self):
 
 # TenderSwitchAuctionResourceTest
 
+
 def switch_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()

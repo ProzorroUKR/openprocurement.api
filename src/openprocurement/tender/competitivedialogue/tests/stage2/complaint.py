@@ -203,16 +203,16 @@ class TenderCancellationComplaintObjectionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogEUObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionResourceTest))
     return suite
 
 

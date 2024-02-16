@@ -92,4 +92,3 @@ def switch_to_auction(self):
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
-

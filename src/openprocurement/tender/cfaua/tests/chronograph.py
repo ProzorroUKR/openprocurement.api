@@ -9,11 +9,7 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_features_data,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.cfaua.tests.chronograph_blanks import (
-    # TenderSwitchAuctionResourceTest
-    switch_to_auction,
-    # TenderSwitchPreQualificationResourceTest
-    pre_qual_switch_to_stand_still,
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest
     active_tendering_to_pre_qual,
     next_check_field_in_active_qualification,
     pre_qual_switch_to_stand_still,
@@ -21,7 +17,7 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,  # TenderComplaintSwitchResourceTest; TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest; TenderSwitchPreQualificationStandStillResourceTest
 )
-from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest
     switch_to_auction,
     switch_to_awarded,
     switch_to_complaint,
