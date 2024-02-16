@@ -25,6 +25,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.open.tests.award import (
+    Tender2LotAwardQualificationAfterComplaintMixin,
+    TenderAwardQualificationAfterComplaintMixin,
+)
 from openprocurement.tender.open.tests.award_blanks import (
     patch_tender_award_unsuccessful_complaint_first,
     patch_tender_award_unsuccessful_complaint_second,
@@ -151,11 +155,18 @@ class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
     get_now() - timedelta(days=1),
 )
-class TenderAwardQualificationAfterComplaint(TenderAwardPendingResourceTestCase):
+class TenderAwardQualificationAfterComplaint(
+    TenderAwardQualificationAfterComplaintMixin,
+    TenderAwardPendingResourceTestCase,
+):
     initial_bids = test_tender_openua_three_bids
 
-    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_complaint_first)
-    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_complaint_second)
+
+class Tender2LotAwardQualificationAfterComplaintResourceTest(
+    Tender2LotAwardQualificationAfterComplaintMixin,
+    TenderAwardPendingResourceTestCase,
+):
+    initial_lots = 2 * test_tender_below_lots
 
 
 class TenderAwardActiveResourceTestCase(TenderAwardPendingResourceTestCase):

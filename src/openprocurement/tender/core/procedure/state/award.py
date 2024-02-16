@@ -181,6 +181,17 @@ class AwardStateMixing:
                 complaint["cancellationReason"] = "cancelled"
                 complaint["dateCanceled"] = get_now().isoformat()
 
+    @staticmethod
+    def has_considered_award_complaints(current_award, tender):
+        considered_statuses = ("satisfied", "resolved")
+        for award in tender.get("awards", []):
+            if tender.get("lots") and award["lotID"] != current_award["lotID"]:
+                continue
+            for complaint in award.get("complaints", ""):
+                if complaint["status"] in considered_statuses:
+                    return True
+        return False
+
 
 # example use
 class AwardState(AwardStateMixing, TenderState):
