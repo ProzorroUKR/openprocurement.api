@@ -6,7 +6,7 @@ skip-string-normalization = true
 profile = "black"
 
 [tool.autoflake]
-check = true
+quiet = true
 imports = [
     "requests",
 ]
