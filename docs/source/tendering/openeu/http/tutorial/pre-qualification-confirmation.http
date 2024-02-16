@@ -1182,7 +1182,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "f593b0ce6a334393bfba269562fa3ac9",
+        "id": "4b0e745d5e59434da2b2c0206ca2d89b",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -1234,7 +1234,7 @@ Content-Type: application/json
       {
         "id": "d6383d515f4d46fa8ecc7a07389ec4f4",
         "bidID": "6c9b000bb76043f28a985112442b7301",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
+        "lotID": "4b0e745d5e59434da2b2c0206ca2d89b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1243,7 +1243,7 @@ Content-Type: application/json
       {
         "id": "3b3747a360004c2687f4532c9d0194a8",
         "bidID": "18a43968297841c788021800b10152f6",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
+        "lotID": "4b0e745d5e59434da2b2c0206ca2d89b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1252,7 +1252,7 @@ Content-Type: application/json
       {
         "id": "5faf2798de974f8aa2bb60bccbfb0564",
         "bidID": "3b1586f7cadd487b84c8d86b5f485eac",
-        "lotID": "f593b0ce6a334393bfba269562fa3ac9",
+        "lotID": "4b0e745d5e59434da2b2c0206ca2d89b",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
@@ -1323,7 +1323,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
+        "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -1362,7 +1362,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
+        "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"

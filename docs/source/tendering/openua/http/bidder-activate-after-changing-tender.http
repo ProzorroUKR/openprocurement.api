@@ -177,7 +177,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "relatedLot": "dad62a18553c4c349038eadaa055072c",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }

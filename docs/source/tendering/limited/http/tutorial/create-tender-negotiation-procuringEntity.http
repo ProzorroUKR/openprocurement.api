@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1,
-        "relatedLot": "6f14b03aa0a74d42a3ec0aab60fe4e31"
+        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd"
       }
     ],
     "procurementMethod": "limited",
@@ -115,7 +115,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "id": "6f14b03aa0a74d42a3ec0aab60fe4e31"
+        "id": "7f81aa54ae384f99a92fcd646844a0cd"
       }
     ]
   },
@@ -202,7 +202,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "6f14b03aa0a74d42a3ec0aab60fe4e31",
+        "relatedLot": "7f81aa54ae384f99a92fcd646844a0cd",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -224,7 +224,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "6f14b03aa0a74d42a3ec0aab60fe4e31",
+        "id": "7f81aa54ae384f99a92fcd646844a0cd",
         "status": "active",
         "value": {
           "amount": 500000.0,

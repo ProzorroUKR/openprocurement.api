@@ -149,7 +149,7 @@ Content-Type: application/json
     "date": "2023-10-10T01:00:00+03:00",
     "lotValues": [
       {
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -186,7 +186,7 @@ Content-Type: application/json
             "days": 200
           }
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
       }
     ],
     "selfQualified": true

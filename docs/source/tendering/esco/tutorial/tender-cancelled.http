@@ -802,7 +802,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "value": {
@@ -839,7 +839,7 @@ Content-Type: application/json
                 "days": 74
               }
             },
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=cd1a12fedb634aa88390b3156568df61"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b?key_for_bid=cd1a12fedb634aa88390b3156568df61"
           }
         ],
         "selfQualified": true
@@ -986,7 +986,7 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00",
         "lotValues": [
           {
-            "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "value": {
@@ -1023,7 +1023,7 @@ Content-Type: application/json
                 "days": 200
               }
             },
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_8b60d0525e2a40b9954d740b5b68c4ef?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
           }
         ],
         "selfQualified": true
@@ -1333,7 +1333,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "id": "ce7777a3b9954a00a43ea3c722f5af5b",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
@@ -1347,7 +1347,7 @@ Content-Type: application/json
           "startDate": "2023-10-10T01:00:00+03:00",
           "endDate": "2023-10-10T01:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_8b60d0525e2a40b9954d740b5b68c4ef"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b"
       }
     ],
     "items": [
@@ -1374,7 +1374,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
       },
       {
         "id": "f0a94f5146424cdeb3e9103add626234",
@@ -1399,7 +1399,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
       }
     ],
     "milestones": [
@@ -1447,7 +1447,7 @@ Content-Type: application/json
       {
         "id": "b65d0c22559a4547a8df25f2e17aed44",
         "bidID": "cd1a12fedb634aa88390b3156568df61",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1456,7 +1456,7 @@ Content-Type: application/json
       {
         "id": "1fa00365bbc642a7bfe77722e1639a08",
         "bidID": "ef452425b58e4ff1a339e6f39dcaf360",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1465,7 +1465,7 @@ Content-Type: application/json
       {
         "id": "c98cd796b6ee496caa67d81734d23473",
         "bidID": "a5c09f985bd14b2f8c9c5c34e07f8c76",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
@@ -1510,7 +1510,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "cd1a12fedb634aa88390b3156568df61",
-        "lotID": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
         "qualified": true,
         "value": {
           "currency": "UAH",

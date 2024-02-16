@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918"
+        "relatedLot": "dad62a18553c4c349038eadaa055072c"
       }
     ]
   }
@@ -78,7 +78,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "f0651104a6f149b5b26cdb6dbe438918",
+        "id": "dad62a18553c4c349038eadaa055072c",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -182,7 +182,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "f0651104a6f149b5b26cdb6dbe438918",
+        "relatedLot": "dad62a18553c4c349038eadaa055072c",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
