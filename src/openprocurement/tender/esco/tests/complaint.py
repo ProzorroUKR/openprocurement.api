@@ -5,9 +5,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     create_tender_complaint_document,
     not_found,
@@ -32,7 +29,6 @@ from openprocurement.tender.openua.tests.complaint import (
     TenderUAComplaintResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.complaint_blanks import (
-    create_tender_lot_complaint,
     patch_tender_complaint_document,
 )
 

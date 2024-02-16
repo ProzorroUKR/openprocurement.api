@@ -12,7 +12,6 @@ from openprocurement.tender.open.tests.chronograph_blanks import (
     set_auction_period_lot,
     set_auction_period_lot_0bid,
     switch_to_auction_lot,
-    switch_to_complaint,
     switch_to_unsuccessful_lot,
     switch_to_unsuccessful_lot_0bid,
 )

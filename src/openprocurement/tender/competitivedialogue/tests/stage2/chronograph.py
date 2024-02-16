@@ -26,15 +26,9 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     switch_to_auction as switch_to_auction_eu,  # TenderStage2EUSwitchAuctionResourceTest; TenderStage2EUSwitchPreQualificationResourceTest; TenderStage2EUComplaintSwitchResourceTest
 )
-from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_complaint as switch_to_complaint_eu,
-)
 from openprocurement.tender.openua.tests.chronograph import (
     TenderLotSwitchAuctionResourceTestMixin,
     TenderSwitchAuctionResourceTestMixin,
-)
-from openprocurement.tender.openua.tests.chronograph_blanks import (
-    set_auction_period_0bid,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot_0_bid_ua,

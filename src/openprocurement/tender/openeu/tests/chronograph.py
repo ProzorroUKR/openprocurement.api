@@ -28,7 +28,6 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
     pre_qual_switch_to_auction,
     pre_qual_switch_to_stand_still,
     switch_to_auction,
-    switch_to_complaint,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,

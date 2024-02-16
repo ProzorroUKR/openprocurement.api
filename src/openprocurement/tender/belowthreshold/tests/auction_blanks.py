@@ -3,7 +3,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
-    test_tender_below_draft_claim,
 )
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.tests.utils import change_auth

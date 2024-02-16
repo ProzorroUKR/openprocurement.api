@@ -24,9 +24,6 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_auction_lot as switch_to_auction_lot_ua,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
-    switch_to_complaint as switch_to_complaint_ua,
-)
-from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_unsuccessful_lot_0bid as without_bids_switch_to_unsuccessful,
 )
 from openprocurement.tender.openuadefense.tests.chronograph_blanks import (

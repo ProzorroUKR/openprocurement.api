@@ -8,9 +8,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderComplaintDocumentResourceTest
     not_found,
 )
@@ -30,7 +27,6 @@ from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderComp
     bot_patch_tender_complaint_forbidden,
     bot_patch_tender_complaint_mistaken,
     create_tender_complaint,
-    create_tender_lot_complaint,
     mistaken_status_tender_complaint,
     patch_tender_complaint,
     patch_tender_complaint_document,

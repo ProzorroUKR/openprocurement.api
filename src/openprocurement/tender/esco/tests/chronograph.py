@@ -1,7 +1,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     switch_to_unsuccessful,
 )

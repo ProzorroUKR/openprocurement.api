@@ -3,7 +3,6 @@
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.base import bad_rs_request, srequest
 
 
 def not_found(self):

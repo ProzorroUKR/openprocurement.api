@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import change_auth, snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award_blanks import (
     check_tender_award,
     check_tender_award_complaint_period_dates,

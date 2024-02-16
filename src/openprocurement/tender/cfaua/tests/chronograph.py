@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
@@ -20,7 +19,6 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest
     switch_to_auction,
     switch_to_awarded,
-    switch_to_complaint,
     switch_to_unsuccessful,
     switch_to_unsuccessful_from_qualification_stand_still,
 )
