@@ -1,6 +1,4 @@
 from copy import deepcopy
-from datetime import timedelta
-from unittest import mock
 
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.tests.base import change_auth

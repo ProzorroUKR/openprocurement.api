@@ -1,7 +1,6 @@
 import json
 from copy import deepcopy
 from hashlib import sha224
-from unittest import TestCase
 from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now

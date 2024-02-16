@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import Mock, patch
+from unittest.mock import patch
 
 from freezegun import freeze_time
 

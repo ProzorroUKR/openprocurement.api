@@ -2,7 +2,7 @@ import os
 import unittest
 from copy import deepcopy
 from datetime import datetime, timedelta
-from unittest.mock import MagicMock, call, patch
+from unittest.mock import MagicMock
 
 from pyramid.exceptions import URLDecodeError
 from schematics.types import StringType

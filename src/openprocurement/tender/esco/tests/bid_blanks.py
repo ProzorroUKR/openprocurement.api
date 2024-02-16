@@ -1,6 +1,5 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
-from unittest import mock
 from unittest.mock import patch
 
 from esculator import escp, npv

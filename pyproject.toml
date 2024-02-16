@@ -5,6 +5,12 @@ skip-string-normalization = true
 [tool.isort]
 profile = "black"
 
+[tool.autoflake]
+check = true
+imports = [
+    "requests",
+]
+
 [tool.pylint]
 [tool.pylint.'MASTER']
 load-plugins = [

@@ -198,7 +198,6 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationBaseTestCase,
 ):
     docservice = True
-    pass
 
 
 def suite():

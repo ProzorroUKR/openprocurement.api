@@ -1,6 +1,6 @@
 import unittest
 from hashlib import sha512
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 from openprocurement.tender.core.procedure.views.tender_credentials import (
     TenderResource,

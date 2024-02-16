@@ -1,5 +1,3 @@
-from operator import itemgetter
-
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.openeu.procedure.models.award import Award

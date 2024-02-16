@@ -1,6 +1,4 @@
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (

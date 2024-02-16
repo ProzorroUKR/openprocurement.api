@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error

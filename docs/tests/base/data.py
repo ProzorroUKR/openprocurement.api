@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
 from hashlib import sha512
-from uuid import uuid4
 
 from dateutil.parser import parse
 from tests.base.constants import MOCK_DATETIME

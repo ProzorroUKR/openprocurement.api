@@ -1,4 +1,3 @@
-import difflib
 import os.path
 from json import loads
 

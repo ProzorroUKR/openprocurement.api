@@ -1,7 +1,5 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest import mock
 
 from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import get_now

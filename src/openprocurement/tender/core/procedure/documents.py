@@ -1,6 +1,6 @@
-from base64 import b64decode, b64encode
+from base64 import b64decode
 from binascii import Error as BinasciiError
-from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse, urlunsplit
+from urllib.parse import parse_qsl, quote, unquote, urlparse
 
 from nacl.exceptions import BadSignatureError
 from rfc6266 import build_header

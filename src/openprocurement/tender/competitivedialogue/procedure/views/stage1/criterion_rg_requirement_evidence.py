@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple
+from typing import List, Tuple
 
 from cornice.resource import resource
 from pyramid.security import Allow

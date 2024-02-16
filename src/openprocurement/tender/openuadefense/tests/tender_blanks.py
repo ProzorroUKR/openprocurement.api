@@ -1,6 +1,5 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,

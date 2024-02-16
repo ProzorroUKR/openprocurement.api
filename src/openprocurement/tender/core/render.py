@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 import standards
 
 from openprocurement.api.render import HUMAN_FILTERS, env

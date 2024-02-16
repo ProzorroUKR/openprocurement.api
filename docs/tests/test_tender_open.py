@@ -1,7 +1,6 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (

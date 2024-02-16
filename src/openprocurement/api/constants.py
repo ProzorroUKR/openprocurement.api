@@ -1,7 +1,6 @@
 import os
 import re
 from configparser import DEFAULTSECT, ConfigParser
-from datetime import datetime
 from logging import getLogger
 
 import pytz

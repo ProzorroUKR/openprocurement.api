@@ -1,5 +1,3 @@
-from email.header import Header
-
 # TenderDocumentResourceTest
 
 
