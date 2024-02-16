@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -56,7 +55,7 @@ def active_tendering_to_unsuccessful(self):
     tender = response.json["data"]
     self.assertNotIn("qualifications", tender)
     for b in tender["bids"]:
-        self.assertEquals("unsuccessful", b["status"])
+        self.assertEqual("unsuccessful", b["status"])
         self.assertNotIn("lotValues", b)
         self.assertNotIn("value", b)
 

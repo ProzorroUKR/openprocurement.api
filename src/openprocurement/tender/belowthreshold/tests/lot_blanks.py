@@ -1,8 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from unittest.mock import patch
-
-import mock
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -961,7 +960,7 @@ def tender_features_invalid(self):
         [
             {
                 "description": [
-                    "Sum of max value of all features for lot should be less then or equal to {0:.0%}".format(
+                    "Sum of max value of all features for lot should be less then or equal to {:.0%}".format(
                         self.sum_of_max_value_of_all_features
                     )
                 ],

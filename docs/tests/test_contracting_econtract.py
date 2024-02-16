@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -48,12 +47,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(TenderResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs(self):
         with open(TARGET_DIR + 'contracts-listing-0.http', 'w') as self.app.file_obj:
@@ -526,12 +525,12 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(MultiContractsTenderResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(MultiContractsTenderResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs(self):
         self.app.authorization = ('Basic', ('broker', ''))

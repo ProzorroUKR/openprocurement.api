@@ -1,7 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
@@ -25,7 +24,7 @@ class BaseTenderMilestone24HMixin:
     app = None
 
     def setUp(self):
-        super(BaseTenderMilestone24HMixin, self).setUp()
+        super().setUp()
         if self.context_name == "qualification":
             response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
             self.assertEqual(response.content_type, "application/json")
@@ -411,7 +410,7 @@ class BaseTenderAwardMilestoneALPMixin:
         self.initial_bids[3]["value"]["amount"] = 500
         self.assertEqual(len(self.initial_bids), 4)
 
-        super(BaseTenderAwardMilestoneALPMixin, self).setUp()
+        super().setUp()
 
         tender = self.mongodb.tenders.get(self.tender_id)
         for b in tender["bids"]:

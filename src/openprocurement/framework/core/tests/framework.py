@@ -1,8 +1,8 @@
 import os
 import unittest
 from datetime import datetime
+from unittest.mock import MagicMock, patch
 
-from mock import MagicMock, patch
 from schematics.transforms import wholelist
 from schematics.types import StringType
 from schematics.types.serializable import serializable
@@ -104,8 +104,8 @@ class ResourcesFrameworkTest(BaseFrameworkTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(FrameworksResourceTest))
-    suite.addTest(unittest.makeSuite(ResourcesFrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(FrameworksResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ResourcesFrameworkTest))
     return suite
 
 

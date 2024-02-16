@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -88,7 +87,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
         self.initial_submission_data["documents"] = deepcopy(test_dps_documents)
         for document in self.initial_submission_data["documents"]:
             document["url"] = self.generate_docservice_url()
-        super(TestSubmissionDocumentGet, self).setUp()
+        super().setUp()
 
 
 class TestDocumentsCreate(SubmissionContentWebTest):
@@ -108,8 +107,8 @@ class TestDocumentsCreate(SubmissionContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     # suite.addTest(unittest.makeSuite(FrameworkTest))
-    suite.addTest(unittest.makeSuite(SubmissionResourceTest))
-    suite.addTest(unittest.makeSuite(TestSubmissionDocumentGet))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(SubmissionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestSubmissionDocumentGet))
     return suite
 
 

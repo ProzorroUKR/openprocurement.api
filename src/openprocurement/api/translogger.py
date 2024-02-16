@@ -1,6 +1,5 @@
 import logging
 
-import six
 from paste.translogger import TransLogger
 
 try:
@@ -20,9 +19,9 @@ def make_filter(
 ):
     from paste.util.converters import asbool
 
-    if isinstance(logging_level, (six.binary_type, six.text_type)):
+    if isinstance(logging_level, (bytes, str)):
         logging_level = levels[logging_level]
-    if isinstance(set_logger_level, (six.binary_type, six.text_type)):
+    if isinstance(set_logger_level, (bytes, str)):
         set_logger_level = levels[set_logger_level]
     return TransLogger(
         app,

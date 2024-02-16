@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -29,12 +28,12 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(FrameworkOpenResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(FrameworkOpenResourceTest, self).tearDown()
+        super().tearDown()
 
     def create_framework(self):
         pass

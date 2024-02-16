@@ -80,8 +80,8 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderUAProcessTest))
-    suite.addTest(unittest.makeSuite(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
     return suite
 
 

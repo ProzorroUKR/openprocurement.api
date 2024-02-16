@@ -1,6 +1,5 @@
 from copy import deepcopy
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
@@ -33,7 +32,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
@@ -53,7 +52,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
@@ -78,7 +77,7 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     author_data = test_tender_cd_author
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(test_tender_cd_stage1_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
@@ -163,7 +162,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     author_data = test_tender_cd_author
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.initial_bid_data[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
@@ -241,7 +240,7 @@ class TenderCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
 
         # Create cancellation

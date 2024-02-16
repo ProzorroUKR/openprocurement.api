@@ -1,4 +1,4 @@
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
@@ -25,7 +25,7 @@ class TenderComplaintPostResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderComplaintPostResourceTest, self).setUp()
+        super().setUp()
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
             {"data": test_tender_below_draft_complaint},
@@ -44,7 +44,7 @@ class TenderAwardComplaintPostResourceTest(
     initial_bids = test_tender_simpledefense_bids
 
     def setUp(self):
-        super(TenderAwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -87,7 +87,7 @@ class TenderCancellationComplaintPostResourceTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
 
         # Create cancellation

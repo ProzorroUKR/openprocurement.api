@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import datetime
+from unittest.mock import Mock, patch
 
-from mock import Mock, patch
 from pyramid.testing import DummyRequest, testConfig
 from pytz import timezone, utc
 from requests.exceptions import ConnectionError

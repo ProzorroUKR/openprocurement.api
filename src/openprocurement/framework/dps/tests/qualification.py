@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -36,7 +35,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
 
 class QualificationContentWebTest(SubmissionContentWebTest):
     def setUp(self):
-        super(QualificationContentWebTest, self).setUp()
+        super().setUp()
         response = self.app.patch_json(
             "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
             {"data": {"status": "active"}},
@@ -91,9 +90,9 @@ class TestQualificationDocumentsCreate(QualificationContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(QualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TestQualificationDocumentGet))
-    suite.addTest(unittest.makeSuite(TestQualificationDocumentsCreate))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(QualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestQualificationDocumentGet))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestQualificationDocumentsCreate))
     return suite
 
 

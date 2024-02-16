@@ -13,7 +13,7 @@ class BasePlanOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BasePlanOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_plan()
 
     def create_plan(self):

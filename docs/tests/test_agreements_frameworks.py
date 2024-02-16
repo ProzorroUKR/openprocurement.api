@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -28,14 +27,14 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super(FrameworkAgreementResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=120)).isoformat()}
 
     def tearDown(self):
         self.tearDownMock()
-        super(FrameworkAgreementResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs(self):
         self.create_framework()

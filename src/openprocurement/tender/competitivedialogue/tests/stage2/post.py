@@ -1,6 +1,5 @@
 from copy import deepcopy
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
@@ -41,7 +40,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAComplaintPostResourceTest, self).setUp()
+        super().setUp()
         complaint_data = deepcopy(test_tender_below_draft_complaint)
         complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
@@ -66,7 +65,7 @@ class TenderCompetitiveDialogEUComplaintPostResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUComplaintPostResourceTest, self).setUp()
+        super().setUp()
         complaint_data = deepcopy(test_tender_below_draft_complaint)
         complaint_data["author"] = test_tender_cd_author
         response = self.app.post_json(
@@ -91,7 +90,7 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
 
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
@@ -167,7 +166,7 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -220,7 +219,7 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderCompetitiveDialogEUQualificationComplaintPostResourceTest, self).setUp()
+        super().setUp()
 
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
@@ -279,7 +278,7 @@ class TenderCancellationComplaintPostResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
-        super(TenderCancellationComplaintPostResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)

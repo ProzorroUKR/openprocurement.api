@@ -1,8 +1,8 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest import mock
 from unittest.mock import patch
 
-import mock
 from esculator import escp, npv
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17

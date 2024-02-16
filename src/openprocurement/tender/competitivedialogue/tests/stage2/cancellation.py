@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -82,7 +80,7 @@ class TenderStage2EUCancellationDocumentResourceTest(
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderStage2EUCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
 
         response = self.app.post_json(
@@ -101,7 +99,7 @@ class TenderStage2EUCancellationComplaintResourceTest(
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderStage2EUCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
@@ -149,7 +147,7 @@ class TenderStage2UACancellationDocumentResourceTest(
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderStage2UACancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -162,14 +160,14 @@ class TenderStage2UACancellationDocumentResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EULotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UACancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UALotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UACancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UACancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UACancellationDocumentResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -32,7 +31,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTestMixin(object):
+class TenderCancellationResourceTestMixin:
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
@@ -40,7 +39,7 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-class TenderCancellationResourceNewReleaseTestMixin(object):
+class TenderCancellationResourceNewReleaseTestMixin:
     valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
 
     test_create_tender_cancellation_19_04_2020 = snitch(create_tender_cancellation_2020_04_19)
@@ -49,7 +48,7 @@ class TenderCancellationResourceNewReleaseTestMixin(object):
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
 
 
-class TenderCancellationDocumentResourceTestMixin(object):
+class TenderCancellationDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
     test_put_tender_cancellation_document = snitch(put_tender_cancellation_document)
@@ -85,7 +84,7 @@ class TenderLotsCancellationResourceTest(TenderContentWebTest):
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create cancellation
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -97,8 +96,8 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
     # PASSED_PY3
     return suite
 

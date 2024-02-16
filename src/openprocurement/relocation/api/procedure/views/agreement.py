@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, json_view

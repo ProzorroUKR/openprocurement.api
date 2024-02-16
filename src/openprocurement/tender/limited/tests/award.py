@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -157,7 +156,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
         self.award_id = award["id"]
 
     def setUp(self):
-        super(TenderNegotiationAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_award_complaint_invalid = snitch(create_tender_award_complaint_invalid)
@@ -225,7 +224,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(Tender2LotNegotiationAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     def create_award(self):
@@ -313,7 +312,7 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(Tender2LotNegotiationAwardComplaint2ResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     def create_award(self):
@@ -413,7 +412,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
     initial_config = test_tender_negotiation_config
 
     def setUp(self):
-        super(TenderNegotiationAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
         response = self.app.post_json(
@@ -462,7 +461,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
     initial_bids = None
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         response = self.app.post_json(
             "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token),
@@ -526,8 +525,8 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # TenderAuctionResourceTest
 from datetime import timedelta
 

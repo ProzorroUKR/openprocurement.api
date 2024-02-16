@@ -102,7 +102,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "days": 40
           }
         },
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef"
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
       }
     ],
     "status": "draft"
@@ -213,7 +213,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "lotValues": [
       {
         "status": "pending",
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

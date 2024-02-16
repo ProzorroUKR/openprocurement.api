@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
@@ -96,7 +95,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, CreateActiveAwardMixi
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_create_tender_contract = snitch(create_tender_contract)
@@ -135,7 +134,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest, TenderC
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -207,7 +206,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderNegotiationLot2ContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     def create_award(self):
@@ -313,7 +312,7 @@ class TenderNegotiationQuickAccelerationTest(BaseTenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderNegotiationQuickAccelerationTest, self).setUp()
+        super().setUp()
         if SANDBOX_MODE:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -396,7 +395,7 @@ class TenderContractDocumentResourceTest(
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
         response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
         self.contract_id = response.json["data"][0]["id"]
@@ -484,7 +483,7 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -568,8 +567,8 @@ class TenderNegotiationEContractMultiBuyersResourceTest(TenderReportingEContract
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
     return suite
 
 

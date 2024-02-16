@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
 from freezegun import freeze_time
-from mock import patch
 
 from openprocurement.api.constants import (
     RELEASE_2020_04_19,
@@ -94,10 +93,10 @@ def bids_on_tender_cancellation_in_pre_qualification(self):
             self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
         elif bid["id"] == invalid_bid_id:
             self.assertEqual(bid["status"], "invalid")
-            self.assertEqual(set(bid.keys()), set(["id", "status"]))
+            self.assertEqual(set(bid.keys()), {"id", "status"})
         else:
             self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), set(["id", "status"]))
+            self.assertEqual(set(bid.keys()), {"id", "status"})
 
     self._check_visible_fields_for_invalidated_bids()
 
@@ -123,7 +122,7 @@ def bids_on_tender_cancellation_in_pre_qualification_stand_still(self):
                 self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
             else:
                 self.assertEqual(bid["status"], "deleted")
-                self.assertEqual(set(bid.keys()), set(["id", "status"]))
+                self.assertEqual(set(bid.keys()), {"id", "status"})
 
         self._check_visible_fields_for_invalidated_bids()
 
@@ -151,7 +150,7 @@ def bids_on_tender_cancellation_in_auction(self):
                 self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
             else:
                 self.assertEqual(bid["status"], "deleted")
-                self.assertEqual(set(bid.keys()), set(["id", "status"]))
+                self.assertEqual(set(bid.keys()), {"id", "status"})
                 self._all_documents_are_not_accessible(bid["id"])
         self._check_visible_fields_for_invalidated_bids()
 
@@ -205,7 +204,7 @@ def bids_on_tender_cancellation_in_qualification(self):
             self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
         elif bid["id"] == deleted_bid_id:
             self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), set(["id", "status"]))
+            self.assertEqual(set(bid.keys()), {"id", "status"})
         else:
             self.assertEqual(bid["status"], "unsuccessful")
             self.assertEqual(
@@ -311,7 +310,7 @@ def bids_on_tender_cancellation_in_awarded(self):
             self.assertEqual(set(bid.keys()), set(self.bid_visible_fields))
         else:
             self.assertEqual(bid["status"], "deleted")
-            self.assertEqual(set(bid.keys()), set(["id", "status"]))
+            self.assertEqual(set(bid.keys()), {"id", "status"})
 
     for bid_id, bid_token in self.initial_bids_tokens.items():
         response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid_id))

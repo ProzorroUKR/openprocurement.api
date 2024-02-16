@@ -52,7 +52,7 @@ class BaseDocument(Model):
     description = StringType()  # A description of the document.
     description_en = StringType()
     description_ru = StringType()
-    format = StringType(regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(regex=r"^[-\w]+/[-\.\w\+]+$")
     language = StringType()
     relatedItem = MD5Type()
 
@@ -72,7 +72,7 @@ class PostDocument(BaseDocument):
 
     hash = HashType()
     title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
 
@@ -82,7 +82,7 @@ class Document(BaseDocument):
     datePublished = StringType(required=True)
     hash = HashType()
     title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
     dateModified = StringType()
     author = StringType()

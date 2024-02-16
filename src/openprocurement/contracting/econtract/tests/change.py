@@ -47,8 +47,8 @@ class ContractChangesResourceTest(BaseEContractContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(ContractNoItemsChangeTest))
-    suite.addTest(unittest.makeSuite(ContractChangesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractNoItemsChangeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ContractChangesResourceTest))
     return suite
 
 

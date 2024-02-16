@@ -37,7 +37,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def tearDown(self):
         self.delete_framework()
-        super(BaseCoreWebTest, self).tearDown()
+        super().tearDown()
 
     def set_status(self, status, extra=None):
         self.now = get_now()

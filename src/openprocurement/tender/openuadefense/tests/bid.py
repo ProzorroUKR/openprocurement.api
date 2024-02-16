@@ -36,7 +36,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     initial_lots = test_tender_below_lots
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -90,10 +90,10 @@ class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidderBatchDocumentsWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidderBatchDocumentsWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     return suite
 
 

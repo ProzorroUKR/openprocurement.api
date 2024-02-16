@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-import mock
+from unittest import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -77,7 +75,7 @@ class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCance
     valid_bids = []
 
     def setUp(self):
-        super(TenderCancellationBidsAvailabilityTest, self).setUp()
+        super().setUp()
         self.valid_bids = list(self.initial_bids_tokens.keys())
         self._prepare_bids_docs()
 
@@ -131,7 +129,7 @@ class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCanc
 
     @mock.patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         cancellation = dict(**test_tender_below_cancellation)
@@ -150,7 +148,7 @@ class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCance
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -163,12 +161,12 @@ class TenderCancellationDocumentResourceTest(BaseESCOContentWebTest, TenderCance
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationBidsAvailabilityTest))
-    suite.addTest(unittest.makeSuite(TenderLotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardsCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationBidsAvailabilityTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardsCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
     return suite
 
 

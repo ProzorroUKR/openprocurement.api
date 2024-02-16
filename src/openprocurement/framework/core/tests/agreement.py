@@ -1,8 +1,7 @@
 import datetime
 import os
 import unittest
-
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 from openprocurement.framework.core.tests.base import BaseAgreementTest
 from openprocurement.framework.core.utils import AgreementTypePredicate
@@ -87,8 +86,8 @@ class ResourcesAgreementTest(BaseAgreementTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AgreementsResourceTest))
-    suite.addTest(unittest.makeSuite(ResourcesAgreementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(ResourcesAgreementTest))
     return suite
 
 

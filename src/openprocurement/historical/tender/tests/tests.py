@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os.path
 from copy import deepcopy
 
@@ -27,7 +26,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(HistoricalTenderTestCase, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 
@@ -114,7 +113,7 @@ class HistoricalTenderTestCase(BaseTenderWebTest):
             self.assertEqual(headers[HASH], parse_hash(rev["rev"]))
             self.assertEqual(headers[VERSION], str(i))
             self.assertEqual(headers[PHASH], parse_hash(revisions[i - 1].get("rev", "")))
-            for ch in [r for r in rev["changes"]]:
+            for ch in list(rev["changes"]):
                 val = ch["value"] if ch["op"] != "remove" else "missing"
                 if not all(p for p in ["next_check", "shouldStartAfter"] if ch["path"] in p):
                     self.assertEqual(resolve_pointer(tender, ch["path"], "missing"), val)
@@ -192,7 +191,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(TestGetHistoricalData, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("brokerh", ""))
         self.create_tender()
 

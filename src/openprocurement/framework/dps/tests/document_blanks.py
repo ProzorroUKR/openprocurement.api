@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import change_auth
 from openprocurement.framework.dps.tests.base import test_dps_documents
 

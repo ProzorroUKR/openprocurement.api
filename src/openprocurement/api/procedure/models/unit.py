@@ -20,4 +20,4 @@ class Unit(Model):
 
 def validate_code(unit, code):
     if code not in UNIT_CODES:
-        raise ValidationError(u"Code should be one of valid unit codes.")
+        raise ValidationError("Code should be one of valid unit codes.")

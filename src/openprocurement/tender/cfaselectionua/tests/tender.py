@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -62,7 +61,7 @@ set_tender_lots(test_tender_cfaselectionua_data, test_tender_cfaselectionua_lots
 test_tender_cfaselectionua_lots = deepcopy(test_tender_cfaselectionua_data["lots"])
 
 
-class TenderResourceTestMixin(object):
+class TenderResourceTestMixin:
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
@@ -129,8 +128,8 @@ class TenderProcessTest(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
 

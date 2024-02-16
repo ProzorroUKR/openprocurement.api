@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -40,7 +39,7 @@ auction_test_tender_data = test_tender_cfaselectionua_data.copy()
 auction_test_tender_data["submissionMethodDetails"] = "test submissionMethodDetails"
 
 
-class TenderAuctionResourceTestMixin(object):
+class TenderAuctionResourceTestMixin:
     test_get_tender_auction_not_found = snitch(get_tender_auction_not_found)
     test_get_tender_auction = snitch(get_tender_auction)
     test_post_tender_auction = snitch(post_tender_auction)
@@ -48,14 +47,14 @@ class TenderAuctionResourceTestMixin(object):
     test_post_tender_auction_document = snitch(post_tender_auction_document)
 
 
-class TenderLotAuctionResourceTestMixin(object):
+class TenderLotAuctionResourceTestMixin:
     test_get_tender_auction = snitch(get_tender_lot_auction)
     test_post_tender_auction = snitch(post_tender_lot_auction)
     test_patch_tender_auction = snitch(patch_tender_lot_auction)
     test_post_tender_auction_document = snitch(post_tender_lot_auction_document)
 
 
-class TenderMultipleLotAuctionResourceTestMixin(object):
+class TenderMultipleLotAuctionResourceTestMixin:
     test_get_tender_auction = snitch(get_tender_lots_auction)
     test_post_tender_auction = snitch(post_tender_lots_auction)
     test_post_tender_auction_document = snitch(post_tender_lots_auction_document)
@@ -70,7 +69,7 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderLotAuctionResourceTest, self).setUp()
+        super().setUp()
 
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
@@ -130,8 +129,8 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderFeaturesLotAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesLotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 

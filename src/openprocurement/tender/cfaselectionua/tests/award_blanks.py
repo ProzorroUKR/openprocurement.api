@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
 )

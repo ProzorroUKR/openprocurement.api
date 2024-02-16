@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 
-import mock
 from webtest import AppError
 
 from openprocurement.api.constants import RELEASE_2020_04_19

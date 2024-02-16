@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import json
 import os
 from base64 import b64encode
@@ -65,7 +63,7 @@ class BaseWebTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(BaseWebTest, self).setUp()
+        super().setUp()
         self.setUpDS()
 
     def setUpDS(self):
@@ -112,7 +110,7 @@ class BaseWebTest(BaseApiWebTest):
 
     def tearDown(self):
         self.tearDownDS()
-        super(BaseWebTest, self).tearDown()
+        super().tearDown()
 
 
 class BaseCoreWebTest(BaseWebTest):
@@ -131,7 +129,7 @@ class BaseCoreWebTest(BaseWebTest):
 
     def tearDown(self):
         self.delete_tender()
-        super(BaseCoreWebTest, self).tearDown()
+        super().tearDown()
 
     def activate_bids(self):
         if self.tender_document.get("bids", ""):

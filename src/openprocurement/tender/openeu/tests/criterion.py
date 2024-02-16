@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
@@ -41,10 +40,10 @@ class TenderEUCriteriaRGRequirementEvidenceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderEUCriteriaTest))
-    suite.addTest(unittest.makeSuite(TenderEUCriteriaRGTest))
-    suite.addTest(unittest.makeSuite(TenderEUCriteriaRGRequirementTest))
-    suite.addTest(unittest.makeSuite(TenderEUCriteriaRGRequirementEvidenceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUCriteriaRGTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUCriteriaRGRequirementTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUCriteriaRGRequirementEvidenceTest))
     return suite
 
 

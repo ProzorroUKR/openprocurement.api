@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import copy
 import os
 from datetime import datetime, timedelta
@@ -351,5 +350,5 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
     initial_lots = None
 
     def setUp(self):
-        super(BaseTenderContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()

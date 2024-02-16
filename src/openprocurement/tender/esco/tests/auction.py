@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -69,7 +68,7 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
     initial_lots = test_tender_esco_lots
 
     def setUp(self):
-        super(TenderAuctionResourceTest, self).setUp()
+        super().setUp()
         prepare_for_auction(self)
 
     test_get_tender_auction = snitch(get_tender_auction)
@@ -92,7 +91,7 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
         }
         self.initial_bids = [bid_data for i in range(3)]
 
-        super(TenderSameValueAuctionResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
         response = self.check_chronograph()
@@ -136,7 +135,7 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
     initial_lots = test_tender_esco_lots
 
     def setUp(self):
-        super(TenderAuctionFieldsTest, self).setUp()
+        super().setUp()
         prepare_for_auction(self)
 
     test_auction_check_NBUdiscountRate = snitch(auction_check_NBUdiscountRate)
@@ -153,10 +152,10 @@ class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestM
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAuctionFieldsTest))
-    suite.addTest(unittest.makeSuite(TenderMultipleLotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionFieldsTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderMultipleLotAuctionResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.tender.pricequotation.tests.base import test_tender_pq_cancellation
 
 

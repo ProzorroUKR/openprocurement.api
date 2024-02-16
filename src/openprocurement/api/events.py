@@ -1,7 +1,4 @@
-# -*- coding: utf-8 -*-
-
-
-class ErrorDescriptorEvent(object):
+class ErrorDescriptorEvent:
     """Error descriptor event.
     'params' attribute can be extended with extra records by event handler.
     """

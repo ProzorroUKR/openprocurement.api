@@ -19,7 +19,7 @@ class ContactPoint(Model):
 
 def validate_telephone(telephone):
     if telephone and re.match(r"^(\+)?[0-9]{2,}(,( )?(\+)?[0-9]{2,})*$", telephone) is None:
-        raise ValidationError(u"wrong telephone format (could be missed +)")
+        raise ValidationError("wrong telephone format (could be missed +)")
 
 
 def validate_email(contact_point, email):

@@ -1,7 +1,6 @@
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.tests.base import snitch
@@ -212,7 +211,7 @@ class TenderCancellationBidsAvailabilityUtils:
                         "Can't view bid documents in current (invalid.pre-qualification) bid status",
                     )
             else:
-                self.assertEqual(set(bid_data.keys()), set(["id", "status"]))
+                self.assertEqual(set(bid_data.keys()), {"id", "status"})
                 self._all_documents_are_not_accessible(bid_id)
 
         self.app.authorization = orig_authorization
@@ -294,7 +293,7 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCan
     valid_bids = []
 
     def setUp(self):
-        super(TenderCancellationBidsAvailabilityTest, self).setUp()
+        super().setUp()
         self.valid_bids = list(self.initial_bids_tokens.keys())
         self._prepare_bids_docs()
 
@@ -354,7 +353,7 @@ class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCa
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
     def setUp(self):
-        super(TenderCancellationComplaintResourceTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
 
         # Create cancellation
@@ -374,7 +373,7 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         if RELEASE_2020_04_19 < get_now():
             self.set_complaint_period_end()
@@ -390,8 +389,8 @@ class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCan
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationResourceTest))
     return suite
 
 

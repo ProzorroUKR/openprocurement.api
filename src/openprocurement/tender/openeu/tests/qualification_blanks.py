@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19, SANDBOX_MODE
 from openprocurement.api.procedure.utils import parse_date
@@ -426,17 +424,13 @@ def not_found(self):
         response.json["errors"], [{"description": "Not Found", "location": "url", "name": "qualification_id"}]
     )
 
-    response = self.app.get(
-        "/tenders/some_id/qualifications/some_id/documents/some_id".format(self.tender_token), status=404
-    )
+    response = self.app.get("/tenders/some_id/qualifications/some_id/documents/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
-    response = self.app.get(
-        "/tenders/{}/qualifications/some_id/documents/some_id".format(self.tender_id, self.tender_token), status=404
-    )
+    response = self.app.get("/tenders/{}/qualifications/some_id/documents/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")

@@ -59,7 +59,7 @@ class LimitedContractStateMixing:
                 ]
             ):
                 self.set_object_status(lot, "complete")
-        statuses = set([lot["status"] for lot in tender.get("lots", [])])
+        statuses = {lot["status"] for lot in tender.get("lots", [])}
 
         if statuses == {"cancelled"}:
             self.set_object_status(tender, "cancelled")

@@ -30,7 +30,7 @@ class ESCOContractStateMixing:
                     # This made because of not everywhere DecimalType is new
                     # and when old model validate whole tender, value here become
                     # form 1E+2, but in request.validated['data'] we get '100'
-                    field[ro_attr] = ['{0:f}'.format(to_decimal(i)) for i in field[ro_attr]]
+                    field[ro_attr] = ['{:f}'.format(to_decimal(i)) for i in field[ro_attr]]
                 if field:
                     passed = value.get(ro_attr)
                     actual = field.get(ro_attr)

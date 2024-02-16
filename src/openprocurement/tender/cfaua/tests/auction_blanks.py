@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
 
@@ -353,13 +352,12 @@ def post_tender_lot_auction(self):
     else:
         self.assertLessEqual(len(tender["awards"]), max_awards)
 
-    tender_bids = [
-        b
-        for b in sorted(
+    tender_bids = list(
+        sorted(
             self.mongodb.tenders.get(self.tender_id)["bids"],
             key=lambda b: (float(b["lotValues"][0]["value"]["amount"]), b["date"]),
         )
-    ]
+    )
     for x in list(range(self.min_bids_number))[:max_awards]:
         self.assertEqual(tender["awards"][x]["bid_id"], tender_bids[x]["id"])
         self.assertEqual(

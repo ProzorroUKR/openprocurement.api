@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -20,7 +19,7 @@ from openprocurement.tender.belowthreshold.tests.question_blanks import (
 )
 
 
-class TenderQuestionResourceTestMixin(object):
+class TenderQuestionResourceTestMixin:
     test_create_tender_question_invalid = snitch(create_tender_question_invalid)
     test_get_tender_question = snitch(get_tender_question)
     test_get_tender_questions = snitch(get_tender_questions)
@@ -43,8 +42,8 @@ class TenderLotQuestionResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotQuestionResourceTest))
     return suite
 
 

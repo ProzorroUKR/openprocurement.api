@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from pyramid.events import ContextFound, subscriber
 
 from openprocurement.api.events import ErrorDescriptorEvent

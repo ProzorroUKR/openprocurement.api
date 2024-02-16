@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -48,7 +47,7 @@ class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUCo
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(CompetitiveDialogEUComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -83,7 +82,7 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(CompetitiveDialogUAComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -101,12 +100,12 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEULotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEULotAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintResourceTest))
     suite.addTest(unittest.makesuite(CompetitiveDialogUALotAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintDocumentResourceTest))
     return suite
 
 

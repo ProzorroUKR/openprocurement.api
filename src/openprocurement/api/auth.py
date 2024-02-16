@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import binascii
 from configparser import ConfigParser
 from hashlib import sha512
@@ -61,7 +60,7 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
     """
 
     def __init__(self, auth_file, realm="OpenProcurement", debug=False):
-        super(AuthenticationPolicy, self).__init__(None, realm=realm, debug=debug)
+        super().__init__(None, realm=realm, debug=debug)
         self.users = read_auth_users(auth_file, encoding="utf8", default_level=DEFAULT_ACCRS)
 
     def unauthenticated_userid(self, request):
@@ -89,8 +88,8 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
             acc_token = extract_access_token(request)
             if acc_token:
                 acc_token_hex = sha512(acc_token.encode("utf-8")).hexdigest()
-                principals.append("%s_%s" % (user["name"], acc_token))
-                principals.append("%s_%s" % (user["name"], acc_token_hex))
+                principals.append("{}_{}".format(user["name"], acc_token))
+                principals.append("{}_{}".format(user["name"], acc_token_hex))
             return principals
 
 

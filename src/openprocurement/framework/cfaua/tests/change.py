@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 import unittest
 
@@ -52,8 +51,8 @@ class AgreementChangesResourceTest(BaseAgreementContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(AgreementNoItemsChangeTest))
-    suite.addTest(unittest.makeSuite(AgreementChangesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementNoItemsChangeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(AgreementChangesResourceTest))
     return suite
 
 

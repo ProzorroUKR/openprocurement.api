@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 from uuid import uuid4
-
-from mock import patch
 
 from openprocurement.api.constants import RELEASE_2020_04_19, REQUESTED_REMEDIES_TYPES
 from openprocurement.api.utils import get_now

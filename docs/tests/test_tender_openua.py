@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
-from mock import patch
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
@@ -50,12 +49,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderUAResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderUAResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
@@ -584,12 +583,12 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderConfidentialDocumentsTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderConfidentialDocumentsTest, self).tearDown()
+        super().tearDown()
 
     def test_docs(self):
         # Create tender
@@ -711,12 +710,12 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_lots = deepcopy(test_tender_below_lots)
 
     def setUp(self):
-        super(ComplaintsValueResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(ComplaintsValueResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_complaint_value(self):
         for item in self.initial_data['items']:

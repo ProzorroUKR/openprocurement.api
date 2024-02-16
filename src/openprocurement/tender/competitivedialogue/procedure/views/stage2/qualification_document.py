@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE

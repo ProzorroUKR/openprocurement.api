@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
@@ -81,7 +80,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_contract_termination = snitch(contract_termination)
@@ -106,7 +105,7 @@ class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContrac
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         supplier_info = deepcopy(test_tender_below_organization)
         self.app.authorization = ("Basic", ("token", ""))
@@ -146,7 +145,7 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractMultiBuyersResourceTest, self).setUp()
+        super().setUp()
         TenderContractResourceTest.create_award(self)
 
     test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
@@ -161,9 +160,9 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractMultiBuyersResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
     return suite
 
 

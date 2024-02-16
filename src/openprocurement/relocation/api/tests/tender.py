@@ -63,7 +63,7 @@ class BaseTenderOwnershipChangeTest(BaseTenderWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseTenderOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self):
@@ -84,7 +84,7 @@ class TenderOwnershipChangeTest(BaseTenderOwnershipChangeTest):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self):

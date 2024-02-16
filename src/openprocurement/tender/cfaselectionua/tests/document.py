@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -22,7 +21,7 @@ from openprocurement.tender.cfaselectionua.tests.document_blanks import (
 )
 
 
-class TenderDocumentWithDSResourceTestMixin(object):
+class TenderDocumentWithDSResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
@@ -43,7 +42,7 @@ class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithD
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
     return suite
 
 

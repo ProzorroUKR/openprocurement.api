@@ -98,7 +98,7 @@ Content-Type: application/json
         "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -123,7 +123,7 @@ Content-Type: application/json
         "id": "f0a94f5146424cdeb3e9103add626234",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "relatedLot": "8b60d0525e2a40b9954d740b5b68c4ef",
+        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",

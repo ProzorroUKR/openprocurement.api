@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -32,7 +31,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_bids = test_tender_openua_bids
 
     def setUp(self):
-        super(TenderAwardMilestoneResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
         self.create_tender()
         with change_auth(self.app, ("Basic", ("token", ""))):
@@ -52,7 +51,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderAwardMilestoneResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_milestone(self):
         self.app.authorization = ('Basic', ('broker', ''))

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os.path
 from copy import deepcopy
 
@@ -18,7 +17,7 @@ class BaseAgreementWebTest(BaseAgreementTest):
     initial_change = TEST_CHANGE
 
     def setUp(self):
-        super(BaseAgreementWebTest, self).setUp()
+        super().setUp()
         self.create_agreement()
 
     def create_agreement(self):
@@ -34,12 +33,12 @@ class BaseAgreementWebTest(BaseAgreementTest):
 
     def tearDown(self):
         # del self.db[self.agreement_id]
-        super(BaseAgreementWebTest, self).tearDown()
+        super().tearDown()
 
 
 class BaseAgreementContentWebTest(BaseAgreementWebTest):
     def setUp(self):
-        super(BaseAgreementContentWebTest, self).setUp()
+        super().setUp()
         response = self.app.patch_json(
             "/agreements/{}/credentials?acc_token={}".format(self.agreement_id, self.initial_data["tender_token"]),
             {"data": {}},

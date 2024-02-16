@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -106,7 +104,7 @@ class TenderBidRequirementResponseTestMixin:
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderBidRequirementResponseTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
@@ -128,7 +126,7 @@ class TenderBidRequirementResponseEvidenceTestMixin:
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderBidRequirementResponseEvidenceTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[0]["requirementGroups"][0]["requirements"][0]
@@ -172,11 +170,11 @@ class TenderBidRequirementResponseEvidenceTestMixin:
         self.doc_id = response.json["data"]["id"]
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     base_bid_status = "pending"
 
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         bid_data = deepcopy(test_tender_openua_bids[0])
         set_bid_lotvalues(bid_data, self.initial_lots)
         bid_data["status"] = self.base_bid_status
@@ -203,7 +201,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
     test_draft2_bids = snitch(draft2_bids)
 
     def setUp(self):
-        super(TenderBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -329,12 +327,12 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
@@ -547,12 +546,12 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     # Get bidder by anon user
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
 
     # try switch to active.stage2.pending
     self.set_status("active.stage2.pending", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
@@ -637,9 +636,9 @@ def deleted_bid_do_not_locks_tender_in_state(self):
     self.assertEqual(response.content_type, "application/json")
     for b in response.json["data"]:
         if b["status"] in ["invalid", "deleted"]:
-            self.assertEqual(set(b.keys()), set(["id", "status"]))
+            self.assertEqual(set(b.keys()), {"id", "status"})
         else:
-            self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+            self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
 
 def get_tender_tenderers(self):
@@ -801,9 +800,9 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(len(response.json["data"]), 6)
     for b in response.json["data"]:
         if b["status"] == "invalid":
-            self.assertEqual(set(b.keys()), set(["id", "status"]))
+            self.assertEqual(set(b.keys()), {"id", "status"})
         else:
-            self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+            self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     # invalidated bids stay invalidated
     for bid_id, token in bids_access.items():
@@ -1160,11 +1159,11 @@ def get_tender_bidder_document(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0].keys()), set(["id", "status", "documents", "tenderers"]))
-    self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"][0].keys()), {"id", "status", "documents", "tenderers"})
+    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "documents", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "documents", "tenderers"})
     response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)

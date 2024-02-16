@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import validate_input_data

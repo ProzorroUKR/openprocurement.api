@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -65,7 +64,7 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardResourceTest, self).setUp()
+        super().setUp()
         # Get awards
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
@@ -97,7 +96,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardResourceTest, self).setUp()
+        super().setUp()
         # Get awards
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
@@ -120,7 +119,7 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
@@ -153,7 +152,7 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardComplaintResourceTest, self).setUp()
+        super().setUp()
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.awards_ids = [award["id"] for award in response.json["data"]]
@@ -172,7 +171,7 @@ class TenderAwardComplaintExtendedResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintExtendedResourceTest, self).setUp()
+        super().setUp()
         # Get award
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
@@ -196,7 +195,7 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
         self.award_bid_id = response.json["data"][0]["bid_id"]
@@ -228,7 +227,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
         self.award_id = response.json["data"][0]["id"]
 
@@ -247,13 +246,13 @@ class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardBidsOverMaxAwardsResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintExtendedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardBidsOverMaxAwardsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintExtendedResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.base import (

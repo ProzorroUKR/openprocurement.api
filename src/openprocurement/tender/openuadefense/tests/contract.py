@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
 from unittest.mock import patch
@@ -44,7 +43,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest, TenderContractResou
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractResourceTest, self).setUp()
+        super().setUp()
         # Create award
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -114,7 +113,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest, Tende
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractVATNotIncludedResourceTest, self).setUp()
+        super().setUp()
         self.create_award()
 
     test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
@@ -131,7 +130,7 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
-        super(TenderContractDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -169,9 +168,9 @@ class TenderContractDocumentResourceTest(BaseTenderUAContentWebTest, TenderContr
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderContractResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderContractVATNotIncludedResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractVATNotIncludedResourceTest))
     return suite
 
 

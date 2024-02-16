@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -28,7 +27,7 @@ from openprocurement.tender.cfaselectionua.tests.cancellation_blanks import (
 )
 
 
-class TenderCancellationResourceTestMixin(object):
+class TenderCancellationResourceTestMixin:
     test_create_tender_cancellation_invalid = snitch(create_tender_cancellation_invalid)
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
@@ -36,7 +35,7 @@ class TenderCancellationResourceTestMixin(object):
     test_get_tender_cancellations = snitch(get_tender_cancellations)
 
 
-class TenderCancellationDocumentResourceTestMixin(object):
+class TenderCancellationDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_cancellation_document = snitch(create_tender_cancellation_document)
     test_put_tender_cancellation_document = snitch(put_tender_cancellation_document)
@@ -66,7 +65,7 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderCancellationDocumentResourceTest, self).setUp()
+        super().setUp()
 
         # Create cancellation
         response = self.app.post_json(
@@ -79,8 +78,8 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotCancellationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotCancellationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationDocumentResourceTest))
     return suite
 
 

@@ -1,8 +1,8 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import Mock, patch
 
 from freezegun import freeze_time
-from mock import Mock, patch
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbResourceConflict
@@ -55,7 +55,7 @@ def listing(self):
 
     self.assertEqual(len(response.json["data"]), 3)
     self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in qualifications})
     self.assertEqual(
         {i["dateModified"] for i in response.json["data"]},
         {i["dateModified"] for i in qualifications},
@@ -87,21 +87,21 @@ def listing(self):
     response = self.app.get("/qualifications", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in qualifications})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in qualifications], reverse=True),
@@ -171,11 +171,9 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
-    self.assertEqual(
-        set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in qualifications])
-    )
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in qualifications})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in qualifications})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in qualifications])
     )
@@ -198,21 +196,21 @@ def listing_changes(self):
     response = self.app.get("/qualifications?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?feed=changes", params=[("opt_fields", "status,owner")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/qualifications?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in qualifications]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in qualifications})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]],
         sorted([i["dateModified"] for i in qualifications], reverse=True),
@@ -853,17 +851,15 @@ def qualification_fields(self):
     self.assertEqual(response.status, "200 OK")
     qualification = response.json["data"]
 
-    fields = set(
-        [
-            "id",
-            "dateModified",
-            "date",
-            "status",
-            "qualificationType",
-            "submissionID",
-            "frameworkID",
-        ]
-    )
+    fields = {
+        "id",
+        "dateModified",
+        "date",
+        "status",
+        "qualificationType",
+        "submissionID",
+        "frameworkID",
+    }
     self.assertEqual(set(qualification), fields)
 
     response = self.app.patch_json(

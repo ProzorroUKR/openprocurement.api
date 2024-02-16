@@ -102,7 +102,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     guarantee_criterion = True
 
     def setUp(self):
-        super(TenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -176,7 +176,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
     test_create_tender_bid_document_active_qualification = snitch(create_tender_bid_document_active_qualification)
 
     def setUp(self):
-        super(SimpleTenderBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
@@ -311,16 +311,16 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidDocumentWithDSResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueRestriction))
-    suite.addTest(unittest.makeSuite(TenderLotsWithDisabledValueCurrencyEquality))
-    suite.addTest(unittest.makeSuite(TenderWithDisabledValueCurrencyEquality))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueRestriction))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotsWithDisabledValueCurrencyEquality))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderWithDisabledValueCurrencyEquality))
     return suite
 
 

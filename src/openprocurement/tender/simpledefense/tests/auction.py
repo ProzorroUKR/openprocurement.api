@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -103,10 +102,10 @@ class TenderFeaturesMultilotAuctionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderFeaturesMultilotAuctionResourceTest))
     return suite
 
 

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from pyramid.events import BeforeRender, ContextFound, NewRequest, subscriber
 
 from openprocurement.api.constants import VERSION

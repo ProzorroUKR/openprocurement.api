@@ -10,13 +10,13 @@ from openprocurement.tender.core.tests.qualification_milestone import (
 )
 
 
-class TenderPreQualificationMixin(object):
+class TenderPreQualificationMixin:
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_cd_stage1_bids
     initial_bids_data = test_tender_cd_stage1_bids
 
     def setUp(self):
-        super(TenderPreQualificationMixin, self).setUp()
+        super().setUp()
 
         for n, bid in enumerate(self.initial_bids_data):
             bid = deepcopy(bid)

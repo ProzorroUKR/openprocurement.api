@@ -127,7 +127,7 @@ class PostTender(PostBaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
-        if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
     def validate_minimalStep(self, data, value):
@@ -173,7 +173,7 @@ class PatchTender(PatchBaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
 
     def validate_lots(self, data, value):
-        if value and len(set(lot.guarantee.currency for lot in value if lot.guarantee)) > 1:
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
 

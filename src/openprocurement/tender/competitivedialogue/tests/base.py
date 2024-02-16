@@ -1,11 +1,9 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import datetime, timedelta
 from hashlib import sha512
+from unittest.mock import patch
 from uuid import uuid4
-
-from mock import patch
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
@@ -221,7 +219,7 @@ class BaseCompetitiveDialogWebTest(BaseTenderWebTest):
         self.set_status("active.tendering", startend="complaint_end")
 
     def setUp(self):
-        super(BaseCompetitiveDialogWebTest, self).setUp()
+        super().setUp()
         self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
 
@@ -273,7 +271,7 @@ class BaseCompetitiveDialogUAContentWebTest(BaseCompetitiveDialogUAWebTest):
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogUAContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     periods = PERIODS
@@ -286,7 +284,7 @@ class BaseCompetitiveDialogEUContentWebTest(BaseCompetitiveDialogEUWebTest):
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogEUContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
 
@@ -302,7 +300,7 @@ class BaseCompetitiveDialogEUStage2ContentWebTest(BaseCompetitiveDialogEUWebTest
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogEUStage2ContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):
@@ -333,7 +331,7 @@ class BaseCompetitiveDialogUAStage2ContentWebTest(BaseCompetitiveDialogUAWebTest
 
     def setUp(self):
         self.app.authorization = ("Basic", ("broker", ""))
-        super(BaseCompetitiveDialogUAStage2ContentWebTest, self).setUp()
+        super().setUp()
         self.create_tender()
 
     def create_tender(self, initial_lots=None, initial_data=None, features=None, initial_bids=None):

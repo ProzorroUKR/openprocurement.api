@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -66,10 +65,10 @@ class CompetitiveDialogEULotQuestionResourceTest(BaseCompetitiveDialogEUContentW
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEUQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogUAQLotQuestionResourceTest))
-    suite.addTest(unittest.makeSuite(CompetitiveDialogEULotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAQLotQuestionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEULotQuestionResourceTest))
     return suite
 
 

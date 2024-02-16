@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -71,9 +70,9 @@ test_bids_stage2 = deepcopy(test_tender_openeu_bids)
 test_bids_stage2[0]["tenderers"][0] = test_tender_cd_tenderer
 
 
-class CreateBidMixin(object):
+class CreateBidMixin:
     def setUp(self):
-        super(CreateBidMixin, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -103,7 +102,7 @@ class TenderStage2EUBidResourceTest(
     test_create_tender_biddder_invalid = None
 
     def setUp(self):
-        super(TenderStage2EUBidResourceTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.tender_lots = response.json["data"]["lots"]
         self.test_bids_data = []
@@ -122,12 +121,12 @@ class TenderStage2EUBidFeaturesResourceTest(BaseCompetitiveDialogEUStage2Content
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUBidFeaturesResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
-            super(TenderStage2EUBidFeaturesResourceTest, self).create_tender(initial_data=initial_data)
+            super().create_tender(initial_data=initial_data)
 
     test_features_bidder = snitch(features_bidder_eu)
     test_features_bidder_invalid = snitch(features_bidder_invalid)
@@ -143,7 +142,7 @@ class TenderStage2EUBidDocumentResourceTest(
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2EUBidDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create bid
         test_bid_1 = deepcopy(test_tender_openeu_bids[0])
         test_bid_1["tenderers"] = [test_tender_cd_tenderer]
@@ -191,12 +190,12 @@ class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2Content
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(TenderStage2UABidFeaturesResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
 
     def create_tender(self, initial_data=None):
         if initial_data:
-            super(TenderStage2UABidFeaturesResourceTest, self).create_tender(initial_data=initial_data)
+            super().create_tender(initial_data=initial_data)
 
     test_features_bidder_ua = snitch(features_bidder_ua)
     test_features_bidder_invalid_ua = snitch(features_bidder_invalid)
@@ -208,7 +207,7 @@ class BaseCDUAStage2BidContentWebTest(BaseCompetitiveDialogUAStage2ContentWebTes
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
-        super(BaseCDUAStage2BidContentWebTest, self).setUp()
+        super().setUp()
         # Create bid
         bid_data = deepcopy(self.test_bids_data[0])
         bid_data["value"] = {"amount": 500}
@@ -267,15 +266,15 @@ class TenderUABidRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUBidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UABidResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UABidFeaturesResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderEUBidRequirementResponseEvidenceResourceTest))
-    suite.addTest(unittest.makeSuite(TenderUABidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUBidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UABidResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UABidFeaturesResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEUBidRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUABidRequirementResponseEvidenceResourceTest))
     return suite
 
 

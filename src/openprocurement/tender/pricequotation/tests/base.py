@@ -49,7 +49,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     meta_initial_bids = test_tender_pq_bids
 
     def setUp(self):
-        super(BaseTenderWebTest, self).setUp()
+        super().setUp()
         if PQ_MULTI_PROFILE_RELEASED:
             self.create_agreement()
             self.initial_data["agreement"] = {"id": self.agreement_id}
@@ -57,7 +57,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def tearDown(self):
         if PQ_MULTI_PROFILE_RELEASED:
             self.delete_agreement()
-        super(BaseTenderWebTest, self).tearDown()
+        super().tearDown()
 
     def generate_awards(self, status, startend):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])
@@ -245,6 +245,6 @@ class TenderContentWebTest(BaseTenderWebTest):
     need_tender = True
 
     def setUp(self):
-        super(TenderContentWebTest, self).setUp()
+        super().setUp()
         if self.need_tender:
             self.create_tender()

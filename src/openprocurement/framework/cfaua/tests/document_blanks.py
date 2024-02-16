@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from openprocurement.framework.cfaua.tests.data import TEST_DOCUMENTS
 
 

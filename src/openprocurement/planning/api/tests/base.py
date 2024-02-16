@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from base64 import b64encode
 from copy import deepcopy
@@ -108,7 +107,7 @@ class BasePlanWebTest(BaseCoreWebTest):
     docservice = True
 
     def setUp(self):
-        super(BasePlanWebTest, self).setUp()
+        super().setUp()
         self.create_plan()
 
     def create_plan(self):

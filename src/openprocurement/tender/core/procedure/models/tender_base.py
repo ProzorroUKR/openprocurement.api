@@ -45,7 +45,7 @@ class PlanRelation(Model):
 
 def validate_plans(data, value):
     if value:
-        if len(set(i["id"] for i in value)) < len(value):
+        if len({i["id"] for i in value}) < len(value):
             raise ValidationError("The list should not contain duplicates")
         if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != "central":
             raise ValidationError("Linking more than one plan is allowed only if procuringEntity.kind is 'central'")

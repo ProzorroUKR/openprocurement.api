@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from uuid import uuid4
@@ -19,7 +18,7 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseContractOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_contract()
 
     def create_contract(self):

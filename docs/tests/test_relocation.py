@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -24,12 +23,12 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super(TransferDocsTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TransferDocsTest, self).tearDown()
+        super().tearDown()
 
     def test_tenders_docs(self):
         data = deepcopy(test_tender_below_data)

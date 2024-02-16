@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 
 from docutils import nodes
@@ -61,7 +60,7 @@ class HTTPExample(CodeBlock):
         klass = 'http-example-http'
         container = nodes.container('', classes=[klass])
         container.append(nodes.caption('', 'Request' if response_content else 'Example'))
-        container.extend(super(HTTPExample, self).run())
+        container.extend(super().run())
 
         # Init result node list
         result = [container]

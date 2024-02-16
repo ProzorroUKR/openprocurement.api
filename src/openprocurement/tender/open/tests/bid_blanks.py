@@ -1,9 +1,7 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
-
-import mock
-from mock import patch
+from unittest import mock
+from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -487,7 +485,7 @@ def create_bid_after_removing_lot(self):
         },
     )
     data = response.json["data"]
-    self.assertEquals(data["value"]["amount"], 500)
+    self.assertEqual(data["value"]["amount"], 500)
     self.assertNotIn("lotValues", data)
     self.assertNotIn("documents", data)
     self.assertNotIn("parameters", data)

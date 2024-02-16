@@ -576,7 +576,7 @@ class ChronographEventsMixing:
                         bid["status"] = "unsuccessful"
 
             # should be moved to tender_status_check ?
-            if not set(i["status"] for i in tender["lots"]).difference({"unsuccessful", "cancelled"}):
+            if not {i["status"] for i in tender["lots"]}.difference({"unsuccessful", "cancelled"}):
                 self.get_change_tender_status_handler("unsuccessful")(tender)
         else:
             bid_number = self.count_bids_number(tender)

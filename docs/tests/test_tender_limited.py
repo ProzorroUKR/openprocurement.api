@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -48,12 +47,12 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderLimitedResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderLimitedResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_config_reporting_csv(self):
         self.write_config_pmt_csv(
@@ -80,7 +79,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': self.initial_config}
             )
@@ -89,19 +88,19 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         tender = response.json['data']
         owner_token = response.json['access']['token']
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders?opt_pretty=1')
             self.assertEqual(response.status, '200 OK')
 
         #### Tender activating
 
-        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"status": "active"}}
             )
             self.assertEqual(response.status, '200 OK')
 
-        with open(TARGET_DIR + 'tutorial/active-tender-listing-after-procuringEntity.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/active-tender-listing-after-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders?opt_pretty=1')
             self.assertEqual(response.status, '200 OK')
 
@@ -109,12 +108,12 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         items = deepcopy(tender["items"])
         items[0].update({"quantity": 9, "unit": {"code": "MON", "name": "month"}})
-        with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/patch-items-value-periods.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(tender['id'], owner_token), {'data': {"items": items}}
             )
 
-        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-listing-after-patch.http', 'w') as self.app.file_obj:
             self.app.authorization = None
             response = self.app.get(request_path)
             self.assertEqual(response.status, '200 OK')
@@ -124,7 +123,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         #### Uploading documentation
 
-        with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/upload-tender-notice.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/documents?acc_token={}'.format(self.tender_id, owner_token),
                 {
@@ -140,7 +139,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         doc_id = response.json["data"]["id"]
 
-        with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/update-tender-notice.http', 'w') as self.app.file_obj:
             response = self.app.put_json(
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
@@ -156,7 +155,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         #### Adding supplier information
 
-        with open(TARGET_DIR + 'tutorial/tender-award.http', 'wt') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/tender-award.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token), {'data': test_docs_award}
             )

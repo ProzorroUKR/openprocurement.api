@@ -21,7 +21,7 @@ class TenderChronographResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderChronographResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderChronographResourceTest))
     return suite
 
 

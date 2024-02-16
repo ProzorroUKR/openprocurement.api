@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import datetime, timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.constants import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
@@ -51,11 +49,11 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
 
     # qualify bids
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
@@ -79,11 +77,11 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
 
     # switch to active.auction
     self.set_status("active.auction", extra={"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
@@ -95,11 +93,11 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(set(b.keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(b.keys()), {"id", "status", "tenderers"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(set(response.json["data"].keys()), set(["id", "status", "tenderers"]))
+    self.assertEqual(set(response.json["data"].keys()), {"id", "status", "tenderers"})
 
     # switch to qualification
     self.app.authorization = ("Basic", ("auction", ""))
@@ -117,15 +115,13 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(
-            set(b.keys()), set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"])
-        )
+        self.assertEqual(set(b.keys()), {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"]),
+        {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"},
     )
 
     # get awards
@@ -146,15 +142,13 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(
-            set(b.keys()), set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"])
-        )
+        self.assertEqual(set(b.keys()), {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"]),
+        {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"},
     )
 
     # time travel
@@ -178,15 +172,13 @@ def get_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
     for b in response.json["data"]:
-        self.assertEqual(
-            set(b.keys()), set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"])
-        )
+        self.assertEqual(set(b.keys()), {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"})
 
     response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         set(response.json["data"].keys()),
-        set(["date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"]),
+        {"date", "status", "id", "value", "tenderers", "selfEligible", "selfQualified"},
     )
 
 
@@ -2947,13 +2939,13 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(len(response.json["data"]), self.min_bids_number)
         self.assertEqual(
             set(response.json["data"][0].keys()),
-            set(["id", "status", "documents", "eligibilityDocuments", "tenderers"]),
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers"},
         )
-        self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
         response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(
-            set(response.json["data"].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
+            set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
         )
         response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, "200 OK")
@@ -2985,13 +2977,13 @@ def get_tender_bidder_document_ds(self):
         self.assertEqual(len(response.json["data"]), self.min_bids_number)
         self.assertEqual(
             set(response.json["data"][0].keys()),
-            set(["id", "status", "documents", "eligibilityDocuments", "tenderers"]),
+            {"id", "status", "documents", "eligibilityDocuments", "tenderers"},
         )
-        self.assertEqual(set(response.json["data"][1].keys()), set(["id", "status", "tenderers"]))
+        self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "tenderers"})
         response = self.app.get("/tenders/{}/bids/{}".format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(
-            set(response.json["data"].keys()), set(["id", "status", "documents", "eligibilityDocuments", "tenderers"])
+            set(response.json["data"].keys()), {"id", "status", "documents", "eligibilityDocuments", "tenderers"}
         )
         response = self.app.get("/tenders/{}/bids/{}/documents".format(self.tender_id, self.bid_id))
         self.assertEqual(response.status, "200 OK")

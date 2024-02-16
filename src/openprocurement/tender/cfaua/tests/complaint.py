@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -61,7 +60,7 @@ class TenderComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create complaint
         response = self.app.post_json(
             "/tenders/{}/complaints".format(self.tender_id),
@@ -97,7 +96,7 @@ class TenderCancellationComplaintObjectionTest(
     docservice = True
 
     def setUp(self):
-        super(TenderCancellationComplaintObjectionTest, self).setUp()
+        super().setUp()
         self.set_complaint_period_end()
         self.create_cancellation()
 
@@ -114,7 +113,7 @@ class TenderAwardComplaintObjectionTest(
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderAwardComplaintObjectionTest, self).setUp()
+        super().setUp()
         response = self.app.get(f"/tenders/{self.tender_id}/awards")
         self.awards_ids = [award["id"] for award in response.json["data"]]
         self.award_id = self.awards_ids[0]
@@ -122,11 +121,11 @@ class TenderAwardComplaintObjectionTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderCancellationComplaintObjectionTest))
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintObjectionTest))
     return suite
 
 

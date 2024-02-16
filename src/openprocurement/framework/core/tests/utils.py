@@ -2,8 +2,8 @@ import os
 import unittest
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest.mock import MagicMock, call, patch
 
-from mock import MagicMock, call, patch
 from pyramid.exceptions import URLDecodeError
 from schematics.types import StringType
 
@@ -115,8 +115,8 @@ class TestCalculateFrameworkDate(BaseFrameworkTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(UtilsFrameworkTest))
-    suite.addTest(unittest.makeSuite(TestCalculateFrameworkDate))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(UtilsFrameworkTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestCalculateFrameworkDate))
     return suite
 
 

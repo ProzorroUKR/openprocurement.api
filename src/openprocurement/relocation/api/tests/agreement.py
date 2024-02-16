@@ -17,7 +17,7 @@ class BaseAgreementOwnershipChangeTest(BaseWebTest):
     initial_auth = ("Basic", (first_owner, ""))
 
     def setUp(self):
-        super(BaseAgreementOwnershipChangeTest, self).setUp()
+        super().setUp()
         self.create_agreement()
 
     def create_agreement(self):

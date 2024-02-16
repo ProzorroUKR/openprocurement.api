@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -37,13 +36,13 @@ from openprocurement.tender.cfaselectionua.tests.base import (
 skip_multi_lots = True
 
 
-class TenderAwardResourceTestMixin(object):
+class TenderAwardResourceTestMixin:
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_get_tender_award = snitch(get_tender_award)
     test_patch_tender_award_Administrator_change = snitch(patch_tender_award_Administrator_change)
 
 
-class TenderAwardDocumentResourceTestMixin(object):
+class TenderAwardDocumentResourceTestMixin:
     test_not_found_award_document = snitch(not_found_award_document)
     test_create_tender_award_document = snitch(create_tender_award_document)
     test_put_tender_award_document = snitch(put_tender_award_document)
@@ -52,11 +51,11 @@ class TenderAwardDocumentResourceTestMixin(object):
     test_patch_not_author = snitch(patch_not_author)
 
 
-class TenderLotAwardCheckResourceTestMixin(object):
+class TenderLotAwardCheckResourceTestMixin:
     test_check_tender_award = snitch(check_tender_award)
 
 
-class Tender2LotAwardDocumentResourceTestMixin(object):
+class Tender2LotAwardDocumentResourceTestMixin:
     test_create_tender_lots_award_document = snitch(create_tender_lots_award_document)
     test_put_tender_lots_award_document = snitch(put_tender_lots_award_document)
     test_patch_tender_lots_award_document = snitch(patch_tender_lots_award_document)
@@ -76,7 +75,7 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     docservice = True
 
     def setUp(self):
-        super(TenderLotAwardCheckResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("auction", ""))
         response = self.app.get("/tenders/{}/auction".format(self.tender_id))
         auction_bids_data = response.json["data"]["bids"]
@@ -139,7 +138,7 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
     initial_lots = 2 * test_tender_cfaselectionua_lots
 
     def setUp(self):
-        super(Tender2LotAwardDocumentResourceTest, self).setUp()
+        super().setUp()
         # Create award
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
@@ -167,10 +166,10 @@ class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceT
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Tender2LotAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotAwardResourceTest))
-    suite.addTest(unittest.makeSuite(TenderAwardDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
     return suite
 
 

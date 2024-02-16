@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from logging import getLogger
 
 from openprocurement.api.mask import mask_object_data
@@ -40,14 +39,14 @@ def extract_contract_doc(request):
         return doc
 
 
-class ContractTypePredicate(object):
+class ContractTypePredicate:
     """Route predicate factory for contractType route predicate."""
 
     def __init__(self, val, config):
         self.val = val
 
     def text(self):
-        return "contractType = %s" % (self.val,)
+        return "contractType = {}".format(self.val)
 
     phash = text
 

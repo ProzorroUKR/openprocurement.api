@@ -52,7 +52,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (
 )
 
 
-class TenderLotEdgeCasesTestMixin(object):
+class TenderLotEdgeCasesTestMixin:
     test_question_blocking = snitch(question_blocking)
     test_claim_blocking = snitch(claim_blocking)
     test_next_check_value_with_unanswered_question = snitch(next_check_value_with_unanswered_question)
@@ -112,7 +112,7 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     initial_criteria = test_exclusion_criteria + test_language_criteria
 
     def setUp(self):
-        super(TenderLotFeatureBidderResourceTest, self).setUp()
+        super().setUp()
         self.lot_id = self.initial_lots[0]["id"]
         items = deepcopy(self.initial_data["items"])
         items[0].update({"relatedLot": self.lot_id, "id": "1"})
@@ -177,10 +177,10 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderLotResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotFeatureBidderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotFeatureBidderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotProcessTest))
     return suite
 
 

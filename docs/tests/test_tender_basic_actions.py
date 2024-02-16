@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -80,12 +79,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderOpenEUResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderOpenEUResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))
@@ -3049,12 +3048,12 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super(TenderBelowThresholdResourceTest, self).setUp()
+        super().setUp()
         self.setUpMock()
 
     def tearDown(self):
         self.tearDownMock()
-        super(TenderBelowThresholdResourceTest, self).tearDown()
+        super().tearDown()
 
     def test_docs_milestones(self):
         self.app.authorization = ('Basic', ('broker', ''))

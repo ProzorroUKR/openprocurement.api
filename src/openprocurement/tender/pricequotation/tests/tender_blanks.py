@@ -1,8 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
-
-import mock
 
 from openprocurement.api.constants import (
     PQ_MULTI_PROFILE_FROM,
@@ -56,9 +55,9 @@ def listing(self):
         if len(response.json["data"]) == 3:
             break
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
     response = self.app.get("/tenders?limit=2")
@@ -79,21 +78,21 @@ def listing(self):
     response = self.app.get("/tenders", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders], reverse=True)
     )
@@ -146,9 +145,9 @@ def listing_changes(self):
     self.assertEqual(",".join([i["id"] for i in response.json["data"]]), ids)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
     response = self.app.get("/tenders?feed=changes&limit=2")
@@ -169,21 +168,21 @@ def listing_changes(self):
     response = self.app.get("/tenders?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?feed=changes", params=[("opt_fields", "status")])
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified", "status"]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified", "status"})
     self.assertIn("opt_fields=status", response.json["next_page"]["uri"])
 
     response = self.app.get("/tenders?feed=changes&descending=1")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
     self.assertEqual(
         [i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders], reverse=True)
     )
@@ -240,9 +239,9 @@ def listing_draft(self):
             break
 
     self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(set(response.json["data"][0]), set(["id", "dateModified"]))
-    self.assertEqual(set([i["id"] for i in response.json["data"]]), set([i["id"] for i in tenders]))
-    self.assertEqual(set([i["dateModified"] for i in response.json["data"]]), set([i["dateModified"] for i in tenders]))
+    self.assertEqual(set(response.json["data"][0]), {"id", "dateModified"})
+    self.assertEqual({i["id"] for i in response.json["data"]}, {i["id"] for i in tenders})
+    self.assertEqual({i["dateModified"] for i in response.json["data"]}, {i["dateModified"] for i in tenders})
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
 
@@ -390,9 +389,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                u'description': {u'contactPoint': {u'telephone': [u'wrong telephone format (could be missed +)']}},
-                u'location': u'body',
-                u'name': u'procuringEntity',
+                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
+                'location': 'body',
+                'name': 'procuringEntity',
             }
         ],
     )
@@ -735,7 +734,7 @@ def create_tender_draft_with_criteria(self):
     tender_id = tender["id"]
     token = response.json["access"]["token"]
 
-    self.assertEqual(set(e["description"] for e in tender["criteria"]), set(e["description"] for e in data["criteria"]))
+    self.assertEqual({e["description"] for e in tender["criteria"]}, {e["description"] for e in data["criteria"]})
 
     # try updating criteria ids
     patch_criteria = deepcopy(tender["criteria"])
@@ -744,7 +743,7 @@ def create_tender_draft_with_criteria(self):
 
     response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": patch_criteria}})
     patch_result = response.json["data"]
-    self.assertEqual(set(e["id"] for e in patch_result["criteria"]), set(e["id"] for e in patch_criteria))
+    self.assertEqual({e["id"] for e in patch_result["criteria"]}, {e["id"] for e in patch_criteria})
 
     # try adding a new criteria
     patch_criteria = patch_criteria + deepcopy(patch_criteria)
@@ -825,7 +824,7 @@ def create_tender_draft_with_criteria_expected_values(self):
     tender_id = tender["id"]
     token = response.json["access"]["token"]
 
-    self.assertEqual(set(e["description"] for e in tender["criteria"]), set(e["description"] for e in data["criteria"]))
+    self.assertEqual({e["description"] for e in tender["criteria"]}, {e["description"] for e in data["criteria"]})
 
     tender_criteria = tender["criteria"]
 

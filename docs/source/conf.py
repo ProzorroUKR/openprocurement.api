@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #
 # openprocurement.api documentation build configuration file, created by
 # sphinx-quickstart on Wed Oct  1 02:29:13 2014.

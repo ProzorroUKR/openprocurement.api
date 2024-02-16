@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -64,12 +63,12 @@ class TenderLotAuctionPeriodResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderSwitchTenderingPeriodStartDateResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchTenderingResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchTenderingPeriodStartDateResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchTenderingResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAuctionPeriodResourceTest))
     return suite
 
 

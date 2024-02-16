@@ -20,7 +20,7 @@ class Doc(dict):
     rev = test_data_with_revisions["_rev"]
 
     def __init___(self, *args, **kwargs):
-        super(Doc, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
 
 mock_doc = Doc(test_data_with_revisions)
@@ -30,7 +30,7 @@ class Db(dict):
     save = dict.__setitem__
 
     def __init__(self, *args, **kwargs):
-        super(Db, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self[mock_doc.id] = deepcopy(mock_doc)
         broken = deepcopy(mock_doc)
         broken["revisions"][:] = [

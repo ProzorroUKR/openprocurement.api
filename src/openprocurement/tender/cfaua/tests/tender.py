@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -135,7 +134,7 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
         for bid in self.initial_bids:
             bid["value"] = bid["lotValues"][0]["value"]
 
-        super(TenderPendingAwardsResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification")
         response = self.check_chronograph()
@@ -196,9 +195,9 @@ class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderProcessTest))
-    suite.addTest(unittest.makeSuite(TenderResourceTest))
-    suite.addTest(unittest.makeSuite(TenderPendingAwardsResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderPendingAwardsResourceTest))
     return suite
 
 

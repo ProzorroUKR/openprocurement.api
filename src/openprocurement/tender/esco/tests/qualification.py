@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -68,7 +67,7 @@ class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -86,7 +85,7 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
-        super(TenderQualificationResourceTest, self).setUp()
+        super().setUp()
 
     test_post_tender_qualifications = snitch(post_tender_qualifications)
     test_get_tender_qualifications_collection = snitch(get_tender_qualifications_collection)
@@ -106,7 +105,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -130,7 +129,7 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -229,7 +228,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -295,15 +294,17 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationClaimResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationComplaintDocumentResourceTest))
-    suite.addTest(unittest.makeSuite(Tender2LotQualificationComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationClaimResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintDocumentResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotQualificationComplaintDocumentResourceTest)
+    )
     return suite
 
 

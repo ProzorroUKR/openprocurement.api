@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 from copy import deepcopy
 
@@ -44,7 +43,7 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
     initial_lots = test_tender_openeu_lots
 
     def setUp(self):
-        super(TenderStage2EUAuctionResourceTest, self).setUp()
+        super().setUp()
         # switch to active.pre-qualification
         self.time_shift("active.pre-qualification")
         response = self.check_chronograph()
@@ -80,7 +79,7 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
         bid_data = deepcopy(test_tender_openeu_bids[0])
         bid_data["tenderers"] = [self.tenderer_info]
         self.initial_bids = [bid_data for i in range(3)]
-        super(TenderStage2EUSameValueAuctionResourceTest, self).setUp()
+        super().setUp()
         auth = self.app.authorization
         # switch to active.pre-qualification
         self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -167,7 +166,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
                 "tenderers": [self.tenderer_info],
             }
         )
-        super(TenderStage2EUFeaturesAuctionResourceTest, self).setUp()
+        super().setUp()
         self.prepare_for_auction()
 
     def create_tender(self):
@@ -176,9 +175,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
         item["id"] = "1"
         data["items"] = [item]
         data["features"] = self.features
-        super(TenderStage2EUFeaturesAuctionResourceTest, self).create_tender(
-            initial_data=data, initial_bids=self.initial_bids
-        )
+        super().create_tender(initial_data=data, initial_bids=self.initial_bids)
 
     def prepare_for_auction(self):
         """
@@ -246,7 +243,7 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
         bid_data = deepcopy(test_tender_openeu_bids[0])
         bid_data["tenderers"] = [test_tender_cd_tenderer]
         self.initial_bids = [bid_data for i in range(3)]
-        super(TenderStage2UASameValueAuctionResourceTest, self).setUp()
+        super().setUp()
 
 
 class TenderStage2UAMultipleLotAuctionResourceTest(
@@ -297,7 +294,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
                 "tenderers": [self.tenderer_info],
             }
         )
-        super(TenderStage2UAFeaturesAuctionResourceTest, self).setUp()
+        super().setUp()
         self.app.authorization = ("Basic", ("broker", ""))
         data = test_tender_cdua_stage2_data.copy()
         item = data["items"][0].copy()
@@ -309,9 +306,7 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
 
     def create_tender(self, initial_data=None, initial_bids=None, initial_lots=None):
         if initial_data:
-            super(TenderStage2UAFeaturesAuctionResourceTest, self).create_tender(
-                initial_data=initial_data, initial_bids=initial_bids, initial_lots=initial_lots
-            )
+            super().create_tender(initial_data=initial_data, initial_bids=initial_bids, initial_lots=initial_lots)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)
@@ -328,14 +323,14 @@ class TenderStage2UAFeaturesMultilotAuctionResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderStage2EUAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUSameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2EUFeaturesMultilotAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UASameValueAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAFeaturesAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderStage2UAFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUFeaturesAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUFeaturesMultilotAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASameValueAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAFeaturesAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAFeaturesMultilotAuctionResourceTest))
     return suite
 
 

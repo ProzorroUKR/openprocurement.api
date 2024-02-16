@@ -101,7 +101,7 @@ class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResource
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(TenderUnsuccessfulLotAuctionPeriodResourceTest, self).setUp()
+        super().setUp()
         # Create award with an unsuccessful lot
         for bid in self.initial_bids:
             bid_id = bid["id"]
@@ -152,7 +152,7 @@ class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_bids = test_tender_below_bids
 
     def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -214,16 +214,16 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchUnsuccessfulResourceTest))
     return suite
 
 

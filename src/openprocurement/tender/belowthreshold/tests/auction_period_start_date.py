@@ -42,8 +42,8 @@ class TenderLotAuctionPeriodStartDateResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderAuctionPeriodStartDateResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotAuctionPeriodStartDateResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAuctionPeriodStartDateResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAuctionPeriodStartDateResourceTest))
     return suite
 
 

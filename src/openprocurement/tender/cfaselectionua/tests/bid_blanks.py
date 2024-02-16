@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues

@@ -13,7 +13,7 @@ from openprocurement.api.tests.base import app, change_auth, singleton_app
 @patch(
     "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
     [
-        sha224("00000000".encode()).hexdigest(),
+        sha224(b"00000000").hexdigest(),
     ],
 )
 def test_mask_function():
@@ -32,7 +32,7 @@ def test_mask_function():
 @patch(
     "openprocurement.api.mask_deprecated.MASK_IDENTIFIER_IDS",
     [
-        sha224("00000000".encode()).hexdigest(),
+        sha224(b"00000000").hexdigest(),
     ],
 )
 def test_mask_contract_by_identifier(app):

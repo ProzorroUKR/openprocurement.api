@@ -1,4 +1,3 @@
-# # -*- coding: utf-8 -*-
 # TODO: Rewrite for new models
 # import copy
 # import unittest

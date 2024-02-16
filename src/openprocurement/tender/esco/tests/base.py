@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import os
 from copy import deepcopy
 
@@ -100,6 +99,6 @@ class BaseESCOContentWebTest(BaseESCOWebTest):
     initial_status = "active.tendering"
 
     def setUp(self):
-        super(BaseESCOContentWebTest, self).setUp()
+        super().setUp()
         if self.initial_data and self.initialize_initial_data:
             self.create_tender()

@@ -154,10 +154,10 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "f593b0ce6a334393bfba269562fa3ac9",
+        "relatedLot": "4b0e745d5e59434da2b2c0206ca2d89b",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d919e3a12bf04f32b88a651dc10270d1_f593b0ce6a334393bfba269562fa3ac9?key_for_bid=18a43968297841c788021800b10152f6"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d919e3a12bf04f32b88a651dc10270d1_4b0e745d5e59434da2b2c0206ca2d89b?key_for_bid=18a43968297841c788021800b10152f6"
       }
     ],
     "selfQualified": true

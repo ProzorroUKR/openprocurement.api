@@ -96,11 +96,11 @@ class CommonBid(BaseBid):
                 or i["featureOf"] == "item"
                 and i["relatedItem"] in items
             }
-            if set(i["code"] for i in parameters) != set(codes):
+            if {i["code"] for i in parameters} != set(codes):
                 raise ValidationError("All features parameters is required.")
         elif not parameters and tender.get("features"):
             raise ValidationError("This field is required.")
-        elif set(i["code"] for i in parameters) != set(i["code"] for i in tender.get("features", "")):
+        elif {i["code"] for i in parameters} != {i["code"] for i in tender.get("features", "")}:
             raise ValidationError("All features parameters is required.")
 
 

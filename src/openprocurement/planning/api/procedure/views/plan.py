@@ -52,7 +52,7 @@ class PlansListResource(MongodbResourceListing):
     }
 
     def __init__(self, request, context=None):
-        super(PlansListResource, self).__init__(request, context)
+        super().__init__(request, context)
         self.db_listing_method = request.registry.mongodb.plans.list
 
     def __acl__(self):

@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
 import unittest
 from datetime import timedelta
-
-from mock import patch
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -68,7 +66,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
 )
 
 
-class TenderQualificationRequirementResponseTestMixin(object):
+class TenderQualificationRequirementResponseTestMixin:
     test_create_qualification_requirement_response = snitch(create_qualification_requirement_response)
     test_patch_qualification_requirement_response = snitch(patch_qualification_requirement_response)
     test_get_qualification_requirement_response = snitch(get_qualification_requirement_response)
@@ -76,7 +74,7 @@ class TenderQualificationRequirementResponseTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderQualificationRequirementResponseTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
@@ -84,7 +82,7 @@ class TenderQualificationRequirementResponseTestMixin(object):
         self.requirement_title = requirement["title"]
 
 
-class TenderQualificationRequirementResponseEvidenceTestMixin(object):
+class TenderQualificationRequirementResponseEvidenceTestMixin:
     test_create_qualification_requirement_response_evidence = snitch(create_qualification_requirement_response_evidence)
     test_patch_qualification_requirement_response_evidence = snitch(patch_qualification_requirement_response_evidence)
     test_get_qualification_requirement_response_evidence = snitch(get_qualification_requirement_response_evidence)
@@ -92,7 +90,7 @@ class TenderQualificationRequirementResponseEvidenceTestMixin(object):
     initial_criteria = test_exclusion_criteria
 
     def setUp(self):
-        super(TenderQualificationRequirementResponseEvidenceTestMixin, self).setUp()
+        super().setUp()
         response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
         criteria = response.json["data"]
         requirement = criteria[6]["requirementGroups"][0]["requirements"][0]
@@ -151,7 +149,7 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationBaseTestCase, self).setUp()
+        super().setUp()
         # update periods to have possibility to change tender status by chronograph
         self.set_status("active.pre-qualification", extra={"status": "active.tendering"})
         response = self.check_chronograph()
@@ -191,7 +189,7 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     docservice = True
 
     def setUp(self):
-        super(TenderQualificationDocumentResourceTest, self).setUp()
+        super().setUp()
         # list qualifications
         response = self.app.get("/tenders/{}/qualifications?acc_token={}".format(self.tender_id, self.tender_token))
         self.assertEqual(response.status, "200 OK")
@@ -220,7 +218,7 @@ class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
     author_data = test_tender_below_author
 
     def setUp(self):
-        super(TenderQualificationComplaintResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -319,7 +317,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
 
 class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTestCase):
     def setUp(self):
-        super(TenderQualificationComplaintDocumentResourceTest, self).setUp()
+        super().setUp()
 
         response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
         self.assertEqual(response.content_type, "application/json")
@@ -389,9 +387,11 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderQualificationResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseResourceTest))
-    suite.addTest(unittest.makeSuite(TenderQualificationRequirementResponseEvidenceResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationRequirementResponseResourceTest))
+    suite.addTest(
+        unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationRequirementResponseEvidenceResourceTest)
+    )
     return suite
 
 

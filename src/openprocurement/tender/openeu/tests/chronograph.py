@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.tests.base import snitch
@@ -148,7 +147,7 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_bids = test_tender_openeu_bids
 
     def setUp(self):
-        super(TenderAwardComplaintSwitchResourceTest, self).setUp()
+        super().setUp()
         # Create award
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -169,12 +168,12 @@ class TenderAwardComplaintSwitchResourceTest(BaseTenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotComplaintSwitchResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderLotSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchAuctionResourceTest))
-    suite.addTest(unittest.makeSuite(TenderSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchAuctionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderSwitchUnsuccessfulResourceTest))
     return suite
 
 

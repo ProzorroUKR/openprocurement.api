@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from json import JSONDecodeError
 
 from schematics.exceptions import ValidationError

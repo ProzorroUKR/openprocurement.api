@@ -26,7 +26,7 @@ class TenderPQCriteriaTest(BaseTenderWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TenderPQCriteriaTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderPQCriteriaTest))
     return suite
 
 

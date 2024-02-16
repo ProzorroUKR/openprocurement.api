@@ -1,7 +1,6 @@
 import unittest
 from hashlib import sha512
-
-from mock import MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 from openprocurement.tender.core.procedure.views.tender_credentials import (
     TenderResource,
@@ -21,7 +20,7 @@ class TestTenderCredentials(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestTenderCredentials))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TestTenderCredentials))
     return suite
 
 

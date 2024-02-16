@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import unittest
 
 from openprocurement.api.constants import VERSION
@@ -15,7 +14,7 @@ class SporeTest(BaseWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(SporeTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(SporeTest))
     return suite
 
 

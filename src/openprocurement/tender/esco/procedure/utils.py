@@ -18,5 +18,4 @@ def all_bids_values(tender, identifier):
     """
     for every_bid in tender["bids"]:
         if get_bid_identifier(every_bid) == identifier:
-            for lot_value in every_bid["lotValues"]:
-                yield lot_value
+            yield from every_bid["lotValues"]

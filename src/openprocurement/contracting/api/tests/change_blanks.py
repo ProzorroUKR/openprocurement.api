@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from copy import deepcopy
 from datetime import timedelta
 
@@ -115,7 +114,7 @@ def get_change(self):
     self.assertEqual(len(response.json["data"]["changes"]), 1)
     self.assertEqual(
         set(response.json["data"]["changes"][0].keys()),
-        set(["id", "date", "status", "rationaleTypes", "rationale", "rationale_ru", "rationale_en", "contractNumber"]),
+        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_ru", "rationale_en", "contractNumber"},
     )
 
     self.app.authorization = None
@@ -124,7 +123,7 @@ def get_change(self):
     self.assertEqual(len(response.json["data"]), 1)
     self.assertEqual(
         set(response.json["data"][0].keys()),
-        set(["id", "date", "status", "rationaleTypes", "rationale", "rationale_ru", "rationale_en", "contractNumber"]),
+        {"id", "date", "status", "rationaleTypes", "rationale", "rationale_ru", "rationale_en", "contractNumber"},
     )
 
 
