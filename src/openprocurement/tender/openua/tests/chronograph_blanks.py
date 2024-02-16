@@ -1,5 +1,3 @@
-from copy import deepcopy
-
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,

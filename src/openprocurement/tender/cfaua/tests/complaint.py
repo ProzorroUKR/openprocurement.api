@@ -14,10 +14,7 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.cfaua.tests.complaint_blanks import (
-    create_tender_complaint,
-    create_tender_lot_complaint,
-)
+from openprocurement.tender.cfaua.tests.complaint_blanks import create_tender_complaint
 from openprocurement.tender.open.tests.complaint import (
     ComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,

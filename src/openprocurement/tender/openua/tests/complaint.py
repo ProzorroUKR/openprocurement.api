@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderComplaintDocumentResourceTest
+    create_tender_complaint_document,
     not_found,
 )
 from openprocurement.tender.core.tests.utils import change_auth

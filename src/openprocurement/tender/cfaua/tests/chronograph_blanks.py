@@ -1,8 +1,3 @@
-from copy import deepcopy
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
-
-
 def next_check_field_in_active_qualification(self):
     response = self.set_status("active.pre-qualification", "end")
     self.assertEqual(response.status, "200 OK")
