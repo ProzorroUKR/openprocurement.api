@@ -26,7 +26,7 @@ class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
             awards
             and awards[-1]["status"] == "unsuccessful"
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
-            and not any([c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", "")])
+            and not any(c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", ""))
         ):
             new_defence_complaints = tender_created_in(NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO)
             stand_still_ends = [

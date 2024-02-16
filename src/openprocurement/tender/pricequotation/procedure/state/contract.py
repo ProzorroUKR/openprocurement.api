@@ -24,8 +24,8 @@ class PQContractState(ContractStateMixing, PriceQuotationTenderState):
             self.set_object_status(tender, "unsuccessful")
         if (
             tender.get("contracts")
-            and any([contract["status"] == "active" for contract in tender["contracts"]])
-            and not any([contract["status"] == "pending" for contract in tender["contracts"]])
+            and any(contract["status"] == "active" for contract in tender["contracts"])
+            and not any(contract["status"] == "pending" for contract in tender["contracts"])
         ):
             self.set_object_status(tender, "complete")
 

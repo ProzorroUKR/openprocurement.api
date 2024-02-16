@@ -287,7 +287,7 @@ def tender_minimal_step_percentage(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["data"]["minimalStepPercentage"], min([i["minimalStepPercentage"] for i in self.test_lots_data])
+        response.json["data"]["minimalStepPercentage"], min(i["minimalStepPercentage"] for i in self.test_lots_data)
     )
 
 
@@ -620,7 +620,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     lots = response.json["data"]["lots"]
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -629,7 +629,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -643,7 +643,7 @@ def tender_lot_yearlyPaymentsPercentageRange(self):
     response = self.app.get("/tenders/{}".format(tender_id))
     lots = response.json["data"]["lots"]
     self.assertEqual(
-        response.json["data"]["yearlyPaymentsPercentageRange"], min([i["yearlyPaymentsPercentageRange"] for i in lots])
+        response.json["data"]["yearlyPaymentsPercentageRange"], min(i["yearlyPaymentsPercentageRange"] for i in lots)
     )
 
     response = self.app.patch_json(
@@ -996,7 +996,7 @@ def tender_min_value(self):
     self.assertEqual(len(response.json["data"]["lots"]), 3)
     self.assertEqual(
         response.json["data"]["minValue"]["amount"],
-        sum([i["minValue"]["amount"] for i in response.json["data"]["lots"]]),
+        sum(i["minValue"]["amount"] for i in response.json["data"]["lots"]),
     )
 
     response = self.app.delete("/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token))
@@ -1008,7 +1008,7 @@ def tender_min_value(self):
     self.assertEqual(len(response.json["data"]["lots"]), 2)
     self.assertEqual(
         response.json["data"]["minValue"]["amount"],
-        sum([i["minValue"]["amount"] for i in response.json["data"]["lots"]]),
+        sum(i["minValue"]["amount"] for i in response.json["data"]["lots"]),
     )
 
 

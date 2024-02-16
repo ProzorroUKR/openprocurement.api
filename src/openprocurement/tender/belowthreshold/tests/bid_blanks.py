@@ -477,8 +477,8 @@ def delete_tender_bid(self):
     self.assertEqual(response.json["data"], bid)
 
     revisions = self.mongodb.tenders.get(self.tender_id).get("revisions")
-    self.assertTrue(any([i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"]))
-    self.assertTrue(any([i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"]))
+    self.assertTrue(any(i for i in revisions[-2]["changes"] if i["op"] == "remove" and i["path"] == "/bids"))
+    self.assertTrue(any(i for i in revisions[-1]["changes"] if i["op"] == "add" and i["path"] == "/bids"))
 
     response = self.app.delete("/tenders/{}/bids/some_id".format(self.tender_id), status=404)
     self.assertEqual(response.status, "404 Not Found")

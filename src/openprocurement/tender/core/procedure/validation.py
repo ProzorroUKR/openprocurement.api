@@ -818,7 +818,7 @@ def validate_qualification_update_with_cancellation_lot_pending(request, **kwarg
     tender = request.validated["tender"]
     accept_lot = all(
         [
-            any([j["status"] == "resolved" for j in i["complaints"]])
+            any(j["status"] == "resolved" for j in i["complaints"])
             for i in tender.get("cancellations", [])
             if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
         ]
@@ -889,8 +889,8 @@ def validate_update_contract_value_with_award(request, **_):
             request.validated["contract"].get("awardID"),
         )
 
-        amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
-        amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
+        amount = sum(to_decimal(value.get("amount", 0)) for value in _contracts_values)
+        amount_net = sum(to_decimal(value.get("amountNet", 0)) for value in _contracts_values)
         tax_included = updated_value.get("valueAddedTaxIncluded")
         if tax_included:
             if award.get("value", {}).get("valueAddedTaxIncluded"):
@@ -1094,7 +1094,7 @@ def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> calla
 
         accept_lot = all(
             [
-                any([j["status"] == "resolved" for j in i["complaints"]])
+                any(j["status"] == "resolved" for j in i["complaints"])
                 for i in tender.get("cancellations", [])
                 if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
             ]
@@ -1445,9 +1445,9 @@ def validate_milestones(value):
 
 
 def validate_gmdn(classification_id, additional_classifications):
-    gmdn_count = sum([1 for i in additional_classifications if i["scheme"] in (GMDN_2023_SCHEME, GMDN_2019_SCHEME)])
+    gmdn_count = sum(1 for i in additional_classifications if i["scheme"] in (GMDN_2023_SCHEME, GMDN_2019_SCHEME))
     if is_gmdn_classification(classification_id):
-        inn_anc_count = sum([1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME]])
+        inn_anc_count = sum(1 for i in additional_classifications if i["scheme"] in [INN_SCHEME, ATC_SCHEME])
         if 0 not in [inn_anc_count, gmdn_count]:
             raise ValidationError(
                 "Item shouldn't have additionalClassifications with both schemes {}/{} and {}".format(
@@ -1466,7 +1466,7 @@ def validate_gmdn(classification_id, additional_classifications):
 
 
 def validate_ua_road(classification_id, additional_classifications):
-    road_count = sum([1 for i in additional_classifications if i["scheme"] == UA_ROAD_SCHEME])
+    road_count = sum(1 for i in additional_classifications if i["scheme"] == UA_ROAD_SCHEME)
     if is_ua_road_classification(classification_id):
         if road_count > 1:
             raise ValidationError(

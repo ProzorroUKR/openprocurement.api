@@ -65,7 +65,7 @@ class NegotiationAwardState(ReportingAwardState):
                 "endDate": now.isoformat(),
             }
         elif before == "active" and after == "cancelled":
-            if any([i["status"] == "satisfied" for i in award.get("complaints", "")]):
+            if any(i["status"] == "satisfied" for i in award.get("complaints", "")):
                 for i in get_tender().get("awards", ""):
                     if i.get("lotID") == award.get("lotID"):
                         period = i.get("complaintPeriod")

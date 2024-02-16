@@ -1827,7 +1827,7 @@ def patch_tender_by_pq_bot_before_multiprofile(self):
     items = deepcopy(tender["items"])
     items[0]["classification"] = test_tender_pq_short_profile["classification"]
     items[0]["unit"] = test_tender_pq_short_profile["unit"]
-    amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile["value"]["amount"]
+    amount = sum(item["quantity"] for item in items) * test_tender_pq_short_profile["value"]["amount"]
     value = deepcopy(test_tender_pq_short_profile["value"])
     value["amount"] = amount
     criteria = deepcopy(test_tender_pq_short_profile["criteria"])
@@ -1965,7 +1965,7 @@ def patch_tender_by_pq_bot_after_multiprofile(self):
 
     self.assertEqual(tender["criteria"], expected_criteria)
 
-    amount = sum([item["quantity"] for item in tender["items"]]) * test_tender_pq_short_profile["value"]["amount"]
+    amount = sum(item["quantity"] for item in tender["items"]) * test_tender_pq_short_profile["value"]["amount"]
     value = deepcopy(test_tender_pq_short_profile["value"])
     value["amount"] = amount
 

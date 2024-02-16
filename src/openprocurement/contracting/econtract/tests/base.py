@@ -100,7 +100,7 @@ class BaseEContractTest(BaseContractTest):
                 }
             )
         value = deepcopy(test_tender_pq_short_profile['value'])
-        amount = sum([item["quantity"] for item in items]) * test_tender_pq_short_profile['value']['amount']
+        amount = sum(item["quantity"] for item in items) * test_tender_pq_short_profile['value']['amount']
         value["amount"] = amount
         # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
         self.tender_document_patch.update(

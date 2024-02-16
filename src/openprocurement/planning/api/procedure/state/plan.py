@@ -126,7 +126,7 @@ class PlanState(BaseState):
             procedures[""] = ("centralizedProcurement",)
         procurement_method_types = list(chain(*procedures.values()))
         procurement_method_types_without_above_threshold_ua_defense = list(
-            [x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')]
+            x for x in procurement_method_types if x not in ('aboveThresholdUA.defense', 'simple.defense')
         )
         kind_allows_procurement_method_type_mapping = {
             "defense": procurement_method_types,

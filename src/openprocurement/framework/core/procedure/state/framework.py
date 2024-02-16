@@ -95,7 +95,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
     def after_patch(self, data):
         if (
-            any([field in data for field in AGREEMENT_DEPENDENT_FIELDS])
+            any(field in data for field in AGREEMENT_DEPENDENT_FIELDS)
             and data.get("agreementID")
             and get_request().validated["agreement_src"]["status"] == "active"
         ):

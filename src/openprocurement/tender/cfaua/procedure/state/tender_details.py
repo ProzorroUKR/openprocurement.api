@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING, TypeVar
-
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
@@ -17,13 +15,8 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
 )
 
-if TYPE_CHECKING:
-    baseclass = CFAUATenderState
-else:
-    baseclass = object
 
-
-class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)

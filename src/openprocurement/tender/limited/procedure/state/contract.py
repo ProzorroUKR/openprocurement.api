@@ -40,14 +40,12 @@ class LimitedContractStateMixing:
                 [i["status"] in ["claim", "answered", "pending"] for a in lot_awards for i in a.get("complaints", [])]
             )
             stand_still_end = max(
-                [
-                    (
-                        dt_from_iso(award["complaintPeriod"]["endDate"])
-                        if award.get("complaintPeriod", {}) and award["complaintPeriod"].get("endDate")
-                        else now
-                    )
-                    for award in lot_awards
-                ]
+                (
+                    dt_from_iso(award["complaintPeriod"]["endDate"])
+                    if award.get("complaintPeriod", {}) and award["complaintPeriod"].get("endDate")
+                    else now
+                )
+                for award in lot_awards
             )
             if pending_awards_complaints or not stand_still_end <= now:
                 continue

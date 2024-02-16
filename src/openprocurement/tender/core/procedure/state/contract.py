@@ -2,7 +2,6 @@ from datetime import datetime
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
-from typing import TYPE_CHECKING
 
 from schematics.types import BaseType
 
@@ -31,15 +30,7 @@ from openprocurement.tender.core.procedure.utils import (
 LOGGER = getLogger(__name__)
 
 
-if TYPE_CHECKING:
-    from openprocurement.tender.core.procedure.state.tender import TenderState
-
-    baseclass = TenderState
-else:
-    baseclass = object
-
-
-class ContractStateMixing(baseclass):
+class ContractStateMixing:
     allowed_statuses_from = ("pending", "pending.winner-signing")
     allowed_statuses_to = ("active", "pending", "pending.winner-signing")
 
@@ -133,7 +124,7 @@ class ContractStateMixing(baseclass):
                     "agreements" in tender
                     and tender["config"]["hasPreSelectionAgreement"] is False  # tender produces agreements
                 ):
-                    allow_complete_lot = any([a["status"] == "active" for a in tender.get("agreements", [])])
+                    allow_complete_lot = any(a["status"] == "active" for a in tender.get("agreements", []))
                 else:
                     if awarding_order_enabled is False:
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
@@ -441,8 +432,8 @@ class ContractStateMixing(baseclass):
                 value,
                 request.validated["contract"].get("awardID"),
             )
-            amount = sum([to_decimal(value.get("amount", 0)) for value in _contracts_values])
-            amount_net = sum([to_decimal(value.get("amountNet", 0)) for value in _contracts_values])
+            amount = sum(to_decimal(value.get("amount", 0)) for value in _contracts_values)
+            amount_net = sum(to_decimal(value.get("amountNet", 0)) for value in _contracts_values)
             tax_included = value.get("valueAddedTaxIncluded")
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):

@@ -48,7 +48,7 @@ class QualificationMilestoneListMixin(Model):
         because there is a way to post milestone to different zones (couchdb masters)
         and concord will merge them, that shouldn't be the case
         """
-        if milestones and len(list([m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS])) > 1:
+        if milestones and len(list(m for m in milestones if m.code == QualificationMilestone.CODE_24_HOURS)) > 1:
             raise ValidationError("There can be only one '24h' milestone")
 
 

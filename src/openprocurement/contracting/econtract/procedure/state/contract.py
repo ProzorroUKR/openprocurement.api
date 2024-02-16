@@ -203,8 +203,8 @@ class EContractState(
 
             _contracts_values.append({"value": value})
 
-            amount = sum([to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values])
-            amount_net = sum([to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values])
+            amount = sum(to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values)
+            amount_net = sum(to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values)
             tax_included = value.get("valueAddedTaxIncluded")
             if tax_included:
                 if award.get("value", {}).get("valueAddedTaxIncluded"):

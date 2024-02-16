@@ -422,7 +422,7 @@ def two_lot_1bid_2com_1win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -501,7 +501,7 @@ def two_lot_1bid_0com_0win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -776,5 +776,5 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     activate_contract(self, tender_id, contract_id, owner_token, bid_token)
 
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")

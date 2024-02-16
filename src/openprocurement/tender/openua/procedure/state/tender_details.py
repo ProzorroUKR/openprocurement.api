@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.tender.core.procedure.state.tender_details import (
@@ -21,13 +19,8 @@ from openprocurement.tender.openua.constants import (
 )
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
 
-if TYPE_CHECKING:
-    baseclass = OpenUATenderState
-else:
-    baseclass = object
 
-
-class OpenUATenderDetailsMixing(TenderDetailsMixing, baseclass):
+class OpenUATenderDetailsMixing(TenderDetailsMixing):
     period_working_day = False
 
     tender_create_accreditations = (ACCR_3, ACCR_5)

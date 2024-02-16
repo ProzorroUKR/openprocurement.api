@@ -1607,7 +1607,7 @@ def two_lot_0bid(self):
     # switch to unsuccessful
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -1634,7 +1634,7 @@ def two_lot_2can(self):
             activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
@@ -1661,8 +1661,8 @@ def two_lot_1can(self):
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id)
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertFalse(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
-    self.assertTrue(any([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertFalse(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
+    self.assertTrue(any(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # try to restore lot back by old cancellation
@@ -1696,8 +1696,8 @@ def two_lot_1can(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertFalse(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
-    self.assertTrue(any([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertFalse(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
+    self.assertTrue(any(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
 
@@ -1912,7 +1912,7 @@ def two_lot_2bid_2com_2win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -2262,14 +2262,14 @@ def two_lot_0bid_ua(self):
             ]
         },
     )
-    self.assertTrue(all(["auctionPeriod" in i for i in response.json["data"]["lots"]]))
+    self.assertTrue(all("auctionPeriod" in i for i in response.json["data"]["lots"]))
     # switch to unsuccessful
     response = self.set_status(
         "active.auction",
         {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.lots_id], "status": "active.tendering"},
     )
     response = self.check_chronograph()
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -2379,7 +2379,7 @@ def two_lot_1bid_2com_1win_ua(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -2416,7 +2416,7 @@ def two_lot_1bid_0com_0win_ua(self):
         {"lots": [{"auctionPeriod": {"startDate": None}} for i in self.lots_id], "status": "active.tendering"},
     )
     response = self.check_chronograph()
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -2592,5 +2592,5 @@ def two_lot_2bid_2com_2win_ua(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(self.tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")

@@ -311,7 +311,7 @@ def switch_to_unsuccessful_lot_new(self):
 
     with change_auth(self.app, ("Basic", ("token", ""))):
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        while any([i["status"] == "pending" for i in response.json["data"]]):
+        while any(i["status"] == "pending" for i in response.json["data"]):
             award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}
@@ -393,7 +393,7 @@ def switch_to_active_to_unsuccessful_lot(self):
             )
 
         response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-        while any([i["status"] == "pending" for i in response.json["data"]]):
+        while any(i["status"] == "pending" for i in response.json["data"]):
             award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
             self.app.patch_json(
                 "/tenders/{}/awards/{}".format(self.tender_id, award_id), {"data": {"status": "unsuccessful"}}

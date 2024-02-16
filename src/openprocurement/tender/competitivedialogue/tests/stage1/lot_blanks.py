@@ -549,7 +549,7 @@ def two_lot_0bid(self):
     # switch to unsuccessful
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}?acc_token={}".format(tender_id, owner_token))
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -605,7 +605,7 @@ def two_lot_2can(self):
             activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id, tender_id, owner_token)
 
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "cancelled" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "cancelled" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
 

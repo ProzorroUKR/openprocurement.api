@@ -1475,7 +1475,7 @@ def proc_2lot_1bid_2com_1win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
@@ -1527,7 +1527,7 @@ def proc_2lot_1bid_0com_0win(self):
         "active.auction", {"lots": [{"auctionPeriod": {"startDate": None}} for i in lots], "status": "active.tendering"}
     )
     response = self.check_chronograph()
-    self.assertTrue(all([i["status"] == "unsuccessful" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "unsuccessful" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
@@ -1736,7 +1736,7 @@ def proc_2lot_2bid_2com_2win(self):
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
-    self.assertTrue(all([i["status"] == "complete" for i in response.json["data"]["lots"]]))
+    self.assertTrue(all(i["status"] == "complete" for i in response.json["data"]["lots"]))
     self.assertEqual(response.json["data"]["status"], "complete")
 
 

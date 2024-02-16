@@ -1,9 +1,5 @@
-from typing import TYPE_CHECKING
-
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.openeu.constants import (
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
 )
@@ -18,13 +14,8 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
 )
 
-if TYPE_CHECKING:
-    baseclass = BaseOpenEUTenderState
-else:
-    baseclass = object
 
-
-class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing, baseclass):
+class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_create_accreditations = (ACCR_3, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
