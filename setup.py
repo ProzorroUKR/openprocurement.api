@@ -9,6 +9,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, "README.md")) as f:
     README = f.read()
 
+
 def load_requirements(filename):
     requirements = []
     with open(filename) as f:
@@ -20,6 +21,7 @@ def load_requirements(filename):
                 egg = res.split("#egg=")[1]
                 requirements.append("@".join([egg, res]))
     return requirements
+
 
 requires = load_requirements('requirements.txt')
 requires_tests = load_requirements('requirements-test.txt')
