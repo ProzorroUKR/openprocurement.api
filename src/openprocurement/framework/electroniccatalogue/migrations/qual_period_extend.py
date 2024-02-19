@@ -4,8 +4,11 @@ from time import sleep
 
 from gevent import monkey
 
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.procedure.state.agreement import get_agreement_next_check
+from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.utils import calculate_framework_date, SUBMISSION_STAND_STILL_DURATION
 
 monkey.patch_all(thread=False, select=False)
@@ -70,15 +73,21 @@ def run(env):
 
             now = get_now()
 
+            framework['qualificationPeriod']['endDate'] = new_qual_period_end_date.isoformat()
+            framework['period']['endDate'] = new_period_end_date.isoformat()
+            framework['dateModified'] = now.isoformat()
+            framework["next_check"] = FrameworkState(get_request()).get_next_check(framework)
+
             logger.info(f"Updating framework {framework['_id']}: {now}")
             frameworks_collection.find_one_and_update(
                 {"_id": framework["_id"], "_rev": framework["_rev"]},
                 [
                     {
                         "$set": {
-                            "qualificationPeriod.endDate": new_qual_period_end_date.isoformat(),
-                            "period.endDate": new_period_end_date.isoformat(),
-                            "dateModified": now.isoformat(),
+                            "qualificationPeriod.endDate": framework['qualificationPeriod']['endDate'],
+                            "period.endDate": framework['period']['endDate'],
+                            "dateModified": framework['dateModified'],
+                            "next_check": framework["next_check"],
                             "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
                         },
                     },
@@ -92,20 +101,26 @@ def run(env):
             agreement = agreements_collection.find_one({"_id": framework['agreementID']})
             logger.info(f"Updating agreement {agreement['_id']} of framework {framework['_id']}: {now}")
 
+            agreement['period']['endDate'] = new_qual_period_end_date.isoformat()
+            agreement['dateModified'] = now.isoformat()
+
             for contract in agreement.get('contracts', []):
                 for milestone in contract.get('milestones', []):
                     if milestone['type'] == 'activation' and milestone['status'] == 'scheduled':
                         milestone['dueDate'] = new_qual_period_end_date.isoformat()
                         milestone['dateModified'] = now.isoformat()
 
+            agreement["next_check"] = get_agreement_next_check(agreement)
+
             agreements_collection.find_one_and_update(
                 {"_id": agreement['_id'], "_rev": agreement["_rev"]},
                 [
                     {
                         "$set": {
-                            "period.endDate": new_qual_period_end_date.isoformat(),
+                            "period.endDate": agreement['period']['endDate'],
                             "contracts": agreement.get('contracts', []),
-                            "dateModified": now.isoformat(),
+                            "dateModified": agreement['dateModified'],
+                            "next_check": agreement["next_check"],
                             "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
                         },
                     },
