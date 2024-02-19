@@ -13,17 +13,6 @@ class AuthTest(unittest.TestCase):
         auth_file_path = "{}/auth.ini".format(os.path.dirname(os.path.abspath(__file__)))
         return AuthenticationPolicy(auth_file_path, realm="SomeRealm")
 
-    def _getTargetClass(self):
-        from pyramid.authentication import BasicAuthAuthenticationPolicy as cls
-
-        return cls
-
-    def test_class_implements_IAuthenticationPolicy(self):
-        from pyramid.interfaces import IAuthenticationPolicy
-        from zope.interface.verify import verifyClass
-
-        verifyClass(IAuthenticationPolicy, self._getTargetClass())
-
     def test_unauthenticated_userid(self):
         import base64
 

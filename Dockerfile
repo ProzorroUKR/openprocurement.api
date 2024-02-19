@@ -9,6 +9,10 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
+# TODO: Remove for production build
+COPY requirements-test.txt .
+RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements-test.txt
+
 COPY . /app
 RUN pip install -e .
 
