@@ -255,9 +255,7 @@ class TenderResourceTest(
                 status=422,
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(
-                response.json['errors'][0]['description'], "agreements[0] has less than 3 active contracts"
-            )
+            self.assertEqual(response.json['errors'][0]['description'], "Agreement has less than 3 active contracts")
 
         # Add agreement contracts
 

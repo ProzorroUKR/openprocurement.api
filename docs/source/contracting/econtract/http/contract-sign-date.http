@@ -61,9 +61,9 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
-          "description": "Комп’ютерне обладнанн",
+          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "30230000-0"
+          "id": "44617100-9"
         },
         "additionalClassifications": [
           {
@@ -84,13 +84,13 @@ Content-Type: application/json
           "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
-          "name": "штук",
+          "name": "кг",
           "value": {
             "amount": 12.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
-          "code": "H87"
+          "code": "KGM"
         }
       },
       {
@@ -98,9 +98,9 @@ Content-Type: application/json
         "description": "Комп’ютерне обладнання",
         "quantity": 5.0,
         "classification": {
-          "description": "Комп’ютерне обладнанн",
+          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "30230000-0"
+          "id": "44617100-9"
         },
         "additionalClassifications": [
           {
@@ -121,13 +121,13 @@ Content-Type: application/json
           "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
-          "name": "штук",
+          "name": "кг",
           "value": {
             "amount": 6.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": true
           },
-          "code": "H87"
+          "code": "KGM"
         }
       }
     ],

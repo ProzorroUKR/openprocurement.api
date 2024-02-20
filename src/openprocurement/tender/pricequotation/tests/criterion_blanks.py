@@ -25,6 +25,7 @@ def create_tender_criteria_multi_profile(self):
                 get_now() + timedelta(days=1),
             ):
                 data = deepcopy(test_tender_pq_data_before_multiprofile)
+                data["agreement"] = {"id": self.agreement_id}
 
                 response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
                 self.assertEqual(response.status, "201 Created")
@@ -68,6 +69,7 @@ def create_tender_criteria_multi_profile(self):
                 get_now() - timedelta(days=1),
             ):
                 data = deepcopy(test_tender_pq_data_after_multiprofile)
+                data["agreement"] = {"id": self.agreement_id}
                 data["items"].append(deepcopy(test_tender_pq_item_after_multiprofile))
                 data["items"][1]["profile"] = "655361-30230000-889652-40000777"
 

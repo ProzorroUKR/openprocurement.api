@@ -64,9 +64,9 @@ You can see that we got error, because we have not enough active contracts in ou
 
 There is the list of all validation errors that can be raised during tender activation related to agreement:
 
-* agreement[0] not found in agreements"
-* agreements[0] status is not active"
-* agreements[0] has less than 3 active contracts"
+* Agreement not found in agreements
+* Agreement status is not active
+* Agreement has less than 3 active contracts
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
 
 After adding more active contracts to our agreement let's make another attempt to activate tender:
