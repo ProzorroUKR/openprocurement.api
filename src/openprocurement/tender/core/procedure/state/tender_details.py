@@ -19,7 +19,9 @@ from openprocurement.api.procedure.utils import (
 )
 from openprocurement.api.utils import get_agreement_by_id, raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.electroniccatalogue.constants import ELECTRONIC_CATALOGUE_TYPE
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,

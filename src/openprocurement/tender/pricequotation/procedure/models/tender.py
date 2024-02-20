@@ -13,7 +13,6 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.period import (
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
@@ -44,11 +43,6 @@ from openprocurement.tender.pricequotation.procedure.models.requirement import (
 
 class Agreement(Model):
     id = MD5Type(required=True)
-
-    def validate_id(self, data, value):
-        agreement = get_request().registry.mongodb.agreements.get(value)
-        if not agreement:
-            raise ValidationError("id must be one of exists agreement")
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -146,7 +140,6 @@ class PatchTender(PatchBaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",  # deprecated
             "active.tendering",
         ],
     )

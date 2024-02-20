@@ -2,7 +2,7 @@ import logging
 from decimal import Decimal
 
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_tender, get_object
+from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import (
     context_unpack,

@@ -4,6 +4,7 @@ from openprocurement.api.constants import (
     PQ_NEW_CONTRACTING_FROM,
 )
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import get_tender_profile, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
@@ -24,19 +25,28 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     agreement_field = "agreement"
-    agreement_min_active_contracts = 1
+
+    def on_post(self, tender):
+        self.validate_agreement_exists()
+        super().on_post(tender)
+
+    def validate_agreement_exists(self):
+        agreement = get_object("agreement")
+        if not agreement:
+            raise_operation_error(
+                self.request,
+                {"id": ["id must be one of exists agreement"]},
+                status=422,
+                name=self.agreement_field,
+            )
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
-        if before == "draft" and after in ("draft.publishing", "active.tendering"):
+        if before == "draft" and after == "active.tendering":
             if not data.get("noticePublicationDate"):
                 data["noticePublicationDate"] = get_now().isoformat()
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
-            # "draft.publishing" status is deprecated after PQ bot removing
-            # but we should support this status for some time
-            if after == "draft.publishing":
-                after = data["status"] = "active.tendering"
 
         # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender
         if before == "draft.publishing" and after == "active.tendering":
@@ -83,6 +93,9 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
             data["contractTemplateName"] = template_name
 
     def has_mismatched_procuring_entities(self, tender, agreement):
+        pass
+
+    def has_insufficient_active_contracts(self, agreement):
         pass
 
     def validate_pre_selection_agreement(self, tender):

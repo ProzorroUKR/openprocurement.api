@@ -2283,14 +2283,13 @@ def draft_activation_validations(self):
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=profile),
     ):
-        for status in ("draft.publishing", "active.tendering"):
-            response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"status": status}},
-                status=422,
-            )
-            self.assertEqual(response.status, "422 Unprocessable Entity")
-            self.assertEqual(response.json["errors"][0]["description"], f"Profile {profile['id']} is not active")
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"][0]["description"], f"Profile {profile['id']} is not active")
 
     # agreement in profile not equals agreement in tender
     profile["status"] = "active"
@@ -2300,16 +2299,13 @@ def draft_activation_validations(self):
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=profile),
     ):
-        for status in ("draft.publishing", "active.tendering"):
-            response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"status": status}},
-                status=422,
-            )
-            self.assertEqual(response.status, "422 Unprocessable Entity")
-            self.assertEqual(
-                response.json["errors"][0]["description"], "Tender agreement doesn't match profile agreement"
-            )
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"][0]["description"], "Tender agreement doesn't match profile agreement")
 
     # agreementType mismatch
     agreement = deepcopy(test_agreement_pq_data)
@@ -2319,14 +2315,13 @@ def draft_activation_validations(self):
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=test_tender_pq_short_profile),
     ):
-        for status in ("draft.publishing", "active.tendering"):
-            response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"status": status}},
-                status=422,
-            )
-            self.assertEqual(response.status, "422 Unprocessable Entity")
-            self.assertEqual(response.json["errors"][0]["description"], "Agreement type mismatch.")
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"][0]["description"], "Agreement type mismatch.")
 
     # not active agreement
     agreement["agreementType"] = "electronicCatalogue"
@@ -2336,32 +2331,13 @@ def draft_activation_validations(self):
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=test_tender_pq_short_profile),
     ):
-        for status in ("draft.publishing", "active.tendering"):
-            response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"status": status}},
-                status=422,
-            )
-            self.assertEqual(response.status, "422 Unprocessable Entity")
-            self.assertEqual(response.json["errors"][0]["description"], "Agreement status is not active")
-
-    # there is no active contract at all in agreement
-    agreement["status"] = "active"
-    for contract in agreement["contracts"]:
-        contract["status"] = "terminated"
-    self.mongodb.agreements.save(agreement)
-    with patch(
-        "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=test_tender_pq_short_profile),
-    ):
-        for status in ("draft.publishing", "active.tendering"):
-            response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"status": status}},
-                status=422,
-            )
-            self.assertEqual(response.status, "422 Unprocessable Entity")
-            self.assertEqual(response.json["errors"][0]["description"], "Agreement has less than 1 active contracts")
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.json["errors"][0]["description"], "Agreement status is not active")
 
 
 def switch_draft_to_tendering_success(self):
@@ -2384,8 +2360,7 @@ def switch_draft_to_tendering_success(self):
         )
 
 
-def switch_draft_to_publishing_success(self):
-    tender_prev = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}").json["data"]
+def switch_draft_to_publishing_forbidden(self):
     with patch(
         "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
         Mock(return_value=test_tender_pq_short_profile),
@@ -2393,14 +2368,12 @@ def switch_draft_to_publishing_success(self):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "draft.publishing"}},
+            status=422,
         )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["status"], "active.tendering")
-        self.assertNotEqual(response.json["data"]["date"], tender_prev["date"])
-        self.assertNotEqual(response.json["data"]["dateModified"], tender_prev["dateModified"])
-        self.assertNotEqual(
-            response.json["data"]["tenderPeriod"]["startDate"],
-            tender_prev["tenderPeriod"]["startDate"],
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            ["Value must be one of ['draft', 'active.tendering']."],
         )
 
 

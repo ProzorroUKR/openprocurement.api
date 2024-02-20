@@ -53,7 +53,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     patch_tender_status,
     required_field_deletion,
     switch_draft_publishing_to_tendering_manually,
-    switch_draft_to_publishing_success,
+    switch_draft_to_publishing_forbidden,
     switch_draft_to_tendering_success,
     tender_criteria_values_type,
     tender_fields,
@@ -126,13 +126,12 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 class TenderActivationTest(TenderContentWebTest):
     test_draft_activation_validations = snitch(draft_activation_validations)
     test_switch_draft_to_tendering_success = snitch(switch_draft_to_tendering_success)
-    test_switch_draft_to_publishing_success = snitch(switch_draft_to_publishing_success)
+    test_switch_draft_to_publishing_forbidden = snitch(switch_draft_to_publishing_forbidden)
     test_switch_draft_publishing_to_tendering_manually = snitch(switch_draft_publishing_to_tendering_manually)
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     return suite
 
