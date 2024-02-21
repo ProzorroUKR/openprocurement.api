@@ -370,37 +370,6 @@ If agreement is in terminated status:
       ]
     }
 
-In case agreement doesn't have qualified suppliers:
-
-.. sourcecode:: http
-
-    PATCH /api/2.5/tenders/bb8949e735294cbaa864bd3bc68a1e5f?acc_token=d3c6750ff65148df856b59e65feba396 HTTP/1.0
-    Authorization: Bearer broker
-    Content-Length: 40
-    Content-Type: application/json
-    Host: lb-api-sandbox.prozorro.gov.ua
-
-    {
-      "data": {
-        "status": "active.tendering"
-      }
-    }
-
-
-    HTTP/1.0 422 Unprocessable Entity
-    Content-Type: application/json
-
-    {
-      "status": "error",
-      "errors": [
-        {
-          "location": "body",
-          "name": "agreement",
-          "description": "Agreement has less than 1 active contracts"
-        }
-      ]
-    }
-
 If there is problem with connection to ProZorro e-Catalogues, we will see error:
 
 .. sourcecode:: http

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-14 13:48+0100\n"
+"POT-Creation-Date: 2024-02-21 10:17+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -81,9 +81,6 @@ msgstr "Якщо угода (agreement) в профілі та угода в т�
 
 msgid "If agreement is in terminated status:"
 msgstr "Якщо угода розірвана:"
-
-msgid "In case agreement doesn't have qualified suppliers:"
-msgstr "У випадку, якщо угода не має кваліфікованих постачальників:"
 
 msgid "If there is problem with connection to ProZorro e-Catalogues, we will see error:"
 msgstr "Якщо є проблема з підключенням до електронних каталогів ProZorro, ми побачимо помилку:"
