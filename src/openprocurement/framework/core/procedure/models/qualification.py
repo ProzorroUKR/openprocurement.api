@@ -4,11 +4,14 @@ from schematics.types.compound import DictType
 from openprocurement.api.procedure.models.base import Model, RootModel
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.models.document import (
+    Document,
+    PostDocument,
+)
 
 
 class PatchQualification(Model):
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=list())
     status = StringType(
         choices=["pending", "active", "unsuccessful"],
         default="pending",

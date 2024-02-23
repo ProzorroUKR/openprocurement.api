@@ -7,7 +7,10 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.models.document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.framework.core.utils import calculate_framework_date
 
 CONTRACT_BAN_DURATION = 90
@@ -19,7 +22,7 @@ class PostMilestone(Model):
         return uuid4().hex
 
     type = StringType(required=True, choices=["activation", "ban"])
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=list())
     status = StringType(choices=["scheduled"], default="scheduled")
 
     @serializable(serialized_name="dueDate", serialize_when_none=False)
@@ -33,7 +36,7 @@ class PostMilestone(Model):
 
 class PatchMilestone(Model):
     status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=list())
 
 
 class Milestone(Model):
