@@ -37,7 +37,10 @@ from openprocurement.framework.cfaua.procedure.models.change import (
     PostChangeThirdParty,
 )
 from openprocurement.framework.cfaua.procedure.models.contract import Contract
-from openprocurement.framework.cfaua.procedure.models.document import Document
+from openprocurement.framework.cfaua.procedure.models.document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.framework.core.procedure.models.agreement import (
     Agreement as BaseAgreement,
 )
@@ -153,7 +156,7 @@ class PostAgreement(BasePostAgreement):
         ),
         default=list(),
     )
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=list())
     contracts = ListType(ModelType(Contract, required=True), default=list())
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     items = ListType(ModelType(Item, required=True))
@@ -168,7 +171,7 @@ class PostAgreement(BasePostAgreement):
 
 
 class PatchActiveAgreement(BasePatchAgreement):
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(PostDocument), default=list())
     terminationDetails = StringType()
 
 
@@ -177,7 +180,7 @@ class PatchTerminatedAgreement(Model):
 
 
 class PatchAgreementByAdministrator(Model):
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(PostDocument), default=list())
     procuringEntity = ModelType(ProcuringEntity)
     terminationDetails = StringType()
     status = StringType(choices=["active", "terminated"])

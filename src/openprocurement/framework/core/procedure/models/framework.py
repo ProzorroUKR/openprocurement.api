@@ -16,7 +16,10 @@ from openprocurement.api.procedure.models.organization import (
 )
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.framework.core.procedure.models.document import Document
+from openprocurement.framework.core.procedure.models.document import (
+    Document,
+    PostDocument,
+)
 from openprocurement.framework.core.procedure.models.question import Question
 from openprocurement.framework.core.utils import generate_framework_pretty_id
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -62,7 +65,7 @@ class PostFramework(Model):
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=list())
     agreementID = StringType()
 
     def validate_frameworkDetails(self, *args, **kw):
@@ -88,7 +91,7 @@ class PatchFramework(Model):
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(PostDocument), default=list())
     agreementID = StringType()
 
 
@@ -158,7 +161,7 @@ class PatchActiveFramework(Model):
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
-    documents = ListType(ModelType(Document), default=list())
+    documents = ListType(ModelType(PostDocument), default=list())
     if SANDBOX_MODE:
         frameworkDetails = StringType()
 

@@ -7,18 +7,24 @@ from gevent import monkey
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.framework.core.procedure.state.agreement import get_agreement_next_check
+from openprocurement.framework.core.procedure.state.agreement import (
+    get_agreement_next_check,
+)
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
-from openprocurement.framework.core.utils import calculate_framework_date, SUBMISSION_STAND_STILL_DURATION
+from openprocurement.framework.core.utils import (
+    SUBMISSION_STAND_STILL_DURATION,
+    calculate_framework_date,
+)
 
 monkey.patch_all(thread=False, select=False)
 
-import os
 import argparse
 import logging
+import os
+
+from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR, TZ
-from pyramid.paster import bootstrap
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
@@ -30,6 +36,7 @@ def load_ids(file_path):
         for line in file:
             ids.append(line.strip())
     return ids
+
 
 def run(env):
     base_path = os.path.dirname(os.path.abspath(__file__))
@@ -150,26 +157,11 @@ if __name__ == "__main__":
         type=int,
         default=1000,
         help=(
-            "Limits the number of documents returned in one batch. Each batch "
-            "requires a round trip to the server."
-        )
+            "Limits the number of documents returned in one batch. Each batch " "requires a round trip to the server."
+        ),
     )
-    parser.add_argument(
-        "-f",
-        type=str,
-        required=True,
-        help=(
-            "File csv with the list of framework ids."
-        )
-    )
-    parser.add_argument(
-        "-d",
-        type=str,
-        required=True,
-        help=(
-            "New qualificationPeriod.endDate."
-        )
-    )
+    parser.add_argument("-f", type=str, required=True, help=("File csv with the list of framework ids."))
+    parser.add_argument("-d", type=str, required=True, help=("New qualificationPeriod.endDate."))
     args = parser.parse_args()
     with bootstrap(args.p) as env:
         run(env)

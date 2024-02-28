@@ -730,6 +730,7 @@ def post_ban_milestone_with_documents(self):
     milestone = response.json["data"]
     self.assertEqual(milestone["type"], milestone_data["type"])
     self.assertIsNotNone(milestone["dateModified"])
+    self.assertEqual(milestone["documents"][0]["dateModified"], milestone["documents"][0]["datePublished"])
     self.assertEqual(len(milestone["documents"]), len(milestone_data["documents"]))
     self.assertTrue(parse_datetime(milestone["dueDate"]) - get_now() >= timedelta(days=CONTRACT_BAN_DURATION))
 

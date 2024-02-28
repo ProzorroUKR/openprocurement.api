@@ -91,14 +91,14 @@ Content-Type: application/json
             "type": "ban",
             "documents": [
               {
-                "id": "cd52b90af77e4f5b8cb0f210e83987b5",
-                "datePublished": "2020-09-08T01:00:00+03:00",
                 "hash": "md5:00000000000000000000000000000000",
                 "title": "milestone.doc",
                 "format": "application/msword",
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
-                "dateModified": "2020-09-08T01:00:00+03:00",
-                "language": "uk"
+                "language": "uk",
+                "id": "0016c472fdc940e1ba2a702553f7a9cd",
+                "datePublished": "2023-01-16T00:00:00+02:00",
+                "dateModified": "2023-01-16T00:00:00+02:00"
               }
             ],
             "status": "scheduled",
