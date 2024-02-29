@@ -1,0 +1,104 @@
+POST /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "selfQualified": true,
+    "status": "draft",
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "identifier": {
+          "legalName_en": "dus.gov.ua",
+          "legalName": "Державне управління справами",
+          "scheme": "UA-EDR",
+          "id": "11111111",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "01220",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова, 11, корпус 1"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "name_en": "State administration",
+          "telephone": "+0440000000",
+          "email": "aa@aa.com"
+        },
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500
+        },
+        "relatedLot": "0e04ecea261746bc8fbcced833cde77c"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/bids/85865608102c4ce89daf08165556887c
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "11111111",
+          "legalName": "Державне управління справами",
+          "legalName_en": "dus.gov.ua",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "scale": "micro",
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "name_en": "State administration",
+          "email": "aa@aa.com",
+          "telephone": "+0440000000"
+        }
+      }
+    ],
+    "status": "draft",
+    "selfQualified": true,
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "0e04ecea261746bc8fbcced833cde77c",
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "id": "85865608102c4ce89daf08165556887c",
+    "date": "2023-10-10T01:00:00+03:00"
+  },
+  "access": {
+    "token": "12f4dfe46b46430f91095aa3cf2b7b3b",
+    "transfer": "50b87f31aae9414baf91390e46a7ea52"
+  }
+}
+

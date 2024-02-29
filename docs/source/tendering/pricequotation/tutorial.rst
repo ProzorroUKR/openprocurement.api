@@ -152,6 +152,11 @@ and approve to pending status:
 .. http:example:: http/activate-bidder.http
    :code:
 
+If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:
+
+.. http:example:: http/register-bidder-not-member.http
+   :code:
+
 Modifying bid
 ~~~~~~~~~~~~~~~
    
@@ -191,6 +196,19 @@ Then bidder should upload proposal document(s):
 It is possible to check the uploaded documents:
 
 .. http:example:: http/bidder-documents.http
+   :code:
+
+Active tendering period end
+----------------------------
+
+After tender period ended, CBD checks one more time status of contract for suppliers in agreement.
+If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status.
+
+Let's imagine that second contract supplier in agreement was disqualified during `active.tendering` period.
+
+Let's see our bids statuses after `active.tendering` period ends. Last bid was disqualified:
+
+.. http:example:: http/active-tendering-end-bids.http
    :code:
    
 .. index:: Awarding

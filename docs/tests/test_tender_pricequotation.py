@@ -256,20 +256,47 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
         bid_with_docs_data["requirementResponses"] = copy_criteria_req_id(tender["criteria"], test_tender_pq_response_1)
         bid_with_docs_data["items"] = copy_tender_items(tender["items"])
-        with open(TARGET_DIR + 'register-2nd-bidder.http', 'w') as self.app.file_obj:
-            for document in bid_with_docs_data['documents']:
-                document['url'] = self.generate_docservice_url()
-            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
-            bid2_id = response.json['data']['id']
-            bids_access[bid2_id] = response.json['access']['token']
-            self.assertEqual(response.status, '201 Created')
+        for document in bid_with_docs_data['documents']:
+            document['url'] = self.generate_docservice_url()
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
+        bid2_id = response.json['data']['id']
+        bids_access[bid2_id] = response.json['access']['token']
+        self.assertEqual(response.status, '201 Created')
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid2_id, bids_access[bid2_id]),
+            {'data': {"status": "pending"}},
+        )
+
+        # third bid registration
+        bid_with_docs_data["tenderers"][0]["identifier"]["id"] = test_agreement_pq_data["contracts"][1]["suppliers"][0][
+            "identifier"
+        ]["id"]
+        for document in bid_with_docs_data['documents']:
+            document['url'] = self.generate_docservice_url()
+        response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_with_docs_data})
+        bid3_id = response.json['data']['id']
+        bids_access[bid3_id] = response.json['access']['token']
+        self.assertEqual(response.status, '201 Created')
+        self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(self.tender_id, bid3_id, bids_access[bid3_id]),
+            {'data': {"status": "pending"}},
+        )
 
         # agreement contract validation
         bid_data["tenderers"][0]["identifier"]["id"] = "00037200"
         with open(TARGET_DIR + 'register-bidder-not-member.http', 'w') as self.app.file_obj:
             self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
 
-        self.set_status('active.qualification')
+        # disqualify second supplier from agreement during active.tendering
+        agreement["contracts"][1]["status"] = "terminated"
+        self.mongodb.agreements.save(agreement)
+
+        self.set_status("active.tendering", 'end')
+        self.check_chronograph()
+
+        with open(TARGET_DIR + 'active-tendering-end-bids.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/bids?acc_token={}'.format(self.tender_id, self.tender_token))
+            self.assertEqual(response.status, '200 OK')
 
         with open(TARGET_DIR + 'awards-listing.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/awards'.format(self.tender_id))

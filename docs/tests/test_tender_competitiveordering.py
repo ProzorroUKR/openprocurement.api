@@ -292,7 +292,14 @@ class TenderResourceTest(
             response = self.app.post_json(
                 '/tenders/{}/questions'.format(self.tender_id), {'data': docs_data}, status=201
             )
+            question_id = response.json["data"]["id"]
             self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            "/tenders/{}/questions/{}?acc_token={}".format(self.tender_id, question_id, owner_token),
+            {"data": {"answer": "answer"}},
+        )
+        self.assertEqual(response.status, "200 OK")
 
         # Setting Bid guarantee
 
@@ -391,6 +398,39 @@ class TenderResourceTest(
         )
         self.assertEqual(response.status, '200 OK')
 
+        # Registering bid 3
+        agreement = self.mongodb.agreements.get(self.agreement_id)
+        tenderer = deepcopy(self.tenderer)
+        tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
+        with open(TARGET_DIR + 'register-third-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'selfQualified': True,
+                        'status': 'draft',
+                        'tenderers': [tenderer],
+                        'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot["id"]}],
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+        bid3_id = response.json['data']['id']
+        bid3_token = response.json['access']['token']
+        self.set_responses(tender_id, response.json, "pending")
+
+        # disqualify second supplier from agreement during active.tendering
+        agreement["contracts"][1]["status"] = "terminated"
+        self.mongodb.agreements.save(agreement)
+
+        self.set_status("active.tendering", startend="end")
+        self.check_chronograph()
+        with open(TARGET_DIR + 'active-tendering-end-not-member-bid.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f'/tenders/{tender_id}/bids/{bid3_id}?acc_token={bid3_token}',
+            )
+            self.assertEqual(response.status, '200 OK')
+
         #  Auction
         self.set_status('active.auction')
         self.app.authorization = ('Basic', ('auction', ''))
@@ -415,14 +455,18 @@ class TenderResourceTest(
                         {"participationUrl": f'{auction1_url}?key_for_bid={bid2_id}'},
                     ],
                 },
+                {
+                    "id": bid3_id,
+                    "lotValues": [
+                        {"participationUrl": f'{auction1_url}?key_for_bid={bid3_id}'},
+                    ],
+                },
             ],
         }
         response = self.app.patch_json(
             f'/tenders/{self.tender_id}/auction/{lot["id"]}?acc_token={owner_token}', {'data': patch_data}
         )
         self.assertEqual(response.status, '200 OK')
-
-        self.app.authorization = ('Basic', ('broker', ''))
 
         # Confirming qualification
         self.app.authorization = ('Basic', ('auction', ''))

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-29 16:42+0100\n"
+"POT-Creation-Date: 2024-03-01 14:55+0100\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -213,6 +213,18 @@ msgstr "Потім учасник повинен завантажити доку
 
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
+
+msgid "Active tendering period end"
+msgstr "Закінчення періоду подання пропозицій"
+
+msgid "After tender period ended, CBD checks one more time status of contract for suppliers in agreement. If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status."
+msgstr "По закінченню періоду подання пропозицій (active.tendering) система знову перевіряє статус учасника у agreement. Якщо досі `аctive` - bid отримує `status:active`, якщо інший статус - пропозиція падає у статус `invalid`."
+
+msgid "Let's imagine that second contract supplier in agreement was disqualified during `active.tendering` period."
+msgstr "Припустимо, що другий постачальник в угоді був дискваліфікований під час періоду `active.tendering`."
+
+msgid "Let's see our bids statuses after `active.tendering` period ends. Last bid was disqualified:"
+msgstr "Подивимося на статуси наших пропозицій після закінчення періоду `active.tendering`. Остання пропозиція, в якій постачальник був дискваліфікований в угоді, тепер має статус `invalid`:"
 
 msgid "Awarding process"
 msgstr "Процес визначення переможця"

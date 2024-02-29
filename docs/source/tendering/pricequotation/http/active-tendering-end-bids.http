@@ -1,0 +1,209 @@
+GET /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
+      "date": "2023-09-20T01:00:01+03:00",
+      "tenderers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "scale": "micro",
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
+        }
+      ],
+      "value": {
+        "amount": 459.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "requirementResponses": [
+        {
+          "id": "263249613a324c02ab92203210fb6697",
+          "requirement": {
+            "id": "620397eaf9544635bb0366a1f65dae0e"
+          },
+          "value": "Розчин для інфузій"
+        },
+        {
+          "id": "95c4273df2af4d31b14c8ce523af1c6f",
+          "requirement": {
+            "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
+          },
+          "value": 5
+        },
+        {
+          "id": "25b694b64afb46a4b2b851fcd9ec61d5",
+          "requirement": {
+            "id": "2c6c054563904e35ac6e25b6ec864228"
+          },
+          "values": [
+            "Відповідь1",
+            "Відповідь2"
+          ]
+        }
+      ],
+      "status": "active",
+      "items": [
+        {
+          "id": "e0171c9b08d34c71948f18a5f3504f5a",
+          "description": "Комп’ютерне обладнання",
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 5.0
+        }
+      ],
+      "documents": [
+        {
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7abe246945c74a798ef5abd6f6c3eacc?Signature=ix%2BAtoVHTr7n%2BtlzacHRzW5MXhg6cNDGh1H06A%2B%2Be5QADUguPxtLtZv0azfvgcsDePmEaAiMOiXEgsOVUNfIDw%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "language": "uk",
+          "id": "5c63b9bde7d34f95896fb073e4ab8103",
+          "confidentiality": "public",
+          "datePublished": "2023-09-20T01:00:01+03:00",
+          "dateModified": "2023-09-20T01:00:01+03:00"
+        }
+      ]
+    },
+    {
+      "status": "deleted",
+      "id": "55faa050ef4746c29fc00870518cecad"
+    },
+    {
+      "id": "70bec639abd44364ae412469587562fc",
+      "date": "2023-09-20T01:00:01+03:00",
+      "documents": [
+        {
+          "id": "2e798473b06143a284ea2bd8b82831a3",
+          "datePublished": "2023-09-20T01:00:01+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal_part1.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ec8fd2dc59a45c4a279f23fb91b2572?Signature=ogddqQNir075wYIRhUPZ6oI5BUvzCD30E0FvQqiiXat9Qib4uMcaop9PnCuO%2BH7lRvmqEqZSraQo3AifEAl8DA%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2023-09-20T01:00:01+03:00",
+          "language": "uk",
+          "confidentiality": "public"
+        },
+        {
+          "id": "c6817fd1670a44149fc0dedfb4a3736e",
+          "datePublished": "2023-09-20T01:00:01+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal_part2.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec3cbabab3334b0f9405d0b48698fee7?Signature=qBVCZkrQZf2v6sbyohuyI5iQ37pvbp2baN2rdLaaHZkgB5P7KyYmNcfEe1tOEs5WB0P%2B1udLNbUMVs9KEFPIDQ%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2023-09-20T01:00:01+03:00",
+          "language": "uk",
+          "confidentiality": "public"
+        }
+      ],
+      "tenderers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "scale": "micro",
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          }
+        }
+      ],
+      "value": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": true
+      },
+      "requirementResponses": [
+        {
+          "id": "ce911d42154d49879569c0342fd22433",
+          "requirement": {
+            "id": "620397eaf9544635bb0366a1f65dae0e"
+          },
+          "value": "Розчин для інфузій"
+        },
+        {
+          "id": "f7da109e540d4d0fb70554dabb00198e",
+          "requirement": {
+            "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
+          },
+          "value": 5
+        },
+        {
+          "id": "52d8d6f0a5dc445586591f9ec952f2f1",
+          "requirement": {
+            "id": "2c6c054563904e35ac6e25b6ec864228"
+          },
+          "values": [
+            "Відповідь1",
+            "Відповідь2"
+          ]
+        }
+      ],
+      "status": "active",
+      "items": [
+        {
+          "id": "e0171c9b08d34c71948f18a5f3504f5a",
+          "description": "Комп’ютерне обладнання",
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 6.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": true
+            },
+            "code": "KGM"
+          },
+          "quantity": 5.0
+        }
+      ]
+    },
+    {
+      "id": "959df55b73cd4bb09dd7fb17be8d0c51",
+      "status": "invalid"
+    }
+  ]
+}
+

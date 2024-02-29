@@ -94,6 +94,25 @@ If another author try to ask question, we will see error:
    :code:
 
 
+Active tendering period end
+----------------------------
+
+After tender period ended, CBD checks one more time status of contract for suppliers in agreement.
+If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status.
+
+Let's imagine, after `active.tendering` period start, the bid with active contract in agreement was registered successfully:
+
+.. http:example:: http/register-third-bid.http
+   :code:
+
+After that second contract supplier in agreement was disqualified during `active.tendering` period.
+
+Let's see our bid status after `active.tendering` period ends. This bid was disqualified:
+
+.. http:example:: http/active-tendering-end-not-member-bid.http
+   :code:
+
+
 Qualification complaints
 -------------------------
 
