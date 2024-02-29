@@ -11,3 +11,7 @@ class BidState(BaseBidState):
             data["tenderers"],
         )
         self.validate_bid_with_contract(data, supplier_contract)
+
+    def on_patch(self, before, after):
+        self.validate_bid_vs_agreement(after)
+        super().on_patch(before, after)

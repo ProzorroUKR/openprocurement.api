@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 def load_ids(file_path):
     ids = []
-    with open(file_path, 'r') as file:
+    with open(file_path) as file:
         for line in file:
             ids.append(line.strip())
     return ids

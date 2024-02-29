@@ -862,21 +862,6 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    non_shortlist_org = deepcopy(test_tender_pq_organization)
-    non_shortlist_org["identifier"]["id"] = "69"
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
-        {"data": {"tenderers": [non_shortlist_org]}},
-        status=403,
-    )
-    self.assertEqual(
-        response.json,
-        {
-            'status': 'error',
-            'errors': [{'location': 'body', 'name': 'data', 'description': "Bid is not a member of agreement"}],
-        },
-    )
-
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {"value": {"amount": 500}, "tenderers": [test_tender_pq_organization]}},
@@ -1189,23 +1174,7 @@ def bid_Administrator_change(self):
     self.assertEqual(response.content_type, "application/json")
     bid = response.json["data"]
 
-    tenderer = deepcopy(test_tender_pq_organization)
-    tenderer["identifier"]["id"] = "00000000"
     self.app.authorization = ("Basic", ("administrator", ""))
-    response = self.app.patch_json(
-        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), {"data": {"tenderers": [tenderer]}}, status=403
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Bid is not a member of agreement",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
-
     tenderer = deepcopy(test_tender_pq_organization)
     tenderer["identifier"]["legalName"] = "ТМ Валєра"
     response = self.app.patch_json(
@@ -1338,3 +1307,37 @@ def create_tender_bid_document_invalid_award_status(self):
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't add document because award of bid is not in pending state"
     )
+
+
+def invalidate_not_agreement_member_bid_via_chronograph(self):
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {
+            "data": {
+                "tenderers": [test_tender_pq_organization],
+                "status": "draft",
+                "value": {"amount": 500},
+                "requirementResponses": test_tender_pq_requirement_response,
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+
+    # disqualify supplier from agreement
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["contracts"][0]["status"] = "terminated"
+    self.mongodb.agreements.save(agreement)
+
+    # patch bid to pending status
+    self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+        {"data": {"status": "pending"}},
+    )
+
+    self.set_status("active.tendering", 'end')
+    self.check_chronograph()
+    response = self.app.get(f"/tenders/{self.tender_id}/bids")
+    self.assertEqual(response.json["data"][0]["status"], "invalid")

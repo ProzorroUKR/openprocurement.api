@@ -1,8 +1,9 @@
 from logging import getLogger
 
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.utils import context_unpack
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
@@ -15,6 +16,7 @@ from openprocurement.tender.core.procedure.utils import (
     activate_bids,
     calc_auction_end_time,
     dt_from_iso,
+    get_supplier_contract,
     is_new_contracting,
     tender_created_after_2020_rules,
 )
@@ -299,6 +301,7 @@ class ChronographEventsMixing:
             self.calc_bids_weighted_values(tender)
         else:
             self.remove_draft_bids(tender)
+            self.invalidate_not_agreement_members_bids(tender)
             self.activate_bids(tender)
             self.check_bids_number(tender)
             self.calc_bids_weighted_values(tender)
@@ -530,6 +533,20 @@ class ChronographEventsMixing:
         if any(bid.get("status", "pending") == "draft" for bid in tender.get("bids", "")):
             LOGGER.info("Remove draft bids", extra=context_unpack(get_request(), {"MESSAGE_ID": "remove_draft_bids"}))
             tender["bids"] = [bid for bid in tender["bids"] if bid.get("status", "pending") != "draft"]
+
+    @staticmethod
+    def invalidate_not_agreement_members_bids(tender):
+        if not tender["config"]["hasPreSelectionAgreement"] or tender["procurementMethodType"] == CFA_SELECTION:
+            return
+
+        agreement = get_object("agreement")
+        for bid in tender.get("bids", []):
+            supplier_contract = get_supplier_contract(
+                agreement["contracts"],
+                bid["tenderers"],
+            )
+            if not supplier_contract:
+                bid["status"] = "invalid"
 
     @staticmethod
     def activate_bids(tender):
