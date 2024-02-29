@@ -1,4 +1,5 @@
 from copy import deepcopy
+from unittest.mock import Mock, patch
 
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
@@ -14,7 +15,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_response_4,
 )
 from openprocurement.tender.pricequotation.tests.data import (
-    test_tender_pq_shortlisted_firms,
+    test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.utils import copy_criteria_req_id
 
@@ -264,9 +265,7 @@ def create_tender_bid_invalid(self):
         response.json,
         {
             'status': 'error',
-            'errors': [
-                {'location': 'body', 'name': 'data', 'description': "Can't add bid if tenderer not in shortlistedFirms"}
-            ],
+            'errors': [{'location': 'body', 'name': 'data', 'description': "Bid is not a member of agreement"}],
         },
     )
 
@@ -274,7 +273,6 @@ def create_tender_bid_invalid(self):
 def create_tender_bid(self):
     # Revert tender to statuses ('draft', 'draft.unsuccessful', 'draft.publishing')
     data = self.mongodb.tenders.get(self.tender_id)
-    current_status = data.get('status')
     criteria = data.pop('criteria')
 
     for status in ('draft', 'draft.publishing', 'draft.unsuccessful'):
@@ -304,15 +302,10 @@ def create_tender_bid(self):
             ],
         )
 
-    # Restore tender to 'draft' status
-    data['status'] = "draft.publishing"
+    # Restore tender to 'active' status
+    data['status'] = "active.tendering"
     data['criteria'] = criteria
     self.mongodb.tenders.save(data)
-
-    # switch to tendering
-    with change_auth(self.app, ("Basic", ("pricequotation", ""))):
-        response = self.app.patch_json("/tenders/{}".format(self.tender_id), {"data": {"status": "active.tendering"}})
-        date_modified = response.json["data"].get("dateModified")
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -331,8 +324,6 @@ def create_tender_bid(self):
     self.assertEqual(bid["tenderers"][0]["name"], test_tender_pq_organization["name"])
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
-
-    self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), date_modified)
 
     # post second
     response = self.app.post_json(
@@ -628,6 +619,10 @@ def requirement_response_validation_multiple_criterias(self):
     )
 
 
+@patch(
+    "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
+)
 def requirement_response_value_validation_for_expected_values(self):
     data = self.initial_data.copy()
     data.update({"status": "draft"})
@@ -635,6 +630,7 @@ def requirement_response_value_validation_for_expected_values(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
+    tender_token = response.json["access"]["token"]
     criteria_data = [
         {
             "description": "Форма випуску",
@@ -667,17 +663,15 @@ def requirement_response_value_validation_for_expected_values(self):
         },
     ]
     # switch to tendering and add criteria with expectedValues array
-    with change_auth(self.app, ("Basic", ("pricequotation", ""))):
-        response = self.app.patch_json(
-            f"/tenders/{tender['id']}",
-            {
-                "data": {
-                    "status": "active.tendering",
-                    "shortlistedFirms": test_tender_pq_shortlisted_firms,
-                    "criteria": criteria_data,
-                }
-            },
-        )
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={tender_token}",
+        {
+            "data": {
+                "status": "active.tendering",
+                "criteria": criteria_data,
+            }
+        },
+    )
     self.assertEqual(response.status, "200 OK")
     tender = response.json["data"]
 
@@ -879,13 +873,7 @@ def patch_tender_bid(self):
         response.json,
         {
             'status': 'error',
-            'errors': [
-                {
-                    'location': 'body',
-                    'name': 'data',
-                    'description': "Can't update bid if tenderer not in shortlistedFirms",
-                }
-            ],
+            'errors': [{'location': 'body', 'name': 'data', 'description': "Bid is not a member of agreement"}],
         },
     )
 
@@ -1211,7 +1199,7 @@ def bid_Administrator_change(self):
         response.json["errors"],
         [
             {
-                "description": "Can't update bid if tenderer not in shortlistedFirms",
+                "description": "Bid is not a member of agreement",
                 "location": "body",
                 "name": "data",
             }

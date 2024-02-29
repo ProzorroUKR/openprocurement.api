@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 19:45+0200\n"
+"POT-Creation-Date: 2024-02-19 17:20+0100\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -23,7 +23,7 @@ msgid "Configuration"
 msgstr ""
 
 msgid "The set of possible configuration values:"
-msgstr ""
+msgstr "Набір можливих значень конфігурації:"
 
 msgid "name"
 msgstr ""
@@ -77,7 +77,7 @@ msgid "restricted"
 msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
-msgstr ""
+msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 
 msgid "Creating tender"
 msgstr "Створення закупівлі"
@@ -112,8 +112,8 @@ msgstr "Ми бачимо, що додаткові властивості об�
 msgid "Checking the listing again reflects the new modification date:"
 msgstr "Ще одна перевірка списку відображає нову дату модифікації:"
 
-msgid "Publishing tender"
-msgstr "Публікація закупівлі"
+msgid "Publishing tender (deprecated)"
+msgstr "Публікація закупівлі (стара логіка через PQ бот)"
 
 msgid "After creation Procuring Entity publishes procedure by changing status to `draft.publishing` where **priceQuotationBot** robot runs validation of the procedure and supplement procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`."
 msgstr "Після створення Замовник публікує процедуру, змінивши статус на `draft.publishing`, де робот **priceQuotationBot** запускає перевірку процедури та доповнює процедуру додатковими даними, отриманими з бази даних електронних каталогів ProZorro, включаючи `shortListedFirms`."
@@ -123,6 +123,51 @@ msgstr "Після успішної валідації priceQuotationBot пер�
 
 msgid "In case if procedure do not pass validation due to invalid options, it will be switched to status: `draft.unsuccessful` by the **priceQuotationBot**."
 msgstr "У разі, якщо процедура не пройде перевірку через недійсні параметри, вона буде переведена в статус: `draft.unsuccessful` за допомогою **priceQuotationBot**."
+
+msgid "Activating tender"
+msgstr "Активація закупівлі"
+
+msgid "After creation Procuring Entity can activate tender by changing status to `active.tendering`."
+msgstr "Після створення Замовник може активувати закупівлю, змінивши статус на `active.tendering`."
+
+msgid "During activation CBD runs some validations:"
+msgstr "Під час активації на ЦБД спрацьовують наступні перевірки:"
+
+msgid "Existence of item profile in catalogue"
+msgstr "Наявність профілю товару в каталозі"
+
+msgid "Profile should be active or general"
+msgstr "Профіль повинен мати статус `active` або `general`"
+
+msgid "Existence of related agreement"
+msgstr "Наявність відповідного договору"
+
+msgid "Equality of profile agreement and related agreement in tender"
+msgstr "Перевірка, що угода в профілі та пов’язана угода в тендері однакові"
+
+msgid "Agreement should not be in terminated status"
+msgstr "Угода не повинна бути розірвана (статус terminated)"
+
+msgid "Agreement has qualified suppliers"
+msgstr "Угода має кваліфікованих постачальників (suppliers)"
+
+msgid "If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:"
+msgstr "Якщо Замовник спробує активувати процедуру PQ з неіснуючим профілем у каталозі, ми побачимо помилку:"
+
+msgid "If profile isn't in active status, we will see error:"
+msgstr "Якщо профіль не активний, ми побачимо помилку:"
+
+msgid "In case profile agreement and related agreement in tender aren't equal, the next error will be generated:"
+msgstr "Якщо угода (agreement) в профілі та угода в тендері не однакові, буде згенеровано наступну помилку:"
+
+msgid "If agreement is in terminated status:"
+msgstr "Якщо угода розірвана:"
+
+msgid "If there are no active contracts in agreement, there will be an error:"
+msgstr "У випадку, якщо угода не має кваліфікованих постачальників, ми побачимо помилку:"
+
+msgid "If PQ procedure matches all requirements, it will be switched to `active.tendering`:"
+msgstr "Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`:"
 
 msgid "Bid submission"
 msgstr "Подача пропозицій"

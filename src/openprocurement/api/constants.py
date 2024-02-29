@@ -356,3 +356,7 @@ DST_AWARE_PERIODS_FROM = get_constant(CONSTANTS_CONFIG, "DST_AWARE_PERIODS_FROM"
 
 # New qualification flow
 QUALIFICATION_AFTER_COMPLAINT_FROM = get_constant(CONSTANTS_CONFIG, "QUALIFICATION_AFTER_COMPLAINT_FROM")
+
+# catalogue settings
+CATALOG_API_HOST = os.environ.get("CATALOG_API_HOST", "http://catalog.catalog-master.k8s.prozorro.gov.ua")
+CATALOG_BASE_URL = f"{CATALOG_API_HOST}/api"

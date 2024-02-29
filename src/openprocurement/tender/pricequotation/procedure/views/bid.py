@@ -16,6 +16,7 @@ from openprocurement.tender.belowthreshold.procedure.views.bid import TenderBidR
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
+from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
@@ -28,7 +29,6 @@ from openprocurement.tender.pricequotation.procedure.models.bid import (
     PatchBid,
     PostBid,
 )
-from openprocurement.tender.pricequotation.procedure.state.bid import BidState
 
 LOGGER = getLogger(__name__)
 

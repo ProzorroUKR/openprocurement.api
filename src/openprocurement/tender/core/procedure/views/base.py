@@ -37,6 +37,6 @@ class TenderBaseResource(BaseResource):
 
                 if request.method not in ("GET", "HEAD"):
                     if tender["config"]["hasPreSelectionAgreement"] is True:
-                        agreements = tender.get("agreements")
+                        agreements = [tender["agreement"]] if tender.get("agreement") else tender.get("agreements")
                         if agreements and "agreement" not in request.validated:
                             request_fetch_agreement(request, agreements[0]["id"], raise_error=False)

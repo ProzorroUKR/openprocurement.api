@@ -85,7 +85,7 @@ class TendersResource(TenderBaseResource):
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
         request_init_tender(self.request, tender, tender_src={})
-        agreements = tender.get("agreements")
+        agreements = [tender["agreement"]] if tender.get("agreement") else tender.get("agreements")
         if agreements and "agreement" not in self.request.validated:
             request_fetch_agreement(self.request, agreements[0]["id"], raise_error=False)
         access = set_ownership(tender, self.request)

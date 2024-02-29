@@ -37,15 +37,6 @@ def validate_document_operation_in_not_allowed_period(request, **_):
         raise_operation_error(request, f"Can't {operation} document in current ({status}) tender status")
 
 
-def unless_administrator_or_bots(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role not in ("bots", "Administrator"):
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
 def validate_contract_document_status(operation):
     def validate(request, **_):
         tender_status = request.validated["tender"]["status"]

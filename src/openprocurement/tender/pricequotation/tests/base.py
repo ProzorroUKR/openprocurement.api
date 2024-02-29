@@ -31,7 +31,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     docservice = True
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
-    primary_tender_status = "draft.publishing"  # status, to which tender should be switched from 'draft'
+    primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (
         "active.qualification"  # status, in which operations with tender documents (adding, updating) are forbidden
     )
@@ -158,7 +158,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.now = get_now()
         self.tender_document = self.mongodb.tenders.get(self.tender_id)
         self.tender_document_patch = {"status": status}
-        self.patch_tender_bot()
+        self.save_changes()  # apply status
         if status == "active.tendering":
             self.update_periods(status, startend)
         elif status == "active.qualification":
@@ -184,29 +184,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.tender_document_patch.update(extra)
         self.save_changes()
         return self.get_tender()
-
-    def patch_tender_bot(self):
-        items = deepcopy(self.initial_data["items"])
-        for item in items:
-            item.update(
-                {
-                    "classification": test_tender_pq_short_profile["classification"],
-                    "unit": test_tender_pq_short_profile["unit"],
-                }
-            )
-        value = deepcopy(test_tender_pq_short_profile['value'])
-        amount = sum(item["quantity"] for item in items) * test_tender_pq_short_profile['value']['amount']
-        value["amount"] = amount
-        # criteria = getattr(self, "test_criteria", test_short_profile['criteria'])
-        self.tender_document_patch.update(
-            {
-                "shortlistedFirms": test_tender_pq_shortlisted_firms,
-                # 'criteria': criteria,
-                "items": items,
-                'value': value,
-            }
-        )
-        self.save_changes()
 
     @property
     def tender_token(self):

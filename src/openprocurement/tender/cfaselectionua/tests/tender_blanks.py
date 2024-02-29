@@ -635,11 +635,11 @@ def create_tender_from_terminated_agreement(self):
     tender = response.json["data"]
     self.assertEqual(tender["agreements"][0]["status"], "terminated")
     self.assertEqual(tender["status"], "draft.unsuccessful")
-    self.assertEqual(tender["unsuccessfulReason"], ["agreements[0] status is not active"])
+    self.assertEqual(tender["unsuccessfulReason"], ["Agreement status is not active"])
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
     self.assertEqual(tender["status"], "draft.unsuccessful")
-    self.assertEqual(tender["unsuccessfulReason"], ["agreements[0] status is not active"])
+    self.assertEqual(tender["unsuccessfulReason"], ["Agreement status is not active"])
 
 
 def create_tender_from_agreement_with_features(self):
@@ -779,7 +779,7 @@ def create_tender_from_agreement_with_pending_changes(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("changes", response.json["data"]["agreements"][0])
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
-    self.assertEqual(response.json["data"]["unsuccessfulReason"], ["agreements[0] has pending change"])
+    self.assertEqual(response.json["data"]["unsuccessfulReason"], ["Agreement has pending change"])
 
 
 def create_tender(self):
@@ -1496,9 +1496,9 @@ def patch_tender_bot(self):
     self.assertFalse(
         reasons.difference(
             {
-                "agreements[0] status is not active",
-                "agreements[0] items is not subset of tender items",
-                "agreements[0] has less than 3 active contracts",
+                "Agreement status is not active",
+                "Agreement items is not subset of tender items",
+                "Agreement has less than 3 active contracts",
             }
         )
     )
@@ -1507,7 +1507,7 @@ def patch_tender_bot(self):
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "draft.unsuccessful"}})
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     reasons = set(response.json["data"]["unsuccessfulReason"])
-    self.assertFalse(reasons.difference({"agreement[0] not found in agreements"}))
+    self.assertFalse(reasons.difference({"Agreement not found"}))
 
     # patch tender with different changes by bot
     tender, owner_token = self.create_tender_and_prepare_for_bot_patch()
@@ -1644,7 +1644,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
         response.json["data"]["unsuccessfulReason"],
-        ["agreements[0] ends less than {} days".format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)],
+        ["Agreement ends less than {} days".format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)],
     )
 
     # patch tender argeement.period.startDate > tender.date
@@ -1683,7 +1683,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
         response.json["data"]["unsuccessfulReason"],
-        ["agreements[0] has less than {} active contracts".format(MIN_ACTIVE_CONTRACTS)],
+        ["Agreement has less than {} active contracts".format(MIN_ACTIVE_CONTRACTS)],
     )
 
     # patch tender with wrong identifier

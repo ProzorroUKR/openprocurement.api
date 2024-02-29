@@ -19,6 +19,9 @@ from openprocurement.api.procedure.utils import (
 )
 from openprocurement.api.utils import get_agreement_by_id, raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.electroniccatalogue.constants import (
+    ELECTRONIC_CATALOGUE_TYPE,
+)
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
@@ -47,6 +50,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_GROUP,
     COMPETITIVE_ORDERING,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 class TenderConfigMixin:
@@ -150,6 +154,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
     complaint_submit_time = timedelta(days=0)
+    agreement_field = "agreements"
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -219,11 +224,11 @@ class TenderDetailsMixing(TenderConfigMixin):
                 message,
                 status=422,
                 location="body",
-                name="agreements",
+                name=self.agreement_field,
             )
 
         if tender["config"]["hasPreSelectionAgreement"] is True:
-            agreements = tender.get("agreements")
+            agreements = [tender["agreement"]] if tender.get("agreement") else tender.get("agreements")
             if not agreements:
                 raise_agreements_error("This field is required.")
 
@@ -235,9 +240,12 @@ class TenderDetailsMixing(TenderConfigMixin):
             if not agreement:
                 raise_agreements_error(AGREEMENT_NOT_FOUND_MESSAGE)
 
-            tender_agreement_type_mapping = {COMPETITIVE_ORDERING: DPS_TYPE}
+            tender_agreement_type_mapping = {
+                COMPETITIVE_ORDERING: DPS_TYPE,
+                PQ: ELECTRONIC_CATALOGUE_TYPE,
+            }
 
-            if tender_agreement_type_mapping.get(tender["procurementMethodType"]) != agreement["agreementType"]:
+            if tender_agreement_type_mapping[tender["procurementMethodType"]] != agreement["agreementType"]:
                 raise_agreements_error("Agreement type mismatch.")
 
             if self.is_agreement_not_active(agreement):

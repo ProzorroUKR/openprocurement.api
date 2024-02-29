@@ -1,8 +1,8 @@
 from cornice.resource import resource
-from pyramid.security import Allow
 
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.auth import ACCR_1, ACCR_5
 from openprocurement.api.procedure.validation import (
+    unless_administrator,
     validate_accreditation_level,
     validate_config_data,
     validate_data_documents,
@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.tender import TenderConfig
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
@@ -19,9 +18,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
+from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.models.tender import (
-    PatchPQBotTender,
     PatchTender,
     PostTender,
     Tender,
@@ -30,17 +28,8 @@ from openprocurement.tender.pricequotation.procedure.state.tender_details import
     TenderDetailsState,
 )
 from openprocurement.tender.pricequotation.procedure.validation import (
-    unless_administrator_or_bots,
     validate_tender_criteria_existence,
 )
-
-
-def conditional_model(data):  # TODO: bot should use a distinct endpoint, like chronograph
-    if get_request().authenticated_role == "bots":
-        model = PatchPQBotTender
-    else:
-        model = PatchTender
-    return model(data)
 
 
 @resource(
@@ -53,13 +42,6 @@ def conditional_model(data):  # TODO: bot should use a distinct endpoint, like c
 )
 class PriceQuotationTenderResource(TendersResource):
     state_class = TenderDetailsState
-
-    def __acl__(self):
-        acl = super().__acl__()
-        acl.append(
-            (Allow, "g:bots", "edit_tender"),  # TODO: bot should use a distinct endpoint, like chronograph
-        )
-        return acl
 
     @json_view(
         content_type="application/json",
@@ -83,11 +65,11 @@ class PriceQuotationTenderResource(TendersResource):
     @json_view(
         content_type="application/json",
         validators=(
-            unless_administrator_or_bots(
+            unless_administrator(
                 validate_item_owner("tender"),
-                validate_tender_status_allows_update("draft"),
+                validate_tender_status_allows_update("draft", "draft.publishing"),
             ),
-            validate_input_data(conditional_model, none_means_remove=True),
+            validate_input_data(PatchTender, none_means_remove=True),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_tender_criteria_existence,
             validate_item_quantity,
