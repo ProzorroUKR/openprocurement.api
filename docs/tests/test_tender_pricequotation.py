@@ -238,6 +238,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bids_access[bid2_id] = response.json['access']['token']
             self.assertEqual(response.status, '201 Created')
 
+        # agreement contract validation
+        bid_data["tenderers"][0]["identifier"]["id"] = "00037200"
+        with open(TARGET_DIR + 'register-bidder-not-member.http', 'w') as self.app.file_obj:
+            self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
+
         self.set_status('active.qualification')
 
         with open(TARGET_DIR + 'awards-listing.http', 'w') as self.app.file_obj:

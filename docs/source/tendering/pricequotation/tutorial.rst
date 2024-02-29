@@ -132,6 +132,11 @@ Registering bid
 ~~~~~~~~~~~~~~~
 Tender status ``active.tendering`` allows registration of bids.
 
+If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:
+
+.. http:example:: http/register-bidder-not-member.http
+   :code:
+
 Bidder can register a bid with ``draft`` status:
 
 .. http:example:: http/register-bidder.http

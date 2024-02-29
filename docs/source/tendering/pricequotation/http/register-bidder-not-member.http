@@ -1,0 +1,92 @@
+POST /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037200",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "01220",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова, 11, корпус 1"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "value": {
+      "amount": 469,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "620397eaf9544635bb0366a1f65dae0e"
+        },
+        "value": "Розчин для інфузій"
+      },
+      {
+        "requirement": {
+          "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
+        },
+        "value": 5
+      },
+      {
+        "requirement": {
+          "id": "2c6c054563904e35ac6e25b6ec864228"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ]
+      }
+    ],
+    "status": "draft",
+    "items": [
+      {
+        "id": "e0171c9b08d34c71948f18a5f3504f5a",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Bid is not a member of agreement"
+    }
+  ]
+}
+
