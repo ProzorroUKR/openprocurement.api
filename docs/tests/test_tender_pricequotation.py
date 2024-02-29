@@ -204,6 +204,28 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
+        # Bid deletion
+        with open(TARGET_DIR + 'register-2nd-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(f'/tenders/{self.tender_id}/bids', {'data': bid_data})
+            bid2_id = response.json['data']['id']
+            bids_access[bid2_id] = response.json['access']['token']
+            self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'delete-2nd-bid.http', 'w') as self.app.file_obj:
+            response = self.app.delete(f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}')
+            self.assertEqual(response.status, '200 OK')
+
+        # try to restore deleted bid
+        with open(TARGET_DIR + 'restore-deleted-bid.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{self.tender_id}/bids/{bid2_id}?acc_token={bids_access[bid2_id]}',
+                {"data": {"status": "pending"}},
+                status=403,
+            )
+            self.assertEqual(response.status, "403 Forbidden")
+            self.assertEqual(response.content_type, "application/json")
+            self.assertEqual(response.json["errors"][0]["description"], "Can't update bid in (deleted) status")
+
         # Proposal Uploading
 
         with open(TARGET_DIR + 'upload-bid-proposal.http', 'w') as self.app.file_obj:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-29 15:41+0100\n"
+"POT-Creation-Date: 2024-02-29 16:42+0100\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -172,6 +172,9 @@ msgstr "Реєстрація пропозиції"
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
 
+msgid "If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:"
+msgstr "Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:"
+
 msgid "Bidder can register a bid with ``draft`` status:"
 msgstr "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"
 
@@ -181,14 +184,26 @@ msgstr "Користувач отримує `access`: `token` з яким дос
 msgid "and approve to pending status:"
 msgstr "і підтвердити її, перевівши у ``pending`` статус:"
 
-msgid "If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:"
-msgstr "Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:"
-
 msgid "Modifying bid"
 msgstr "Модифікація пропозиції"
 
 msgid "Bid can be updated until the end of tender period."
 msgstr "Пропозиція може бути оновленою до закінчення тендерного періоду."
+
+msgid "Deleting bid"
+msgstr "Видалення пропозиції"
+
+msgid "Bid can be deleted until the end of tender period."
+msgstr "Поки не завершився період подання пропозицій постачальник має можливість видаляти свою пропозицію."
+
+msgid "Let's add new bid to tender:"
+msgstr "Додамо нову пропозицію до тендеру:"
+
+msgid "Now we can delete this bid:"
+msgstr "У постачальника є змога видалити її, якщо була допущена помилка:"
+
+msgid "If bidder try to restore you bi, we will see the next error:"
+msgstr "Якщо постачальник спробує знову відновити свою пропозицію, то отримає наступну помилку:"
 
 msgid "Proposal Uploading"
 msgstr "Завантаження пропозиції"
@@ -324,3 +339,4 @@ msgstr "Завантажити нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту на відміну закупівлі"
+

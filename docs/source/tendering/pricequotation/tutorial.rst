@@ -159,6 +159,26 @@ Bid can be updated until the end of tender period.
 
 .. http:example:: http/patch-bidder.http
    :code:
+
+Deleting bid
+~~~~~~~~~~~~~
+
+Bid can be deleted until the end of tender period.
+
+Let's add new bid to tender:
+
+.. http:example:: http/register-2nd-bid.http
+   :code:
+
+Now we can delete this bid:
+
+.. http:example:: http/delete-2nd-bid.http
+   :code:
+
+If bidder try to restore you bi, we will see the next error:
+
+.. http:example:: http/restore-deleted-bid.http
+   :code:
    
 Proposal Uploading
 ~~~~~~~~~~~~~~~~~~
