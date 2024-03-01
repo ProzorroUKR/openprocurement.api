@@ -80,28 +80,16 @@ Delivery
 Duration
 --------
 
-:duration:
-    integer, positive, required
-
-    Кількість днів, місяців, років
+:days:
+    integer, required, positive
 
 :type:
     string, required
 
-    Можливі значення:
-
-    * `days`
-    * `months`
-    * `years`
-
-:daysType:
-    string, required if `type = days`
-
-    Замовник може обрати тип днів, якщо вказуються дні - календарні або робочі
-
-    Можливі значення:
+    Possible values are:
 
     * `working`
+    * `banking`
     * `calendar`
 
 
@@ -155,9 +143,8 @@ Delivery POST
       "data": {
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -179,9 +166,8 @@ Delivery POST
         "id": "2328f66eebf04c4497d0fb223feeb0er",
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -210,9 +196,8 @@ Delivery POST
       "data": {
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -234,9 +219,8 @@ Delivery POST
       "data": {
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -268,9 +252,8 @@ Delivery POST
         "id": "2328f66eebf04c4497d0fb223feeb0er",
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -284,9 +267,8 @@ Delivery POST
         "id": "re28f66eebf04c4497d0fb223feeb211",
         "expectedTerms": "afterContractSigning",
         "duration": {
-            "type": "days",
-            "duration": 14,
-            "daysType": "working",
+            "days": 14,
+            "type": "working",
         },
         "addresses": [{
             "country": "Україна",
@@ -312,8 +294,8 @@ Delivery POST
       "data": {
         "expectedTerms": "afterApplicationReceiving",
         "duration": {
-            "type": "months",
-            "duration": 2,
+            "days": 10,
+            "type": "calendar",
         },
         "addresses": [{
             "country": "Україна",
@@ -335,8 +317,8 @@ Delivery POST
         "id": "2328f66eebf04c4497d0fb223feeb0er",
         "expectedTerms": "afterApplicationReceiving",
         "duration": {
-            "type": "months",
-            "duration": 2,
+            "days": 10,
+            "type": "calendar",
         },
         "addresses": [{
             "country": "Україна",
@@ -362,9 +344,8 @@ Delivery POST
       "data": {
         "expectedTerms": "afterApplicationReceiving",
         "duration": {
-            "type": "days",
-            "duration": 10,
-            "daysType": "calendar",
+            "days": 10,
+            "type": "calendar",
         },
         "quantity": 15,
         "addresses": [{
@@ -392,9 +373,8 @@ Delivery POST
         "id": "2328f66eebf04c4497d0fb223feeb0er",
         "expectedTerms": "afterPrepayment",
         "duration": {
-            "type": "days",
-            "duration": 10,
-            "daysType": "calendar",
+            "days": 10,
+            "type": "calendar",
         },
         "quantity": 15,
         "addresses": [{
@@ -411,13 +391,3 @@ Delivery POST
         "relatedItem": "11223344556677889900qqwweerrttyy",
         "dateCreated": "2024-01-01T11:11:0000",
     }
-
-
-Можливі валідації
-------------------
-
-1) Чи треба перевіряти що quantity < items.quantity?
-2) relatesTo = lot чи потрібно це, може просто залишити relatesTo = item, а якщо не вказано - значить до всього лоту відноситься
-3) перевіряти що relatesTo = lot тільки одна поставка, не більше
-4) робити PATCH/DELETE
-5) чи робити обов'язковими ці deliveries?
