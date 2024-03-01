@@ -4,6 +4,7 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
+from pyramid.response import Response
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
@@ -135,7 +136,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Activating tender
 
         # tender relates to non existed profile
-        with open(TARGET_DIR + 'tender-with-non-existed-profile.http', 'w') as self.app.file_obj:
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Response(status_code=404)),
+        ), open(TARGET_DIR + 'tender-with-non-existed-profile.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"status": "active.tendering"}},
