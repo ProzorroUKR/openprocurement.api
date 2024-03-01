@@ -31,7 +31,7 @@ Content-Type: application/json
         "name_en": "State administration",
         "identifier": {
           "scheme": "UA-EDR",
-          "id": "e04851d5a41b4c30b70d7bb4cd93c8f9",
+          "id": "22222222",
           "legalName": "Державне управління справами",
           "legalName_en": "dus.gov.ua",
           "uri": "http://www.dus.gov.ua/"

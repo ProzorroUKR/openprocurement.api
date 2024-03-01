@@ -1,5 +1,4 @@
 import unittest
-from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -21,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_dps_config,
+    test_tender_dps_data,
     test_tender_open_bids,
     test_tender_open_data,
 )
@@ -98,9 +98,7 @@ class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
 
 class TenderDPSLotCancellationResourceTest(BaseTenderUAContentWebTest):
     initial_lots = test_tender_below_lots
-    dps_data = deepcopy(test_tender_open_data)
-    dps_data["procurementMethodType"] = "competitiveOrdering"
-    initial_data = dps_data
+    initial_data = test_tender_dps_data
     initial_config = test_tender_dps_config
 
     test_tender_lot_cancellation_complaint = snitch(create_tender_dps_lot_cancellation_complaint)
