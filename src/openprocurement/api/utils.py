@@ -23,7 +23,6 @@ from schematics.exceptions import (
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
-    CATALOG_BASE_URL,
     GMDN_CPV_PREFIXES,
     JOURNAL_PREFIX,
     LOGGER,
@@ -507,8 +506,9 @@ def delete_nones(data: dict):
 
 
 def get_tender_profile(request, profile_id):
+    catalog_api_host = request.registry.catalog_api_host
     try:
-        resp = requests.get(f"{CATALOG_BASE_URL}/profiles/{profile_id}")
+        resp = requests.get(f"{catalog_api_host}/api/profiles/{profile_id}")
     except requests.exceptions.RequestException as e:
         raise raise_operation_error(
             request,
