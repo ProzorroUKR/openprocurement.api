@@ -12,3 +12,4 @@ Contents:
    awarding
    pq_transfer_logic_from_bot
    dps_long_short
+   lot_deliveries
