@@ -79,6 +79,21 @@ You can see that tender was activated successfully.
 .. note::
     Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.
 
+Questions
+----------
+
+When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
+
+.. http:example:: http/ask-question.http
+   :code:
+
+The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question.
+If another author try to ask question, we will see error:
+
+.. http:example:: http/ask-question-invalid-author.http
+   :code:
+
+
 Qualification complaints
 -------------------------
 

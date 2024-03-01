@@ -20,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
 from openprocurement.tender.open.tests.base import (
     BaseTenderUAWebTest,
     test_tender_dps_config,
+    test_tender_dps_data,
     test_tender_open_bids,
     test_tender_open_data,
 )
@@ -113,6 +114,7 @@ class TenderDPSResourceTest(BaseTenderUAWebTest):
     docservice = True
     initial_lots = test_tender_below_lots
     initial_config = test_tender_dps_config
+    initial_data = test_tender_dps_data
 
     test_create_tender = snitch(create_tender_dps)
     test_create_tender_invalid_config = snitch(create_tender_dps_invalid_config)

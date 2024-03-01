@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "06efe99077124f7aa56bf8bd0dfb2776",
         "qualificationID": "2900a0bc499242c4b8d8a527bbedee94",
-        "submissionID": "e0ea5493ec304e8aaa6101003129ac22",
+        "submissionID": "396afec6bf05456caf23672a547c1ebb",
         "status": "active",
         "suppliers": [
           {
@@ -61,7 +61,7 @@ Content-Type: application/json
             "name_en": "State administration",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "a377b71c1f944d5da2b41c2e6b9f1e1b",
+              "id": "12345678",
               "legalName_en": "dus.gov.ua",
               "uri": "http://www.dus.gov.ua/",
               "legalName": "Державне управління справами"
