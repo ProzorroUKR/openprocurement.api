@@ -119,10 +119,10 @@ class Document(BaseDocument):
     title = StringType(required=True)  # A title of the document.
     format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
     url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
+    documentOf = StringType(required=True, choices=["tender", "item", "lot"])
     dateModified = StringType()
     author = StringType()
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+    language = StringType(choices=["uk", "en", "ru"])
 
     def validate_relatedItem(self, data, related_item):
         validate_relatedItem(related_item, data.get("documentOf"))
@@ -130,8 +130,8 @@ class Document(BaseDocument):
 
 class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
-    documentOf = StringType(choices=["tender", "item", "lot"])
-    language = StringType(choices=["uk", "en", "ru"])
+    documentOf = StringType(choices=["tender", "item", "lot"], default="tender")
+    language = StringType(choices=["uk", "en", "ru"], default="uk")
 
     @serializable
     def dateModified(self):
