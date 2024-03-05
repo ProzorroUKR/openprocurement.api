@@ -3,7 +3,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
-    test_tender_below_draft_claim,
 )
 from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.core.tests.utils import change_auth
@@ -1065,17 +1064,6 @@ def post_tender_lots_auction(self):
 
     if self.initial_data["procurementMethodType"] in ("belowThreshold",):
         self.set_status("active.enquiries")
-
-    # should not affect changing status
-    if self.initial_data["procurementMethodType"] in (
-        "belowThreshold",
-        "simple.defense",
-    ):
-        with change_auth(self.app, ("Basic", ("token", ""))):
-            self.app.post_json(
-                f"/tenders/{self.tender_id}/complaints",
-                {"data": test_tender_below_draft_claim},
-            )
 
     response = self.set_status("active.auction")
 

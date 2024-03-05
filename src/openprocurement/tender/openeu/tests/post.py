@@ -24,7 +24,7 @@ from openprocurement.tender.openua.tests.post import (
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderComplaintPostResourceMixin
+    BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))

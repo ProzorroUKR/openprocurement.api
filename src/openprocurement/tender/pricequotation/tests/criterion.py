@@ -4,10 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.tests.base import (
-    BaseTenderWebTest,
-    test_tender_pq_data,
-)
+from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
 from openprocurement.tender.pricequotation.tests.criterion_blanks import (
     create_tender_criteria_multi_profile,
 )
@@ -18,8 +15,9 @@ from openprocurement.tender.pricequotation.tests.criterion_blanks import (
     get_now() + timedelta(days=1),
 )
 class TenderPQCriteriaTest(BaseTenderWebTest):
-    initial_data = test_tender_pq_data
-    initial_auth = ("Basic", ("broker", ""))
+    def setUp(self):
+        super().setUp()
+        self.create_agreement()
 
     test_create_tender_criteria_multi_profile = snitch(create_tender_criteria_multi_profile)
 

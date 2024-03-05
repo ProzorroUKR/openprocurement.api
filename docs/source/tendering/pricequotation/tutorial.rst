@@ -60,8 +60,8 @@ Checking the listing again reflects the new modification date:
 .. http:example:: http/tender-listing-after-patch.http
    :code:
 
-Publishing tender
-------------------
+Publishing tender (deprecated)
+------------------------------
    
 After creation Procuring Entity publishes procedure by changing status to `draft.publishing` where **priceQuotationBot** robot runs validation of the procedure and supplement procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`.
 
@@ -81,12 +81,61 @@ In case if procedure do not pass validation due to invalid options, it will be s
 
 .. index:: Document
 
+Activating tender
+-----------------
+
+After creation Procuring Entity can activate tender by changing status to `active.tendering`.
+
+During activation CBD runs some validations:
+
+* Existence of item profile in catalogue
+
+* Profile should be active or general
+
+* Existence of related agreement
+
+* Equality of profile agreement and related agreement in tender
+
+* Agreement should not be in terminated status
+
+
+If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:
+
+.. http:example:: http/tender-with-non-existed-profile.http
+   :code:
+
+If profile isn't in active status, we will see error:
+
+.. http:example:: http/tender-with-non-active-profile.http
+   :code:
+
+In case profile agreement and related agreement in tender aren't equal, the next error will be generated:
+
+.. http:example:: http/tender-agreement-mismatch-in-profile.http
+   :code:
+
+If agreement is in terminated status:
+
+.. http:example:: http/tender-agreement-terminated.http
+   :code:
+
+If PQ procedure matches all requirements, it will be switched to `active.tendering`:
+
+.. http:example:: http/tender-active.http
+   :code:
+
+
 Bid submission
 --------------
 
 Registering bid
 ~~~~~~~~~~~~~~~
 Tender status ``active.tendering`` allows registration of bids.
+
+If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:
+
+.. http:example:: http/register-bidder-not-member.http
+   :code:
 
 Bidder can register a bid with ``draft`` status:
 
@@ -109,6 +158,26 @@ Modifying bid
 Bid can be updated until the end of tender period. 
 
 .. http:example:: http/patch-bidder.http
+   :code:
+
+Deleting bid
+~~~~~~~~~~~~~
+
+Bid can be deleted until the end of tender period.
+
+Let's add new bid to tender:
+
+.. http:example:: http/register-2nd-bid.http
+   :code:
+
+Now we can delete this bid:
+
+.. http:example:: http/delete-2nd-bid.http
+   :code:
+
+If bidder try to restore you bi, we will see the next error:
+
+.. http:example:: http/restore-deleted-bid.http
    :code:
    
 Proposal Uploading

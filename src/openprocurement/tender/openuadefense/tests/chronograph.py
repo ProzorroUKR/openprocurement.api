@@ -24,9 +24,6 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_auction_lot as switch_to_auction_lot_ua,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
-    switch_to_complaint as switch_to_complaint_ua,
-)
-from openprocurement.tender.openua.tests.chronograph_blanks import (
     switch_to_unsuccessful_lot_0bid as without_bids_switch_to_unsuccessful,
 )
 from openprocurement.tender.openuadefense.tests.base import (
@@ -63,7 +60,6 @@ class TenderSwitchAuctionResourceTest(BaseTenderUAContentWebTest):
     initial_bids = test_tender_openuadefense_bids
     author_data = test_tender_below_author
 
-    test_switch_to_complaint = snitch(switch_to_complaint_ua)
     test_switch_to_unsuccessful_before_new = snitch(switch_to_unsuccessful_before_new)
     test_switch_to_unsuccessful_after_new = snitch(switch_to_unsuccessful_after_new)
     test_switch_to_unsuccessful_new = snitch(switch_to_unsuccessful_new)

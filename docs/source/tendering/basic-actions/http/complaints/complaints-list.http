@@ -8,32 +8,8 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "a19d15b6856d4c119586317102b3318b",
+      "id": "b0ca3342dd464a43b104d344564afa80",
       "complaintID": "UA-2023-10-10-000001-a.1",
-      "date": "2023-10-10T01:00:00+03:00",
-      "documents": [
-        {
-          "id": "60256d73d83b4148a79aa23e64d74d00",
-          "datePublished": "2023-10-10T01:00:00+03:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Complaint_Attachment.pdf",
-          "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/58f9d67e04944faa910186f868189357?Signature=bTyysxLgmSxwOJ2mbeKuyIt9n0Kc0GIDrLYtNInWgPLwFyGb0nhul1wcwlTI5Lh7pZFnS9JPCG0ax9wWPt1LAQ%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2023-10-10T01:00:00+03:00",
-          "author": "complaint_owner",
-          "language": "uk"
-        }
-      ],
-      "title": "Недостатньо інформації",
-      "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "status": "claim",
-      "type": "claim",
-      "dateSubmitted": "2023-10-10T01:00:00+03:00"
-    },
-    {
-      "id": "376bab4bafd14c89b09391dce93da47c",
-      "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
@@ -47,7 +23,7 @@ Content-Type: application/json
     },
     {
       "id": "8e1c5f88d0474f14a9dc74a76d7e4e07",
-      "complaintID": "UA-2023-10-10-000001-a.3",
+      "complaintID": "UA-2023-10-10-000001-a.2",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "declined",
       "type": "complaint",
@@ -86,8 +62,8 @@ Content-Type: application/json
       "dateDecision": "2023-10-10T01:00:00+03:00"
     },
     {
-      "id": "28e6b45855b9447e85286aed7dd8a218",
-      "complaintID": "UA-2023-10-10-000001-a.4",
+      "id": "5a9355a1f73c43d28903b89decf68025",
+      "complaintID": "UA-2023-10-10-000001-a.1",
       "date": "2023-10-10T01:00:00+03:00",
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
@@ -100,17 +76,17 @@ Content-Type: application/json
     },
     {
       "id": "379051e428734c148aea805b08e76ff1",
-      "complaintID": "UA-2023-10-10-000001-a.5",
+      "complaintID": "UA-2023-10-10-000001-a.4",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "resolved",
       "documents": [
         {
-          "id": "37e5b868adb34094805ddfe95cc6d89c",
+          "id": "60256d73d83b4148a79aa23e64d74d00",
           "datePublished": "2023-10-10T01:00:00+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=y2nY0tzn8KyDwg9YuaulyZnCDfozZ7TRTStPKv8qORYijdkzr3rmXQjcF%2FJAzVO06VtH7e%2ByWVWFI1SODaOkAA%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/58f9d67e04944faa910186f868189357?Signature=bTyysxLgmSxwOJ2mbeKuyIt9n0Kc0GIDrLYtNInWgPLwFyGb0nhul1wcwlTI5Lh7pZFnS9JPCG0ax9wWPt1LAQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2023-10-10T01:00:00+03:00",
           "author": "aboveThresholdReviewers",
@@ -155,7 +131,7 @@ Content-Type: application/json
     },
     {
       "id": "cd2a784c50d54e89944fb36a581a8d41",
-      "complaintID": "UA-2023-10-10-000001-a.6",
+      "complaintID": "UA-2023-10-10-000001-a.5",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "stopped",
       "type": "complaint",
@@ -198,7 +174,7 @@ Content-Type: application/json
     },
     {
       "id": "ab69304a77b24e94852d8fdf9d71a19c",
-      "complaintID": "UA-2023-10-10-000001-a.7",
+      "complaintID": "UA-2023-10-10-000001-a.6",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "accepted",
       "type": "complaint",
@@ -237,7 +213,7 @@ Content-Type: application/json
     },
     {
       "id": "f9d00a0ce0c0465ebf78a30d2cc101ae",
-      "complaintID": "UA-2023-10-10-000001-a.8",
+      "complaintID": "UA-2023-10-10-000001-a.7",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "invalid",
       "type": "complaint",
@@ -275,7 +251,7 @@ Content-Type: application/json
     },
     {
       "id": "29bf9179dce0424db116e98436b4adb4",
-      "complaintID": "UA-2023-10-10-000001-a.9",
+      "complaintID": "UA-2023-10-10-000001-a.8",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "mistaken",
       "type": "complaint",
@@ -310,7 +286,7 @@ Content-Type: application/json
     },
     {
       "id": "3131116986bb4f24a6bc60bd8b2b0b24",
-      "complaintID": "UA-2023-10-10-000001-a.10",
+      "complaintID": "UA-2023-10-10-000001-a.9",
       "date": "2023-10-10T01:00:00+03:00",
       "status": "pending",
       "type": "complaint",

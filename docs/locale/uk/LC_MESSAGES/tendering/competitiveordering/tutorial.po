@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-25 12:50+0100\n"
+"POT-Creation-Date: 2024-02-20 11:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,13 +127,13 @@ msgstr "Ми побачимо помилку, тому що в нас недос
 msgid "There is the list of all validation errors that can be raised during tender activation related to agreement:"
 msgstr "Список помилок пов'язаних з агріментом, які можуть виникати при активації тендеру:"
 
-msgid "agreement[0] not found in agreements\""
+msgid "Agreement not found in agreements"
 msgstr ""
 
-msgid "agreements[0] status is not active\""
+msgid "Agreement status is not active"
 msgstr ""
 
-msgid "agreements[0] has less than 3 active contracts\""
+msgid "Agreement has less than 3 active contracts"
 msgstr ""
 
 msgid "tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
@@ -147,6 +147,15 @@ msgstr "Ми побачимо, що тендер був успішно акти�
 
 msgid "Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`."
 msgstr "Подальші дії для тендеру `competitiveOrdering` такі ж самі як для :ref:`open`, ви можете дотримуватися відповідного туторіалу :ref:`open_tutorial`."
+
+msgid "Questions"
+msgstr "Звернення"
+
+msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgstr "Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть ставити запитання:"
+
+msgid "The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question. If another author try to ask question, we will see error:"
+msgstr "Відмінність у звернненях від :ref:`open` процедури це те, що в `competitiveOrdering` звернення щодо тендерної документації можуть подавати лише кваліфіковані учасники. Якщо якийсь інший автор спробує додати звернення, буде помилка:"
 
 msgid "Qualification complaints"
 msgstr "Оскарження кваліцікації"
@@ -165,4 +174,3 @@ msgstr "Так як тендер `competitiveOrdering` не має можлив�
 
 msgid "`complaintPeriod` is not present in cancellation. And after cancellation was transferred to status `pending`, then cancellation will automatically update status to `active` and tender is being cancelled."
 msgstr "`complaintPeriod` відсутній в скасуванні. Після того, як `cancellation` буде переведений в статус `pending`, `cancellation` автоматично змінить статус на `active`, а тендер буде скасовано."
-

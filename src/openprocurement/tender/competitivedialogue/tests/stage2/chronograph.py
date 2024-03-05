@@ -26,15 +26,9 @@ from openprocurement.tender.openeu.tests.chronograph_blanks import (
 from openprocurement.tender.openeu.tests.chronograph_blanks import (
     switch_to_auction as switch_to_auction_eu,  # TenderStage2EUSwitchAuctionResourceTest; TenderStage2EUSwitchPreQualificationResourceTest; TenderStage2EUComplaintSwitchResourceTest
 )
-from openprocurement.tender.openeu.tests.chronograph_blanks import (
-    switch_to_complaint as switch_to_complaint_eu,
-)
 from openprocurement.tender.openua.tests.chronograph import (
     TenderLotSwitchAuctionResourceTestMixin,
     TenderSwitchAuctionResourceTestMixin,
-)
-from openprocurement.tender.openua.tests.chronograph_blanks import (
-    set_auction_period_0bid,
 )
 from openprocurement.tender.openua.tests.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot_0_bid_ua,
@@ -72,15 +66,6 @@ class TenderStage2EUSwitchUnsuccessfulResourceTest(BaseCompetitiveDialogEUStage2
     initial_lots = test_tender_cd_lots
 
     test_switch_to_unsuccessful = snitch(switch_to_unsuccessful_eu)
-
-
-class TenderStage2EUComplaintSwitchResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_bids
-    author_data = test_tender_cd_author  # TODO: change attribute identifier
-    initial_lots = test_tender_cd_lots
-
-    test_switch_to_complaint = snitch(switch_to_complaint_eu)
 
 
 class TenderStage2UASwitch0BidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
@@ -155,7 +140,6 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchPreQualificationResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchAuctionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUSwitchUnsuccessfulResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintSwitchResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitch0BidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitch1BidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UASwitchAuctionResourceTest))

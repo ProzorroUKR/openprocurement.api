@@ -5,9 +5,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (
     create_tender_complaint_document,
     not_found,
@@ -32,24 +29,13 @@ from openprocurement.tender.openua.tests.complaint import (
     TenderUAComplaintResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.complaint_blanks import (
-    create_tender_lot_complaint,
     patch_tender_complaint_document,
 )
 
 
-class TenderComplaintResourceTest(
-    BaseESCOContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseESCOContentWebTest, TenderUAComplaintResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_below_author
-
-
-class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest):
-    initial_lots = test_tender_esco_lots
-    test_author = test_tender_below_author
-    initial_auth = ("Basic", ("broker", ""))
-
-    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseESCOContentWebTest):
@@ -130,7 +116,6 @@ class TenderCancellationComplaintObjectionResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderQualificationComplaintPostResourceTest))

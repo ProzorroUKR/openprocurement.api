@@ -15,13 +15,9 @@ from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
     reset_auction_period,
     set_auction_period,
     set_auction_period_lot_separately,
-    switch_from_pending,
-    switch_from_pending_to_ignored,
     switch_to_auction,
     switch_to_auction_lot_items,
     switch_to_auction_with_non_auction_lot,
-    switch_to_complaint,
-    switch_to_ignored_on_complete,
     switch_to_qualification,
     switch_to_qualification_one_bid,
     switch_to_tendering_by_tender_period_start_date,
@@ -135,18 +131,6 @@ class TenderLotNoAuctionResourceTest(TenderContentWebTest):
     test_switch_to_auction_with_non_auction_lot = snitch(switch_to_auction_with_non_auction_lot)
 
 
-class TenderComplaintSwitchResourceTest(TenderContentWebTest):
-    initial_status = "active.enquiries"
-    test_switch_to_ignored_on_complete = snitch(switch_to_ignored_on_complete)
-    test_switch_from_pending_to_ignored = snitch(switch_from_pending_to_ignored)
-    test_switch_from_pending = snitch(switch_from_pending)
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_tender_below_lots
-
-
 class TenderAwardComplaintSwitchResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
@@ -215,9 +199,7 @@ class TenderLotAwardComplaintSwitchResourceTest(TenderAwardComplaintSwitchResour
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintSwitchResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardComplaintSwitchResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotComplaintSwitchResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchAuctionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchQualificationResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotSwitchUnsuccessfulResourceTest))

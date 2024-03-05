@@ -8,9 +8,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderComplaintDocumentResourceTest
     create_tender_complaint_document,
     not_found,
@@ -31,7 +28,6 @@ from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderComp
     bot_patch_tender_complaint_forbidden,
     bot_patch_tender_complaint_mistaken,
     create_tender_complaint,
-    create_tender_lot_complaint,
     mistaken_status_tender_complaint,
     patch_tender_complaint,
     patch_tender_complaint_document,
@@ -52,17 +48,8 @@ class TenderUAComplaintResourceTestMixin:
     test_bot_patch_tender_complaint_forbidden = snitch(bot_patch_tender_complaint_forbidden)
 
 
-class TenderComplaintResourceTest(
-    BaseTenderUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
-):
+class TenderComplaintResourceTest(BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin):
     test_author = test_tender_below_author
-
-
-class TenderLotAwardComplaintResourceTest(BaseTenderUAContentWebTest):
-    initial_lots = test_tender_below_lots
-    test_author = test_tender_below_author
-
-    test_create_tender_lot_complaint = snitch(create_tender_lot_complaint)
 
 
 class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):

@@ -23,7 +23,7 @@ LOGGER = getLogger(__name__)
 
 class ClaimStateMixin(BaseComplaintStateMixin):
     tender_claim_submit_time = timedelta(days=3)
-    create_allowed_tender_statuses = ("active.tendering",)
+    create_allowed_tender_statuses = ()
     update_allowed_tender_statuses = (
         "active.tendering",
         "active.auction",
@@ -70,12 +70,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             self.validate_submit_claim(complaint)
 
     def validate_tender_in_complaint_period(self, tender):
-        enquiry_end = tender.get("enquiryPeriod", {}).get("endDate")
-        if enquiry_end and get_now() > datetime.fromisoformat(enquiry_end):
-            raise_operation_error(
-                self.request,
-                "Can submit complaint only in enquiryPeriod",
-            )
+        pass
 
     def validate_lot_status(self):
         pass

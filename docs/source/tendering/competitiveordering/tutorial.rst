@@ -64,9 +64,9 @@ You can see that we got error, because we have not enough active contracts in ou
 
 There is the list of all validation errors that can be raised during tender activation related to agreement:
 
-* agreement[0] not found in agreements"
-* agreements[0] status is not active"
-* agreements[0] has less than 3 active contracts"
+* Agreement not found in agreements
+* Agreement status is not active
+* Agreement has less than 3 active contracts
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
 
 After adding more active contracts to our agreement let's make another attempt to activate tender:
@@ -78,6 +78,21 @@ You can see that tender was activated successfully.
 
 .. note::
     Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.
+
+Questions
+----------
+
+When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
+
+.. http:example:: http/ask-question.http
+   :code:
+
+The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question.
+If another author try to ask question, we will see error:
+
+.. http:example:: http/ask-question-invalid-author.http
+   :code:
+
 
 Qualification complaints
 -------------------------

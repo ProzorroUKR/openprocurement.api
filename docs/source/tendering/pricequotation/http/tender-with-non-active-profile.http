@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Profile 655360-30230000-889652-40000777 is not active"
+    }
+  ]
+}
+

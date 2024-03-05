@@ -360,7 +360,7 @@ class ComplaintPostResourceMixin:
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderComplaintPostResourceMixin
+    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
 

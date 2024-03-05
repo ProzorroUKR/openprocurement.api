@@ -361,7 +361,7 @@ class ComplaintPostResourceMixin:
 
 
 class TenderComplaintPostResourceTest(
-    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderComplaintPostResourceMixin
+    BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
     initial_lots = test_tender_below_lots

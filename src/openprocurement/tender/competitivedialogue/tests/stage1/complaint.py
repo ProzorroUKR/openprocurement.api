@@ -4,9 +4,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
     create_tender_complaint_document,
     not_found,
@@ -17,30 +14,20 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_author,
     test_tender_cd_lots,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
 from openprocurement.tender.openua.tests.complaint import (
     TenderUAComplaintResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
-    create_tender_lot_complaint,
     patch_tender_complaint_document,
     put_tender_complaint_document,
 )
 
 
 class CompetitiveDialogEUComplaintResourceTest(
-    BaseCompetitiveDialogEUContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseCompetitiveDialogEUContentWebTest, TenderUAComplaintResourceTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author  # TODO: change attribute identifier
-
-
-class CompetitiveDialogEULotAwardComplaintResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    initial_lots = test_tender_cd_lots
-    initial_auth = ("Basic", ("broker", ""))
-    test_author = test_tender_cd_author  # TODO: change attribute identifier
-
-    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
@@ -64,18 +51,10 @@ class CompetitiveDialogEUComplaintDocumentResourceTest(BaseCompetitiveDialogEUCo
 
 
 class CompetitiveDialogUAComplaintResourceTest(
-    BaseCompetitiveDialogUAContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseCompetitiveDialogUAContentWebTest, TenderUAComplaintResourceTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author  # TODO: change attribute identifier
-
-
-class CompetitiveDialogUALotAwardComplaintResourceTest(BaseCompetitiveDialogUAContentWebTest):
-    initial_lots = test_tender_cd_lots
-    initial_auth = ("Basic", ("broker", ""))
-    test_author = test_tender_cd_author  # TODO: change attribute identifier
-
-    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUAContentWebTest):
@@ -101,9 +80,7 @@ class CompetitiveDialogUAComplaintDocumentResourceTest(BaseCompetitiveDialogUACo
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEULotAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintResourceTest))
-    suite.addTest(unittest.makesuite(CompetitiveDialogUALotAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogEUComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(CompetitiveDialogUAComplaintDocumentResourceTest))
     return suite

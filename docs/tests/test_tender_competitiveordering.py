@@ -4,7 +4,7 @@ from copy import deepcopy
 from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
-from tests.base.data import test_docs_lots, test_docs_tender_dps
+from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender_dps
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
@@ -89,10 +89,10 @@ class TenderResourceTest(
         self.assertEqual(response.status, "200 OK")
         return response
 
-    def create_submission(self):
+    def create_submission(self, identifier=uuid4().hex):
         data = deepcopy(test_submission_data)
         data["frameworkID"] = self.framework_id
-        data["tenderers"][0]["identifier"]["id"] = uuid4().hex
+        data["tenderers"][0]["identifier"]["id"] = identifier
         self.tenderer = data["tenderers"][0]
         response = self.app.post_json(
             "/submissions",
@@ -147,7 +147,7 @@ class TenderResourceTest(
         # TODO: fix tick method
         self.tick(datetime.timedelta(days=30))
 
-        self.create_submission()
+        self.create_submission(identifier="12345678")
         self.activate_submission()
         self.activate_qualification()
 
@@ -159,6 +159,7 @@ class TenderResourceTest(
         with open(TARGET_DIR + 'view-agreement-1-contract.http', 'w') as self.app.file_obj:
             response = self.app.get("/agreements/{}".format(self.agreement_id))
             self.assertEqual(response.status, '200 OK')
+            agreement = response.json["data"]
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -255,19 +256,17 @@ class TenderResourceTest(
                 status=422,
             )
             self.assertEqual(response.status, '422 Unprocessable Entity')
-            self.assertEqual(
-                response.json['errors'][0]['description'], "agreements[0] has less than 3 active contracts"
-            )
+            self.assertEqual(response.json['errors'][0]['description'], "Agreement has less than 3 active contracts")
 
         # Add agreement contracts
 
         self.app.authorization = ('Basic', ('broker', ''))
 
-        self.create_submission()
+        self.create_submission(identifier="11111111")
         self.activate_submission()
         self.activate_qualification()
 
-        self.create_submission()
+        self.create_submission(identifier="22222222")
         self.activate_submission()
         self.activate_qualification()
 
@@ -278,6 +277,22 @@ class TenderResourceTest(
                 '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
             )
             self.assertEqual(response.status, '200 OK')
+
+        # asking questions
+        docs_data = deepcopy(test_docs_question)
+        docs_data["author"]["identifier"]["id"] = "11112222"
+        with open(TARGET_DIR + 'ask-question-invalid-author.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/questions'.format(self.tender_id), {'data': docs_data}, status=403
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        docs_data["author"]["identifier"]["id"] = agreement["contracts"][0]["suppliers"][0]["identifier"]["id"]
+        with open(TARGET_DIR + 'ask-question.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/questions'.format(self.tender_id), {'data': docs_data}, status=201
+            )
+            self.assertEqual(response.status, '201 Created')
 
         # Setting Bid guarantee
 

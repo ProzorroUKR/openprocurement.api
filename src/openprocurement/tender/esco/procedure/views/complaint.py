@@ -26,7 +26,7 @@ class ESCOTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
     procurementMethodType="esco",
-    request_method=["POST", "PATCH"],
+    request_method=["PATCH"],
     complaintType="claim",
     description="Tender ESCO Claims",
 )

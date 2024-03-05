@@ -29,10 +29,7 @@ from openprocurement.tender.openua.tests.post import (
 
 
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest,
-    ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
-    TenderComplaintPostResourceMixin,
+    BaseCompetitiveDialogUAStage2ContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
     claim_data = deepcopy(test_tender_below_claim)
@@ -54,10 +51,7 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 
 
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest,
-    ComplaintPostResourceMixin,
-    ClaimPostResourceMixin,
-    TenderComplaintPostResourceMixin,
+    BaseCompetitiveDialogEUStage2ContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
     docservice = True
     claim_data = deepcopy(test_tender_below_claim)

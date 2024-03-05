@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "agreements",
-      "description": "agreements[0] has less than 3 active contracts"
+      "description": "Agreement has less than 3 active contracts"
     }
   ]
 }

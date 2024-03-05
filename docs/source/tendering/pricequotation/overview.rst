@@ -21,7 +21,7 @@ Business process begins when the Procuring Entity creates a Price Quotation proc
 
 After Procuring Entity supplements the procedure with quantity of items and delivery details and publishes the tender by sending a request for Price Quotation to ProZorro Business Process Engine the process starts.
 
-At this moment Business Process Engine receives and validates the Price Quotation request. Given the validation is passed the system automatically informs shortlisted (qualified to specific eCatalogue Profile) suppliers about the request.
+At this moment Business Process Engine receives and validates the Price Quotation request. Given the validation is passed the system automatically informs qualified to specific eCatalogue Profile suppliers about the request.
 
 2) Tendering
 

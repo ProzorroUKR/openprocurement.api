@@ -13,7 +13,6 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.period import (
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
@@ -44,11 +43,6 @@ from openprocurement.tender.pricequotation.procedure.models.requirement import (
 
 class Agreement(Model):
     id = MD5Type(required=True)
-
-    def validate_id(self, data, value):
-        agreement = get_request().registry.mongodb.agreements.get(value)
-        if not agreement:
-            raise ValidationError("id must be one of exists agreement")
 
 
 class ShortlistedFirm(BusinessOrganization):
@@ -146,7 +140,7 @@ class PatchTender(PatchBaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",
+            "active.tendering",
         ],
     )
     profile = StringType()
@@ -170,22 +164,6 @@ class PatchTender(PatchBaseTender):
     )
 
 
-class PatchPQBotTender(Model):
-    shortlistedFirms = ListType(ModelType(ShortlistedFirm))
-    status = StringType(choices=["active.tendering", "draft.unsuccessful"], required=True)
-    items = ListType(
-        ModelType(TenderItem, required=True),
-        min_size=1,
-        validators=[validate_items_uniq],
-    )
-    criteria = ListType(
-        ModelType(Criterion),
-        validators=[validate_criteria_id_uniq],
-    )
-    value = ModelType(Value)
-    unsuccessfulReason = ListType(StringType)
-
-
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[PQ], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
@@ -196,8 +174,8 @@ class Tender(BaseTender):
     status = StringType(
         choices=[
             "draft",
-            "draft.publishing",
-            "draft.unsuccessful",
+            "draft.publishing",  # deprecated after PQ bot removing
+            "draft.unsuccessful",  # deprecated after PQ bot removing
             "active.tendering",
             "active.pre-qualification",
             "active.pre-qualification.stand-still",
@@ -221,7 +199,7 @@ class Tender(BaseTender):
 
     classification = ModelType(Classification)
     noticePublicationDate = IsoDateTimeType()
-    unsuccessfulReason = ListType(StringType)
+    unsuccessfulReason = ListType(StringType)  # deprecated after PQ bot removing
 
     items = ListType(
         ModelType(TenderItem, required=True),

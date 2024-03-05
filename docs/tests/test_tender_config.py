@@ -550,7 +550,6 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasAwardingOrder",
@@ -1138,7 +1137,6 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_has_value_restriction_values_csv(self):
         self.write_config_values_csv(
             config_name="hasValueRestriction",
@@ -1377,7 +1375,6 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_value_currency_equality_values_csv(self):
         self.write_config_values_csv(
             config_name="valueCurrencyEquality",
@@ -1989,7 +1986,6 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_has_prequalification_values_csv(self):
         self.write_config_values_csv(
             config_name="hasPrequalification",
@@ -1998,7 +1994,6 @@ class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_has_pre_selection_agreement_values_csv(self):
         self.write_config_values_csv(
             config_name="hasPreSelectionAgreement",
@@ -2007,7 +2002,6 @@ class TenderHasPreSelectionAgreementResourceTest(TenderConfigBaseResourceTest):
 
 
 class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
-
     def test_docs_has_pre_selection_agreement_values_csv(self):
         for config_name in ("hasTenderComplaints", "hasAwardComplaints", "hasCancellationComplaints"):
             self.write_config_values_csv(

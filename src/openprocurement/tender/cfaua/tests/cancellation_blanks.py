@@ -69,11 +69,10 @@ def add_tender_complaints(self, statuses):
 def cancellation_tender_active_tendering(self):
     response = self.get_tender(role="broker")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
-    response = self.app.post_json(
-        "/tenders/{}/complaints".format(self.tender_id),
-        {"data": test_tender_below_claim},
-    )
-    self.assertEqual(response.status, "201 Created")
+    # as POST claim already doesn't work, create claim via database just to test old tenders
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["complaints"] = [test_tender_below_claim]
+    self.mongodb.tenders.save(tender)
 
     if RELEASE_2020_04_19 < get_now():
         self.set_complaint_period_end()
@@ -88,7 +87,6 @@ def cancellation_tender_active_tendering(self):
             "data.qualifications[*].status": None,
             "data.awards[*].status": None,
             "data.agreements[*].status": None,
-            "data.complaints[*].status": ["claim"],
         },
     )
 
