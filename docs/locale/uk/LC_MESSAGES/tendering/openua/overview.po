@@ -40,7 +40,7 @@ msgid "There is no dedicated active.enguiries state."
 msgstr "Немає стану active.enguiries."
 
 msgid "Questions can be asked within enquiryPeriod that is based upon tenderPeriod."
-msgstr "Запитання можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod."
+msgstr "Звернення можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod."
 
 msgid "Answers are provided during the whole tenderPeriod."
 msgstr "Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod."

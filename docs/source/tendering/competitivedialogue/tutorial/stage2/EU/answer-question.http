@@ -16,6 +16,9 @@ Content-Type: application/json
 {
   "data": {
     "id": "63bf01974eb14864adafa781be2a7f77",
+    "author": {
+      "hash": "9e2a4cec7671a276583de07681527f21"
+    },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
     "date": "2023-10-10T01:00:00+03:00",

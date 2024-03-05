@@ -85,7 +85,7 @@ msgid ""
 "Questions can be asked within enquiryPeriod that is based upon "
 "tenderPeriod."
 msgstr ""
-"Запитання можна задавати в період уточнень - enquiryPeriod, що "
+"Звернення можна задавати в період уточнень - enquiryPeriod, що "
 "відбувається в період подання пропозицій - tenderPeriod."
 
 #: ../../source/defense/overview.rst:32

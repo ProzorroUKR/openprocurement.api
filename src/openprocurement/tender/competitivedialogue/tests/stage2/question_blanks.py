@@ -54,7 +54,7 @@ def create_tender_question_with_question(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], self.author_data["name"])
+    self.assertIn("hash", question["author"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
@@ -89,7 +89,7 @@ def create_tender_question(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], self.author_data["name"])
+    self.assertIn("hash", question["author"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 

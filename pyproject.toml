@@ -181,4 +181,9 @@ skips = [
     #   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
     #   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_imports.html#b413-import-pycrypto
     "B413",
+    #>> Issue: [B324:hashlib] Use of insecure MD5 hash function.
+    #   Severity: Medium   Confidence: High
+    #   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
+    #   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b324_hashlib.html
+    "B324",
 ]

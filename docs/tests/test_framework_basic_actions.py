@@ -73,6 +73,12 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin)
             self.assertEqual(response.status, '201 Created')
             question = response.json["data"]
 
+        with open(TARGET_DIR_QUESTIONS + 'get-question.http', 'w') as self.app.file_obj:
+            response = self.app.get(
+                f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",
+            )
+            self.assertEqual(response.status, '200 OK')
+
         with open(TARGET_DIR_QUESTIONS + 'answer-question.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/frameworks/{framework['id']}/questions/{question['id']}?acc_token={owner_token}",

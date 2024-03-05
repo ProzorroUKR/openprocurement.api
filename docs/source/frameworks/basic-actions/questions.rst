@@ -19,6 +19,16 @@ During enquiry period, interested parties can ask questions:
 .. http:example:: http/questions/ask-question.http
    :code:
 
+All appeals for clarifications and appeals for the elimination of violations are automatically published in the electronic procurement system without identification of the person who addressed the customer.
+
+Author of question will be hashed with his `identifier.id` plus `access token` of the framework.
+This gives us a possibility to determine that at the framework level a certain number of questions came from the same author.
+
+Let's look at asked question:
+
+.. http:example:: http/questions/get-question.http
+   :code:
+
 Procuring entity can answer them:
 
 .. http:example:: http/questions/answer-question.http

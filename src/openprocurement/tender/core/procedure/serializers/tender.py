@@ -15,6 +15,9 @@ from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.question import (
+    QuestionSerializer,
+)
 
 
 class TenderBaseSerializer(BaseUIDSerializer):
@@ -39,6 +42,7 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "complaints": ListSerializer(ComplaintSerializer),
         "awards": ListSerializer(AwardSerializer),
         "lots": ListSerializer(LotSerializer),
+        "questions": ListSerializer(QuestionSerializer),
     }
 
     def __init__(self, data: dict):

@@ -41,7 +41,7 @@ msgid ""
 "Who is asking a question (contactPoint - person, identification - "
 "organization that person represents)."
 msgstr ""
-"Хто задає питання (contactPoint - людина, identification - організація, "
+"Хто подає звернення (contactPoint - людина, identification - організація, "
 "яку ця людина представляє)."
 
 #: ../../source/standard/question.rst:0
@@ -54,7 +54,7 @@ msgstr "рядок, обов’язковий"
 
 #: ../../source/standard/question.rst:23
 msgid "Title of the question."
-msgstr "Назва запитання."
+msgstr "Назва звернення."
 
 #: ../../source/standard/question.rst:0
 msgid "description"
@@ -67,7 +67,7 @@ msgstr "рядок"
 
 #: ../../source/standard/question.rst:28
 msgid "Description of the question."
-msgstr "Опис запитання."
+msgstr "Опис звернення."
 
 #: ../../source/standard/question.rst:0
 msgid "date"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ../../source/standard/question.rst:43
 msgid "Answer for the question asked."
-msgstr "Відповідь на задане питання."
+msgstr "Відповідь на звернення."
 
 #: ../../source/standard/question.rst:0
 msgid "questionOf"

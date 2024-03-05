@@ -217,7 +217,7 @@ def create_tender_question_eu(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     question = response.json["data"]
-    self.assertEqual(question["author"]["name"], self.test_bids_data[0]["tenderers"][0]["name"])
+    self.assertIn("hash", question["author"])
     self.assertIn("id", question)
     self.assertIn(question["id"], response.headers["Location"])
 
@@ -265,7 +265,8 @@ def get_tender_question_eu(self):
     response = self.app.get("/tenders/{}/questions/{}".format(self.tender_id, question["id"]))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"]), {"id", "date", "title", "description", "questionOf"})
+    self.assertEqual(set(response.json["data"]), {"id", "date", "title", "description", "questionOf", "author"})
+    self.assertEqual(set(response.json["data"]["author"]), {"hash"})
 
     # Add answer to question
     response = self.app.patch_json(
@@ -320,7 +321,8 @@ def get_tender_questions_eu(self):
     response = self.app.get("/tenders/{}/questions".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"][0]), {"id", "date", "title", "description", "questionOf"})
+    self.assertEqual(set(response.json["data"][0]), {"id", "date", "title", "description", "questionOf", "author"})
+    self.assertEqual(set(response.json["data"][0]["author"]), {"hash"})
 
     # Add answer on question
     response = self.app.patch_json(

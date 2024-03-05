@@ -1272,25 +1272,7 @@ Content-Type: application/json
       {
         "id": "299dc706df464d92acb94518f09659c8",
         "author": {
-          "name": "ДКП «Книга»",
-          "identifier": {
-            "scheme": "UA-EDR",
-            "id": "00137226",
-            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
-            "uri": "http://www.sc.gov.ua/"
-          },
-          "address": {
-            "streetAddress": "вул. Островського, 34",
-            "locality": "м. Львів",
-            "region": "Львівська область",
-            "postalCode": "79013",
-            "countryName": "Україна"
-          },
-          "contactPoint": {
-            "name": "Андрій Олексюк",
-            "email": "aagt@gmail.com",
-            "telephone": "+380322916930"
-          }
+          "hash": "01df3535d760b7822dd535818347c8fb"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",

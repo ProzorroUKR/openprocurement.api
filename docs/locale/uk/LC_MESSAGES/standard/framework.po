@@ -91,7 +91,7 @@ msgid ":ref:`period`, read-only, auto-generated"
 msgstr ":ref:`period`, лише для читання, генерується автоматично"
 
 msgid "Period when questions are allowed."
-msgstr "Період, коли дозволено задавати питання."
+msgstr "Період, коли дозволено подавати звернення."
 
 msgid "|ocdsDescription| The period during which enquiries may be made and will be answered."
 msgstr "|ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них."
