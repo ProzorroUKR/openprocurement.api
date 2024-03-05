@@ -27,7 +27,7 @@ msgid ""
 "The same applies to :ref:`Questions <question>` and answers. Question "
 "placed in Tender can be general, lot-specific or item-specific."
 msgstr ""
-"Те саме стосується і :ref:`запитань <question>` та відповідей. Питання може "
+"Те саме стосується і :ref:`звернень <question>` та відповідей. Звернення може "
 "бути по процедурі в цілому, окремо для лота та окремо для елемента."
 
 msgid ""

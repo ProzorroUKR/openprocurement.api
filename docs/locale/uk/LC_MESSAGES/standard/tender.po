@@ -248,7 +248,7 @@ msgid "List of :ref:`question` objects"
 msgstr "Список об’єктів :ref:`question`"
 
 msgid "Questions to ``procuringEntity`` and answers to them."
-msgstr "Питання до замовника ``procuringEntity`` і відповіді на них."
+msgstr "Звернення до замовника ``procuringEntity`` і відповіді на них."
 
 msgid "complaints"
 msgstr ""
@@ -330,7 +330,7 @@ msgid ":ref:`period`, required"
 msgstr ":ref:`period`, обов’язково"
 
 msgid "Period when questions are allowed. At least `endDate` has to be provided."
-msgstr "Період, коли дозволено задавати питання. Повинна бути вказана хоча б `endDate` дата."
+msgstr "Період, коли дозволено подавати звернення. Повинна бути вказана хоча б `endDate` дата."
 
 msgid "|ocdsDescription| The period during which enquiries may be made and will be answered."
 msgstr "|ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них."
@@ -345,7 +345,7 @@ msgid "``invalidationDate`` - date of the last tender conditions modification, w
 msgstr "``invalidationDate`` - це дата останньої зміни умов, коли всі подані цінові пропозиції перейшли в стан `invalid`. Відповідно необхідні дії майданчика щодо активації чи переподачі пропозицій."
 
 msgid "``clarificationsUntil`` - time before which answers for questions and claims can be provided. After this time the procedure will be blocked."
-msgstr "``clarificationsUntil``- час, до якого можна давати відповіді на запитання та вимоги, після якого блокується процедура."
+msgstr "``clarificationsUntil``- час, до якого можна давати відповіді на зернення та вимоги, після якого блокується процедура."
 
 msgid "dateModified"
 msgstr ""

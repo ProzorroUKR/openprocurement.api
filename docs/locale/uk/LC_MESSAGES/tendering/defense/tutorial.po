@@ -151,10 +151,10 @@ msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
 
 msgid "Enquiries"
-msgstr "Уточнення і запитання"
+msgstr "Звернення"
 
 msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
-msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть задавати питання чи просити уточнень умов закупівлі:"
+msgstr "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі:"
 
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може відповісти на них:"
@@ -166,7 +166,7 @@ msgid "or individual answer:"
 msgstr "або окрему відповідь:"
 
 msgid "Enquiries can be made only during ``Tender.enqueryPeriod``"
-msgstr "Запитання можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``."
+msgstr "Звернення можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``."
 
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"

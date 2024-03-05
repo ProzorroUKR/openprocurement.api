@@ -152,10 +152,10 @@ msgid "Questions"
 msgstr "Звернення"
 
 msgid "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
-msgstr "Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть ставити запитання:"
+msgstr "Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:"
 
 msgid "The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question. If another author try to ask question, we will see error:"
-msgstr "Відмінність у звернненях від :ref:`open` процедури це те, що в `competitiveOrdering` звернення щодо тендерної документації можуть подавати лише кваліфіковані учасники. Якщо якийсь інший автор спробує додати звернення, буде помилка:"
+msgstr "Відмінність у зверненнях від :ref:`open` процедури це те, що в `competitiveOrdering` звернення щодо тендерної документації можуть подавати лише кваліфіковані учасники. Якщо якийсь інший автор спробує додати звернення, буде помилка:"
 
 msgid "Qualification complaints"
 msgstr "Оскарження кваліцікації"

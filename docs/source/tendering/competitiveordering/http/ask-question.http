@@ -39,25 +39,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
 {
   "data": {
     "author": {
-      "name": "ДКП «Книга»",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "12345678",
-        "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
-        "uri": "http://www.sc.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Островського, 34",
-        "locality": "м. Львів",
-        "region": "Львівська область",
-        "postalCode": "79013",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Андрій Олексюк",
-        "email": "aagt@gmail.com",
-        "telephone": "+380322916930"
-      }
+      "hash": "f40c18f9c6cf2f7aa7edad753ef079dc"
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",

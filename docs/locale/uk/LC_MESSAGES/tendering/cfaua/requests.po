@@ -139,7 +139,7 @@ msgstr "PATCH"
 
 #: ../../source/requests.rst:58
 msgid "Tender questions"
-msgstr "Питання до тендера"
+msgstr "Звернення до тендера"
 
 #: ../../source/requests.rst:61 ../../source/requests.rst:75
 msgid "`/tenders/:tender_id/questions/:question_id`"
@@ -147,7 +147,7 @@ msgstr "`/tenders/:tender_id/questions/:question_id`"
 
 #: ../../source/requests.rst:63
 msgid "Retrieving the question"
-msgstr "Отримання питання"
+msgstr "Отримання звернення"
 
 #: ../../source/requests.rst:65 ../../source/requests.rst:70
 msgid "`/tenders/:tender_id/questions`"
@@ -159,7 +159,7 @@ msgstr "Список питань"
 
 #: ../../source/requests.rst:72
 msgid "Post a question"
-msgstr "Опублікувати питання"
+msgstr "Опублікувати звернення"
 
 #: ../../source/requests.rst:77
 msgid "Post an Answer"

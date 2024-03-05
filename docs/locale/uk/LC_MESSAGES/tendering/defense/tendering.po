@@ -43,7 +43,7 @@ msgstr ""
 #: ../../source/defense/tendering.rst:20
 msgid "If question is not answered `tenderPeriod` is extended for 2 working days."
 msgstr ""
-"У випадку запитання без відповіді, період подання пропозицій "
+"У випадку звернення без відповіді, період подання пропозицій "
 "`tenderPeriod` подовжується на 2 робочі дні"
 
 #: ../../source/defense/tendering.rst:24

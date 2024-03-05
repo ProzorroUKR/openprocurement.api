@@ -197,7 +197,7 @@ msgid "Enquiries"
 msgstr "Уточнення"
 
 msgid "When tender is in `active.enquiry` status, interested parties can ask questions:"
-msgstr "Коли закупівля має статус `active.enquiry`, зацікавлені сторони можуть задавати питання:"
+msgstr "Коли закупівля має статус `active.enquiry`, зацікавлені сторони можуть подавати звернення:"
 
 msgid "Procuring entity can answer them:"
 msgstr "Замовник може на них відповісти:"

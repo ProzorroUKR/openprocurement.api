@@ -14,7 +14,7 @@ Anybody (who provides their identity) can ask questions:
 Retrieving Questions
 --------------------
 
-Question author identities are not revealed before auction ends:
+Author of question will be hashed with his `identifier.id` plus `access token` of the procedure:
 
 .. http:example:: tutorial/list-question.http
    :code:
