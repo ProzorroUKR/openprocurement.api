@@ -1,8 +1,3 @@
-from copy import deepcopy
-
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
-
-
 def next_check_field_in_active_qualification(self):
     response = self.set_status("active.pre-qualification", "end")
     self.assertEqual(response.status, "200 OK")
@@ -48,37 +43,6 @@ def switch_to_auction(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.auction")
-
-
-# TenderComplaintSwitchResourceTest
-
-
-def switch_to_complaint(self):
-    user_data = deepcopy(self.author_data)
-    for status in ["invalid", "resolved", "declined"]:
-        response = self.app.post_json(
-            "/tenders/{}/complaints".format(self.tender_id),
-            {"data": test_tender_below_claim},
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.json["data"]["status"], "claim")
-        complaint = response.json["data"]
-
-        response = self.app.patch_json(
-            "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], self.tender_token),
-            {"data": {"status": "answered", "resolution": status * 4, "resolutionType": status}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["status"], "answered")
-        self.assertEqual(response.json["data"]["resolutionType"], status)
-    response = self.set_status(self.initial_status, "end")
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-    response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
-    self.assertEqual(response.json["data"]["complaints"][-1]["status"], status)
 
 
 def switch_to_unsuccessful(self):

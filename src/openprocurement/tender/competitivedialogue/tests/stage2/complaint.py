@@ -5,9 +5,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.complaint import (
-    TenderComplaintResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
     create_tender_complaint_document,
     not_found,
@@ -35,26 +32,17 @@ from openprocurement.tender.openua.tests.complaint import (
     TenderUAComplaintResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
-    create_tender_lot_complaint,
     patch_tender_complaint_document,
     put_tender_complaint_document,
 )
 
 
 class TenderStage2EUComplaintResourceTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseCompetitiveDialogEUStage2ContentWebTest, TenderUAComplaintResourceTestMixin
 ):
     initial_auth = ("Basic", ("broker", ""))
     test_author = test_tender_cd_author
     initial_lots = test_tender_cd_lots
-
-
-class TenderStage2EULotAwardComplaintResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    initial_lots = test_tender_cd_lots
-    initial_auth = ("Basic", ("broker", ""))
-    test_author = test_tender_cd_author  # TODO: change attribute identifier
-
-    test_create_tender_complaint = snitch(create_tender_lot_complaint)
 
 
 class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
@@ -81,17 +69,10 @@ class TenderStage2EUComplaintDocumentResourceTest(BaseCompetitiveDialogEUStage2C
 
 
 class TenderStage2UAComplaintResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderComplaintResourceTestMixin, TenderUAComplaintResourceTestMixin
+    BaseCompetitiveDialogUAStage2ContentWebTest, TenderUAComplaintResourceTestMixin
 ):
     test_author = test_tender_cd_author  # TODO: change attribute identifier
     initial_lots = test_tender_cd_lots
-
-
-class TenderStage2UALotAwardComplaintResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderStage2EULotAwardComplaintResourceTest
-):
-    initial_lots = test_tender_cd_lots
-    test_author = test_tender_cd_author  # TODO: change attribute identifier
 
 
 class TenderStage2UAComplaintDocumentResourceTest(
@@ -219,10 +200,8 @@ class TenderCancellationComplaintObjectionResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EULotAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2EUComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UALotAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UAComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogEUObjectionResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCompetitiveDialogUAObjectionResourceTest))

@@ -2,14 +2,13 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
     test_tender_cfaua_features_data,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest
     active_tendering_to_pre_qual,
     next_check_field_in_active_qualification,
     pre_qual_switch_to_stand_still,
@@ -17,10 +16,9 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (
 from openprocurement.tender.cfaua.tests.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,  # TenderComplaintSwitchResourceTest; TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest; TenderSwitchPreQualificationStandStillResourceTest
 )
-from openprocurement.tender.cfaua.tests.chronograph_blanks import (
+from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwitchAuctionResourceTest; TenderSwitchPreQualificationResourceTest
     switch_to_auction,
     switch_to_awarded,
-    switch_to_complaint,
     switch_to_unsuccessful,
     switch_to_unsuccessful_from_qualification_stand_still,
 )
@@ -80,18 +78,6 @@ class TenderLotAuctionPeriodResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
 
     test_set_auction_period = snitch(set_auction_period_lot)
-
-
-class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
-    initial_status = "active.tendering"
-    initial_bids = test_tender_cfaua_bids
-    author_data = test_tender_below_author
-
-    test_switch_to_complaint = snitch(switch_to_complaint)
-
-
-class TenderLotComplaintSwitchResourceTest(TenderComplaintSwitchResourceTest):
-    initial_lots = test_tender_cfaua_lots
 
 
 class TenderSwitchStatusesForNextCheckResourceTest(BaseTenderContentWebTest):
