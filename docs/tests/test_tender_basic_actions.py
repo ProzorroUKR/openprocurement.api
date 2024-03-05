@@ -138,6 +138,22 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         complaint_url = "/tenders/{}/complaints".format(self.tender_id)
         complaint3_id, complaint3_token = complaint_create_pending(self, complaint_url, complaint_data)
 
+        with open(TARGET_DIR + 'complaints/complaint-submission-upload.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/complaints/{}/documents?acc_token={}'.format(
+                    self.tender_id, complaint3_id, complaint3_token
+                ),
+                {
+                    "data": {
+                        "title": "Complaint_Attachment.pdf",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pdf",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+
         tender_from_db = self.mongodb.tenders.get(tender["id"])
         claim_data_2 = deepcopy(claim_data)
         complaint4_id = uuid4().hex
