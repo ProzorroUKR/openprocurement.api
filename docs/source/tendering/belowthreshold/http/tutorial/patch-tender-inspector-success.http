@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2cc7efffa1ea490481faf7840ec12469?acc_token=ae6fe916e0db4b65966bad37e333cadb HTTP/1.0
+PATCH /api/2.5/tenders/a7b9a682e7474cf7841bf6a8139238cc?acc_token=ae6fe916e0db4b65966bad37e333cadb HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -138,6 +138,25 @@ Content-Type: application/json
         ]
       }
     ],
+    "lots": [
+      {
+        "title": "lot title",
+        "description": "lot description",
+        "status": "active",
+        "id": "c5688ea55ff244c7815a7c00dcf5f23c",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -152,7 +171,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "f3052f5a02c441a19c072cc095b75593",
+        "id": "0683f2311f1642cab50f792f4f48d0df",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -190,7 +209,7 @@ Content-Type: application/json
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
       "endDate": "2023-10-17T00:00:00+02:00"
     },
-    "id": "2cc7efffa1ea490481faf7840ec12469"
+    "id": "a7b9a682e7474cf7841bf6a8139238cc"
   },
   "config": {
     "hasAuction": true,
@@ -200,9 +219,9 @@ Content-Type: application/json
     "hasPrequalification": false,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": false,
-    "awardComplaints": false,
-    "cancellationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
     "restricted": false
   }
 }

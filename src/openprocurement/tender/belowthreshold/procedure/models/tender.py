@@ -17,7 +17,6 @@ from openprocurement.tender.belowthreshold.procedure.models.organization import 
     ProcuringEntity,
 )
 from openprocurement.tender.core.procedure.models.document import PostDocument
-from openprocurement.tender.core.procedure.validation import validate_milestones
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.item import (
     Item,

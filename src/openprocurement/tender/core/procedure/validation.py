@@ -60,7 +60,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
-    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_business_date,

@@ -1,4 +1,4 @@
-from schematics.types import StringType, BooleanType
+from schematics.types import BooleanType, StringType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType

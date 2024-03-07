@@ -9,8 +9,8 @@ from openprocurement.tender.core.procedure.serializers.chronograph import (
     ChronographSerializer,
 )
 from openprocurement.tender.core.procedure.utils import (
+    check_is_tender_waiting_for_inspector_approve,
     save_tender,
-    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
@@ -40,9 +40,9 @@ class TenderChronographResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
 
-        if check_is_tender_waiting_on_inspector_approved(self.request.validated["tender"]):
+        if check_is_tender_waiting_for_inspector_approve(tender, check_date_modified=True):
             return {
-                "data": self.serializer_class(get_tender()).data,
+                "data": self.serializer_class(tender).data,
                 "config": tender["config"],
             }
 

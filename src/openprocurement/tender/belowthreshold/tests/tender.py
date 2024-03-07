@@ -48,6 +48,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_fields,
     tender_finance_milestones,
     tender_funders,
+    tender_inspector,
     tender_item_related_lot_validation,
     tender_items_float_quantity,
     tender_items_negative_quantity,
@@ -60,7 +61,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_with_main_procurement_category,
     validate_enquiry_period,
     validate_tender_period,
-    tender_inspector,
 )
 
 

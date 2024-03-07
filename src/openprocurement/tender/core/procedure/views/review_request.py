@@ -1,23 +1,23 @@
-from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.tender.core.procedure.views.base import TenderBaseResource
-from openprocurement.api.utils import json_view, context_unpack, update_logging_context
-from openprocurement.tender.core.procedure.utils import (
-    save_tender,
-)
-from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import (
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_input_data,
-)
-from openprocurement.tender.core.procedure.state.review_request import ReviewRequestState
-from openprocurement.tender.core.procedure.models.review_request import (
-    PostInspectorReview,
-    PatchInspectorReviewRequest,
-    ReviewRequest,
-)
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.procedure.serializers.base import BaseSerializer
+from openprocurement.api.procedure.utils import get_items, set_item
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data_simple,
+)
+from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.models.review_request import (
+    PatchInspectorReviewRequest,
+    PostInspectorReview,
+    ReviewRequest,
+)
+from openprocurement.tender.core.procedure.state.review_request import (
+    ReviewRequestState,
+)
+from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 

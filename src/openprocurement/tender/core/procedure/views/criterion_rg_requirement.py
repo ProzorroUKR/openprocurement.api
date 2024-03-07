@@ -103,6 +103,7 @@ class BaseRequirementResource(TenderBaseResource):
         requirement_group["requirements"].append(requirement)
 
         self.state.requirement_on_post(requirement)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -156,6 +157,7 @@ class BaseRequirementResource(TenderBaseResource):
         self.state.requirement_on_patch(requirement, updated_requirement)
 
         set_item(requirement_group, "requirements", requirement["id"], updated_requirement)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -198,6 +200,8 @@ class BaseRequirementResource(TenderBaseResource):
         if requirement["status"] == "active":
             requirement["status"] = "cancelled"
             requirement["dateModified"] = now
+
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(

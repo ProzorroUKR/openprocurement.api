@@ -152,9 +152,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasPrequalification": false,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": false,
-    "awardComplaints": false,
-    "cancellationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
     "restricted": false
   }
 }
@@ -162,7 +162,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2cc7efffa1ea490481faf7840ec12469
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a7b9a682e7474cf7841bf6a8139238cc
 
 {
   "data": {
@@ -274,7 +274,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2cc7efffa1ea4904
         "sequenceNumber": 0
       },
       {
-        "id": "f3052f5a02c441a19c072cc095b75593",
+        "id": "0683f2311f1642cab50f792f4f48d0df",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -319,7 +319,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2cc7efffa1ea4904
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "2cc7efffa1ea490481faf7840ec12469"
+    "id": "a7b9a682e7474cf7841bf6a8139238cc"
   },
   "config": {
     "hasAuction": true,
@@ -329,9 +329,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2cc7efffa1ea4904
     "hasPrequalification": false,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": false,
-    "tenderComplaints": false,
-    "awardComplaints": false,
-    "cancellationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
     "restricted": false
   },
   "access": {

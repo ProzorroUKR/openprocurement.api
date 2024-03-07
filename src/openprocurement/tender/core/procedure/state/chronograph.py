@@ -15,11 +15,11 @@ from openprocurement.tender.core.procedure.state.utils import awarding_is_unsucc
 from openprocurement.tender.core.procedure.utils import (
     activate_bids,
     calc_auction_end_time,
+    check_is_tender_waiting_for_inspector_approve,
     dt_from_iso,
     get_supplier_contract,
     is_new_contracting,
     tender_created_after_2020_rules,
-    check_is_tender_waiting_on_inspector_approved,
 )
 
 LOGGER = getLogger(__name__)
@@ -39,7 +39,7 @@ class ChronographEventsMixing:
 
     def run_time_events(self, data):
         now = get_now().isoformat()
-        for date, handler in self.get_events(data):
+        for date, handler in self.get_events(data, enable_approve_check=False):
             # print([date <= now, date, now, handler])
             if date <= now:
                 LOGGER.info(
@@ -57,11 +57,11 @@ class ChronographEventsMixing:
             )
             return closes_event_time
 
-    def get_events(self, tender):
+    def get_events(self, tender, enable_approve_check=True):
         yield from self.complaint_events(tender)
         yield from self.cancellation_events(tender)
 
-        if check_is_tender_waiting_on_inspector_approved(tender):
+        if enable_approve_check and check_is_tender_waiting_for_inspector_approve(tender):
             return
 
         if not self.cancellation_blocks_tender(tender):
@@ -804,7 +804,7 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_value(tender: dict) -> None:
-        if not tender.get("lots"):
+        if not tender.get("lots") or not tender.get("value"):
             return
         tender["value"] = {
             "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
@@ -828,7 +828,7 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_minimal_step(tender: dict) -> None:
-        if not tender.get("lots"):
+        if not tender.get("lots") or not tender.get("minimalStep"):
             return
         amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
         if not amounts:
@@ -841,7 +841,7 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_min_value(tender: dict) -> None:
-        if not tender.get("lots"):
+        if not tender.get("lots") or not tender.get("minValue"):
             return
         tender["minValue"] = {
             "amount": sum(i["minValue"]["amount"] for i in tender["lots"] if i.get("minValue")),

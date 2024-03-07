@@ -4,7 +4,9 @@ Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
-  "data": {}
+  "data": {
+    "lotID": "c5688ea55ff244c7815a7c00dcf5f23c"
+  }
 }
 
 
@@ -17,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Disallowed create review request while existing another unanswered review request"
+      "description": "Review request can be created only for lot with active award"
     }
   ]
 }

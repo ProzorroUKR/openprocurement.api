@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-02 13:12+0200\n"
+"POT-Creation-Date: 2024-04-09 14:30+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,14 +26,14 @@ msgstr "Створення закупівлі з контролером"
 msgid "To create tender with inspector you should set field `inspector` on creation (or you can in set it later by patching tender in `draft` or `active.enquiries` statuses)"
 msgstr "Для створення закупівлі з контролером потрібно передати поле `inspector` при створені або можете встановити пізніше пропатчивши закупівлю в статусі `draft` або `active.enquiries`"
 
-msgid "Inspector field can be set only together with `funders`."
-msgstr "Поле `inspector` дозволено передавати лише разом з `funders`(в закупівлях з донором):"
+msgid "Inspector field can be set only together with `funders` ."
+msgstr "Поле `inspector` дозволено передавати лише разом з `funders` (в закупівлях з донором):"
 
 msgid "that's what will happen if you try to create tender with inspector without funders:"
 msgstr "Ось, що станеться якщо ви спробуєте створити закупівлю з контролером без `funders`"
 
-msgid "We got error 403, now let's create tender with `inspector` together with `funders`:"
-msgstr "Ми отримали помилку 403, тепер давайте спробуємо створити закупівлю разом з полями `inspector` та `funders`:"
+msgid "We got error 422, now let's create tender with `inspector` together with `funders`:"
+msgstr "Ми отримали помилку 422, тепер давайте спробуємо створити закупівлю разом з полями `inspector` та `funders`:"
 
 msgid "Patch inspector"
 msgstr "Зміна контролера"
@@ -44,8 +44,8 @@ msgstr "Поле `inspector` може бути змінене лише в ста
 msgid "Create review request"
 msgstr "Створення запиту на перевірку"
 
-msgid "Review request can create tender owner for tender with inspector and only in `active.enquiries` and `active.qualification`."
-msgstr "Запит на перевірку може створити замовник лише в закупівлі з контролером і лише в статусах `active.enquiries` та `active.qualification`."
+msgid "Review request can create tender owner for tender with inspector and only in `active.enquiries`, `active.qualification` (if procedure with multiple lots)/ `active.awarded` (if procedure with one or without lots)."
+msgstr "Запит на перевірку може створити замовник лише в закупівлі з контролером і лише в статусах `active.enquiries`, `active.qualification` (якщо закупівля мультилотова)/ `active.awarded` (якщо закупівля безлотова або з одним лотом)."
 
 msgid "Depends on status from the moment of creation to the moment of providing the result prohibited:"
 msgstr "В залежності від статусу від моменту створення і до моменту відповіді на запит забороняється: "
@@ -53,8 +53,8 @@ msgstr "В залежності від статусу від моменту ст
 msgid "`active.enquiries` - PATCH tender(except `tenderPeriod`)"
 msgstr "`active.enquiries` - змінювати закупівлю(окрім `tenderPeriod`)"
 
-msgid "`active.qualification` - PATCH awards"
-msgstr "`active.qualification` - змінювати рішення визначення переможця"
+msgid "`active.qualification`/`active.awarded` - PATCH awards, activate contracts"
+msgstr "`active.qualification`/`active.awarded`` - змінювати аварди, активувати контракти"
 
 msgid "Let's try to patch tender description:"
 msgstr "Cпробуємо змінити опис закупівлі:"
@@ -64,6 +64,15 @@ msgstr "Тепер спробуєм змінити період подання �
 
 msgid "New review request can't be created if already exists unanswered review request:"
 msgstr "Новий запит на перевірку не може бути створений поки існує інший запит без відповіді"
+
+msgid "Create review request on qualification stage"
+msgstr "Створення запиту на перевірку на етапі кваліфікації"
+
+msgid "If procedure has lots, review request should be created with lotID:"
+msgstr "Якщо закупівля лотова, то при створенні запиту на перевірку потрібно вказати `lotID`:"
+
+msgid "Review request on qualification stage(`active.qualification`/`active.awarded`) can be created only if exists active award."
+msgstr "Запит на перевірку на етапі кваліфікації може бути створений лише при наявності переможця."
 
 msgid "Inspector providing review result"
 msgstr "Відповідь контролера"

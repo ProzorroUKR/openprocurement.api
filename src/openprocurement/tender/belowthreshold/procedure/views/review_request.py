@@ -1,8 +1,13 @@
-from cornice.resource import resource
 from logging import getLogger
 
-from openprocurement.tender.core.procedure.views.review_request import TenderReviewRequestResource
-from openprocurement.tender.belowthreshold.procedure.state.review_request import ReviewRequestState
+from cornice.resource import resource
+
+from openprocurement.tender.belowthreshold.procedure.state.review_request import (
+    ReviewRequestState,
+)
+from openprocurement.tender.core.procedure.views.review_request import (
+    TenderReviewRequestResource,
+)
 
 LOGGER = getLogger(__name__)
 

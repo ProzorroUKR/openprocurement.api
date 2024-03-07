@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-02 13:12+0200\n"
+"POT-Creation-Date: 2024-03-12 17:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -65,13 +65,13 @@ msgstr ""
 msgid "Для цього будуть використанні наступні конфіги - параметри, що визначають наявність або відсутність у закупівлі оскарження в тендері:"
 msgstr ""
 
-msgid "tenderComplaints - оскарження умов ТД"
+msgid "hasTenderComplaints - оскарження умов ТД"
 msgstr ""
 
-msgid "awardComplaints - оскарження рішення по кваліфікації"
+msgid "hasAwardComplaints - оскарження рішення по кваліфікації"
 msgstr ""
 
-msgid "cancellationComplaints - оскарження скасування тендеру"
+msgid "hasCancellationComplaints - оскарження скасування тендеру"
 msgstr ""
 
 msgid "Запитання/вимоги як функціонал лишаються та відбувається за процесом, притаманним ВТО."
@@ -85,4 +85,13 @@ msgstr ""
 
 msgid "Схожі помилки будуть при поданні скарги на рішення по кваліфікації та скарги на скасування тендеру."
 msgstr ""
+
+#~ msgid "tenderComplaints - оскарження умов ТД"
+#~ msgstr ""
+
+#~ msgid "awardComplaints - оскарження рішення по кваліфікації"
+#~ msgstr ""
+
+#~ msgid "cancellationComplaints - оскарження скасування тендеру"
+#~ msgstr ""
 

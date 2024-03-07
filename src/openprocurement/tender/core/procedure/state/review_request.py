@@ -1,8 +1,8 @@
 from uuid import uuid4
 
+from openprocurement.api.context import get_now, get_request
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.api.context import get_request
 
 
 class ReviewRequestStateMixin:
@@ -46,7 +46,7 @@ class ReviewRequestStateMixin:
             if not lots:
                 raise_operation_error(request, "Rogue field", status=422, name="lotID")
 
-            if lot_id and lot_id not in tuple(lot["id"] for lot in lots if lot):
+            if lot_id and lot_id not in tuple(lot["id"] for lot in lots if lot.get("status", "") == "active"):
                 raise_operation_error(
                     get_request(),
                     "lotID should be one of lots",
@@ -71,27 +71,15 @@ class ReviewRequestStateMixin:
                 f"Review request can be created only in {allowed_post_statuses} tender statuses",
             )
 
-        lots_count = len([l for l in tender.get("lots", "") if l.get("status", "active") == "active"])
-
-        if tender["status"] == "active.qualification" and lots_count <= 1:
-            raise_operation_error(
-                get_request(),
-                f"Review request in {tender['status']} tender status can be created only for multilot",
-            )
-
-        if tender["status"] == "active.awarded" and lots_count > 1:
-            raise_operation_error(
-                get_request(),
-                f"Review request in {tender['status']} tender status can be created only for tender with one lot",
-            )
-
     @staticmethod
     def validate_post_without_active_award(data: dict, tender: dict) -> None:
         if tender["status"] not in ("active.qualification", "active.awarded"):
             return
 
         lot_id = data.get("lotID", "")
-        active_awards = [i for i in tender.get("awards", "") if i.get("lotID", "") == lot_id]
+        active_awards = [
+            i for i in tender.get("awards", "") if i.get("status", "") == "active" and i.get("lotID", "") == lot_id
+        ]
 
         if not active_awards:
             obj_name = "lot" if lot_id else "tender"
@@ -107,9 +95,9 @@ class ReviewRequestStateMixin:
 
         review_requests = tender.get("reviewRequests")
         lot_id = data.get("lotID", "")
-        review_requests_on_lot = [i for i in review_requests if lot_id == i.get("lotID", "")]
+        review_requests = [i for i in review_requests if lot_id == i.get("lotID", "")]
 
-        if review_requests_on_lot and "approved" not in review_requests_on_lot[-1]:
+        if review_requests and "approved" not in review_requests[-1]:
             raise_operation_error(
                 get_request(),
                 "Disallowed create review request while existing another unanswered review request",

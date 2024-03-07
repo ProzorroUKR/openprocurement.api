@@ -733,6 +733,7 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
+    "next_check": "2023-11-10T01:00:00+03:00",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -785,7 +786,6 @@ Content-Type: application/json
         "dateAnswered": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "next_check": "2023-11-10T01:00:00+03:00",
     "id": "552fdec279c740ab85e2b30af7a37d37"
   },
   "config": {

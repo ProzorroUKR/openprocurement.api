@@ -21,13 +21,13 @@ from openprocurement.tender.core.procedure.context import get_award, get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
+    check_is_contract_waiting_for_inspector_approve,
     contracts_allow_to_complete,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
     is_multi_currency_tender,
     tender_created_after,
     tender_created_in,
-    check_is_tender_waiting_on_inspector_approved,
 )
 from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
 
@@ -471,7 +471,7 @@ class ContractStateMixing:
     def validate_activate_contract_with_review_request(
         request, tender: dict, after: dict, lot_id: Optional[str] = None
     ) -> None:
-        if check_is_tender_waiting_on_inspector_approved(tender, lot_id):
+        if check_is_contract_waiting_for_inspector_approve(tender, lot_id):
             raise_operation_error(
                 request,
                 f"Can't update contract to {after['status']} till inspector approve",

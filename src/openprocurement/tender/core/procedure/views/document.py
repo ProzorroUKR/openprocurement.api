@@ -99,6 +99,8 @@ class DocumentResourceMixin:
         if self.container not in item:
             item[self.container] = []
         item[self.container].extend(documents)
+        if "tender" in self.request.validated:
+            self.state.always(self.request.validated["tender"])
         # saving item
         if self.save():
             for document in documents:
@@ -138,7 +140,8 @@ class DocumentResourceMixin:
 
         item = self.request.validated[self.item_name]
         item[self.container].append(document)
-
+        if "tender" in self.request.validated:
+            self.state.always(self.request.validated["tender"])
         if self.save():
             self.LOGGER.info(
                 f"Updated {self.item_name} document {document['id']}",
@@ -153,7 +156,8 @@ class DocumentResourceMixin:
             self.state.document_on_patch(document, updated_document)
 
             set_item(self.request.validated[self.item_name], self.container, document["id"], updated_document)
-
+            if "tender" in self.request.validated:
+                self.state.always(self.request.validated["tender"])
             if self.save():
                 update_file_content_type(self.request)
                 self.LOGGER.info(

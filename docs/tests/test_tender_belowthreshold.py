@@ -1044,8 +1044,14 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {'data': tender_data, 'config': self.initial_config},
             )
             self.assertEqual(response.status, '201 Created')
-            tender_id = response.json["data"]["id"]
+            self.tender_id = tender_id = response.json["data"]["id"]
             owner_token = response.json["access"]["token"]
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_tender_below_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json["data"]["id"]
 
         response = self.app.post_json(
             '/tenders?opt_pretty=1',
@@ -1081,7 +1087,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'tutorial/post-tender-review-request-success.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
-                {},
+                {"data": {}},
             )
             self.assertEqual(response.status, '201 Created')
             review_request_id = response.json['data']['id']
@@ -1089,7 +1095,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + 'tutorial/post-tender-review-request-already-exist.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
-                {},
+                {"data": {}},
                 status=403,
             )
             self.assertEqual(response.status, '403 Forbidden')
@@ -1140,7 +1146,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         response = self.app.post_json(
             f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
-            {},
+            {"data": {}},
         )
         self.assertEqual(response.status, '201 Created')
         review_request_id = response.json['data']['id']
@@ -1154,3 +1160,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {'data': {'approved': True}},
             )
             self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = auth
+
+        self.set_status("active.qualification")
+
+        with open(TARGET_DIR + 'tutorial/post-review-request-without-lot-id.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {}},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        with open(TARGET_DIR + 'tutorial/post-review-request-without-active-award.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {"lotID": lot_id}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
