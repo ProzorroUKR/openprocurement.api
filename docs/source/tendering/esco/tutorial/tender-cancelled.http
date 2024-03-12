@@ -802,7 +802,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "value": {
@@ -839,7 +839,7 @@ Content-Type: application/json
                 "days": 74
               }
             },
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b?key_for_bid=cd1a12fedb634aa88390b3156568df61"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_3c29d0f44c1f4a85bf91bca1fdb37872?key_for_bid=cd1a12fedb634aa88390b3156568df61"
           }
         ],
         "selfQualified": true
@@ -986,7 +986,7 @@ Content-Type: application/json
         "date": "2023-10-10T01:00:00+03:00",
         "lotValues": [
           {
-            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b",
+            "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "value": {
@@ -1023,7 +1023,7 @@ Content-Type: application/json
                 "days": 200
               }
             },
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_3c29d0f44c1f4a85bf91bca1fdb37872?key_for_bid=ef452425b58e4ff1a339e6f39dcaf360"
           }
         ],
         "selfQualified": true
@@ -1315,7 +1315,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "id": "3c29d0f44c1f4a85bf91bca1fdb37872",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
           "amount": 0.0,
@@ -1329,7 +1329,7 @@ Content-Type: application/json
           "startDate": "2023-10-10T01:00:00+03:00",
           "endDate": "2023-10-10T01:00:00+03:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_ce7777a3b9954a00a43ea3c722f5af5b"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/552fdec279c740ab85e2b30af7a37d37_3c29d0f44c1f4a85bf91bca1fdb37872"
       }
     ],
     "items": [
@@ -1356,7 +1356,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872"
       },
       {
         "id": "f0a94f5146424cdeb3e9103add626234",
@@ -1381,7 +1381,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+        "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872"
       }
     ],
     "milestones": [
@@ -1429,7 +1429,7 @@ Content-Type: application/json
       {
         "id": "b65d0c22559a4547a8df25f2e17aed44",
         "bidID": "cd1a12fedb634aa88390b3156568df61",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "3c29d0f44c1f4a85bf91bca1fdb37872",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1438,7 +1438,7 @@ Content-Type: application/json
       {
         "id": "1fa00365bbc642a7bfe77722e1639a08",
         "bidID": "ef452425b58e4ff1a339e6f39dcaf360",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "3c29d0f44c1f4a85bf91bca1fdb37872",
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
@@ -1447,7 +1447,7 @@ Content-Type: application/json
       {
         "id": "c98cd796b6ee496caa67d81734d23473",
         "bidID": "a5c09f985bd14b2f8c9c5c34e07f8c76",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "3c29d0f44c1f4a85bf91bca1fdb37872",
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
@@ -1492,7 +1492,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "cd1a12fedb634aa88390b3156568df61",
-        "lotID": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "lotID": "3c29d0f44c1f4a85bf91bca1fdb37872",
         "qualified": true,
         "value": {
           "currency": "UAH",
@@ -1537,44 +1537,121 @@ Content-Type: application/json
     ],
     "contracts": [
       {
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "scale": "micro",
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            }
+          }
+        ],
+        "items": [
+          {
+            "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+              "description": "Test",
+              "scheme": "ДК021",
+              "id": "37810000-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+              }
+            ],
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            },
+            "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872"
+          },
+          {
+            "id": "f0a94f5146424cdeb3e9103add626234",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+              "description": "Test",
+              "scheme": "ДК021",
+              "id": "37810000-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+              }
+            ],
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            },
+            "relatedLot": "3c29d0f44c1f4a85bf91bca1fdb37872"
+          }
+        ],
+        "contractID": "UA-2023-10-10-000001-a-1",
         "id": "bcc9f2201d99405fb451b20abc231e58",
-        "status": "cancelled",
+        "status": "pending",
         "awardID": "a6a73750ffe84e75bbaf483f2210cfba",
-        "date": "2023-10-21T01:00:02+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 9430.27,
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amountNet": 9429.27,
+          "amount": 9430.27,
           "amountPerformance": 864.98,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
-            500.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
           ],
           "contractDuration": {
             "years": 10,
             "days": 74
-          }
+          },
+          "amountNet": 9430.27
         }
       }
     ],
