@@ -1071,6 +1071,14 @@ def patch_activation_milestone(self):
         response.json["errors"][0]["description"], "Can't switch milestone status from `scheduled` to `notMet`"
     )
 
+    # empty patch
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
+        f"?acc_token={self.framework_token}",
+        {"data": {}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     response = self.app.patch_json(
         f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
         f"?acc_token={self.framework_token}",
