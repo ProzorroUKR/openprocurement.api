@@ -321,11 +321,10 @@ def activate_bids(bids):
 
 def is_new_contracting():
     tender = get_tender()
-    new_contracting_after = (
-        PQ_NEW_CONTRACTING_FROM if tender.get("procurementMethodType", "") == "priceQuotation" else NEW_CONTRACTING_FROM
-    )
+    tender_type = tender.get("procurementMethodType", "")
+    new_contracting_after = PQ_NEW_CONTRACTING_FROM if tender_type == "priceQuotation" else NEW_CONTRACTING_FROM
 
-    return tender_created_after(new_contracting_after)
+    return tender_type != "esco" and tender_created_after(new_contracting_after)
 
 
 def find_lot(tender, lot_id):

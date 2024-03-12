@@ -12,11 +12,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract import (  # EContract
+from openprocurement.tender.belowthreshold.tests.contract import (
     TenderContractDocumentResourceTestMixin,
     TenderContractResourceTestMixin,
-    TenderEContractMultiBuyersResourceTestMixin,
-    TenderEcontractResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
     create_tender_contract_document_by_others,
@@ -162,28 +160,10 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
     test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-class TenderEContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, TenderEcontractResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_esco_bids
-    author_data = test_tender_below_author
-    initial_auth = ("Basic", ("broker", ""))
-    expected_contract_amountPerformance = contract_amount_performance
-    expected_contract_amount = contract_amount
-
-    test_patch_econtract = snitch(patch_econtract)
-
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
-    def setUp(self):
-        super().setUp()
-        self.create_award()
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderEContractResourceTest))
     return suite
 
 

@@ -118,7 +118,9 @@ def patch_contract(self, tender_id, tender_token, contract_id, data):
 
 
 def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
-    if NEW_CONTRACTING_FROM > get_now():
+    response = self.app.get(f"/tenders/{tender_id}")
+    tender_type = response.json["data"]["procurementMethodType"]
+    if NEW_CONTRACTING_FROM > get_now() or tender_type == "esco":
         response = self.app.patch_json(
             f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
             {"data": {"status": "active"}},
