@@ -204,7 +204,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "4a7557b056b54dc097f6f7e996a15cd0",
+        "id": "6d919725d085458490f52e3e8d5606e3",
         "date": "2023-10-10T01:00:00+03:00",
         "tenderers": [
           {
@@ -235,21 +235,21 @@ Content-Type: application/json
         },
         "requirementResponses": [
           {
-            "id": "05b3810cd9bc42ecb3683adee2f34302",
+            "id": "f2644c6151554cbf80b36919a32db915",
             "requirement": {
               "id": "3463e81fe3da481ebeeb6aab94a95a8d"
             },
             "value": "Розчин для інфузій"
           },
           {
-            "id": "c3ac1f8375a4481c9e5726c4a4a7f64b",
+            "id": "d2ce5970d7914185a18b3d1e304ac1a6",
             "requirement": {
               "id": "37d8b3bd57654213b04a6c9549ab9472"
             },
             "value": 5
           },
           {
-            "id": "8888f3477614498d945c0869f444d9b6",
+            "id": "c75f3dc57fb44a5e856a983a6b18a5a5",
             "requirement": {
               "id": "24819f3db06043d49c0db7b7617a383f"
             },
@@ -297,7 +297,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "4a7557b056b54dc097f6f7e996a15cd0"
+        "bid_id": "6d919725d085458490f52e3e8d5606e3"
       },
       {
         "id": "d3abee48154c47358abc7375a2191b78",
@@ -330,7 +330,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "4a7557b056b54dc097f6f7e996a15cd0"
+        "bid_id": "6d919725d085458490f52e3e8d5606e3"
       }
     ],
     "contracts": [
