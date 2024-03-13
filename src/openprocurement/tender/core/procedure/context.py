@@ -36,6 +36,8 @@ def get_bids_before_auction_results_context():
     """
     if "bids_before_auction" not in get_request().validated:
         tender = get_request().validated["tender"]
+
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.tender.core.procedure.utils import (
             get_bids_before_auction_results,
         )

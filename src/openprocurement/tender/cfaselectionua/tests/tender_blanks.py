@@ -1,3 +1,4 @@
+import random
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
@@ -1216,8 +1217,6 @@ def patch_tender_jsonpatch(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
     tender.pop("dateModified")
-
-    import random
 
     items = deepcopy(tender["items"])
     items[0]["additionalClassifications"] = [

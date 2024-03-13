@@ -57,6 +57,7 @@ def mask_object_data(request, data, mask_mapping, mask_func=mask_data):
         # that allows access to restricted data
         return
 
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.utils import extract_document_id
 
     if extract_document_id(request) and request.params and request.params.get("download"):

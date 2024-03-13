@@ -1,20 +1,14 @@
 # pylint: disable=wrong-import-position
+import os
+import sys
 
-
-def is_test():
-    import os
-    import sys
-
-    return any(
-        [
-            "test" in sys.argv[0],
-            "setup.py" in sys.argv[0],
-            "PYTEST_XDIST_WORKER" in os.environ,
-        ]
-    )
-
-
-if not is_test():
+if not any(
+    [
+        "test" in sys.argv[0],
+        "setup.py" in sys.argv[0],
+        "PYTEST_XDIST_WORKER" in os.environ,
+    ]
+):
     import gevent.monkey
 
     gevent.monkey.patch_all()

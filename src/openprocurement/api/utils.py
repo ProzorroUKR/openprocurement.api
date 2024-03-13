@@ -93,9 +93,12 @@ def request_init_object(request, obj_name, obj, obj_src=None):
     config_serializer = get_config_serializer(request, obj_name)
     if config_serializer:
         obj["config"] = config_serializer(obj.get("config", {})).data
+
         # TODO:
         #  maybe there is a better single place to do this
         #  or just delete it when we do not need it anymore
+
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.api.procedure.validation import (
             validate_restricted_object_action,
         )

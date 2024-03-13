@@ -559,6 +559,7 @@ def validate_update_award_with_accepted_complaint(request, **_):
 
 
 def validate_update_award_status_before_milestone_due_date(request, **_):
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.qualification_milestone import (
         QualificationMilestoneCodes,
     )
@@ -776,6 +777,7 @@ def validate_cancelled_qualification_update(request, **_):
 
 
 def validate_update_status_before_milestone_due_date(request, **_):
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.milestone import (
         QualificationMilestone,
     )

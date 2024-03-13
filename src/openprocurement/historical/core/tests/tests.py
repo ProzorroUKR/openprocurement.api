@@ -7,6 +7,7 @@ from jsonpointer import resolve_pointer
 from pyramid import testing
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.events import ContextFound, NewRequest
+from pyramid.renderers import JSONP
 from pyramid.testing import DummyRequest
 from webtest import TestApp
 
@@ -102,8 +103,6 @@ class HistoricalUtilsTestCase(unittest.TestCase):
 
 class HistoricalResourceTestCase(unittest.TestCase):
     def setUp(self):
-        from pyramid.renderers import JSONP
-
         self.config = testing.setUp()
         self.config.add_renderer("jsonp", JSONP(param_name="callback"))
         self.config.include("cornice")

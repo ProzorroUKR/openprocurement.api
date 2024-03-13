@@ -1,3 +1,4 @@
+import base64
 import os
 import unittest
 from hashlib import sha512
@@ -14,8 +15,6 @@ class AuthTest(unittest.TestCase):
         return AuthenticationPolicy(auth_file_path, realm="SomeRealm")
 
     def test_unauthenticated_userid(self):
-        import base64
-
         request = testing.DummyRequest()
         request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisr:password')).decode('ascii')
         policy = self._makeOne(None)
@@ -45,8 +44,6 @@ class AuthTest(unittest.TestCase):
         self.assertEqual(policy.unauthenticated_userid(request), None)
 
     def test_authenticated_userid(self):
-        import base64
-
         request = testing.DummyRequest()
         request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisr:password')).decode('ascii')
 
@@ -57,8 +54,6 @@ class AuthTest(unittest.TestCase):
         self.assertEqual(policy.authenticated_userid(request), 'chrisr')
 
     def test_authenticated_userid_utf8(self):
-        import base64
-
         request = testing.DummyRequest()
         inputs = (b'm\xc3\xb6rk\xc3\xb6:' b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
         request.headers['Authorization'] = 'Basic %s' % (base64.b64encode(inputs.encode('utf-8')).decode('latin-1'))
@@ -70,8 +65,6 @@ class AuthTest(unittest.TestCase):
         self.assertEqual(policy.authenticated_userid(request), b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
 
     def test_authenticated_userid_latin1(self):
-        import base64
-
         request = testing.DummyRequest()
         inputs = (b'm\xc3\xb6rk\xc3\xb6:' b'm\xc3\xb6rk\xc3\xb6password').decode('utf-8')
         request.headers['Authorization'] = 'Basic %s' % (base64.b64encode(inputs.encode('latin-1')).decode('latin-1'))
@@ -83,8 +76,6 @@ class AuthTest(unittest.TestCase):
         self.assertEqual(policy.authenticated_userid(request), b'm\xc3\xb6rk\xc3\xb6'.decode('utf-8'))
 
     def test_unauthenticated_userid_invalid_payload(self):
-        import base64
-
         request = testing.DummyRequest()
         request.headers['Authorization'] = 'Basic %s' % base64.b64encode(bytes_('chrisrpassword')).decode('ascii')
         policy = self._makeOne(None)
