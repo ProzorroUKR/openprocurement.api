@@ -39,7 +39,6 @@ from openprocurement.tender.openeu.tests.award import (
     Tender2LotAwardResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
     TenderLotAwardResourceTestMixin,
-    TenderUAAwardComplaintResourceTestMixin,
 )
 from openprocurement.tender.openeu.tests.award_blanks import (
     check_tender_award_complaint_period_dates,

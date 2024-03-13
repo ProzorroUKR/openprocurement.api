@@ -40,7 +40,6 @@ from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
     error_handler,
-    get_now,
     is_gmdn_classification,
     is_ua_road_classification,
     raise_operation_error,

@@ -82,7 +82,6 @@ disable = [
     "redefined-argument-from-local",
     "redefined-builtin",
     "redefined-outer-name",
-    "reimported",
     "super-init-not-called",
     "superfluous-parens",
     "too-few-public-methods",
