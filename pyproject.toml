@@ -120,8 +120,6 @@ disable = [
     "useless-import-alias",
     "useless-parent-delegation",
     "wildcard-import",
-    "wrong-import-order",
-    "wrong-import-position",
 ]
 
 [tool.bandit]

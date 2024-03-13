@@ -1,19 +1,19 @@
-from datetime import datetime
-
-from gevent import monkey
-
-from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
+# pylint: disable=wrong-import-position
 
 if __name__ == "__main__":
+    from gevent import monkey
+
     monkey.patch_all(thread=False, select=False)
 
 import argparse
 import logging
 import os
+from datetime import datetime
 
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.tender.core.procedure.utils import contracts_allow_to_complete
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

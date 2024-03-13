@@ -1,9 +1,19 @@
-#!/usr/bin/env python
+# pylint: disable=wrong-import-position
+
+if __name__ == "__main__":
+    from gevent import monkey
+
+    monkey.patch_all(thread=False, select=False)
+
+import argparse
 import datetime
+import logging
+import os
 from time import sleep
 
-from gevent import monkey
+from pyramid.paster import bootstrap
 
+from openprocurement.api.constants import BASE_DIR, TZ
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
@@ -15,16 +25,6 @@ from openprocurement.framework.core.utils import (
     SUBMISSION_STAND_STILL_DURATION,
     calculate_framework_date,
 )
-
-monkey.patch_all(thread=False, select=False)
-
-import argparse
-import logging
-import os
-
-from pyramid.paster import bootstrap
-
-from openprocurement.api.constants import BASE_DIR, TZ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

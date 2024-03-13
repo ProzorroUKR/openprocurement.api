@@ -1,3 +1,6 @@
+# pylint: disable=wrong-import-position
+
+
 def is_test():
     import os
     import sys

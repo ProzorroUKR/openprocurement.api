@@ -1,20 +1,20 @@
-from copy import deepcopy
-
-from gevent import monkey
-
-from openprocurement.api.utils import get_now
-from openprocurement.tender.pricequotation.constants import PQ
+# pylint: disable=wrong-import-position
 
 if __name__ == "__main__":
+    from gevent import monkey
+
     monkey.patch_all(thread=False, select=False)
 
 import argparse
 import logging
 import os
+from copy import deepcopy
 
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.api.utils import get_now
+from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)
