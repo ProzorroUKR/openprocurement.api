@@ -95,8 +95,8 @@ def validate_any_bid_owner(statuses=("active", "unsuccessful")):
         for bid in tender.get("bids", ""):
             if bid["status"] in statuses and is_item_owner(request, bid):
                 return
-        else:
-            raise_operation_error(request, "Forbidden", location="url", name="permission")
+
+        raise_operation_error(request, "Forbidden", location="url", name="permission")
 
     return validator
 

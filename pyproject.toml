@@ -116,8 +116,6 @@ disable = [
     "use-dict-literal",
     "use-list-literal",
     "used-before-assignment",
-    "useless-else-on-loop",
-    "useless-import-alias",
     "useless-parent-delegation",
     "wildcard-import",
 ]

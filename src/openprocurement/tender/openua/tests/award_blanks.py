@@ -1363,8 +1363,7 @@ def review_tender_award_stopping_complaint(self):
             self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.json["data"]["status"], status)
             self.assertEqual(response.json["data"]["decision"], "decision")
-        else:
-            pass
+
         # This test exist in patch_tender_complaint method
 
 

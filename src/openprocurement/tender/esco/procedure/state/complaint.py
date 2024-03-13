@@ -44,11 +44,12 @@ class ESCOComplaintStateMixin:
                         COMPLAINT_ENHANCED_MAX_AMOUNT,
                     )
                     return amount
-            else:  # never happens as acc_token must be in bids to allow complaint creation
-                return raise_operation_error(
-                    self.request,
-                    "Couldn't set a complaint value for an invalid bidder",
-                )
+
+            # never happens as acc_token must be in bids to allow complaint creation
+            return raise_operation_error(
+                self.request,
+                "Couldn't set a complaint value for an invalid bidder",
+            )
 
     def helper_get_bid_value(self, tender, complaint, bid):
         if bid.get("lotValues"):  # check if it's a multi-lot
