@@ -1,11 +1,8 @@
-#!/usr/bin/env python
-from gevent import monkey
-
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
+# pylint: disable=wrong-import-position
 
 if __name__ == "__main__":
+    from gevent import monkey
+
     monkey.patch_all(thread=False, select=False)
 
 import argparse
@@ -15,11 +12,14 @@ import os
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
+from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
     STAGE_2_EU_TYPE,
 )
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

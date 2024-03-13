@@ -1,7 +1,18 @@
+# pylint: disable=wrong-import-position
+
+if __name__ == "__main__":
+    from gevent import monkey
+
+    monkey.patch_all(thread=False, select=False)
+
+import argparse
+import logging
+import os
 from datetime import timedelta
 
-from gevent import monkey
+from pyramid.paster import bootstrap
 
+from openprocurement.api.constants import BASE_DIR
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
@@ -11,17 +22,6 @@ from openprocurement.tender.competitivedialogue.constants import (
 )
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
-
-if __name__ == "__main__":
-    monkey.patch_all(thread=False, select=False)
-
-import argparse
-import logging
-import os
-
-from pyramid.paster import bootstrap
-
-from openprocurement.api.constants import BASE_DIR
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 logger = logging.getLogger(__name__)

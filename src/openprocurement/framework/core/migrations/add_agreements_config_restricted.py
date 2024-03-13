@@ -1,13 +1,15 @@
-from gevent import monkey
-from pymongo.errors import OperationFailure
+# pylint: disable=wrong-import-position
 
 if __name__ == "__main__":
+    from gevent import monkey
+
     monkey.patch_all(thread=False, select=False)
 
 import argparse
 import logging
 import os
 
+from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
