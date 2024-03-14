@@ -12,9 +12,6 @@ from openprocurement.api.constants import (
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
-from openprocurement.tender.pricequotation.procedure.models.requirement import (
-    PQ_CRITERIA_ID_FROM,
-)
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_cancellation,
     test_tender_pq_data_after_multiprofile,
@@ -749,6 +746,11 @@ def create_tender_draft_with_criteria(self):
 
     # try adding a new criteria
     patch_criteria = patch_criteria + deepcopy(patch_criteria)
+
+    # pylint: disable-next=import-outside-toplevel
+    from openprocurement.tender.pricequotation.procedure.models.requirement import (
+        PQ_CRITERIA_ID_FROM,
+    )
 
     if get_now() > PQ_CRITERIA_ID_FROM:
         response = self.app.patch_json(
