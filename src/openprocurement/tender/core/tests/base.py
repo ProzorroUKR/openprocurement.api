@@ -141,7 +141,7 @@ class BaseCoreWebTest(BaseWebTest):
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
         response = self.app.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-            {"data": {"status": "active.tendering"}},
+            {"data": {"status": status}},
         )
 
         assert response.status == "200 OK"
