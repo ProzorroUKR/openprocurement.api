@@ -148,8 +148,8 @@ def validate_contract_operation_not_in_allowed_status(request, **kwargs):
 
 
 def validate_contract_suspended(request, **kwargs):
-    milestone_type = request.validated["data"]["type"]
-    if request.validated["contract"]["status"] == "suspended" and milestone_type != "activation":
+    milestone_type = request.validated["data"].get("type")
+    if milestone_type and request.validated["contract"]["status"] == "suspended" and milestone_type != "activation":
         raise_operation_error(request, f"Can't add {milestone_type} milestone for contract in suspended status")
 
 
@@ -157,7 +157,7 @@ def validate_milestone_type(request, **kwargs):
     obj_name = "object"
     if "documents" in request.path:
         obj_name = "document"
-    if request.validated["data"]["type"] == "activation":
+    if request.validated["data"].get("type") == "activation":
         raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} {obj_name} for 'activation' milestone")
 
 

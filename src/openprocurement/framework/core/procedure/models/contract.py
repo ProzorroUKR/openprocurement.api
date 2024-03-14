@@ -15,7 +15,7 @@ class PatchContract(Model):
     suppliers = ListType(ModelType(ContractBusinessOrganization, required=True), min_size=1)
 
     def validate_suppliers(self, data, suppliers):
-        if len(suppliers) != 1:
+        if suppliers and len(suppliers) != 1:
             raise ValidationError("Contract must have only one supplier")
 
 
