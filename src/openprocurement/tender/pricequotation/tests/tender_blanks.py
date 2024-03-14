@@ -747,6 +747,7 @@ def create_tender_draft_with_criteria(self):
     # try adding a new criteria
     patch_criteria = patch_criteria + deepcopy(patch_criteria)
 
+    # pylint: disable-next=import-outside-toplevel
     from openprocurement.tender.pricequotation.procedure.models.requirement import (
         PQ_CRITERIA_ID_FROM,
     )

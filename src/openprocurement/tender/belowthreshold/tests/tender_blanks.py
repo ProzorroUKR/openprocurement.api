@@ -1,3 +1,4 @@
+import random
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
@@ -2051,8 +2052,6 @@ def patch_tender_jsonpatch(self):  # TODO: delete this ?
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     token = response.json["access"]["token"]
-
-    import random
 
     item = tender["items"][0]
     item["additionalClassifications"] = [

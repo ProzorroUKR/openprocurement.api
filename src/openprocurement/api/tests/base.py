@@ -44,17 +44,6 @@ class PrefixedTestRequest(webtest.app.TestRequest):
 class BaseTestApp(webtest.TestApp):
     RequestClass = PrefixedTestRequest
 
-    def set_initial_status(self, tender, status=None):
-        from openprocurement.tender.core.tests.criteria_utils import add_criteria
-
-        add_criteria(self, tender["data"]["id"], tender["access"]["token"])
-        response = self.patch_json(
-            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
-            {"data": {"status": status}},
-        )
-        assert response.status == "200 OK"
-        return response
-
 
 app_cache = {}
 
@@ -98,46 +87,6 @@ class BaseWebTest(unittest.TestCase):
             if collection:  # plugins are optional
                 collection.flush()
         cls.mongodb.flush_sequences()
-
-    def set_initial_status(self, tender, status=None):
-        if not status:
-            status = self.primary_tender_status
-        response = self.app.set_initial_status(tender, status)
-        assert response.status == "200 OK"
-        return response
-
-    def create_bid(self, tender_id, bid_data, status=None):
-        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
-        token = response.json["access"]["token"]
-
-        bid = response.json["data"]
-        if bid_data.get("status", "") != "draft" and get_now() > TWO_PHASE_COMMIT_FROM:
-            response = self.set_responses(tender_id, response.json, status=status)
-            if response.json and "data" in response.json:
-                bid = response.json["data"]
-
-        return bid, token
-
-    def set_responses(self, tender_id, bid, status=None):
-        from openprocurement.tender.core.tests.criteria_utils import generate_responses
-
-        tender = self.mongodb.tenders.get(tender_id)
-
-        if not status:
-            status = "pending"
-
-        patch_data = {"status": status}
-        if "requirementResponses" not in bid["data"]:
-            rr = generate_responses(self, tender_id)
-            if rr:
-                patch_data["requirementResponses"] = rr
-
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",
-            {"data": patch_data},
-        )
-        assert response.status == "200 OK"
-        return response
 
 
 @pytest.fixture(scope="session")

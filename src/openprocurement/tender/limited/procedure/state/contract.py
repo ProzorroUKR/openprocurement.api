@@ -1,11 +1,7 @@
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import (
-    get_first_revision_date,
-    get_now,
-    raise_operation_error,
-)
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing

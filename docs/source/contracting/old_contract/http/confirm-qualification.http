@@ -46,7 +46,7 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "1042f73cdbae4eff933139f7bc153a62",
+    "bid_id": "9a0b277d34044f7693eeeacf02a5d88b",
     "complaintPeriod": {
       "startDate": "2023-01-01T00:00:00+02:00",
       "endDate": "2023-01-04T00:00:00+02:00"

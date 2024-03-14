@@ -6,14 +6,15 @@ from openprocurement.contracting.core.database import ContractCollection
 from openprocurement.contracting.core.procedure.serializers.config import (
     ContractConfigSerializer,
 )
-from openprocurement.contracting.core.utils import ContractTypePredicate
+from openprocurement.contracting.core.utils import (
+    ContractTypePredicate,
+    extract_contract_doc,
+)
 
 LOGGER = getLogger("openprocurement.contracting.core")
 
 
 def includeme(config):
-    from openprocurement.contracting.core.utils import extract_contract_doc
-
     LOGGER.info("Init contracting.core plugin.")
 
     config.registry.mongodb.add_collection("contracts", ContractCollection)

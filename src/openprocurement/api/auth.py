@@ -4,6 +4,7 @@ from hashlib import sha512
 
 from pyramid.authentication import BasicAuthAuthenticationPolicy, b64decode
 from pyramid.interfaces import IAuthenticationPolicy
+from pyramid.location import lineage
 
 ACCR_1 = '1'
 ACCR_2 = '2'
@@ -94,8 +95,6 @@ class AuthenticationPolicy(BasicAuthAuthenticationPolicy):
 
 
 def get_local_roles(context):
-    from pyramid.location import lineage
-
     roles = {}
     for location in reversed(list(lineage(context))):
         try:

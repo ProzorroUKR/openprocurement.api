@@ -5,6 +5,10 @@ from uuid import uuid4
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_config,
+    test_tender_below_data,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -335,11 +339,6 @@ def not_found(self):
     tender_id = self.initial_data["tender_id"]
     response = self.app.get(f"/contracts/{tender_id}", status=404)
     self.assertEqual(response.status, "404 Not Found")
-
-    from openprocurement.tender.belowthreshold.tests.base import (
-        test_tender_below_config,
-        test_tender_below_data,
-    )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
         response = self.app.post_json("/tenders", {"data": test_tender_below_data, "config": test_tender_below_config})

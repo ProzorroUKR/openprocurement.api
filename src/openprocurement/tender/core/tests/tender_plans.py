@@ -7,6 +7,7 @@ from openprocurement.api.tests.base import app, singleton_app
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.openua.tests.base import (
     test_tender_openua_config,
     test_tender_openua_data,
@@ -138,8 +139,15 @@ def test_fail_not_draft(app, plan):
     set_tender_lots(test_data, lots_data)
     response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
     assert response.status == "201 Created"
-    app.set_initial_status(response.json, "active.tendering")
+
     tender = response.json
+
+    add_criteria(app, tender["data"]["id"], tender["access"]["token"])
+    response = app.patch_json(
+        f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+        {"data": {"status": "active.tendering"}},
+    )
+    assert response.status == "200 OK"
 
     response = app.post_json(
         "/tenders/{}/plans?acc_token={}".format(tender["data"]["id"], tender["access"]["token"]),

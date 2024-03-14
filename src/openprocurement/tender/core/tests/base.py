@@ -9,7 +9,7 @@ from nacl.encoding import HexEncoder
 from requests.models import Response
 from webtest import AppError
 
-from openprocurement.api.constants import SESSION, TZ
+from openprocurement.api.constants import SESSION, TWO_PHASE_COMMIT_FROM, TZ
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
@@ -43,15 +43,6 @@ with open(os.path.join(current_dir, "data", "lcc_lot_criteria.json")) as json_fi
 
 with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json_file:
     test_lcc_tender_criteria = json.load(json_file)
-
-
-def bad_rs_request(method, url, **kwargs):
-    response = Response()
-    response.status_code = 403
-    response.encoding = "application/json"
-    response._content = '"Unauthorized: upload_view failed permission check"'
-    response.reason = "403 Forbidden"
-    return response
 
 
 srequest = SESSION.request
@@ -130,6 +121,56 @@ class BaseCoreWebTest(BaseWebTest):
     def tearDown(self):
         self.delete_tender()
         super().tearDown()
+
+    def set_initial_status(self, tender, status=None):
+        if not status:
+            status = self.primary_tender_status
+
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
+        from openprocurement.tender.core.tests.criteria_utils import add_criteria
+
+        add_criteria(self, tender["data"]["id"], tender["access"]["token"])
+        response = self.app.patch_json(
+            f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
+            {"data": {"status": status}},
+        )
+
+        assert response.status == "200 OK"
+        return response
+
+    def create_bid(self, tender_id, bid_data, status=None):
+        response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})
+        token = response.json["access"]["token"]
+
+        bid = response.json["data"]
+        if bid_data.get("status", "") != "draft" and get_now() > TWO_PHASE_COMMIT_FROM:
+            response = self.set_responses(tender_id, response.json, status=status)
+            if response.json and "data" in response.json:
+                bid = response.json["data"]
+
+        return bid, token
+
+    def set_responses(self, tender_id, bid, status=None):
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
+        from openprocurement.tender.core.tests.criteria_utils import generate_responses
+
+        tender = self.mongodb.tenders.get(tender_id)
+
+        if not status:
+            status = "pending"
+
+        patch_data = {"status": status}
+        if "requirementResponses" not in bid["data"]:
+            rr = generate_responses(self, tender_id)
+            if rr:
+                patch_data["requirementResponses"] = rr
+
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}/bids/{bid['data']['id']}?acc_token={bid['access']['token']}",
+            {"data": patch_data},
+        )
+        assert response.status == "200 OK"
+        return response
 
     def activate_bids(self):
         if self.tender_document.get("bids", ""):

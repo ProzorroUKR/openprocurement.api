@@ -114,6 +114,7 @@ def get_items(request, parent, key, uid, raise_404=True):
     if items:
         return items
     elif raise_404:
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
         from openprocurement.api.utils import error_handler
 
         obj_name = "document" if "Document" in key else key.rstrip('s')

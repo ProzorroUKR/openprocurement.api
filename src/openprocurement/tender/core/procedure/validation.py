@@ -40,7 +40,6 @@ from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
     error_handler,
-    get_now,
     is_gmdn_classification,
     is_ua_road_classification,
     raise_operation_error,
@@ -560,6 +559,7 @@ def validate_update_award_with_accepted_complaint(request, **_):
 
 
 def validate_update_award_status_before_milestone_due_date(request, **_):
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.qualification_milestone import (
         QualificationMilestoneCodes,
     )
@@ -777,6 +777,7 @@ def validate_cancelled_qualification_update(request, **_):
 
 
 def validate_update_status_before_milestone_due_date(request, **_):
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
     from openprocurement.tender.core.procedure.models.milestone import (
         QualificationMilestone,
     )

@@ -1,11 +1,18 @@
 import logging
 
 from paste.translogger import TransLogger
+from paste.util.converters import asbool
 
-try:
-    from logging import _nameToLevel as levels
-except ImportError:
-    from logging import _levelNames as levels
+levels = {
+    'CRITICAL': logging.CRITICAL,
+    'FATAL': logging.FATAL,
+    'ERROR': logging.ERROR,
+    'WARN': logging.WARNING,
+    'WARNING': logging.WARNING,
+    'INFO': logging.INFO,
+    'DEBUG': logging.DEBUG,
+    'NOTSET': logging.NOTSET,
+}
 
 
 def make_filter(
@@ -17,8 +24,6 @@ def make_filter(
     setup_console_handler=True,
     set_logger_level=logging.DEBUG,
 ):
-    from paste.util.converters import asbool
-
     if isinstance(logging_level, (bytes, str)):
         logging_level = levels[logging_level]
     if isinstance(set_logger_level, (bytes, str)):
