@@ -24,14 +24,11 @@ imports = [
 ]
 
 [tool.pylint]
-[tool.pylint.'MASTER']
-jobs = 4
+[tool.pylint.main]
+jobs = 1
 load-plugins = [
-#    "pylint_pytest",
+    "pylint_pytest",
 ]
-
-[tool.pylint.'MESSAGES CONTROL']
-max-line-length = 120
 disable = [
     "anomalous-backslash-in-string",
     "arguments-differ",
@@ -118,6 +115,9 @@ disable = [
     "useless-parent-delegation",
     "wildcard-import",
 ]
+
+[tool.pylint.format]
+max-line-length = 120
 
 [tool.bandit]
 exclude_dirs = ["**/tests/**"]
