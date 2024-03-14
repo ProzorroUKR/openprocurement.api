@@ -513,10 +513,11 @@ def get_tender_profile(request, profile_id):
     try:
         resp = requests.get(f"{catalog_api_host}/api/profiles/{profile_id}")
     except requests.exceptions.RequestException as e:
+        LOGGER.warning(f"Error while getting data from ProZorro e-Catalogues. Details: {e}")
         raise raise_operation_error(
             request,
             "Error while getting data from ProZorro e-Catalogues: Connection closed. Try again later",
-            status=409,
+            status=502,
         )
     if resp.status_code == 404:
         raise_operation_error(request, f"Profile {profile_id} not found in catalouges.", status=404)
