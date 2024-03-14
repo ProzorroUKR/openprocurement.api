@@ -45,15 +45,6 @@ with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json
     test_lcc_tender_criteria = json.load(json_file)
 
 
-def bad_rs_request(method, url, **kwargs):
-    response = Response()
-    response.status_code = 403
-    response.encoding = "application/json"
-    response._content = '"Unauthorized: upload_view failed permission check"'
-    response.reason = "403 Forbidden"
-    return response
-
-
 srequest = SESSION.request
 
 
