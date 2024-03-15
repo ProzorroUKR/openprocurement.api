@@ -104,12 +104,6 @@ If you want to **lower contract value**, you can insert new one into the `amount
 
 `200 OK` response was returned. The value was modified successfully.
 
-
-For **esco contracts value** you can change `amountNet` and `valueAddedTaxIncluded`:
-
-.. http:example:: http/esco-tender-contract-set-contract-value.http
-   :code:
-
 Setting value per item's unit
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

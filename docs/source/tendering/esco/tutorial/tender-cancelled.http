@@ -1537,44 +1537,121 @@ Content-Type: application/json
     ],
     "contracts": [
       {
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "scale": "micro",
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            }
+          }
+        ],
+        "items": [
+          {
+            "id": "8b07ce7f8c1d44a6af2cae40d3ab701d",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+              "description": "Test",
+              "scheme": "ДК021",
+              "id": "37810000-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+              }
+            ],
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            },
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+          },
+          {
+            "id": "f0a94f5146424cdeb3e9103add626234",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "classification": {
+              "description": "Test",
+              "scheme": "ДК021",
+              "id": "37810000-9"
+            },
+            "additionalClassifications": [
+              {
+                "scheme": "ДКПП",
+                "id": "17.21.1",
+                "description": "Послуги шкільних їдалень"
+              }
+            ],
+            "deliveryAddress": {
+              "streetAddress": "вул. Банкова 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "79000",
+              "countryName": "Україна"
+            },
+            "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
+          }
+        ],
+        "contractID": "UA-2023-10-10-000001-a-1",
         "id": "bcc9f2201d99405fb451b20abc231e58",
-        "status": "cancelled",
+        "status": "pending",
         "awardID": "a6a73750ffe84e75bbaf483f2210cfba",
-        "date": "2023-10-21T01:00:02+03:00",
+        "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amount": 9430.27,
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
-          "amountNet": 9429.27,
+          "amount": 9430.27,
           "amountPerformance": 864.98,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
-            500.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0,
-            1000.0
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
           ],
           "contractDuration": {
             "years": 10,
             "days": 74
-          }
+          },
+          "amountNet": 9430.27
         }
       }
     ],

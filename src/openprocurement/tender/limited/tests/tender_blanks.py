@@ -819,7 +819,7 @@ def patch_tender(self):
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(save_tender)
 
-    activate_contract(self, self.tender_id, contract_id, owner_token, owner_token)
+    activate_contract(self, tender["id"], contract_id, owner_token, owner_token)
 
     response = self.app.get("/tenders/{}".format(tender["id"]))
     self.assertEqual(response.status, "200 OK")

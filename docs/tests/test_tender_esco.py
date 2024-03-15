@@ -680,16 +680,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
             i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
         self.mongodb.tenders.save(tender)
 
-        value = dict(response.json["data"][0]["value"])
-        value["amountNet"] -= 1
-        with open(ECONTRACT_TARGET_DIR + 'esco-tender-contract-set-contract-value.http', 'w') as self.app.file_obj:
-            response = self.app.patch_json(
-                '/contracts/{}?acc_token={}'.format(self.contract_id, owner_token),
-                {"data": {"contractNumber": "contract#1", "value": value}},
-            )
-            self.assertEqual(response.status, '200 OK')
-        self.assertEqual(response.json['data']['value']['amountNet'], response.json['data']['value']['amount'] - 1)
-
         #### Preparing the cancellation request
 
         with open(TARGET_DIR + 'prepare-cancellation.http', 'w') as self.app.file_obj:
