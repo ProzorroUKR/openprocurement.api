@@ -9,6 +9,7 @@ from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.core.procedure.utils import is_multi_currency_tender
 
 LOGGER = getLogger(__name__)
 
@@ -92,7 +93,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
                     )
 
-        if items_unit_value_amount and contract.get("value"):
+        if items_unit_value_amount and contract.get("value") and not is_multi_currency_tender():
             calculated_value = sum(items_unit_value_amount)
 
             if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(

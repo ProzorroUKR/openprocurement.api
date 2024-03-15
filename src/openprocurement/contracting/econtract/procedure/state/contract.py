@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.cancelling import CancellationBlockMi
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
+    is_multi_currency_tender,
     save_tender,
 )
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
@@ -185,6 +186,8 @@ class EContractState(
 
     @staticmethod
     def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
+        if is_multi_currency_tender():
+            return
         value = after.get("value")
         if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):
             award = request.validated["award"]

@@ -23,6 +23,7 @@ from openprocurement.tender.core.procedure.utils import (
     contracts_allow_to_complete,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
+    is_multi_currency_tender,
     tender_created_after,
     tender_created_in,
 )
@@ -210,7 +211,7 @@ class ContractStateMixing:
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
                     )
 
-        if items_unit_value_amount and contract.get("value"):
+        if items_unit_value_amount and contract.get("value") and not is_multi_currency_tender():
             calculated_value = sum(items_unit_value_amount)
             if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(
                 contract["value"].get("amount")

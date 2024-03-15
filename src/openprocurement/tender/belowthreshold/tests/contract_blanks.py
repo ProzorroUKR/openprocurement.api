@@ -839,7 +839,7 @@ def patch_contract_single_item_unit_value(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"],
+                "description": ["Value mismatch. Expected: currency UAH"],
             }
         ],
     )
@@ -1202,7 +1202,7 @@ def patch_contract_multi_items_unit_value(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"],
+                "description": ["Value mismatch. Expected: currency UAH"],
             }
         ],
     )
@@ -3246,49 +3246,7 @@ def create_econtract(self):
     self.assertEqual(contract_fields, set(response.json["data"].keys()))
     # self.assertIn("attributes", response.json["data"]["items"][0])
 
-    # prepare contract for activating
-    doc = self.mongodb.tenders.get(self.tender_id)
-    for i in doc.get("awards", []):
-        if 'complaintPeriod' in i:
-            i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    self.mongodb.tenders.save(doc)
-
-    response = self.app.put_json(
-        f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
-        {
-            "data": {
-                "name": "Test Testovich",
-                "telephone": "+380950000000",
-                "email": "example@email.com",
-                "iban": "1" * 15,
-                "authorizedBy": "документ який дозволяє",
-                "position": "статус",
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.put_json(
-        f"/contracts/{contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
-        {
-            "data": {
-                "name": "Test Testovich",
-                "telephone": "+380950000000",
-                "email": "example@email.com",
-                "iban": "1" * 15,
-                "authorizedBy": "документ який дозволяє",
-                "position": "статус",
-            }
-        },
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    response = self.app.patch_json(
-        f"/contracts/{contract_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active"}},
-    )
+    response = self.activate_contract(contract_id)
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -3446,3 +3404,88 @@ def patch_multiple_contracts_in_contracting(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def patch_econtract_multi_currency(self):
+    response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
+    contract = response.json["data"]
+    self.assertEqual(contract["value"]["amount"], 500)
+    self.assertEqual(contract["value"]["currency"], "UAH")
+
+    # try to change VAT different from contract value VAT
+    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        ["Value mismatch. Expected: valueAddedTaxIncluded True"],
+    )
+
+    # try to change VAT along with contract value VAT
+    contract["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+    contract["value"]["valueAddedTaxIncluded"] = False
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"], "value": contract["value"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to change currency in contract value
+    contract["value"]["currency"] = "EUR"
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"value": contract["value"]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update currency for contract value",
+    )
+
+    # try to change currency in contract items unit
+    contract["items"][0]["unit"]["value"]["currency"] = "EUR"
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to change amount in contract items unit and contract value to less value
+    contract["items"][0]["unit"]["value"]["amount"] = 0.5
+    contract["value"] = {"amount": 100, "amountNet": 100, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"], "value": contract["value"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to change amount in contract items unit and contract value to greater value
+    contract["items"][0]["unit"]["value"]["amount"] = 50
+    contract["value"] = {"amount": 10000, "amountNet": 10000, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"], "value": contract["value"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # check total amount of unit values can't be greater than contract.value.amount
+    contract["items"][0]["unit"]["value"]["amount"] = 50
+    contract["items"][0]["quantity"] = 10  # 50 * 10 = 500
+    contract["value"] = {"amount": 400, "amountNet": 400, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"], "value": contract["value"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to activate contract with amount of unit values greater than contract.value.amount
+    response = self.activate_contract(self.contracts_ids[0])
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
