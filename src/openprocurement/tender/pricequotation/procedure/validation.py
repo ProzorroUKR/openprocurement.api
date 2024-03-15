@@ -25,7 +25,7 @@ def validate_bid_value(tender, value):
             raise ValidationError("value of bid should be less than value of tender")
     if tender["value"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
         raise ValidationError(
-            "valueAddedTaxIncluded of bid should be identical " "to valueAddedTaxIncluded of value of tender"
+            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
         )
 
 

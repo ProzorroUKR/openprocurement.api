@@ -40,6 +40,7 @@ from openprocurement.tender.open.tests.base import (
 )
 from openprocurement.tender.open.tests.contract_blanks import (  # EContract
     create_tender_contract,
+    patch_econtract_multi_currency,
     patch_tender_contract,
     patch_tender_contract_datesigned,
     patch_tender_econtract,
@@ -225,6 +226,7 @@ class TenderEContractResourceTest(
     initial_lots = test_tender_below_lots
 
     test_patch_tender_econtract = snitch(patch_tender_econtract)
+    test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
     def setUp(self):

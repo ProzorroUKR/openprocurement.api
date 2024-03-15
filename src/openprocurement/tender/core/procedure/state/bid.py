@@ -28,6 +28,7 @@ class BidState(BaseState):
         now = get_now().isoformat()
         data["date"] = now
 
+        self.validate_bid_unit_value_currency(data)
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
@@ -40,10 +41,25 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_bid_unit_value_currency(after)
         self.validate_status_change(before, after)
         self.update_date_on_value_amount_change(before, after)
         self.validate_items_id(after)
         super().on_patch(before, after)
+
+    def validate_bid_unit_value_currency(self, data):
+        tender = get_tender()
+        for item in data.get("items", []):
+            if value := item.get("unit", {}).get("value"):
+                if tender["config"]["valueCurrencyEquality"] is True and tender.get("value", {}).get(
+                    "currency"
+                ) != value.get("currency"):
+                    raise_operation_error(
+                        self.request,
+                        "currency of bid unit should be identical to currency of tender value",
+                        name="items",
+                        status=422,
+                    )
 
     def update_date_on_value_amount_change(self, before, after):
         if not self.update_date_on_value_amount_change_enabled:

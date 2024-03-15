@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -7,6 +8,8 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
+    test_tender_below_config,
+    test_tender_below_data,
     test_tender_below_lots,
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
@@ -36,6 +39,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # Ten
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_round,
     patch_contract_single_item_unit_value_with_status,
+    patch_econtract_multi_currency,
     patch_multiple_contracts_in_contracting,
     patch_tender_contract,
     patch_tender_contract_document,
@@ -72,6 +76,51 @@ class TenderContractDocumentResourceTestMixin:
 class TenderEcontractResourceTestMixin:
     test_create_econtract = snitch(create_econtract)
     test_cancelling_award_contract_sync = snitch(cancelling_award_contract_sync)
+
+    def activate_contract(self, contract_id, status=200):
+        # prepare contract for activating
+        doc = self.mongodb.tenders.get(self.tender_id)
+        for i in doc.get("awards", []):
+            if 'complaintPeriod' in i:
+                i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
+        self.mongodb.tenders.save(doc)
+
+        response = self.app.put_json(
+            f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+            {
+                "data": {
+                    "name": "Test Testovich",
+                    "telephone": "+380950000000",
+                    "email": "example@email.com",
+                    "iban": "1" * 15,
+                    "authorizedBy": "документ який дозволяє",
+                    "position": "статус",
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        response = self.app.put_json(
+            f"/contracts/{contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+            {
+                "data": {
+                    "name": "Test Testovich",
+                    "telephone": "+380950000000",
+                    "email": "example@email.com",
+                    "iban": "1" * 15,
+                    "authorizedBy": "документ який дозволяє",
+                    "position": "статус",
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        response = self.app.patch_json(
+            f"/contracts/{contract_id}?acc_token={self.tender_token}", {"data": {"status": "active"}}, status=status
+        )
+        return response
 
 
 class TenderEContractMultiBuyersResourceTestMixin:
@@ -381,6 +430,21 @@ class TenderEContractResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
+    config = deepcopy(test_tender_below_config)
+    config.update(
+        {
+            "hasAuction": False,
+            "hasAwardingOrder": False,
+            "hasValueRestriction": False,
+            "valueCurrencyEquality": False,
+        }
+    )
+    initial_config = config
+    tender_data = deepcopy(test_tender_below_data)
+    tender_data.pop("minimalStep", None)
+    initial_data = tender_data
+
+    test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
 
     @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() - timedelta(days=1))
     def setUp(self):

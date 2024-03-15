@@ -346,7 +346,7 @@ def patch_contract_single_item_unit_value(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"],
+                "description": ["Value mismatch. Expected: currency UAH"],
             }
         ],
     )
@@ -605,7 +605,7 @@ def patch_contract_multi_items_unit_value(self):
             {
                 "location": "body",
                 "name": "items",
-                "description": ["Value mismatch. Expected: currency UAH and valueAddedTaxIncluded True"],
+                "description": ["Value mismatch. Expected: currency UAH"],
             }
         ],
     )

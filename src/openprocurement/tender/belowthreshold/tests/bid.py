@@ -6,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
     test_tender_below_data,
+    test_tender_below_data_no_auction,
     test_tender_below_features_data,
     test_tender_below_lots,
     test_tender_below_organization,
@@ -33,6 +34,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBi
     get_tender_bid,
     get_tender_tenderers,
     not_found,
+    patch_bid_multi_currency,
     patch_tender_bid,
     patch_tender_bid_document,
     patch_tender_bid_with_another_currency,
@@ -43,6 +45,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBi
     patch_tender_bid_with_exceeded_lot_values,
     patch_tender_lot_values_any_order,
     patch_tender_with_bids_lots_none,
+    post_bid_multi_currency,
     post_tender_bid_with_another_currency,
     post_tender_bid_with_disabled_lot_values_currency_equality,
     post_tender_bid_with_disabled_lot_values_restriction,
@@ -257,8 +260,6 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_below_bids
     initial_lots = 2 * test_tender_below_lots
-    test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
-    del test_tender_below_data_no_auction["minimalStep"]
     initial_data = test_tender_below_data_no_auction
 
     test_post_tender_bid_with_disabled_lot_values_currency_equality = snitch(
@@ -267,6 +268,8 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
     test_patch_tender_bid_with_disabled_lot_values_currency_equality = snitch(
         patch_tender_bid_with_disabled_lot_values_currency_equality
     )
+    test_post_bid_multi_currency = snitch(post_bid_multi_currency)
+    test_patch_bid_multi_currency = snitch(patch_bid_multi_currency)
 
     def setUp(self):
         super(TenderContentWebTest, self).setUp()
@@ -284,8 +287,6 @@ class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
 
 class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
     initial_status = "active.tendering"
-    test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
-    del test_tender_below_data_no_auction["minimalStep"]
     initial_data = test_tender_below_data_no_auction
 
     test_post_tender_bid_with_disabled_value_currency_equality = snitch(
