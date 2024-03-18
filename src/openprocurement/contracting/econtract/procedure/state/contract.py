@@ -220,7 +220,10 @@ class EContractState(
                     raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
     def validate_required_signed_info(self, data: dict) -> None:
-        if not ECONTRACT_SIGNER_INFO_REQUIRED:
+        tender_type = self.request.validated["tender"].get("procurementMethodType", "")
+        required_tenders = ("priceQuotation",)
+
+        if not ECONTRACT_SIGNER_INFO_REQUIRED or tender_type not in required_tenders:
             return
 
         supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
