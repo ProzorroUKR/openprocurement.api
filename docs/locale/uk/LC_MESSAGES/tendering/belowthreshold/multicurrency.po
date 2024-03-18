@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-18 11:23+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: uk\n"
+"Language-Team: uk <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "Multi currency"
+msgstr "Мультивалютність"
+
+msgid "The belowThreshold procedure can be multi currency for donors. To create such type of procedure it is required to set config `valueCurrencyEquality:false`."
+msgstr "Закупівля за правилами донорів може бути мультивалютною. Для того, щоб створити таку процедуру, обов'язково треба встановити конфігурацію `valueCurrencyEquality:false`."
+
+msgid "In this way, it will be possible to add a price list of items to the procedure in different currency. The price list will help to visually show which parts make up the total price of the participant for each item separately."
+msgstr "Таким чином в учасників буде можливість додати прайс-ліст на кожну номенклатуру в різних валютах. Прайс-ліст допоможе наочно показати з яких частин формується загальна ціна учасника по кожній номенклатурі окремо."
+
+msgid "Let's create tender with configuration `valueCurrencyEquality:false`, add lots for it and activate it:"
+msgstr "Створимо закупівлю з конфігурацією `valueCurrencyEquality:false`, додамо лоти і активуємо її:"
+
+msgid "Now the participant can register bid. For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:"
+msgstr "Тепер учасник може зареєструвати пропозицію. До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:"
+
+msgid "The requirements for bid registration:"
+msgstr "Вимоги до реєстрації пропозицій:"
+
+msgid "The `currency` value for each unit price: may be different, the value may NOT match the Currency value for the overall quote and may NOT be the same at the lot level; the value may NOT correspond to the value of the Currency specified by the customer in the tender in the expected purchase price"
+msgstr "Значення Валюта для кожної ціни за одиницю: може бути різним, значення може НЕ співпадати зі значенням Валюта для загальної цінової пропозиції та може НЕ бути однаковим на рівні лоту; значення може НЕ відповідати значенням Валюта, яке вказав замовник в тендері у очікуваній вартості закупівлі "
+
+msgid "The total cost of Lot-level Unit Prices may NOT equal the total bid price"
+msgstr "Загальна вартість цін за одиницю на рівні лоту може НЕ дорівнювати загальній ціні пропозиції"
+
+msgid "The value of VAT must correspond to the value specified by the customer in the tender"
+msgstr "Значення ПДВ повинно відповідати значенню, вказаному замовником у тендері"
+
+msgid "If the participant plans to give the customer a so-called discount, he can specify the value 0 for certain items in the Price per unit value"
+msgstr "Якщо учасник планує зробити замовнику так звану знижку, він може для певних номенклатур у значенні ціна за одиницю вказати значення 0"
+
+msgid "Let's try to change VAT value in `bid.items.unit` to different than value specified by the customer in the tender and we will se the error:"
+msgstr "Спробуємо змінити значення ПДВ в `bid.items.unit` яке буде відрізнятися від значення, вказаному замовником у тендері і побачимо наступну помилку:"
+
+msgid "An auction is not provided for such purchases."
+msgstr "Аукціон в таких закупівлях не передбачено."
+
+msgid "Let's choose the winner and look at the contract. As we can see all unit prices are transferred to the contract:"
+msgstr "Оберемо переможця під час кваліфікації і подивимося на сформований контракт. Як ми можемо побачити всі ціни за одиницю переносяться у контракт:"
+
+msgid "The total offer price and the price per unit are adjusted both upwards and downwards."
+msgstr "Загальна ціна пропозиції та ціна за одиницю коригуються як у бік збільшення так і у бік зменшення."
+
+msgid "At the same time, the total cost of the price per unit can be not equal to the total price of the offer."
+msgstr "При цьому загальна вартість wін за одиницю може не дорівнювати загальній ціні пропозиції."
+
+msgid "VAT can be changed at the contract level (must be changed in both contract.value and contract.items.unit.value at the same time)."
+msgstr "ПДВ можна змінювати на рівні контракту (повинна бути змінена як у contract.value так і у contract.items.unit.value одночасно)."
+
+msgid "Let's patch contract values:"
+msgstr "Відредагуємо ціни в контракті:"
+
+msgid "Then let's activate contract to check whether it is possible to change general sum of unit values greater than we have in contract value:"
+msgstr "Далі активуємо контракт, щоб перевірити, чи можна змінити загальну суму цін за одиницю більше, ніж ми маємо в контрактній вартості:"
+

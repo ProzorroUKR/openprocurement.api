@@ -1,0 +1,121 @@
+GET /api/2.5/contracts/47390c8e3166414b9382fb97aa142469?acc_token=54afd6eb2d094df1add03f50537febd1 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "awardID": "247c10414fb24f43a61e16675be767a1",
+    "contractID": "UA-2023-10-10-000001-a-1",
+    "dateModified": "2023-11-09T00:00:00+02:00",
+    "dateCreated": "2023-11-09T00:00:00+02:00",
+    "tender_id": "c1d6775dda6d43d9992df300f847b755",
+    "owner": "broker",
+    "status": "active",
+    "buyer": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "725f539279e34836859087467400e721",
+        "description": "папір",
+        "quantity": 5.0,
+        "relatedLot": "cca0671762d34aa183864d6a01e27315",
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "unit": {
+          "value": {
+            "amount": 5000.0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        }
+      }
+    ],
+    "value": {
+      "amount": 10000.0,
+      "currency": "USD",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 10000.0
+    },
+    "bid_owner": "broker",
+    "date": "2023-11-09T00:00:00+02:00",
+    "dateSigned": "2023-11-09T00:00:00+02:00",
+    "id": "47390c8e3166414b9382fb97aa142469"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+
