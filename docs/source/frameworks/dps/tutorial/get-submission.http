@@ -11,6 +11,7 @@ Content-Type: application/json
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
+        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -28,8 +29,7 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "telephone": "+380432216930",
           "email": "soleksuk@gmail.com"
-        },
-        "scale": "micro"
+        }
       }
     ],
     "frameworkID": "a00a3b5bdaa0437490c883e4482795b2",

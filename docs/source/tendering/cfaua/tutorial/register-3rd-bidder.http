@@ -96,7 +96,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -108,7 +107,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee
           "name": "Іван Іваненко",
           "email": "fake@mail.com",
           "telephone": "+380322123456"
-        }
+        },
+        "scale": "mid"
       }
     ],
     "status": "draft",

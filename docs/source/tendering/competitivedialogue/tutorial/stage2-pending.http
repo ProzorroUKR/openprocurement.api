@@ -702,7 +702,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -714,7 +713,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "lotValues": [
@@ -894,7 +894,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "sme",
             "address": {
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
@@ -906,7 +905,8 @@ Content-Type: application/json
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
               "telephone": "+380322916930"
-            }
+            },
+            "scale": "sme"
           }
         ],
         "lotValues": [
@@ -1041,7 +1041,6 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -1053,7 +1052,8 @@ Content-Type: application/json
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
-            }
+            },
+            "scale": "mid"
           }
         ],
         "selfQualified": true,
@@ -1182,7 +1182,6 @@ Content-Type: application/json
               "id": "00137228",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "large",
             "address": {
               "streetAddress": "вул. Коцюбинського, 15",
               "locality": "м. Запоріжя",
@@ -1194,7 +1193,8 @@ Content-Type: application/json
               "name": "Іван Карпенко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
-            }
+            },
+            "scale": "large"
           }
         ],
         "lotValues": [

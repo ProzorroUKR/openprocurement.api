@@ -95,7 +95,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
           "id": "00137228",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "large",
         "address": {
           "streetAddress": "вул. Коцюбинського, 15",
           "locality": "м. Запоріжя",
@@ -107,7 +106,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1ee782bb9bb14b8e
           "name": "Іван Карпенко",
           "email": "fake@mail.com",
           "telephone": "+380322123456"
-        }
+        },
+        "scale": "large"
       }
     ],
     "status": "draft",

@@ -42,7 +42,6 @@ Content-Type: application/json
           "id": "00137227",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "mid",
         "address": {
           "streetAddress": "вул. Островського, 35",
           "locality": "м. Львів",
@@ -54,7 +53,8 @@ Content-Type: application/json
           "name": "Іван Іваненко",
           "email": "fake@mail.com",
           "telephone": "+380322123456"
-        }
+        },
+        "scale": "mid"
       }
     ],
     "unitPrices": [

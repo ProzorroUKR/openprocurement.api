@@ -65,7 +65,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -77,7 +76,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13
           "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
           "telephone": "+380322916930"
-        }
+        },
+        "scale": "sme"
       }
     ],
     "status": "draft",

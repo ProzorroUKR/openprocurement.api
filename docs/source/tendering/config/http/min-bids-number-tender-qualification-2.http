@@ -819,7 +819,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -831,7 +830,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "status": "active",
@@ -974,7 +974,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -986,7 +985,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "status": "active",
@@ -1043,7 +1043,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -1055,7 +1054,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
@@ -1079,7 +1079,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -1091,7 +1090,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",

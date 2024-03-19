@@ -55,7 +55,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -63,6 +62,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f082eef1f646440d
           "postalCode": "21100",
           "countryName": "Україна"
         },
+        "scale": "micro",
         "contactPoint": {
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",

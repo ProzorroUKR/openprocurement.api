@@ -27,7 +27,6 @@ Content-Type: application/json
           "legalName_en": "dus.gov.ua",
           "uri": "http://www.dus.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -40,7 +39,8 @@ Content-Type: application/json
           "name_en": "State administration",
           "email": "aa@aa.com",
           "telephone": "+0440000000"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "bid_id": "9c12ee2b851c4bb898c3b0db724fb6bf",

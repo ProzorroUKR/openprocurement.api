@@ -31,7 +31,6 @@ Content-Type: application/json
           "id": "00037256",
           "uri": "http://www.dus.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -42,7 +41,8 @@ Content-Type: application/json
         "contactPoint": {
           "name": "Державне управління справами",
           "telephone": "+0440000000"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
