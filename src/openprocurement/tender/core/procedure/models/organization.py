@@ -2,6 +2,7 @@ from uuid import uuid4
 
 from schematics.types import MD5Type, StringType
 
+from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.procedure.models.organization import (
     BusinessOrganization as BaseBusinessOrganization,
 )
@@ -26,12 +27,11 @@ class BusinessOrganization(BaseBusinessOrganization):
     address = ModelType(Address, required=True)
     contactPoint = ModelType(ContactPoint, required=True)
     additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+    scale = StringType(choices=SCALE_CODES, required=True)
 
 
-class ContactLessBusinessOrganization(BaseBusinessOrganization):
-    address = ModelType(Address, required=True)
+class ContactLessBusinessOrganization(BusinessOrganization):
     contactPoint = ModelType(ContactPoint)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
 
 
 class Buyer(CommonOrganization):
