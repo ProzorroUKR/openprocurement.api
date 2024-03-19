@@ -806,7 +806,7 @@ def create_complaint_objection_validation(self):
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(
             response.json["errors"][0]["description"][0]["relatedItem"],
-            [f"Invalid tender id"],
+            ["Invalid tender id"],
         )
 
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)

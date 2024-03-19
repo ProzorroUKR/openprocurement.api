@@ -87,31 +87,31 @@ COORDINATES_REG_EXP = re.compile(r"-?\d{1,3}\.\d+|-?\d{1,3}")
 SCALE_CODES = ["micro", "sme", "mid", "large", "not specified"]
 
 TENDER_CONFIG_JSONSCHEMAS = {
-    "aboveThreshold": standards.load(f"data_model/schema/TenderConfig/aboveThreshold.json"),
-    "competitiveOrdering": standards.load(f"data_model/schema/TenderConfig/competitiveOrdering.json"),
-    "aboveThresholdEU": standards.load(f"data_model/schema/TenderConfig/aboveThresholdEU.json"),
-    "aboveThresholdUA.defense": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
-    "aboveThresholdUA": standards.load(f"data_model/schema/TenderConfig/aboveThresholdUA.json"),
-    "belowThreshold": standards.load(f"data_model/schema/TenderConfig/belowThreshold.json"),
+    "aboveThreshold": standards.load("data_model/schema/TenderConfig/aboveThreshold.json"),
+    "competitiveOrdering": standards.load("data_model/schema/TenderConfig/competitiveOrdering.json"),
+    "aboveThresholdEU": standards.load("data_model/schema/TenderConfig/aboveThresholdEU.json"),
+    "aboveThresholdUA.defense": standards.load("data_model/schema/TenderConfig/aboveThresholdUA.defense.json"),
+    "aboveThresholdUA": standards.load("data_model/schema/TenderConfig/aboveThresholdUA.json"),
+    "belowThreshold": standards.load("data_model/schema/TenderConfig/belowThreshold.json"),
     "closeFrameworkAgreementSelectionUA": standards.load(
-        f"data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"
+        "data_model/schema/TenderConfig/closeFrameworkAgreementSelectionUA.json"
     ),
-    "closeFrameworkAgreementUA": standards.load(f"data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"),
-    "competitiveDialogueEU": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.json"),
-    "competitiveDialogueEU.stage2": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"),
-    "competitiveDialogueUA": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueUA.json"),
-    "competitiveDialogueUA.stage2": standards.load(f"data_model/schema/TenderConfig/competitiveDialogueUA.stage2.json"),
-    "esco": standards.load(f"data_model/schema/TenderConfig/esco.json"),
-    "negotiation": standards.load(f"data_model/schema/TenderConfig/negotiation.json"),
-    "negotiation.quick": standards.load(f"data_model/schema/TenderConfig/negotiation.quick.json"),
-    "priceQuotation": standards.load(f"data_model/schema/TenderConfig/priceQuotation.json"),
-    "reporting": standards.load(f"data_model/schema/TenderConfig/reporting.json"),
-    "simple.defense": standards.load(f"data_model/schema/TenderConfig/simple.defense.json"),
+    "closeFrameworkAgreementUA": standards.load("data_model/schema/TenderConfig/closeFrameworkAgreementUA.json"),
+    "competitiveDialogueEU": standards.load("data_model/schema/TenderConfig/competitiveDialogueEU.json"),
+    "competitiveDialogueEU.stage2": standards.load("data_model/schema/TenderConfig/competitiveDialogueEU.stage2.json"),
+    "competitiveDialogueUA": standards.load("data_model/schema/TenderConfig/competitiveDialogueUA.json"),
+    "competitiveDialogueUA.stage2": standards.load("data_model/schema/TenderConfig/competitiveDialogueUA.stage2.json"),
+    "esco": standards.load("data_model/schema/TenderConfig/esco.json"),
+    "negotiation": standards.load("data_model/schema/TenderConfig/negotiation.json"),
+    "negotiation.quick": standards.load("data_model/schema/TenderConfig/negotiation.quick.json"),
+    "priceQuotation": standards.load("data_model/schema/TenderConfig/priceQuotation.json"),
+    "reporting": standards.load("data_model/schema/TenderConfig/reporting.json"),
+    "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
 }
 
 FRAMEWORK_CONFIG_JSONSCHEMAS = {
-    "electronicCatalogue": standards.load(f"data_model/schema/FrameworkConfig/electronicCatalogue.json"),
-    "dynamicPurchasingSystem": standards.load(f"data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
+    "electronicCatalogue": standards.load("data_model/schema/FrameworkConfig/electronicCatalogue.json"),
+    "dynamicPurchasingSystem": standards.load("data_model/schema/FrameworkConfig/dynamicPurchasingSystem.json"),
 }
 
 

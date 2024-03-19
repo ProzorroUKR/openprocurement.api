@@ -38,7 +38,7 @@ def test_mask_function():
 )
 def test_mask_tender_by_identifier(app):
     set_now()
-    with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
+    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
         initial_data["config"] = test_tender_below_config
 
@@ -52,7 +52,7 @@ def test_mask_tender_by_identifier(app):
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
 
     # feed tender is masked
-    response = app.get(f"/tenders?mode=_all_&opt_fields=contracts,lots")
+    response = app.get("/tenders?mode=_all_&opt_fields=contracts,lots")
     assert response.status_code == 200
     data = response.json["data"][0]
     assert data["contracts"][0]["suppliers"][0]["name"] == "00000000000000"
@@ -61,7 +61,7 @@ def test_mask_tender_by_identifier(app):
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_by_is_masked(app):
     set_now()
-    with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
+    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
         initial_data["config"] = test_tender_below_config
 
@@ -94,7 +94,7 @@ def test_mask_tender_by_is_masked(app):
     assert "is_masked" in data
 
     # feed tender is masked
-    response = app.get(f"/tenders?mode=_all_&opt_fields=contracts,lots")
+    response = app.get("/tenders?mode=_all_&opt_fields=contracts,lots")
     assert response.status_code == 200
     data = response.json["data"][0]
     assert data["contracts"][0]["suppliers"][0]["name"] == "00000000000000"
@@ -131,7 +131,7 @@ def test_mask_tender_by_is_masked(app):
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_skipped(app):
     set_now()
-    with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
+    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_data = json.load(f)
         initial_data["config"] = test_tender_below_config
 
@@ -149,7 +149,7 @@ def test_mask_tender_by_config_restricted(app):
     set_now()
 
     # Load initial db data
-    with open(f"src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
+    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
         initial_db_data = json.load(f)
         initial_db_data["config"] = test_tender_below_config
 
@@ -180,7 +180,7 @@ def test_mask_tender_by_config_restricted(app):
     #     json.dump(masked_data, f, indent=4, ensure_ascii=False)
 
     # Load expected masked data
-    with open(f"src/openprocurement/tender/core/tests/data/tender_masked.json") as f:
+    with open("src/openprocurement/tender/core/tests/data/tender_masked.json") as f:
         expected_masked_data = json.load(f)
 
     # Ensure dumped data is masked
@@ -218,14 +218,14 @@ def test_mask_tender_by_config_restricted(app):
     assert unmasked_data == actual_data
 
     # Feed is masked
-    response = app.get(f"/tenders?mode=_all_&opt_fields=procuringEntity")
+    response = app.get("/tenders?mode=_all_&opt_fields=procuringEntity")
     assert response.status_code == 200
     masked_feed_data = response.json["data"][0]
     assert masked_feed_data["procuringEntity"] == expected_masked_data["procuringEntity"]
 
     # Broker (with accreditation for restricted) allowed to see masked data in feed
     with change_auth(app, ("Basic", ("brokerr", ""))):
-        response = app.get(f"/tenders?mode=_all_&opt_fields=procuringEntity")
+        response = app.get("/tenders?mode=_all_&opt_fields=procuringEntity")
     assert response.status_code == 200
     unmasked_feed_data = response.json["data"][0]
     assert unmasked_feed_data["procuringEntity"] == actual_data["procuringEntity"]

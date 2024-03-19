@@ -2379,7 +2379,7 @@ def edit_tender_in_active_enquiries(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": f"Can't update tenderPeriod.startDate in active.enquiries",
+                "description": "Can't update tenderPeriod.startDate in active.enquiries",
             }
         ],
     )
@@ -2421,7 +2421,7 @@ def edit_tender_in_active_enquiries(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": f"Can't update procuringEntity in active.enquiries"}],
+        [{"location": "body", "name": "data", "description": "Can't update procuringEntity in active.enquiries"}],
     )
 
     data = {

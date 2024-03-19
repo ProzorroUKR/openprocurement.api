@@ -105,10 +105,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                         raise_operation_error(get_request(), f"Can't update {f} in items in active.enquiries")
 
                 if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
-                    raise_operation_error(get_request(), f"Can't update tenderPeriod.startDate in active.enquiries")
+                    raise_operation_error(get_request(), "Can't update tenderPeriod.startDate in active.enquiries")
 
                 if before["procuringEntity"] != after["procuringEntity"]:
-                    raise_operation_error(get_request(), f"Can't update procuringEntity in active.enquiries")
+                    raise_operation_error(get_request(), "Can't update procuringEntity in active.enquiries")
 
                 if "items" in get_request().validated["json_data"]:
                     calculate_agreement_contracts_value_amount(after)

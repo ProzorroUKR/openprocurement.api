@@ -36,7 +36,7 @@ def test_mask_function():
 )
 def test_mask_plan_by_identifier(app):
     set_now()
-    with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
+    with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
@@ -55,7 +55,7 @@ def test_mask_plan_by_identifier(app):
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_plan_by_is_masked(app):
     set_now()
-    with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
+    with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
@@ -126,7 +126,7 @@ def test_mask_plan_by_is_masked(app):
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_plan_skipped(app):
     set_now()
-    with open(f"src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
+    with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
         initial_data = json.load(f)
     app.app.registry.mongodb.plans.store.save_data(
         app.app.registry.mongodb.plans.collection,
