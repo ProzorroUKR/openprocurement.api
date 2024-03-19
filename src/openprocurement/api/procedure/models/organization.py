@@ -29,4 +29,4 @@ class Organization(CommonOrganization):
 
 
 class BusinessOrganization(Organization):
-    scale = StringType(choices=SCALE_CODES, required=True)
+    scale = StringType(choices=SCALE_CODES)
