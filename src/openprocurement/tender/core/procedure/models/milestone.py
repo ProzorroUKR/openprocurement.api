@@ -5,7 +5,11 @@ from schematics.exceptions import ValidationError
 from schematics.types import FloatType, IntType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
+from openprocurement.api.constants import (
+    MILESTONE_CODES,
+    MILESTONE_TITLES,
+    MILESTONES_VALIDATION_FROM,
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
@@ -64,23 +68,11 @@ class Duration(Model):
 
 class Milestone(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(
-        required=True,
-        choices=[
-            "executionOfWorks",
-            "deliveryOfGoods",
-            "submittingServices",
-            "signingTheContract",
-            "submissionDateOfApplications",
-            "dateOfInvoicing",
-            "endDateOfTheReportingPeriod",
-            "anotherEvent",
-        ],
-    )
+    title = StringType(required=True)
     description = StringType()
-    type = StringType(required=True, choices=["financing"])
-    code = StringType(required=True, choices=["prepayment", "postpayment"])
-    percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
+    type = StringType(required=True, choices=["financing", "delivery"])
+    code = StringType(required=True)
+    percentage = FloatType(max_value=100, validators=[is_positive_float])
 
     duration = ModelType(Duration, required=True)
     sequenceNumber = IntType(required=True, min_value=0)
@@ -93,6 +85,26 @@ class Milestone(Model):
         should_validate = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
         if should_validate and value and len(value) > 2000:
             raise ValidationError("description should contain at most 2000 characters")
+
+    def validate_percentage(self, data, value):
+        if data.get("type") == "financing" and not value:
+            raise ValidationError("This field is required.")
+        elif data.get("type") == "delivery" and value:
+            raise ValidationError("Rogue field")
+
+    def validate_code(self, data, value):
+        milestone_type = data.get("type")
+        if value not in MILESTONE_CODES[milestone_type]:
+            raise ValidationError(f"Value must be one of {MILESTONE_CODES[milestone_type]}")
+
+    def validate_title(self, data, value):
+        milestone_type = data.get("type")
+        if value not in MILESTONE_TITLES[milestone_type]:
+            raise ValidationError(f"Value must be one of {MILESTONE_TITLES[milestone_type]}")
+
+    def validate_relatedLot(self, data, value):
+        if data.get("type") == "delivery" and not value:
+            raise ValidationError("This field is required.")
 
 
 def validate_milestones_lot(data, milestones):

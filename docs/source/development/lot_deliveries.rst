@@ -31,13 +31,7 @@ Milestone (delivery)
 
     Замовник обов'язково повинен обрати коли він очікує поставку.
 
-    Приклад можливих значеннь:
-
-    * `afterContractSigning` - після підписання контракту
-    * `afterPrepayment` - після отримання авансу
-    * `afterApplicationReceiving` - після отримання заявки
-    * `daily` - щоденно
-    * `monthly` - щомісячно
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ довідниками.
 
 :description:
     string
@@ -55,7 +49,7 @@ Milestone (delivery)
 :code:
     string, required
 
-    Possible values will be set in dictionary.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками.
 
 :duration:
     :ref:`deliveryDuration` object, required
@@ -111,8 +105,8 @@ Delivery Logic
       "data": {
         "milestones": [
           {
-            "title": "afterContractSigning",
-            "code": "application",
+            "title": "signingTheContract",
+            "code": "standard",
             "type": "delivery",
             "duration": {
               "days": 14,
@@ -162,8 +156,8 @@ Delivery Logic
         "milestones": [
           {
             "id": "2328f66eebf04c4497d0fb223feeb0er",
-            "title": "afterContractSigning",
-            "code": "application",
+            "title": "signingTheContract",
+            "code": "standard",
             "type": "delivery",
             "duration": {
               "days": 14,
@@ -219,8 +213,8 @@ Delivery Logic
       "data": {
         "milestones": [
           {
-            "title": "afterContractSigning",
-            "code": "application",
+            "title": "signingTheContract",
+            "code": "standard",
             "type": "delivery",
             "duration": {
               "days": 14,
@@ -292,8 +286,8 @@ Delivery Logic
         "milestones": [
           {
             "id": "2328f66eebf04c4497d0fb223feeb0er",
-            "title": "afterContractSigning",
-            "code": "application",
+            "title": "signingTheContract",
+            "code": "standard",
             "type": "delivery",
             "duration": {
               "days": 14,

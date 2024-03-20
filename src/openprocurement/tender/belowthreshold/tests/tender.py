@@ -43,10 +43,12 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     required_field_deletion,
     tender_created_after_related_lot_is_required,
     tender_created_before_related_lot_is_required,
+    tender_delivery_milestones,
     tender_features,
     tender_features_invalid,
     tender_fields,
     tender_finance_milestones,
+    tender_financing_milestones,
     tender_funders,
     tender_inspector,
     tender_item_related_lot_validation,
@@ -85,6 +87,8 @@ class TenderResourceTestMixin:
     test_patch_item_with_zero_quantity = snitch(patch_item_with_zero_quantity)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_create_tender_config_test = snitch(create_tender_config_test)
+    test_tender_financing_milestones = snitch(tender_financing_milestones)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
 
 
 class TenderTest(BaseApiWebTest):

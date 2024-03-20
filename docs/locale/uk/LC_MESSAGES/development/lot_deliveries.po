@@ -61,22 +61,7 @@ msgstr ""
 msgid "Замовник обов'язково повинен обрати коли він очікує поставку."
 msgstr ""
 
-msgid "Приклад можливих значеннь:"
-msgstr ""
-
-msgid "`afterContractSigning` - після підписання контракту"
-msgstr ""
-
-msgid "`afterPrepayment` - після отримання авансу"
-msgstr ""
-
-msgid "`afterApplicationReceiving` - після отримання заявки"
-msgstr ""
-
-msgid "`daily` - щоденно"
-msgstr ""
-
-msgid "`monthly` - щомісячно"
+msgid "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ довідниками."
 msgstr ""
 
 msgid "description"
@@ -98,6 +83,9 @@ msgid "`delivery`"
 msgstr ""
 
 msgid "code"
+msgstr ""
+
+msgid "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками."
 msgstr ""
 
 msgid "duration"
