@@ -691,6 +691,23 @@ def post_tender_bid_with_another_currency(self):
         "currency of bid unit should be identical to currency of tender value",
     )
 
+    # post bid with another VAT in bid.items.unit.value
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}},
+        },
+    ]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+    )
+
 
 def patch_tender_bid_with_another_currency(self):
     lots = self.mongodb.tenders.get(self.tender_id).get("lots")

@@ -8,6 +8,28 @@ Content-Type: application/json
 
 {
   "data": {
+    "funders": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "XM-DAC",
+          "id": "44000",
+          "legalName": "Державне управління справами",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        }
+      }
+    ],
     "criteria": [
       {
         "title": "Вчинення злочинів, учинених з корисливих мотивів",

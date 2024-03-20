@@ -154,7 +154,10 @@ def validate_item_unit_values(data, items):
         for item in items:
             item_value = (item.get("unit") or {}).get("value")
             if item_value:
-                if not is_multi_currency_tender() and item_value['currency'] != base_value['currency']:
+                if (
+                    get_tender()["config"]["valueCurrencyEquality"] is True
+                    and item_value['currency'] != base_value['currency']
+                ):
                     raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")
                 if item_value['valueAddedTaxIncluded'] != base_value['valueAddedTaxIncluded']:
                     raise ValidationError(

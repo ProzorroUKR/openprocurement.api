@@ -4,11 +4,11 @@ Multi currency
 ==============
 
 The belowThreshold procedure can be multi currency for donors.
-To create such type of procedure it is required to set config `valueCurrencyEquality:false`.
+To create such type of procedure it is required to set config `valueCurrencyEquality:false` and add `funders` field.
 
 In this way, it will be possible to add a price list of items to the procedure in different currency. The price list will help to visually show which parts make up the total price of the participant for each item separately.
 
-Let's create tender with configuration `valueCurrencyEquality:false`, add lots for it and activate it:
+Let's create tender with configuration `valueCurrencyEquality:false` and `funders` field, add lots for it and activate it:
 
 .. http:example:: http/multi-currency/tender.http
    :code:
