@@ -23,6 +23,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_lotvalues,
@@ -619,6 +620,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["items"] = test_docs_items_open
         del test_tender_data["minimalStep"]
+        test_tender_data["funders"] = [deepcopy(test_tender_below_organization)]
+        test_tender_data["funders"][0]["identifier"]["id"] = "44000"
+        test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+        del test_tender_data["funders"][0]["scale"]
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]['value'] = test_tender_data['value']
         test_lots[1]['value'] = test_tender_data['value']

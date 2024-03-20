@@ -178,6 +178,13 @@ test_agreement_dps_data = {
     ],
 }
 
+test_tender_dps_no_auction = deepcopy(test_tender_dps_data)
+del test_tender_dps_no_auction["minimalStep"]
+test_tender_dps_no_auction["funders"] = [deepcopy(test_tender_below_organization)]
+test_tender_dps_no_auction["funders"][0]["identifier"]["id"] = "44000"
+test_tender_dps_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+del test_tender_dps_no_auction["funders"][0]["scale"]
+
 
 class BaseApiWebTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)

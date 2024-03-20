@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_bids,
     test_tender_below_config,
     test_tender_below_data,
+    test_tender_below_data_no_auction,
     test_tender_below_lots,
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
@@ -440,9 +441,7 @@ class TenderEContractResourceTest(
         }
     )
     initial_config = config
-    tender_data = deepcopy(test_tender_below_data)
-    tender_data.pop("minimalStep", None)
-    initial_data = tender_data
+    initial_data = test_tender_below_data_no_auction
 
     test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
 
