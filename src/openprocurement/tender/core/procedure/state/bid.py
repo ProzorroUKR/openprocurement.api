@@ -41,7 +41,6 @@ class BidState(BaseState):
 
     def on_patch(self, before, after):
         self.validate_status_change(before, after)
-        self.validate_bid_vs_agreement(after)
         self.update_date_on_value_amount_change(before, after)
         self.validate_items_id(after)
         super().on_patch(before, after)

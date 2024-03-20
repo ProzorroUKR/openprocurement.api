@@ -25,13 +25,13 @@ from openprocurement.tender.pricequotation.tests.base import (
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
     create_tender_bid,
-    create_tender_bid_document_invalid_award_status,
     create_tender_bid_invalid,
     delete_tender_bid,
     deleted_bid_do_not_locks_tender_in_state,
     deleted_bid_is_not_restorable,
     get_tender_bid,
     get_tender_tenderers,
+    invalidate_not_agreement_member_bid_via_chronograph,
     patch_tender_bid,
     patch_tender_bid_document,
     requirement_response_validation_multiple_criterias,
@@ -46,10 +46,7 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_3,
     test_tender_pq_criteria_4,
 )
-from openprocurement.tender.pricequotation.tests.utils import (
-    copy_criteria_req_id,
-    criteria_drop_uuids,
-)
+from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 
 
 @patch(
@@ -69,6 +66,9 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_invalidate_not_agreement_member_bid_via_chronograph = snitch(
+        invalidate_not_agreement_member_bid_via_chronograph
+    )
 
 
 class TenderBidCriteriaTest(TenderContentWebTest):

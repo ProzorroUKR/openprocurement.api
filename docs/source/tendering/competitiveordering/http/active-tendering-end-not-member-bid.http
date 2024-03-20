@@ -1,0 +1,15 @@
+GET /api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/bids/85865608102c4ce89daf08165556887c?acc_token=12f4dfe46b46430f91095aa3cf2b7b3b HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "status": "invalid",
+    "id": "85865608102c4ce89daf08165556887c"
+  }
+}
+

@@ -38,6 +38,16 @@ PERIODS = {
                 "startDate": timedelta(days=2),
             },
         },
+        "end": {
+            "enquiryPeriod": {
+                "startDate": -timedelta(days=8),
+                "endDate": -timedelta(days=5),
+            },
+            "tenderPeriod": {
+                "startDate": -timedelta(days=8),
+                "endDate": timedelta(),
+            },
+        },
     },
     "active.auction": {
         "start": {
