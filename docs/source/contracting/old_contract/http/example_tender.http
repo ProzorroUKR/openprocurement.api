@@ -178,7 +178,6 @@ Content-Type: application/json
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -189,7 +188,8 @@ Content-Type: application/json
             "contactPoint": {
               "name": "Державне управління справами",
               "telephone": "+0440000000"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "status": "active",
@@ -220,7 +220,6 @@ Content-Type: application/json
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -231,7 +230,8 @@ Content-Type: application/json
             "contactPoint": {
               "name": "Державне управління справами",
               "telephone": "+0440000000"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "bid_id": "9a0b277d34044f7693eeeacf02a5d88b",
@@ -343,7 +343,6 @@ Content-Type: application/json
               "legalName": "Державне управління справами",
               "uri": "http://www.dus.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Банкова, 11, корпус 1",
               "locality": "м. Київ",
@@ -354,7 +353,8 @@ Content-Type: application/json
             "contactPoint": {
               "name": "Державне управління справами",
               "telephone": "+0440000000"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "date": "2023-01-01T00:00:01+02:00",

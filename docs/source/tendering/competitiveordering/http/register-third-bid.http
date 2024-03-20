@@ -63,7 +63,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "legalName_en": "dus.gov.ua",
           "uri": "http://www.dus.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -76,7 +75,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20
           "name_en": "State administration",
           "email": "aa@aa.com",
           "telephone": "+0440000000"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "status": "draft",

@@ -18,6 +18,7 @@ Content-Type: application/json
     "tenderers": [
       {
         "name": "НАЗВА",
+        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -35,8 +36,7 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "telephone": "+380432216930",
           "email": "soleksuk@gmail.com"
-        },
-        "scale": "micro"
+        }
       }
     ],
     "documents": [

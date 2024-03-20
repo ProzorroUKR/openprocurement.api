@@ -59,6 +59,7 @@ Content-Type: application/json
           {
             "name": "Державне управління справами",
             "name_en": "State administration",
+            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "12345678",
@@ -78,8 +79,7 @@ Content-Type: application/json
               "name_en": "State administration",
               "telephone": "+0440000000",
               "email": "aa@aa.com"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [

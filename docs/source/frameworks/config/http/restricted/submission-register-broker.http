@@ -46,6 +46,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e7c60f18fc8
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
+        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
@@ -63,8 +64,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9e7c60f18fc8
           "name": "Сергій Олексюк",
           "telephone": "+380432216930",
           "email": "soleksuk@gmail.com"
-        },
-        "scale": "micro"
+        }
       }
     ],
     "frameworkID": "08238232b095420687b4e273ae56d878",

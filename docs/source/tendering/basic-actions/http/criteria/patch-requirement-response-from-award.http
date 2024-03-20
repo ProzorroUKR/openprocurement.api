@@ -115,7 +115,6 @@ Content-Type: application/json
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
           "uri": "http://www.sc.gov.ua/"
         },
-        "scale": "sme",
         "address": {
           "streetAddress": "вул. Островського, 34",
           "locality": "м. Львів",
@@ -127,7 +126,8 @@ Content-Type: application/json
           "name": "Андрій Олексюк",
           "email": "aagt@gmail.com",
           "telephone": "+380322916930"
-        }
+        },
+        "scale": "sme"
       }
     ],
     "bid_id": "b10ae0e005674aa1a5f4a72a9357a49d",

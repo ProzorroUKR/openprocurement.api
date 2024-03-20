@@ -58,6 +58,7 @@ Content-Type: application/json
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
+            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
@@ -75,8 +76,7 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "telephone": "+380432216930",
               "email": "soleksuk@gmail.com"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [
@@ -117,6 +117,7 @@ Content-Type: application/json
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
+            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137257",
@@ -134,8 +135,7 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "telephone": "+380432216930",
               "email": "soleksuk@gmail.com"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [

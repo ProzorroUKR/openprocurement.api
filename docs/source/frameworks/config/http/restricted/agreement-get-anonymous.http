@@ -57,6 +57,7 @@ Content-Type: application/json
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
+            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
@@ -74,8 +75,7 @@ Content-Type: application/json
               "name": "Приховано",
               "telephone": "Приховано",
               "email": "Приховано"
-            },
-            "scale": "micro"
+            }
           }
         ],
         "milestones": [

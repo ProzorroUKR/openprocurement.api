@@ -872,7 +872,6 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -884,7 +883,8 @@ Content-Type: application/json
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
-            }
+            },
+            "scale": "mid"
           }
         ],
         "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
@@ -910,7 +910,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "sme",
             "address": {
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
@@ -922,7 +921,8 @@ Content-Type: application/json
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
               "telephone": "+380322916930"
-            }
+            },
+            "scale": "sme"
           }
         ],
         "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
@@ -948,7 +948,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -960,7 +959,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
@@ -985,7 +985,6 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -997,7 +996,8 @@ Content-Type: application/json
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
-            }
+            },
+            "scale": "mid"
           }
         ],
         "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
@@ -1024,7 +1024,6 @@ Content-Type: application/json
               "id": "00137227",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "mid",
             "address": {
               "streetAddress": "вул. Островського, 35",
               "locality": "м. Львів",
@@ -1036,7 +1035,8 @@ Content-Type: application/json
               "name": "Іван Іваненко",
               "email": "fake@mail.com",
               "telephone": "+380322123456"
-            }
+            },
+            "scale": "mid"
           }
         ],
         "bid_id": "d36d4d7ab1d54578b92e72a7bf21354e",
@@ -1066,7 +1066,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "sme",
             "address": {
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
@@ -1078,7 +1077,8 @@ Content-Type: application/json
               "name": "Андрій Олексюк",
               "email": "aagt@gmail.com",
               "telephone": "+380322916930"
-            }
+            },
+            "scale": "sme"
           }
         ],
         "bid_id": "5d3dc5765f7b493e88a8cf48097c37b1",
@@ -1108,7 +1108,6 @@ Content-Type: application/json
               "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
               "uri": "http://www.sc.gov.ua/"
             },
-            "scale": "micro",
             "address": {
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
@@ -1120,7 +1119,8 @@ Content-Type: application/json
               "name": "Сергій Олексюк",
               "email": "soleksuk@gmail.com",
               "telephone": "+380432216930"
-            }
+            },
+            "scale": "micro"
           }
         ],
         "bid_id": "b5da67b11f7643f78cdf909b0d5c4595",
@@ -1231,7 +1231,6 @@ Content-Type: application/json
                   "id": "00137227",
                   "uri": "http://www.sc.gov.ua/"
                 },
-                "scale": "mid",
                 "address": {
                   "streetAddress": "вул. Островського, 35",
                   "locality": "м. Львів",
@@ -1243,7 +1242,8 @@ Content-Type: application/json
                   "name": "Іван Іваненко",
                   "email": "fake@mail.com",
                   "telephone": "+380322123456"
-                }
+                },
+                "scale": "mid"
               }
             ],
             "unitPrices": [
@@ -1280,7 +1280,6 @@ Content-Type: application/json
                   "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
                   "uri": "http://www.sc.gov.ua/"
                 },
-                "scale": "sme",
                 "address": {
                   "streetAddress": "вул. Островського, 34",
                   "locality": "м. Львів",
@@ -1292,7 +1291,8 @@ Content-Type: application/json
                   "name": "Андрій Олексюк",
                   "email": "aagt@gmail.com",
                   "telephone": "+380322916930"
-                }
+                },
+                "scale": "sme"
               }
             ],
             "unitPrices": [
@@ -1329,7 +1329,6 @@ Content-Type: application/json
                   "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
                   "uri": "http://www.sc.gov.ua/"
                 },
-                "scale": "micro",
                 "address": {
                   "streetAddress": "вул. Островського, 33",
                   "locality": "м. Вінниця",
@@ -1341,7 +1340,8 @@ Content-Type: application/json
                   "name": "Сергій Олексюк",
                   "email": "soleksuk@gmail.com",
                   "telephone": "+380432216930"
-                }
+                },
+                "scale": "micro"
               }
             ],
             "unitPrices": [

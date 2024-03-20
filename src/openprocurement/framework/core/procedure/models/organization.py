@@ -1,12 +1,7 @@
-from schematics.types import StringType
-
-from openprocurement.api.constants import SCALE_CODES
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
-from openprocurement.api.procedure.models.organization import (
-    BusinessOrganization as BaseBusinessOrganization,
-)
+from openprocurement.api.procedure.models.organization import BusinessOrganization
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
@@ -25,13 +20,12 @@ class Organization(BaseOrganization):
     address = ModelType(Address, required=True)
 
 
-class SubmissionBusinessOrganization(BaseBusinessOrganization):
+class SubmissionBusinessOrganization(BusinessOrganization):
     identifier = ModelType(SubmissionIdentifier, required=True)
     address = ModelType(FullAddress, required=True)
     contactPoint = ModelType(SubmissionContactPoint, required=True)
-    scale = StringType(choices=SCALE_CODES)
 
 
-class ContractBusinessOrganization(BaseBusinessOrganization):
+class ContractBusinessOrganization(BusinessOrganization):
     contactPoint = ModelType(BaseContactPoint, required=True)
     address = ModelType(Address, required=True)

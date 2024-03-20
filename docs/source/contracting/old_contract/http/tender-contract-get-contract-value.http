@@ -17,7 +17,6 @@ Content-Type: application/json
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -28,7 +27,8 @@ Content-Type: application/json
         "contactPoint": {
           "name": "Державне управління справами",
           "telephone": "+0440000000"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "items": [

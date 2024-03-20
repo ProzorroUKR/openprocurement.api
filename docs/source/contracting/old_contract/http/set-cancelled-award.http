@@ -33,7 +33,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5355513b064e44ff
           "legalName": "Державне управління справами",
           "uri": "http://www.dus.gov.ua/"
         },
-        "scale": "micro",
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",
           "locality": "м. Київ",
@@ -44,7 +43,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5355513b064e44ff
         "contactPoint": {
           "name": "Державне управління справами",
           "telephone": "+0440000000"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "bid_id": "1cfccb186a8742d89e5df77aa9b90bad",

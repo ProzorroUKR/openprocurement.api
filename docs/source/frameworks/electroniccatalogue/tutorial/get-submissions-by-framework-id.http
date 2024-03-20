@@ -12,6 +12,7 @@ Content-Type: application/json
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
+          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
@@ -29,8 +30,7 @@ Content-Type: application/json
             "name": "Сергій Олексюк",
             "telephone": "+380432216930",
             "email": "soleksuk@gmail.com"
-          },
-          "scale": "micro"
+          }
         }
       ],
       "frameworkID": "7a229c4d310842c39ef98821651b267b",
@@ -46,6 +46,7 @@ Content-Type: application/json
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
+          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
@@ -63,8 +64,7 @@ Content-Type: application/json
             "name": "Сергій Олексюк",
             "telephone": "+380432216930",
             "email": "soleksuk@gmail.com"
-          },
-          "scale": "micro"
+          }
         }
       ],
       "frameworkID": "7a229c4d310842c39ef98821651b267b",
