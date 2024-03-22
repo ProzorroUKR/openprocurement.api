@@ -1792,7 +1792,7 @@ def patch_tender_status(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": f"Can't update tender in current (active.tendering) status",
+                "description": "Can't update tender in current (active.tendering) status",
             }
         ],
     )

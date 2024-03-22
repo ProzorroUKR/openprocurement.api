@@ -589,7 +589,7 @@ def create_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"Can't add bid in current (complete) tender status",
+        "Can't add bid in current (complete) tender status",
     )
 
 

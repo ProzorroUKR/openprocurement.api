@@ -44,7 +44,7 @@ class PlanResource(PlanBaseResource):
     def post(self):
         plan = self.request.validated["plan"]
         data = self.request.validated["ownership_data"]
-        route_name = f"Plans"
+        route_name = "Plans"
         location = get_transfer_location(self.request, route_name, plan_id=plan["_id"])
         transfer = extract_transfer_doc(self.request, transfer_id=data["id"])
 

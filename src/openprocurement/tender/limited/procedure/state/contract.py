@@ -145,7 +145,7 @@ class LimitedReportingContractState(ContractStateMixing, LimitedContractStateMix
     @staticmethod
     def validate_contract_update_in_cancelled(request, before):
         if before["status"] == "cancelled":
-            raise_operation_error(request, f"Can't update contract in current (cancelled) status")
+            raise_operation_error(request, "Can't update contract in current (cancelled) status")
 
     @staticmethod
     def validate_contract_items_count_modification(request, before, after):

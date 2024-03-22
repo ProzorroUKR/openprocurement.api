@@ -49,7 +49,6 @@ disable = [
     "deprecated-method",
     "duplicate-code",
     "expression-not-assigned",
-    "f-string-without-interpolation",
     "fixme",
     "function-redefined",
     "global-statement",

@@ -405,7 +405,7 @@ def post_submission_with_active_contract(self):
     self.assertEqual(agreement["contracts"][0]["status"], "active")
 
     response = self.app.post_json(
-        f"/submissions",
+        "/submissions",
         {
             "data": self.initial_submission_data,
             "config": self.initial_submission_config,

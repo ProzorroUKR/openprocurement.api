@@ -31,4 +31,4 @@ class BaseState:
             if update_date:
                 obj["date"] = get_now().isoformat()
         else:
-            logger.warning(f"Obj status already set")
+            logger.warning("Obj status already set")

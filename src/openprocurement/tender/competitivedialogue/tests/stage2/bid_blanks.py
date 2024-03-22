@@ -362,7 +362,7 @@ def ukrainian_author_id(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], f"Can't add bid in current (complete) tender status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
 # TenderStage2EUBidFeaturesResourceTest

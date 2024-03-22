@@ -2113,7 +2113,7 @@ def create_tender_bidder(self):
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], f"Can't add bid in current (complete) tender status")
+    self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
 
 
 def deleted_bid_is_not_restorable(self):

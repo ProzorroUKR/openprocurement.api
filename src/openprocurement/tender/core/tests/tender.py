@@ -44,7 +44,7 @@ class TenderResourceTest(BaseWebTest):
             },
         )
 
-        response = self.app.get(f"/tenders?offset=2015-01-01T00:00:00+02:00" "&descending=1&limit=10")
+        response = self.app.get("/tenders?offset=2015-01-01T00:00:00+02:00&descending=1&limit=10")
         self.assertEqual(response.status, "200 OK")
 
         response = self.app.get(
