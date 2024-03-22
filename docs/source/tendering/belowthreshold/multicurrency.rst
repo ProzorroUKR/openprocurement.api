@@ -14,6 +14,17 @@ Let's create tender with configuration `valueCurrencyEquality:false` and `funder
    :code:
 
 Now the participant can register bid.
+
+It is required to add `items` for tender with field `funders`. If there are no `items` in bid, we will see an error:
+
+.. http:example:: http/multi-currency/post-bid-without-items.http
+   :code:
+
+Also it is required to add `value` in `items.unit` for tender with field `funders`. If there are no `value` in `bid.items.unit`, we will see an error:
+
+.. http:example:: http/multi-currency/post-bid-without-values-in-unit-items.http
+   :code:
+
 For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:
 
 .. http:example:: http/multi-currency/post-add-valid-bid.http

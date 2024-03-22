@@ -2391,24 +2391,44 @@ def patch_tender_bid_with_disabled_value_restriction(self):
 
 
 def post_tender_bid_with_disabled_lot_values_currency_equality(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    lots = tender.get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["currency"] = "EUR"
     value["amount"] = 650
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+        },
+    ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    lots = tender.get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["currency"] = "UAH"
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+        },
+    ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -2434,6 +2454,15 @@ def post_bid_multi_currency(self):
     value["currency"] = "EUR"
     value["amount"] = 650
     bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+
+    # try to add bid without items
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "items is required for tender with funders",
+    )
+
     # try to change valueAddedTaxIncluded different from lot
     bid["items"] = [
         {
@@ -2521,17 +2550,49 @@ def patch_bid_multi_currency(self):
 
 
 def post_tender_bid_with_disabled_value_currency_equality(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    items = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+        },
+    ]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 200, "currency": "EUR"}}},
+        {
+            "data": {
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 200, "currency": "UAH"},
+                "items": items,
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid_with_disabled_value_currency_equality(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    items = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+        },
+    ]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 400, "currency": "UAH"}}},
+        {
+            "data": {
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 400, "currency": "UAH"},
+                "items": items,
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]

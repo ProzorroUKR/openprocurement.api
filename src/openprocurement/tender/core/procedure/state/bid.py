@@ -60,18 +60,21 @@ class BidState(BaseState):
                 name="items",
             )
 
-        for item in data.get("items", []):
-            if value := item.get("unit", {}).get("value"):
-                if tender.get("value", {}).get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
-                    raise_items_error(
-                        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
-                    )
-                if tender["config"]["valueCurrencyEquality"] is True and tender.get("value", {}).get(
-                    "currency"
-                ) != value.get("currency"):
-                    raise_items_error("currency of bid unit should be identical to currency of tender value")
-            elif self.items_unit_value_required_for_funders and tender.get("funders"):
-                raise_items_error("items.unit.value is required for tender with funders")
+        if data.get("items"):
+            for item in data["items"]:
+                if value := item.get("unit", {}).get("value"):
+                    if tender.get("value", {}).get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
+                        raise_items_error(
+                            "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+                        )
+                    if tender["config"]["valueCurrencyEquality"] is True and tender.get("value", {}).get(
+                        "currency"
+                    ) != value.get("currency"):
+                        raise_items_error("currency of bid unit should be identical to currency of tender value")
+                elif self.items_unit_value_required_for_funders and tender.get("funders"):
+                    raise_items_error("items.unit.value is required for tender with funders")
+        elif self.items_unit_value_required_for_funders and tender.get("funders"):
+            raise_items_error("items is required for tender with funders")
 
     def update_date_on_value_amount_change(self, before, after):
         if not self.update_date_on_value_amount_change_enabled:

@@ -50,6 +50,21 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "987404b67a4c4d888112d4e9755edefc"
       }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          }
+        }
+      }
     ]
   }
 }
@@ -61,6 +76,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "value": {
+            "amount": 0.6,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",

@@ -442,6 +442,7 @@ class TenderEContractResourceTest(
     )
     initial_config = config
     initial_data = test_tender_below_data_no_auction
+    tender_for_funders = True
 
     test_patch_econtract_multi_currency = snitch(patch_econtract_multi_currency)
 

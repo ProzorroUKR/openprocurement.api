@@ -1,0 +1,81 @@
+POST /api/2.5/tenders/c1d6775dda6d43d9992df300f847b755/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "draft",
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 200,
+          "currency": "USD"
+        },
+        "relatedLot": "cca0671762d34aa183864d6a01e27315"
+      },
+      {
+        "value": {
+          "amount": 400,
+          "currency": "EUR"
+        },
+        "relatedLot": "5cb16cd4783e4dd0b325487872b4e585"
+      }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "725f539279e34836859087467400e721",
+        "unit": {
+          "code": "KGM"
+        }
+      },
+      {
+        "quantity": 1,
+        "description": "степлер",
+        "id": "37767739243c4a61a045afaf5e1e5b21"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "items",
+      "description": "items.unit.value is required for tender with funders"
+    }
+  ]
+}
+

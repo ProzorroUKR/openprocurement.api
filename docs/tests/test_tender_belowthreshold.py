@@ -409,6 +409,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Registering bid
         bids_access = {}
         bid_data = deepcopy(test_docs_bid_draft)
+        bid_data['items'] = [
+            {
+                "quantity": 5,
+                "description": "папір",
+                "id": items[0]['id'],
+                "unit": {
+                    "code": "KGM",
+                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                },
+            }
+        ]
         set_bid_lotvalues(bid_data, tender_lots)
         with open(TARGET_DIR + 'tutorial/register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
@@ -449,6 +460,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         bid_with_docs = deepcopy(test_docs_bid2_with_docs)
         set_bid_lotvalues(bid_with_docs, tender_lots)
+        bid_with_docs['items'] = [
+            {
+                "quantity": 5,
+                "description": "папір",
+                "id": items[0]['id'],
+                "unit": {
+                    "code": "KGM",
+                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                },
+            }
+        ]
         with open(TARGET_DIR + 'tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
             for document in bid_with_docs['documents']:
                 document['url'] = self.generate_docservice_url()
@@ -732,6 +754,55 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.assertEqual(response.status, "201 Created")
         self.set_responses(tender_id, response.json, "pending")
+
+        # post bid without items for tender with funders
+        with open(TARGET_DIR + 'multi-currency/post-bid-without-items.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # post bid without unit values in items for tender with funders
+        with open(TARGET_DIR + 'multi-currency/post-bid-without-values-in-unit-items.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {"code": "KGM"},
+                            },
+                            {
+                                "quantity": 1,
+                                "description": "степлер",
+                                "id": items[1]['id'],
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
 
         # Register second bid
         with open(TARGET_DIR + 'multi-currency/post-add-valid-bid.http', 'w') as self.app.file_obj:

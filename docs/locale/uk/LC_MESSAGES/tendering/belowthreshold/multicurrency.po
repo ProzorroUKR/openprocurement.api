@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-20 10:59+0100\n"
+"POT-Creation-Date: 2024-03-22 11:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -31,8 +31,17 @@ msgstr "Таким чином в учасників буде можливіст�
 msgid "Let's create tender with configuration `valueCurrencyEquality:false` and `funders` field, add lots for it and activate it:"
 msgstr "Створимо закупівлю з конфігурацією `valueCurrencyEquality:false` і полем `funders`, додамо лоти і активуємо її:"
 
-msgid "Now the participant can register bid. For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:"
-msgstr "Тепер учасник може зареєструвати пропозицію. До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:"
+msgid "Now the participant can register bid."
+msgstr "Тепер учасник може зареєструвати пропозицію."
+
+msgid "It is required to add `items` for tender with field `funders`. If there are no `items` in bid, we will see an error:"
+msgstr "Для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `items` в біді. Якщо `items` в біді нема, буде згенерована помилка:"
+
+msgid "Also it is required to add `value` in `items.unit` for tender with field `funders`. If there are no `value` in `bid.items.unit`, we will see an error:"
+msgstr "Також для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `value` в `items.unit` в біді. Якщо `value` в `items.unit` в біді нема, буде згенерована помилка:"
+
+msgid "For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:"
+msgstr "До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:"
 
 msgid "The requirements for bid registration:"
 msgstr "Вимоги до реєстрації пропозицій:"
