@@ -248,6 +248,7 @@ class TenderEContractDPSResourceTest(
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots
     initial_data = test_tender_dps_no_auction
+    tender_for_funders = True
     config = deepcopy(test_tender_dps_config)
     config.update(
         {

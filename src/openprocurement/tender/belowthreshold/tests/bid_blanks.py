@@ -2478,6 +2478,27 @@ def post_bid_multi_currency(self):
         response.json["errors"][0]["description"],
         "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
     )
+    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
+
+    # try to post bid without quantity in items
+    del bid["items"][0]["quantity"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{"quantity": ["This field is required."]}],
+    )
+
+    # try to post bid with items for another lot
+    bid["items"][0]["quantity"] = 7
+    bid["lotValues"][0]["relatedLot"] = tender["lots"][1]["id"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Bid items ids should be on tender items ids for current lot",
+    )
+    bid["lotValues"][0]["relatedLot"] = tender["lots"][0]["id"]
 
     # try to post bid without items.unit.value for tender with funders
     del bid["items"][0]["unit"]["value"]

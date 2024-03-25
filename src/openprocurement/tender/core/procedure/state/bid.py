@@ -188,8 +188,25 @@ class BidState(BaseState):
                     raise_operation_error(self.request, "Can't post inconsistent bid")
 
     def validate_items_id(self, after: dict) -> None:
-        tender_items_id = {i["id"] for i in self.request.validated["tender"].get("items", "")}
+        items_for_lot = False
+        tender_items = self.request.validated["tender"].get("items", [])
+        if lot_values := after.get("lotValues"):
+            lot_ids = {lot_value["relatedLot"] for lot_value in lot_values}
+            tender_items_id = {item["id"] for item in tender_items if item.get("relatedLot") in lot_ids}
+            items_for_lot = True
+        else:
+            tender_items_id = {i["id"] for i in tender_items}
         bid_items_id = {i["id"] for i in after.get("items", "")}
 
         if bid_items_id - tender_items_id:
-            raise_operation_error(self.request, "Bid items ids should be on tender items ids", status=422)
+            raise_operation_error(
+                self.request,
+                f"Bid items ids should be on tender items ids{' for current lot' if items_for_lot else ''}",
+                status=422,
+            )
+        if self.request.validated["tender"].get("funders") and tender_items_id - bid_items_id:
+            raise_operation_error(
+                self.request,
+                f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",
+                status=422,
+            )

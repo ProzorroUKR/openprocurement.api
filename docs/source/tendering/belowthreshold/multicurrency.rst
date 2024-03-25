@@ -25,6 +25,16 @@ Also it is required to add `value` in `items.unit` for tender with field `funder
 .. http:example:: http/multi-currency/post-bid-without-values-in-unit-items.http
    :code:
 
+Quantity of items in bid should be equal to quantity of tender items related to lot set in `lotValues`:
+
+.. http:example:: http/multi-currency/post-bid-with-items-less-than-in-tender.http
+   :code:
+
+Items ids in bid should correspond to items ids in tender and belong to the same `relatedLot` as set in bid:
+
+.. http:example:: http/multi-currency/post-bid-with-items-related-to-another-lot.http
+   :code:
+
 For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:
 
 .. http:example:: http/multi-currency/post-add-valid-bid.http

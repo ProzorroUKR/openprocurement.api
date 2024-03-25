@@ -11,9 +11,22 @@ from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 
 
 def create_tender_bidder(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update(
-        {"documents": None, "financialDocuments": None, "eligibilityDocuments": None, "qualificationDocuments": None}
+        {
+            "documents": None,
+            "financialDocuments": None,
+            "eligibilityDocuments": None,
+            "qualificationDocuments": None,
+            "items": [  # add items without quantity
+                {
+                    "description": "футляри до державних нагород",
+                    "id": items[0]['id'],
+                },
+            ],
+        }
     )
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),

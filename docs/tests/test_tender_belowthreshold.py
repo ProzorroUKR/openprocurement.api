@@ -804,6 +804,59 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
+        # post bid with items related to another lot than bid
+        with open(
+            TARGET_DIR + 'multi-currency/post-bid-with-items-related-to-another-lot.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[1]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # post bid with items quantity less than items in tender
+        with open(TARGET_DIR + 'multi-currency/post-bid-with-items-less-than-in-tender.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
         # Register second bid
         with open(TARGET_DIR + 'multi-currency/post-add-valid-bid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(

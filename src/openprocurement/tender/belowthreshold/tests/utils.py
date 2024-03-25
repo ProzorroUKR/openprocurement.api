@@ -26,14 +26,16 @@ def set_tender_criteria(criteria, lots, items):
 
 
 def set_bid_items(bid, items):
-    bid["items"] = [
-        {
-            "quantity": 7,
-            "description": "футляри до державних нагород",
-            "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
-        }
-    ]
+    bid["items"] = []
+    for item in items:
+        bid["items"].append(
+            {
+                "quantity": 7,
+                "description": "футляри до державних нагород",
+                "id": item['id'],
+                "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            }
+        )
     return bid
 
 

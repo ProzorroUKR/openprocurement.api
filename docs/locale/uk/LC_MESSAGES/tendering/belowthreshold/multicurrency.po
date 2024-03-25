@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-22 11:32+0100\n"
+"POT-Creation-Date: 2024-03-25 15:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -39,6 +39,12 @@ msgstr "Для донорської закупівлі (якщо є поле `fu
 
 msgid "Also it is required to add `value` in `items.unit` for tender with field `funders`. If there are no `value` in `bid.items.unit`, we will see an error:"
 msgstr "Також для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `value` в `items.unit` в біді. Якщо `value` в `items.unit` в біді нема, буде згенерована помилка:"
+
+msgid "Quantity of items in bid should be equal to quantity of tender items related to lot set in `lotValues`:"
+msgstr "Кількість `items` в пропозиції має співпадати з кількістю `items` в тендері на рівні лоту, вказаному в `lotValues`:"
+
+msgid "Items ids in bid should correspond to items ids in tender and belong to the same `relatedLot` as set in bid:"
+msgstr "Ідентифікатори `items` в пропозиції мають відповідати ідентифікаторам `items` в тендері та належати до того самого `relatedLot`, який вказано в пропозиції:"
 
 msgid "For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:"
 msgstr "До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:"
