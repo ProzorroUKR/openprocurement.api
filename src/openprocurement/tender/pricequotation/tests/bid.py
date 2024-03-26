@@ -78,7 +78,7 @@ class TenderBidCriteriaTest(TenderContentWebTest):
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
 
     test_multiple_criterias = snitch(requirement_response_validation_multiple_criterias)
-    test_expeted_values_format = snitch(requirement_response_value_validation_for_expected_values)
+    test_expected_values_format = snitch(requirement_response_value_validation_for_expected_values)
 
 
 class TenderBidCriteriaGroupTest(TenderContentWebTest):

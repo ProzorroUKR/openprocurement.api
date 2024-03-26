@@ -2790,6 +2790,25 @@ def put_tender_award_document(self):
                 "format": "application/msword",
             }
         },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Field title can not be changed during PUT. Should be the same as in the previous version of document",
+    )
+
+    response = self.app.put_json(
+        "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.award_id, doc_id, self.tender_token
+        ),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2811,7 +2830,6 @@ def put_tender_award_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name2.doc", response.json["data"]["title"])
 
     response = self.app.put_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(

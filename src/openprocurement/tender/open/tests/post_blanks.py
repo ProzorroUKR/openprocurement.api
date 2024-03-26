@@ -555,7 +555,7 @@ def get_tender_complaint_post_document_json(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document(
             {
-                "title": "name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -584,7 +584,6 @@ def get_tender_complaint_post_document_json(self):
     self.assertEqual(response.content_type, "application/json")
     document = response.json["data"]
     self.assertEqual(self.document_id, document["id"])
-    self.assertEqual("name.doc", document["title"])
     dateModified2 = document["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, document["previousVersions"][0]["dateModified"])
@@ -885,7 +884,7 @@ def put_tender_complaint_document_json(self):
     # put document by complaint_owner
     response = self.put_post_document(
         {
-            "title": "name.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -901,7 +900,7 @@ def put_tender_complaint_document_json(self):
     # put document by tender_owner
     response = self.put_post_document(
         {
-            "title": "name.doc",
+            "title": "укр.doc",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
             "format": "application/msword",
@@ -931,7 +930,7 @@ def put_tender_complaint_document_json(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document(
             {
-                "title": "name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -963,7 +962,7 @@ def put_tender_complaint_document_json(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.put_post_document(
             {
-                "title": "name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",

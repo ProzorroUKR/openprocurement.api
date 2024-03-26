@@ -1,9 +1,13 @@
+from base64 import b64encode
 from copy import deepcopy
+from urllib.parse import urlencode
 from uuid import uuid4
 
 import pytest
+from nacl.encoding import HexEncoder
 
 from openprocurement.api.tests.base import app, singleton_app
+from openprocurement.api.utils import generate_docservice_url
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
@@ -143,6 +147,28 @@ def test_fail_not_draft(app, plan):
     tender = response.json
 
     add_criteria(app, tender["data"]["id"], tender["access"]["token"])
+    uuid = uuid4().hex
+    doc_hash = '0' * 32
+    signer = app.app.registry.docservice_key
+    keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
+    msg = "{}\0{}".format(uuid, doc_hash).encode()
+    signature = b64encode(signer.sign(msg).signature)
+    query = {"Signature": signature, "KeyID": keyid}
+    doc_url = "http://localhost/get/{}?{}".format(uuid, urlencode(query))
+    response = app.post_json(
+        f'/tenders/{tender["data"]["id"]}/documents?acc_token={tender["access"]["token"]}',
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": doc_url,
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pdf",
+                "documentType": "notice",
+            }
+        },
+    )
+    assert response.status == "201 Created"
+
     response = app.patch_json(
         f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
         {"data": {"status": "active.tendering"}},

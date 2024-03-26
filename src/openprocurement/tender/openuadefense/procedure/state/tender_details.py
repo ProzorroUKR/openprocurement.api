@@ -23,6 +23,8 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     period_working_day = True
 
+    should_validate_notice_doc_required = False
+
     @classmethod
     def validate_required_criteria(cls, before, after):
         pass

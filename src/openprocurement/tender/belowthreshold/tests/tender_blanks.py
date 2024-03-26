@@ -137,6 +137,7 @@ def listing(self):
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
     add_criteria(self, tender_id, tender_token)
+    self.add_notice_doc(tender_id, tender_token)
     self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={tender_token}", {"data": {"status": self.primary_tender_status}}
     )
@@ -1239,6 +1240,8 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "milestones",
         "lots",
+        "documents",
+        "noticePublicationDate",
     ]
     if "procurementMethodDetails" in tender:
         fields.append("procurementMethodDetails")
@@ -1257,6 +1260,7 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
 
     add_criteria(self, tender["id"], token)
+    self.add_notice_doc(tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
     )
@@ -1323,6 +1327,80 @@ def patch_tender_draft(self):
         self.assertEqual(len(tender["features"]), 1)
         self.assertEqual(tender["features"][0]["title"], "test feature")
         self.assertEqual(tender["features"][0]["enum"][0]["value"], 0.1)
+
+
+def tender_notice_documents(self):
+    data = self.initial_data.copy()
+
+    # try to add tender with two notice documents
+    data.update(
+        {
+            "status": "draft",
+            "documents": [
+                {
+                    "id": "e4d7216f28dc4a1cbf18c5e4ee2cd1c5",
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "notice",
+                },
+                {
+                    "title": "notice.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "notice",
+                },
+            ],
+        }
+    )
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+
+    data["documents"] = [
+        {
+            "id": "e4d7216f28dc4a1cbf18c5e4ee2cd1c5",
+            "title": "sign.p7s",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+            "documentType": "notice",
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+
+    # try to patch documents and add another notice document
+    invalid_data_patch = {
+        "documents": [
+            {
+                "id": "e4d7216f28dc4a1cbf18c5e4ee2cd1c5",
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+            {
+                "title": "notice.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+        ],
+    }
+
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": invalid_data_patch},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
 
 
 def patch_tender_active_tendering(self):
@@ -1777,6 +1855,8 @@ def tender_fields(self):
             "submissionMethod",
             "next_check",
             "owner",
+            "documents",
+            "noticePublicationDate",
         },
     )
     self.assertIn(tender["id"], response.headers["Location"])
@@ -2142,8 +2222,6 @@ def patch_tender(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     owner_token = response.json["access"]["token"]
-    print(response.json)
-    print(self.initial_data)
     response = self.set_initial_status(response.json)
     tender = response.json["data"]
     dateModified = tender.pop("dateModified")
@@ -2432,6 +2510,7 @@ def guarantee(self):
                 {"data": test_exclusion_criteria + test_language_criteria + test_tender_guarantee_criteria},
                 status=201,
             )
+            self.add_notice_doc(tender["id"], token)
 
             try:
                 self.app.patch_json(
@@ -3302,6 +3381,8 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
+    self.add_notice_doc(tender_id, tender_token)
+
     response = self.app.patch_json(patch_request_path, {"data": {"status": self.primary_tender_status}})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -3373,6 +3454,7 @@ def tender_with_guarantee_multilot(self):
         {"data": test_exclusion_criteria + test_language_criteria + tender_lot_guarantee_criteria},
         status=201,
     )
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -3440,6 +3522,7 @@ def activate_bid_guarantee_multilot(self):
         },
         status=201,
     )
+    self.add_notice_doc(self.tender_id, self.tender_token)
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.tendering"}},
@@ -3685,6 +3768,7 @@ def tender_created_before_related_lot_is_required(self):
     self.tender_token = response.json["access"]["token"]
 
     # successfully patch tender without lot
+    self.add_notice_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}}, status=200
     )
@@ -3701,6 +3785,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     # forbid to patch tender without lot
     response = self.app.patch_json(
@@ -3724,6 +3809,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     # successfully patch tender with lot
     response = self.app.patch_json(
@@ -4011,3 +4097,33 @@ def tender_milestones_sequence_number(self):
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
+
+
+def check_notice_doc_during_activation(self):
+    data = deepcopy(test_tender_below_data)
+    data["status"] = "draft"
+    lots = deepcopy(self.test_lots_data)
+    set_tender_lots(data, lots)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.tender_id = response.json["data"]["id"]
+    self.tender_token = response.json["access"]["token"]
+    self.assertNotIn("noticePublicationDate", response.json["data"])
+
+    request_path = f"/tenders/{self.tender_id}?acc_token={self.tender_token}"
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": "active.enquiries"}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'notice' is required")
+
+    self.add_notice_doc(self.tender_id, self.tender_token)
+    response = self.app.patch_json(
+        request_path,
+        {"data": {"status": "active.enquiries"}},
+    )
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("noticePublicationDate", response.json["data"])
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")

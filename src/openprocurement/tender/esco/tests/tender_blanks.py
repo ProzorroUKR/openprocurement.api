@@ -802,6 +802,7 @@ def tender_fields(self):
             "owner",
             "date",
             "noticePublicationDate",
+            "documents",
         },
     )
 
@@ -1093,6 +1094,7 @@ def tender_with_nbu_discount_rate(self):
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1469,6 +1471,7 @@ def create_tender_generated(self):
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

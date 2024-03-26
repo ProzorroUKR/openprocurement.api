@@ -15,6 +15,7 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+    should_validate_notice_doc_required = False
 
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",

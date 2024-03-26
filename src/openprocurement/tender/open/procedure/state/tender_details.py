@@ -47,6 +47,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+    should_validate_notice_doc_required = True
 
     @classmethod
     def get_items_classification_prefix_length(cls, tender):

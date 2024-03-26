@@ -35,6 +35,7 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     tendering_period_extra_working_days = True
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     complaint_submit_time = timedelta(days=0)
+    should_validate_notice_doc_required = True
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post

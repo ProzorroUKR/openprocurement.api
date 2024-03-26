@@ -98,6 +98,7 @@ class TenderProcessTest(BaseTenderWebTest):
 class TenderGuarantee(BaseTenderWebTest):
     docservice = True
     initial_status = "draft"
+    initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_openeu_lots
     initial_bids = test_bids_data = test_tender_openeu_bids
 

@@ -136,9 +136,10 @@ class DocumentResourceMixin:
     def put(self):
         document = self.request.validated["data"]
 
+        item = self.request.validated[self.item_name]
+        self.state.validate_document_put(document, item, self.container)
         self.state.document_on_post(document)
 
-        item = self.request.validated[self.item_name]
         item[self.container].append(document)
         if "tender" in self.request.validated:
             self.state.always(self.request.validated["tender"])

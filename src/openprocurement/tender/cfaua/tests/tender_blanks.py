@@ -543,6 +543,7 @@ def create_tender_generated(self):
             "lots",
             "mainProcurementCategory",
             "milestones",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

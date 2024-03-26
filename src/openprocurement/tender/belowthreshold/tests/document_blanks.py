@@ -230,6 +230,23 @@ def put_tender_document(self):
                 "format": "application/msword",
             }
         },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Field title can not be changed during PUT. Should be the same as in the previous version of document",
+    )
+
+    response = self.app.put_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -250,7 +267,6 @@ def put_tender_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name name.doc", response.json["data"]["title"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
@@ -289,7 +305,7 @@ def put_tender_document(self):
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
         {
             "data": {
-                "title": "name name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -714,6 +730,88 @@ def create_tender_document_json_bulk(self):
     assert_document(doc_2, "name2.doc")
 
 
+def tender_notice_documents(self):
+    # try to add bulk of notice documents
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": [
+                {
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "notice",
+                },
+                {
+                    "title": "title.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "notice",
+                },
+            ]
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    doc_id = response.json["data"]["id"]
+
+    # add notice document when another one already exists
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["errors"][0]["description"], "Notice document already exists in tender")
+
+    # patch documentType in notice doc
+    response = self.app.patch_json(
+        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
+        {"data": {"documentType": "tenderNotice"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to add another notice
+    response = self.app.post_json(
+        "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
+
 def put_tender_document_json(self):
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -738,7 +836,7 @@ def put_tender_document_json(self):
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
         {
             "data": {
-                "title": "name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -764,7 +862,6 @@ def put_tender_document_json(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name.doc", response.json["data"]["title"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
@@ -803,7 +900,7 @@ def put_tender_document_json(self):
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
         {
             "data": {
-                "title": "укр.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",

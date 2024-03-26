@@ -790,7 +790,7 @@ def put_tender_bidder_document(self):
             ),
             {
                 "data": {
-                    "title": "name_{}.doc".format(doc_resource[:-1]),
+                    "title": "name.doc",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -950,7 +950,7 @@ def put_tender_bidder_document(self):
         ),
         {
             "data": {
-                "title": "name_{}.doc".format(doc_resource[:-1]),
+                "title": "name_financial_document.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -3285,7 +3285,7 @@ def patch_and_put_document_into_invalid_bid(self):
             ),
             {
                 "data": {
-                    "title": "name_{}_updated.doc".format(doc_resource[:-1]),
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -3422,7 +3422,7 @@ def put_tender_bidder_document_private_json(self):
             ),
             {
                 "data": {
-                    "title": "name_{}_v2.doc".format(doc_resource[:-1]),
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",

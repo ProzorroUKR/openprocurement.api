@@ -519,6 +519,8 @@ def create_tender_generated(self):
         "date",
         "mainProcurementCategory",
         "milestones",
+        "documents",
+        "noticePublicationDate",
     ]
     if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
         fields.append("criteria")
@@ -560,6 +562,8 @@ def tender_fields(self):
             "next_check",
             "owner",
             "date",
+            "documents",
+            "noticePublicationDate",
         },
     )
 
@@ -587,6 +591,8 @@ def tender_fields(self):
         "owner",
         "date",
         "awardPeriod",
+        "documents",
+        "noticePublicationDate",
     }
     self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
 
@@ -1546,6 +1552,7 @@ def tender_created_before_related_lot_constant(self):
         '/tenders/{}/criteria?acc_token={}'.format(self.tender_id, self.tender_token), {'data': test_criteria_data}
     )
     self.assertEqual(response.status, '201 Created')
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant for aboveThreshold
     response = self.app.patch_json(

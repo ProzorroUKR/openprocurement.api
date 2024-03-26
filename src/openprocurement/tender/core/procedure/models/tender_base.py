@@ -189,6 +189,7 @@ class BaseTender(PatchBaseTender):
     reviewRequests = ListType(ModelType(ReviewRequest, required=True))
 
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
+    noticePublicationDate = IsoDateTimeType()
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()

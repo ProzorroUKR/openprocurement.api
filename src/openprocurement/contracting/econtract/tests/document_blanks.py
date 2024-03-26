@@ -191,7 +191,7 @@ def contract_change_document(self):
         f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {
             "data": {
-                "title": "укр2.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url("1" * 32),
                 "hash": "md5:" + "1" * 32,
                 "format": "application/msword",

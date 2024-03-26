@@ -28,6 +28,8 @@ class CDStage1TenderDetailsState(OpenEUTenderDetailsMixing, CDStage1TenderState)
         "CRITERION.OTHER.BID.LANGUAGE",
     }
 
+    should_validate_notice_doc_required = False
+
     def on_patch(self, before, after):
         if get_request().authenticated_role != "competitive_dialogue":
             if before["status"] == "active.stage2.waiting":

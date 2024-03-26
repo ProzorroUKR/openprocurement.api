@@ -507,10 +507,29 @@ def test_update_milestone_documents(app, centralized_milestone):
 
     # put
     request_data = {
-        "title": "sign-2.p7s",
+        "title": "sign.p7s",
         "url": generate_docservice_url(app),
         "hash": "md5:" + "0" * 32,
         "format": "application/signature",
+    }
+    response = app.put_json(
+        "/plans/{}/milestones/{}/documents/{}?acc_token={}".format(
+            plan["id"], milestone["id"], new_doc["id"], milestone_token
+        ),
+        {"data": request_data},
+        status=422,
+    )
+    assert response.status_code == 422
+    assert (
+        response.json["errors"][0]["description"]
+        == "Field format can not be changed during PUT. Should be the same as in the previous version of document"
+    )
+
+    request_data = {
+        "title": "sign.p7s",
+        "url": generate_docservice_url(app),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pk7s",
     }
     response = app.put_json(
         "/plans/{}/milestones/{}/documents/{}?acc_token={}".format(

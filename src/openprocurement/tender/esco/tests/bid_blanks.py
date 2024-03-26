@@ -1570,7 +1570,7 @@ def patch_and_put_document_into_invalid_bid(self):
             ),
             {
                 "data": {
-                    "title": "u[dated.doc",
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",

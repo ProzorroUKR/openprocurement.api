@@ -178,7 +178,6 @@ class Tender(BaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     classification = ModelType(Classification)
-    noticePublicationDate = IsoDateTimeType()
     unsuccessfulReason = ListType(StringType)  # deprecated after PQ bot removing
 
     items = ListType(

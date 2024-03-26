@@ -211,7 +211,6 @@ class Tender(BaseTender):
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)
-    noticePublicationDate = IsoDateTimeType()
     guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)

@@ -28,6 +28,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
     tendering_period_extra_working_days = False
 
+    should_validate_notice_doc_required = False
+
     def on_post(self, tender):
         super().on_post(tender)
         self.initialize_enquiry_period(tender)
