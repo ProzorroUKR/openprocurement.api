@@ -25,7 +25,7 @@
                     {
                         "title": "Мова тендерної пропозиції українська",
                         "dataType": "boolean",
-                        "expectedValue": "true"
+                        "expectedValue": true
                     }
                 ]
             }

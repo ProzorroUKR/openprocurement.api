@@ -53,6 +53,10 @@ from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuid
     "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
     get_now() + timedelta(days=1),
 )
+@patch(
+    "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria

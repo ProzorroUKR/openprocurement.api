@@ -36,6 +36,12 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.types import (
+    StrictBooleanType,
+    StrictDecimalType,
+    StrictIntType,
+    StrictStringType,
+)
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import (
@@ -1391,17 +1397,6 @@ def check_requirements_active(criterion):
     return False
 
 
-def validate_requirement_values(requirement):
-    expected = requirement.get('expectedValue')
-    min_value = requirement.get('minValue')
-    max_value = requirement.get('maxValue')
-
-    if any((expected and min_value, expected and max_value)):
-        raise ValidationError('expectedValue conflicts with ["minValue", "maxValue"]')
-
-
-# TODO: in future replace this types with strictTypes
-#  (StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType)
 TYPEMAP = {
     'string': StringType(),
     'integer': IntType(),
@@ -1418,7 +1413,6 @@ def validate_value_factory(type_map):
         type_ = type_map.get(datatype)
         if not type_:
             raise ValidationError('Type mismatch: value {} does not confront type {}'.format(value, type_))
-        # validate value
         return type_.to_native(value)
 
     return validator
@@ -1521,3 +1515,34 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
         ids = [i["id"] for i in objs]
         if ids and len(set(ids)) != len(ids):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
+
+
+def validate_expected_items(requirement):
+    expected_min_items = requirement.get("expectedMinItems")
+    expected_max_items = requirement.get("expectedMaxItems")
+    expected_values = requirement.get("expectedValues")
+
+    if expected_values:
+        if expected_min_items and expected_max_items and expected_min_items > expected_max_items:
+            raise ValidationError("expectedMinItems couldn't be higher then expectedMaxItems")
+
+        if expected_min_items and expected_min_items > len(expected_values):
+            raise ValidationError("expectedMinItems couldn't be higher then count of items in expectedValues")
+
+        if expected_max_items and expected_max_items > len(expected_values):
+            raise ValidationError("expectedMaxItems couldn't be higher then count of items in expectedValues")
+
+    elif expected_min_items or expected_max_items:
+        raise ValidationError("expectedMinItems and expectedMaxItems couldn't exist without expectedValues")
+
+
+def validate_requirement_values(requirement):
+    field_conflict_map = {
+        "expectedValue": ["minValue", "maxValue", "expectedValues"],
+        "expectedValues": ["minValue", "maxValue", "expectedValue"],
+    }
+
+    for k, v in field_conflict_map.items():
+        if requirement.get(k) is not None and any(requirement.get(i) is not None for i in v):
+            raise ValidationError(f"{k} conflicts with {v}")
+    validate_expected_items(requirement)

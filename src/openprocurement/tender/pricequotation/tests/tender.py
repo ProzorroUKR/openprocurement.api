@@ -93,6 +93,10 @@ class TenderResourceTestMixin:
     get_now() + timedelta(days=1),
 )
 @patch(
+    "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
+    get_now() + timedelta(days=1),
+)
+@patch(
     "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
 )

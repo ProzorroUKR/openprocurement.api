@@ -124,7 +124,7 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
                     "id": requirement["id"],
                     "title": requirement["title"],
                 },
-                "value": "True",
+                "value": True,
             }
         ]
 

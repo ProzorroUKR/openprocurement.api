@@ -17,7 +17,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
-from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_criteria_1,
@@ -25,7 +24,6 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
     test_tender_pq_response_1,
 )
-from openprocurement.tender.pricequotation.tests.data import PQ_MULTI_PROFILE_RELEASED
 from openprocurement.tender.pricequotation.tests.utils import (
     copy_criteria_req_id,
     criteria_drop_uuids,
@@ -80,9 +78,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             }
         )
 
-        if PQ_MULTI_PROFILE_RELEASED:
-            agreement = {"id": self.agreement_id}
-            test_tender_data["agreement"] = agreement
+        agreement = {"id": self.agreement_id}
+        test_tender_data["agreement"] = agreement
 
         response = self.app.post_json('/tenders', {'data': test_tender_data, 'config': self.initial_config})
         tender_id = self.tender_id = response.json['data']['id']

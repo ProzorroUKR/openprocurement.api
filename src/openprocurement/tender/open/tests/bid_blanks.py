@@ -2226,7 +2226,31 @@ def create_bid_requirement_response(self):
         response.json["errors"],
         [
             {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
-            {'location': 'body', 'name': 'value', 'description': ['This field is required.']},
+        ],
+    )
+
+    del valid_data[0]["value"]
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'location': 'body',
+                "name": "requirementResponses",
+                "description": [{"value": "response required at least one of field [\"value\", \"values\"]"}],
+            },
         ],
     )
 
@@ -2243,7 +2267,7 @@ def patch_bid_requirement_response(self):
                 "id": self.requirement_id,
                 "title": self.requirement_title,
             },
-            "value": "True",
+            "value": True,
         }
     ]
 
@@ -2311,7 +2335,7 @@ def patch_bid_requirement_response(self):
         ],
     )
 
-    updated_data["value"] = "True"
+    updated_data["value"] = True
     response = self.app.patch_json(
         request_path,
         {"data": updated_data},
@@ -2345,7 +2369,7 @@ def get_bid_requirement_response(self):
                             "id": req["id"],
                             "title": req["title"],
                         },
-                        "value": "True",
+                        "value": True,
                     }
                 )
             elif criterion["classification"]["id"] == "CRITERION.OTHER.CONTRACT.GUARANTEE":
@@ -2650,7 +2674,7 @@ def bid_activate(self):
                         "id": another_rg_req["id"],
                         "title": another_rg_req["title"],
                     },
-                    "value": "True",
+                    "value": True,
                 }
             ]
         },
@@ -2825,7 +2849,7 @@ def patch_bid_with_responses(self):
             "id": self.requirement_id,
             "title": self.requirement_title,
         },
-        "value": "True",
+        "value": True,
     }
 
     valid_data_1 = deepcopy(valid_data)

@@ -1,10 +1,7 @@
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.constants import (
-    MULTI_CONTRACTS_REQUIRED_FROM,
-    PQ_MULTI_PROFILE_FROM,
-)
+from openprocurement.api.constants import MULTI_CONTRACTS_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date
@@ -22,12 +19,7 @@ class TenderItem(BaseItem):
     additionalClassifications = ListType(ModelType(AdditionalClassification))
 
     unit = ModelType(Unit)
-    profile = StringType()
-
-    def validate_profile(self, data, value):
-        multi_profile_released = get_first_revision_date(get_tender(), default=get_now()) > PQ_MULTI_PROFILE_FROM
-        if multi_profile_released and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
+    profile = StringType(required=True)
 
     def validate_relatedBuyer(self, data, related_buyer):
         if not related_buyer:

@@ -489,7 +489,7 @@ def requirement_response_validation_multiple_criterias(self):
         data['errors'],
         [
             {
-                'description': ['response required at least one of field ["value", "values"]'],
+                'description': [{"value": "response required at least one of field [\"value\", \"values\"]"}],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -518,7 +518,7 @@ def requirement_response_validation_multiple_criterias(self):
         data['errors'],
         [
             {
-                'description': ["field 'value' conflicts with 'values'"],
+                'description': [{"value": "field 'value' conflicts with 'values'"}],
                 'location': 'body',
                 'name': 'requirementResponses',
             }

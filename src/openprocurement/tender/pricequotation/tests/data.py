@@ -1,18 +1,13 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import (
-    PQ_MULTI_PROFILE_FROM,
-    PQ_NEW_CONTRACTING_FROM,
-    SANDBOX_MODE,
-)
+from openprocurement.api.constants import PQ_NEW_CONTRACTING_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PQ
 
 now = get_now()
 
-PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
 PQ_NEW_CONTRACTING_RELEASED = get_now() > PQ_NEW_CONTRACTING_FROM
 
 test_agreement_pq_data = {
@@ -225,8 +220,9 @@ del test_tender_pq_author["scale"]
 test_tender_pq_procuring_entity = test_tender_pq_author.copy()
 test_tender_pq_procuring_entity["kind"] = "general"
 
-test_tender_pq_item_base = {
+test_tender_pq_item = {
     "description": "Комп’ютерне обладнання",
+    "profile": "655360-30230000-889652-40000777",
     "quantity": 5,
     "deliveryDate": {
         "startDate": (now + timedelta(days=2)).isoformat(),
@@ -245,24 +241,16 @@ test_tender_pq_item_base = {
         "streetAddress": "вул. Банкова 1",
     },
     "classification": {"scheme": "ДК021", "id": "44617100-9", "description": "Cartons"},
+    "additionalClassifications": [
+        {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара",
+        },
+    ],
 }
-test_tender_pq_item_before_multiprofile = deepcopy(test_tender_pq_item_base)
-test_tender_pq_item_after_multiprofile = deepcopy(test_tender_pq_item_base)
-test_tender_pq_item_after_multiprofile["profile"] = "655360-30230000-889652-40000777"
-test_tender_pq_item_after_multiprofile["additionalClassifications"] = [
-    {
-        "scheme": "INN",
-        "id": "17.21.1",
-        "description": "папір і картон гофровані, паперова й картонна тара",
-    },
-]
 
-if PQ_MULTI_PROFILE_RELEASED:
-    test_tender_pq_item = test_tender_pq_item_after_multiprofile
-else:
-    test_tender_pq_item = test_tender_pq_item_before_multiprofile
-
-test_tender_pq_data_base = {
+test_tender_pq_data = {
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_pq_procuring_entity,
@@ -270,20 +258,9 @@ test_tender_pq_data_base = {
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PQ,
     "procurementMethod": 'selective',
+    "items": [test_tender_pq_item],
+    "agreement": {"id": "0" * 32},
 }
-
-test_tender_pq_data_before_multiprofile = deepcopy(test_tender_pq_data_base)
-test_tender_pq_data_before_multiprofile["profile"] = "655360-30230000-889652-40000777"
-test_tender_pq_data_before_multiprofile["items"] = [test_tender_pq_item_before_multiprofile]
-
-test_tender_pq_data_after_multiprofile = deepcopy(test_tender_pq_data_base)
-test_tender_pq_data_after_multiprofile["items"] = [test_tender_pq_item_after_multiprofile]
-test_tender_pq_data_after_multiprofile["agreement"] = {"id": "0" * 32}
-
-if PQ_MULTI_PROFILE_RELEASED:
-    test_tender_pq_data = test_tender_pq_data_after_multiprofile
-else:
-    test_tender_pq_data = test_tender_pq_data_before_multiprofile
 
 if SANDBOX_MODE:
     test_tender_pq_data["procurementMethodDetails"] = "quick, accelerator=1440"

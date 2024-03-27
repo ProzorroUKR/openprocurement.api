@@ -3699,7 +3699,7 @@ def create_award_requirement_response(self):
                 "id": self.requirement_id,
                 "title": self.requirement_title,
             },
-            "value": "True",
+            "value": True,
         }
     ]
 
@@ -3727,6 +3727,35 @@ def create_award_requirement_response(self):
 
     response = self.app.post_json(
         request_path,
+        {
+            "data": [
+                {
+                    "requirement": {
+                        "id": self.requirement_id,
+                        "title": self.requirement_title,
+                    }
+                }
+            ]
+        },
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'location': 'body',
+                "name": 0,
+                "description": {"value": "response required at least one of field [\"value\", \"values\"]"},
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        request_path,
         {"data": [{"description": "some description"}]},
         status=422,
     )
@@ -3738,7 +3767,6 @@ def create_award_requirement_response(self):
         response.json["errors"],
         [
             {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
-            {'location': 'body', 'name': 'value', 'description': ['This field is required.']},
         ],
     )
 
@@ -3765,7 +3793,7 @@ def patch_award_requirement_response(self):
                 "id": self.requirement_id,
                 "title": self.requirement_title,
             },
-            "value": "True",
+            "value": True,
         }
     ]
 
@@ -3823,7 +3851,7 @@ def patch_award_requirement_response(self):
         ],
     )
 
-    updated_data["value"] = "True"
+    updated_data["value"] = True
     response = self.app.patch_json(
         request_path,
         {"data": updated_data},
@@ -3850,7 +3878,7 @@ def get_award_requirement_response(self):
                 "id": self.requirement_id,
                 "title": self.requirement_title,
             },
-            "value": "True",
+            "value": True,
         }
     ]
 

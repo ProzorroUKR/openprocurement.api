@@ -2,7 +2,7 @@ from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 
-from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, WORKING_DAYS
+from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import Classification
@@ -10,9 +10,11 @@ from openprocurement.api.procedure.models.organization import BusinessOrganizati
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
-from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
+from openprocurement.tender.core.procedure.models.criterion import (
+    Criterion as BaseCriterion,
+)
 from openprocurement.tender.core.procedure.models.period import (
     PeriodStartEndRequired,
     StartedPeriodEndRequired,
@@ -28,10 +30,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
 from openprocurement.tender.pricequotation.constants import PQ, TENDERING_DURATION
-from openprocurement.tender.pricequotation.procedure.models.criterion import (
-    Criterion,
-    validate_criterion_related_items,
-)
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
 from openprocurement.tender.pricequotation.procedure.models.organization import (
     ProcuringEntity,
@@ -50,20 +48,9 @@ class ShortlistedFirm(BusinessOrganization):
     status = StringType()
 
 
-def validate_required_from_date(data, value, release_date):
-    released = get_first_revision_date(data, default=get_now()) > release_date
-    if released and not value:
-        raise ValidationError(BaseType.MESSAGES["required"])
-
-
-def validate_agreement(data, value):
-    validate_required_from_date(data, value, PQ_MULTI_PROFILE_FROM)
-
-
-def validate_profile(data, value):
-    multi_profile_released = get_first_revision_date(data, default=get_now()) > PQ_MULTI_PROFILE_FROM
-    if multi_profile_released and value:
-        raise ValidationError("Rogue field.")
+class Criterion(BaseCriterion):
+    title = StringType(required=True)
+    description = StringType(required=True)
 
 
 def validate_tender_period_duration(data, period):
@@ -82,8 +69,8 @@ class PostTender(PostBaseTender):
     submissionMethodDetails_ru = StringType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_LOWEST_COST], default=AWARD_CRITERIA_LOWEST_COST)
     status = StringType(choices=["draft"], default="draft")
-    profile = StringType()
-    agreement = ModelType(Agreement)
+    # profile = StringType()  # Not used anymore
+    agreement = ModelType(Agreement, required=True)
     classification = ModelType(Classification)
 
     value = ModelType(Value, required=True)
@@ -105,9 +92,6 @@ class PostTender(PostBaseTender):
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
 
-    def validate_criteria(self, data, value):
-        validate_criterion_related_items(data, value)
-
     def validate_tenderPeriod(self, data, period):
         if period.startDate:
             validate_tender_period_start_date(data, period)
@@ -122,12 +106,6 @@ class PostTender(PostBaseTender):
             and period.startDate < data.get("tenderPeriod").endDate
         ):
             raise ValidationError("period should begin after tenderPeriod")
-
-    def validate_agreement(self, data, value):
-        return validate_agreement(data, value)
-
-    def validate_profile(self, data, value):
-        return validate_profile(data, value)
 
 
 class PatchTender(PatchBaseTender):
@@ -189,7 +167,7 @@ class Tender(BaseTender):
         required=True,
     )
     profile = StringType()
-    agreement = ModelType(Agreement)
+    agreement = ModelType(Agreement, required=True)
     shortlistedFirms = ListType(ModelType(ShortlistedFirm))
 
     value = ModelType(Value, required=True)
@@ -218,9 +196,6 @@ class Tender(BaseTender):
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
 
-    def validate_criteria(self, data, value):
-        validate_criterion_related_items(data, value)
-
     def validate_tenderPeriod(self, data, period):
         validate_tender_period_duration(data, period)
 
@@ -233,9 +208,3 @@ class Tender(BaseTender):
             and period.startDate < data.get("tenderPeriod").endDate
         ):
             raise ValidationError("period should begin after tenderPeriod")
-
-    def validate_agreement(self, data, value):
-        return validate_agreement(data, value)
-
-    def validate_profile(self, data, value):
-        return validate_profile(data, value)

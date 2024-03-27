@@ -2,16 +2,17 @@ from logging import getLogger
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import IntType, MD5Type, StringType
+from schematics.types import BaseType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     GUARANTEE_ALLOWED_TENDER_TYPES,
+    PQ_CRITERIA_ID_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
@@ -28,13 +29,31 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.models.identifier import (
     LegislationIdentifier,
 )
+from openprocurement.tender.core.procedure.models.unit import Unit as BaseUnit
 from openprocurement.tender.core.procedure.validation import (
+    TYPEMAP,
     validate_object_id_uniq,
     validate_requirement_values,
     validate_value_type,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
+
+
+class ValidateIdMixing(Model):
+    id = StringType(required=True, default=lambda: uuid4().hex)
+
+    def validate_id(self, data, value):
+        tender = get_tender() or get_json_data()
+        if (
+            tender.get("procurementMethodType") in (PQ,)
+            and get_first_revision_date(tender, default=get_now()) <= PQ_CRITERIA_ID_FROM
+        ):
+            return
+        field = MD5Type()
+        value = field.to_native(value)
+        field.validate(value)
 
 
 class CriterionClassification(BaseClassification):
@@ -109,6 +128,10 @@ class ReqStatuses:
     DEFAULT = ACTIVE
 
 
+class Unit(BaseUnit):
+    name = StringType(required=True)
+
+
 class BaseRequirement(Model):
     title = StringType(required=True, min_length=1)
     title_en = StringType()
@@ -119,8 +142,6 @@ class BaseRequirement(Model):
     dataType = StringType(
         required=True, choices=["string", "number", "integer", "boolean", "date-time"], default="boolean"
     )
-    minValue = StringType()
-    maxValue = StringType()
     period = ModelType(ExtendPeriod)
     eligibleEvidences = ListType(
         ModelType(EligibleEvidence, required=True),
@@ -128,7 +149,6 @@ class BaseRequirement(Model):
         validators=[validate_object_id_uniq],
     )
     relatedFeature = MD5Type()
-    expectedValue = StringType()
     status = StringType(
         choices=[
             ReqStatuses.ACTIVE,
@@ -136,27 +156,58 @@ class BaseRequirement(Model):
         ],
         default=ReqStatuses.DEFAULT,
     )
+    unit = ModelType(Unit)
+
+    minValue = BaseType()
+    maxValue = BaseType()
+    expectedValue = BaseType()
+
+    expectedValues = ListType(BaseType(required=True), min_size=1)
+    expectedMinItems = IntType(min_value=0)  # TODO
+    expectedMaxItems = IntType(min_value=0)  # TODO
 
 
-class PostRequirement(BaseRequirement):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class PostRequirement(ValidateIdMixing, BaseRequirement):
     datePublished = IsoDateTimeType()
+
+    @serializable(serialized_name="minValue", serialize_when_none=False)
+    def set_minValue(self):
+        return TYPEMAP[self.dataType](self.minValue) if self.minValue else None
+
+    @serializable(serialized_name="maxValue", serialize_when_none=False)
+    def set_maxValue(self):
+        return TYPEMAP[self.dataType](self.maxValue) if self.maxValue else None
+
+    @serializable(serialized_name="expectedValue", serialize_when_none=False)
+    def set_expectedValue(self):
+        return TYPEMAP[self.dataType](self.expectedValue) if self.expectedValue else None
+
+    @serializable(serialized_name="expectedValues", serialize_when_none=False)
+    def set_expectedValues(self):
+        return [TYPEMAP[self.dataType](value) for value in self.expectedValues] if self.expectedValues else None
 
     def validate_minValue(self, data, value):
         if value:
             if data["dataType"] not in ["integer", "number"]:
                 raise ValidationError("minValue must be integer or number")
-            validate_value_type(value, data['dataType'])
+            validate_value_type(value, data["dataType"])
 
     def validate_maxValue(self, data, value):
         if value:
             if data["dataType"] not in ["integer", "number"]:
                 raise ValidationError("maxValue must be integer or number")
-            validate_value_type(value, data['dataType'])
+            validate_value_type(value, data["dataType"])
 
     def validate_expectedValue(self, data, value):
         if value:
-            validate_value_type(value, data['dataType'])
+            validate_value_type(value, data["dataType"])
+
+    def validate_expectedValues(self, data, values):
+        if values:
+            if not isinstance(values, (list, tuple, set)):
+                raise ValidationError("Values should be list")
+            for value in values:
+                validate_value_type(value, data["dataType"])
 
     def validate_relatedFeature(self, data, feature_id):
         if feature_id:
@@ -225,12 +276,13 @@ class BaseRequirementGroup(Model):
     description_en = StringType()
     description_ru = StringType()
     requirements = ListType(
-        ModelType(RequirementForeign, required=True, validators=[validate_requirement_values]), min_size=1
+        ModelType(RequirementForeign, required=True, validators=[validate_requirement_values]),
+        min_size=1,
     )
 
 
-class RequirementGroup(BaseRequirementGroup):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class RequirementGroup(ValidateIdMixing, BaseRequirementGroup):
+    pass
 
 
 class PatchRequirementGroup(BaseRequirementGroup):
@@ -242,7 +294,7 @@ class PatchRequirementGroup(BaseRequirementGroup):
 
 # ---- Criterion
 class BaseCriterion(Model):
-    title = StringType(required=True, min_length=1)
+    title = StringType(min_length=1)
     title_en = StringType()
     title_ru = StringType()
     description = StringType()
@@ -252,22 +304,37 @@ class BaseCriterion(Model):
     source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
     relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
     relatedItem = MD5Type()
-    classification = ModelType(CriterionClassification, required=True)
+    classification = ModelType(CriterionClassification)
 
 
-class Criterion(BaseCriterion):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+class Criterion(ValidateIdMixing, BaseCriterion):
+    title = StringType(required=True, min_length=1)
     additionalClassifications = ListType(ModelType(BaseClassification, required=True))
     legislation = ListType(ModelType(LegislationItem, required=True))
     requirementGroups = ListType(
         ModelType(RequirementGroup, required=True),
         required=True,
         min_size=1,
-        validators=[validate_object_id_uniq],
+        validators=[
+            validate_object_id_uniq,
+            # validate_requirement_groups,
+        ],
     )
 
+    def validate_classification(self, data, value):
+        tender = get_tender() or get_json_data()
+        if tender.get("procurementMethodType") in (PQ,):
+            # classification is not required for PQ
+            return
+        if not value:
+            raise ValidationError("This field is required.")
+
     def validate_relatesTo(self, data, value):
-        tender = get_tender()
+        tender = get_tender() or get_json_data()
+        if tender.get("procurementMethodType") in (PQ,):
+            # relatesTo is not required for PQ
+            return
+
         if get_first_revision_date(tender, default=get_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
             if not value:
                 raise ValidationError("This field is required.")
@@ -314,8 +381,7 @@ class Criterion(BaseCriterion):
 
 
 class PatchCriterion(BaseCriterion):
-    title = StringType(min_length=1)
-    classification = ModelType(CriterionClassification)
+    pass
 
 
 # Criterion ----
@@ -346,7 +412,8 @@ def validate_requirement(criterion: dict, requirement: dict) -> None:
 def validate_requirement_dataType(criterion: dict, requirement: dict) -> None:
     classification = criterion["classification"]
     if (
-        classification.get("id")
+        classification
+        and classification.get("id")
         and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
         and requirement.get("dataType") != "boolean"
     ):
@@ -361,45 +428,8 @@ def validate_requirement_expectedValue(criterion: dict, requirement: dict) -> No
 
     classification = criterion["classification"]
     if (
-        classification["id"]
-        and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
-        and valid_value is not True
-    ):
-        raise ValidationError([{"expectedValue": ["Value must be true"]}])
-
-
-def validate_requirement_eligibleEvidences(criterion: dict, requirement: dict) -> None:
-    if requirement.get("eligibleEvidences"):
-        classification = criterion["classification"]
-        if classification["id"] and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE"):
-            raise ValidationError([{"eligibleEvidences": ["This field is forbidden for current criterion"]}])
-
-
-def validate_requirement(criterion: dict, requirement: dict) -> None:
-    validate_requirement_dataType(criterion, requirement)
-    validate_requirement_expectedValue(criterion, requirement)
-    validate_requirement_eligibleEvidences(criterion, requirement)
-
-
-def validate_requirement_dataType(criterion: dict, requirement: dict) -> None:
-    classification = criterion["classification"]
-    if (
-        classification.get("id")
-        and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
-        and requirement.get("dataType") != "boolean"
-    ):
-        raise ValidationError([{"dataType": ["dataType must be boolean"]}])
-
-
-def validate_requirement_expectedValue(criterion: dict, requirement: dict) -> None:
-    valid_value = False
-    expected_value = requirement.get("expectedValue")
-    if expected_value:
-        valid_value = validate_value_type(expected_value, requirement['dataType'])
-
-    classification = criterion["classification"]
-    if (
-        classification["id"]
+        classification
+        and classification["id"]
         and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE")
         and valid_value is not True
     ):

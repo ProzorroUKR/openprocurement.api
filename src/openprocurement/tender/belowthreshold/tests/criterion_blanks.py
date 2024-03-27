@@ -291,7 +291,7 @@ def put_rg_requirement_invalid(self):
 def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",
-        "expectedValue": "false",
+        "expectedValue": False,
         # "datePublished": "2030-10-22T11:14:18.511585+03:00",
         # "dateModified": "2030-10-22T11:14:18.511585+03:00",
         # "id": "11111111111111111111111111111111",

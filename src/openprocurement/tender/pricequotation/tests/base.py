@@ -50,13 +50,11 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def setUp(self):
         super().setUp()
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.create_agreement()
-            self.initial_data["agreement"] = {"id": self.agreement_id}
+        self.create_agreement()
+        self.initial_data["agreement"] = {"id": self.agreement_id}
 
     def tearDown(self):
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.delete_agreement()
+        self.delete_agreement()
         super().tearDown()
 
     def generate_awards(self, status, startend):
@@ -193,8 +191,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     def create_tender(self):
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)
-        if PQ_MULTI_PROFILE_RELEASED:
-            data["agreement"] = {"id": self.agreement_id}
+        data["agreement"] = {"id": self.agreement_id}
         data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
 
         response = self.app.post_json("/tenders", {"data": data, "config": config})

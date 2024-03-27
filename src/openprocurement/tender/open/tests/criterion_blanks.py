@@ -203,7 +203,9 @@ def create_tender_criteria_invalid(self):
             {
                 'location': 'body',
                 'name': 'requirementGroups',
-                'description': [{'requirements': [['expectedValue conflicts with ["minValue", "maxValue"]']]}],
+                "description": [
+                    {"requirements": [["expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']"]]}
+                ],
             }
         ],
     )
@@ -591,7 +593,7 @@ def create_criteria_rg(self):
     self.assertIn("requirements", rg)
     for requirement in rg["requirements"]:
         self.assertEqual("boolean", requirement["dataType"])
-        self.assertEqual("true", requirement["expectedValue"])
+        self.assertEqual(True, requirement["expectedValue"])
 
 
 def patch_criteria_rg(self):
@@ -759,11 +761,6 @@ def create_rg_requirement_invalid(self):
                 "location": "body",
                 "name": "maxValue",
             },
-            {
-                'description': ["Value 'true' is not int."],
-                'location': 'body',
-                'name': 'expectedValue',
-            },
         ],
     )
 
@@ -822,7 +819,7 @@ def patch_rg_requirement(self):
     updated_fields = {
         "title": "Updated requirement title",
         "description": "Updated requirement description",
-        "expectedValue": "False",
+        "expectedValue": False,
         "dataType": "boolean",
     }
 
@@ -839,7 +836,7 @@ def patch_rg_requirement(self):
 def put_rg_requirement_valid(self):
     put_fields = {
         "title": "Фізична особа",
-        "expectedValue": "false",
+        "expectedValue": False,
     }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
