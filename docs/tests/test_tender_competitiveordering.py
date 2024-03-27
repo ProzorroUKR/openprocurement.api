@@ -273,6 +273,15 @@ class TenderResourceTest(
         self.activate_qualification()
 
         # Tender activating
+        with open(TARGET_DIR + 'notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender_id, owner_token),
+                {'data': {"status": "active.tendering"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_notice_doc(tender_id, owner_token)
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

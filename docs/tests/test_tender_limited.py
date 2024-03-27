@@ -153,7 +153,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
-                        "title": "Notice-2.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -360,7 +360,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
                 ),
                 {
                     "data": {
-                        "title": "Notice-2.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",

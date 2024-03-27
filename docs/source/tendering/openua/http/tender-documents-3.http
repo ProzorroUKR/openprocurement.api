@@ -9,6 +9,19 @@ Content-Type: application/json
 {
   "data": [
     {
+      "documentType": "notice",
+      "id": "67f52f3dbb8d440baa85bbed97afe834",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8af8b0231c0c4c4a96732367e0cc6f53?Signature=SOUxBmLXIS2iQ1iWvh%2BLD1YUpiGhAmwR1%2Bd1NNlrBQmCNuYtJ0JYRiO23FiBzJkQFh3vQdKJTaQNzEFC0xOxDQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",
@@ -24,7 +37,7 @@ Content-Type: application/json
       "id": "251cc278c3ed40e4a63068de7371dd28",
       "datePublished": "2023-10-10T01:00:00+03:00",
       "hash": "md5:00000000000000000000000000000000",
-      "title": "AwardCriteria-2.pdf",
+      "title": "AwardCriteria.pdf",
       "format": "application/pdf",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b685322d12b4938a1485f15d7b8055c?Signature=Gqk57hUOrPwtwykDL1i7JDzVqpuQJOvTiHQ3vw9152GolAqDD10cXonoHkNGN%2Byv054UsWYfd33%2Bgze1Mo3EDg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",

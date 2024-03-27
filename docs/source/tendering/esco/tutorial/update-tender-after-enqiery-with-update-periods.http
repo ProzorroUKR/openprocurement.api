@@ -631,7 +631,7 @@ Content-Type: application/json
         "id": "1962b49e34b6420da1e07e92f384f7ee",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
+        "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=37430e4809ff40d7bf31e6ffa0e3e012",
         "documentOf": "tender",
@@ -644,6 +644,7 @@ Content-Type: application/json
     "title": "Whatever",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
     "procurementMethodType": "esco",
@@ -657,7 +658,6 @@ Content-Type: application/json
     "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"

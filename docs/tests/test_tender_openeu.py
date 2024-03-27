@@ -117,7 +117,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        #### Tender activating
+        # Tender activating
 
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
@@ -127,6 +127,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 '/tenders/{}/criteria?acc_token={}'.format(tender['id'], owner_token), {'data': test_criteria_data}
             )
             self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + 'notice-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(tender['id'], owner_token),
+                {'data': {"status": "active.tendering"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_notice_doc(tender['id'], owner_token)
 
         with open(TARGET_DIR + 'tender-activating.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
@@ -221,7 +231,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
-                        "title": "AwardCriteria-2.pdf",
+                        "title": "AwardCriteria.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -695,7 +705,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 ),
                 {
                     "data": {
-                        "title": "Notice-2.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -763,7 +773,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
-        #### Tender activating
+        # Tender activating
         test_criteria_data = deepcopy(test_exclusion_criteria)
         test_criteria_data.extend(test_language_criteria)
 
@@ -772,6 +782,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
             )
             self.assertEqual(response.status, '201 Created')
+
+        self.add_notice_doc(self.tender_id, owner_token)
 
         with open(TARGET_DIR_MULTI + 'activating-tender.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

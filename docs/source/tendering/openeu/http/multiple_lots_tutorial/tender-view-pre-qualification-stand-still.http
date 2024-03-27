@@ -866,10 +866,26 @@ Content-Type: application/json
         "id": "894a82740ac04e92881fe41a0ad1f0f5"
       }
     ],
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "0979f616536549b58e4bd42072325084",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/438aef21947a4a09b39118b30a029983/documents/0979f616536549b58e4bd42072325084?download=2ef9c082369d4f8bb113146a73e966de",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 900.0,

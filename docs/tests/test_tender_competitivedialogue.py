@@ -296,7 +296,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
-                        "title": "AwardCriteria-2.pdf",
+                        "title": "AwardCriteria.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -813,7 +813,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
-                        "title": "AwardCriteria-2.pdf",
+                        "title": "AwardCriteria.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -1312,7 +1312,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 ),
                 {
                     "data": {
-                        "title": "Notice-2.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -1805,7 +1805,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     "data": {
-                        "title": "AwardCriteria-2.pdf",
+                        "title": "AwardCriteria.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
@@ -2116,10 +2116,10 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
                 ),
                 {
                     "data": {
-                        "title": "Notice-2.pdf",
+                        "title": "Notice.pdf",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
-                        "format": "application/msword",
+                        "format": "application/pdf",
                     }
                 },
             )

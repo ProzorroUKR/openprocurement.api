@@ -68,7 +68,18 @@ At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria 
 .. http:example:: http/tutorial/add-exclusion-criteria.http
    :code:
 
-After adding needed criteria we can activate our tender, so let's do that:
+Before activating tender it is required to add sign document to tender.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: http/tutorial/notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: http/tutorial/add-notice-document.http
+   :code:
+
+After adding needed criteria and sign document we can activate our tender, so let's do that:
 
 .. http:example:: http/tutorial/tender-activating.http
    :code:

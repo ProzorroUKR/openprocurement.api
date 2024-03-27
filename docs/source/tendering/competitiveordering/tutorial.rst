@@ -69,7 +69,18 @@ There is the list of all validation errors that can be raised during tender acti
 * Agreement has less than 3 active contracts
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
 
-After adding more active contracts to our agreement let's make another attempt to activate tender:
+Before activating tender it is required to add sign document to tender.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: http/notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: http/add-notice-document.http
+   :code:
+
+After adding more active contracts to our agreement and sign document let's make another attempt to activate tender:
 
 .. http:example:: http/tender-activating.http
    :code:

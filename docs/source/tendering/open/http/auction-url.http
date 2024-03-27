@@ -510,6 +510,19 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "documentType": "notice",
+        "id": "8e12dbcef2964b918971f33173d1f465",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/documents/8e12dbcef2964b918971f33173d1f465?download=39a976c8b71f46549e5ec8b86b76cbbb",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
         "id": "caaa6b81a44e42ddbfb3f83939a36402",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
@@ -537,7 +550,7 @@ Content-Type: application/json
         "id": "6f66e09f98a042218e5e0edf0e73a429",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
+        "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/de38bea4a6534e13939a382dfeef92f2/documents/6f66e09f98a042218e5e0edf0e73a429?download=e4153a6dcaf64e79b911002305341f6e",
         "documentOf": "tender",
@@ -550,6 +563,7 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
     "value": {
       "amount": 900.0,

@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/a450405f3c6840318420a210894cccb1?acc_token=b67eb5061d5445afa4ea2a1bffb1ee5a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'notice' is required"
+    }
+  ]
+}
+

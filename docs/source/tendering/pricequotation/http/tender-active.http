@@ -19,6 +19,21 @@ Content-Type: application/json
     "dateModified": "2023-09-20T01:00:01+03:00",
     "dateCreated": "2023-09-20T01:00:00+03:00",
     "tenderID": "UA-2023-09-20-000001-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "578203e46b1347d1addea1004534c04e",
+        "datePublished": "2023-09-20T01:00:01+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/documents/578203e46b1347d1addea1004534c04e?download=4e9cca1d009543748520193f19f6a894",
+        "documentOf": "tender",
+        "dateModified": "2023-09-20T01:00:01+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "owner": "broker",
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
