@@ -2,6 +2,7 @@ from datetime import datetime
 from logging import getLogger
 
 from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import get_items, to_decimal
 from openprocurement.api.utils import context_unpack, get_now, raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import BaseContractState
@@ -56,8 +57,7 @@ class EContractState(
 
     @property
     def block_complaint_status(self):
-        tender = self.request.validated["tender"]
-        tender_type = tender["procurementMethodType"]
+        tender_type = get_tender().get("procurementMethodType", "")
         complaint_status = ("pending", "accepted", "satisfied", "stopping")
 
         if tender_type == "closeFrameworkAgreementSelectionUA":
@@ -73,7 +73,7 @@ class EContractState(
             self.validate_required_signed_info(data)
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
-        tender = request.validated["tender"]
+        tender = get_tender()
 
         self.validate_patch_esco_value_fields(request, tender, before, after)
         self.validate_dateSigned(request, tender, before, after)
@@ -120,12 +120,11 @@ class EContractState(
 
     def check_belowtreshold_status_method(self) -> None:
         super().check_tender_status_method()
-        tender = self.request.validated["tender"]
-        self.check_ignored_claim(tender)
+        self.check_ignored_claim(get_tender())
 
     def validate_contract_pending_patch(self, request, before: dict, after: dict) -> None:
-        tender = request.validated["tender"]
-        tender_type = tender["procurementMethodType"]
+        tender = get_tender()
+        tender_type = tender.get("procurementMethodType", "")
         if tender_type in (
             "belowThreshold",
             "aboveThresholdEU",
@@ -220,7 +219,10 @@ class EContractState(
                     raise_operation_error(request, "Amount should be less or equal to awarded amount", name="value")
 
     def validate_required_signed_info(self, data: dict) -> None:
-        if not ECONTRACT_SIGNER_INFO_REQUIRED:
+        tender_type = get_tender().get("procurementMethodType", "")
+        required_tenders = ("priceQuotation",)
+
+        if not ECONTRACT_SIGNER_INFO_REQUIRED or tender_type not in required_tenders:
             return
 
         supplier_signer_info = all(i.get("signerInfo") for i in data.get("suppliers", ""))
@@ -318,7 +320,7 @@ class EContractState(
 
     def synchronize_contracts_data(self, data: dict) -> bool:
         fields_for_sync = ("status", "value")
-        tender = self.request.validated["tender"]
+        tender = get_tender()
         contracts = get_items(self.request, tender, "contracts", data["_id"], raise_404=False)
         if not contracts:
             LOGGER.error(
@@ -342,5 +344,5 @@ class EContractState(
         return contract_changed
 
     def check_skip_award_complaint_period(self) -> bool:
-        tender = self.request.validated["tender"]
+        tender = get_tender()
         return tender.get("procurementMethodType") == "belowThreshold"
