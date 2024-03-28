@@ -96,7 +96,7 @@ Content-Type: application/json
         "unit": {
           "value": {
             "amount": 5000.0,
-            "currency": "USD",
+            "currency": "EUR",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"

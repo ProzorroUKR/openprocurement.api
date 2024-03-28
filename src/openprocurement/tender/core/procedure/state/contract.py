@@ -308,12 +308,9 @@ class ContractStateMixing:
         for item in contract.get("items", ""):
             if item.get("unit"):
                 if item["unit"].get("value"):
-                    item["unit"]["value"].update(
-                        {
-                            "valueAddedTaxIncluded": valueAddedTaxIncluded,
-                            "currency": currency,
-                        }
-                    )
+                    item["unit"]["value"]["valueAddedTaxIncluded"] = valueAddedTaxIncluded
+                    if not is_multi_currency_tender():
+                        item["unit"]["value"]["currency"] = currency
 
     # validators
     def validate_contract_post(self, request, tender, contract):
