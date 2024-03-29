@@ -36,6 +36,12 @@ class ESCOContractStateMixing:
                     actual = field.get(ro_attr)
                     if isinstance(passed, Decimal):
                         actual = to_decimal(actual)
+                    if ro_attr == "annualCostsReduction":
+                        # if compare strings equality ['9.0', '1.0',...] and ['9.00', '1.00', ...] and ['9', '1', ...]
+                        # these cases aren't equal
+                        # that's why we should convert them to decimal
+                        passed = [to_decimal(i) for i in passed]
+                        actual = [to_decimal(i) for i in actual]
                     if passed != actual:
                         raise_operation_error(request, f"Can't update {ro_attr} for contract value", name="value")
 
