@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2832a696b5bd4bf1bee3aa152ba8104c/requirement_groups/53e7cc2f43d748f39745ba3da483c820/requirements/8b19671038034aeab033b9b992ca6948?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288/requirement_groups/638322bdff484f88a17037ea543928bf/requirements/1a722896658842638f37cf86dc812082?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,6 +22,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "id": "1a722896658842638f37cf86dc812082",
     "title": "Updated title",
     "dataType": "boolean",
     "eligibleEvidences": [
@@ -32,8 +33,7 @@ Content-Type: application/json
         "id": "24b8ff4d9a41435b85be57a3b9355faf"
       }
     ],
-    "expectedValue": "true",
-    "id": "8b19671038034aeab033b9b992ca6948",
+    "expectedValue": true,
     "datePublished": "2023-10-10T01:00:00+03:00",
     "status": "active"
   }

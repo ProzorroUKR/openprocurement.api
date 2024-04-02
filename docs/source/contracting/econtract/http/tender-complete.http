@@ -126,60 +126,63 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "88ecb5322386442bb7ee14b818d44933",
-        "title": "Форма випуску",
-        "description": "Форма випуску",
+        "id": "8fef845ff65043e4a6e08850d7281304",
         "requirementGroups": [
           {
-            "id": "9f3a626e98784117a876e07efdb71de9",
+            "id": "2bb03af7cf76484b99b4c72c037a7979",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "3463e81fe3da481ebeeb6aab94a95a8d",
+                "id": "b22fa1e284974d76995dd722ce93acc5",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "status": "active",
+                "expectedValue": "Розчин для інфузій",
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Форма випуску",
+        "description": "Форма випуску"
       },
       {
-        "id": "aeb123fbef604e2ab4d453073dcb8264",
-        "title": "Доза діючої речовини",
-        "description": "Доза діючої речовини",
+        "id": "ebad8df21c0f4c229c2c328fa743fd81",
         "requirementGroups": [
           {
-            "id": "0faa05cd34d243bfb995cd515f07d921",
+            "id": "2dba1bb9612c43a093c8595d28b39d46",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "37d8b3bd57654213b04a6c9549ab9472",
+                "id": "8e2191f53baa43d48a430539f706f403",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
+                "status": "active",
                 "unit": {
                   "code": "KGM",
                   "name": "кілограми"
                 },
-                "minValue": 5
+                "minValue": 5,
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Доза діючої речовини",
+        "description": "Доза діючої речовини"
       },
       {
-        "id": "304d7e774fa149899ef60e6a6b157a09",
-        "title": "Форма випуску",
-        "description": "Форма випуску",
+        "id": "699df0e531fb49759f3361aff1292619",
         "requirementGroups": [
           {
-            "id": "1156a3796b1446f68d648bd1bd10095f",
+            "id": "6150d1b30a754972acdad3e93a47bbc2",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "24819f3db06043d49c0db7b7617a383f",
+                "id": "20a33781df4249738954d69d01ea2572",
                 "title": "Форма випуску",
                 "dataType": "string",
+                "status": "active",
                 "expectedValues": [
                   "Відповідь1",
                   "Відповідь2",
@@ -187,11 +190,14 @@ Content-Type: application/json
                   "Відповідь4"
                 ],
                 "expectedMinItems": 2,
-                "expectedMaxItems": 3
+                "expectedMaxItems": 3,
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Форма випуску",
+        "description": "Форма випуску"
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",
@@ -237,21 +243,21 @@ Content-Type: application/json
           {
             "id": "f2644c6151554cbf80b36919a32db915",
             "requirement": {
-              "id": "3463e81fe3da481ebeeb6aab94a95a8d"
+              "id": "b22fa1e284974d76995dd722ce93acc5"
             },
             "value": "Розчин для інфузій"
           },
           {
             "id": "d2ce5970d7914185a18b3d1e304ac1a6",
             "requirement": {
-              "id": "37d8b3bd57654213b04a6c9549ab9472"
+              "id": "8e2191f53baa43d48a430539f706f403"
             },
             "value": 5
           },
           {
             "id": "c75f3dc57fb44a5e856a983a6b18a5a5",
             "requirement": {
-              "id": "24819f3db06043d49c0db7b7617a383f"
+              "id": "20a33781df4249738954d69d01ea2572"
             },
             "values": [
               "Відповідь1",

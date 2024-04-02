@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2832a696b5bd4bf1bee3aa152ba8104c HTTP/1.0
+GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Updated title",
+    "id": "947ff50dcf6549189085ee3723213288",
     "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
     "source": "tenderer",
     "relatesTo": "tenderer",
@@ -16,7 +16,7 @@ Content-Type: application/json
       "scheme": " espd211",
       "id": "CRITERION.OTHER"
     },
-    "id": "2832a696b5bd4bf1bee3aa152ba8104c",
+    "title": "Updated title",
     "legislation": [
       {
         "version": "2020-04-19",
@@ -41,9 +41,11 @@ Content-Type: application/json
     ],
     "requirementGroups": [
       {
+        "id": "638322bdff484f88a17037ea543928bf",
         "description": "Updated description",
         "requirements": [
           {
+            "id": "1a722896658842638f37cf86dc812082",
             "title": "Updated title",
             "dataType": "boolean",
             "eligibleEvidences": [
@@ -60,12 +62,12 @@ Content-Type: application/json
                 "id": "de146cbe00ce498f93ecd841f0121394"
               }
             ],
-            "expectedValue": "true",
-            "id": "8b19671038034aeab033b9b992ca6948",
+            "expectedValue": true,
             "datePublished": "2023-10-10T01:00:00+03:00",
             "status": "active"
           },
           {
+            "id": "48c3e0562e9444c58f0ef1e6f288df75",
             "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
             "dataType": "boolean",
             "eligibleEvidences": [
@@ -73,21 +75,21 @@ Content-Type: application/json
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
                 "type": "document",
-                "id": "7f6dba2f457543c499aa0bea55f59dc8"
+                "id": "53e7cc2f43d748f39745ba3da483c820"
               }
             ],
-            "expectedValue": "true",
             "status": "active",
-            "id": "cdbf25b014b747008f7723df802330c4",
+            "expectedValue": true,
             "datePublished": "2023-10-10T01:00:00+03:00"
           }
-        ],
-        "id": "53e7cc2f43d748f39745ba3da483c820"
+        ]
       },
       {
+        "id": "3fc26544cf4d4440a813b84e56039a4f",
         "description": "Учасник фізична особа підтверджує, що",
         "requirements": [
           {
+            "id": "c84d2b867e7f49f981fcef27264848fc",
             "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
             "dataType": "boolean",
             "eligibleEvidences": [
@@ -95,16 +97,14 @@ Content-Type: application/json
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
                 "type": "document",
-                "id": "781ca4a5e32147c28eb8fdd1bd5a56e0"
+                "id": "8b19671038034aeab033b9b992ca6948"
               }
             ],
-            "expectedValue": "true",
             "status": "active",
-            "id": "50421b2d2ad94eecb432e4b9729fef2e",
+            "expectedValue": true,
             "datePublished": "2023-10-10T01:00:00+03:00"
           }
-        ],
-        "id": "85d288db9da74b95837cee5ee63c8e1b"
+        ]
       }
     ]
   }
