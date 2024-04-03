@@ -17,6 +17,9 @@ from openprocurement.tender.belowthreshold.procedure.models.bid import (
     PatchBid,
     PostBid,
 )
+from openprocurement.tender.belowthreshold.procedure.state.bid import (
+    BelowThresholdBidState,
+)
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )
@@ -37,6 +40,8 @@ LOGGER = getLogger(__name__)
     description="Tender bids",
 )
 class TenderBidResource(TenderBidResource):
+    state_class = BelowThresholdBidState
+
     @json_view(
         content_type="application/json",
         permission="create_bid",

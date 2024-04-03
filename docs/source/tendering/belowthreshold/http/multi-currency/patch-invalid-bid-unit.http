@@ -1,0 +1,53 @@
+PATCH /api/2.5/tenders/c1d6775dda6d43d9992df300f847b755/bids/d1e6b26dd69f4b7fb6e62833644a492b?acc_token=5e7267742ffa4393b1657b6bcd16d037 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "725f539279e34836859087467400e721",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0.6,
+            "currency": "EUR",
+            "valueAddedTaxIncluded": false
+          }
+        }
+      },
+      {
+        "quantity": 1,
+        "description": "степлер",
+        "id": "37767739243c4a61a045afaf5e1e5b21",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": false
+          }
+        }
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "items",
+      "description": "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value"
+    }
+  ]
+}
+

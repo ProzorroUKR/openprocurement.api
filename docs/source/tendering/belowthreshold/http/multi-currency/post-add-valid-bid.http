@@ -1,10 +1,11 @@
-POST /api/2.5/tenders/2f5e224866d0459cbaa950a15be70946/bids HTTP/1.0
+POST /api/2.5/tenders/c1d6775dda6d43d9992df300f847b755/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
+    "status": "draft",
     "tenderers": [
       {
         "address": {
@@ -29,28 +30,46 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 200,
+          "currency": "USD"
+        },
+        "relatedLot": "cca0671762d34aa183864d6a01e27315"
+      },
+      {
+        "value": {
+          "amount": 400,
+          "currency": "EUR"
+        },
+        "relatedLot": "5cb16cd4783e4dd0b325487872b4e585"
+      }
+    ],
     "items": [
       {
         "quantity": 5,
         "description": "папір",
-        "id": "ffffffffffffffffffffffffffffffff",
+        "id": "725f539279e34836859087467400e721",
         "unit": {
           "code": "KGM",
           "value": {
-            "amount": 0.6,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "amount": 0.2,
+            "currency": "EUR"
           }
         }
-      }
-    ],
-    "lotValues": [
+      },
       {
-        "value": {
-          "amount": 500
-        },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc"
+        "quantity": 1,
+        "description": "степлер",
+        "id": "37767739243c4a61a045afaf5e1e5b21",
+        "unit": {
+          "code": "KGM",
+          "value": {
+            "amount": 0,
+            "currency": "USD"
+          }
+        }
       }
     ]
   }
@@ -59,23 +78,36 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459cbaa950a15be70946/bids/df2b366b648c4f6eb9855c8a1e3c9ea4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c1d6775dda6d43d9992df300f847b755/bids/d1e6b26dd69f4b7fb6e62833644a492b
 
 {
   "data": {
     "items": [
       {
-        "id": "ffffffffffffffffffffffffffffffff",
+        "id": "725f539279e34836859087467400e721",
         "description": "папір",
         "unit": {
           "value": {
-            "amount": 0.6,
-            "currency": "UAH",
+            "amount": 0.2,
+            "currency": "EUR",
             "valueAddedTaxIncluded": true
           },
           "code": "KGM"
         },
         "quantity": 5.0
+      },
+      {
+        "id": "37767739243c4a61a045afaf5e1e5b21",
+        "description": "степлер",
+        "unit": {
+          "value": {
+            "amount": 0.0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0
       }
     ],
     "tenderers": [
@@ -107,20 +139,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
       {
         "status": "pending",
         "value": {
-          "amount": 500.0,
-          "currency": "UAH",
+          "amount": 200.0,
+          "currency": "USD",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "date": "2023-10-16T01:00:02+03:00"
+        "relatedLot": "cca0671762d34aa183864d6a01e27315",
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "status": "pending",
+        "value": {
+          "amount": 400.0,
+          "currency": "EUR",
+          "valueAddedTaxIncluded": true
+        },
+        "relatedLot": "5cb16cd4783e4dd0b325487872b4e585",
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
-    "id": "df2b366b648c4f6eb9855c8a1e3c9ea4",
-    "date": "2023-10-16T01:00:02+03:00"
+    "id": "d1e6b26dd69f4b7fb6e62833644a492b",
+    "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "26d2b3996f0241b48c3804764bed2bb7",
-    "transfer": "f49caaa0c391418c879502c96a76f0bc"
+    "token": "5e7267742ffa4393b1657b6bcd16d037",
+    "transfer": "bf5875c3ed2a4724bc660c33c874a3fc"
   }
 }
 

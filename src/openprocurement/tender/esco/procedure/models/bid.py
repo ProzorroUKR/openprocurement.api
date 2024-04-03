@@ -7,6 +7,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.esco.procedure.models.item import BidItem
 from openprocurement.tender.esco.procedure.models.lot_value import (
     LotValue,
     PatchLotValue,
@@ -23,6 +24,7 @@ class ESCOMixin(Model):
     lotValues = ListType(ModelType(LotValue, required=True))
     selfQualified = BooleanType(required=False)
     selfEligible = BooleanType(required=False)
+    items = ListType(ModelType(BidItem, required=True))
 
     def validate_value(self, data, value):
         tender = get_tender()

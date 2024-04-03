@@ -15,7 +15,10 @@ from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
 )
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    is_multi_currency_tender,
+)
 
 
 class ContractValue(Value):
@@ -152,10 +155,11 @@ def validate_item_unit_values(data, items):
             item_value = (item.get("unit") or {}).get("value")
             if item_value:
                 if (
-                    item_value['currency'] != base_value['currency']
-                    or item_value['valueAddedTaxIncluded'] != base_value['valueAddedTaxIncluded']
+                    get_tender()["config"]["valueCurrencyEquality"] is True
+                    and item_value['currency'] != base_value['currency']
                 ):
+                    raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")
+                if item_value['valueAddedTaxIncluded'] != base_value['valueAddedTaxIncluded']:
                     raise ValidationError(
-                        f"Value mismatch. Expected: currency {base_value['currency']} and "
-                        f"valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
+                        f"Value mismatch. Expected: valueAddedTaxIncluded {base_value['valueAddedTaxIncluded']}"
                     )

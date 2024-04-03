@@ -657,18 +657,55 @@ def patch_tender_bid_with_exceeded_lot_values(self):
 
 
 def post_tender_bid_with_another_currency(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["currency"] = "USD"
-    bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.json["status"], "error")
     self.assertIn(
         "currency of bid should be identical to currency of value of lot",
         response.json["errors"][0]["description"][0]["value"],
+    )
+
+    # post bid with another currency in bid.items.unit.value
+    value["currency"] = "UAH"
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+        },
+    ]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "currency of bid unit should be identical to currency of tender value",
+    )
+
+    # post bid with another VAT in bid.items.unit.value
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}},
+        },
+    ]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
     )
 
 
@@ -2354,24 +2391,44 @@ def patch_tender_bid_with_disabled_value_restriction(self):
 
 
 def post_tender_bid_with_disabled_lot_values_currency_equality(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    lots = tender.get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["currency"] = "EUR"
     value["amount"] = 650
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+        },
+    ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
-    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    lots = tender.get("lots")
 
     bid = deepcopy(self.test_bids_data[0])
     value = bid.pop("value", None)
     value["currency"] = "UAH"
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+        },
+    ]
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]
@@ -2388,21 +2445,175 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
     self.assertEqual(response.status, "200 OK")
 
 
+def post_bid_multi_currency(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["currency"] = "EUR"
+    value["amount"] = 650
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+
+    # try to add bid without items
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "items is required for tender with funders",
+    )
+
+    # try to change valueAddedTaxIncluded different from lot
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False}},
+        },
+    ]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+    )
+    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
+
+    # try to post bid without quantity in items
+    del bid["items"][0]["quantity"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        [{"quantity": ["This field is required."]}],
+    )
+
+    # try to post bid with items for another lot
+    bid["items"][0]["quantity"] = 7
+    bid["lotValues"][0]["relatedLot"] = tender["lots"][1]["id"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Bid items ids should be on tender items ids for current lot",
+    )
+    bid["lotValues"][0]["relatedLot"] = tender["lots"][0]["id"]
+
+    # try to post bid without items.unit.value for tender with funders
+    del bid["items"][0]["unit"]["value"]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "items.unit.value is required for tender with funders",
+    )
+
+    # try to change amount and currency different from lot
+    bid["items"][0]["unit"]["value"] = {"amount": 0.5, "currency": "USD", "valueAddedTaxIncluded": True}
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+    self.assertEqual(response.status, "201 Created")
+    bid_unit_value = response.json["data"]["items"][0]["unit"]["value"]
+    self.assertNotEqual(tender["value"]["currency"], bid_unit_value["currency"])
+    self.assertNotEqual(tender["lots"][0]["value"]["currency"], bid_unit_value["currency"])
+    self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["currency"], bid_unit_value["currency"])
+
+
+def patch_bid_multi_currency(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+
+    bid = deepcopy(self.test_bids_data[0])
+    value = bid.pop("value", None)
+    value["currency"] = "UAH"
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+    # try to change valueAddedTaxIncluded different from lot
+    bid["items"] = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+        },
+    ]
+    response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid})
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    # patch lotValue with another currency that in lot
+    value["currency"] = "EUR"
+    value["amount"] = 650
+    bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
+    # try to change valueAddedTaxIncluded
+    bid["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": bid},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+    )
+
+    # try to change amount and currency different from lot
+    bid["items"][0]["unit"]["value"] = {"amount": 0, "currency": "USD"}
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
+        {"data": bid},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+
 # TenderWithDisabledValueCurrencyEquality
 
 
 def post_tender_bid_with_disabled_value_currency_equality(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    items = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+        },
+    ]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 200, "currency": "EUR"}}},
+        {
+            "data": {
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 200, "currency": "UAH"},
+                "items": items,
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid_with_disabled_value_currency_equality(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
+    items = [
+        {
+            "quantity": 7,
+            "description": "футляри до державних нагород",
+            "id": items[0]['id'],
+            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "EUR"}},
+        },
+    ]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
-        {"data": {"tenderers": [test_tender_below_organization], "value": {"amount": 400, "currency": "UAH"}}},
+        {
+            "data": {
+                "tenderers": [test_tender_below_organization],
+                "value": {"amount": 400, "currency": "UAH"},
+                "items": items,
+            }
+        },
     )
     self.assertEqual(response.status, "201 Created")
     bid_id = response.json["data"]["id"]

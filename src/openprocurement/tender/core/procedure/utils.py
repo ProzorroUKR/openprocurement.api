@@ -501,3 +501,10 @@ def extract_document_id(request):
     if "documents" in path:
         matchdict = matchdict_from_path(path, root_resource="documents")
         return matchdict.get("document_id")
+
+
+def is_multi_currency_tender():
+    # for old contracting api, there is no tender in request.
+    # But anyway multi currency can be only in belowThreshold, competitiveOrdering and new contracting
+    if tender := get_tender():
+        return tender.get("funders") and tender["config"]["valueCurrencyEquality"] is False

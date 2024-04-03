@@ -8,6 +8,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
 from openprocurement.tender.belowthreshold.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
     set_tender_criteria,
@@ -110,6 +111,13 @@ test_tender_below_data = {
 }
 if SANDBOX_MODE:
     test_tender_below_data["procurementMethodDetails"] = "quick, accelerator=1440"
+
+test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
+del test_tender_below_data_no_auction["minimalStep"]
+test_tender_below_data_no_auction["funders"] = [deepcopy(test_tender_below_organization)]
+test_tender_below_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
+test_tender_below_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+del test_tender_below_data_no_auction["funders"][0]["scale"]
 
 test_tender_below_simple_data = deepcopy(test_tender_below_data)
 test_tender_below_simple_data["procurementMethodRationale"] = "simple"
@@ -229,6 +237,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_lots = None
     initial_criteria = None
+    tender_for_funders = False
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
     min_bids_number = MIN_BIDS_NUMBER
@@ -308,6 +317,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
             rrs = set_bid_responses(criteria)
             for bid in self.initial_bids:
                 bid = bid.copy()
+                if self.tender_for_funders:
+                    set_bid_items(bid, tender["items"])
                 if self.initial_criteria:
                     bid["requirementResponses"] = rrs
                 if hasattr(self, "initial_bid_status") and self.initial_bid_status:

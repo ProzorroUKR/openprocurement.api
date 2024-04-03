@@ -11,6 +11,7 @@ from openprocurement.tender.competitivedialogue.procedure.models.bid_document im
     Document,
     PostDocument,
 )
+from openprocurement.tender.competitivedialogue.procedure.models.item import BidItem
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import (
     LotValue,
     PatchLotValue,
@@ -21,7 +22,6 @@ from openprocurement.tender.core.procedure.models.bid import (
     MetaBid,
     validate_lot_values,
 )
-from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
 )
@@ -33,7 +33,7 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 
 class PatchBid(PatchObjResponsesMixin, BaseBid):
-    items = ListType(ModelType(BaseItem, required=True))
+    items = ListType(ModelType(BidItem, required=True))
     tenderers = ListType(ModelType(BusinessOrganization, required=True), min_size=1, max_size=1)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
     subcontractingDetails = StringType()
@@ -49,7 +49,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
     def id(self):
         return uuid4().hex
 
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     subcontractingDetails = StringType()
     lotValues = ListType(ModelType(PostLotValue, required=True))
@@ -74,7 +74,7 @@ class PostBid(PostBidResponsesMixin, BaseBid):
 
 
 class Bid(MetaBid, PostBidResponsesMixin, BaseBid):
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_items_uniq])
+    items = ListType(ModelType(BidItem, required=True), min_size=1, validators=[validate_items_uniq])
     tenderers = ListType(ModelType(BusinessOrganization, required=True), required=True, min_size=1, max_size=1)
     lotValues = ListType(ModelType(LotValue, required=True))
     documents = ListType(ModelType(Document, required=True))

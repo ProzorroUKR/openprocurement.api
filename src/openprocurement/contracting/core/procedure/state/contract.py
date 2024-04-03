@@ -9,6 +9,7 @@ from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.contract import ContractStateMixing
+from openprocurement.tender.core.procedure.utils import is_multi_currency_tender
 
 LOGGER = getLogger(__name__)
 
@@ -75,6 +76,14 @@ class BaseContractState(BaseState, ContractStateMixing):
                             f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
                         )
 
+                    if k == "unit" and before.get("value", {}).get("currency") != after.get("value", {}).get(
+                        "currency"
+                    ):
+                        raise_operation_error(
+                            get_request(),
+                            "Forbidden to change currency in contract items unit",
+                        )
+
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:
         if after.get("items"):
             self._validate_contract_items_unit_value_amount(after)
@@ -92,7 +101,7 @@ class BaseContractState(BaseState, ContractStateMixing):
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
                     )
 
-        if items_unit_value_amount and contract.get("value"):
+        if items_unit_value_amount and contract.get("value") and not is_multi_currency_tender():
             calculated_value = sum(items_unit_value_amount)
 
             if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(

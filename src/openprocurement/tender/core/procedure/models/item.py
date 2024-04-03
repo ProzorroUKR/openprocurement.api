@@ -46,6 +46,11 @@ class BaseItem(Model):
     quantity = FloatType(min_value=0)  # The number of units required
     relatedLot = MD5Type()
 
+    def validate_quantity(self, data, value):
+        if value is None:
+            if is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM):
+                raise ValidationError(BaseType.MESSAGES["required"])
+
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
@@ -59,11 +64,6 @@ class Item(BaseItem):
     def validate_unit(self, data, value):
         if not value:
             if is_obj_const_active(get_tender(), UNIT_CODE_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
-
-    def validate_quantity(self, data, value):
-        if value is None:
-            if is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM):
                 raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_additionalClassifications(self, data, items):
@@ -124,15 +124,3 @@ def validate_items_uniq(items, *args):
         ids = [i.id for i in items]
         if len(ids) > len(set(ids)):
             raise ValidationError("Item id should be uniq for all items")
-
-
-def validate_quantity_required(data, value):
-    if value is None:
-        if is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM):
-            raise ValidationError(BaseType.MESSAGES["required"])
-
-
-def validate_unit_required(data, value):
-    if not value:
-        if is_obj_const_active(get_tender(), UNIT_CODE_REQUIRED_FROM):
-            raise ValidationError(BaseType.MESSAGES["required"])

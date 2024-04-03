@@ -515,6 +515,8 @@ def create_tender_bid_invalid_funding_kind_budget(self):
     get_now() + timedelta(days=1),
 )
 def create_tender_bid(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    items = tender.get("items")
     data = deepcopy(self.test_bids_data[0])
     data.update(
         {
@@ -524,6 +526,12 @@ def create_tender_bid(self):
             "financialDocuments": None,
             "eligibilityDocuments": None,
             "qualificationDocuments": None,
+            "items": [  # add items without quantity
+                {
+                    "description": "футляри до державних нагород",
+                    "id": items[0]['id'],
+                },
+            ],
         }
     )
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data})

@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 class BidState(BaseState):
     update_date_on_value_amount_change_enabled = True
+    items_unit_value_required_for_funders = False
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -28,6 +29,7 @@ class BidState(BaseState):
         now = get_now().isoformat()
         data["date"] = now
 
+        self.validate_bid_unit_value(data)
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
@@ -40,10 +42,39 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_bid_unit_value(after)
         self.validate_status_change(before, after)
         self.update_date_on_value_amount_change(before, after)
         self.validate_items_id(after)
         super().on_patch(before, after)
+
+    def validate_bid_unit_value(self, data):
+        tender = get_tender()
+
+        def raise_items_error(message):
+            raise_operation_error(
+                self.request,
+                message,
+                status=422,
+                location="body",
+                name="items",
+            )
+
+        if data.get("items"):
+            for item in data["items"]:
+                if value := item.get("unit", {}).get("value"):
+                    if tender.get("value", {}).get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
+                        raise_items_error(
+                            "valueAddedTaxIncluded of bid unit should be identical to valueAddedTaxIncluded of tender value",
+                        )
+                    if tender["config"]["valueCurrencyEquality"] is True and tender.get("value", {}).get(
+                        "currency"
+                    ) != value.get("currency"):
+                        raise_items_error("currency of bid unit should be identical to currency of tender value")
+                elif self.items_unit_value_required_for_funders and tender.get("funders"):
+                    raise_items_error("items.unit.value is required for tender with funders")
+        elif self.items_unit_value_required_for_funders and tender.get("funders"):
+            raise_items_error("items is required for tender with funders")
 
     def update_date_on_value_amount_change(self, before, after):
         if not self.update_date_on_value_amount_change_enabled:
@@ -157,8 +188,25 @@ class BidState(BaseState):
                     raise_operation_error(self.request, "Can't post inconsistent bid")
 
     def validate_items_id(self, after: dict) -> None:
-        tender_items_id = {i["id"] for i in self.request.validated["tender"].get("items", "")}
+        items_for_lot = False
+        tender_items = self.request.validated["tender"].get("items", [])
+        if lot_values := after.get("lotValues"):
+            lot_ids = {lot_value["relatedLot"] for lot_value in lot_values}
+            tender_items_id = {item["id"] for item in tender_items if item.get("relatedLot") in lot_ids}
+            items_for_lot = True
+        else:
+            tender_items_id = {i["id"] for i in tender_items}
         bid_items_id = {i["id"] for i in after.get("items", "")}
 
         if bid_items_id - tender_items_id:
-            raise_operation_error(self.request, "Bid items ids should be on tender items ids", status=422)
+            raise_operation_error(
+                self.request,
+                f"Bid items ids should be on tender items ids{' for current lot' if items_for_lot else ''}",
+                status=422,
+            )
+        if self.request.validated["tender"].get("funders") and tender_items_id - bid_items_id:
+            raise_operation_error(
+                self.request,
+                f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",
+                status=422,
+            )

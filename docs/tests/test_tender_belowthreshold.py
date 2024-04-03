@@ -8,6 +8,8 @@ from tests.base.data import (
     test_docs_bid2_with_docs,
     test_docs_bid_draft,
     test_docs_funder,
+    test_docs_items_open,
+    test_docs_lots,
     test_docs_question,
     test_docs_tender_below,
     test_docs_tender_below_maximum,
@@ -16,16 +18,22 @@ from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
 from openprocurement.api.utils import get_now
+from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
+    test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_lotvalues,
     set_tender_lots,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_language_criteria,
+)
 
 test_tender_data = deepcopy(test_docs_tender_below)
 
@@ -401,6 +409,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Registering bid
         bids_access = {}
         bid_data = deepcopy(test_docs_bid_draft)
+        bid_data['items'] = [
+            {
+                "quantity": 5,
+                "description": "папір",
+                "id": items[0]['id'],
+                "unit": {
+                    "code": "KGM",
+                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                },
+            }
+        ]
         set_bid_lotvalues(bid_data, tender_lots)
         with open(TARGET_DIR + 'tutorial/register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
@@ -441,6 +460,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         bid_with_docs = deepcopy(test_docs_bid2_with_docs)
         set_bid_lotvalues(bid_with_docs, tender_lots)
+        bid_with_docs['items'] = [
+            {
+                "quantity": 5,
+                "description": "папір",
+                "id": items[0]['id'],
+                "unit": {
+                    "code": "KGM",
+                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                },
+            }
+        ]
         with open(TARGET_DIR + 'tutorial/register-2nd-bidder.http', 'w') as self.app.file_obj:
             for document in bid_with_docs['documents']:
                 document['url'] = self.generate_docservice_url()
@@ -597,3 +627,384 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {'data': {"status": "active"}},
             )
             self.assertEqual(response.status, '200 OK')
+
+    def test_docs_multi_currency(self):
+        config = deepcopy(self.initial_config)
+        config.update(
+            {
+                "valueCurrencyEquality": False,
+                "hasAuction": False,
+                "hasAwardingOrder": False,
+                "hasValueRestriction": False,
+            }
+        )
+
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
+        del test_tender_data["minimalStep"]
+        test_tender_data["funders"] = [deepcopy(test_tender_below_organization)]
+        test_tender_data["funders"][0]["identifier"]["id"] = "44000"
+        test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+        del test_tender_data["funders"][0]["scale"]
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[1]['value'] = test_tender_data['value']
+
+        # Creating tender
+
+        response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot2 = response.json['data']
+        lot_id2 = lot2['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # add criteria
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        for i in range(len(test_criteria_data)):
+            classification_id = test_criteria_data[i]['classification']['id']
+            if classification_id == 'CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES':
+                del test_criteria_data[i]
+                break
+        test_criteria_data.extend(test_language_criteria)
+        response = self.app.post_json(
+            '/tenders/{}/criteria?acc_token={}'.format(tender_id, owner_token), {'data': test_criteria_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        # Tender activating
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id), {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(tender_id, question_id, owner_token),
+            {"data": {"answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""}},
+            status=200,
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
+
+        with open(TARGET_DIR + 'multi-currency/tender.http', 'w') as self.app.file_obj:
+            self.app.get(f'/tenders/{tender_id}')
+
+        # Registering bid
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/bids',
+            {
+                'data': {
+                    'status': 'draft',
+                    'tenderers': test_docs_bid_draft["tenderers"],
+                    'lotValues': [
+                        {"value": {"amount": 600, "currency": "USD"}, 'relatedLot': lot_id1},
+                        {"value": {"amount": 700, "currency": "EUR"}, 'relatedLot': lot_id2},
+                    ],
+                    'items': [
+                        {
+                            "quantity": 5,
+                            "description": "папір",
+                            "id": items[0]['id'],
+                            "unit": {
+                                "code": "KGM",
+                                "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": True},
+                            },
+                        },
+                        {
+                            "quantity": 1,
+                            "description": "степлер",
+                            "id": items[1]['id'],
+                            "unit": {"code": "KGM", "value": {"amount": 0, "currency": "USD"}},
+                        },
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.set_responses(tender_id, response.json, "pending")
+
+        # post bid without items for tender with funders
+        with open(TARGET_DIR + 'multi-currency/post-bid-without-items.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # post bid without unit values in items for tender with funders
+        with open(TARGET_DIR + 'multi-currency/post-bid-without-values-in-unit-items.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {"code": "KGM"},
+                            },
+                            {
+                                "quantity": 1,
+                                "description": "степлер",
+                                "id": items[1]['id'],
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # post bid with items related to another lot than bid
+        with open(
+            TARGET_DIR + 'multi-currency/post-bid-with-items-related-to-another-lot.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[1]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # post bid with items quantity less than items in tender
+        with open(TARGET_DIR + 'multi-currency/post-bid-with-items-less-than-in-tender.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                            },
+                        ],
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # Register second bid
+        with open(TARGET_DIR + 'multi-currency/post-add-valid-bid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/bids',
+                {
+                    'data': {
+                        'status': 'draft',
+                        'tenderers': test_docs_bid_draft["tenderers"],
+                        'lotValues': [
+                            {"value": {"amount": 200, "currency": "USD"}, 'relatedLot': lot_id1},
+                            {"value": {"amount": 400, "currency": "EUR"}, 'relatedLot': lot_id2},
+                        ],
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
+                            },
+                            {
+                                "quantity": 1,
+                                "description": "степлер",
+                                "id": items[1]['id'],
+                                "unit": {"code": "KGM", "value": {"amount": 0, "currency": "USD"}},
+                            },
+                        ],
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+        self.set_responses(tender_id, response.json, "pending")
+        bid2_id = response.json["data"]["id"]
+        bid2_token = response.json["access"]["token"]
+
+        # patch bid with unit VAT different from tender VAT
+        with open(TARGET_DIR + 'multi-currency/patch-invalid-bid-unit.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}',
+                {
+                    'data': {
+                        'items': [
+                            {
+                                "quantity": 5,
+                                "description": "папір",
+                                "id": items[0]['id'],
+                                "unit": {
+                                    "code": "KGM",
+                                    "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": False},
+                                },
+                            },
+                            {
+                                "quantity": 1,
+                                "description": "степлер",
+                                "id": items[1]['id'],
+                                "unit": {
+                                    "code": "KGM",
+                                    "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                                },
+                            },
+                        ]
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        # Auction
+        self.tick(timedelta(days=30))
+        self.check_chronograph()
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        response = self.app.get(f'/tenders/{tender_id}?acc_token={owner_token}')
+        self.assertEqual(response.status, '200 OK')
+
+        # Get pending award
+        response = self.app.get('/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token))
+        award = response.json["data"][0]
+        award_id = award["id"]
+        award2 = response.json["data"][2]
+        award2_id = award2["id"]
+
+        # Activate award
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
+            {
+                "data": {
+                    "status": "active",
+                    "qualified": True,
+                }
+            },
+        )
+        self.app.patch_json(
+            '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award2_id, owner_token),
+            {
+                "data": {
+                    "status": "active",
+                    "qualified": True,
+                }
+            },
+        )
+
+        # Bypass complaintPeriod
+        tender = self.mongodb.tenders.get(self.tender_id)
+        for i in tender.get('awards', []):
+            if "complaintPeriod" in i:
+                i['complaintPeriod']['endDate'] = i['complaintPeriod']['startDate']
+        self.mongodb.tenders.save(tender)
+
+        # Activating contract
+        response = self.app.get('/tenders/{}/contracts?acc_token={}'.format(self.tender_id, owner_token))
+        self.contract_id = response.json['data'][0]['id']
+
+        with open(TARGET_DIR + 'multi-currency/contract.http', 'w') as self.app.file_obj:
+            response = self.app.get('/contracts/{}?acc_token={}'.format(self.contract_id, owner_token))
+            contract_items = response.json["data"]["items"]
+
+        contract_items[0]["unit"]["value"] = {
+            "amount": 5000,
+            "currency": "EUR",
+        }
+
+        with open(TARGET_DIR + 'multi-currency/contract-patch.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                '/contracts/{}?acc_token={}'.format(self.contract_id, owner_token),
+                {
+                    "data": {
+                        "value": {"amount": 10000.0, "currency": "USD", "amountNet": 10000.0},
+                        "items": contract_items,
+                    }
+                },
+            )
+
+        # activate contract
+        response = self.app.put_json(
+            f'/contracts/{self.contract_id}/buyer/signer_info?acc_token={owner_token}', {"data": test_signer_info}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.put_json(
+            f'/contracts/{self.contract_id}/suppliers/signer_info?acc_token={bid2_token}', {"data": test_signer_info}
+        )
+
+        self.assertEqual(response.status, '200 OK')
+        response = self.app.patch_json(
+            f'/contracts/{self.contract_id}?acc_token={owner_token}', {'data': {'status': 'active'}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'multi-currency/contract-activated.http', 'w') as self.app.file_obj:
+            self.app.get('/contracts/{}?acc_token={}'.format(self.contract_id, owner_token))
