@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.models.bid_document import (
     PatchDocument,
     PostDocument,
 )
+from openprocurement.tender.core.procedure.state.bid_document import BidDocumentState
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone,
     validate_bid_document_in_tender_status,
@@ -76,6 +77,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     model_class = Document
     create_model_class = PostDocument
     update_model_class = PatchDocument
+    state_class = BidDocumentState
 
     def __acl__(self):
         acl = [

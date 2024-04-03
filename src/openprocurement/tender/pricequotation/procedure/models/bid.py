@@ -9,6 +9,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_items_uniq
+from openprocurement.tender.core.procedure.models.bid import MetaBid
 from openprocurement.tender.core.procedure.models.bid_document import (
     Document,
     PostDocument,
@@ -70,12 +71,7 @@ class PostBid(PostBidResponsesMixin, PatchBid):
         validate_bid_value(tender, value)
 
 
-class Bid(ObjResponseMixin, Model):
-    id = MD5Type()
-    date = StringType()
-    owner = StringType()
-    owner_token = StringType()
-    transfer_token = StringType()
+class Bid(ObjResponseMixin, MetaBid):
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))

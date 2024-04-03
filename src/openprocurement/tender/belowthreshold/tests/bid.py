@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
+    bid_proposal_doc,
     create_one_tender_bid_document_json_bulk,
     create_tender_bid,
     create_tender_bid_document_active_qualification,
@@ -34,6 +35,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     get_tender_tenderers,
     not_found,
     patch_bid_multi_currency,
+    patch_pending_bid,
     patch_tender_bid,
     patch_tender_bid_document,
     patch_tender_bid_with_another_currency,
@@ -88,6 +90,8 @@ class Tender2LotBidResourceTest(TenderContentWebTest):
     test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
     test_post_tender_bid_with_another_currency = snitch(post_tender_bid_with_another_currency)
     test_patch_tender_bid_with_another_currency = snitch(patch_tender_bid_with_another_currency)
+    test_bid_proposal_doc = snitch(bid_proposal_doc)
+    test_patch_pending_bid = snitch(patch_pending_bid)
 
 
 class TenderBidFeaturesResourceTest(TenderContentWebTest):

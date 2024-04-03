@@ -412,6 +412,7 @@ def features_bidder_eu(self):
         i["lotValues"][0]["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate")
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         self.assertEqual(bid, i)
@@ -1003,6 +1004,7 @@ def features_bidder_ua(self):
         i["lotValues"][0]["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate")
         bid["lotValues"][0]["value"]["amount"] = int(bid["lotValues"][0]["value"]["amount"])
         bid["lotValues"][0].pop("date")
         self.assertEqual(bid, i)

@@ -16,8 +16,11 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
     equals_decimal_and_corrupted,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.utils import get_supplier_contract
-from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
+from openprocurement.tender.core.procedure.utils import (
+    get_supplier_contract,
+    is_sign_doc,
+)
+from openprocurement.tender.core.procedure.validation import validate_items_unit_amount, validate_sign_doc_quantity
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +30,8 @@ class BidState(BaseState):
     items_unit_value_required_for_funders = False
 
     def status_up(self, before, after, data):
+        if before in ("draft", "invalid") and after == "pending":
+            self.validate_proposal_doc_required(data)
         super().status_up(before, after, data)
 
     def on_post(self, data):
@@ -38,6 +43,7 @@ class BidState(BaseState):
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
         self.validate_items_related_product(data, {})
+        self.validate_proposal_docs(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -52,6 +58,8 @@ class BidState(BaseState):
         self.update_date_on_value_amount_change(before, after)
         self.validate_items_id(after)
         self.validate_items_related_product(after, before)
+        self.validate_proposal_docs(after, before)
+        self.invalidate_pending_bid_after_patch(after, before)
         super().on_patch(before, after)
 
     def validate_bid_unit_value(self, data):
@@ -121,6 +129,33 @@ class BidState(BaseState):
                 validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
         else:
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
+
+    def validate_proposal_doc_required(self, bid):
+        if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":
+            for doc in bid.get("documents", []):
+                # TODO: add validation after CS-16219
+                # and (not bid.get("submissionDate") or doc["datePublished"] > bid["submissionDate"])
+                if is_sign_doc(doc, doc_type="proposal"):
+                    break
+            else:
+                raise_operation_error(
+                    self.request,
+                    "Document with type 'proposal' is required",
+                    status=422,
+                    name="documents",
+                )
+        bid["submissionDate"] = get_now().isoformat()
+
+    def validate_proposal_docs(self, data, before=None):
+        documents = data.get("documents", [])
+        if before and len(before.get("documents", [])) != len(documents) or before is None:
+            validate_sign_doc_quantity(documents, doc_type="proposal")
+
+    def invalidate_pending_bid_after_patch(self, after, before):
+        if self.request.authenticated_role == "Administrator":
+            return
+        if before.get("status") == after.get("status") == "pending":
+            after["status"] = "invalid"
 
     def update_date_on_value_amount_change(self, before, after):
         if not self.update_date_on_value_amount_change_enabled:
@@ -198,6 +233,8 @@ class BidState(BaseState):
             )
             self.request.errors.status = 403
             raise error_handler(self.request)
+        if status == "pending":
+            self.validate_proposal_doc_required(data)
 
     def validate_bid_vs_agreement(self, data):
         tender = get_tender()

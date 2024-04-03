@@ -553,3 +553,7 @@ def check_is_contract_waiting_for_inspector_approve(tender: dict, lot_id=None) -
     return check_is_waiting_for_inspector_approve(
         tender, lot_id, valid_statuses=["active.qualification", "active.awarded"]
     )
+
+
+def is_sign_doc(doc, doc_type="notice"):
+    return doc.get("documentType") == doc_type and doc["title"][-4:] == ".p7s"

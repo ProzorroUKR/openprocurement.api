@@ -419,7 +419,7 @@ def get_tender_bid(self):
     response = self.app.get("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    bid.update({"status": "pending"})
+    bid.update({"status": "pending", "submissionDate": response.json["data"]["submissionDate"]})
     self.assertEqual(response.json["data"], bid)
 
     self.set_status("active.qualification")
@@ -513,7 +513,7 @@ def get_tender_tenderers(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    bid.update({"status": "active"})
+    bid.update({"status": "active", "submissionDate": response.json["data"][0]["submissionDate"]})
     self.assertEqual(response.json["data"][0], bid)
 
     response = self.app.get("/tenders/some_id/bids", status=404)
@@ -736,6 +736,102 @@ def patch_tender_bid_with_another_currency(self):
     )
 
 
+def patch_pending_bid(self):
+    bid = deepcopy(self.test_bids_data[0])
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    set_bid_lotvalues(bid, lots)
+
+    bid, bid_token = self.create_bid(self.tender_id, bid)
+    self.assertEqual(bid["status"], "pending")
+
+    tenderers = deepcopy(bid["tenderers"])
+    tenderers[0]["identifier"]["scheme"] = "UA-FIN"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}", {"data": {"tenderers": tenderers}}
+    )
+    self.assertEqual(response.json["data"]["status"], "invalid")
+
+
+def bid_proposal_doc(self):
+    bid_data = deepcopy(self.test_bids_data[0])
+    lots = self.mongodb.tenders.get(self.tender_id).get("lots")
+
+    set_bid_lotvalues(bid_data, lots)
+
+    # try to create pending bid without proposal for non UA resident
+    bid_data["tenderers"][0]["identifier"]["scheme"] = "US-DOS"
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
+    self.assertEqual(response.status, "201 Created")
+
+    # try to create pending bid without proposal for UA resident
+    bid_data["tenderers"][0]["identifier"]["scheme"] = "UA-EDR"
+    bid_data["status"] = "pending"
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'proposal' is required")
+
+    bid_data["status"] = "draft"
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+
+    # try to activate bid without proposal doc for UA resident
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'proposal' is required")
+
+    self.add_proposal_doc(self.tender_id, bid["id"], bid_token)
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("submissionDate", response.json["data"])
+    submission_date_1 = response.json["data"]["submissionDate"]
+
+    # try to add one more proposal doc
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}/documents?acc_token={bid_token}",
+        {
+            "data": {
+                "title": "proposal.p7s",
+                "documentType": "proposal",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "sign/p7s",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Proposal document already exists in tender")
+
+    # patch bid
+    tenderers = deepcopy(bid["tenderers"])
+    tenderers[0]["identifier"]["uri"] = "http://www.dus.gov/"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"tenderers": tenderers}},
+    )
+    self.assertEqual(response.json["data"]["status"], "invalid")
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotEqual(submission_date_1, response.json["data"]["submissionDate"])
+
+    # try to activate bid without proposal doc for non UA resident
+    bid_data["tenderers"][0]["identifier"]["scheme"] = "US-DOS"
+    bid, bid_token = self.create_bid(self.tender_id, bid_data)
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("submissionDate", response.json["data"])
+
+
 # TenderBidFeaturesResourceTest
 
 
@@ -758,6 +854,7 @@ def features_bid(self):
         bid, bid_token = self.create_bid(self.tender_id, i)
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate", None)
         for k in ("documents", "lotValues"):
             self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)

@@ -670,6 +670,7 @@ def features_bid(self):
         bid, bid_token = self.create_bid(self.tender_id, i)
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate", None)
         bid["lotValues"][0].pop("date")
         bid["lotValues"][0].pop("status")
         self.assertEqual(bid.pop("documents", []), [])
@@ -698,6 +699,7 @@ def features_bid(self):
     bid, bid_token = self.create_bid(self.tender_id, feat_bid)
     bid.pop("date")
     bid.pop("id")
+    bid.pop("submissionDate", None)
     bid["lotValues"][0].pop("date")
     bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])
@@ -795,6 +797,7 @@ def patch_features_bid_invalid(self):
     bid_id = bid["id"]
     bid.pop("date")
     bid.pop("id")
+    bid.pop("submissionDate")
     bid["lotValues"][0].pop("date")
     bid["lotValues"][0].pop("status")
     self.assertEqual(bid.pop("documents", []), [])

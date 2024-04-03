@@ -167,6 +167,7 @@ def bids_on_tender_cancellation_in_qualification(self):
         "date",
         "financialDocuments",
         "qualificationDocuments",
+        "submissionDate",
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         self.bid_visible_fields.append("selfEligible")
@@ -259,6 +260,7 @@ def bids_on_tender_cancellation_in_awarded(self):
         "date",
         "financialDocuments",
         "qualificationDocuments",
+        "submissionDate",
     ]
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -336,6 +338,7 @@ def cancellation_active_tendering_j708(self):
     bid_data = deepcopy(bid)
     del bid_data["date"]  # TODO  should ignore extra fields ?
     del bid_data["lotValues"][0]["date"]
+    del bid_data["submissionDate"]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
     self.assertEqual(response.status, "201 Created")
     self.initial_bids_tokens[response.json["data"]["id"]] = response.json["access"]["token"]
@@ -394,6 +397,7 @@ def cancellation_active_qualification_j1427(self):
     bid_ids = []
     del bid_data["date"]  # TODO  should ignore extra fields ?
     del bid_data["lotValues"][0]["date"]
+    del bid_data["submissionDate"]
     for i in range(3):
         bid, bid_token = self.create_bid(self.tender_id, bid_data)
         self.initial_bids_tokens[bid["id"]] = bid_token

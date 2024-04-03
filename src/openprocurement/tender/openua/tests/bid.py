@@ -8,10 +8,12 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+    bid_proposal_doc,
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
     not_found,
+    patch_pending_bid,
     patch_tender_bid_with_exceeded_lot_values,
     post_tender_bid_with_exceeded_lot_values,
 )
@@ -76,6 +78,8 @@ class TenderBidResourceTestMixin:
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_bid_proposal_doc = snitch(bid_proposal_doc)
+    test_patch_pending_bid = snitch(patch_pending_bid)
 
 
 class TenderBidRequirementResponseTestMixin:
