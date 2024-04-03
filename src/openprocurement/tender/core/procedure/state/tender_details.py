@@ -5,6 +5,7 @@ from jsonschema.validators import validate
 
 from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
+    MILESTONES_VALIDATION_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_CONFIG_JSONSCHEMAS,
@@ -17,7 +18,11 @@ from openprocurement.api.procedure.utils import (
     get_cpv_prefix_length,
     get_cpv_uniq_prefixes,
 )
-from openprocurement.api.utils import get_agreement_by_id, raise_operation_error
+from openprocurement.api.utils import (
+    get_agreement_by_id,
+    get_first_revision_date,
+    raise_operation_error,
+)
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -155,6 +160,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_config(tender)
         self.validate_procurement_method(tender)
         self.validate_lots_count(tender)
+        self.validate_milestones(tender)
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
@@ -170,6 +176,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     def on_patch(self, before, after):
         self.validate_procurement_method(after, before=before)
         self.validate_lots_count(after)
+        self.validate_milestones(after)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_start_date_change(before, after)
         self.validate_minimal_step(after, before=before)
@@ -255,6 +262,20 @@ class TenderDetailsMixing(TenderConfigMixin):
             tender["mode"] = "test"
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)
+
+    def validate_milestones(self, tender):
+        for milestone in tender.get("milestones", []):
+            if milestone.get("type") == "financing":
+                if (
+                    get_first_revision_date(tender, default=get_now()) > MILESTONES_VALIDATION_FROM
+                    and milestone.get("duration", {}).get("days", 0) > 1000
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        [{"duration": ["days shouldn't be more than 1000 for financing milestone"]}],
+                        status=422,
+                        name="milestones",
+                    )
 
     def validate_lots_count(self, tender):
         tender = get_tender()

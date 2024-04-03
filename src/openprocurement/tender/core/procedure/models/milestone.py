@@ -60,11 +60,6 @@ class Duration(Model):
     days = IntType(required=True, min_value=1)
     type = StringType(required=True, choices=["working", "banking", "calendar"])
 
-    def validate_days(self, data, value):
-        tender = get_tender()
-        if get_first_revision_date(tender, default=get_now()) > MILESTONES_VALIDATION_FROM and value > 1000:
-            raise ValidationError("days shouldn't be more than 1000")
-
 
 class Milestone(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)

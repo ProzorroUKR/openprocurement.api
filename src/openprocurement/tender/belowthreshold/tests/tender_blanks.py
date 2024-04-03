@@ -3738,6 +3738,20 @@ def tender_financing_milestones(self):
     )
 
     data["milestones"][-1]["percentage"] = percentage
+    data["milestones"][-1]["duration"]["days"] = 1500
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"duration": ["days shouldn't be more than 1000 for financing milestone"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["duration"]["days"] = 1000
     data["milestones"][-1]["code"] = "standard"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -3776,7 +3790,7 @@ def tender_delivery_milestones(self):
             "id": "c" * 32,
             "title": "signingTheContract",
             "type": "delivery",
-            "duration": {"days": 14, "type": "calendar"},
+            "duration": {"days": 1500, "type": "calendar"},
             "sequenceNumber": 0,
             "code": "postpayment",
             "percentage": 10,
