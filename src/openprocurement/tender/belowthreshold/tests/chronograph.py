@@ -108,6 +108,11 @@ class TenderUnsuccessfulLotAuctionPeriodResourceTest(TenderAuctionPeriodResource
                 {"data": {"lotValues": bid["lotValues"][:1]}},
             )
             self.assertEqual(response.status, "200 OK")
+            # publish bid one more time after patching
+            self.app.patch_json(
+                f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+                {"data": {"status": "pending"}},
+            )
 
 
 class TenderLotNoAuctionResourceTest(TenderContentWebTest):
@@ -127,6 +132,11 @@ class TenderLotNoAuctionResourceTest(TenderContentWebTest):
             {"data": {"lotValues": bid["lotValues"][:1]}},
         )
         self.assertEqual(response.status, "200 OK")
+        # publish bid one more time after patching
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={self.initial_bids_tokens[bid_id]}",
+            {"data": {"status": "pending"}},
+        )
 
     test_switch_to_auction_with_non_auction_lot = snitch(switch_to_auction_with_non_auction_lot)
 

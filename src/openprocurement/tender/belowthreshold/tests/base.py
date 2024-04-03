@@ -23,7 +23,7 @@ from openprocurement.tender.core.tests.base import (
 now = get_now()
 
 test_tender_below_identifier = {
-    "scheme": "UA-EDR",
+    "scheme": "UA-IPN",
     "id": "00037256",
     "uri": "http://www.dus.gov.ua/",
     "legalName": "Державне управління справами",

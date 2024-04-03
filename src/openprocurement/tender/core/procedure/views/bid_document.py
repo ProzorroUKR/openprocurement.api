@@ -18,6 +18,7 @@ from openprocurement.tender.core.procedure.models.bid_document import (
 from openprocurement.tender.core.procedure.serializers.document import (
     ConfidentialDocumentSerializer,
 )
+from openprocurement.tender.core.procedure.state.bid_document import BidDocumentState
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone,
     validate_bid_document_in_tender_status,
@@ -80,6 +81,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
     create_model_class = PostDocument
     update_model_class = PatchDocument
     serializer_class = ConfidentialDocumentSerializer
+    state_class = BidDocumentState
 
     def __acl__(self):
         acl = [

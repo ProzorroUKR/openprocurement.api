@@ -57,6 +57,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_criterion_requirement,
     is_multi_currency_tender,
     is_new_contracting,
+    is_sign_doc,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -1581,4 +1582,15 @@ def validate_doc_type_required(documents, document_type="notice", document_of=No
             f"Document with type '{document_type}' and format pkcs7-signature is required",
             status=422,
             name="documents",
+        )
+
+
+def validate_sign_doc_quantity(documents, doc_type="notice"):
+    sign_docs = {doc["id"] for doc in documents if is_sign_doc(doc, doc_type=doc_type)}
+    if len(sign_docs) > 1:
+        raise_operation_error(
+            get_request(),
+            f"{doc_type} document in object should be only one",
+            name="documents",
+            status=422,
         )

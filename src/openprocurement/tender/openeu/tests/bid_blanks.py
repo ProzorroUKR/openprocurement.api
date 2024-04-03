@@ -298,6 +298,8 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
@@ -307,6 +309,8 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
@@ -322,6 +326,8 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
 
     response = self.app.patch_json(
@@ -510,7 +516,7 @@ def get_tender_bidder(self):
         response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
-    assert_keys = ["date", "status", "id", "lotValues", "tenderers", "selfQualified"]
+    assert_keys = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_keys.append("selfEligible")
     for b in response.json["data"]:
@@ -1193,6 +1199,7 @@ def features_bidder(self):
         i["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate", None)
         for k in ("documents", "eligibilityDocuments", "financialDocuments", "qualificationDocuments", "lotValues"):
             self.assertEqual(bid.pop(k, []), [])
         self.assertEqual(bid, i)
@@ -1725,8 +1732,9 @@ def get_tender_bidder_document(self):
         "qualificationDocuments",
         "financialDocuments",
         "selfQualified",
+        "submissionDate",
     ]
-    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified"]
+    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append("selfEligible")
         assert_data_less.append("selfEligible")
@@ -3712,8 +3720,9 @@ def get_tender_bidder_document_ds(self):
         "qualificationDocuments",
         "financialDocuments",
         "selfQualified",
+        "submissionDate",
     ]
-    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified"]
+    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append("selfEligible")
         assert_data_less.append("selfEligible")

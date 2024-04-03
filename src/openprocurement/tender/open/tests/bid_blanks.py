@@ -374,6 +374,8 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
+
+    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["date"])
 
@@ -976,6 +978,7 @@ def features_bidder(self):
             v["status"] = "pending"
         bid.pop("date")
         bid.pop("id")
+        bid.pop("submissionDate")
         for v in bid["lotValues"]:
             v.pop("date")
         for k in ("documents",):
