@@ -199,6 +199,7 @@ def get_additional_contract_data(request, contract, tender, award):
         bid = tender
 
     return {
+        "mode": tender.get("mode"),
         "buyer": buyer,
         "tender_id": tender["_id"],
         "owner": tender["owner"],
