@@ -77,7 +77,7 @@ msgid "The total offer price and the price per unit are adjusted both upwards an
 msgstr "Загальна ціна пропозиції та ціна за одиницю коригуються як у бік збільшення так і у бік зменшення."
 
 msgid "At the same time, the total cost of the price per unit can be not equal to the total price of the offer."
-msgstr "При цьому загальна вартість wін за одиницю може не дорівнювати загальній ціні пропозиції."
+msgstr "При цьому загальна вартість цін за одиницю може не дорівнювати загальній ціні пропозиції."
 
 msgid "VAT can be changed at the contract level (must be changed in both contract.value and contract.items.unit.value at the same time)."
 msgstr "ПДВ можна змінювати на рівні контракту (повинна бути змінена як у contract.value так і у contract.items.unit.value одночасно)."
