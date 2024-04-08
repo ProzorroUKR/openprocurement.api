@@ -1,4 +1,5 @@
 from datetime import timedelta
+from enum import Enum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
@@ -61,11 +62,18 @@ class Duration(Model):
     type = StringType(required=True, choices=["working", "banking", "calendar"])
 
 
+class TenderMilestoneTypes(Enum):
+    FINANCING = "financing"
+    DELIVERY = "delivery"
+
+
 class Milestone(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
     description = StringType()
-    type = StringType(required=True, choices=["financing", "delivery"])
+    type = StringType(
+        required=True, choices=[TenderMilestoneTypes.FINANCING.value, TenderMilestoneTypes.DELIVERY.value]
+    )
     code = StringType(required=True)
     percentage = FloatType(max_value=100, validators=[is_positive_float])
 
@@ -82,9 +90,9 @@ class Milestone(Model):
             raise ValidationError("description should contain at most 2000 characters")
 
     def validate_percentage(self, data, value):
-        if data.get("type") == "financing" and not value:
+        if data.get("type") == TenderMilestoneTypes.FINANCING.value and not value:
             raise ValidationError("This field is required.")
-        elif data.get("type") == "delivery" and value:
+        elif data.get("type") == TenderMilestoneTypes.DELIVERY.value and value:
             raise ValidationError("Rogue field")
 
     def validate_code(self, data, value):
@@ -98,7 +106,7 @@ class Milestone(Model):
             raise ValidationError(f"Value must be one of {MILESTONE_TITLES[milestone_type]}")
 
     def validate_relatedLot(self, data, value):
-        if data.get("type") == "delivery" and not value:
+        if data.get("type") == TenderMilestoneTypes.DELIVERY.value and not value:
             raise ValidationError("This field is required.")
 
 
