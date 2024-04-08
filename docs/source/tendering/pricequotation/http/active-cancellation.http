@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "0162fbd6680f40e8b12a7235ace8cf98",
     "status": "active",
-    "date": "2023-09-20T01:00:01+03:00",
+    "date": "2023-10-10T01:00:01+03:00",
     "reasonType": "expensesCut",
     "reason": "cancellation reason",
     "cancellationOf": "tender",
@@ -25,25 +25,25 @@ Content-Type: application/json
       {
         "description": "Changed description",
         "id": "497191c24d4b49759574f384a2690a30",
-        "datePublished": "2023-09-20T01:00:01+03:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b51f286a456744a5aa311917ee24504a?Signature=YHcahWxxAcYSGa9HFfWHlPRBYSaTYUUi1lPh0gSVQiBwIX0MWoVsCpKb7%2BIM5t113k1MQNMMMe8%2F0aPDtaXACQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-09-20T01:00:01+03:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "language": "uk"
       },
       {
         "description": "Changed description",
         "id": "497191c24d4b49759574f384a2690a30",
-        "datePublished": "2023-09-20T01:00:01+03:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04b19e98abbc481f944b5a4e1376e930?Signature=wonP7nxBLzgfRnPAAi4UlfqIzubU3uA9sSG4fWwckC9AK2Bh3G1LX7aeiqEq%2FuX5hCnBCY2b%2FIAjawi66cfiDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-09-20T01:00:01+03:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "language": "uk"
       }
     ]

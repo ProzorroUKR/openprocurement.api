@@ -212,20 +212,6 @@ def put_tender_document(self):
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
-                "documentType": "notice",
-            }
-        },
-    )
-    self.assertEqual(response.json["data"]["documentType"], "name.doc")
-
-    response = self.app.put_json(
-        "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
-        {
-            "data": {
-                "title": "укр.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
             }
         },
     )

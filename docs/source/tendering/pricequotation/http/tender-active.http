@@ -15,21 +15,21 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-09-20T01:00:01+03:00",
-    "dateModified": "2023-09-20T01:00:01+03:00",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
-    "tenderID": "UA-2023-09-20-000001-a",
+    "date": "2023-10-10T01:00:01+03:00",
+    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
     "documents": [
       {
         "documentType": "notice",
         "id": "578203e46b1347d1addea1004534c04e",
-        "datePublished": "2023-09-20T01:00:01+03:00",
+        "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/documents/578203e46b1347d1addea1004534c04e?download=4e9cca1d009543748520193f19f6a894",
         "documentOf": "tender",
-        "dateModified": "2023-09-20T01:00:01+03:00",
+        "dateModified": "2023-10-10T01:00:01+03:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -50,8 +50,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-09-20T01:00:01+03:00",
-      "endDate": "2023-10-05T01:00:11+03:00"
+      "startDate": "2023-10-10T01:00:01+03:00",
+      "endDate": "2023-10-25T01:00:11+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -84,8 +84,8 @@ Content-Type: application/json
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -189,9 +189,9 @@ Content-Type: application/json
         ]
       }
     ],
-    "noticePublicationDate": "2023-09-20T01:00:01+03:00",
+    "noticePublicationDate": "2023-10-10T01:00:01+03:00",
     "contractTemplateName": "00000000-0.0001.01",
-    "next_check": "2023-10-05T01:00:11+03:00",
+    "next_check": "2023-10-25T01:00:11+03:00",
     "id": "3f38940af1314712ac29867b3e4eced4"
   },
   "config": {

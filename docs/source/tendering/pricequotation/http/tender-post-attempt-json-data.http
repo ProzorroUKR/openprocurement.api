@@ -32,7 +32,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-04T01:00:00+03:00"
+      "endDate": "2023-10-24T01:00:00+03:00"
     },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
@@ -42,8 +42,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "unit": {
           "name": "кг",
@@ -175,8 +175,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-10-04T01:00:00+03:00",
-      "startDate": "2023-09-20T01:00:00+03:00"
+      "endDate": "2023-10-24T01:00:00+03:00",
+      "startDate": "2023-10-10T01:00:00+03:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -209,8 +209,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2023-09-22T01:00:00+03:00",
-          "endDate": "2023-09-25T01:00:00+03:00"
+          "startDate": "2023-10-12T01:00:00+03:00",
+          "endDate": "2023-10-15T01:00:00+03:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -314,11 +314,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
         ]
       }
     ],
-    "tenderID": "UA-2023-09-20-000001-a",
+    "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
-    "date": "2023-09-20T01:00:00+03:00",
-    "dateCreated": "2023-09-20T01:00:00+03:00",
-    "dateModified": "2023-09-20T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "3f38940af1314712ac29867b3e4eced4"
   },
   "config": {

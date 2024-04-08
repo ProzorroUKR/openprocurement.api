@@ -545,7 +545,6 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "documentType": "notice",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Приховано",
         "format": "application/pdf",
@@ -559,24 +558,12 @@ Content-Type: application/json
       },
       {
         "hash": "md5:00000000000000000000000000000000",
-        "title": "Приховано",
+        "title": "description.pdf",
         "format": "application/pdf",
-        "url": "Приховано",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/832da0e2beae4231a700dc858436811a?download=2bd25ecac7274f6e9f062904741ca519",
         "documentOf": "tender",
         "language": "uk",
         "id": "832da0e2beae4231a700dc858436811a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      },
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "description.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/5cb1a8b80d1943af8b83c83a8b4246cd?download=0e87ac7294bd450ea087665097d4b6d1",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "5cb1a8b80d1943af8b83c83a8b4246cd",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner"

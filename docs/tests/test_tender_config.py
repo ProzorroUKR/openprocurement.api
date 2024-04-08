@@ -2192,20 +2192,6 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
             '/tenders/{}/documents?acc_token={}'.format(tender_id, owner_token),
             {
                 "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "notice",
-                }
-            },
-        )
-        self.assertEqual(response.status, '201 Created')
-
-        response = self.app.post_json(
-            '/tenders/{}/documents?acc_token={}'.format(tender_id, owner_token),
-            {
-                "data": {
                     "title": "sign.p7s",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,

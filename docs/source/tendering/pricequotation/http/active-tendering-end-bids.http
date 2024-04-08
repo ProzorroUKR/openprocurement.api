@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "id": "b8994ac5b9f340da9a0620b8a7b2d8fc",
-      "date": "2023-09-20T01:00:01+03:00",
+      "date": "2023-10-10T01:00:01+03:00",
       "tenderers": [
         {
           "name": "Державне управління справами",
@@ -91,8 +91,8 @@ Content-Type: application/json
           "language": "uk",
           "id": "5c63b9bde7d34f95896fb073e4ab8103",
           "confidentiality": "public",
-          "datePublished": "2023-09-20T01:00:01+03:00",
-          "dateModified": "2023-09-20T01:00:01+03:00"
+          "datePublished": "2023-10-10T01:00:01+03:00",
+          "dateModified": "2023-10-10T01:00:01+03:00"
         }
       ]
     },
@@ -102,29 +102,29 @@ Content-Type: application/json
     },
     {
       "id": "70bec639abd44364ae412469587562fc",
-      "date": "2023-09-20T01:00:01+03:00",
+      "date": "2023-10-10T01:00:01+03:00",
       "documents": [
         {
           "id": "2e798473b06143a284ea2bd8b82831a3",
-          "datePublished": "2023-09-20T01:00:01+03:00",
+          "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0ec8fd2dc59a45c4a279f23fb91b2572?Signature=ogddqQNir075wYIRhUPZ6oI5BUvzCD30E0FvQqiiXat9Qib4uMcaop9PnCuO%2BH7lRvmqEqZSraQo3AifEAl8DA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2023-09-20T01:00:01+03:00",
+          "dateModified": "2023-10-10T01:00:01+03:00",
           "language": "uk",
           "confidentiality": "public"
         },
         {
           "id": "c6817fd1670a44149fc0dedfb4a3736e",
-          "datePublished": "2023-09-20T01:00:01+03:00",
+          "datePublished": "2023-10-10T01:00:01+03:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec3cbabab3334b0f9405d0b48698fee7?Signature=qBVCZkrQZf2v6sbyohuyI5iQ37pvbp2baN2rdLaaHZkgB5P7KyYmNcfEe1tOEs5WB0P%2B1udLNbUMVs9KEFPIDQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2023-09-20T01:00:01+03:00",
+          "dateModified": "2023-10-10T01:00:01+03:00",
           "language": "uk",
           "confidentiality": "public"
         }

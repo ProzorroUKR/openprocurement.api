@@ -41,7 +41,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_bids = test_tender_pq_bids
-    freezing_datetime = '2023-09-20T00:00:00+02:00'
+    freezing_datetime = '2023-10-10T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL

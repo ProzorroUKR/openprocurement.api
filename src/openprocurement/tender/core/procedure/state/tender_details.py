@@ -9,12 +9,13 @@ from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
+    NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
-    NOTICE_DOC_REQUIRED_FROM)
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.utils import (

@@ -18,7 +18,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
   "data": {
     "id": "a7c8e239bb0447ab8b05fb0782a7c640",
     "status": "cancelled",
-    "date": "2023-09-20T01:00:01+03:00",
+    "date": "2023-10-10T01:00:01+03:00",
     "value": {
       "amount": 459.0,
       "currency": "UAH",
