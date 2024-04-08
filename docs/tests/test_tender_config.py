@@ -7,7 +7,7 @@ from hashlib import sha512
 from uuid import uuid4
 
 import standards
-from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from tests.base.constants import AUCTIONS_URL, DOCS_URL, MOCK_DATETIME
 from tests.base.data import (
     test_docs_bid,
     test_docs_bid2,
@@ -213,7 +213,8 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
 
         self.assertEqual(response.status, '200 OK')
         response = self.app.patch_json(
-            f'/contracts/{contract_id}?acc_token={owner_token}', {'data': {'status': 'active'}}
+            f'/contracts/{contract_id}?acc_token={owner_token}',
+            {'data': {'status': 'active', "contractNumber": "contract #13111", "period": {"startDate": MOCK_DATETIME}}},
         )
         self.assertEqual(response.status, '200 OK')
 
