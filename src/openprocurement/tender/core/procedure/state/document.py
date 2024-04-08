@@ -20,20 +20,6 @@ class BaseDocumentStateMixing:
     def validate_document_patch(self, before, after):
         pass
 
-    def validate_document_put(self, data, item, container):
-        unchangeable_fields = ("title", "format", "documentType")
-        previous_versions = [doc for doc in item.get(container, []) if doc["id"] == data["id"]]
-        if previous_versions:
-            for field in unchangeable_fields:
-                if previous_versions[-1].get(field) != data.get(field):
-                    raise_operation_error(
-                        self.request,
-                        f"Field {field} can not be changed during PUT. "
-                        f"Should be the same as in the previous version of document",
-                        name=container,
-                        status=422,
-                    )
-
 
 class BaseDocumentState(BaseDocumentStateMixing, TenderState):
     def validate_document_author(self, document):

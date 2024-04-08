@@ -56,7 +56,6 @@ from openprocurement.tender.core.procedure.utils import (
     get_criterion_requirement,
     is_multi_currency_tender,
     is_new_contracting,
-    is_notice_doc,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -1520,7 +1519,7 @@ def validate_numerated(field_name="sequenceNumber"):
 
 
 def validate_notice_doc_quantity(documents):
-    notice_docs = {doc["id"] for doc in documents if is_notice_doc(doc)}
+    notice_docs = {doc["id"] for doc in documents if doc.get("documentType") == "notice"}
     if len(notice_docs) > 1:
         raise_operation_error(
             get_request(),

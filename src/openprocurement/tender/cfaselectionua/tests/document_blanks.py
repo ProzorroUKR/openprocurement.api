@@ -215,12 +215,8 @@ def put_tender_document(self):
                 "documentType": "notice",
             }
         },
-        status=422,
     )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Field documentType can not be changed during PUT. Should be the same as in the previous version of document",
-    )
+    self.assertEqual(response.json["data"]["documentType"], "name.doc")
 
     response = self.app.put_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),

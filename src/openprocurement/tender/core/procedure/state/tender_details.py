@@ -14,7 +14,7 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
-)
+    NOTICE_DOC_REQUIRED_FROM)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.utils import (
@@ -42,7 +42,6 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    is_notice_doc,
     set_mode_test_titles,
     tender_created_after,
     tender_created_before,
@@ -224,10 +223,10 @@ class TenderDetailsMixing(TenderConfigMixin):
         super().status_up(before, after, data)
 
     def validate_notice_doc_required(self, tender):
-        if self.should_validate_notice_doc_required is False:
+        if self.should_validate_notice_doc_required is False or not tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             return
         for doc in tender.get("documents", []):
-            if is_notice_doc(doc):
+            if doc.get("documentType") == "notice" and doc["title"][-4:] == ".p7s":
                 break
         else:
             raise_operation_error(
@@ -643,9 +642,10 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     def validate_notice_docs(self, data, before=None):
-        documents = data.get("documents", [])
-        if before and len(before.get("documents", [])) != len(documents) or before is None:
-            validate_notice_doc_quantity(documents)
+        if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
+            documents = data.get("documents", [])
+            if before and len(before.get("documents", [])) != len(documents) or before is None:
+                validate_notice_doc_quantity(documents)
 
     @staticmethod
     def calculate_item_identification_tuple(item):

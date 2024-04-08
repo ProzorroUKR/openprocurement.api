@@ -2790,12 +2790,8 @@ def put_tender_award_document(self):
                 "format": "application/msword",
             }
         },
-        status=422,
     )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Field title can not be changed during PUT. Should be the same as in the previous version of document",
-    )
+    self.assertEqual(response.json["data"]["title"], "name.doc")
 
     response = self.app.put_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
