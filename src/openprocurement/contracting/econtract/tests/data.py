@@ -17,6 +17,7 @@ for i in test_contract_data.get("suppliers", ""):
 test_contract_data.update({"bid_owner": "broker", "bid_token": uuid4().hex, "buyer": test_buyer, "id": uuid4().hex})
 
 del test_contract_data["period"]
+del test_contract_data["contractNumber"]
 del test_contract_data["dateSigned"]
 
 
