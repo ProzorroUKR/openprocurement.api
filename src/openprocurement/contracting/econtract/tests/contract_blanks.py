@@ -667,7 +667,10 @@ def contract_status_change(self):
                 "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 2},
                 "title": "Changed title",
                 "contractNumber": "123",
-                "period": {"startDate": "2016-03-18T18:47:47.155143+02:00"},
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
             }
         },
     )
@@ -975,7 +978,10 @@ def contract_wo_items_status_change(self):
                 "status": "active",
                 "value": contract_value,
                 "contractNumber": "123",
-                "period": {"startDate": "2016-03-18T18:47:47.155143+02:00"},
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
             }
         },
     )
@@ -1069,12 +1075,20 @@ def contract_activate(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "period.startDate is required for contract in `active` status",
+        "period is required for contract in `active` status",
     )
 
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "period": {"startDate": "2016-03-18T18:47:47.155143+02:00"}}},
+        {
+            "data": {
+                "status": "active",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
         status=422,
     )
     self.assertEqual(
@@ -1088,7 +1102,10 @@ def contract_activate(self):
             "data": {
                 "status": "active",
                 "contractNumber": "123",
-                "period": {"startDate": "2016-03-18T18:47:47.155143+02:00"},
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
             }
         },
     )

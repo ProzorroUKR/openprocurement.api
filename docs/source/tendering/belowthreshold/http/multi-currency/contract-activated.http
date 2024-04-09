@@ -16,7 +16,8 @@ Content-Type: application/json
     "tender_id": "c1d6775dda6d43d9992df300f847b755",
     "owner": "broker",
     "period": {
-      "startDate": "2023-10-10T00:00:00+02:00"
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-12-31T00:00:00+02:00"
     },
     "status": "active",
     "buyer": {

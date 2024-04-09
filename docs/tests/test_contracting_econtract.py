@@ -1,7 +1,8 @@
 import os
 from copy import deepcopy
-from datetime import timedelta
+from datetime import datetime, timedelta
 
+from dateutil.parser import parse
 from tests.base.constants import DOCS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
@@ -631,13 +632,31 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
         response = self.app.patch_json(
             f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}',
-            {"data": {"status": "active", "contractNumber": "contract #13111", "period": {"startDate": MOCK_DATETIME}}},
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "contract #13111",
+                    "period": {
+                        "startDate": datetime(year=parse(MOCK_DATETIME).year, month=11, day=1).isoformat(),
+                        "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
             f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
-            {"data": {"status": "active", "contractNumber": "contract #13111", "period": {"startDate": MOCK_DATETIME}}},
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "contract #13111",
+                    "period": {
+                        "startDate": datetime(year=parse(MOCK_DATETIME).year, month=11, day=1).isoformat(),
+                        "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 

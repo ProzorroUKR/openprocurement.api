@@ -239,10 +239,10 @@ class EContractState(
             )
 
     def validate_required_fields_before_activation(self, data: dict) -> None:
-        if not data.get("period", {}).get("startDate"):
+        if not data.get("period", {}).get("startDate") or not data.get("period", {}).get("endDate"):
             raise_operation_error(
                 self.request,
-                "period.startDate is required for contract in `active` status",
+                "period is required for contract in `active` status",
                 status=422,
             )
         if not data.get("contractNumber"):

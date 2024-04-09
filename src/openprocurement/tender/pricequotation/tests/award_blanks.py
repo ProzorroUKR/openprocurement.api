@@ -473,7 +473,16 @@ def move_award_contract_to_contracting(self):
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active"}},
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
