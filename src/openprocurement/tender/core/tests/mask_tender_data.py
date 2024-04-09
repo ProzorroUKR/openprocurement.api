@@ -89,6 +89,7 @@ def test_mask_tender_by_is_masked(app):
     data = response.json["data"]
     assert data["title"] == "Тимчасово замасковано, щоб русня не підглядала"
     assert data["items"][0]["description"] == "0" * len(data["items"][0]["description"])
+    assert "0000000" not in data["qualificationPeriod"]["reportingDatePublication"]
 
     # Check field
     assert "is_masked" in data
