@@ -356,3 +356,6 @@ DST_AWARE_PERIODS_FROM = get_constant(CONSTANTS_CONFIG, "DST_AWARE_PERIODS_FROM"
 
 # New qualification flow
 QUALIFICATION_AFTER_COMPLAINT_FROM = get_constant(CONSTANTS_CONFIG, "QUALIFICATION_AFTER_COMPLAINT_FROM")
+
+# Logging headers Authorization and X-Request-ID during each request
+CRITICAL_HEADERS_LOG_ENABLED = get_constant(CONSTANTS_CONFIG, "CRITICAL_HEADERS_LOG_ENABLED", parse_func=parse_bool)

@@ -1,11 +1,15 @@
 from datetime import datetime
 from logging import getLogger
 
-from openprocurement.api.constants import DEPRECATED_FEED_USER_AGENTS, TZ
+from openprocurement.api.constants import (
+    CRITICAL_HEADERS_LOG_ENABLED,
+    DEPRECATED_FEED_USER_AGENTS,
+    TZ,
+)
 from openprocurement.api.context import set_now, set_request
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import json_view, raise_operation_error
+from openprocurement.api.utils import context_unpack, json_view, raise_operation_error
 
 
 class BaseResource:
@@ -17,6 +21,9 @@ class BaseResource:
 
         set_request(request)
         set_now()
+
+        if CRITICAL_HEADERS_LOG_ENABLED:  # for additional investigation if needed
+            self.LOGGER.info("Log request", extra=context_unpack(self.request, {}))
 
 
 def parse_offset(offset: str):
