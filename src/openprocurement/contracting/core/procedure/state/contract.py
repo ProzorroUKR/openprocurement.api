@@ -76,8 +76,10 @@ class BaseContractState(BaseState, ContractStateMixing):
                             f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
                         )
 
-                    if k == "unit" and before.get("value", {}).get("currency") != after.get("value", {}).get(
-                        "currency"
+                    if (
+                        k == "unit"
+                        and before.get("value", {}).get("currency")
+                        and before["value"]["currency"] != after.get("value", {}).get("currency")
                     ):
                         raise_operation_error(
                             get_request(),
