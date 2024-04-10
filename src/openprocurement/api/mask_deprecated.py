@@ -71,7 +71,7 @@ def ignore_mask(key):
     ignore_keys = EXCLUDED_FIELDS
     if key in ignore_keys:
         return True
-    elif key.startswith("date") or key.endswith("Date"):
+    elif key.startswith("date") or "Date" in key:
         return True
 
 
