@@ -377,6 +377,7 @@ def tender_noticePublicationDate(self):
     self.tender_token = response.json["access"]["token"]
 
     add_criteria(self)
+    self.add_notice_doc(self.tender_id, self.tender_token)
     # set active.tendering status
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}}

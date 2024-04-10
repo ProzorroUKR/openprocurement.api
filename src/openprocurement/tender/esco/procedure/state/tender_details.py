@@ -15,7 +15,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-    should_validate_notice_doc_required = False
 
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
@@ -54,9 +53,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             startDate=tender["tenderPeriod"]["startDate"],
             endDate=end_date.isoformat(),
         )
-
-        if tender["status"] == "active.tendering" and not tender.get("noticePublicationDate"):
-            tender["noticePublicationDate"] = get_now().isoformat()
 
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco

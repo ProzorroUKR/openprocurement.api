@@ -584,6 +584,21 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "b7b9a98241ae4186965ab65ac3ecdda5",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9f66fb872ea4fb9ae61feaf0933c01b/documents/b7b9a98241ae4186965ab65ac3ecdda5?download=74ccde4883eb452885c2f7fbaf58fa15",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
