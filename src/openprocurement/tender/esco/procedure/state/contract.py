@@ -50,3 +50,18 @@ class ESCOContractState(OpenUAContractStateMixing, ESCOContractStateMixing, ESCO
     def validate_contract_patch(self, request, before, after):
         super().validate_contract_patch(request, before, after)
         self.validate_update_contract_value_esco(request, before, after)
+
+    def validate_activate_contract(self, contract):
+        super().validate_activate_contract(contract)
+        if not contract.get("period", {}).get("startDate") or not contract.get("period", {}).get("endDate"):
+            raise_operation_error(
+                self.request,
+                "period is required for contract in `active` status",
+                status=422,
+            )
+        if not contract.get("contractNumber"):
+            raise_operation_error(
+                self.request,
+                "contractNumber is required for contract in `active` status",
+                status=422,
+            )

@@ -209,7 +209,16 @@ def patch_tender_contract(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"status": "active"}},
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
