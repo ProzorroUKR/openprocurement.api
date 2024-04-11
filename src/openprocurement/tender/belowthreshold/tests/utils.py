@@ -137,7 +137,16 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
     if NEW_CONTRACTING_FROM > get_now() or tender_type == "esco":
         response = self.app.patch_json(
             f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
-            {"data": {"status": "active"}},
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "123",
+                    "period": {
+                        "startDate": "2023-03-18T18:47:47.155143+02:00",
+                        "endDate": "2023-05-18T18:47:47.155143+02:00",
+                    },
+                }
+            },
         )
     else:
         test_signer_info = {
@@ -162,7 +171,16 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
 
         response = self.app.patch_json(
             f"/contracts/{contract_id}?acc_token={tender_token}",
-            {"data": {"status": "active"}},
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "123",
+                    "period": {
+                        "startDate": "2023-03-18T18:47:47.155143+02:00",
+                        "endDate": "2023-05-18T18:47:47.155143+02:00",
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")

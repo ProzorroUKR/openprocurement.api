@@ -223,8 +223,12 @@ You can update signer information using same method:
 .. http:example:: http/update-contract-owner-add-signer-info.http
    :code:
 
+If you try activate contract without required fields (`contractNumber`, `period.startDate`, etc.) you'll get error:
 
-After that actions you can activate contract:
+.. http:example:: http/contract-activating-error-fields.http
+   :code:
+
+After signer information and all required fields added you can activate contract:
 
 .. http:example:: http/contract-activate.http
    :code:

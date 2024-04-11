@@ -10,10 +10,15 @@ Content-Type: application/json
   "data": {
     "awardID": "247c10414fb24f43a61e16675be767a1",
     "contractID": "UA-2023-10-10-000001-a-1",
+    "contractNumber": "contract #13111",
     "dateModified": "2023-11-09T00:00:00+02:00",
     "dateCreated": "2023-11-09T00:00:00+02:00",
     "tender_id": "c1d6775dda6d43d9992df300f847b755",
     "owner": "broker",
+    "period": {
+      "startDate": "2023-01-01T00:00:00+02:00",
+      "endDate": "2023-12-31T00:00:00+02:00"
+    },
     "status": "active",
     "buyer": {
       "name": "Державне управління справами",

@@ -72,6 +72,7 @@ class EContractState(
         super().status_up(before, after, data)
         if before != "active" and after == "active":
             self.validate_required_signed_info(data)
+            self.validate_required_fields_before_activation(data)
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
         tender = get_tender()
@@ -234,6 +235,20 @@ class EContractState(
                 self.request,
                 f"signerInfo field for buyer and suppliers "
                 f"is required for contract in `{data.get('status')}` status",
+                status=422,
+            )
+
+    def validate_required_fields_before_activation(self, data: dict) -> None:
+        if not data.get("period", {}).get("startDate") or not data.get("period", {}).get("endDate"):
+            raise_operation_error(
+                self.request,
+                "period is required for contract in `active` status",
+                status=422,
+            )
+        if not data.get("contractNumber"):
+            raise_operation_error(
+                self.request,
+                "contractNumber is required for contract in `active` status",
                 status=422,
             )
 

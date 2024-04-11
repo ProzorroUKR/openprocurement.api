@@ -119,7 +119,18 @@ class TenderEcontractResourceTestMixin:
         self.assertEqual(response.content_type, "application/json")
 
         response = self.app.patch_json(
-            f"/contracts/{contract_id}?acc_token={self.tender_token}", {"data": {"status": "active"}}, status=status
+            f"/contracts/{contract_id}?acc_token={self.tender_token}",
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "123",
+                    "period": {
+                        "startDate": "2023-03-18T18:47:47.155143+02:00",
+                        "endDate": "2023-05-18T18:47:47.155143+02:00",
+                    },
+                }
+            },
+            status=status,
         )
         return response
 

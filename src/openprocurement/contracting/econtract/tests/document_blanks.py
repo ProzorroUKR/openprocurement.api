@@ -16,7 +16,17 @@ def patch_contract_document(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")
@@ -106,7 +116,17 @@ def contract_change_document(self):
     self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
-        f"/contracts/{self.contract_id}?acc_token={self.contract_token}", {"data": {"status": "active"}}
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertIn(response.json["data"]["status"], "active")

@@ -1266,7 +1266,16 @@ def patch_tender_contract_status_by_owner(self):
 
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -1356,7 +1365,16 @@ def patch_tender_contract_status_by_supplier(self):
     # Tender owner
     response = self.app.patch_json(
         "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}},
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -3388,7 +3406,17 @@ def patch_multiple_contracts_in_contracting(self):
 
     # in case any contract become active and there are no pending contracts -> tender should have complete status
     response = self.app.patch_json(
-        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}", {"data": {"status": "active"}}
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -3397,7 +3425,17 @@ def patch_multiple_contracts_in_contracting(self):
     self.assertNotEqual(response.json["data"]["status"], "complete")  # because second contract still in pending
 
     response = self.app.patch_json(
-        f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}", {"data": {"status": "active"}}
+        f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2023-03-18T18:47:47.155143+02:00",
+                    "endDate": "2023-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
 

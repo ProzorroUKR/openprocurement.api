@@ -1,9 +1,10 @@
 import os
 from copy import deepcopy
-from datetime import timedelta
+from datetime import datetime, timedelta
 from uuid import uuid4
 
-from tests.base.constants import AUCTIONS_URL, DOCS_URL
+from dateutil.parser import parse
+from tests.base.constants import AUCTIONS_URL, DOCS_URL, MOCK_DATETIME
 from tests.base.data import (
     test_docs_bid2_with_docs,
     test_docs_bid_draft,
@@ -1002,7 +1003,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         self.assertEqual(response.status, '200 OK')
         response = self.app.patch_json(
-            f'/contracts/{self.contract_id}?acc_token={owner_token}', {'data': {'status': 'active'}}
+            f'/contracts/{self.contract_id}?acc_token={owner_token}',
+            {
+                'data': {
+                    'status': 'active',
+                    "contractNumber": "contract #13111",
+                    "period": {
+                        "startDate": datetime(year=parse(MOCK_DATETIME).year, month=1, day=1).isoformat(),
+                        "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 

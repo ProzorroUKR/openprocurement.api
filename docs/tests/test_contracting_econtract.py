@@ -1,8 +1,9 @@
 import os
 from copy import deepcopy
-from datetime import timedelta
+from datetime import datetime, timedelta
 
-from tests.base.constants import DOCS_URL
+from dateutil.parser import parse
+from tests.base.constants import DOCS_URL, MOCK_DATETIME
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.utils import get_now
@@ -17,7 +18,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
     test_tender_below_organization,
 )
-from openprocurement.tender.esco.tests.base import BaseESCOWebTest
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_criteria_1,
@@ -324,9 +324,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
         self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'contract-activating-error-fields.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/contracts/{contract_id}?acc_token={owner_token}',
+                {"data": {"status": "active"}},
+                status=422,
+            )
+
         with open(TARGET_DIR + 'contract-activate.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
-                f'/contracts/{contract_id}?acc_token={owner_token}', {"data": {"status": "active"}}
+                f'/contracts/{contract_id}?acc_token={owner_token}',
+                {"data": {"status": "active", "contractNumber": "contract #13111"}},
             )
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']["status"], 'active')
@@ -623,12 +631,32 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         )
 
         response = self.app.patch_json(
-            f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}', {"data": {"status": "active"}}
+            f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}',
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "contract #13111",
+                    "period": {
+                        "startDate": datetime(year=parse(MOCK_DATETIME).year, month=11, day=1).isoformat(),
+                        "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 
         response = self.app.patch_json(
-            f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}', {"data": {"status": "active"}}
+            f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
+            {
+                "data": {
+                    "status": "active",
+                    "contractNumber": "contract #13111",
+                    "period": {
+                        "startDate": datetime(year=parse(MOCK_DATETIME).year, month=11, day=1).isoformat(),
+                        "endDate": datetime(year=parse(MOCK_DATETIME).year, month=12, day=31).isoformat(),
+                    },
+                }
+            },
         )
         self.assertEqual(response.status, '200 OK')
 

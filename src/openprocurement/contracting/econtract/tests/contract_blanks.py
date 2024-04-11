@@ -7,7 +7,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.data import documents
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.contracting.econtract.tests.utils import create_contract
-from openprocurement.tender.core.tests.utils import change_auth
 
 
 def listing(self):
@@ -667,6 +666,11 @@ def contract_status_change(self):
             "data": {
                 "value": {**self.contract["value"], "amountNet": self.contract["value"]["amount"] - 2},
                 "title": "Changed title",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
             }
         },
     )
@@ -969,7 +973,17 @@ def contract_wo_items_status_change(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
-        {"data": {"status": "active", "value": contract_value}},
+        {
+            "data": {
+                "status": "active",
+                "value": contract_value,
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -1041,6 +1055,62 @@ def contract_activate(self):
             }
         ],
     )
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/buyer/signer_info?acc_token={self.tender_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.put_json(
+        f"/contracts/{self.contract_id}/suppliers/signer_info?acc_token={self.bid_token}",
+        {"data": test_signer_info},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "period is required for contract in `active` status",
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "status": "active",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "contractNumber is required for contract in `active` status",
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
 
 
 def patch_tender_contract(self):
