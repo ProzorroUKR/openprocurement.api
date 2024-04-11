@@ -238,7 +238,7 @@ def put_tender_document(self):
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
-    self.assertEqual(response.json["data"]["datePublished"], datePublished)
+    self.assertNotEqual(response.json["data"]["datePublished"], datePublished)
 
     response = self.app.get("/tenders/{}/documents?all=true".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")

@@ -590,7 +590,7 @@ def get_tender_complaint_post_document_json(self):
     dateModified2 = document["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, document["previousVersions"][0]["dateModified"])
-    self.assertEqual(document["datePublished"], datePublished)
+    self.assertNotEqual(document["datePublished"], datePublished)
 
     response = self.get_post_documents(params={"all": "true"})
     documents = response.json["data"]
