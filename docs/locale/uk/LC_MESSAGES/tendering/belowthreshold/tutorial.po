@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-18 11:23+0100\n"
+"POT-Creation-Date: 2024-04-16 17:43+0300\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -229,6 +229,9 @@ msgstr "І завантажити документ пропозиції:"
 msgid "It is possible to check the uploaded documents:"
 msgstr "Можна перевірити завантажені документи:"
 
+msgid "If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be moe that bid value:"
+msgstr "Якщо закупівля не мультивалютна, тоді існує додаткова перевірка, що сума всіх `items.unit.value` не може перевищувати ціну пропозиції:"
+
 msgid "Batch-mode registration"
 msgstr "Пакетний режим реєстрації"
 
@@ -336,3 +339,4 @@ msgstr "Завантаження нової версії документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
+

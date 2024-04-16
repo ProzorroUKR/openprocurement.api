@@ -854,22 +854,6 @@ def patch_contract_single_item_unit_value(self):
     doc["contracts"][0]["items"][0]["unit"]["value"]["amount"] = 2000
     self.mongodb.tenders.save(doc)
 
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
-
     new_items = deepcopy(contract["items"])
     new_items[0]["unit"]["value"]["amount"] = 15
     response = self.app.patch_json(
@@ -959,23 +943,6 @@ def patch_contract_single_item_unit_value_with_status(self):
     if doc['contracts'][0]['value']['valueAddedTaxIncluded']:
         doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
     self.mongodb.tenders.save(doc)
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract_id, self.tender_token),
-        {"data": {"status": "active"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
 
     new_items = deepcopy(contract["items"])
     new_items[0]["unit"]["value"]["amount"] = 15

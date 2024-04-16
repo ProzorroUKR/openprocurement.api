@@ -503,8 +503,8 @@ def extract_document_id(request):
         return matchdict.get("document_id")
 
 
-def is_multi_currency_tender():
+def is_multi_currency_tender(check_funders=False):
     # for old contracting api, there is no tender in request.
     # But anyway multi currency can be only in belowThreshold, competitiveOrdering and new contracting
     if tender := get_tender():
-        return tender.get("funders") and tender["config"]["valueCurrencyEquality"] is False
+        return tender["config"]["valueCurrencyEquality"] is False and (tender.get("funders") or not check_funders)
