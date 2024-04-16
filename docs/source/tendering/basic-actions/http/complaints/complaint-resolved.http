@@ -68,7 +68,8 @@ Content-Type: application/json
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
-    }
+    },
+    "tendererActionDate": "2023-10-10T01:00:00+03:00"
   }
 }
 
