@@ -115,11 +115,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, '422 Unprocessable Entity')
 
         # Creating tender
+        config = deepcopy(self.initial_config)
+        config.update({"valueCurrencyEquality": True})
 
         with open(TARGET_DIR + 'tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': self.initial_config}
-            )
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
@@ -417,11 +417,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 "id": items[0]['id'],
                 "unit": {
                     "code": "KGM",
-                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 1500, "currency": "UAH", "valueAddedTaxIncluded": True},
                 },
             }
         ]
         set_bid_lotvalues(bid_data, tender_lots)
+        with open(TARGET_DIR + 'tutorial/register-bidder-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data}, status=403)
+
+        bid_data['items'][0]["unit"]["value"]["amount"] = 0.6
         with open(TARGET_DIR + 'tutorial/register-bidder.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
             bid1_id = response.json['data']['id']

@@ -246,6 +246,11 @@ It is possible to check the uploaded documents:
 .. http:example:: http/tutorial/bidder-documents.http
    :code:
 
+If tender has multicurrency turned off, than there will be validation that sum of `items.unit.value` could not be moe that bid value:
+
+.. http:example:: http/tutorial/register-bidder-invalid.http
+   :code:
+
 Batch-mode registration
 ~~~~~~~~~~~~~~~~~~~~~~~
 

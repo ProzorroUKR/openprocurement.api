@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
-from decimal import ROUND_UP, Decimal
+from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from hashlib import sha512
 
 from pyramid.httpexceptions import HTTPError
@@ -34,7 +34,7 @@ from openprocurement.api.constants import (
     UA_ROAD_SCHEME,
     WORKING_DAYS,
 )
-from openprocurement.api.context import get_now
+from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner, to_decimal
 from openprocurement.api.procedure.validation import validate_input_data
@@ -55,6 +55,7 @@ from openprocurement.tender.core.procedure.utils import (
     find_lot,
     get_contracts_values_related_to_patched_contract,
     get_criterion_requirement,
+    is_multi_currency_tender,
     is_new_contracting,
     tender_created_after,
     tender_created_after_2020_rules,
@@ -1521,3 +1522,13 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
         ids = [i["id"] for i in objs]
         if ids and len(set(ids)) != len(ids):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
+
+
+def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract"):
+    if items_unit_value_amount and data.get("value") and not is_multi_currency_tender():
+        calculated_value = sum(items_unit_value_amount)
+
+        if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(data["value"]["amount"]):
+            raise_operation_error(
+                get_request(), f"Total amount of unit values can't be greater than {obj_name}.value.amount"
+            )

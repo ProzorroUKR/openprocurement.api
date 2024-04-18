@@ -1,9 +1,11 @@
 import logging
+from collections import defaultdict
 from decimal import Decimal
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import (
     context_unpack,
     error_handler,
@@ -14,6 +16,7 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
+from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +53,8 @@ class BidState(BaseState):
 
     def validate_bid_unit_value(self, data):
         tender = get_tender()
+        items_for_lot = False
+        tender_items_id = dict()
 
         def raise_items_error(message):
             raise_operation_error(
@@ -59,6 +64,21 @@ class BidState(BaseState):
                 location="body",
                 name="items",
             )
+
+        tender_items = tender.get("items", [])
+        if lot_values := data.get("lotValues"):
+            items_unit_value_amount = defaultdict(lambda: [])
+            lot_values_by_id = dict()
+            for lot_value in lot_values:
+                tender_items_id[lot_value["relatedLot"]] = {
+                    tender_item["id"]
+                    for tender_item in tender_items
+                    if tender_item.get("relatedLot") == lot_value["relatedLot"]
+                }
+                lot_values_by_id[lot_value["relatedLot"]] = lot_value
+            items_for_lot = True
+        else:
+            items_unit_value_amount = []
 
         if data.get("items"):
             for item in data["items"]:
@@ -71,10 +91,33 @@ class BidState(BaseState):
                         "currency"
                     ) != value.get("currency"):
                         raise_items_error("currency of bid unit should be identical to currency of tender value")
+                    if item.get("quantity") is not None:
+                        if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
+                            raise_items_error(
+                                "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
+                            )
+                        if items_for_lot:
+                            for lot_id, items_ids in tender_items_id.items():
+                                if item["id"] in items_ids:
+                                    items_unit_value_amount[lot_id].append(
+                                        to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
+                                    )
+                                    break
+                        else:
+                            items_unit_value_amount.append(
+                                to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
+                            )
+
                 elif self.items_unit_value_required_for_funders and tender.get("funders"):
                     raise_items_error("items.unit.value is required for tender with funders")
         elif self.items_unit_value_required_for_funders and tender.get("funders"):
             raise_items_error("items is required for tender with funders")
+
+        if items_for_lot:
+            for lot_id, items_ids in items_unit_value_amount.items():
+                validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
+        else:
+            validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def update_date_on_value_amount_change(self, before, after):
         if not self.update_date_on_value_amount_change_enabled:

@@ -1,5 +1,5 @@
 from datetime import datetime
-from decimal import ROUND_FLOOR, ROUND_UP, Decimal
+from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
 
@@ -27,6 +27,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_in,
 )
+from openprocurement.tender.core.procedure.validation import validate_items_unit_amount
 
 LOGGER = getLogger(__name__)
 
@@ -211,14 +212,7 @@ class ContractStateMixing:
                         to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
                     )
 
-        if items_unit_value_amount and contract.get("value") and not is_multi_currency_tender():
-            calculated_value = sum(items_unit_value_amount)
-            if calculated_value.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR) > to_decimal(
-                contract["value"].get("amount")
-            ):
-                raise_operation_error(
-                    get_request(), "Total amount of unit values can't be greater than contract.value.amount"
-                )
+        validate_items_unit_amount(items_unit_value_amount, contract)
 
         if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
             for item in contract.get("items", []):
@@ -309,7 +303,7 @@ class ContractStateMixing:
             if item.get("unit"):
                 if item["unit"].get("value"):
                     item["unit"]["value"]["valueAddedTaxIncluded"] = valueAddedTaxIncluded
-                    if not is_multi_currency_tender():
+                    if not is_multi_currency_tender(check_funders=True):
                         item["unit"]["value"]["currency"] = currency
 
     # validators
