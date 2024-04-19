@@ -16,7 +16,7 @@ class PostDocument(BasePostDocument):
 
 
 class PatchDocument(BasePatchDocument):
-    documentOf = StringType(choices=["tender", "item", "contract", "agreement", "lot", "change"], default="agreement")
+    documentOf = StringType(choices=["tender", "item", "contract", "agreement", "lot", "change"])
 
 
 class Document(BaseDocument):

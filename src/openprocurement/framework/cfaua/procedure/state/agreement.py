@@ -5,6 +5,7 @@ from openprocurement.framework.cfaua.procedure.models.agreement import (
     PatchAgreementByAdministrator,
     PatchTerminatedAgreement,
 )
+from openprocurement.framework.cfaua.procedure.validation import validate_related_item
 
 
 class AgreementState(BaseState):
@@ -18,3 +19,13 @@ class AgreementState(BaseState):
         elif status == "active":
             return PatchActiveAgreement
         return PatchTerminatedAgreement
+
+    def on_post(self, data):
+        for doc in data.get("documents", []):
+            validate_related_item(doc.get("relatedItem"), doc["documentOf"])
+        super().on_post(data)
+
+    def on_patch(self, before, after):
+        for doc in after.get("documents", []):
+            validate_related_item(doc.get("relatedItem"), doc["documentOf"])
+        super().on_patch(before, after)

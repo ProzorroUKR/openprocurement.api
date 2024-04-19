@@ -130,8 +130,8 @@ class Document(BaseDocument):
 
 class PatchDocument(BaseDocument):
     # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
-    documentOf = StringType(choices=["tender", "item", "lot"], default="tender")
-    language = StringType(choices=["uk", "en", "ru"], default="uk")
+    documentOf = StringType(choices=["tender", "item", "lot"])
+    language = StringType(choices=["uk", "en", "ru"])
 
     @serializable
     def dateModified(self):
