@@ -12,6 +12,7 @@ import re
 from time import sleep
 
 from jsonpath_ng import parse
+from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 from pyramid.paster import bootstrap
 
@@ -52,10 +53,10 @@ DOCUMENTS_PATHS_MAP = {
 }
 
 
-def get_documents_date(obj):
+def get_documents_date(revisions):
     regex = r"documents\/\d+$"
     documents_date_published = {}
-    for rev in obj["revisions"]:
+    for rev in revisions:
         c = rev["changes"][0]
         if c["op"] == "remove" and re.search(regex, c["path"], flags=re.IGNORECASE):
             documents_date_published[c["path"]] = rev["date"]
@@ -75,13 +76,14 @@ def convert_path(path):
 def update_documents_date_published(obj, doc_pathes):
     updated = {}
 
-    documents_date_published = get_documents_date(obj)
+    revisions = obj.pop("revisions", "")
+    documents_date_published = get_documents_date(revisions)
 
     for path in doc_pathes:
         duplicated_id = set()
         is_updated = False
 
-        for match in parse(path).find(obj):
+        for match in path.find(obj):
             doc = match.value
             if doc["id"] not in duplicated_id:
                 duplicated_id.add(doc["id"])
@@ -98,16 +100,28 @@ def update_documents_date_published(obj, doc_pathes):
     return updated
 
 
+def bulk_update(bulk, collection, collection_name):
+    bulk_size = len(bulk)
+    try:
+        collection.bulk_write(bulk)
+        return bulk_size
+    except OperationFailure as e:
+        logger.warning(f"Skip updating {bulk_size} {collection_name} Details: {e}")
+    return 0
+
+
 def run(env):
     collection_name = args.c
 
-    document_paths = DOCUMENTS_PATHS_MAP.get(collection_name)
+    document_paths_expr = DOCUMENTS_PATHS_MAP.get(collection_name)
+    document_paths = []
     projection = {"_rev": 1, "revisions": 1}
 
-    for i in document_paths:
+    for i in document_paths_expr:
         field_name = i.split(".")[1]
         field_name = field_name[: field_name.find("[")]
         projection[field_name] = 1
+        document_paths.append(parse(i))
 
     migration_name = os.path.basename(__file__).split(".")[0]
 
@@ -127,30 +141,29 @@ def run(env):
     )
     cursor.batch_size(args.b)
 
+    bulk = []
     count = 0
+    bulk_max_size = 500
     try:
         for obj in cursor:
             updated_fields = update_documents_date_published(obj, document_paths)
 
             if updated_fields:
-                try:
-                    collection.find_one_and_update(
-                        {"_id": obj["_id"], "_rev": obj["_rev"]},
-                        [
-                            {
-                                "$set": updated_fields,
-                            },
-                        ],
-                    )
-                    count += 1
-                    if count % log_every == 0:
-                        logger.info(f"Updating {collection_name} documents datePublished: {count} updated")
-                except OperationFailure as e:
-                    logger.warning(f"Skip updating {collection_name} {obj['_id']}. Details: {e}")
+                bulk.append(UpdateOne({"_id": obj["_id"], "_rev": obj["_rev"]}, {"$set": updated_fields}))
+
+            if bulk and len(bulk) % bulk_max_size == 0:
+                count += bulk_update(bulk, collection, collection_name)
+                bulk = []
+
+            if count % log_every == 0:
+                logger.info(f"Updating {collection_name} documents datePublished: {count} updated")
 
         sleep(0.000001)
     finally:
         cursor.close()
+
+    if bulk:
+        count += bulk_update(bulk, collection, collection_name)
 
     logger.info(f"Updated {count} {collection_name}")
     time_spent = get_now() - start_date
