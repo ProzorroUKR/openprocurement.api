@@ -57,9 +57,9 @@ def get_documents_date(revisions):
     regex = r"documents\/\d+$"
     documents_date_published = {}
     for rev in revisions:
-        c = rev["changes"][0]
-        if c["op"] == "remove" and re.search(regex, c["path"], flags=re.IGNORECASE):
-            documents_date_published[c["path"]] = rev["date"]
+        for c in rev["changes"]:
+            if c["op"] == "remove" and re.search(regex, c["path"], flags=re.IGNORECASE):
+                documents_date_published[c["path"]] = rev["date"]
 
     return documents_date_published
 
@@ -107,7 +107,7 @@ def bulk_update(bulk, collection, collection_name):
         return bulk_size
     except OperationFailure as e:
         logger.warning(f"Skip updating {bulk_size} {collection_name} Details: {e}")
-    return 0
+        return 0
 
 
 def run(env):
@@ -130,7 +130,7 @@ def run(env):
         f"Starting migration: {migration_name}",
     )
 
-    log_every = 1000
+    log_every = 100000
 
     collection = getattr(env["registry"].mongodb, collection_name).collection
 
@@ -155,8 +155,8 @@ def run(env):
                 count += bulk_update(bulk, collection, collection_name)
                 bulk = []
 
-            if count % log_every == 0:
-                logger.info(f"Updating {collection_name} documents datePublished: {count} updated")
+                if count % log_every == 0:
+                    logger.info(f"Updating {collection_name} documents datePublished: {count} updated")
 
         sleep(0.000001)
     finally:
