@@ -646,7 +646,8 @@ class ChronographEventsMixing:
 
     @staticmethod
     def check_skip_award_complaint_period():
-        return False
+        tender = get_tender()
+        return tender.get("config", {}).get("hasAwardComplaints") is False
 
     # awarded
     def check_tender_lot_status(self, tender):

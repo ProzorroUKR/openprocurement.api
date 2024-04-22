@@ -363,7 +363,4 @@ class EContractState(
 
     def check_skip_award_complaint_period(self) -> bool:
         tender = get_tender()
-        return (
-            tender.get("procurementMethodType") == "belowThreshold"
-            or tender.get("config", {}).get("hasAwardComplaints") is False
-        )
+        return tender.get("config", {}).get("hasAwardComplaints") is False
