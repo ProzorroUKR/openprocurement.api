@@ -55,7 +55,7 @@ class CommonContract(Model):
         if not value:
             return
         tender = get_tender()
-        skip_award_complaint_period = tender.get("procurementMethodType") == "belowThreshold"
+        skip_award_complaint_period = tender.get("config", {}).get("hasAwardComplaints") is False
         award = [i for i in tender.get("awards", []) if i["id"] == data["awardID"]][0]
         if award.get("complaintPeriod"):
             if not skip_award_complaint_period:
