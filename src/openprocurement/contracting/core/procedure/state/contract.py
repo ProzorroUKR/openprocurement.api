@@ -75,15 +75,17 @@ class BaseContractState(BaseState, ContractStateMixing):
                             f"Updated could be only {item_patch_fields} in item, {k} change forbidden",
                         )
 
-                    if (
-                        k == "unit"
-                        and before.get("value", {}).get("currency")
-                        and before["value"]["currency"] != after.get("value", {}).get("currency")
-                    ):
-                        raise_operation_error(
-                            get_request(),
-                            "Forbidden to change currency in contract items unit",
-                        )
+                    if k == "unit" and before.get("value"):
+                        if not after.get("value"):
+                            raise_operation_error(
+                                get_request(),
+                                "Forbidden to delete value in contract items unit",
+                            )
+                        elif before["value"]["currency"] != after["value"]["currency"]:
+                            raise_operation_error(
+                                get_request(),
+                                "Forbidden to change currency in contract items unit",
+                            )
 
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:
         if after.get("items"):
