@@ -1,6 +1,6 @@
-import uuid
 from copy import deepcopy
 from datetime import datetime
+from uuid import uuid4
 
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.tests.base import change_auth
@@ -26,11 +26,28 @@ def create_agreement(self):
 
 def create_agreement_with_documents(self):
     data = deepcopy(self.initial_data)
-    data["documents"] = TEST_DOCUMENTS
+    data["documents"] = deepcopy(TEST_DOCUMENTS)
     data["documents"][0]["url"] = self.generate_docservice_url()
     data["documents"][0]["hash"] = "md5:00000000000000000000000000000000"
     data["documents"][1]["url"] = self.generate_docservice_url()
     data["documents"][1]["hash"] = "md5:00000000000000000000000000000000"
+    data["documents"][0]["documentOf"] = "item"
+
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": data}, status=422)
+        self.assertEqual(
+            response.json["errors"][0],
+            {"location": "body", "name": "documents.relatedItem", "description": "This field is required."},
+        )
+    data["documents"][0]["relatedItem"] = uuid4().hex
+    with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
+        response = self.app.post_json("/agreements", {"data": data}, status=422)
+        self.assertEqual(
+            response.json["errors"][0],
+            {"location": "body", "name": "documents.relatedItem", "description": "relatedItem should be one of items"},
+        )
+
+    data["documents"][0]["relatedItem"] = data["items"][0]["id"]
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})
     self.assertEqual(response.status, "201 Created")
@@ -99,7 +116,7 @@ def get_agreements_by_id(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["id"], self.agreement_id)
 
-    bad_agreement_id = uuid.uuid4().hex
+    bad_agreement_id = uuid4().hex
     response = self.app.get("/agreements/{}".format(bad_agreement_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -208,9 +225,37 @@ def agreement_patch_invalid(self):
     )
     self.assertEqual((response.status, response.content_type), ("200 OK", "application/json"))
 
+    docs = deepcopy(TEST_DOCUMENTS)
+    docs[0]["url"] = self.generate_docservice_url()
+    docs[0]["hash"] = "md5:00000000000000000000000000000000"
+    docs[0]["url"] = self.generate_docservice_url()
+    docs[0]["hash"] = "md5:00000000000000000000000000000000"
+    docs[0]["documentOf"] = "contract"
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.agreement_token}",
+        {"data": {"documents": docs}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "This field is required."},
+    )
+    docs[0]["relatedItem"] = uuid4().hex
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.agreement_token}",
+        {"data": {"documents": docs}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "relatedItem should be one of contracts"},
+    )
+    docs[0]["relatedItem"] = self.initial_data["contracts"][0]["id"]
+
     response = self.app.patch_json(
         "/agreements/{}?acc_token={}".format(self.agreement_id, self.agreement_token),
-        {"data": {"status": "terminated"}},
+        {"data": {"status": "terminated", "documents": docs}},
     )
 
     self.assertEqual(response.status, "200 OK")
@@ -300,7 +345,7 @@ def listing(self):
 
     for i in range(3):
         data = deepcopy(self.initial_data)
-        data["id"] = uuid.uuid4().hex
+        data["id"] = uuid4().hex
         offset = get_now().timestamp()
         with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
             response = self.app.post_json("/agreements", {"data": data})
@@ -843,7 +888,7 @@ def skip_address_validation(self):
     data = deepcopy(self.initial_data)
     data["contracts"][1]["suppliers"][0]["address"]["countryName"] = "any country"
     data["contracts"][1]["suppliers"][0]["address"]["region"] = "any region"
-    data["id"] = uuid.uuid4().hex
+    data["id"] = uuid4().hex
 
     with change_auth(self.app, ("Basic", ("agreements", ""))) as app:
         response = self.app.post_json("/agreements", {"data": data})

@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from openprocurement.framework.cfaua.tests.data import TEST_DOCUMENTS
 
 
@@ -267,4 +269,72 @@ def put_contract_document(self):
                 "name": "data",
             }
         ],
+    )
+
+
+def document_related_item(self):
+    doc_data = {
+        "title": "укр.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+        "documentOf": "item",
+    }
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/documents?acc_token={self.agreement_token}",
+        {"data": doc_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "This field is required."},
+    )
+    doc_data["relatedItem"] = uuid4().hex
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/documents?acc_token={self.agreement_token}",
+        {"data": doc_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "relatedItem should be one of items"},
+    )
+    doc_data["relatedItem"] = self.initial_data["items"][0]["id"]
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/documents?acc_token={self.agreement_token}",
+        {"data": doc_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual("укр.doc", response.json["data"]["title"])
+    doc_id = response.json["data"]["id"]
+
+    doc_data["documentOf"] = "contract"
+    response = self.app.put_json(
+        f"/agreements/{self.agreement_id}/documents/{doc_id}?acc_token={self.agreement_token}",
+        {"data": doc_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "relatedItem should be one of contracts"},
+    )
+    doc_data["relatedItem"] = self.initial_data["contracts"][0]["id"]
+    response = self.app.put_json(
+        f"/agreements/{self.agreement_id}/documents/{doc_id}?acc_token={self.agreement_token}",
+        {"data": doc_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(doc_id, response.json["data"]["id"])
+
+    del doc_data["relatedItem"]
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/documents/{doc_id}?acc_token={self.agreement_token}",
+        {"data": {"documentOf": "change"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "documents.relatedItem", "description": "relatedItem should be one of changes"},
     )

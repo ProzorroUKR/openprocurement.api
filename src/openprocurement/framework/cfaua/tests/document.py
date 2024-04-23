@@ -10,6 +10,7 @@ from openprocurement.framework.cfaua.tests.data import TEST_AGREEMENT, TEST_DOCU
 from openprocurement.framework.cfaua.tests.document_blanks import (
     create_agreement_document_forbidden,
     create_agreement_documents,
+    document_related_item,
     get_document_by_id,
     get_documents_list,
     not_found,
@@ -37,6 +38,7 @@ class AgreementDocumentWithDSResourceTest(BaseDSAgreementContentWebTest):
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)
+    test_document_related_item = snitch(document_related_item)
 
 
 def suite():
