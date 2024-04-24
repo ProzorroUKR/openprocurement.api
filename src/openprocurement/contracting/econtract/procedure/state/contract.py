@@ -131,6 +131,7 @@ class EContractState(
             "belowThreshold",
             "aboveThresholdEU",
             "aboveThresholdUA",
+            "aboveThresholdUA.defense",
             "aboveThreshold",
             "simple.defense",
             "competitiveDialogueEU.stage2",

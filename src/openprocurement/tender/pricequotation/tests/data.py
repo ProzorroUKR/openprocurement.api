@@ -1,11 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import (
-    PQ_MULTI_PROFILE_FROM,
-    PQ_NEW_CONTRACTING_FROM,
-    SANDBOX_MODE,
-)
+from openprocurement.api.constants import PQ_MULTI_PROFILE_FROM, SANDBOX_MODE
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_multi_buyers
 from openprocurement.tender.pricequotation.constants import PQ
@@ -13,7 +9,6 @@ from openprocurement.tender.pricequotation.constants import PQ
 now = get_now()
 
 PQ_MULTI_PROFILE_RELEASED = get_now() > PQ_MULTI_PROFILE_FROM
-PQ_NEW_CONTRACTING_RELEASED = get_now() > PQ_NEW_CONTRACTING_FROM
 
 test_agreement_pq_data = {
     "_id": "2e14a78a2074952d5a2d256c3c004dda",

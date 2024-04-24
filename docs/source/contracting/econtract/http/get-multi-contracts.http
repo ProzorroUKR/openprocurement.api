@@ -13,6 +13,7 @@ Content-Type: application/json
       "status": "pending",
       "awardID": "b8fb3660bde84144b43165b9834128f5",
       "date": "2023-10-10T01:00:00+03:00",
+      "contractID": "UA-2023-10-10-000001-a-1",
       "value": {
         "amount": 0,
         "currency": "UAH",
@@ -25,6 +26,7 @@ Content-Type: application/json
       "status": "pending",
       "awardID": "b8fb3660bde84144b43165b9834128f5",
       "date": "2023-10-10T01:00:00+03:00",
+      "contractID": "UA-2023-10-10-000001-a-2",
       "value": {
         "amount": 0,
         "currency": "UAH",

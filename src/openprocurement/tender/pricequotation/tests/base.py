@@ -1,14 +1,9 @@
 import os
-from datetime import datetime
 from uuid import uuid4
 
-from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
-from openprocurement.tender.belowthreshold.procedure.utils import (
-    prepare_tender_item_for_contract,
-)
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.pricequotation.tests.data import *
 
@@ -79,14 +74,22 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.award_ids.append(id_)
             self.save_changes()
 
-    def activate_awards(self):
+    def activate_awards(self, status):
+        self.tender_document_patch["status"] = "active.awarded"
+        self.save_changes()
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
+
         awards = self.tender_document.get("awards", [])
         if awards:
             for award in awards:
                 if award["status"] == "pending":
-                    award.update({"status": "active"})
-            self.tender_document_patch.update({"awards": awards})
-            self.save_changes()
+                    response = self.app.patch_json(
+                        f"/tenders/{self.tender_id}/awards/{award['id']}?acc_token={self.tender_token}",
+                        {"data": {"status": "active"}},
+                    )
+                    self.assertEqual(response.status, "200 OK")
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
+        self.tender_document_patch = {"status": status}
 
     def generate_bids(self, status, startend):
         tenderPeriod_startDate = self.now + self.periods[status][startend]["tenderPeriod"]["startDate"]
@@ -114,39 +117,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.assertEqual(response.content_type, "application/json")
         self.initial_bids = response.json["data"]
 
-    def generate_contract(self):
-        awards = self.tender_document.get("awards", [])
-        contracts = self.tender_document.get("contracts", [])
-
-        if not contracts:
-            for award in reversed(awards):
-                if award["status"] == "active":
-                    if award["value"]["valueAddedTaxIncluded"]:
-                        amount_net = float(award["value"]["amount"]) - 1
-                    else:
-                        amount_net = award["value"]["amount"]
-                    prepared_items = [prepare_tender_item_for_contract(i) for i in self.tender_document["items"]]
-                    contract = {
-                        "id": uuid4().hex,
-                        "title": "contract title",
-                        "description": "contract description",
-                        "awardID": award["id"],
-                        "value": {
-                            "amount": award["value"]["amount"],
-                            "amountNet": amount_net,
-                            "currency": award["value"]["currency"],
-                            "valueAddedTaxIncluded": award["value"]["valueAddedTaxIncluded"],
-                        },
-                        "suppliers": award["suppliers"],
-                        "status": "pending",
-                        "contractID": "UA-2017-06-21-000001-1",
-                        "date": datetime.now(TZ).isoformat(),
-                        "items": prepared_items,
-                    }
-                    self.contract_id = contract["id"]
-                    self.tender_document_patch.update({"contracts": [contract]})
-            self.save_changes()
-
     def activate_bids(self):
         if bids := self.tender_document.get("bids", ""):
             for bid in bids:
@@ -171,15 +141,13 @@ class BaseTenderWebTest(BaseCoreWebTest):
             self.generate_bids(status, startend)
             self.activate_bids()
             self.generate_awards(status, startend)
-            self.activate_awards()
-            self.generate_contract()
+            self.activate_awards(status)
         elif status == "complete":
             self.update_periods(status, startend)
             self.generate_bids(status, startend)
             self.activate_bids()
             self.generate_awards(status, startend)
-            self.activate_awards()
-            self.generate_contract()
+            self.activate_awards(status)
         if extra:
             self.tender_document_patch.update(extra)
         self.save_changes()

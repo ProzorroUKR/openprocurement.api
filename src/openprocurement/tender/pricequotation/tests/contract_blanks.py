@@ -6,35 +6,22 @@ from openprocurement.api.utils import get_now
 
 def patch_tender_contract(self):
     self.app.authorization = ("Basic", ("token", ""))
-    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract = response.json["data"][0]
 
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
 
     new_items = deepcopy(contract["items"])
     new_items[0]["description"] = "New Description"
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {
-            "data": {
-                "contractID": "myselfID",
-                "items": new_items,
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0], {"location": "body", "name": "contractID", "description": "Rogue field"}
-    )
 
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {
             "data": {
                 "items": new_items,
@@ -47,7 +34,7 @@ def patch_tender_contract(self):
     old_currency = value["currency"]
     value["currency"] = "USD"
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
         status=403,
     )
@@ -57,7 +44,7 @@ def patch_tender_contract(self):
 
     one_hour_in_furure = (get_now() + timedelta(hours=1)).isoformat()
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"dateSigned": one_hour_in_furure}},
         status=422,
     )
@@ -75,7 +62,7 @@ def patch_tender_contract(self):
 
     custom_signature_date = (get_now() - timedelta(days=1)).isoformat()
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"dateSigned": custom_signature_date}},
         status=422,
     )
@@ -87,14 +74,14 @@ def patch_tender_contract(self):
 
     custom_signature_date = get_now().isoformat()
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"dateSigned": custom_signature_date}},
     )
     self.assertEqual(response.status, "200 OK")
 
     items = response.json["data"]["items"]
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": items[:1]}},
         status=403,
     )
@@ -102,52 +89,21 @@ def patch_tender_contract(self):
 
     del items[0]["deliveryDate"]
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"items": items}},
         status=403,
     )
     self.assertEqual(response.json["errors"][0]["description"], "Updated could be only unit.value.amount in item")
 
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
 
-    value["amount"] = 232
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-        {"data": {"value": value}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update contract in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/some_id?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "active"}},
-        status=404,
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "contract_id"}])
-
-    response = self.app.patch_json(
-        "/tenders/some_id/contracts/some_id?acc_token={}".format(self.tender_token),
-        {"data": {"status": "active"}},
-        status=404,
-    )
-    self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
-
-    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract["id"]))
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts/{contract['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
@@ -158,14 +114,14 @@ def patch_tender_contract(self):
 
 
 def patch_tender_contract_value_vat_not_included(self):
-    response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
+    response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract = response.json["data"][0]
 
     value = contract["value"]
     value["valueAddedTaxIncluded"] = False
     value["amountNet"] = value["amount"]
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -175,7 +131,7 @@ def patch_tender_contract_value_vat_not_included(self):
     old_currency = value["currency"]
     value["currency"] = "USD"
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
         status=403,
     )
@@ -185,7 +141,7 @@ def patch_tender_contract_value_vat_not_included(self):
 
     value["amount"] = 467
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
         status=403,
     )
@@ -195,7 +151,7 @@ def patch_tender_contract_value_vat_not_included(self):
     value["amount"] = 22600
     value["amountNet"] = 22600
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
         status=403,
     )
@@ -205,7 +161,7 @@ def patch_tender_contract_value_vat_not_included(self):
     value["amount"] = 400
     value["amountNet"] = 400
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -214,7 +170,7 @@ def patch_tender_contract_value_vat_not_included(self):
 
     value["valueAddedTaxIncluded"] = True
     response = self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")

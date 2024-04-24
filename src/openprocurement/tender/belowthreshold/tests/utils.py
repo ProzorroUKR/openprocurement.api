@@ -1,7 +1,6 @@
 from copy import deepcopy
 from uuid import uuid4
 
-from openprocurement.api.constants import NEW_CONTRACTING_FROM
 from openprocurement.api.utils import get_now
 
 
@@ -109,32 +108,29 @@ def get_contract_data(self, tender_id):
     response = self.app.get(f"/tenders/{tender_id}")
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    if NEW_CONTRACTING_FROM < get_now():
-        response = self.app.get(f"/contracts/{contract_id}")
-        contract = response.json["data"]
+    response = self.app.get(f"/contracts/{contract_id}")
+    contract = response.json["data"]
 
     return contract
 
 
 def patch_contract(self, tender_id, tender_token, contract_id, data):
-    if NEW_CONTRACTING_FROM < get_now():
-        self.app.patch_json(
-            f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
-            {"data": data},
-        )
-    else:
-        self.app.patch_json(f"/contracts/{contract_id}?acc_token={tender_token}", {"data": {}})
-
-        self.app.patch_json(
-            f"/contracts/{contract_id}?acc_token={tender_token}",
-            {"data": data},
-        )
+    self.app.patch_json(
+        f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
+        {"data": data},
+    )
+    # self.app.patch_json(f"/contracts/{contract_id}?acc_token={tender_token}", {"data": {}})
+    #
+    # self.app.patch_json(
+    #     f"/contracts/{contract_id}?acc_token={tender_token}",
+    #     {"data": data},
+    # )
 
 
 def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
     response = self.app.get(f"/tenders/{tender_id}")
     tender_type = response.json["data"]["procurementMethodType"]
-    if NEW_CONTRACTING_FROM > get_now() or tender_type == "esco":
+    if tender_type == "esco":
         response = self.app.patch_json(
             f"/tenders/{tender_id}/contracts/{contract_id}?acc_token={tender_token}",
             {

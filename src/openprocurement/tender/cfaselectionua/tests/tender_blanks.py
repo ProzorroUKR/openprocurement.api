@@ -2049,7 +2049,6 @@ def one_invalid_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # empty tenders listing
@@ -2143,7 +2142,7 @@ def first_bid_tender(self):
     contract_value = deepcopy(contract["value"])
     # create tender contract document for test
     response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
+        "/contracts/{}/documents?acc_token={}".format(contract_id, owner_token),
         {
             "data": {
                 "title": "name.doc",
@@ -2168,60 +2167,23 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     contract_value["valueAddedTaxIncluded"] = False
     self.app.patch_json(
-        "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-        {"data": {"status": "active", "value": contract_value}},
+        "/contracts/{}?acc_token={}".format(contract_id, owner_token),
+        {
+            "data": {
+                "status": "active",
+                "contractNumber": "123",
+                "period": {
+                    "startDate": "2016-03-18T18:47:47.155143+02:00",
+                    "endDate": "2016-05-18T18:47:47.155143+02:00",
+                },
+                "value": contract_value,
+            }
+        },
     )
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
-
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
-
-    response = self.app.put_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
 
 
 def lost_contract_for_active_award(self):

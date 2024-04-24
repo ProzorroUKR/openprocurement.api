@@ -8,7 +8,6 @@ from freezegun import freeze_time
 
 from openprocurement.api.constants import (
     GUARANTEE_ALLOWED_TENDER_TYPES,
-    NEW_CONTRACTING_FROM,
     RELEASE_2020_04_19,
     ROUTE_PREFIX,
     TZ,

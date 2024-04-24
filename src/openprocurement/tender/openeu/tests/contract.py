@@ -1,53 +1,32 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractDocumentResourceTestMixin,
-    TenderContractResourceTestMixin,
-)
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    create_tender_contract_document_by_others,
-    create_tender_contract_document_by_supplier,
-    patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_with_status,
-    patch_tender_contract_document_by_supplier,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_supplier,
     patch_tender_contract_value,
     patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
     patch_tender_multi_contracts_cancelled_validate_amount,
     patch_tender_multi_contracts_cancelled_with_one_activated,
-    put_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
 )
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderContentWebTest,
     test_tender_openeu_bids,
     test_tender_openeu_multi_buyers_data,
 )
-from openprocurement.tender.openeu.tests.contract_blanks import (
-    contract_termination,
-    patch_tender_contract,
-)
+from openprocurement.tender.openeu.tests.contract_blanks import patch_tender_contract
 from openprocurement.tender.openua.tests.contract_blanks import (
-    create_tender_contract,
     patch_tender_contract_datesigned,
 )
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
-class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourceTestMixin):
+class TenderContractResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -77,65 +56,21 @@ class TenderContractResourceTest(BaseTenderContentWebTest, TenderContractResourc
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.contracts_ids = [i["id"] for i in response.json["data"]["contracts"]]
+        self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super().setUp()
         self.create_award()
 
-    test_contract_termination = snitch(contract_termination)
-    test_create_tender_contract = snitch(create_tender_contract)
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
-    test_patch_tender_contract_status_by_owner = snitch(patch_tender_contract_status_by_owner)
-    test_patch_tender_contract_status_by_others = snitch(patch_tender_contract_status_by_others)
-    test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
     test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
     test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
-    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
-class TenderContractDocumentResourceTest(BaseTenderContentWebTest, TenderContractDocumentResourceTestMixin):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_openeu_bids
-    initial_auth = ("Basic", ("broker", ""))
-    docservice = True
-
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
-    def setUp(self):
-        super().setUp()
-        # Create award
-        supplier_info = deepcopy(test_tender_below_organization)
-        self.app.authorization = ("Basic", ("token", ""))
-        response = self.app.post_json(
-            "/tenders/{}/awards".format(self.tender_id),
-            {"data": {"suppliers": [supplier_info], "status": "pending", "bid_id": self.initial_bids[0]["id"]}},
-        )
-        award = response.json["data"]
-        self.award_id = award["id"]
-        self.app.patch_json(
-            "/tenders/{}/awards/{}".format(self.tender_id, self.award_id),
-            {"data": {"status": "active", "qualified": True, "eligible": True}},
-        )
-        # Create contract for award
-        response = self.app.post_json(
-            "/tenders/{}/contracts".format(self.tender_id),
-            {"data": {"title": "contract title", "description": "contract description", "awardID": self.award_id}},
-        )
-        contract = response.json["data"]
-        self.contract_id = contract["id"]
-        self.app.authorization = ("Basic", ("broker", ""))
-
-    test_create_tender_contract_document_by_supplier = snitch(create_tender_contract_document_by_supplier)
-    test_create_tender_contract_document_by_others = snitch(create_tender_contract_document_by_others)
-    test_put_tender_contract_document_by_supplier = snitch(put_tender_contract_document_by_supplier)
-    test_put_tender_contract_document_by_others = snitch(put_tender_contract_document_by_others)
-    test_patch_tender_contract_document_by_supplier = snitch(patch_tender_contract_document_by_supplier)
-
-
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
@@ -143,7 +78,6 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
     author_data = test_tender_below_author
     initial_data = test_tender_openeu_multi_buyers_data
 
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super().setUp()
         TenderContractResourceTest.create_award(self)
@@ -161,7 +95,6 @@ class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
     return suite
 

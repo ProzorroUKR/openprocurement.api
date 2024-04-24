@@ -105,6 +105,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "status": "pending",
         "awardID": award["id"],
         "date": get_now().isoformat(),
+        "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
     if contract_value:
         base_contract_data["value"] = contract_value
@@ -114,7 +115,6 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "suppliers": award["suppliers"],
         "items": contract_items,
         "buyerID": buyer_id,
-        "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
 
     if tender.get("contractTemplateName"):

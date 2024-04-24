@@ -15,12 +15,7 @@ from pyramid.compat import decode_path_info
 from pyramid.exceptions import URLDecodeError
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import (
-    NEW_CONTRACTING_FROM,
-    PQ_NEW_CONTRACTING_FROM,
-    RELEASE_2020_04_19,
-    TZ,
-)
+from openprocurement.api.constants import RELEASE_2020_04_19, TZ
 from openprocurement.api.context import get_json_data, get_now
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
@@ -325,10 +320,8 @@ def is_new_contracting():
 
     if tender_type == "esco":
         return False
-    elif tender_type == "priceQuotation":
-        return tender_created_after(PQ_NEW_CONTRACTING_FROM)
 
-    return tender_created_after(NEW_CONTRACTING_FROM)
+    return True
 
 
 def find_lot(tender, lot_id):
