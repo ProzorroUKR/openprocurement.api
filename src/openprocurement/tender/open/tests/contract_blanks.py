@@ -315,6 +315,18 @@ def patch_econtract_dps_multi_currency(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    del contract["items"][0]["unit"]["value"]
+    response = self.app.patch_json(
+        f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
+        {"data": {"items": contract["items"]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Forbidden to delete value in contract items unit",
+    )
+
     # try to activate contract with amount of unit values greater than contract.value.amount
     response = self.activate_contract(self.contracts_ids[0])
     self.assertEqual(response.status, "200 OK")
