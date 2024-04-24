@@ -33,7 +33,7 @@ def get_buyer(tender, contract):
     buyer = tender["procuringEntity"]
     if contract.get("buyerID"):
         for i in tender.get("buyers", ""):
-            if contract["buyerID"] == i["id"] and "id" in i:
+            if "id" in i and contract["buyerID"] == i.get("id", ""):
                 buyer = i
                 break
 

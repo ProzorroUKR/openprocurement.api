@@ -90,7 +90,7 @@ def update_documents_from_tender(obj, collection_name, updated):
     if not date_published:
         return
 
-    for i, doc in enumerate(obj["documents"]):
+    for i, doc in enumerate(obj.get("documents", "")):
         if len(date_published) > i:
             is_updated = True
             doc["datePublished"] = date_published[i]

@@ -32,7 +32,7 @@ def run(env, args):
     count = 0
 
     cursor = tenders_collection.find(
-        {"contracts.contractID": {"$exists": False}},
+        {"contracts": {"$exists": True}, "contracts.contractID": {"$exists": False}},
         {"contracts": 1},
     )
 
@@ -40,6 +40,8 @@ def run(env, args):
 
     try:
         for tender in cursor:
+            if not tender.get("contracts"):
+                continue
 
             contracts_ids = [i["id"] for i in tender["contracts"]]
 
@@ -49,7 +51,9 @@ def run(env, args):
             }
 
             for contract in tender["contracts"]:
-                contract["contractID"] = contract_ids.get(contract["id"])
+                contract_id = contract_ids.get(contract["id"])
+                if contract_id:
+                    contract["contractID"] = contract_id
 
             try:
                 tenders_collection.update_one(
