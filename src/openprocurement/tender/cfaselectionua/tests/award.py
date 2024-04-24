@@ -5,7 +5,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaselectionua.tests.award_blanks import (  # TenderAwardResourceTest; TenderLotAwardCheckResourceTest; TenderLotAwardResourceTest; Tender2LotAwardResourceTest; TenderAwardDocumentResourceTest; Tender2LotAwardDocumentResourceTest
     check_tender_award,
     create_award_document_bot,
-    create_tender_award,
     create_tender_award_document,
     create_tender_award_invalid,
     create_tender_lot_award,
@@ -14,10 +13,8 @@ from openprocurement.tender.cfaselectionua.tests.award_blanks import (  # Tender
     get_tender_award,
     not_found_award_document,
     patch_not_author,
-    patch_tender_award,
     patch_tender_award_Administrator_change,
     patch_tender_award_document,
-    patch_tender_award_unsuccessful,
     patch_tender_lot_award,
     patch_tender_lot_award_lots_none,
     patch_tender_lot_award_unsuccessful,

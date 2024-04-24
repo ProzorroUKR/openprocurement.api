@@ -23,7 +23,6 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.data import (
-    PQ_NEW_CONTRACTING_RELEASED,
     test_agreement_pq_data,
     test_tender_pq_milestones,
 )
@@ -1878,64 +1877,48 @@ def one_valid_bid_tender(self):
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
 
-    if not PQ_NEW_CONTRACTING_RELEASED:
-        contract_value = deepcopy(contract["value"])
-        # after stand slill period
-        self.set_status("active.awarded", 'end')
-        # sign contract
-        self.app.authorization = ("Basic", ("broker", ""))
-        contract_value["valueAddedTaxIncluded"] = False
-        self.app.patch_json(
-            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": contract_value}},
-        )
-        # check status
-        self.app.authorization = ("Basic", ("broker", ""))
-        response = self.app.get("/tenders/{}".format(tender_id))
-        self.assertEqual(response.json["data"]["status"], "complete")
-    else:
-        self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date", "value"})
+    self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date", "value"})
 
-        cancellation = dict(**test_tender_pq_cancellation)
-        cancellation.update(
-            {
-                "reason": "invalid conditions",
-                "reasonType": "noDemand",
+    cancellation = dict(**test_tender_pq_cancellation)
+    cancellation.update(
+        {
+            "reason": "invalid conditions",
+            "reasonType": "noDemand",
+        }
+    )
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
+        {"data": cancellation},
+    )
+    cancellation_id = response.json["data"]["id"]
+    response = self.app.post_json(
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+            self.tender_id, cancellation_id, self.tender_token
+        ),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
             }
-        )
+        },
+    )
 
-        response = self.app.post_json(
-            "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
-            {"data": cancellation},
-        )
-        cancellation_id = response.json["data"]["id"]
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-                self.tender_id, cancellation_id, self.tender_token
-            ),
-            {
-                "data": {
-                    "title": "name.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-        )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, owner_token),
+        {"data": {"status": "active"}},
+    )
 
-        response = self.app.patch_json(
-            "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, owner_token),
-            {"data": {"status": "active"}},
-        )
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
-        response = self.app.get("/tenders/{}".format(self.tender_id))
-        self.assertEqual(response.json["data"]["status"], "cancelled")
+    response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract_id))
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
-        response = self.app.get("/tenders/{}/contracts/{}".format(self.tender_id, contract_id))
-        self.assertEqual(response.json["data"]["status"], "cancelled")
-
-        response = self.app.get("/contracts/{}".format(contract_id))
-        self.assertEqual(response.json["data"]["status"], "cancelled")
+    response = self.app.get("/contracts/{}".format(contract_id))
+    self.assertEqual(response.json["data"]["status"], "cancelled")
 
 
 def one_invalid_bid_tender(self):
@@ -2035,89 +2018,11 @@ def first_bid_tender(self):
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
 
-    if not PQ_NEW_CONTRACTING_RELEASED:
-        contract_value = deepcopy(contract["value"])
-        # create tender contract document for test
-        response = self.app.post_json(
-            "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-            {
-                "data": {
-                    "title": "name.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
-            status=201,
-        )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
-        doc_id = response.json["data"]["id"]
-        self.assertIn(doc_id, response.headers["Location"])
-
-        # sign contract
-        self.app.authorization = ("Basic", ("broker", ""))
-        contract_value["valueAddedTaxIncluded"] = False
-        self.app.patch_json(
-            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": contract_value}},
-        )
-    else:
-        activate_econtract(self, contract_id, owner_token, bid_token1)
+    activate_econtract(self, contract_id, owner_token, bid_token1)
     # check status
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
-
-    if PQ_NEW_CONTRACTING_RELEASED:
-        return
-
-    response = self.app.post_json(
-        "/tenders/{}/contracts/{}/documents?acc_token={}".format(tender_id, contract_id, owner_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't add document in current (complete) tender status"
-    )
-
-    response = self.app.patch_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {"data": {"description": "document description"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
-
-    response = self.app.put_json(
-        "/tenders/{}/contracts/{}/documents/{}?acc_token={}".format(tender_id, contract_id, doc_id, owner_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update document in current (complete) tender status"
-    )
 
 
 def lost_contract_for_active_award(self):
@@ -2149,8 +2054,7 @@ def lost_contract_for_active_award(self):
     )
     # lost contract
     tender = self.mongodb.tenders.get(tender_id)
-    if PQ_NEW_CONTRACTING_RELEASED:
-        self.mongodb.contracts.delete(tender["contracts"][0]["id"])
+    self.mongodb.contracts.delete(tender["contracts"][0]["id"])
     del tender["contracts"]
     self.mongodb.tenders.save(tender)
 
@@ -2161,17 +2065,7 @@ def lost_contract_for_active_award(self):
     self.assertNotIn("next_check", response.json["data"])
     contract = response.json["data"]["contracts"][-1]
     contract_id = contract["id"]
-    if not PQ_NEW_CONTRACTING_RELEASED:
-        contract_value = deepcopy(contract["value"])
-        # sign contract
-        self.app.authorization = ("Basic", ("broker", ""))
-        contract_value["valueAddedTaxIncluded"] = False
-        self.app.patch_json(
-            "/tenders/{}/contracts/{}?acc_token={}".format(tender_id, contract_id, owner_token),
-            {"data": {"status": "active", "value": contract_value}},
-        )
-    else:
-        activate_econtract(self, contract_id, owner_token, bid_token)
+    activate_econtract(self, contract_id, owner_token, bid_token)
 
     # check status
     self.app.authorization = ("Basic", ("broker", ""))

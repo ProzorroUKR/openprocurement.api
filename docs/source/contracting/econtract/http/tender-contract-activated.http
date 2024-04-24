@@ -12,6 +12,7 @@ Content-Type: application/json
     "status": "active",
     "awardID": "c220713cbd024586b6382ef97a852dc7",
     "date": "2023-10-10T01:00:00+03:00",
+    "contractID": "UA-2023-10-10-000001-a-1",
     "value": {
       "amount": 238.0,
       "currency": "UAH",

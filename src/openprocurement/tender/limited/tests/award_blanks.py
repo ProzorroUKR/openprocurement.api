@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.constants import NEW_CONTRACTING_FROM, RELEASE_2020_04_19
+from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
@@ -602,28 +602,17 @@ def activate_contract_with_cancelled_award(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
     # Try to sign in contract
-    if get_now() < NEW_CONTRACTING_FROM:
-        response = self.app.patch_json(
-            "/tenders/{}/contracts/{}?acc_token={}".format(self.tender_id, contract["id"], self.tender_token),
-            {"data": {"status": "active"}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't update contract in current (cancelled) status",
-        )
-    else:
-        response = self.app.patch_json(
-            f"/contracts/{contract['id']}?acc_token={self.tender_token}",
-            {"data": {"status": "active"}},
-            status=403,
-        )
-        self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(
-            response.json["errors"][0]["description"],
-            "Can't update contract in current (cancelled) status",
-        )
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+        {"data": {"status": "active"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update contract in current (cancelled) status",
+    )
 
 
 # TenderAwardComplaintResourceTest

@@ -1,8 +1,5 @@
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
-from openprocurement.api.constants import (
-    CONTRACT_TEMPLATES_KEYS,
-    PQ_NEW_CONTRACTING_FROM,
-)
+from openprocurement.api.constants import CONTRACT_TEMPLATES_KEYS
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import get_tender_profile, raise_operation_error
@@ -67,9 +64,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     def set_contract_template_name(self, data):
         EXCLUDED_TEMPLATE_CLASSIFICATION = ("0931",)
-
-        if not tender_created_after(PQ_NEW_CONTRACTING_FROM):
-            return
 
         items = data.get("items")
         if not items or any(i.get("documentType", "") == "contractProforma" for i in data.get("documents", "")):

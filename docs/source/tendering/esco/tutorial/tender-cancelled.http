@@ -1613,11 +1613,11 @@ Content-Type: application/json
             "relatedLot": "ce7777a3b9954a00a43ea3c722f5af5b"
           }
         ],
-        "contractID": "UA-2023-10-10-000001-a-1",
         "id": "bcc9f2201d99405fb451b20abc231e58",
         "status": "pending",
         "awardID": "a6a73750ffe84e75bbaf483f2210cfba",
         "date": "2023-10-10T01:00:00+03:00",
+        "contractID": "UA-2023-10-10-000001-a-1",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,

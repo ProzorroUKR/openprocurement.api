@@ -239,37 +239,29 @@ class BaseTenderWebTest(BaseCoreWebTest):
                     self.tender_document_patch["awards"].append(award)
 
     def activate_awards_and_generate_contract(self, status, start_end="start"):
+        self.tender_document_patch["status"] = "active.awarded"
+        self.save_changes()
+
+        auth = self.app.authorization
+        self.app.authorization = self.initial_auth
         awards = self.tender_document.get("awards", [])
         if not awards:
             awards = self.tender_document_patch.get("awards", [])
         for award in awards:
             if award["status"] == "pending":
-                award.update({"status": "active"})
-        self.tender_document_patch.update({"awards": awards})
-        contracts = self.tender_document.get("contracts", [])
+                response = self.app.patch_json(
+                    f"/tenders/{self.tender_id}/awards/{award['id']}?acc_token={self.tender_token}",
+                    {"data": {"status": "active"}},
+                )
+                self.assertEqual(response.status, "200 OK")
 
-        if not contracts:
-            for award in awards:
-                if award["status"] == "active":
-                    contract = {
-                        "id": uuid4().hex,
-                        "title": "contract title",
-                        "description": "contract description",
-                        "awardID": award["id"],
-                        "value": {
-                            "amount": award["value"]["amount"],
-                            "amountNet": award["value"]["amount"],
-                            "currency": award["value"]["currency"],
-                            "valueAddedTaxIncluded": award["value"]["valueAddedTaxIncluded"],
-                        },
-                        "suppliers": award["suppliers"],
-                        "status": "pending",
-                        "contractID": "UA-2017-06-21-000001-1",
-                        "date": datetime.now(TZ).isoformat(),
-                        "items": [i for i in self.tender_document["items"] if i["relatedLot"] == award["lotID"]],
-                    }
-                    self.contract_id = contract["id"]
-                    self.tender_document_patch.update({"contracts": [contract]})
+        self.tender_document = self.mongodb.tenders.get(self.tender_id)
+        self.tender_document_patch = {"status": status}
+        self.app.authorization = auth
+
+    def create_contracts(self, contracts):
+        for contract in contracts:
+            self.mongodb.contracts.save(contract, insert=True)
 
     def create_tender(self):
         data = deepcopy(self.initial_data)

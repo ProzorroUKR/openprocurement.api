@@ -1,8 +1,6 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
 from decimal import Decimal
-from unittest.mock import patch
 
 from esculator import escp, npv
 
@@ -12,20 +10,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.contract import (
-    TenderContractDocumentResourceTestMixin,
-    TenderContractResourceTestMixin,
-)
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    create_tender_contract_document_by_others,
-    create_tender_contract_document_by_supplier,
-    patch_tender_contract_document_by_supplier,
-    patch_tender_contract_status_by_others,
-    patch_tender_contract_status_by_owner,
-    patch_tender_contract_status_by_supplier,
-    put_tender_contract_document_by_others,
-    put_tender_contract_document_by_supplier,
-)
 from openprocurement.tender.esco.procedure.utils import to_decimal
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
@@ -33,17 +17,27 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
 )
 from openprocurement.tender.esco.tests.contract_blanks import (  # TenderContractResourceTest; EContract
-    patch_econtract,
+    contract_termination,
+    create_tender_contract,
+    create_tender_contract_document,
+    create_tender_contract_document_by_others,
+    create_tender_contract_document_by_supplier,
+    create_tender_contract_invalid,
+    get_tender_contract,
+    get_tender_contracts,
+    not_found,
     patch_tender_contract,
+    patch_tender_contract_datesigned,
+    patch_tender_contract_document,
+    patch_tender_contract_document_by_supplier,
+    patch_tender_contract_status_by_others,
+    patch_tender_contract_status_by_owner,
+    patch_tender_contract_status_by_supplier,
+    put_tender_contract_document,
+    put_tender_contract_document_by_others,
+    put_tender_contract_document_by_supplier,
 )
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
-from openprocurement.tender.openeu.tests.contract_blanks import (  # TenderContractResourceTest
-    contract_termination,
-)
-from openprocurement.tender.openua.tests.contract_blanks import (
-    create_tender_contract,
-    patch_tender_contract_datesigned,
-)
 
 amount_precision = 2
 
@@ -67,6 +61,19 @@ contract_amount = to_decimal(
         get_now(),
     )
 ).quantize(Decimal(f"1E-{amount_precision}"))
+
+
+class TenderContractResourceTestMixin:
+    test_create_tender_contract_invalid = snitch(create_tender_contract_invalid)
+    test_get_tender_contract = snitch(get_tender_contract)
+    test_get_tender_contracts = snitch(get_tender_contracts)
+
+
+class TenderContractDocumentResourceTestMixin:
+    test_not_found = snitch(not_found)
+    test_create_tender_contract_document = snitch(create_tender_contract_document)
+    test_put_tender_contract_document = snitch(put_tender_contract_document)
+    test_patch_tender_contract_document = snitch(patch_tender_contract_document)
 
 
 class CreateAwardMixin:
@@ -98,7 +105,6 @@ class CreateAwardMixin:
         self.bid_token = self.initial_bids_tokens[award["bid_id"]]
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, TenderContractResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
@@ -107,7 +113,6 @@ class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, Tende
     expected_contract_amountPerformance = contract_amount_performance
     expected_contract_amount = contract_amount
 
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super().setUp()
         self.create_award()
@@ -121,14 +126,12 @@ class TenderContractResourceTest(BaseESCOContentWebTest, CreateAwardMixin, Tende
     test_patch_tender_contract_status_by_supplier = snitch(patch_tender_contract_status_by_supplier)
 
 
-@patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
 class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
     docservice = True
 
-    @patch("openprocurement.tender.core.procedure.utils.NEW_CONTRACTING_FROM", get_now() + timedelta(days=1))
     def setUp(self):
         super().setUp()
         # Create award

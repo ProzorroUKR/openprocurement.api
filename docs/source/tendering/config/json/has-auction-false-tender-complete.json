@@ -425,6 +425,7 @@
         "contracts": [
             {
                 "awardID": "23995d40cc7347569e6d5f2f47ece4e8",
+                "contractID": "UA-2023-10-10-000001-a-1",
                 "date": "2023-11-09T00:00:00+02:00",
                 "id": "e05d5f3e50574cdab7f3a7752936077d",
                 "status": "active",
@@ -437,6 +438,7 @@
             },
             {
                 "awardID": "99e6dcc3408d4794ae66c30ae2297ea7",
+                "contractID": "UA-2023-10-10-000001-a-2",
                 "date": "2023-11-09T00:00:00+02:00",
                 "id": "120e2d279ef84f8db8c5a993a4e58137",
                 "status": "active",
