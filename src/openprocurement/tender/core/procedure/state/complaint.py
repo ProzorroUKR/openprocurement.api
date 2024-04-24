@@ -1,4 +1,3 @@
-from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.constants import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
@@ -43,7 +42,6 @@ class BaseComplaintStateMixin:
 
 
 class ComplaintStateMixin(BaseComplaintStateMixin):
-    tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
     draft_patch_model = DraftPatchComplaint
@@ -263,13 +261,8 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         #     raise_operation_error(self.request, "Can't update qualification status")
 
     def validate_tender_in_complaint_period(self, tender):
-        complaint_submit_time = self.tender_complaint_submit_time
         if tender.get("complaintPeriod") and get_now() > dt_from_iso(tender["complaintPeriod"]["endDate"]):
-            raise_operation_error(
-                self.request,
-                "Can submit complaint not later than {duration.days} "
-                "full calendar days before tenderPeriod ends".format(duration=complaint_submit_time),
-            )
+            raise_operation_error(self.request, "Can submit complaint not later than complaintPeriod end date")
 
     def validate_lot_status(self):
         pass

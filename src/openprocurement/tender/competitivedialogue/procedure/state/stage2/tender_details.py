@@ -8,9 +8,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState,
 )
 from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME as UA_COMPLAINT_SUBMIT_TIME,
-)
-from openprocurement.tender.openua.constants import (
     TENDERING_DURATION as UA_TENDERING_DURATION,
 )
 
@@ -43,7 +40,6 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     tender_transfer_accreditations = (ACCR_3, ACCR_5)
 
     tendering_duration = UA_TENDERING_DURATION
-    complaint_submit_time = UA_COMPLAINT_SUBMIT_TIME
 
     @staticmethod
     def watch_value_meta_changes(tender):

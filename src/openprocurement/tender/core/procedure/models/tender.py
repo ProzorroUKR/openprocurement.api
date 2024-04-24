@@ -242,6 +242,7 @@ class TenderConfig(Model):
     hasAwardComplaints = BooleanType()
     hasCancellationComplaints = BooleanType()
     restricted = BooleanType()
+    tenderComplainRegulation = IntType(min_value=0)
 
     def validate_valueCurrencyEquality(self, data, value):
         if value is False and any(

@@ -16,7 +16,6 @@ from openprocurement.tender.core.utils import (
 )
 from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -42,7 +41,6 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     }
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = False
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME

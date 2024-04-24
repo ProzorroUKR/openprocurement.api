@@ -89,6 +89,7 @@ test_tender_open_config = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "restricted": False,
+    "tenderComplainRegulation": 3,
 }
 
 test_tender_dps_config = {
@@ -103,6 +104,7 @@ test_tender_dps_config = {
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
     "restricted": False,
+    "tenderComplainRegulation": 0,
 }
 
 test_tender_open_complaint_objection = {

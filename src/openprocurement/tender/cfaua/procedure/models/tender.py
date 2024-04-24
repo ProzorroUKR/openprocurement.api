@@ -46,7 +46,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_start_date,
 )
 from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 
 LOTS_MIN_SIZE = 1
 LOTS_MAX_SIZE = 1

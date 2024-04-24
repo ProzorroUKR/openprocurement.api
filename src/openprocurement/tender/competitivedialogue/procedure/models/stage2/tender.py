@@ -35,9 +35,6 @@ from openprocurement.tender.openeu.procedure.models.tender import (
 )
 from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
 from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME as COMPLAINT_SUBMIT_TIME_UA,
-)
-from openprocurement.tender.openua.constants import (
     TENDERING_DURATION as TENDERING_DURATION_UA,
 )
 from openprocurement.tender.openua.procedure.models.organization import (

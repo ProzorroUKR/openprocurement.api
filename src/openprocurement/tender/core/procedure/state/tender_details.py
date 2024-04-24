@@ -17,7 +17,7 @@ from openprocurement.api.procedure.utils import (
     get_cpv_prefix_length,
     get_cpv_uniq_prefixes,
 )
-from openprocurement.api.utils import get_agreement_by_id, raise_operation_error
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -66,6 +66,7 @@ class TenderConfigMixin:
         "hasAwardComplaints",
         "hasCancellationComplaints",
         "restricted",
+        "tenderComplainRegulation",
     )
 
     def validate_config(self, data):
@@ -143,8 +144,8 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
-    complaint_submit_time = timedelta(days=0)
     agreement_field = "agreements"
+    tender_complain_regulation_working_days = False
 
     def validate_tender_patch(self, before, after):
         request = get_request()
@@ -595,8 +596,15 @@ class TenderDetailsMixing(TenderConfigMixin):
             return
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return
+        if tender["config"]["tenderComplainRegulation"] == 0:
+            return
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_complaint_business_date(tendering_end, -self.complaint_submit_time, tender)
+        end_date = calculate_complaint_business_date(
+            tendering_end,
+            -timedelta(days=tender["config"]["tenderComplainRegulation"]),
+            tender,
+            working_days=self.tender_complain_regulation_working_days,
+        )
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),

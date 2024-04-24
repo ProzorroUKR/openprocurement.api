@@ -86,6 +86,7 @@ test_tender_openua_config = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "restricted": False,
+    "tenderComplainRegulation": 4,
 }
 
 

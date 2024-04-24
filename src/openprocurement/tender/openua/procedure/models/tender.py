@@ -35,7 +35,6 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.openua.constants import (
     ABOVE_THRESHOLD_UA,
-    COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
 )
 from openprocurement.tender.openua.procedure.models.item import Item
