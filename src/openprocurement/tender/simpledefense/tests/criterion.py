@@ -13,7 +13,6 @@ from openprocurement.tender.simpledefense.tests.base import (
     test_tender_simpledefense_data,
 )
 from openprocurement.tender.simpledefense.tests.criterion_blanks import (
-    activate_tender,
     delete_requirement_evidence,
 )
 
@@ -24,7 +23,7 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseSimpleDefContentWebTest):
     test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
-    test_activate_tender = snitch(activate_tender)
+    required_criteria = ()
 
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseSimpleDefContentWebTest):

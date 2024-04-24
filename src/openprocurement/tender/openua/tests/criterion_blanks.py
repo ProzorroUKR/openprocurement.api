@@ -4,6 +4,7 @@ from unittest import mock
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
     test_exclusion_criteria,
     test_language_criteria,
     test_lcc_tender_criteria,
@@ -469,131 +470,122 @@ def get_tender_criteria(self):
 def activate_tender(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
 
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.tendering"}},
-        status=403,
-    )
+    # If there are required criteria
+    if self.required_criteria:
+        test_criteria = get_criteria_by_ids(test_exclusion_criteria + test_language_criteria, self.required_criteria)
 
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': "Tender must contain all required `EXCLUSION` criteria: "
-                "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
-                "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
-                "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
-                "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
-                "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
-                "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
-                "CRITERION.EXCLUSION.NATIONAL.OTHER",
-                'location': 'body',
-                'name': 'data',
-            }
-        ],
-    )
+        # Try to activate without criteria
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
 
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_exclusion_criteria[:8]},
-    )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertIn("errors", response.json)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    'description': (
+                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                    ),
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
+        )
 
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        # Add required criteria (except one)
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria[:-1]},
+        )
 
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.tendering"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': "Tender must contain all required `EXCLUSION` criteria: "
-                "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
-                "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
-                "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
-                "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
-                "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
-                "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
-                "CRITERION.EXCLUSION.NATIONAL.OTHER",
-                'location': 'body',
-                'name': 'data',
-            }
-        ],
-    )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_exclusion_criteria[:1]},
-        status=403,
-    )
+        # Try to activate once again (still not all required criteria)
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertIn("errors", response.json)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    'description': (
+                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                    ),
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
+        )
 
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
+        # Try to add already added criteria
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_exclusion_criteria[:1]},
+            status=403,
+        )
 
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.tendering"}},
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertIn("errors", response.json)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                'description': "Tender must contain all required `EXCLUSION` criteria: "
-                "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY, "
-                "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION, "
-                "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING, "
-                "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION, "
-                "CRITERION.EXCLUSION.CONVICTIONS.FRAUD, "
-                "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION, "
-                "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION, "
-                "CRITERION.EXCLUSION.NATIONAL.OTHER",
-                'location': 'body',
-                'name': 'data',
-            }
-        ],
-    )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    'description': 'Criteria are not unique',
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
+        )
 
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_exclusion_criteria[8:]},
-    )
+        response = self.app.patch_json(
+            request_path,
+            {"data": {"status": self.primary_tender_status}},
+            status=403,
+        )
+        self.assertEqual(response.status, "403 Forbidden")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertIn("errors", response.json)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    'description': (
+                        f"Tender must contain all required criteria: " f"{', '.join(sorted(self.required_criteria))}"
+                    ),
+                    'location': 'body',
+                    'name': 'data',
+                }
+            ],
+        )
 
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        # Add missing criteria
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": test_criteria[-1:]},
+        )
 
-    response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": test_language_criteria},
-    )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         request_path,
-        {"data": {"status": "active.tendering"}},
+        {"data": {"status": self.primary_tender_status}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active.tendering")
-    self.assertEqual(len(response.json["data"]["criteria"]), 10)
+    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
+    self.assertEqual(len(response.json["data"].get("criteria", [])), len(self.required_criteria))
 
 
 def create_criteria_rg(self):

@@ -6,19 +6,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
 
-def activate_tender(self):
-    request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
-
-    response = self.app.patch_json(
-        request_path,
-        {"data": {"status": "active.enquiries"}},
-    )
-
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active.enquiries")
-
-
 def patch_tender_criteria_invalid(self):
     criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER"

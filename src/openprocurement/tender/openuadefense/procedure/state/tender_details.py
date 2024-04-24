@@ -24,11 +24,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     period_working_day = True
 
     @classmethod
-    def validate_tender_exclusion_criteria(cls, before, after):
-        pass
-
-    @staticmethod
-    def validate_tender_language_criteria(before, after):
+    def validate_required_criteria(cls, before, after):
         pass
 
 

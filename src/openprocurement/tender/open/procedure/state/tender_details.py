@@ -29,14 +29,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_4,)
 
-    tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
-    tendering_period_extra_working_days = False
-
-    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-
-    required_exclusion_criteria = {
+    required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
         "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
         "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
@@ -45,7 +38,15 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
         "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        "CRITERION.OTHER.BID.LANGUAGE",
     }
+
+    tendering_period_extra = TENDERING_EXTRA_PERIOD
+    complaint_submit_time = COMPLAINT_SUBMIT_TIME
+    tendering_period_extra_working_days = False
+
+    enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
+    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     @classmethod
     def get_items_classification_prefix_length(cls, tender):
@@ -60,8 +61,6 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     def on_patch(self, before, after):
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
-        self.validate_tender_exclusion_criteria(before, after)
-        self.validate_tender_language_criteria(before, after)
         self.validate_related_lot_in_items(after)
         self.validate_items_classification_prefix_unchanged(before, after)
 

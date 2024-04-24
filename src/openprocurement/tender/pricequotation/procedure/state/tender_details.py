@@ -19,6 +19,8 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
 
+    required_criteria = ()
+
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     agreement_field = "agreement"

@@ -45,6 +45,10 @@ with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json
     test_lcc_tender_criteria = json.load(json_file)
 
 
+def get_criteria_by_ids(criteria, ids):
+    return [c for c in criteria if c["classification"]["id"] in ids]
+
+
 srequest = SESSION.request
 
 
