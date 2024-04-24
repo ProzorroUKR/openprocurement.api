@@ -1,5 +1,3 @@
-from datetime import timedelta
-
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -34,7 +32,6 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     tendering_period_extra_working_days = True
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = timedelta(days=0)
     should_validate_notice_doc_required = True
 
     def on_post(self, tender):

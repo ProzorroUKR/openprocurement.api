@@ -12,7 +12,6 @@ from openprocurement.tender.core.utils import (
     calculate_tender_business_date,
 )
 from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -39,8 +38,6 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
         "CRITERION.EXCLUSION.NATIONAL.OTHER",
         "CRITERION.OTHER.BID.LANGUAGE",
     }
-
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     should_validate_notice_doc_required = True
 

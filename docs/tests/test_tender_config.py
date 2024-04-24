@@ -2014,6 +2014,129 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
             self.assertEqual(response.json['data']['status'], 'active.qualification')
 
 
+class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
+    initial_data = deepcopy(test_docs_tender_below)
+
+    def test_docs_tender_complain_regulation_values_csv(self):
+        self.write_config_values_csv(
+            config_name="tenderComplainRegulation",
+            file_path=TARGET_CSV_DIR + "tender-complain-regulation-values.csv",
+        )
+
+    def activate_tender(self, tender_id, owner_token):
+        #### Tender activating
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+            {"data": {"status": "active.tendering"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    def activate_tender_enquiries(self, tender_id, owner_token):
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+            {"data": {"status": "active.enquiries"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # enquires
+        response = self.app.post_json(
+            "/tenders/{}/questions".format(tender_id),
+            {"data": test_docs_question},
+            status=201,
+        )
+        question_id = response.json["data"]["id"]
+        self.assertEqual(response.status, "201 Created")
+
+        response = self.app.patch_json(
+            "/tenders/{}/questions/{}?acc_token={}".format(tender_id, question_id, owner_token),
+            {"data": {"answer": 'Таблицю додано в файлі "Kalorijnist.xslx"'}},
+            status=200,
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.set_status("active.tendering")
+
+    def test_docs_tender_complain_regulation_complaint_period_exists(self):
+        config = deepcopy(test_tender_open_config)
+        test_tender_data = deepcopy(test_docs_tender_open)
+
+        # Create tender
+        with open(TARGET_DIR + "tender-complain-regulation-tender-post-1.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_data, "config": config},
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        tender_id = self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot["value"] = test_tender_data["value"]
+        test_lot["minimalStep"] = test_tender_data["minimalStep"]
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
+            {"data": test_lot},
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id
+        with open(TARGET_DIR + "tender-complain-regulation-tender-patch-1.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+                {"data": {"items": items}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertIn("complaintPeriod", response.json["data"])
+
+    def test_docs_tender_complain_regulation_complaint_period_dont_exist(self):
+        config = deepcopy(self.initial_config)
+
+        # Create tender
+        with open(TARGET_DIR + "tender-complain-regulation-tender-post-2.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": self.initial_data, "config": config},
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        tender_id = self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot["value"] = self.initial_data["value"]
+        test_lot["minimalStep"] = self.initial_data["minimalStep"]
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
+            {"data": test_lot},
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id
+        with open(TARGET_DIR + "tender-complain-regulation-tender-patch-2.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+                {"data": {"items": items}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertNotIn("complaintPeriod", response.json["data"])
+
+
 class TenderHasPrequalificationResourceTest(TenderConfigBaseResourceTest):
     def test_docs_has_prequalification_values_csv(self):
         self.write_config_values_csv(
