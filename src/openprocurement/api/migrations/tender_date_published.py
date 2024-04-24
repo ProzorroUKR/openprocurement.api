@@ -28,6 +28,7 @@ DOCUMENTS_PATHS_MAP = {
         "$.awards[*].documents[*]",
         "$.awards[*].complaints[*].documents[*]",
         "$.awards[*].complaints[*].posts[*].documents[*]",
+        "$.agreements[*].documents[*]",
         "$.bids[*].documents[*]",
         "$.bids[*].financialDocuments[*]",
         "$.bids[*].qualificationDocuments[*]",
@@ -73,13 +74,41 @@ def convert_path(path):
     return '/'.join(parts)
 
 
-def update_documents_date_published(obj, doc_pathes):
+def update_documents_from_tender(obj, collection_name, updated):
+    is_updated = False
+    tender = obj.pop("tender", None)
+    if not tender:
+        return
+
+    date_published = [
+        doc["datePublished"]
+        for i in tender.get(collection_name, "")
+        for doc in i.get("documents", "")
+        if i["id"] == obj["_id"]
+    ]
+
+    if not date_published:
+        return
+
+    for i, doc in enumerate(obj["documents"]):
+        if len(date_published) > i:
+            is_updated = True
+            doc["datePublished"] = date_published[i]
+
+    if is_updated:
+        updated["documents"] = obj["documents"]
+
+
+def update_documents_date_published(obj, collection_name, doc_paths):
     updated = {}
 
     revisions = obj.pop("revisions", "")
     documents_date_published = get_documents_date(revisions)
+    # Only for contracts and agreements
+    if collection_name == "contracts":
+        update_documents_from_tender(obj, collection_name, updated)
 
-    for path in doc_pathes:
+    for path in doc_paths:
         duplicated_id = set()
         is_updated = False
 
@@ -134,11 +163,30 @@ def run(env):
 
     collection = getattr(env["registry"].mongodb, collection_name).collection
 
-    cursor = collection.find(
-        {},
-        projection=projection,
-        no_cursor_timeout=True,
-    )
+    if collection_name == "contracts":
+        projection["tender"] = 1
+        pipeline = [
+            {
+                '$lookup': {
+                    'from': env["registry"].mongodb.tenders.collection.name,
+                    'let': {'tender_id': '$tender_id'},
+                    'pipeline': [
+                        {'$match': {'$expr': {'$eq': ['$_id', '$$tender_id']}}},
+                        {'$project': {'_id': 0, collection_name: 1}},
+                    ],
+                    'as': 'tender',
+                }
+            },
+            {'$unwind': '$tender'},
+            {'$project': projection},
+        ]
+        cursor = collection.aggregate(pipeline)
+    else:
+        cursor = collection.find(
+            {},
+            projection=projection,
+            no_cursor_timeout=True,
+        )
     cursor.batch_size(args.b)
 
     bulk = []
@@ -146,7 +194,7 @@ def run(env):
     bulk_max_size = 500
     try:
         for obj in cursor:
-            updated_fields = update_documents_date_published(obj, document_paths)
+            updated_fields = update_documents_date_published(obj, collection_name, document_paths)
 
             if updated_fields:
                 bulk.append(UpdateOne({"_id": obj["_id"], "_rev": obj["_rev"]}, {"$set": updated_fields}))
