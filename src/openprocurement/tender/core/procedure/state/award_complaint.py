@@ -1,4 +1,3 @@
-from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.context import get_now
@@ -20,7 +19,6 @@ LOGGER = getLogger(__name__)
 
 
 class AwardComplaintStateMixin(ComplaintStateMixin):
-    tender_complaint_submit_time = timedelta(days=4)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint

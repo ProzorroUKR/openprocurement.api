@@ -89,6 +89,7 @@ class TenderConfigMixin:
         "hasCancellationComplaints",
         "hasValueEstimation",
         "hasQualificationComplaints",
+        "tenderComplainRegulation",
         "awardComplainDuration",
         "restricted",
     )
@@ -184,9 +185,9 @@ class TenderDetailsMixing(TenderConfigMixin):
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
     should_validate_notice_doc_required = False
-    complaint_submit_time = timedelta(days=0)
     agreement_field = "agreements"
     should_validate_lot_minimal_step = True
+    tender_complain_regulation_working_days = False
 
     calendar = WORKING_DAYS
 
@@ -901,8 +902,15 @@ class TenderDetailsMixing(TenderConfigMixin):
             return
         if "tenderPeriod" not in tender or "endDate" not in tender["tenderPeriod"]:
             return
+        if tender["config"]["tenderComplainRegulation"] == 0:
+            return
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_full_date(tendering_end, -self.complaint_submit_time, tender=tender)
+        end_date = calculate_tender_full_date(
+            tendering_end,
+            -timedelta(days=tender["config"]["tenderComplainRegulation"]),
+            tender=tender,
+            working_days=self.tender_complain_regulation_working_days,
+        )
         tender["complaintPeriod"] = {
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),

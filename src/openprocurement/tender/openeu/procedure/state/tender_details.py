@@ -5,7 +5,6 @@ from openprocurement.tender.openeu.constants import (
 )
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -33,7 +32,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     }
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME

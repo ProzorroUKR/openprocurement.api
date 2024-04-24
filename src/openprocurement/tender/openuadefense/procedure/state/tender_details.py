@@ -3,7 +3,6 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsState,
 )
 from openprocurement.tender.openuadefense.constants import (
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
@@ -17,7 +16,6 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     tender_edit_accreditations = (ACCR_4,)
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
-    complaint_submit_time = COMPLAINT_SUBMIT_TIME
     tendering_period_extra_working_days = True
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
@@ -25,6 +23,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     calendar = WORKING_DAYS
     period_working_day = True
+    tender_complain_regulation_working_days = True
 
     should_validate_notice_doc_required = False
 

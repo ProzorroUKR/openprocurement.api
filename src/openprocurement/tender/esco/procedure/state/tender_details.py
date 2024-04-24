@@ -5,9 +5,7 @@ from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_before,
 )
-from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.esco.constants import (
-    COMPLAINT_SUBMIT_TIME,
     ENQUIRY_STAND_STILL_TIME,
     QUESTIONS_STAND_STILL,
 )
@@ -49,14 +47,8 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     def watch_value_meta_changes(tender):
         pass
 
-    @staticmethod
-    def update_periods(tender):
-        tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
-        end_date = calculate_tender_full_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender=tender)
-        tender["complaintPeriod"] = {
-            "startDate": tender["tenderPeriod"]["startDate"],
-            "endDate": end_date.isoformat(),
-        }
+    def update_periods(self, tender):
+        self.update_complaint_period(tender)
         # TODO: remove these lines after NOTICE_DOC_REQUIRED_FROM will be set on prod and some time passes
         if (
             tender_created_before(NOTICE_DOC_REQUIRED_FROM)

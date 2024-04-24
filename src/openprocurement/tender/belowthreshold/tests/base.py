@@ -241,6 +241,7 @@ test_tender_below_config = {
     "hasQualificationComplaints": False,
     "awardComplainDuration": 2,
     "restricted": False,
+    "tenderComplainRegulation": 0,
 }
 
 
