@@ -86,14 +86,17 @@ def create_contract(env, tender, tender_contract):
             logger.warning(f"Skip updating contract {tender_contract['id']}. Details: {e}")
 
 
-def update_contract_pe_to_buyer(env, tender, contracting_contract):
+def update_contract_pe_to_buyer(env, tender, tender_contract, contracting_contract):
     collection = env["registry"].mongodb.contracts.collection
     updated_data = {}
 
     if tender.get("mode") and not contracting_contract.get("mode"):
         updated_data["mode"] = tender["mode"]
 
-    if "procuringEntity" in contracting_contract:
+    if "buyerID" not in contracting_contract and "buyerID" in tender_contract:
+        updated_data["buyerID"] = contracting_contract["buyerID"] = tender_contract["buyerID"]
+
+    if "procuringEntity" in contracting_contract or "buyerID" in updated_data:
         updated_data["buyer"] = get_buyer(tender, contracting_contract)
 
     if not updated_data:
@@ -163,7 +166,7 @@ def run(env, args):
                     else:
                         counter["skipped_contracts"] += 1
                 else:
-                    if update_contract_pe_to_buyer(env, tender, contracting_contract):
+                    if update_contract_pe_to_buyer(env, tender, contract, contracting_contract):
                         counter["updated_contracts"] += 1
                     else:
                         counter["skipped_contracts"] += 1
