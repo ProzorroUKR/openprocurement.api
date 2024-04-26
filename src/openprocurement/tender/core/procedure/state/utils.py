@@ -66,3 +66,9 @@ def awarding_is_unsuccessful(awards):
     return (awarding_order_enabled and awards and awards[-1]["status"] == "unsuccessful") or (
         awarding_order_enabled is False and not awards_statuses.intersection({"active", "pending"})
     )
+
+
+def numerate_objections(complaint):
+    if objections := complaint.get("objections", []):
+        for number, objection in enumerate(objections, start=1):
+            objection["sequenceNumber"] = number

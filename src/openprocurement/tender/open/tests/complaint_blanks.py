@@ -208,6 +208,10 @@ def patch_tender_complaint(self):
 def bot_patch_tender_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [objection_data, objection_data]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -225,12 +229,18 @@ def bot_patch_tender_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "pending")
+    self.assertEqual(response.json["data"]["objections"][0]["sequenceNumber"], 1)
+    self.assertEqual(response.json["data"]["objections"][1]["sequenceNumber"], 2)
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def bot_patch_tender_complaint_mistaken(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [objection_data, objection_data]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -249,6 +259,8 @@ def bot_patch_tender_complaint_mistaken(self):
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["status"], "mistaken")
         self.assertEqual(response.json["data"]["rejectReason"], "incorrectPayment")
+        self.assertEqual(response.json["data"]["objections"][0]["sequenceNumber"], 1)
+        self.assertEqual(response.json["data"]["objections"][1]["sequenceNumber"], 2)
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
@@ -764,7 +776,6 @@ def create_complaint_objection_validation(self):
     response = self.create_complaint(complaint_data, status=422)
     required_fields = response.json["errors"][0]["description"][0].keys()
     self.assertIn("title", required_fields)
-    self.assertIn("description", required_fields)
     self.assertIn("relatesTo", required_fields)
     self.assertIn("relatedItem", required_fields)
     self.assertIn("classification", required_fields)
@@ -851,6 +862,23 @@ def create_complaint_objection_validation(self):
     self.assertEqual(
         response.json["errors"][0]["description"][0]["arguments"],
         ["Please provide at least 1 item."],
+    )
+
+    invalid_objection_data["arguments"] = [
+        test_tender_open_complaint_objection["arguments"][0],
+        test_tender_open_complaint_objection["arguments"][0],
+    ]
+    invalid_objection_data["relatesTo"] = self.complaint_on
+    invalid_objection_data["relatedItem"] = self.tender_id
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        invalid_objection_data["relatedItem"] = obj_id
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn(
+        "Can't add more than 1 argument for objection",
+        response.json["errors"][0]["description"],
     )
 
     invalid_objection_data["arguments"] = [{}]

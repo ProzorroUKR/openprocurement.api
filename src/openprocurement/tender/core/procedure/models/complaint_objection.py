@@ -2,7 +2,7 @@ from enum import Enum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, MD5Type, StringType
+from schematics.types import BaseType, IntType, MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants import (
@@ -52,12 +52,13 @@ class Classification(Model):
 class Objection(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
-    description = StringType(required=True)
+    description = StringType()
     relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)
     requestedRemedies = ListType(ModelType(RequestedRemedy), min_size=1, required=True)
     arguments = ListType(ModelType(Argument), min_size=1, required=True)
+    sequenceNumber = IntType(min_value=1)
 
     def validate_relatedItem(self, data, value):
         complaint = get_complaint() or data.get("__parent__", {})
