@@ -189,7 +189,12 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 and request_data.get("tendererAction", current_complaint.get("tendererAction"))
                 and new_status == "resolved"
             ):
-                return TendererResolvePatchComplaint, empty_handler
+
+                def handler(complaint):
+                    complaint["status"] = "resolved"
+                    complaint["tendererActionDate"] = get_now().isoformat()
+
+                return TendererResolvePatchComplaint, handler
             elif status in ["pending", "accepted"]:
                 return TendererActionPatchComplaint, empty_handler
             else:
