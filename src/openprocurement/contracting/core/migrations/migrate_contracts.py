@@ -30,7 +30,7 @@ def delete_buyers_attr(objs):
 
 
 def get_buyer(tender, contract):
-    buyer = tender["procuringEntity"]
+    buyer = tender.get("procuringEntity", "")
     if contract.get("buyerID"):
         for i in tender.get("buyers", ""):
             if "id" in i and contract["buyerID"] == i.get("id", ""):
@@ -148,7 +148,7 @@ def run(env, args):
     try:
         for tender in cursor:
 
-            contracts_ids = [i["id"] for i in tender["contracts"]]
+            contracts_ids = [i["id"] for i in tender.get("contracts", "")]
 
             contracting_contracts = {
                 i["_id"]: i
@@ -157,7 +157,7 @@ def run(env, args):
                 )
             }
 
-            for contract_number, contract in enumerate(tender["contracts"]):
+            for contract_number, contract in enumerate(tender.get("contracts", "")):
                 contracting_contract = contracting_contracts.get(contract["id"])
                 set_now()
                 if not contracting_contract:

@@ -48,10 +48,11 @@ def run(env, args):
             contract_ids = {
                 i["_id"]: i["contractID"]
                 for i in contracts_collection.find({"_id": {"$in": contracts_ids}}, {"contractID": 1})
+                if i.get("contractID")
             }
 
             for contract in tender["contracts"]:
-                contract_id = contract_ids.get(contract["id"])
+                contract_id = contract_ids.get(contract.get("id"))
                 if contract_id:
                     contract["contractID"] = contract_id
 
