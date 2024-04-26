@@ -58,9 +58,10 @@ def get_documents_date(revisions):
     regex = r"documents\/\d+$"
     documents_date_published = {}
     for rev in revisions:
-        for c in rev["changes"]:
-            if c["op"] == "remove" and re.search(regex, c["path"], flags=re.IGNORECASE):
-                documents_date_published[c["path"]] = rev["date"]
+        for c in rev.get("changes", ""):
+            if c.get("op", "") == "remove" and re.search(regex, c.get("path", ""), flags=re.IGNORECASE):
+                if rev.get("date"):
+                    documents_date_published[c["path"]] = rev["date"]
 
     return documents_date_published
 
@@ -84,7 +85,7 @@ def update_documents_from_tender(obj, collection_name, updated):
         doc["datePublished"]
         for i in tender.get(collection_name, "")
         for doc in i.get("documents", "")
-        if i["id"] == obj["_id"]
+        if i.get("id", "") == obj["_id"] and "datePublished" in doc
     ]
 
     if not date_published:
