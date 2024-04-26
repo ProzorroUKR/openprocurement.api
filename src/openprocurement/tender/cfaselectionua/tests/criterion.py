@@ -2,7 +2,6 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
-    activate_tender,
     create_patch_delete_evidences_from_requirement,
     delete_requirement_evidence,
     patch_criteria_rg,
@@ -25,9 +24,10 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, TenderContentWebTest):
     initial_data = test_tender_cfaselectionua_data
     initial_lots = test_tender_cfaselectionua_lots
     test_lots_data = test_tender_cfaselectionua_lots
-    initial_status = "active.enquiries"
+    initial_status = "draft"
 
-    test_activate_tender = snitch(activate_tender)
+    required_criteria = ()
+
     test_patch_tender_criteria_invalid = snitch(patch_tender_criteria_invalid)
 
 

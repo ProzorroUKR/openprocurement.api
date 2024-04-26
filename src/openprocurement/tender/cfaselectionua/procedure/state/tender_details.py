@@ -78,7 +78,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
         else:  # tender owner
             self.check_owner_forbidden_fields(after)
-            self.validate_tender_exclusion_criteria(before, after)
 
             if before["status"] == "draft" and after["status"] == "draft":
                 pass

@@ -2,7 +2,6 @@ import unittest
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -10,9 +9,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cdeu_stage2_data,
     test_tender_cdua_stage2_data,
-)
-from openprocurement.tender.competitivedialogue.tests.stage2.criterion_blanks import (
-    activate_tender,
 )
 from openprocurement.tender.openua.tests.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
@@ -27,7 +23,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
     initial_lots = test_lots_data = test_tender_below_lots
     initial_status = "draft"
 
-    test_activate_tender = snitch(activate_tender)
+    required_criteria = ()
 
     @patch(
         "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
@@ -46,7 +42,7 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
     initial_lots = test_tender_below_lots
     initial_status = "draft"
 
-    test_activate_tender = snitch(activate_tender)
+    required_criteria = ()
 
     @patch(
         "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",

@@ -134,17 +134,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_central_accreditations = None
     tender_edit_accreditations = None
 
-    required_exclusion_criteria = {
-        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
-        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
-        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
-        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
-        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
-        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
-        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
-        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
-        "CRITERION.EXCLUSION.NATIONAL.OTHER",
-    }
+    required_criteria = ()
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
@@ -189,6 +179,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_items_classification_prefix(after)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
+        self.validate_required_criteria(before, after)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -413,7 +404,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     @classmethod
-    def validate_tender_exclusion_criteria(cls, before, after):
+    def validate_required_criteria(cls, before, after):
         if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             return
 
@@ -427,29 +418,11 @@ class TenderDetailsMixing(TenderConfigMixin):
         }
 
         # exclusion criteria
-        if cls.required_exclusion_criteria - tender_criteria:
+        if set(cls.required_criteria) - tender_criteria:
             raise_operation_error(
                 get_request(),
-                f"Tender must contain all required `EXCLUSION` criteria: "
-                f"{', '.join(sorted(cls.required_exclusion_criteria))}",
+                f"Tender must contain all required criteria: {', '.join(sorted(cls.required_criteria))}",
             )
-
-    @staticmethod
-    def validate_tender_language_criteria(before, after):
-        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
-            return
-
-        if after.get("status") not in ("active", "active.tendering"):
-            return
-
-        tender_criteria = {
-            criterion["classification"]["id"]
-            for criterion in after.get("criteria", "")
-            if criterion.get("classification")
-        }
-        language_criterion = "CRITERION.OTHER.BID.LANGUAGE"
-        if language_criterion not in tender_criteria:
-            raise_operation_error(get_request(), f"Tender must contain {language_criterion} criterion")
 
     def validate_minimal_step(self, data, before=None):
         """

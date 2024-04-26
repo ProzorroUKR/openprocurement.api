@@ -19,6 +19,19 @@ class TenderCriteriaTest(TenderCriteriaTestMixin, BaseESCOContentWebTest):
     initial_lots = test_lots_data = test_tender_esco_lots
     initial_status = "draft"
 
+    required_criteria = {
+        "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
+        "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
+        "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
+        "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
+        "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
+        "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
+        "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION",
+        "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION",
+        "CRITERION.EXCLUSION.NATIONAL.OTHER",
+        "CRITERION.OTHER.BID.LANGUAGE",
+    }
+
 
 class TenderCriteriaRGTest(TenderCriteriaRGTestMixin, BaseESCOContentWebTest):
     initial_data = test_tender_esco_data
