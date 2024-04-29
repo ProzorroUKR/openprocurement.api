@@ -19,6 +19,7 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
     update_allowed_tender_statuses = ("active.pre-qualification", "active.pre-qualification.stand-still")
     draft_patch_model = DraftPatchQualificationComplaint
+    complaints_configuration = "hasQualificationComplaints"
 
     def complaint_on_post(self, complaint):
         request = self.request

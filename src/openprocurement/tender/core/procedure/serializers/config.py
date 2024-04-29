@@ -14,6 +14,9 @@ from openprocurement.tender.core.migrations.add_config_has_auction_field import 
 from openprocurement.tender.core.migrations.add_config_has_prequalification_field import (
     has_prequalification_populator,
 )
+from openprocurement.tender.core.migrations.add_config_has_qualification_complains_field import (
+    has_qualification_complaints_populator,
+)
 from openprocurement.tender.core.migrations.add_config_has_value_restriction import (
     has_value_restriction_populator,
 )
@@ -110,6 +113,14 @@ def has_cancellation_complaints_serializer(obj, value):
     return value
 
 
+def has_qualification_complaints_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["hasQualificationComplaints"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return has_qualification_complaints_populator(tender)
+    return value
+
+
 def restricted_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
         request = get_request()
@@ -136,5 +147,6 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasTenderComplaints": has_tender_complaints_serializer,
         "hasAwardComplaints": has_award_complaints_serializer,
         "hasCancellationComplaints": has_cancellation_complaints_serializer,
+        "hasQualificationComplaints": has_qualification_complaints_serializer,
         "restricted": restricted_serializer,
     }
