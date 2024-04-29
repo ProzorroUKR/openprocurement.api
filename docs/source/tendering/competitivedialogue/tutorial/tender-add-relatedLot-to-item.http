@@ -294,8 +294,9 @@ Content-Type: application/json
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
     "hasValueEstimation": true,
-    "restricted": false,
-    "awardComplainDuration": 0
+    "hasQualificationComplaints": true,
+    "awardComplainDuration": 0,
+    "restricted": false
   }
 }
 
