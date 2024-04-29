@@ -71,6 +71,9 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
+msgid "hasQualificationComplaints"
+msgstr ""
+
 msgid "hasValueEstimation"
 msgstr ""
 
