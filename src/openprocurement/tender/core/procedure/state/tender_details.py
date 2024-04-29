@@ -88,6 +88,7 @@ class TenderConfigMixin:
         "hasAwardComplaints",
         "hasCancellationComplaints",
         "hasValueEstimation",
+        "hasQualificationComplaints",
         "awardComplainDuration",
         "restricted",
     )

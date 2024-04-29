@@ -21,6 +21,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "hasValueEstimation": True,
+    "hasQualificationComplaints": True,
     "awardComplainDuration": 10,
     "restricted": False,
 }
@@ -36,6 +37,7 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "hasValueEstimation": True,
+    "hasQualificationComplaints": False,
     "awardComplainDuration": 10,
     "restricted": False,
 }

@@ -68,8 +68,9 @@ test_tender_esco_config = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "hasValueEstimation": False,
-    "restricted": False,
+    "hasQualificationComplaints": True,
     "awardComplainDuration": 10,
+    "restricted": False,
 }
 
 
