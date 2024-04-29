@@ -79,8 +79,9 @@ test_tender_reporting_config = {
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
     "hasValueEstimation": True,
-    "restricted": False,
+    "hasQualificationComplaints": False,
     "awardComplainDuration": 0,
+    "restricted": False,
 }
 
 test_tender_negotiation_config = {
@@ -95,8 +96,9 @@ test_tender_negotiation_config = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "hasValueEstimation": True,
-    "restricted": False,
+    "hasQualificationComplaints": False,
     "awardComplainDuration": 10,
+    "restricted": False,
 }
 
 test_tender_negotiation_quick_config = {
@@ -111,8 +113,9 @@ test_tender_negotiation_quick_config = {
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
     "hasValueEstimation": True,
-    "restricted": False,
+    "hasQualificationComplaints": False,
     "awardComplainDuration": 5,
+    "restricted": False,
 }
 
 

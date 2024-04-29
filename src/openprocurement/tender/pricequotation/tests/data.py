@@ -309,8 +309,9 @@ test_tender_pq_config = {
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
     "hasValueEstimation": True,
-    "restricted": False,
+    "hasQualificationComplaints": False,
     "awardComplainDuration": 0,
+    "restricted": False,
 }
 
 test_tender_pq_cancellation = {
