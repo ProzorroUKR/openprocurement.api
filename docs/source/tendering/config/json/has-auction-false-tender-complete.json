@@ -6,6 +6,7 @@
         "hasCancellationComplaints": true,
         "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
+        "hasQualificationComplaints": false,
         "hasTenderComplaints": true,
         "hasValueRestriction": false,
         "minBidsNumber": 1,
