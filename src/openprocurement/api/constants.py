@@ -72,6 +72,8 @@ ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load(
 ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
+AMCU = set(standards.load("AMCU/amcu.json"))
+AMCU_24 = set(standards.load("AMCU/amcu_24.json"))
 REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДК003", "ДК015", "ДК018", "specialNorms"]

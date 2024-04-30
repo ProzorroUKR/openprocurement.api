@@ -6,6 +6,8 @@ from schematics.types import BaseType, IntType, MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants import (
+    AMCU,
+    AMCU_24,
     ARTICLE_16,
     ARTICLE_17,
     OTHER_CRITERIA,
@@ -35,11 +37,15 @@ OBJECTION_CRITERIA_CLASSIFICATIONS = {
     "article_17": ARTICLE_17,
     "other": OTHER_CRITERIA,
     "violation_amcu": VIOLATION_AMCU,
+    "amcu": AMCU,
+    "amcu_24": AMCU_24,
 }
 
 
 class Classification(Model):
-    scheme = StringType(required=True, choices=["article_16", "article_17", "other", "violation_amcu"])
+    scheme = StringType(
+        required=True, choices=["article_16", "article_17", "other", "violation_amcu", "amcu", "amcu_24"]
+    )
     id = StringType(required=True)
     description = StringType(required=True)
 

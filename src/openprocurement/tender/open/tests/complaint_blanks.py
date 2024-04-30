@@ -895,7 +895,7 @@ def create_complaint_objection_validation(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"][0]["classification"]["scheme"],
-        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu']."],
+        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu', 'amcu', 'amcu_24']."],
     )
 
     invalid_objection_data["classification"]["scheme"] = "article_16"
