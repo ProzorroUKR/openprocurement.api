@@ -1,11 +1,7 @@
 from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.utils import (
-    dt_from_iso,
-    tender_created_before,
-)
-from openprocurement.tender.core.utils import calculate_complaint_business_date
+from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.esco.constants import (
     ENQUIRY_STAND_STILL_TIME,
     QUESTIONS_STAND_STILL,

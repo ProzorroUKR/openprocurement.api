@@ -86,6 +86,12 @@ msgstr ""
 msgid "restricted"
 msgstr ""
 
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
 msgid "The set of possible configuration values for `negotiation`:"
 msgstr "Набір можливих значень конфігурації для `negotiation`:"
 

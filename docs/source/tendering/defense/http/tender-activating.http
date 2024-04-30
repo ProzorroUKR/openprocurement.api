@@ -62,7 +62,7 @@ Content-Type: application/json
     ],
     "complaintPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-03T00:00:00+02:00"
+      "endDate": "2023-11-02T00:00:00+02:00"
     },
     "status": "active.tendering",
     "awardCriteria": "lowestCost",
@@ -157,6 +157,7 @@ Content-Type: application/json
     "hasCancellationComplaints": true,
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 2,
     "awardComplainDuration": 4,
     "restricted": false
   }
