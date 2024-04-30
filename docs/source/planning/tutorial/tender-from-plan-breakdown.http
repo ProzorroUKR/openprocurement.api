@@ -172,7 +172,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
-    "restricted": false
+    "restricted": false,
+    "tenderComplainRegulation": 0
   }
 }
 

@@ -817,7 +817,8 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "tenderComplainRegulation": 4
   }
 }
 

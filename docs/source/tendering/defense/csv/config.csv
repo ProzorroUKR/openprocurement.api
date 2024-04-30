@@ -10,3 +10,4 @@ hasTenderComplaints,true,true
 hasAwardComplaints,true,true
 hasCancellationComplaints,true,true
 restricted,false,false
+tenderComplainRegulation,2,2

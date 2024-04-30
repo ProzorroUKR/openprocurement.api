@@ -21,3 +21,5 @@ Contents:
    award_complaints
    cancellation_complaints
    restricted
+   tender_complain_regulation
+   

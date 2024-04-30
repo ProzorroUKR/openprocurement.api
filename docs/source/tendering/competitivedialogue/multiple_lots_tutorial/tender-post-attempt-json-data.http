@@ -154,7 +154,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "tenderComplainRegulation": 4
   }
 }
 
@@ -342,7 +343,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "tenderComplainRegulation": 4
   },
   "access": {
     "token": "e179e7123ebc4555bde66499540f5ee6",

@@ -10,6 +10,7 @@
         "hasValueRestriction": false,
         "minBidsNumber": 1,
         "restricted": false,
+        "tenderComplainRegulation": 3,
         "valueCurrencyEquality": true
     },
     "data": {
