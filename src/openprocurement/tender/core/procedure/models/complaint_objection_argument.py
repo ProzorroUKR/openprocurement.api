@@ -12,7 +12,7 @@ from openprocurement.tender.core.procedure.context import get_complaint
 class Evidence(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
-    description = StringType()
+    description = StringType(serialize_when_none=True)
     relatedDocument = StringType(required=True)
 
     def validate_relatedDocument(self, data, value):

@@ -58,7 +58,7 @@ class Classification(Model):
 class Objection(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     title = StringType(required=True)
-    description = StringType()
+    description = StringType(serialize_when_none=True)
     relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)

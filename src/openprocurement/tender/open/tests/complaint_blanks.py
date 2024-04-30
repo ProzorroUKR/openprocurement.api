@@ -935,13 +935,13 @@ def patch_complaint_objection(self):
     self.assertNotIn("evidences", objection["arguments"][0])
 
     del objection_data["id"]
-    objection_data["description"] = "New one"
+    objection_data["description"] = None
     complaint_data = {"objections": [objection_data]}
     response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
     self.assertEqual(response.status, "200 OK")
     objection = response.json["data"]["objections"][0]
     self.assertNotEqual(objection["id"], objection_id)
-    self.assertEqual(objection["description"], "New one")
+    self.assertNotIn("description", objection)
 
 
 def objection_related_document_of_evidence(self):

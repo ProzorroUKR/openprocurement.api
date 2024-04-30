@@ -319,7 +319,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                 if len(objection.get("arguments", [])) > 1:
                     raise_operation_error(
                         self.request,
-                        f"Can't add more than 1 argument for objection {objection['id']}",
+                        "Can't add more than 1 argument for objection",
                         status=422,
                     )
 
