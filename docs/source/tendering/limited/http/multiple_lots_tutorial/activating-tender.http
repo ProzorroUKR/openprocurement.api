@@ -154,6 +154,7 @@ Content-Type: application/json
     "hasCancellationComplaints": true,
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
     "awardComplainDuration": 5,
     "restricted": false
   }

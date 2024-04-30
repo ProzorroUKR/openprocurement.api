@@ -84,9 +84,9 @@ test_tender_openuadefense_config = {
     "hasCancellationComplaints": True,
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
+    "tenderComplainRegulation": 2,
     "awardComplainDuration": 4,
     "restricted": False,
-    "tenderComplainRegulation": 2,
 }
 
 

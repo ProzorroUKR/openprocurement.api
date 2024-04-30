@@ -81,6 +81,12 @@ msgstr ""
 msgid "restricted"
 msgstr ""
 
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
 msgid "You can look for more details in :ref:`config` section."
 msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
 

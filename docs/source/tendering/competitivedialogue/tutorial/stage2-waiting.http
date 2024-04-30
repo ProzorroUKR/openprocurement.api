@@ -1630,6 +1630,7 @@ Content-Type: application/json
     "hasCancellationComplaints": true,
     "hasValueEstimation": true,
     "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
     "awardComplainDuration": 0,
     "restricted": false
   }

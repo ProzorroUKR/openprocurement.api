@@ -171,7 +171,7 @@ class TenderConfigBaseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, Tender
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    initial_data = test_docs_tender_open
+    initial_data = test_docs_tender_below
     initial_config = test_tender_below_config
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -600,7 +600,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["awardCriteria"] = "lowestCost"
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -761,7 +761,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         config["hasAwardingOrder"] = False
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -1168,7 +1168,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
         config = deepcopy(self.initial_config)
         config["hasValueEstimation"] = True
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
 
         with open(TARGET_DIR + 'has-value-estimation-true-tender-lots-post.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
@@ -1202,7 +1202,7 @@ class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
         config["hasValueRestriction"] = False
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         with open(TARGET_DIR + 'has-value-estimation-false-tender-lots-post-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config}, status=422
@@ -1260,7 +1260,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config["hasValueRestriction"] = True
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -1391,7 +1391,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         config["hasValueRestriction"] = False
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -1612,7 +1612,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         )
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
+        test_tender_data["items"] = deepcopy(test_docs_items_open)
         del test_tender_data["minimalStep"]
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
@@ -1906,7 +1906,8 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 2
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data['items'] = test_docs_items_open
+        test_tender_data['items'] = deepcopy(test_docs_items_open)
+
         lot1 = deepcopy(test_docs_lots[0])
         lot1['value'] = test_tender_data['value']
         lot1['minimalStep'] = test_tender_data['minimalStep']
@@ -2026,6 +2027,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
 class TenderComplainRegulationResourceTest(TenderConfigBaseResourceTest):
     initial_data = deepcopy(test_docs_tender_below)
+    initial_config = deepcopy(test_tender_below_config)
 
     def test_docs_tender_complain_regulation_values_csv(self):
         self.write_config_values_csv(
