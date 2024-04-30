@@ -221,7 +221,20 @@ def create_tender_criteria_invalid(self):
             {
                 'location': 'body',
                 'name': 'requirementGroups',
-                'description': [{'requirements': [['expectedValue conflicts with ["minValue", "maxValue"]']]}],
+                "description": [
+                    {
+                        "requirements": [
+                            {
+                                "minValue": [
+                                    "Number 'min some text' failed to convert to a decimal.",
+                                ],
+                                "expectedValue": [
+                                    "expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']",
+                                ],
+                            }
+                        ]
+                    }
+                ],
             }
         ],
     )
@@ -593,6 +606,8 @@ def create_criteria_rg(self):
         self.tender_id, self.criteria_id, self.tender_token
     )
 
+    for req in test_requirement_groups[0]["requirements"]:
+        req["expectedValue"] = True
     response = self.app.post_json(request_path, {"data": test_requirement_groups[0]})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -603,7 +618,7 @@ def create_criteria_rg(self):
     self.assertIn("requirements", rg)
     for requirement in rg["requirements"]:
         self.assertEqual("boolean", requirement["dataType"])
-        self.assertEqual("true", requirement["expectedValue"])
+        self.assertEqual(True, requirement["expectedValue"])
 
 
 def patch_criteria_rg(self):
@@ -750,6 +765,7 @@ def create_rg_requirement_invalid(self):
             ],
         )
 
+    requirement_data["dataType"] = "string"
     requirement_data["minValue"] = 2
     response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -759,14 +775,24 @@ def create_rg_requirement_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["minValue must be integer or number"],
                 "location": "body",
                 "name": "minValue",
-            }
+                "description": [
+                    "minValue must be integer or number",
+                ],
+            },
+            {
+                "location": "body",
+                "name": "expectedValue",
+                "description": [
+                    "expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']",
+                ],
+            },
         ],
     )
 
     del requirement_data["minValue"]
+    del requirement_data["expectedValue"]
     requirement_data["maxValue"] = "sdasas"
     requirement_data["dataType"] = "integer"
 
@@ -781,11 +807,6 @@ def create_rg_requirement_invalid(self):
                 "description": ["Value 'sdasas' is not int."],
                 "location": "body",
                 "name": "maxValue",
-            },
-            {
-                'description': ["Value 'true' is not int."],
-                'location': 'body',
-                'name': 'expectedValue',
             },
         ],
     )
@@ -845,7 +866,7 @@ def patch_rg_requirement(self):
     updated_fields = {
         "title": "Updated requirement title",
         "description": "Updated requirement description",
-        "expectedValue": "False",
+        "expectedValue": False,
         "dataType": "boolean",
     }
 
@@ -860,15 +881,15 @@ def patch_rg_requirement(self):
 
 
 def put_rg_requirement_valid(self):
-    put_fields = {
-        "title": "Фізична особа",
-        "expectedValue": "false",
-    }
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
     get_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements"
     self.set_status("active.tendering")
 
     # Test put non exclusion criteria
+    put_fields = {
+        "title": "Фізична особа",
+        "expectedValue": False,
+    }
     response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -895,6 +916,39 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
     self.assertIsNone(response.json["data"][1].get("dateModified"))
     self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
+
+    put_fields = {
+        "title": "Фізична особа",
+        "expectedValue": None,
+        "expectedValues": [False, True],
+    }
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.requirement_id = response.json["data"][1]["id"]
+
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    self.assertEqual(len(response.json["data"]), 2)
+    self.assertEqual(response.json["data"][0]["status"], "active")
+    self.assertEqual(response.json["data"][1]["status"], "cancelled")
+    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "dateModified", "datePublished"})
+    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
+    self.assertEqual(len(response.json["data"]), 3)
+    self.assertEqual(response.json["data"][1]["status"], "cancelled")
+    self.assertIsNotNone(response.json["data"][1]["dateModified"])
+    self.assertEqual(response.json["data"][2]["status"], "active")
+    self.assertEqual(response.json["data"][2]["id"], self.requirement_id)
+    self.assertEqual(response.json["data"][2]["title"], put_fields["title"])
+    self.assertEqual(response.json["data"][2]["expectedValues"], put_fields["expectedValues"])
+    self.assertNotIn("expectedValue", response.json["data"][2])
+    self.assertIsNone(response.json["data"][2].get("dateModified"))
+    self.assertNotEqual(response.json["data"][1]["datePublished"], response.json["data"][2]["datePublished"])
 
     # Test put exclusion criteria
     response = self.app.get(
@@ -1058,6 +1112,35 @@ def put_rg_requirement_invalid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"]["id"]
+
+    put_fields = {
+        "title": "Фізична особа",
+        "expectedValues": [False, True],
+    }
+
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "expectedValue",
+                "description": ["expectedValue conflicts with ['minValue', 'maxValue', 'expectedValues']"],
+            },
+            {
+                "location": "body",
+                "name": "expectedValues",
+                "description": ["expectedValues conflicts with ['minValue', 'maxValue', 'expectedValue']"],
+            },
+        ],
+    )
 
     with mock.patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
@@ -1321,7 +1404,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.tendering")
 
     with mock.patch(
-        "openprocurement.tender.core.procedure.state." "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -1345,7 +1428,7 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.auction")
     with mock.patch(
-        "openprocurement.tender.core.procedure.state." "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() + timedelta(days=1),
     ):
         response = self.app.delete(
@@ -1368,7 +1451,7 @@ def delete_requirement_evidence(self):
         )
 
     with mock.patch(
-        "openprocurement.tender.core.procedure.state." "criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(

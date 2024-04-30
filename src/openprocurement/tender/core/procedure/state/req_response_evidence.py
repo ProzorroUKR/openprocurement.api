@@ -35,11 +35,11 @@ class ReqResponseEvidenceState(BaseState):
 class BidReqResponseEvidenceState(ReqResponseEvidenceState):
     parent_obj_name = "bid"
 
-    def pre_save_validate(self, data: dict) -> None:
+    def pre_save_validations(self, data: dict) -> None:
         bid = self.request.validated["bid"]
         if bid["status"] not in ["active", "pending"]:
             return
-        super().pre_save_validate(data)
+        super().pre_save_validations(data)
 
 
 class AwardReqResponseEvidenceState(ReqResponseEvidenceState):

@@ -1,9 +1,12 @@
 import os
+from copy import deepcopy
+from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.context import set_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import get_now
 from openprocurement.contracting.api.tests.base import BaseContractTest
 from openprocurement.contracting.econtract.tests.data import (
     test_contract_data,
@@ -11,7 +14,16 @@ from openprocurement.contracting.econtract.tests.data import (
     test_signer_info,
 )
 from openprocurement.contracting.econtract.tests.utils import create_contract
-from openprocurement.tender.pricequotation.tests.data import *
+from openprocurement.tender.pricequotation.tests.data import (
+    PERIODS,
+    test_agreement_pq_data,
+    test_tender_pq_bids,
+    test_tender_pq_config,
+    test_tender_pq_criteria,
+    test_tender_pq_data,
+    test_tender_pq_short_profile,
+    test_tender_pq_shortlisted_firms,
+)
 
 
 class BaseApiWebTest(BaseWebTest):
@@ -28,14 +40,12 @@ class BaseEContractTest(BaseContractTest):
 
     def setUp(self):
         super().setUp()
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.create_agreement()
-            self.initial_tender_data["agreement"] = {"id": self.agreement_id}
+        self.create_agreement()
+        self.initial_tender_data["agreement"] = {"id": self.agreement_id}
         self.create_tender()
 
     def tearDown(self):
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.delete_agreement()
+        self.delete_agreement()
         self.delete_tender()
         super().tearDown()
 
@@ -125,8 +135,7 @@ class BaseEContractTest(BaseContractTest):
         self.app.authorization = ("Basic", ("broker", ""))
         data = self.initial_tender_data
         config = self.initial_tender_config
-        if PQ_MULTI_PROFILE_RELEASED:
-            data["agreement"] = {"id": self.agreement_id}
+        data["agreement"] = {"id": self.agreement_id}
         data["criteria"] = getattr(self, "test_criteria", test_tender_pq_criteria)
 
         response = self.app.post_json("/tenders", {"data": data, "config": config})
@@ -181,14 +190,12 @@ class BaseEContractWebTest(BaseEContractTest):
 
     def setUp(self):
         super().setUp()
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.create_agreement()
-            self.initial_tender_data["agreement"] = {"id": self.agreement_id}
+        self.create_agreement()
+        self.initial_tender_data["agreement"] = {"id": self.agreement_id}
         self.create_contract()
 
     def tearDown(self):
-        if PQ_MULTI_PROFILE_RELEASED:
-            self.delete_agreement()
+        self.delete_agreement()
         self.delete_tender()
         self.delete_contract()
         super().tearDown()

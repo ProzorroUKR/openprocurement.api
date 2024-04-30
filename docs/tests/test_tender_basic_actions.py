@@ -2286,7 +2286,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         criteria_data = deepcopy(test_exclusion_criteria[:2])
 
         criteria_data[1]["requirementGroups"][0]["requirements"].append(
-            {"dataType": "boolean", "expectedValue": "true", "title": "Additional requirement"}
+            {"dataType": "boolean", "expectedValue": True, "title": "Additional requirement"}
         )
 
         response = self.app.post_json(
@@ -2343,7 +2343,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "evidences": [
                 evidence_data,
             ],
-            "value": "True",
+            "value": True,
         }
         rr_1_1 = deepcopy(rr_mock)
         rr_1_2 = deepcopy(rr_mock)
@@ -2667,7 +2667,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "evidences": [
                 evidence_data,
             ],
-            "value": "True",
+            "value": True,
         }
         rr_1 = deepcopy(rr_mock)
         rr_2 = deepcopy(rr_mock)
@@ -2892,7 +2892,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             "evidences": [
                 evidence_data,
             ],
-            "value": "True",
+            "value": True,
         }
         rr_1 = deepcopy(rr_mock)
         rr_2 = deepcopy(rr_mock)

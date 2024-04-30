@@ -339,7 +339,7 @@ class TenderAwardRequirementResponseEvidenceResourceTest(
                     "id": self.requirement_id,
                     "title": self.requirement_title,
                 },
-                "value": "True",
+                "value": True,
             }
         ]
 

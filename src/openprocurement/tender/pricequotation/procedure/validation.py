@@ -1,16 +1,10 @@
 from schematics.exceptions import ValidationError
-from schematics.types import DateTimeType
 
+from openprocurement.api.constants import PQ_CRITERIA_ID_FROM
+from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.types import (
-    StrictBooleanType,
-    StrictDecimalType,
-    StrictIntType,
-    StrictStringType,
-)
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.procedure.validation import validate_value_factory
 from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN
 
 
@@ -58,72 +52,25 @@ def validate_tender_criteria_existence(request, **_):
         raise_operation_error(request, f"Can't update tender to next ({new_tender_status}) status without criteria")
 
 
-TYPEMAP = {
-    'string': StrictStringType(),
-    'integer': StrictIntType(),
-    'number': StrictDecimalType(),
-    'boolean': StrictBooleanType(),
-    'date-time': DateTimeType(),
-}
-validate_value_type = validate_value_factory(TYPEMAP)
-
-
-def validate_list_of_values_type(values, datatype):
-    if not values:
-        return
-    if not isinstance(values, (list, tuple, set)):
-        raise ValidationError("Values should be list")
-    for value in values:
-        validate_value_type(value, datatype)
-
-
 def validate_profile_pattern(profile):
     result = PROFILE_PATTERN.findall(profile)
     if len(result) != 1:
         raise ValidationError("The profile value doesn't match id pattern")
 
 
-def validate_expected_items(requirement):
-    expected_min_items = requirement.get("expectedMinItems")
-    expected_max_items = requirement.get("expectedMaxItems")
-    expected_values = requirement.get("expectedValues")
+def validate_criteria_id_uniq(objs, *args):
+    if not objs:
+        return
+    tender = get_tender()
+    if get_first_revision_date(tender, default=get_now()) > PQ_CRITERIA_ID_FROM:
+        ids = [i.id for i in objs]
+        if len(set(ids)) != len(ids):
+            raise ValidationError("Criteria id should be uniq")
 
-    if expected_values:
-        if expected_min_items and expected_max_items and expected_min_items > expected_max_items:
-            raise ValidationError("expectedMinItems couldn't be higher then expectedMaxItems")
+        rg_ids = [rg.id for c in objs for rg in c.requirementGroups or ""]
+        if len(rg_ids) != len(set(rg_ids)):
+            raise ValidationError("Requirement group id should be uniq in tender")
 
-        if expected_min_items and expected_min_items > len(expected_values):
-            raise ValidationError("expectedMinItems couldn't be higher then count of items in expectedValues")
-
-        if expected_max_items and expected_max_items > len(expected_values):
-            raise ValidationError("expectedMaxItems couldn't be higher then count of items in expectedValues")
-
-    elif expected_min_items or expected_max_items:
-        raise ValidationError("expectedMinItems and expectedMaxItems couldn't exist without expectedValues")
-
-
-def validate_requirement_values(requirement):
-    field_conflict_map = {
-        "expectedValue": ["minValue", "maxValue", "expectedValues"],
-        "expectedValues": ["minValue", "maxValue", "expectedValue"],
-    }
-
-    for k, v in field_conflict_map.items():
-        if requirement.get(k) is not None and any(requirement.get(i) is not None for i in v):
-            raise ValidationError(f"{k} conflicts with {v}")
-    validate_expected_items(requirement)
-
-
-def validate_requirement(requirement):
-    required_fields = ('expectedValue', 'expectedValues', 'minValue', 'maxValue')
-    if all(requirement.get(i) is None for i in required_fields):
-        raise ValidationError(
-            'Value required for at least one field ["expectedValues", "expectedValue", "minValue", "maxValue"]'
-        )
-    validate_requirement_values(requirement)
-
-
-def validate_requirement_groups(value):
-    for requirement_group in value:
-        for requirement in requirement_group.requirements or "":
-            validate_requirement(requirement)
+        req_ids = [req.id for c in objs for rg in c.requirementGroups or "" for req in rg.requirements or ""]
+        if len(req_ids) != len(set(req_ids)):
+            raise ValidationError("Requirement id should be uniq for all requirements in tender")

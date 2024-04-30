@@ -1392,17 +1392,6 @@ def check_requirements_active(criterion):
     return False
 
 
-def validate_requirement_values(requirement):
-    expected = requirement.get('expectedValue')
-    min_value = requirement.get('minValue')
-    max_value = requirement.get('maxValue')
-
-    if any((expected and min_value, expected and max_value)):
-        raise ValidationError('expectedValue conflicts with ["minValue", "maxValue"]')
-
-
-# TODO: in future replace this types with strictTypes
-#  (StrictStringType, StrictIntType, StrictDecimalType, StrictBooleanType)
 TYPEMAP = {
     'string': StringType(),
     'integer': IntType(),
@@ -1419,7 +1408,6 @@ def validate_value_factory(type_map):
         type_ = type_map.get(datatype)
         if not type_:
             raise ValidationError('Type mismatch: value {} does not confront type {}'.format(value, type_))
-        # validate value
         return type_.to_native(value)
 
     return validator

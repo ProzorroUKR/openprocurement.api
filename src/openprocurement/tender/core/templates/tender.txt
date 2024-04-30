@@ -75,7 +75,7 @@ tenderID: {{ tenderID }}
     {% for requirement in group.requirements %}
         Вимога: {{ requirement.title }}
         Тип: {{ requirement.dataType }}
-        Очікується: {{ requirement.expectedValue }}
+        Очікується: {% if requirement.expectedValue %}{{ requirement.expectedValue|tojson }}{% endif %}
         Канєшнаже статус: {{ requirement.status }}
         І дата, шоб було: {{ requirement.datePublished }}
     {% endfor %}

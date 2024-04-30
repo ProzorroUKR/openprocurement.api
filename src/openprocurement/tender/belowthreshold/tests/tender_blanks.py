@@ -3400,7 +3400,9 @@ def activate_bid_guarantee_multilot(self):
 
     rrs = []
     lot_req = None
+    lot_criteria = None
     winner_req = None
+    winner_criteria = None
     for criterion in criteria:
         for req in criterion["requirementGroups"][0]["requirements"]:
             if criterion["source"] == "tenderer" and criterion["relatesTo"] != "lot":
@@ -3417,8 +3419,10 @@ def activate_bid_guarantee_multilot(self):
                 )
             elif criterion["source"] == "tenderer" and criterion["relatesTo"] == "lot":
                 lot_req = req
+                lot_criteria = criterion
             elif criterion["source"] == "winner" and criterion["relatesTo"] == "lot":
                 winner_req = req
+                winner_criteria = criterion
     response = self.app.post_json(
         "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": rrs},
@@ -3436,7 +3440,10 @@ def activate_bid_guarantee_multilot(self):
         response.json["errors"],
         [
             {
-                'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+                'description': [
+                    'Responses are required for all criteria with source tenderer, '
+                    f'failed for criteria {lot_criteria["id"]}, {winner_criteria["id"]}'
+                ],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -3460,7 +3467,7 @@ def activate_bid_guarantee_multilot(self):
         status=201,
     )
 
-    self.app.patch_json(
+    response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
         {"data": {"status": "pending"}},
         status=422,
@@ -3470,7 +3477,10 @@ def activate_bid_guarantee_multilot(self):
         response.json["errors"],
         [
             {
-                'description': ['Must be answered on all criteria with source `tenderer` and GUARANTEE if declared'],
+                'description': [
+                    'Responses are required for all criteria with source tenderer, '
+                    f'failed for criteria {winner_criteria["id"]}'
+                ],
                 'location': 'body',
                 'name': 'requirementResponses',
             }

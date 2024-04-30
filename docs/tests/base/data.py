@@ -797,7 +797,7 @@ test_docs_eligible_evidence_data = {
 test_docs_requirement_data = {
     "dataType": "boolean",
     "eligibleEvidences": [test_docs_eligible_evidence_data],
-    "expectedValue": "true",
+    "expectedValue": True,
     "title": "Фізична особа, яка є учасником процедури закупівлі, "
     "не була засуджена за злочин, учинений з корисливих мотивів "
     "(зокрема, пов'язаний з хабарництвом та відмиванням коштів), "

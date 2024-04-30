@@ -944,7 +944,7 @@ def update_tender_bid_pmr_related_doc(self):
                 "id": requirement["id"],
                 "title": requirement["title"],
             },
-            "value": "True",
+            "value": True,
             "evidences": evidences,
         }
     ]
@@ -1055,7 +1055,7 @@ def update_tender_bid_pmr_related_tenderer(self):
                 "id": requirement["id"],
                 "title": requirement["title"],
             },
-            "value": "True",
+            "value": True,
             "relatedTenderer": {"id": "abc", "title": ""},
         }
     ]
@@ -1098,7 +1098,7 @@ def update_tender_rr_evidence_id(self):
                 "id": requirement["id"],
                 "title": requirement["title"],
             },
-            "value": "True",
+            "value": True,
             "evidences": evidences,
         }
     ]

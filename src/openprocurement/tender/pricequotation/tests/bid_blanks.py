@@ -440,7 +440,7 @@ def requirement_response_validation_multiple_criterias(self):
 
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    missed = test_response.pop()
+    missed_response = test_response.pop()
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {
@@ -455,12 +455,22 @@ def requirement_response_validation_multiple_criterias(self):
     self.assertEqual(response.status, '422 Unprocessable Entity')
     self.assertEqual(response.content_type, "application/json")
     data = response.json
+    missed_criterion = None
+    for criterion in tender["criteria"]:
+        for rg in criterion.get("requirementGroups", ""):
+            for req in rg.get("requirements", ""):
+                if req["id"] == missed_response["requirement"]["id"]:
+                    missed_criterion = criterion
+                    break
     self.assertEqual(data['status'], "error")
     self.assertEqual(
         data['errors'],
         [
             {
-                'description': [f"Missing references for criterias: ['{missed['requirement']['id']}']"],
+                'description': [
+                    "Responses are required for all criteria with source tenderer, "
+                    f"failed for criteria {missed_criterion['id']}"
+                ],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -489,7 +499,7 @@ def requirement_response_validation_multiple_criterias(self):
         data['errors'],
         [
             {
-                'description': ['response required at least one of field ["value", "values"]'],
+                'description': [{"value": "Response required at least one of field [\"value\", \"values\"]"}],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -518,7 +528,7 @@ def requirement_response_validation_multiple_criterias(self):
         data['errors'],
         [
             {
-                'description': ["field 'value' conflicts with 'values'"],
+                'description': [{"value": "Field 'value' conflicts with 'values'"}],
                 'location': 'body',
                 'name': 'requirementResponses',
             }
@@ -728,7 +738,8 @@ def requirement_response_value_validation_for_expected_values(self):
 def requirement_response_validation_multiple_groups(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     rr = deepcopy(test_tender_pq_response_2)
-    copy_criteria_req_id(response.json["data"]["criteria"], rr)
+    criteria = response.json["data"]["criteria"]
+    copy_criteria_req_id(criteria, rr)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -739,15 +750,32 @@ def requirement_response_validation_multiple_groups(self):
                 "requirementResponses": rr,
             }
         },
+        status=422,
     )
-    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'],
+        [
+            {
+                'description': [
+                    "Responses are allowed for only one group of requirements per criterion, "
+                    f"failed for criteria {criteria[0]['id']}"
+                ],
+                'location': 'body',
+                'name': 'requirementResponses',
+            }
+        ],
+    )
 
 
 def requirement_response_validation_multiple_groups_multiple_requirements(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     rr = deepcopy(test_tender_pq_response_3)
-    copy_criteria_req_id(response.json["data"]["criteria"], rr)
+    criteria = response.json["data"]["criteria"]
+    copy_criteria_req_id(criteria, rr)
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -758,9 +786,25 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
                 "requirementResponses": rr,
             }
         },
+        status=422,
     )
-    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data['status'], "error")
+    self.assertEqual(
+        data['errors'],
+        [
+            {
+                'description': [
+                    "Responses are allowed for only one group of requirements per criterion, "
+                    f"failed for criteria {criteria[0]['id']}"
+                ],
+                'location': 'body',
+                'name': 'requirementResponses',
+            }
+        ],
+    )
 
 
 def requirement_response_validation_one_group_multiple_requirements(self):
