@@ -55,7 +55,7 @@ def is_tender_owner(request, contract):
 
 
 def is_contract_owner(request, contract):
-    return is_tender_owner(request, contract) or is_item_owner(request, contract)
+    return is_tender_owner(request, contract) or ("owner_token" in contract and is_item_owner(request, contract))
 
 
 def is_bid_owner(request, contract):

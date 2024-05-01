@@ -133,11 +133,10 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
     return contract_data
 
 
-def delete_buyers_attr(objs):
+def delete_buyers_attrs(objs):
     for obj in objs:
-        for attr in ("kind", "scale", "contactPoint", "id"):
-            if attr in obj:
-                del obj[attr]
+        obj.pop("id", None)
+        obj.pop("contactPoint", None)
 
 
 def set_attributes_to_contract_items(tender, bid, contract):
@@ -187,8 +186,8 @@ def get_additional_contract_data(request, contract, tender, award):
     else:
         buyer = deepcopy(tender["procuringEntity"])
 
-    delete_buyers_attr([buyer])
-    delete_buyers_attr(contract["suppliers"])
+    delete_buyers_attrs([buyer])
+    delete_buyers_attrs(contract["suppliers"])
 
     bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
     if bids:

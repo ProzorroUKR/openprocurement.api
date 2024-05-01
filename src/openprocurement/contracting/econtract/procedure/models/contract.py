@@ -13,7 +13,8 @@ from openprocurement.contracting.core.procedure.models.contract import (
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
 from openprocurement.contracting.econtract.procedure.models.item import Item
 from openprocurement.contracting.econtract.procedure.models.organization import (
-    Organization,
+    Buyer,
+    Supplier,
 )
 from openprocurement.contracting.econtract.procedure.models.value import ContractValue
 from openprocurement.tender.core.procedure.models.contract import (
@@ -33,7 +34,7 @@ class PostContract(BasePostContract):
     amountPaid = ModelType(AmountPaid)
     contractTemplateName = StringType()
     items = ListType(ModelType(Item, required=True))
-    buyer = ModelType(Organization, required=True)
+    buyer = ModelType(Buyer, required=True)
     value = ModelType(ContractValue)
     bid_owner = StringType(required=True)
     bid_token = StringType(required=True)
@@ -64,18 +65,15 @@ class PatchContractPending(BasePatchContract):
 class AdministratorPatchContract(Model):
     contractNumber = StringType()
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
-    buyer = ModelType(Organization)
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
+    buyer = ModelType(Buyer)
     mode = StringType(choices=["test"])
 
 
 class Contract(BaseContract):
     status = StringType(choices=["pending", "pending.winner-signing", "terminated", "active", "cancelled"])
-    buyer = ModelType(Organization, required=True)
-    suppliers = ListType(ModelType(Organization, required=True), min_size=1, max_size=1)
+    buyer = ModelType(Buyer, required=True)
+    suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateName = StringType()
     value = ModelType(ContractValue)
-
-    bid_owner = StringType(required=True)
-    bid_token = StringType(required=True)

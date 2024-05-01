@@ -63,6 +63,7 @@ Content-Type: application/json
     "dateCreated": "2023-11-09T00:00:00+02:00",
     "tender_id": "c1d6775dda6d43d9992df300f847b755",
     "owner": "broker",
+    "bid_owner": "broker",
     "status": "pending",
     "buyer": {
       "name": "Державне управління справами",
@@ -77,7 +78,8 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      }
+      },
+      "kind": "general"
     },
     "suppliers": [
       {
@@ -94,7 +96,8 @@ Content-Type: application/json
           "region": "Вінницька область",
           "postalCode": "21100",
           "countryName": "Україна"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "items": [
@@ -142,7 +145,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 10000.0
     },
-    "bid_owner": "broker",
     "id": "47390c8e3166414b9382fb97aa142469"
   },
   "config": {

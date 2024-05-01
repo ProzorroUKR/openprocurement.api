@@ -113,6 +113,9 @@ class BaseContract(Model):
     amountPaid = ModelType(AmountPaid)
     value = ModelType(ContractValue)
 
+    bid_owner = StringType()
+    bid_token = StringType()
+
     revisions = BaseType()
 
     config = BaseType()
