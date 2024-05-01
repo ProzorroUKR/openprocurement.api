@@ -25,7 +25,8 @@ Content-Type: application/json
           "region": "Вінницька область",
           "postalCode": "21100",
           "countryName": "Україна"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "owner": "broker",
@@ -82,7 +83,8 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      }
+      },
+      "kind": "general"
     },
     "value": {
       "amount": 200.0,

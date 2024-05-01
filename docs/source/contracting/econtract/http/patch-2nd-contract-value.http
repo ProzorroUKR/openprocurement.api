@@ -25,6 +25,7 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "d1c99512210a440d8816081d0616ce15",
     "owner": "broker",
+    "bid_owner": "broker",
     "status": "pending",
     "buyer": {
       "name": "Державне управління справами",
@@ -50,7 +51,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "01220",
           "countryName": "Україна"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "items": [
@@ -137,7 +139,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 190.0
     },
-    "bid_owner": "broker",
     "id": "e10f210fba404f15a6d1228023fd9fc1"
   },
   "config": {

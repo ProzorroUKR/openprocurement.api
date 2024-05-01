@@ -23,7 +23,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "01220",
           "countryName": "Україна"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "owner": "broker",
@@ -117,7 +118,8 @@ Content-Type: application/json
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
-      }
+      },
+      "kind": "general"
     },
     "value": {
       "amount": 500.0,

@@ -81,6 +81,7 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
+    "bid_owner": "broker",
     "status": "active",
     "buyer": {
       "name": "Державне управління справами",
@@ -103,7 +104,8 @@ Content-Type: application/json
         "iban": "234234234234234",
         "position": "Генеральний директор",
         "authorizedBy": "Статут компанії"
-      }
+      },
+      "kind": "general"
     },
     "suppliers": [
       {
@@ -127,7 +129,8 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        }
+        },
+        "scale": "micro"
       }
     ],
     "items": [
@@ -212,7 +215,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 430.0
     },
-    "bid_owner": "broker",
     "id": "eb4343b446004f47aa2ec7f6e542f196"
   },
   "config": {
