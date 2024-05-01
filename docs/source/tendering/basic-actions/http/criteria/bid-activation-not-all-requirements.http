@@ -20,7 +20,7 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Inside requirement group must get answered all of requirements"
+        "Responses are required for all requirements in a requirement group, failed for criteria 63918671459348759ad4e30745a16ba0"
       ]
     }
   ]

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2832a696b5bd4bf1bee3aa152ba8104c/requirement_groups/53e7cc2f43d748f39745ba3da483c820 HTTP/1.0
+GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288/requirement_groups/638322bdff484f88a17037ea543928bf HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,9 +8,11 @@ Content-Type: application/json
 
 {
   "data": {
+    "id": "638322bdff484f88a17037ea543928bf",
     "description": "Updated description",
     "requirements": [
       {
+        "id": "1a722896658842638f37cf86dc812082",
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
         "dataType": "boolean",
         "eligibleEvidences": [
@@ -21,13 +23,11 @@ Content-Type: application/json
             "id": "9d6f612aa9414cffb617d7680c509380"
           }
         ],
-        "expectedValue": "true",
         "status": "active",
-        "id": "8b19671038034aeab033b9b992ca6948",
+        "expectedValue": true,
         "datePublished": "2023-10-10T01:00:00+03:00"
       }
-    ],
-    "id": "53e7cc2f43d748f39745ba3da483c820"
+    ]
   }
 }
 

@@ -20,7 +20,7 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Inside criteria must be answered only one requirement group"
+        "Responses are allowed for only one group of requirements per criterion, failed for criteria d64844feb8b4428c80bd0b4c1ec0bfdc"
       ]
     }
   ]

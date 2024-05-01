@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2832a696b5bd4bf1bee3aa152ba8104c?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
+PATCH /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288?acc_token=b1a7c4a35e744a1c91a58030c417f5a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "title": "Updated title",
+    "id": "947ff50dcf6549189085ee3723213288",
     "description": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі) або фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
     "source": "tenderer",
     "relatesTo": "tenderer",
@@ -23,7 +23,7 @@ Content-Type: application/json
       "scheme": " espd211",
       "id": "CRITERION.OTHER"
     },
-    "id": "2832a696b5bd4bf1bee3aa152ba8104c",
+    "title": "Updated title",
     "legislation": [
       {
         "version": "2020-04-19",
@@ -48,9 +48,11 @@ Content-Type: application/json
     ],
     "requirementGroups": [
       {
+        "id": "638322bdff484f88a17037ea543928bf",
         "description": "Учасник фізична особа підтверджує, що",
         "requirements": [
           {
+            "id": "1a722896658842638f37cf86dc812082",
             "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку",
             "dataType": "boolean",
             "eligibleEvidences": [
@@ -61,13 +63,11 @@ Content-Type: application/json
                 "id": "9d6f612aa9414cffb617d7680c509380"
               }
             ],
-            "expectedValue": "true",
             "status": "active",
-            "id": "8b19671038034aeab033b9b992ca6948",
+            "expectedValue": true,
             "datePublished": "2023-10-10T01:00:00+03:00"
           }
-        ],
-        "id": "53e7cc2f43d748f39745ba3da483c820"
+        ]
       }
     ]
   }
