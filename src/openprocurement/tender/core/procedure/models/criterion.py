@@ -109,7 +109,7 @@ class EligibleEvidence(BaseEligibleEvidence):
 
     def validate_relatedDocument(self, data, document_reference):
         if document_reference:
-            tender = get_tender()
+            tender = get_tender() or get_json_data()
             if document_reference.id not in [document["id"] for document in tender.get("documents", [])]:
                 raise ValidationError("relatedDocument.id should be one of tender documents")
 
@@ -234,7 +234,7 @@ class PostRequirement(ValidateIdMixing, BaseRequirement):
 
     def validate_relatedFeature(self, data, feature_id):
         if feature_id:
-            tender = get_tender()
+            tender = get_tender() or get_json_data()
             features = [] if not tender.get("features") else tender.get("features")
             if feature_id not in [feature.id for feature in features]:
                 raise ValidationError("relatedFeature should be one of features")
