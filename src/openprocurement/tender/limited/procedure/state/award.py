@@ -4,11 +4,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.contracting import (
-    add_contracts,
-    save_contracts_to_contracting,
-    update_econtracts_statuses,
-)
+from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.utils import calculate_complaint_business_date
@@ -29,16 +25,15 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 
     def award_status_up(self, before, after, award):
         assert before != after, "Statuses must be different"
-
+        request = get_request()
         if before == "pending" and after == "active":
-            contracts = add_contracts(get_request(), award)
-            save_contracts_to_contracting(contracts, award)
+            request.validated["contracts_added"] = add_contracts(request, award)
         elif before == "pending" and after == "unsuccessful":
             pass
         elif before == "active" and after == "cancelled":
             self.cancel_award(award)
         else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
+            raise_operation_error(request, f"Can't update award in current ({before}) status")
         # date updated when status updated
         award["date"] = get_now().isoformat()
 
@@ -57,8 +52,7 @@ class NegotiationAwardState(ReportingAwardState):
                     now, self.award_stand_still_time, get_tender()
                 ).isoformat(),
             }
-            contracts = add_contracts(get_request(), award)
-            save_contracts_to_contracting(contracts, award)
+            self.request.validated["contracts_added"] = add_contracts(get_request(), award)
         elif before == "pending" and after == "unsuccessful":
             award["complaintPeriod"] = {
                 "startDate": now.isoformat(),

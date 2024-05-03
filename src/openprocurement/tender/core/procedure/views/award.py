@@ -2,10 +2,14 @@ from logging import getLogger
 
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.context import get_db_session
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
+from openprocurement.tender.core.procedure.contracting import (
+    save_contracts_to_contracting,
+    update_econtracts_statuses,
+)
 from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.state.award import AwardState
@@ -104,13 +108,17 @@ class TenderAwardResource(TenderBaseResource):
             self.state.validate_award_patch(award, updated)
 
             set_item(self.request.validated["tender"], "awards", award["id"], updated)
-            # with get_db_session().start_transaction():
-
             self.state.award_on_patch(award, updated)
             self.state.always(self.request.validated["tender"])
-            if save_tender(self.request):
-                self.LOGGER.info(
-                    "Updated tender award {}".format(award["id"]),
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
-                )
-                return {"data": self.serializer_class(updated).data}
+            with atomic_transaction():
+                if save_tender(self.request):
+                    if self.request.validated.get("contracts_added"):
+                        save_contracts_to_contracting(self.request.validated["contracts_added"], award)
+                    elif self.request.validated.get("cancelled_contract_ids"):
+                        update_econtracts_statuses(self.request.validated["cancelled_contract_ids"], "cancelled")
+
+                    self.LOGGER.info(
+                        "Updated tender award {}".format(award["id"]),
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
+                    )
+                    return {"data": self.serializer_class(updated).data}

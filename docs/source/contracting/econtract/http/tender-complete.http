@@ -335,7 +335,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "eb4343b446004f47aa2ec7f6e542f196",
+        "id": "c503bd32d67b4bb895fe50cce285bac5",
         "status": "active",
         "awardID": "c220713cbd024586b6382ef97a852dc7",
         "date": "2023-10-10T01:00:00+03:00",
