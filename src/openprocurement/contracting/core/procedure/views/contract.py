@@ -1,6 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.api.auth import ACCR_3, ACCR_5
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_contract
 from openprocurement.api.procedure.validation import (
     unless_admins,
@@ -25,7 +26,7 @@ from openprocurement.contracting.core.procedure.validation import (
     validate_tender_owner,
 )
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.tender.core.procedure.utils import set_ownership
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 
 
 @resource(
@@ -103,20 +104,27 @@ class ContractResource(ContractBaseResource):
     def patch(self):
         """Contract Edit (partial)"""
         updated = self.request.validated["data"]
-        contract = self.request.validated["contract"]
         contract_src = self.request.validated["contract_src"]
         if updated:
             contract = self.request.validated["contract"] = updated
             self.state.on_patch(contract_src, contract)
-            if save_contract(self.request):
-                self.LOGGER.info(
-                    f"Updated contract {contract['_id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-                )
-                return {
-                    "data": self.serializer_class(contract).data,
-                    "config": contract["config"],
-                }
+            with atomic_transaction():
+                if save_contract(self.request):
+                    if self.request.validated.get("contract_was_changed"):
+                        if save_tender(self.request):
+                            self.LOGGER.info(
+                                f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
+                            )
+
+                    self.LOGGER.info(
+                        f"Updated contract {contract['_id']}",
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+                    )
+                    return {
+                        "data": self.serializer_class(contract).data,
+                        "config": contract["config"],
+                    }
 
 
 @resource(

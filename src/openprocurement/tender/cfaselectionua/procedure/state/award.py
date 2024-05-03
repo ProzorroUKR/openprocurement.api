@@ -8,10 +8,7 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.contracting import (
-    add_contracts,
-    save_contracts_to_contracting,
-)
+from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
@@ -36,9 +33,8 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
         tender = get_tender()
 
         if before == "pending" and after == "active":
-            contracts = add_contracts(get_request(), award)
+            self.request.validated["contracts_added"] = add_contracts(get_request(), award)
             self.add_next_award()
-            save_contracts_to_contracting(contracts, award)
 
         elif before == "active" and after == "cancelled":
             self.cancel_award(award)

@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/47390c8e3166414b9382fb97aa142469?acc_token=54afd6eb2d094df1add03f50537febd1 HTTP/1.0
+GET /api/2.5/contracts/a22696d8dcf4471d99c902ee10fef508?acc_token=54afd6eb2d094df1add03f50537febd1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -119,7 +119,7 @@ Content-Type: application/json
     },
     "date": "2023-11-09T00:00:00+02:00",
     "dateSigned": "2023-11-09T00:00:00+02:00",
-    "id": "47390c8e3166414b9382fb97aa142469"
+    "id": "a22696d8dcf4471d99c902ee10fef508"
   },
   "config": {
     "restricted": false

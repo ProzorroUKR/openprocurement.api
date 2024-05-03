@@ -49,12 +49,7 @@ class EContractState(
             contract_changed = self.synchronize_contracts_data(after)
         self.contract_on_patch(before, after)
 
-        if contract_changed:
-            if save_tender(self.request):
-                LOGGER.info(
-                    f"Updated tender {self.request.validated['tender']['_id']} contract {after['id']}",
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_contract_update_status"}),
-                )
+        self.request.validated["contract_was_changed"] = contract_changed
 
     @property
     def block_complaint_status(self):

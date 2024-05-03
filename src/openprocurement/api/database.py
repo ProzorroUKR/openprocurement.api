@@ -344,7 +344,7 @@ def atomic_transaction():
     s = get_db_session()
     database = get_request().registry.mongodb.database
     with s.start_transaction(
-        read_preference=database.read_preference,
+        # read_preference=database.read_preference,
         write_concern=database.write_concern,
         read_concern=database.read_concern,
     ):

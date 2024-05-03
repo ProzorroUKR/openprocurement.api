@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/eb4343b446004f47aa2ec7f6e542f196 HTTP/1.0
+GET /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -131,7 +131,7 @@ Content-Type: application/json
     "status": "pending",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "eb4343b446004f47aa2ec7f6e542f196"
+    "id": "c503bd32d67b4bb895fe50cce285bac5"
   },
   "config": {
     "restricted": false

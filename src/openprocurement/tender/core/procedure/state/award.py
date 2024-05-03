@@ -5,11 +5,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.contracting import (
-    add_contracts,
-    save_contracts_to_contracting,
-    update_econtracts_statuses,
-)
+from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
@@ -76,9 +72,9 @@ class AwardStateMixing:
         award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
             get_now(), self.award_stand_still_time, tender, working_days
         ).isoformat()
-        contracts = add_contracts(get_request(), award)
+        request = get_request()
+        request.validated["contracts_added"] = add_contracts(request, award)
         self.add_next_award()
-        save_contracts_to_contracting(contracts, award)
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender, working_days=False):
         award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
@@ -156,8 +152,7 @@ class AwardStateMixing:
 
     def cancel_award(self, award):
         self.set_object_status(award, "cancelled")
-        contracts_ids = self.set_award_contracts_cancelled(award)
-        update_econtracts_statuses(contracts_ids, "cancelled")
+        self.request.validated["cancelled_contract_ids"] = self.set_award_contracts_cancelled(award)
 
     # helpers
     @classmethod
