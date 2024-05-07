@@ -52,7 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "description": "test argument",
             "evidences": []
           }
-        ]
+        ],
+        "sequenceNumber": 1
       }
     ]
   }
@@ -114,6 +115,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
             "description": "test argument"
           }
         ],
+        "sequenceNumber": 1,
         "relatesTo": "tender"
       }
     ],
