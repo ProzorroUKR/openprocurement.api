@@ -64,7 +64,7 @@ class Objection(Model):
     classification = ModelType(Classification, required=True)
     requestedRemedies = ListType(ModelType(RequestedRemedy), min_size=1, required=True)
     arguments = ListType(ModelType(Argument), min_size=1, required=True)
-    sequenceNumber = IntType(min_value=1)
+    sequenceNumber = IntType(required=True, min_value=0)
 
     def validate_relatedItem(self, data, value):
         complaint = get_complaint() or data.get("__parent__", {})

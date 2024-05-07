@@ -1532,3 +1532,16 @@ def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract
             raise_operation_error(
                 get_request(), f"Total amount of unit values can't be greater than {obj_name}.value.amount"
             )
+
+
+def validate_numerated(field_name="sequenceNumber"):
+    def validator(value):
+        if not value:
+            return
+        for i, obj in enumerate(value):
+            if obj.get(field_name) != i + 1:
+                raise ValidationError(
+                    f"Field {field_name} should contain incrementing sequence numbers starting from 1"
+                )
+
+    return validator

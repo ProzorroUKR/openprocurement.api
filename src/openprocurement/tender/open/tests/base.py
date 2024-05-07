@@ -113,6 +113,7 @@ test_tender_open_complaint_objection = {
     "classification": {"scheme": "violation_amcu", "id": "corruptionDescription", "description": "test classification"},
     "requestedRemedies": [{"description": "test", "type": "setAsideAward"}],
     "arguments": [{"description": "test argument"}],
+    "sequenceNumber": 1,
 }
 
 

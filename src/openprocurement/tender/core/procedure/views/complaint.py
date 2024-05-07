@@ -23,10 +23,7 @@ from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
     TenderComplaintSerializer,
 )
-from openprocurement.tender.core.procedure.state.complaint import (
-    ComplaintStateMixin,
-    TenderComplaintState,
-)
+from openprocurement.tender.core.procedure.state.complaint import TenderComplaintState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 from openprocurement.tender.core.procedure.validation import (
     unless_reviewers,
