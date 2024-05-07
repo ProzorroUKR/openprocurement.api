@@ -3,6 +3,9 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import request_fetch_agreement
+from openprocurement.tender.core.migrations.add_config_award_complain_duration import (
+    award_complain_duration_populator,
+)
 from openprocurement.tender.core.migrations.add_config_complaints import (
     has_award_complaints_populator,
     has_cancellation_complaints_populator,
@@ -78,6 +81,14 @@ def min_bids_number_serializer(obj, value):
     return value
 
 
+def award_complain_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["awardComplainDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return award_complain_duration_populator(tender)
+    return value
+
+
 def pre_selection_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["hasPreSelectionAgreement"] is True:
         request = get_request()
@@ -137,4 +148,5 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasAwardComplaints": has_award_complaints_serializer,
         "hasCancellationComplaints": has_cancellation_complaints_serializer,
         "restricted": restricted_serializer,
+        "awardComplainDuration": award_complain_duration_serializer,
     }

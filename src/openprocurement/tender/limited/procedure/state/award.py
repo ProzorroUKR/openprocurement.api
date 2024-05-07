@@ -40,18 +40,20 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 
 class NegotiationAwardState(ReportingAwardState):
     contract_model = Contract
-    award_stand_still_time = timedelta(days=10)
 
     def award_status_up(self, before, after, award):
+        tender = get_tender()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
         assert before != after, "Statuses must be different"
         now = get_now()
         if before == "pending" and after == "active":
-            award["complaintPeriod"] = {
-                "startDate": now.isoformat(),
-                "endDate": calculate_complaint_business_date(
-                    now, self.award_stand_still_time, get_tender()
-                ).isoformat(),
-            }
+            if award_complain_duration > 0:
+                award["complaintPeriod"] = {
+                    "startDate": now.isoformat(),
+                    "endDate": calculate_complaint_business_date(
+                        now, timedelta(days=award_complain_duration), get_tender()
+                    ).isoformat(),
+                }
             self.request.validated["contracts_added"] = add_contracts(get_request(), award)
         elif before == "pending" and after == "unsuccessful":
             award["complaintPeriod"] = {
@@ -78,4 +80,4 @@ class NegotiationAwardState(ReportingAwardState):
 
 
 class NegotiationQuickAwardState(NegotiationAwardState):
-    award_stand_still_time = timedelta(days=5)
+    pass

@@ -3,7 +3,6 @@ import logging
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import context_unpack, raise_operation_error
-from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
@@ -17,7 +16,6 @@ LOGGER = logging.getLogger(__name__)
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
     contract_model = Contract
-    award_stand_still_time = STAND_STILL_TIME
 
     def award_on_patch(self, before, award):
         if before["status"] != award["status"]:

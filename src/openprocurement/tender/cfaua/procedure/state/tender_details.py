@@ -1,5 +1,6 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     ENQUIRY_PERIOD_TIME,
@@ -65,6 +66,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
         super().status_up(before, after, data)
 
     def validate_qualification_status_change(self, before, after):
+        tender = get_tender()
+        award_complaint = tender["config"]["awardComplainDuration"]
         if before["status"] == "active.qualification":
             passed_data = get_request().validated["json_data"]
             if passed_data != {"status": "active.qualification.stand-still"}:
@@ -95,7 +98,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                         get_now(), self.qualification_complaint_stand_still, after
                     ).isoformat()
                     for award in after["awards"]:
-                        if award["status"] != "cancelled":
+                        if award["status"] != "cancelled" and award_complaint > 0:
                             award["complaintPeriod"] = {
                                 "startDate": get_now().isoformat(),
                                 "endDate": after["awardPeriod"]["endDate"],

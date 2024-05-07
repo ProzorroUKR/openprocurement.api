@@ -14,7 +14,6 @@ from openprocurement.tender.core.utils import calculate_tender_business_date
 
 class AwardStateMixing:
     contract_model = Contract
-    award_stand_still_time: timedelta
 
     def validate_award_patch(self, before, after):
         request, tender = get_request(), get_tender()
@@ -22,14 +21,16 @@ class AwardStateMixing:
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
 
     def award_on_patch(self, before, award):
+        tender = get_tender()
         # start complaintPeriod
 
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             if award["status"] in ("active", "unsuccessful"):
-                if not award.get("complaintPeriod"):
-                    award["complaintPeriod"] = {}
-                award["complaintPeriod"]["startDate"] = get_now().isoformat()
+                if tender["config"]["awardComplainDuration"] > 0:
+                    if not award.get("complaintPeriod"):
+                        award["complaintPeriod"] = {}
+                    award["complaintPeriod"]["startDate"] = get_now().isoformat()
 
             self.award_status_up(before["status"], award["status"], award)
 
@@ -48,8 +49,9 @@ class AwardStateMixing:
             self.award_status_up_from_pending_to_active(award, tender, awarding_order_enabled, working_days=True)
 
         elif before == "active" and after == "cancelled":
-            if award["complaintPeriod"]["endDate"] > now:
-                award["complaintPeriod"]["endDate"] = now
+            if tender["config"]["awardComplainDuration"] > 0:
+                if award["complaintPeriod"]["endDate"] > now:
+                    award["complaintPeriod"]["endDate"] = now
 
             self.set_award_complaints_cancelled(award)
             self.cancel_award(award)
@@ -72,17 +74,21 @@ class AwardStateMixing:
     def award_status_up_from_pending_to_active(self, award, tender, awarding_order_enabled, working_days=False):
         if awarding_order_enabled is False:
             self.check_active_awards(award, tender)
-        award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-            get_now(), self.award_stand_still_time, tender, working_days
-        ).isoformat()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
+        if award_complain_duration > 0:
+            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
+                get_now(), timedelta(days=award_complain_duration), tender, working_days
+            ).isoformat()
         request = get_request()
         request.validated["contracts_added"] = add_contracts(request, award)
         self.add_next_award()
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender, working_days=False):
-        award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
-            get_now(), self.award_stand_still_time, tender, working_days
-        ).isoformat()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
+        if award_complain_duration > 0:
+            award["complaintPeriod"]["endDate"] = calculate_tender_business_date(
+                get_now(), timedelta(days=award_complain_duration), tender, working_days
+            ).isoformat()
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender, awarding_order_enabled=False):
@@ -91,8 +97,8 @@ class AwardStateMixing:
             self.get_change_tender_status_handler("active.qualification")(tender)
             if "endDate" in tender["awardPeriod"]:
                 del tender["awardPeriod"]["endDate"]
-
-        award["complaintPeriod"]["endDate"] = now
+        if tender["config"]["awardComplainDuration"] > 0:
+            award["complaintPeriod"]["endDate"] = now
 
         if awarding_order_enabled:
             # If hasAwardingOrder is True, then the current award should be found through all
@@ -144,11 +150,13 @@ class AwardStateMixing:
 
     def cancel_award_with_complaint_period(self, award):
         now = get_now().isoformat()
-        # update complaintPeriod.endDate if there is a need
-        if award.get("complaintPeriod") and (
-            not award["complaintPeriod"].get("endDate") or award["complaintPeriod"]["endDate"] > now
-        ):
-            award["complaintPeriod"]["endDate"] = now
+        tender = get_tender()
+        if tender["config"]["awardComplainDuration"] > 0:
+            # update complaintPeriod.endDate if there is a need
+            if award.get("complaintPeriod") and (
+                not award["complaintPeriod"].get("endDate") or award["complaintPeriod"]["endDate"] > now
+            ):
+                award["complaintPeriod"]["endDate"] = now
 
         self.set_award_complaints_cancelled(award)
         self.cancel_award(award)

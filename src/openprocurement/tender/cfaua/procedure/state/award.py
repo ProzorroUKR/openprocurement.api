@@ -8,10 +8,12 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 class AwardState(AwardStateMixing, CFAUATenderState):
     def award_on_patch(self, before, award):
+        tender = get_tender()
         # start complaintPeriod
         if before["status"] != award["status"]:
-            if award["status"] == "unsuccessful":
-                award["complaintPeriod"] = {"startDate": get_now().isoformat()}
+            if tender["config"]["awardComplainDuration"] > 0:
+                if award["status"] == "unsuccessful":
+                    award["complaintPeriod"] = {"startDate": get_now().isoformat()}
 
             self.award_status_up(before["status"], award["status"], award)
         elif award["status"] == "pending":
@@ -29,7 +31,8 @@ class AwardState(AwardStateMixing, CFAUATenderState):
             pass
 
         elif before == "pending" and after == "unsuccessful":
-            award["complaintPeriod"]["endDate"] = now
+            if tender["config"]["awardComplainDuration"] > 0:
+                award["complaintPeriod"]["endDate"] = now
             self.add_next_award()
 
         elif before == "active" and after == "cancelled":

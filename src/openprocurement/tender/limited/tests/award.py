@@ -64,6 +64,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_data,
     test_tender_negotiation_data_2items,
+    test_tender_negotiation_quick_config,
     test_tender_negotiation_quick_data,
     test_tender_negotiation_quick_data_2items,
     test_tender_reporting_data,
@@ -129,6 +130,7 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
 
 class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
@@ -305,6 +307,7 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 class Tender2LotNegotiationQuickAwardComplaintResourceTest(Tender2LotNegotiationAwardComplaintResourceTest):
     initial_data = test_tender_negotiation_quick_data_2items
+    initial_config = test_tender_negotiation_quick_config
 
 
 class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest):
@@ -394,14 +397,17 @@ class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest)
 
 class Tender2LotNegotiationQuickAwardComplaint2ResourceTest(Tender2LotNegotiationAwardComplaint2ResourceTest):
     initial_data = test_tender_negotiation_quick_data_2items
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderNegotiationQuickAwardComplaintResourceTest(TenderNegotiationAwardComplaintResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderLotNegotiationQuickAwardComplaintResourceTest(TenderLotNegotiationAwardComplaintResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderNegotiationAwardComplaintDocumentResourceTest(
@@ -452,6 +458,7 @@ class TenderNegotiationAwardComplaintDocumentResourceTest(
 
 class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiationAwardComplaintDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
@@ -482,6 +489,7 @@ class TenderAwardNegotiationDocumentResourceTest(TenderAwardDocumentResourceTest
 
 class TenderAwardNegotiationQuickDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):
@@ -515,6 +523,7 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
 class TenderLotAwardNegotiationQuickDocumentResourceTest(TenderLotAwardNegotiationDocumentResourceTest):
     docservice = True
     initial_data = test_tender_negotiation_quick_data
+    initial_config = test_tender_negotiation_quick_config
 
 
 class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):

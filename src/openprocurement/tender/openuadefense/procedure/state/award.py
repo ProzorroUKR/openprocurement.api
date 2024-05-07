@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from openprocurement.api.constants import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
@@ -10,7 +12,6 @@ from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_in
-from openprocurement.tender.openuadefense.constants import STAND_STILL_TIME
 from openprocurement.tender.openuadefense.procedure.state.tender import (
     OpenUADefenseTenderState,
 )
@@ -19,7 +20,6 @@ from openprocurement.tender.openuadefense.utils import calculate_complaint_busin
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):
     contract_model = Contract
-    award_stand_still_time = STAND_STILL_TIME
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
@@ -42,30 +42,34 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
         new_defence_complaints = tender_created_in(NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO)
 
         tender = get_tender()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
         now = get_now().isoformat()
 
         if before == "pending" and after == "active":
-            end_date = calculate_complaint_business_date(get_now(), STAND_STILL_TIME, tender, True).isoformat()
-            award["complaintPeriod"] = {
-                "startDate": now,
-                "endDate": end_date,
-            }
-            if new_defence_complaints:
-                for i in tender.get("awards"):
-                    if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
-                        i["complaintPeriod"] = {
-                            "startDate": now,
-                            "endDate": end_date,
-                        }
-            self.request.validated["contracts_added"] = add_contracts(get_request(), award)
+            if award_complain_duration > 0:
+                end_date = calculate_complaint_business_date(
+                    get_now(), timedelta(days=award_complain_duration), tender, working_days=True
+                ).isoformat()
+                award["complaintPeriod"] = {
+                    "startDate": now,
+                    "endDate": end_date,
+                }
+                if new_defence_complaints:
+                    for i in tender.get("awards"):
+                        if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
+                            i["complaintPeriod"] = {
+                                "startDate": now,
+                                "endDate": end_date,
+                            }
+                self.request.validated["contracts_added"] = add_contracts(get_request(), award)
             self.add_next_award()
 
         elif before == "pending" and after == "unsuccessful":
-            if not new_defence_complaints:
+            if not new_defence_complaints and award_complain_duration > 0:
                 award["complaintPeriod"] = {
                     "startDate": now,
                     "endDate": calculate_complaint_business_date(
-                        get_now(), self.award_stand_still_time, tender, True
+                        get_now(), timedelta(days=award_complain_duration), tender, working_days=True
                     ).isoformat(),
                 }
             self.add_next_award()
