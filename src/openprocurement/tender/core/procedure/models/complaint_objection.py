@@ -15,6 +15,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import (
     Argument,
@@ -62,8 +63,22 @@ class Objection(Model):
     relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)
-    requestedRemedies = ListType(ModelType(RequestedRemedy), min_size=1, required=True)
-    arguments = ListType(ModelType(Argument), min_size=1, required=True)
+    requestedRemedies = ListType(
+        ModelType(RequestedRemedy),
+        min_size=1,
+        required=True,
+        validators=[
+            validate_items_uniq,
+        ],
+    )
+    arguments = ListType(
+        ModelType(Argument),
+        min_size=1,
+        required=True,
+        validators=[
+            validate_items_uniq,
+        ],
+    )
     sequenceNumber = IntType(required=True, min_value=0)
 
     def validate_relatedItem(self, data, value):
