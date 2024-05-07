@@ -149,7 +149,7 @@
                                     "type": "document"
                                 }
                             ],
-                            "expectedValue": "true",
+                            "expectedValue": true,
                             "status": "active",
                             "datePublished": "2021-11-08T16:41:19.367128+02:00"
                         }
@@ -196,7 +196,7 @@
                                     "type": "document"
                                 }
                             ],
-                            "expectedValue": "true",
+                            "expectedValue": true,
                             "status": "active",
                             "datePublished": "2021-11-08T16:41:19.370606+02:00"
                         }
@@ -370,7 +370,7 @@
                             }
                         }
                     ],
-                    "value": "true"
+                    "value": true
                 },
                 {
                     "id": "30bd153da6f846499dd31bbcf27191a7",
@@ -380,7 +380,7 @@
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
                         "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
-                    "value": "true"
+                    "value": true
                 }
             ]
         },
@@ -458,7 +458,7 @@
                             }
                         }
                     ],
-                    "value": "true"
+                    "value": true
                 },
                 {
                     "id": "9c443e23673249bc8d394619e3feb5be",
@@ -468,7 +468,7 @@
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
                         "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
-                    "value": "true"
+                    "value": true
                 }
             ]
         }

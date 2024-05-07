@@ -1,7 +1,5 @@
 import unittest
 from copy import deepcopy
-from datetime import timedelta
-from unittest.mock import patch
 
 # from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -24,6 +22,10 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_multi_buyers_data,
 )
 
+# from datetime import timedelta
+# from unittest.mock import patch
+
+
 # from openprocurement.tender.pricequotation.tests.contract_blanks import (
 #     patch_tender_contract,
 #     patch_tender_contract_value_vat_not_included,
@@ -33,10 +35,10 @@ multi_item_tender_data = deepcopy(test_tender_pq_data)
 multi_item_tender_data["items"] *= 3
 
 
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
+# @patch(
+#     "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+#     get_now() + timedelta(days=1),
+# )
 class TenderContractResourceTest(TenderContentWebTest):
     initial_status = "active.awarded"
     initial_data = multi_item_tender_data
@@ -64,10 +66,10 @@ class TenderContractResourceTest(TenderContentWebTest):
     # test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
+# @patch(
+#     "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+#     get_now() + timedelta(days=1),
+# )
 class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
     initial_status = "active.awarded"
     initial_bids = test_tender_pq_bids
@@ -79,10 +81,10 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
     # test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
 
 
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
+# @patch(
+#     "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+#     get_now() + timedelta(days=1),
+# )
 class TenderContractMultiBuyersResourceTest(TenderContentWebTest):
     initial_data = test_tender_pq_multi_buyers_data
     initial_status = "active.qualification"

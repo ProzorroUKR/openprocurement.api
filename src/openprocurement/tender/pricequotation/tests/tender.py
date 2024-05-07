@@ -89,7 +89,7 @@ class TenderResourceTestMixin:
 
 
 @patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
+    "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM",
     get_now() + timedelta(days=1),
 )
 @patch(

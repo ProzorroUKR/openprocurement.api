@@ -32,6 +32,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     bids_invalidation_on_tender_change,
     create_bid_after_removing_lot,
     create_bid_requirement_response,
+    create_bid_requirement_response_deprecated,
     create_bid_requirement_response_evidence,
     create_tender_bid_no_scale_invalid,
     create_tender_biddder_invalid,
@@ -97,6 +98,7 @@ class TenderBidDocumentResourceTestMixin:
 class TenderBidRequirementResponseTestMixin:
     test_create_bid_requirement_response = snitch(create_bid_requirement_response)
     test_patch_bid_requirement_response = snitch(patch_bid_requirement_response)
+    test_create_bid_requirement_response_deprecated = snitch(create_bid_requirement_response_deprecated)
     test_get_bid_requirement_response = snitch(get_bid_requirement_response)
     test_patch_bid_with_responses = snitch(patch_bid_with_responses)
 

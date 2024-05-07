@@ -35,19 +35,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "620397eaf9544635bb0366a1f65dae0e"
+          "id": "cdc512a2b4bb40248d9acc3856293743"
         },
         "value": "Розчин для інфузій"
       },
       {
         "requirement": {
-          "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
+          "id": "97d57858d27a4d25a2bfc93285fe6bbd"
         },
         "value": 5
       },
       {
         "requirement": {
-          "id": "2c6c054563904e35ac6e25b6ec864228"
+          "id": "ce5f65d294914370b88867ea6ef13fe8"
         },
         "values": [
           "Відповідь1",
@@ -111,28 +111,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
     },
     "requirementResponses": [
       {
-        "id": "35730c0398b84c39b7b6aaaa4e2e84d5",
         "requirement": {
-          "id": "620397eaf9544635bb0366a1f65dae0e"
+          "id": "cdc512a2b4bb40248d9acc3856293743"
         },
-        "value": "Розчин для інфузій"
+        "value": "Розчин для інфузій",
+        "id": "1dd391dc65664dd990b851301992224e"
       },
       {
-        "id": "d12ecd4d92534e269fe805c201b998c0",
         "requirement": {
-          "id": "44e3b8bef28f42bc9bc8a2da8e48ac70"
+          "id": "97d57858d27a4d25a2bfc93285fe6bbd"
         },
-        "value": 5
+        "value": 5,
+        "id": "9fa88dd9b935403b8fc2901413c2076f"
       },
       {
-        "id": "57aa9e6b70c7414f9ff8b700294b2e9c",
         "requirement": {
-          "id": "2c6c054563904e35ac6e25b6ec864228"
+          "id": "ce5f65d294914370b88867ea6ef13fe8"
         },
         "values": [
           "Відповідь1",
           "Відповідь2"
-        ]
+        ],
+        "id": "9ce84d2d4afb41f586da84c363a2a6d5"
       }
     ],
     "status": "draft",

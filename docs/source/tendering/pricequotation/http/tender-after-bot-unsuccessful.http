@@ -93,60 +93,63 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "852d1c7c0dac4281b448282ce4fda4ab",
-        "title": "Форма випуску",
-        "description": "Форма випуску",
+        "id": "7f4c2bf22f634adfafb1ede8982e5322",
         "requirementGroups": [
           {
-            "id": "6d134dd3ce2a4997a25e5043af124258",
+            "id": "695a7849ca454580a6bdfc84b9301fcd",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f0f83e19edd941f9a8d146d638b5ad02",
+                "id": "9ad67de704dc4175bef6da13ddd47995",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "status": "active",
+                "expectedValue": "Розчин для інфузій",
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Форма випуску",
+        "description": "Форма випуску"
       },
       {
-        "id": "d3a0fd015db14f1aae290c3ce8302a93",
-        "title": "Доза діючої речовини",
-        "description": "Доза діючої речовини",
+        "id": "9d05220ef0854d4383f143a281abc38c",
         "requirementGroups": [
           {
-            "id": "db2dc0e37937449d8cabb64705d61a85",
+            "id": "44ca6a24def54878875c12faf8eba28a",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "7edaf68d943b4d91b3bd12b0a599f0d1",
+                "id": "d34c8fbfb0d1439e951e6f2ddbaac144",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
+                "status": "active",
                 "unit": {
                   "code": "KGM",
                   "name": "кілограми"
                 },
-                "minValue": 5
+                "minValue": 5,
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Доза діючої речовини",
+        "description": "Доза діючої речовини"
       },
       {
-        "id": "842ff1e7b13a439da73e03cd68afdeb2",
-        "title": "Форма випуску",
-        "description": "Форма випуску",
+        "id": "0698def8382342068eef0b30c2415757",
         "requirementGroups": [
           {
-            "id": "1f9e1751f91a4ee1af35a80131477c5d",
+            "id": "c15d8c80af7e4dbb8df90269b767321c",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "88655f0a81744d3a865f958a550013e2",
+                "id": "428a0172e14841f5bc5137ca5d74411e",
                 "title": "Форма випуску",
                 "dataType": "string",
+                "status": "active",
                 "expectedValues": [
                   "Відповідь1",
                   "Відповідь2",
@@ -154,11 +157,14 @@ Content-Type: application/json
                   "Відповідь4"
                 ],
                 "expectedMinItems": 2,
-                "expectedMaxItems": 3
+                "expectedMaxItems": 3,
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }
-        ]
+        ],
+        "title": "Форма випуску",
+        "description": "Форма випуску"
       }
     ],
     "id": "3a30afeece164702acbcbd999c068e6c"

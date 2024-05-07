@@ -88,60 +88,65 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "04d0a215a93a4cd5beb0558049de9cc4",
-        "title": "Форма випуску",
+        "id": "bdf27086b44e45f4bd53f2cc82506f8b",
         "description": "Форма випуску",
+        "title": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "e177ce55c92c491cbc8d0431a6a25b8c",
+            "id": "908040dfbe4e433f87b6eff3c324a3fa",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "620397eaf9544635bb0366a1f65dae0e",
+                "id": "cdc512a2b4bb40248d9acc3856293743",
                 "title": "Форма випуску",
                 "dataType": "string",
-                "expectedValue": "Розчин для інфузій"
+                "status": "active",
+                "expectedValue": "Розчин для інфузій",
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }
         ]
       },
       {
-        "id": "549960a19ba44135be17d698eb40bb53",
-        "title": "Доза діючої речовини",
+        "id": "3ab4e18f94cb4f419b848c1da90019f8",
         "description": "Доза діючої речовини",
+        "title": "Доза діючої речовини",
         "requirementGroups": [
           {
-            "id": "d160fa72c890473eb0595a4f111c3f51",
+            "id": "2cceb52b85b1408182ad5a032d7c1049",
             "description": "Доза діючої речовини",
             "requirements": [
               {
-                "id": "44e3b8bef28f42bc9bc8a2da8e48ac70",
+                "id": "97d57858d27a4d25a2bfc93285fe6bbd",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
+                "status": "active",
                 "unit": {
                   "code": "KGM",
                   "name": "кілограми"
                 },
-                "minValue": 5
+                "minValue": 5,
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }
         ]
       },
       {
-        "id": "68a31e41a65f44aeaf41d99090ac0db5",
-        "title": "Форма випуску",
+        "id": "eb5f83dbc4e14b96b58ec3652e72b2fe",
         "description": "Форма випуску",
+        "title": "Форма випуску",
         "requirementGroups": [
           {
-            "id": "b56e2b8215974320966e2b85e567b0e8",
+            "id": "3307ebf5c9a045f591077d680624f298",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "2c6c054563904e35ac6e25b6ec864228",
+                "id": "ce5f65d294914370b88867ea6ef13fe8",
                 "title": "Форма випуску",
                 "dataType": "string",
+                "status": "active",
                 "expectedValues": [
                   "Відповідь1",
                   "Відповідь2",
@@ -149,7 +154,8 @@ Content-Type: application/json
                   "Відповідь4"
                 ],
                 "expectedMinItems": 2,
-                "expectedMaxItems": 3
+                "expectedMaxItems": 3,
+                "datePublished": "2023-09-20T01:00:00+03:00"
               }
             ]
           }

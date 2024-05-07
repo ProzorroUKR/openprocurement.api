@@ -20,7 +20,7 @@ Content-Type: application/json
       "location": "body",
       "name": "requirementResponses",
       "description": [
-        "Must be answered on all criteria with source `tenderer` and GUARANTEE if declared"
+        "Responses are required for all criteria with source tenderer, failed for criteria 63918671459348759ad4e30745a16ba0"
       ]
     }
   ]

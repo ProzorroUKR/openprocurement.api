@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/2832a696b5bd4bf1bee3aa152ba8104c/requirement_groups/53e7cc2f43d748f39745ba3da483c820/requirements/8b19671038034aeab033b9b992ca6948/evidences HTTP/1.0
+GET /api/2.5/tenders/d62f91e236e14e5da1b00c2ff89b753b/criteria/947ff50dcf6549189085ee3723213288/requirement_groups/638322bdff484f88a17037ea543928bf/requirements/1a722896658842638f37cf86dc812082/evidences HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -25,7 +25,7 @@ Content-Type: application/json
       "title_en": "Documented approve",
       "description": "Довідка в довільній формі",
       "type": "document",
-      "id": "3f82733cde354305b7216c1863bfdd7c"
+      "id": "2832a696b5bd4bf1bee3aa152ba8104c"
     }
   ]
 }

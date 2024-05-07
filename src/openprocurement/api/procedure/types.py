@@ -71,31 +71,6 @@ class URLType(StringType):
             raise StopValidation(self.messages['invalid_url'])
 
 
-class StrictStringType(StringType):
-    allow_casts = (str,)
-
-
-class StrictIntType(IntType):  # There are can be problem with old tenders where int values stores in string
-    def to_native(self, value, context=None):
-        if not isinstance(value, int):
-            raise ConversionError(self.messages['number_coerce'].format(value, self.number_type.lower()))
-        return super().to_native(value, context=context)
-
-
-class StrictDecimalType(DecimalType):
-    def to_native(self, value, context=None):
-        if not isinstance(value, (int, float)):
-            raise ConversionError(self.messages['number_coerce'].format(value))
-        return super().to_native(value, context=context)
-
-
-class StrictBooleanType(BooleanType):
-    def to_native(self, value, context=None):
-        if not isinstance(value, bool):
-            raise ConversionError(f"Value '{value}' is not boolean.")
-        return super().to_native(value, context=context)
-
-
 class IsoDateTimeType(BaseType):
     MESSAGES = {"parse": "Could not parse {0}. Should be ISO8601."}
 

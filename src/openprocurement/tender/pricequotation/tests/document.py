@@ -1,6 +1,4 @@
 import unittest
-from datetime import timedelta
-from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -13,10 +11,6 @@ from openprocurement.tender.pricequotation.tests.document_blanks import (
 )
 
 
-@patch(
-    "openprocurement.tender.pricequotation.procedure.models.requirement.PQ_CRITERIA_ID_FROM",
-    get_now() + timedelta(days=1),
-)
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
     docservice = True
 

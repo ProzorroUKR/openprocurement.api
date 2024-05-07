@@ -75,7 +75,7 @@ class TenderCriteriaRGRequirementTestMixin:
         "title": "Фізична особа, яка є учасником процедури закупівлі, ",
         "description": "?",
         "dataType": "boolean",
-        "expectedValue": "true",
+        "expectedValue": True,
     }
     allowed_put_statuses = ["active.tendering"]
 

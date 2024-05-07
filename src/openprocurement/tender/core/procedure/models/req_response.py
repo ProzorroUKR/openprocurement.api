@@ -2,9 +2,10 @@ from logging import getLogger
 from typing import List, Optional, Tuple
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import IntType, MD5Type, StringType
+from schematics.exceptions import ConversionError, ValidationError
+from schematics.types import BaseType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
+from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -15,6 +16,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.reference import Reference
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
     bid_in_invalid_status,
@@ -23,12 +25,13 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import (
+    TYPEMAP,
     validate_object_id_uniq,
     validate_value_type,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
-DEFAULT_REQUIREMENT_STATUS = "active"
 
 
 class ExtendPeriod(Period):
@@ -58,12 +61,41 @@ class BaseRequirementResponse(Model):
         validators=[validate_object_id_uniq],
     )
 
-    value = StringType(required=True)
+    value = BaseType()
+    values = ListType(BaseType(required=True))
+
+    @serializable(serialized_name="value", serialize_when_none=False)
+    def set_value(self):
+        if self.requirement:
+            requirement, *_ = get_requirement_obj(self.requirement.id)
+            if requirement:
+                return TYPEMAP[requirement['dataType']](self.value) if self.value else None
+        return self.value
+
+    @serializable(serialized_name="values", serialize_when_none=False)
+    def set_values(self):
+        if self.requirement:
+            requirement, *_ = get_requirement_obj(self.requirement.id)
+            if requirement:
+                return [TYPEMAP[requirement['dataType']](value) for value in self.values] if self.values else None
+        return self.values
+
+    def validate_value(self, data, value):
+        if value and data.get("requirement"):
+            requirement, *_ = get_requirement_obj(data["requirement"]["id"])
+            if requirement:
+                validate_value_type(value, requirement["dataType"])
+
+    def validate_values(self, data, values):
+        if values and data.get("requirement"):
+            requirement, *_ = get_requirement_obj(data["requirement"]["id"])
+            if requirement:
+                for value in values:
+                    validate_value_type(value, requirement["dataType"])
 
 
 class PatchRequirementResponse(BaseRequirementResponse):
     requirement = ModelType(Reference)
-    value = StringType()
     evidences = ListType(
         ModelType(Evidence, required=True),
         default=list(),
@@ -100,29 +132,6 @@ class RequirementResponse(BaseRequirementResponse):
         for evidence in evidences:
             validate_evidence_type(data, evidence)
 
-    def validate_value(self, data: dict, value: str) -> None:
-        if bid_in_invalid_status():
-            return
-
-        requirement_ref = data.get("requirement")
-        if not requirement_ref:
-            return
-
-        requirement, *_ = get_requirement_obj(requirement_ref.get("id"))
-
-        if requirement:
-            data_type = requirement["dataType"]
-            valid_value = validate_value_type(value, data_type)
-            expectedValue = requirement.get("expectedValue")
-            minValue = requirement.get("minValue")
-            maxValue = requirement.get("maxValue")
-            if expectedValue and validate_value_type(expectedValue, data_type) != valid_value:
-                raise ValidationError("value and requirement.expectedValue must be equal")
-            if minValue and valid_value < validate_value_type(minValue, data_type):
-                raise ValidationError("value should be higher than eligibleEvidence.minValue")
-            if maxValue and valid_value > validate_value_type(maxValue, data_type):
-                raise ValidationError("value should be lower than eligibleEvidence.maxValue")
-
 
 # UTILS ---
 
@@ -135,7 +144,7 @@ def get_requirement_obj(requirement_id: str) -> Tuple[Optional[dict], Optional[d
                 if req["id"] == requirement_id:
                     if (
                         tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM)
-                        and req.get("status", DEFAULT_REQUIREMENT_STATUS) != DEFAULT_REQUIREMENT_STATUS
+                        and req.get("status", ReqStatuses.DEFAULT) != ReqStatuses.ACTIVE
                     ):
                         continue
                     return req, group, criteria
@@ -159,7 +168,7 @@ def validate_req_response_requirement(req_response: dict, parent_obj_name: str =
     # then it takes Tender.criteria.requirementGroups.requirements
     # finds one with exact "id" and "not default status"
     if not requirement:
-        raise ValidationError([{"requirement": ["requirement should be one of criteria requirements"]}])
+        raise ValidationError([{"requirement": ["Requirement should be one of criteria requirements"]}])
 
     # looks at criterion.source
     # and decides if our requirement_ref actually can be provided by Bid
@@ -242,6 +251,80 @@ def validate_response_requirement_uniq(requirement_responses):
             raise ValidationError([{"requirement": "Requirement id should be uniq for all requirement responses"}])
 
 
+class MatchResponseValue:
+    @classmethod
+    def _match_expected_value(cls, datatype, requirement, value):
+        expected_value = requirement.get("expectedValue")
+        if expected_value:
+            if datatype.to_native(expected_value) != value:
+                raise ValidationError(
+                    f'Value "{value}" does not match expected value "{expected_value}" '
+                    f'in requirement {requirement["id"]}'
+                )
+
+    @classmethod
+    def _match_min_max_value(cls, datatype, requirement, value):
+        min_value = requirement.get('minValue')
+        max_value = requirement.get('maxValue')
+
+        if min_value is not None and value < datatype.to_native(min_value):
+            raise ValidationError(
+                f"Value {value} is lower then minimal required {min_value} in requirement {requirement['id']}"
+            )
+        if max_value is not None and value > datatype.to_native(max_value):
+            raise ValidationError(
+                f"Value {value} is higher then required {max_value} in requirement {requirement['id']}"
+            )
+
+    @classmethod
+    def _match_expected_values(cls, datatype, requirement, values):
+        expected_min_items = requirement.get("expectedMinItems")
+        expected_max_items = requirement.get("expectedMaxItems")
+        expected_values = requirement.get("expectedValues", [])
+        expected_values = {datatype.to_native(i) for i in expected_values}
+
+        if expected_min_items is not None and expected_min_items > len(values):
+            raise ValidationError(
+                f"Count of items lower then minimal required {expected_min_items} "
+                f"in requirement {requirement['id']}"
+            )
+
+        if expected_max_items is not None and expected_max_items < len(values):
+            raise ValidationError(
+                f"Count of items higher then maximum required {expected_max_items} "
+                f"in requirement {requirement['id']}"
+            )
+
+        if expected_values and not set(values).issubset(set(expected_values)):
+            raise ValidationError(f"Values are not in requirement {requirement['id']}")
+
+    @classmethod
+    def match(cls, response):
+        requirement, *_ = get_requirement_obj(response["requirement"]["id"])
+
+        datatype = TYPEMAP[requirement['dataType']]
+
+        value = response.get("value")
+        values = response.get("values")
+
+        if value is None and not values:
+            raise ValidationError([{'value': 'Response required at least one of field ["value", "values"]'}])
+        if value is not None and values:
+            raise ValidationError([{'value': "Field 'value' conflicts with 'values'"}])
+        values = [value] if value is not None else values
+
+        if values is not None:
+            try:
+                values = [datatype.to_native(v) for v in values]
+            except ConversionError as e:
+                raise ValidationError([{"value": e.messages}])
+
+            for value in values:
+                cls._match_expected_value(datatype, requirement, value)
+                cls._match_min_max_value(datatype, requirement, value)
+            cls._match_expected_values(datatype, requirement, values)
+
+
 # --- Validations
 
 
@@ -261,12 +344,18 @@ class PatchObjResponsesMixin(Model):
 
 class ObjResponseMixin(PatchObjResponsesMixin):
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
+        requirement_responses = requirement_responses or []
+
         if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             if requirement_responses:
                 raise ValidationError("Rogue field.")
             return
 
-        if data["status"] not in ["active", "pending"]:
+        validation_statuses = ["pending", "active"]
+        if get_tender()["procurementMethodType"] in (PQ,):
+            validation_statuses.append("draft")
+
+        if data["status"] not in validation_statuses:
             return
 
         parent_obj_name = self.__name__.lower()
@@ -276,8 +365,9 @@ class ObjResponseMixin(PatchObjResponsesMixin):
                 break
 
         # Validation requirement_response data
-        for response in requirement_responses or "":
+        for response in requirement_responses:
             validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
+            MatchResponseValue.match(response)
             validate_req_response_related_tenderer(data, response)
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
 
@@ -296,66 +386,115 @@ class PostBidResponsesMixin(ObjResponseMixin):
             raise ValidationError("This field is required.")
 
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
+        requirement_responses = requirement_responses or []
+
         if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             if requirement_responses:
                 raise ValidationError("Rogue field.")
             return
 
-        if data["status"] not in ["active", "pending"]:
+        validation_statuses = ["pending", "active"]
+        if get_tender()["procurementMethodType"] in (PQ,):
+            validation_statuses.append("draft")
+
+        if data["status"] not in validation_statuses:
             return
 
         # Validation requirement_response data
-        for response in requirement_responses or "":
+        for response in requirement_responses:
             validate_req_response_requirement(response)
+            MatchResponseValue.match(response)
             validate_req_response_related_tenderer(data, response)
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name="bid")
 
         tender = get_tender()
-        all_answered_requirements = [i.requirement.id for i in requirement_responses or ""]
-        for criteria in tender.get("criteria", ""):
-            if criteria["relatesTo"] == "lot":
+
+        # Lists for criteria ids that failed validation
+        missed_full_criteria_ids = []
+        multiple_group_criteria_ids = []
+        missed_partial_criteria_ids = []
+
+        # Get all answered requirements
+        all_answered_requirements_ids = [i["requirement"]["id"] for i in requirement_responses]
+
+        # Iterate criteria
+        for criteria in tender.get("criteria", []):
+
+            # Skip criteria for not existing lots (probably)
+            if criteria.get("relatesTo") == "lot":
                 for lotVal in data["lotValues"]:
                     if criteria["relatedItem"] == lotVal["relatedLot"]:
                         break
                 else:
                     continue
-            if criteria.get("source", "tenderer") != "tenderer" and not criteria["classification"]["id"].endswith(
-                "GUARANTEE"
-            ):
+
+            # Skip non-bid criteria
+            if criteria.get("source", "tenderer") not in ("tenderer", "winner"):
                 continue
+
+            # Skip criteria that have no active requirements
             if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
                 active_requirements = [
                     requirement
-                    for rg in criteria.get("requirementGroups", "")
-                    for requirement in rg.get("requirements", "")
-                    if requirement["status"] == "active"
+                    for rg in criteria.get("requirementGroups", [])
+                    for requirement in rg.get("requirements", [])
+                    if requirement.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
                 ]
                 if not active_requirements:
                     continue
 
             criteria_ids = {}
             group_answered_requirement_ids = {}
-            for rg in criteria.get("requirementGroups", ""):
-                req_ids = {i["id"] for i in rg.get("requirements", "")}
-                if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
-                    req_ids = {i["id"] for i in rg.get("requirements", "") if i["status"] != "cancelled"}
-                answered_reqs = {i for i in all_answered_requirements if i in req_ids}
 
-                if answered_reqs:
-                    group_answered_requirement_ids[rg["id"]] = answered_reqs
-                criteria_ids[rg["id"]] = req_ids
+            # Search for answered requirements
+            for rg in criteria.get("requirementGroups", []):
+
+                # Get all requirement ids for group
+                requirement_ids = {
+                    i["id"]
+                    for i in rg.get("requirements", [])
+                    if i.get("status", ReqStatuses.DEFAULT) != ReqStatuses.CANCELLED
+                }
+
+                # Get all answered requirement ids for group
+                answered_requirement_ids = {i for i in all_answered_requirements_ids if i in requirement_ids}
+
+                if answered_requirement_ids:
+                    group_answered_requirement_ids[rg["id"]] = answered_requirement_ids
+
+                # Save all requirements for each group
+                criteria_ids[rg["id"]] = requirement_ids
 
             if not group_answered_requirement_ids:
-                raise ValidationError(
-                    "Must be answered on all criteria with source `tenderer` and GUARANTEE if declared"
-                )
+                # No answers for this criteria
+                missed_full_criteria_ids.append(criteria["id"])
+            else:
+                # Check if there are multiple groups with answers
+                if len(group_answered_requirement_ids) > 1:
+                    multiple_group_criteria_ids.append(criteria["id"])
 
-            if len(group_answered_requirement_ids) > 1:
-                raise ValidationError("Inside criteria must be answered only one requirement group")
+                # Check if all requirements in a group are answered
+                rg_id = list(group_answered_requirement_ids.keys())[0]
+                if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
+                    missed_partial_criteria_ids.append(criteria["id"])
 
-            rg_id = list(group_answered_requirement_ids.keys())[0]
-            if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
-                raise ValidationError("Inside requirement group must get answered all of requirements")
+        if missed_full_criteria_ids:
+            raise ValidationError(
+                "Responses are required for all criteria with source tenderer, "
+                f"failed for criteria {', '.join(missed_full_criteria_ids)}"
+            )
+
+        if multiple_group_criteria_ids:
+            raise ValidationError(
+                "Responses are allowed for only one group of requirements per criterion, "
+                f"failed for criteria {', '.join(multiple_group_criteria_ids)}"
+            )
+
+        if missed_partial_criteria_ids:
+            raise ValidationError(
+                "Responses are required for all requirements in a requirement group, "
+                f"failed for criteria {', '.join(missed_partial_criteria_ids)}"
+            )
 
 
 # --- requirementResponses mixin

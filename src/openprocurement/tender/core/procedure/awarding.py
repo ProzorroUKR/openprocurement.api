@@ -467,7 +467,7 @@ class TenderStateAwardingMixing:
                         if requirement["id"] == response["requirement"]["id"]:
                             filtered_responses.append(response)
 
-        addition = sum(float(response.get("value")) for response in filtered_responses)
+        addition = sum(float(response.get("value") or 0) for response in filtered_responses)
         return addition
 
     @classmethod
