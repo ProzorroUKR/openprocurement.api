@@ -20,6 +20,7 @@ Contents:
    bidding
    meat
    milestones
+   technical-features
    24hours
    2pc
 

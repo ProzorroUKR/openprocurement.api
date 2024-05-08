@@ -5,11 +5,10 @@ from schematics.validate import ValidationError
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
@@ -18,10 +17,8 @@ from openprocurement.tender.belowthreshold.procedure.models.organization import 
 )
 from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
-from openprocurement.tender.core.procedure.models.item import (
-    Item,
-    validate_classification_id,
-)
+from openprocurement.tender.core.procedure.models.item import TechFeatureItem as Item
+from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.period import (
@@ -35,7 +32,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.validation import (
     validate_milestones,
     validate_tender_period_duration,
@@ -71,6 +67,13 @@ class PostTender(BasePostTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], default=BELOW_THRESHOLD)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     enquiryPeriod = ModelType(StartedEnquiryPeriodEndRequired, required=True)
+
+    items = ListType(
+        ModelType(Item, required=True),
+        required=True,
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)

@@ -508,7 +508,7 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def get_catalogue_object(request, uri: str, obj_id: str) -> dict:
+def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple = None) -> dict:
     catalog_api_host = request.registry.catalog_api_host
     obj_name = uri.split("/")[-1]
 
@@ -528,16 +528,27 @@ def get_catalogue_object(request, uri: str, obj_id: str) -> dict:
         raise_operation_error(
             request, f"Fail getting {obj_name} {obj_id}: {resp.status_code} {response_text}.", status=resp.status_code
         )
-    return resp.json().get("data", {})
+
+    data = resp.json().get("data", {})
+
+    if valid_statuses:
+        if data.get("status", "active") not in valid_statuses:
+            raise_operation_error(
+                request,
+                f"{obj_name.capitalize()} {obj_id}: {data['status']} not in {valid_statuses}",
+                status=422,
+            )
+
+    return data
 
 
-def get_tender_profile(request, profile_id: str) -> dict:
-    return get_catalogue_object(request, "profiles", profile_id)
+def get_tender_profile(request, profile_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "profiles", profile_id, validate_status)
 
 
-def get_tender_category(request, category_id: str) -> dict:
-    return get_catalogue_object(request, "categories", category_id)
+def get_tender_category(request, category_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "categories", category_id, validate_status)
 
 
-def get_tender_product(request, product_id: str) -> dict:
-    return get_catalogue_object(request, "products", product_id)
+def get_tender_product(request, product_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "products", product_id, validate_status)

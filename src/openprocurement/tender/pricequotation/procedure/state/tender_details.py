@@ -7,7 +7,6 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
@@ -132,3 +131,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
                     "Tender agreement doesn't match profile agreement",
                     status=422,
                 )
+
+    def validate_change_item_profile_or_category(self, after: dict, before: dict) -> None:
+        pass

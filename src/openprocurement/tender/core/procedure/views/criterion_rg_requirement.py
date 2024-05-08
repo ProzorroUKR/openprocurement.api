@@ -12,13 +12,8 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, get_now, json_view
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.tender.core.procedure.models.criterion import (
-    PatchExclusionLccRequirement,
-    PatchRequirement,
     PostRequirement,
-    PutExclusionLccRequirement,
-    PutRequirement,
     Requirement,
 )
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
@@ -29,6 +24,9 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
     RequirementState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_input_data_from_resolved_model,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.criterion_rg import (
     resolve_criterion,
@@ -50,20 +48,6 @@ def resolve_requirement(request: Request) -> None:
             requirement_id,
         )
         request.validated["requirement"] = requirements[-1]
-
-
-def validate_resolve_requirement_input_data(
-    default_model: object, exclusion_model: object, none_means_remove: bool = False
-) -> callable:
-    def validate(request, **kwargs):
-        criterion = request.validated["criterion"]
-        classification_id = criterion["classification"]["id"]
-        input_model = default_model
-        if classification_id.startswith("CRITERION.EXCLUSION") or classification_id in CRITERION_LIFE_CYCLE_COST_IDS:
-            input_model = exclusion_model
-        return validate_input_data(input_model, none_means_remove=none_means_remove)(request, **kwargs)
-
-    return validate
 
 
 class BaseRequirementResource(TenderBaseResource):
@@ -142,7 +126,7 @@ class BaseRequirementResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
@@ -170,7 +154,7 @@ class BaseRequirementResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_resolve_requirement_input_data(PutRequirement, PutExclusionLccRequirement, none_means_remove=True),
+            validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",

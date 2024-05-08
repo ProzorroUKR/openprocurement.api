@@ -1,6 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
-from unittest import mock
+from unittest.mock import Mock, patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.base import (
@@ -9,8 +9,13 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
     test_lcc_tender_criteria,
     test_requirement_groups,
+    test_tech_feature_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
+
+tech_item_response_200 = Mock(
+    status_code=200, json=Mock(return_value={"data": {"id": "1" * 32, "status": "active", "criteria": ["dasd"]}})
+)
 
 
 def create_tender_criteria_valid(self):
@@ -1142,7 +1147,7 @@ def put_rg_requirement_invalid(self):
         ],
     )
 
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() + timedelta(days=1),
     ):
@@ -1159,7 +1164,7 @@ def put_rg_requirement_invalid(self):
             [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
         )
 
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
@@ -1403,7 +1408,7 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.tendering")
 
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
@@ -1427,7 +1432,7 @@ def delete_requirement_evidence(self):
         )
 
     self.set_status("active.auction")
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() + timedelta(days=1),
     ):
@@ -1450,7 +1455,7 @@ def delete_requirement_evidence(self):
             ],
         )
 
-    with mock.patch(
+    with patch(
         "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
@@ -1720,3 +1725,70 @@ def lcc_criterion_invalid(self):
                 }
             ],
         )
+
+
+@patch("requests.get", Mock(return_value=tech_item_response_200))
+def tech_feature_criterion(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["profile"] = "1" * 32
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    items = response.json["data"]["items"]
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    criteria_data[0]["relatedItem"] = items[0]["id"]
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+        {"data": criteria_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Item should have category or profile"}],
+    )
+
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+        {"data": criteria_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    criterion_id = response.json["data"][0]["id"]
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/criteria/{criterion_id}?acc_token={self.tender_token}",
+        {"data": {"relatedItem": items[0]["id"]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Item should have category or profile"}],
+    )
+
+    items[1]["profile"] = "2" * 32
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    criterion_req = response.json["data"]["criteria"][0]["requirementGroups"][0]["requirements"][0]
+    self.assertEqual(criterion_req["status"], "cancelled")

@@ -1,9 +1,7 @@
-from schematics.types import BaseType, StringType
+from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
-from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
-from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
@@ -32,10 +30,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
     validate_tender_period_start_date,
 )
-from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.openua.constants import (
     ABOVE_THRESHOLD_UA,
-    COMPLAINT_SUBMIT_TIME,
     TENDERING_DURATION,
 )
 from openprocurement.tender.openua.procedure.models.item import Item

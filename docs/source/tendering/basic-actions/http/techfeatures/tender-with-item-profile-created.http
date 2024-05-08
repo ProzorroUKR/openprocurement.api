@@ -1,4 +1,4 @@
-POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+POST /api/2.5/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -37,73 +37,57 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
             "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+            "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "description": "Послуги шкільних їдалень",
-        "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        },
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
-          "scheme": "ДК021"
-        },
         "unit": {
-          "code": "KGM",
-          "name": "папір",
-          "value": {
-            "amount": 10
-          }
-        },
-        "quantity": 1
-      },
-      {
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
-          "scheme": "ДК021"
-        },
-        "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        },
-        "unit": {
-          "code": "KGM",
           "name": "кілограм",
+          "code": "KGM",
           "value": {
             "amount": 6
           }
         },
-        "quantity": 1
+        "quantity": 5
+      },
+      {
+        "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "amount": 6
+          }
+        },
+        "quantity": 5,
+        "profile": "655360-30230000-889652-40000777"
       }
     ],
     "enquiryPeriod": {
@@ -141,7 +125,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   },
   "config": {
     "hasAuction": true,
-    "hasAwardingOrder": false,
+    "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
@@ -157,7 +141,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4292f411d6fd4a03b02903d85c6b3d96
 
 {
   "data": {
@@ -193,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "sequenceNumber": 0
       },
       {
-        "id": "54885e2435434072891db5e792b35a43",
+        "id": "eb4b432026f546b595952f33d3486be3",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -233,46 +217,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "items": [
       {
-        "id": "ac8e7fb163cf4fa2ab111e2e42b8dc2f",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "f37d4ff0e19c4823be20bfcb7b612a87",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
           "value": {
@@ -282,44 +230,62 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           },
           "code": "KGM"
         },
-        "quantity": 1.0,
+        "quantity": 5.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "44617100-9"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
             "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ]
+      },
+      {
+        "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
+        "profile": "655360-30230000-889652-40000777"
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2023-10-10-000003-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "4292f411d6fd4a03b02903d85c6b3d96"
   },
   "config": {
     "hasAuction": true,
-    "hasAwardingOrder": false,
+    "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
@@ -331,8 +297,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "d7afc0eb4f6d42549557d7b3226417e6",
-    "transfer": "6670a4933d854a00afa53a2979728a6d"
+    "token": "3a1c733f0ea64dc794cff3c2b0dc39ce",
+    "transfer": "dfac5a2c1cf943e2a3d44748a05ea429"
   }
 }
 

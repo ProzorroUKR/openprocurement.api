@@ -5,6 +5,10 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.tender.core.procedure.models.item import Item as TenderBaseItem
 from openprocurement.tender.core.procedure.models.item import LocalizationItem
+from openprocurement.tender.core.procedure.models.item import LocalizationItem
+from openprocurement.tender.core.procedure.models.item import (
+    TechFeatureItem as TenderBaseItem,
+)
 
 
 class CPVClassification(BaseCPVClassification):

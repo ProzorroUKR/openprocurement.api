@@ -25,15 +25,11 @@ from openprocurement.tender.competitivedialogue.procedure.views.stage1.criterion
     BaseCDRequirementResource,
 )
 from openprocurement.tender.core.procedure.models.criterion import (
-    PatchExclusionLccRequirement,
-    PatchRequirement,
     PostRequirement,
-    PutExclusionLccRequirement,
-    PutRequirement,
     Requirement,
 )
-from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
-    validate_resolve_requirement_input_data,
+from openprocurement.tender.core.procedure.validation import (
+    validate_input_data_from_resolved_model,
 )
 
 
@@ -63,7 +59,7 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
         content_type="application/json",
         validators=(
             unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
-            validate_resolve_requirement_input_data(PatchRequirement, PatchExclusionLccRequirement),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
@@ -75,7 +71,7 @@ class BaseStage2RequirementResource(BaseCDRequirementResource):
         content_type="application/json",
         validators=(
             unless_cd_bridge(unless_admins(unless_administrator(validate_item_owner("tender")))),
-            validate_resolve_requirement_input_data(PutRequirement, PutExclusionLccRequirement, none_means_remove=True),
+            validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
