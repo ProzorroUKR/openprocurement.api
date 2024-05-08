@@ -10,3 +10,4 @@ hasTenderComplaints,true,true
 hasAwardComplaints,false,false
 hasCancellationComplaints,true,true
 restricted,false,false
+awardComplainDuration,5,5
