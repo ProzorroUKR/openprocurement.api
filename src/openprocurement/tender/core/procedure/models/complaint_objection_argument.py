@@ -18,7 +18,7 @@ class Evidence(Model):
 
     def validate_relatedDocument(self, data, value):
         complaint = get_complaint() or get_request().validated.get("json_data")
-        if not complaint or value not in [document["id"] for document in complaint.get("documents", [])]:
+        if not complaint or value not in [document.get("id") for document in complaint.get("documents", [])]:
             raise ValidationError("relatedDocument should be one of complaint documents")
 
 
