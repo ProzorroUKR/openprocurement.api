@@ -39,7 +39,7 @@ class ChronographEventsMixing:
 
     def run_time_events(self, data):
         now = get_now().isoformat()
-        for date, handler in self.get_events(data, enable_approve_check=False):
+        for date, handler in self.get_events(data):
             # print([date <= now, date, now, handler])
             if date <= now:
                 LOGGER.info(
@@ -57,11 +57,11 @@ class ChronographEventsMixing:
             )
             return closes_event_time
 
-    def get_events(self, tender, enable_approve_check=True):
+    def get_events(self, tender):
         yield from self.complaint_events(tender)
         yield from self.cancellation_events(tender)
 
-        if enable_approve_check and check_is_tender_waiting_for_inspector_approve(tender):
+        if check_is_tender_waiting_for_inspector_approve(tender):
             return
 
         if not self.cancellation_blocks_tender(tender):

@@ -181,6 +181,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
+        self.invalidate_review_requests()
         super().on_patch(before, after)
 
     def always(self, data):

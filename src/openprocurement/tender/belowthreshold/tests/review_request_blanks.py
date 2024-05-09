@@ -6,6 +6,7 @@ from freezegun import freeze_time
 from openprocurement.api.utils import get_now, parse_datetime
 from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_author,
     test_tender_below_organization,
 )
 
@@ -505,6 +506,7 @@ def after_change_tender_re_approve(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["approved"], True)
+    self.assertEqual(response.json["data"]["is_valid"], True)
 
     self.app.authorization = auth
 
@@ -513,20 +515,23 @@ def after_change_tender_re_approve(self):
 
     tender_period = response.json["data"]["tenderPeriod"]
 
-    # Test Patch tender
-    response = self.app.patch_json(
-        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+    # Test situation when review request should stay valid
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/questions?acc_token={self.tender_token}",
         {
             "data": {
-                "tenderPeriod": {
-                    "startDate": (parse_datetime(tender_period["startDate"]) + timedelta(days=1)).isoformat(),
-                    "endDate": (parse_datetime(tender_period["endDate"]) + timedelta(days=1)).isoformat(),
-                }
+                "title": "question title",
+                "description": "question description",
+                "author": test_tender_below_author,
             }
         },
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.get(f"/tenders/{self.tender_id}?acc_token={self.tender_token}")
     self.assertIn("next_check", response.json["data"])
+
+    # Test situations when review request should become invalid
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -535,6 +540,7 @@ def after_change_tender_re_approve(self):
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("next_check", response.json["data"])
     enquiry_end_date = response.json["data"]["enquiryPeriod"]["endDate"]
+    self.assertEqual(response.json["data"]["reviewRequests"][-1]["is_valid"], False)
 
     with freeze_time(parse_datetime(enquiry_end_date) + timedelta(days=5)):
         response = self.check_chronograph()
@@ -783,6 +789,11 @@ def review_request_for_multilot(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    response = self.app.get(f"/tenders/{self.tender_id}/review_requests/{rev_req_1_id}")
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["is_valid"], False)
+
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("inspector", ""))
 
@@ -799,6 +810,11 @@ def review_request_for_multilot(self):
         {"data": {"status": "cancelled"}},
     )
     self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(f"/tenders/{self.tender_id}/review_requests/{rev_req_2_id}")
+
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["is_valid"], False)
 
 
 def review_request_multilot_unsuccessful(self):

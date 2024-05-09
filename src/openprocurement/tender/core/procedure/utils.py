@@ -525,9 +525,7 @@ def was_changed_after_approve_review_request(tender: dict, review_request_date: 
     return False
 
 
-def check_is_waiting_for_inspector_approve(
-    tender: dict, lot_id=None, valid_statuses=None, check_date_modified=False
-) -> bool:
+def check_is_waiting_for_inspector_approve(tender: dict, lot_id=None, valid_statuses=None) -> bool:
     if not valid_statuses:
         return False
 
@@ -539,25 +537,16 @@ def check_is_waiting_for_inspector_approve(
 
     rev_reqs = [i for i in tender.get("reviewRequests", []) if i.get("lotID") == lot_id and i["tenderStatus"] == status]
 
-    if not rev_reqs or not rev_reqs[-1].get("approved"):
+    if not rev_reqs:
         return True
 
     rev_req = rev_reqs[-1]
-    rev_req_date = parse_date(rev_req.get("date"))
 
-    if tender.get("awards"):
-        awards = [
-            i for i in tender.get("awards", "") if i.get("lotID") == lot_id and i.get("status", "active") == "active"
-        ]
-        return not awards or rev_req_date < parse_date(awards[-1]["date"])
-
-    return was_changed_after_approve_review_request(tender, rev_req_date)
+    return not rev_req.get("approved") or not rev_req.get("is_valid")
 
 
-def check_is_tender_waiting_for_inspector_approve(tender: dict, lot_id=None, check_date_modified=False) -> bool:
-    return check_is_waiting_for_inspector_approve(
-        tender, lot_id, valid_statuses=["active.enquiries"], check_date_modified=check_date_modified
-    )
+def check_is_tender_waiting_for_inspector_approve(tender: dict, lot_id=None) -> bool:
+    return check_is_waiting_for_inspector_approve(tender, lot_id, valid_statuses=["active.enquiries"])
 
 
 def check_is_contract_waiting_for_inspector_approve(tender: dict, lot_id=None) -> bool:

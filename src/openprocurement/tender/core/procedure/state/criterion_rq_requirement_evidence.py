@@ -25,6 +25,7 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
         self._validate_for_language_criterion()
         self.validate_action_with_exist_inspector_review_request()
         self.invalidate_bids()
+        self.invalidate_review_requests()
 
     def _validate_for_language_criterion(self):
         request = get_request()

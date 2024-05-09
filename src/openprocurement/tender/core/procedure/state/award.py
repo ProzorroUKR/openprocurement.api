@@ -25,6 +25,7 @@ class AwardStateMixing:
         # start complaintPeriod
 
         if before["status"] != award["status"]:
+            self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             if award["status"] in ("active", "unsuccessful"):
                 if not award.get("complaintPeriod"):
                     award["complaintPeriod"] = {}

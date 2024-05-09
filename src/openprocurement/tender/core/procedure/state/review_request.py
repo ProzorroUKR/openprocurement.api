@@ -26,6 +26,8 @@ class ReviewRequestStateMixin:
     def review_request_on_patch(self, before: dict, after: dict) -> None:
         self.validate_patch_review_request_once(before)
         after["date"] = get_now().isoformat()
+        if after["approved"]:
+            after["is_valid"] = True
 
     @staticmethod
     def validate_lot_id(data: dict, tender: dict) -> None:

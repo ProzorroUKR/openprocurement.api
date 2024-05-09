@@ -40,12 +40,6 @@ class TenderChronographResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
 
-        if check_is_tender_waiting_for_inspector_approve(tender, check_date_modified=True):
-            return {
-                "data": self.serializer_class(tender).data,
-                "config": tender["config"],
-            }
-
         for lot in data.get("lots", ""):
             if "auctionPeriod" in lot and lot["auctionPeriod"] is None:
                 del lot["auctionPeriod"]

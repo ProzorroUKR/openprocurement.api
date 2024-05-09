@@ -21,3 +21,4 @@ class ReviewRequest(Model):
     description = StringType()
     dateCreated = IsoDateTimeType(required=True)
     date = IsoDateTimeType()
+    is_valid = BooleanType()

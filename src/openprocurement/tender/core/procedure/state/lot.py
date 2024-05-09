@@ -51,6 +51,7 @@ class LotStateMixin:
 
     def lot_always(self, data: dict) -> None:
         self.validate_action_with_exist_inspector_review_request()
+        self.invalidate_review_requests()
         self.update_tender_data()
 
     def pre_save_validations(self, data: dict) -> None:
