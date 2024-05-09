@@ -71,7 +71,7 @@ class PostComplaint(Model):
     type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
     relatedLot = MD5Type()
     objections = ListType(
-        ModelType(TenderComplaintObjection),
+        ModelType(TenderComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -108,7 +108,7 @@ class PostComplaintFromBid(PostComplaint):
 
 class PostAwardComplaint(PostComplaintFromBid):
     objections = ListType(
-        ModelType(AwardComplaintObjection),
+        ModelType(AwardComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -119,7 +119,7 @@ class PostAwardComplaint(PostComplaintFromBid):
 
 class PostCancellationComplaint(PostComplaint):
     objections = ListType(
-        ModelType(CancellationComplaintObjection),
+        ModelType(CancellationComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -130,7 +130,7 @@ class PostCancellationComplaint(PostComplaint):
 
 class PostQualificationComplaint(PostComplaintFromBid):
     objections = ListType(
-        ModelType(QualificationComplaintObjection),
+        ModelType(QualificationComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -145,7 +145,7 @@ class DraftPatchComplaint(Model):
     title = StringType()  # title of the claim
     description = StringType()  # description of the claim
     objections = ListType(
-        ModelType(TenderComplaintObjection),
+        ModelType(TenderComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -156,7 +156,7 @@ class DraftPatchComplaint(Model):
 
 class DraftPatchAwardComplaint(DraftPatchComplaint):
     objections = ListType(
-        ModelType(AwardComplaintObjection),
+        ModelType(AwardComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -167,7 +167,7 @@ class DraftPatchAwardComplaint(DraftPatchComplaint):
 
 class DraftPatchCancellationComplaint(DraftPatchComplaint):
     objections = ListType(
-        ModelType(CancellationComplaintObjection),
+        ModelType(CancellationComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -178,7 +178,7 @@ class DraftPatchCancellationComplaint(DraftPatchComplaint):
 
 class DraftPatchQualificationComplaint(DraftPatchComplaint):
     objections = ListType(
-        ModelType(QualificationComplaintObjection),
+        ModelType(QualificationComplaintObjection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,
@@ -283,7 +283,7 @@ class Complaint(Model):
     description = StringType()  # description of the claim
     dateSubmitted = IsoDateTimeType()
     objections = ListType(
-        ModelType(Objection),
+        ModelType(Objection, required=True),
         min_size=1,
         validators=[
             validate_items_uniq,

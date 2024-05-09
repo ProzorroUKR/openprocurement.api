@@ -64,7 +64,7 @@ class Objection(Model):
     relatedItem = StringType(required=True)
     classification = ModelType(Classification, required=True)
     requestedRemedies = ListType(
-        ModelType(RequestedRemedy),
+        ModelType(RequestedRemedy, required=True),
         min_size=1,
         required=True,
         validators=[
@@ -72,7 +72,7 @@ class Objection(Model):
         ],
     )
     arguments = ListType(
-        ModelType(Argument),
+        ModelType(Argument, required=True),
         min_size=1,
         required=True,
         validators=[

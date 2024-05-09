@@ -26,7 +26,7 @@ class Argument(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     description = StringType(required=True)
     evidences = ListType(
-        ModelType(Evidence),
+        ModelType(Evidence, required=True),
         serialize_when_none=True,
         default=list(),
         validators=[
