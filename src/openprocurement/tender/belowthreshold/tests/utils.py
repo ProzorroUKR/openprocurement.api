@@ -29,7 +29,7 @@ def set_bid_items(bid, items):
     for item in items:
         bid["items"].append(
             {
-                "quantity": 7,
+                "quantity": 4,
                 "description": "футляри до державних нагород",
                 "id": item['id'],
                 "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},

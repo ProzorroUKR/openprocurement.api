@@ -41,6 +41,7 @@ class TenderReviewRequestActiveEnquiresResourceTest(TenderContentWebTest, Tender
 class TenderReviewRequestActiveAwardedResourceTest(
     TenderContentWebTest, TenderReviewRequestActiveQualificationTestMixin
 ):
+    tender_for_funders = True
     initial_data = test_tender_below_with_inspector_data
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
