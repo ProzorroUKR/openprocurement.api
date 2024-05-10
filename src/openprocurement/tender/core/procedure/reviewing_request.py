@@ -1,6 +1,5 @@
 from typing import Optional
 
-from openprocurement.api.context import get_request
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 
@@ -50,6 +49,6 @@ class ReviewRequestBlockMixin:
             else:
                 raise_operation_error(
                     request,
-                    f"Disallowed while exist unanswered review request",
+                    "Disallowed while exist unanswered review request",
                     status=422,
                 )
