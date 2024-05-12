@@ -1,0 +1,32 @@
+@startuml
+
+actor Users
+
+
+component Broker1
+component Broker2
+component Broker3
+
+
+Users --> Broker1
+Users --> Broker2
+Users --> Broker3
+
+cloud  Prozorro {
+
+    component "Document Integration API" as DocAPI
+
+
+    Broker1 <--> DocAPI: rw
+    Broker2 <--> DocAPI: rw
+    Broker3 <--> DocAPI: rw
+
+
+    component "Prozorro Public API" as ProzorroAPI
+    DocAPI --> ProzorroAPI: Publish Contract updates
+}
+
+
+
+
+@enduml

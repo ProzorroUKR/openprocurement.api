@@ -27,7 +27,7 @@
 
 Структура ревью
 ```json
-POST /tenders/{uid}/donot_reviews
+POST /tenders/{uid}/donor_reviews
 {
   "approved": false,
   "description": "Ніт"

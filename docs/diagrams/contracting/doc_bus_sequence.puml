@@ -1,0 +1,35 @@
+@startuml
+
+User1 --> Broker1: публікує контракт і відправляє \n\
+на підписання до User2
+
+Broker1 --> DocAPI: публікує документ\n\
+тип - контракт\n\
+потребує дії - підпис від User2
+
+Broker2 <-- DocAPI: віддає контракт з feed
+Broker1 <-- DocAPI: віддає контракт з feed
+Broker3 <-- DocAPI: віддає контракт з feed
+
+Broker3 --> Broker3: НЕ знаходить User2 в своїй базі
+Broker2 --> Broker2: знаходить User2 в своїй базі
+Broker1 --> Broker1: знаходить User2 в своїй базі
+
+Broker2 --> User2: повідомляє про необхідність\n\
+підписати контракт
+Broker1 --> User2: повідомляє про необхідність\n\
+підписати контракт
+
+Broker2 <-- User2: підписує контракт
+
+Broker2 --> DocAPI: публікує документ
+
+Broker2 <-- DocAPI: віддає контракт з feed
+Broker1 <-- DocAPI: віддає контракт з feed
+Broker3 <-- DocAPI: віддає контракт з feed
+
+
+User1 <-- Broker1: повідомляє користувача про\n\
+підписання контракту
+
+@enduml

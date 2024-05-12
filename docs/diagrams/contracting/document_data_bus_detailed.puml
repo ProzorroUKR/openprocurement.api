@@ -1,0 +1,28 @@
+@startuml
+
+actor Users
+collections Brokers
+Users --> Brokers
+
+cloud  Prozorro {
+    component "Document Integration API" as DocAPI
+    database DocDB
+    DocAPI -l-> DocDB
+
+    folder DocObjectStorage
+    DocAPI -r-> DocObjectStorage
+
+
+    component "Prozorro Public API" as CDBAPI
+    DocAPI --> CDBAPI: Publish Contract updates
+
+    database CDB
+    CDBAPI -l-> CDB
+
+    folder CDBObjectStorage
+    CDBAPI -r-> CDBObjectStorage
+}
+
+Brokers --> DocAPI
+
+@enduml

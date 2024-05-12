@@ -1,0 +1,37 @@
+@startuml
+
+==Broker gets a contracts transfer token==
+
+Broker1 --> API: PATCH /contracts/<contract_id>/credentials?acc_token=<tender_token>
+Broker1 <-- API: {"data": {"owner": "broker1"}, "access": {"token": ..., "transfer": <contract_transfer_token>}}
+
+==User passes the transfer token from broker1 to broker2==
+
+User <-- Broker1: COPY <contract_transfer_token>
+User --> Broker2: PASTE <contract_transfer_token>
+
+== OR (TBD)==
+User --> Broker1: I want to transfer this contract to broker2
+Broker1 --> User: 302 Redirect \n\
+https://broker2.com.ua/contracts/<contract_id>/transfer/<contract_transfer_token>
+
+User --> Broker2: GET https://broker2.com.ua/contracts/<contract_id>/transfer/<contract_transfer_token>
+Broker2 --> User: 200 OK
+
+==Broker2 creates and saves a transfer obj (a new set of tokens)==
+
+Broker2 --> API: POST /transfers
+Broker2 <-- API: {"data": {"id": <transfer_obj_id>}}, "access": {"token": <new_access_token>, "transfer": ...}}
+
+==Broker2 applies the transfer object to the contract==
+
+Broker2 --> API: POST /contracts/<contract_id>/ownership\n\
+{"data" {"id": <transfer_obj_id>, "transfer": <contract_transfer_token>}}
+Broker2 <-- API: {"data": {"id": ..., "owner": "broker2"}}
+
+==Now broker2 can manage the contract==
+Broker2 --> API: PATCH /contracts/<contract_id>?acc_token=<new_access_token>
+Broker2 <-- API: 200 OK
+
+
+@enduml
