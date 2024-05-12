@@ -1,0 +1,29 @@
+@startuml
+
+actor Users
+
+
+component Broker1
+component Broker2
+component Broker3
+
+
+Users --> Broker1
+Users --> Broker2
+Users --> Broker3
+
+component "Prozorro Public API" as ProzorroAPI
+
+Broker1 --> ProzorroAPI: w
+Broker2 --> ProzorroAPI: w
+Broker3 --> ProzorroAPI: w
+
+
+Broker1 <-- ProzorroAPI: r
+Broker2 <-- ProzorroAPI: r
+Broker3 <-- ProzorroAPI: r
+
+
+
+
+@enduml
