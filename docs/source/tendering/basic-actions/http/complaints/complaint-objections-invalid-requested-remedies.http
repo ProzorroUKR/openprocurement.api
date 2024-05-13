@@ -46,7 +46,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           {
             "description": "test argument"
           }
-        ]
+        ],
+        "sequenceNumber": 1
       }
     ]
   }

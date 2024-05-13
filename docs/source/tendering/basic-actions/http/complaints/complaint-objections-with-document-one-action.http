@@ -58,7 +58,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
               }
             ]
           }
-        ]
+        ],
+        "sequenceNumber": 1
       }
     ],
     "documents": [
@@ -137,6 +138,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b1b9e2275509420b
             ]
           }
         ],
+        "sequenceNumber": 1,
         "relatesTo": "tender"
       }
     ],

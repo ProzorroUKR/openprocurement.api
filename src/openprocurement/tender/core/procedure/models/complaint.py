@@ -12,6 +12,7 @@ from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.procedure.models.complaint_objection import (
     AwardComplaintObjection,
     CancellationComplaintObjection,
@@ -23,7 +24,10 @@ from openprocurement.tender.core.procedure.models.document import Document, Post
 from openprocurement.tender.core.procedure.models.guarantee import Guarantee
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
-from openprocurement.tender.core.procedure.validation import validate_related_lot
+from openprocurement.tender.core.procedure.validation import (
+    validate_numerated,
+    validate_related_lot,
+)
 
 
 class ComplaintIdentifier(Identifier):
@@ -66,7 +70,14 @@ class PostComplaint(Model):
     status = StringType(choices=["draft", "pending"], default="draft")
     type = StringType(choices=["complaint"], default="complaint")  # feel free to choose
     relatedLot = MD5Type()
-    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(TenderComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
     documents = ListType(ModelType(PostDocument, required=True))
 
     def validate_status(self, data, value):
@@ -96,15 +107,36 @@ class PostComplaintFromBid(PostComplaint):
 
 
 class PostAwardComplaint(PostComplaintFromBid):
-    objections = ListType(ModelType(AwardComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(AwardComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class PostCancellationComplaint(PostComplaint):
-    objections = ListType(ModelType(CancellationComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(CancellationComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class PostQualificationComplaint(PostComplaintFromBid):
-    objections = ListType(ModelType(QualificationComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(QualificationComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class DraftPatchComplaint(Model):
@@ -112,19 +144,47 @@ class DraftPatchComplaint(Model):
     author = ModelType(ComplaintOrganization)  # author of claim
     title = StringType()  # title of the claim
     description = StringType()  # description of the claim
-    objections = ListType(ModelType(TenderComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(TenderComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class DraftPatchAwardComplaint(DraftPatchComplaint):
-    objections = ListType(ModelType(AwardComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(AwardComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class DraftPatchCancellationComplaint(DraftPatchComplaint):
-    objections = ListType(ModelType(CancellationComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(CancellationComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class DraftPatchQualificationComplaint(DraftPatchComplaint):
-    objections = ListType(ModelType(QualificationComplaintObjection), min_size=1)
+    objections = ListType(
+        ModelType(QualificationComplaintObjection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
 
 
 class CancellationPatchComplaint(Model):
@@ -222,7 +282,14 @@ class Complaint(Model):
     title = StringType(required=True)  # title of the claim
     description = StringType()  # description of the claim
     dateSubmitted = IsoDateTimeType()
-    objections = ListType(ModelType(Objection), min_size=1)
+    objections = ListType(
+        ModelType(Objection, required=True),
+        min_size=1,
+        validators=[
+            validate_items_uniq,
+            validate_numerated(field_name="sequenceNumber"),
+        ],
+    )
     # tender owner
     resolution = StringType()
     resolutionType = StringType(choices=["invalid", "resolved", "declined"])

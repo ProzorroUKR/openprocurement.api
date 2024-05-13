@@ -72,6 +72,8 @@ ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load(
 ARTICLE_17 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_17.json")}
 OTHER_CRITERIA = {criterion["classification"]["id"] for criterion in standards.load("criteria/other.json")}
 VIOLATION_AMCU = set(standards.load("AMCU/violation_amcu.json"))
+AMCU = set(standards.load("AMCU/amcu.json"))
+AMCU_24 = set(standards.load("AMCU/amcu_24.json"))
 REQUESTED_REMEDIES_TYPES = set(standards.load("AMCU/requested_remedies_type.json"))
 
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = ["ДК003", "ДК015", "ДК018", "specialNorms"]
@@ -355,3 +357,5 @@ QUALIFICATION_AFTER_COMPLAINT_FROM = get_constant(CONSTANTS_CONFIG, "QUALIFICATI
 
 # Logging headers Authorization and X-Request-ID during each request
 CRITICAL_HEADERS_LOG_ENABLED = get_constant(CONSTANTS_CONFIG, "CRITICAL_HEADERS_LOG_ENABLED", parse_func=parse_bool)
+
+OBJECTIONS_ARGUMENTS_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "OBJECTIONS_ARGUMENTS_VALIDATION_FROM")

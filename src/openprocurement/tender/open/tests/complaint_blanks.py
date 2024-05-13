@@ -31,6 +31,32 @@ def create_tender_complaint(self):
     complaint = response.json["data"]
     self.assertEqual(complaint["status"], "draft")
 
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [objection_data, objection_data]
+    response = self.app.post_json("/tenders/{}/complaints".format(self.tender_id), {"data": complaint_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0],
+        "Field sequenceNumber should contain incrementing sequence numbers starting from 1",
+    )
+
+    objection_data_1 = deepcopy(objection_data)
+    objection_data_1["sequenceNumber"] = 1
+    objection_data_2 = deepcopy(objection_data)
+    objection_data_2["sequenceNumber"] = 2
+    complaint_data["objections"] = [objection_data_1, objection_data_2]
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["objections"][0]["sequenceNumber"], 1)
+    self.assertEqual(response.json["data"]["objections"][1]["sequenceNumber"], 2)
+
 
 def patch_tender_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
@@ -168,6 +194,44 @@ def patch_tender_complaint(self):
             response.json["errors"][0]["description"], "Can't update complaint from pending to stopping status"
         )
 
+    # objections
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    complaint = response.json["data"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+        {"data": {"objections": [objection_data, objection_data]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"][0],
+        "Field sequenceNumber should contain incrementing sequence numbers starting from 1",
+    )
+
+    objection_data_1 = deepcopy(objection_data)
+    objection_data_1["sequenceNumber"] = 1
+    objection_data_2 = deepcopy(objection_data)
+    objection_data_2["sequenceNumber"] = 2
+    response = self.app.patch_json(
+        "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, complaint["id"], owner_token),
+        {"data": {"objections": [objection_data_1, objection_data_2]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["objections"][0]["sequenceNumber"], 1)
+    self.assertEqual(response.json["data"]["objections"][1]["sequenceNumber"], 2)
+
     # create complaint
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
@@ -208,6 +272,10 @@ def patch_tender_complaint(self):
 def bot_patch_tender_complaint(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [objection_data]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -231,6 +299,10 @@ def bot_patch_tender_complaint(self):
 def bot_patch_tender_complaint_mistaken(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
+    objection_data = deepcopy(test_tender_open_complaint_objection)
+    objection_data["relatesTo"] = "tender"
+    objection_data["relatedItem"] = self.tender_id
+    complaint_data["objections"] = [objection_data]
     response = self.app.post_json(
         "/tenders/{}/complaints".format(self.tender_id),
         {"data": complaint_data},
@@ -764,7 +836,6 @@ def create_complaint_objection_validation(self):
     response = self.create_complaint(complaint_data, status=422)
     required_fields = response.json["errors"][0]["description"][0].keys()
     self.assertIn("title", required_fields)
-    self.assertIn("description", required_fields)
     self.assertIn("relatesTo", required_fields)
     self.assertIn("relatedItem", required_fields)
     self.assertIn("classification", required_fields)
@@ -853,6 +924,23 @@ def create_complaint_objection_validation(self):
         ["Please provide at least 1 item."],
     )
 
+    invalid_objection_data["arguments"] = [
+        test_tender_open_complaint_objection["arguments"][0],
+        test_tender_open_complaint_objection["arguments"][0],
+    ]
+    invalid_objection_data["relatesTo"] = self.complaint_on
+    invalid_objection_data["relatedItem"] = self.tender_id
+    if self.complaint_on != "tender":
+        obj_id = getattr(self, f"{self.complaint_on}_id")
+        invalid_objection_data["relatedItem"] = obj_id
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn(
+        "Can't add more than 1 argument for objection",
+        response.json["errors"][0]["description"],
+    )
+
     invalid_objection_data["arguments"] = [{}]
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
@@ -867,7 +955,7 @@ def create_complaint_objection_validation(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"][0]["classification"]["scheme"],
-        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu']."],
+        ["Value must be one of ['article_16', 'article_17', 'other', 'violation_amcu', 'amcu', 'amcu_24']."],
     )
 
     invalid_objection_data["classification"]["scheme"] = "article_16"
@@ -907,13 +995,13 @@ def patch_complaint_objection(self):
     self.assertNotIn("evidences", objection["arguments"][0])
 
     del objection_data["id"]
-    objection_data["description"] = "New one"
+    objection_data["description"] = None
     complaint_data = {"objections": [objection_data]}
     response = self.patch_complaint(complaint_id, complaint_data, complaint_token)
     self.assertEqual(response.status, "200 OK")
     objection = response.json["data"]["objections"][0]
     self.assertNotEqual(objection["id"], objection_id)
-    self.assertEqual(objection["description"], "New one")
+    self.assertNotIn("description", objection)
 
 
 def objection_related_document_of_evidence(self):

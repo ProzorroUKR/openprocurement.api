@@ -1,6 +1,7 @@
 from datetime import timedelta
 from logging import getLogger
 
+from openprocurement.api.constants import OBJECTIONS_ARGUMENTS_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
@@ -23,10 +24,12 @@ from openprocurement.tender.core.procedure.models.complaint import (
     TendererResolvePatchComplaint,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.utils import numerate_objections
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     restrict_value_to_bounds,
     round_up_to_ten,
+    tender_created_after,
     tender_created_after_2020_rules,
 )
 
@@ -54,6 +57,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.validate_create_allowed_tender_status()
         self.validate_lot_status()
         self.validate_tender_in_complaint_period(tender)
+        self.validate_objections_arguments(complaint)
 
         self.validate_add_complaint_with_tender_cancellation_in_pending(tender)
         self.validate_add_complaint_with_lot_cancellation_in_pending(tender, complaint)
@@ -109,6 +113,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         # auth role action scenario
         _, handler = self.get_patch_action_model_and_handler()
         handler(complaint)
+        self.validate_objections_arguments(complaint)
 
     def get_patch_data_model(self):
         model, _ = self.get_patch_action_model_and_handler()
@@ -135,12 +140,14 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                     def handler(complaint):
                         complaint["rejectReason"] = "incorrectPayment"
+                        numerate_objections(complaint)
 
                     return BotPatchComplaint, handler
                 elif new_status == "pending":
 
                     def handler(complaint):
                         complaint["dateSubmitted"] = get_now().isoformat()
+                        numerate_objections(complaint)
 
                     return BotPatchComplaint, handler
             else:
@@ -156,6 +163,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
+                    numerate_objections(complaint)
 
                 return self.draft_patch_model, handler
             elif status in ["pending", "accepted"] and new_status == "stopping" and not new_rules:
@@ -303,6 +311,16 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                     raise_operation_error(
                         self.request,
                         "Can't add complaint with 'pending' lot cancellation",
+                    )
+
+    def validate_objections_arguments(self, complaint):
+        if tender_created_after(OBJECTIONS_ARGUMENTS_VALIDATION_FROM):
+            for objection in complaint.get("objections", []):
+                if len(objection.get("arguments", [])) > 1:
+                    raise_operation_error(
+                        self.request,
+                        "Can't add more than 1 argument for objection",
+                        status=422,
                     )
 
 

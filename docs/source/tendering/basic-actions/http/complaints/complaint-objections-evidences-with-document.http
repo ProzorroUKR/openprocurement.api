@@ -34,6 +34,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             ]
           }
         ],
+        "sequenceNumber": 1,
         "id": "ae731fe27f904e038913c411b3673dc4"
       }
     ]
@@ -120,7 +121,8 @@ Content-Type: application/json
               }
             ]
           }
-        ]
+        ],
+        "sequenceNumber": 1
       }
     ],
     "value": {

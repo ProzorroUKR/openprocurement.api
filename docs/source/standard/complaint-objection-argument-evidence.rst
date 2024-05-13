@@ -22,7 +22,7 @@ Schema
     Title of the evidence
 
 :description:
-    string, required
+    string
 
     Description of the evidence
 

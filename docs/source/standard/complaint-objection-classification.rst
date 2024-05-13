@@ -21,6 +21,8 @@ Schema
     * `article_17`
     * `other`
     * `violation_amcu`
+    * `amcu`
+    * `amcu_24`
 
 :id:
     string, required

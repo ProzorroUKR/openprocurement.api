@@ -22,7 +22,7 @@ Schema
     Title of objection
 
 :description:
-    string, required
+    string
 
     Description of objection
 
@@ -51,4 +51,7 @@ Schema
 
 :arguments:
     List of :ref:`complaint-objection-argument` objects
+
+:sequenceNumber:
+    integer, non negative
 
