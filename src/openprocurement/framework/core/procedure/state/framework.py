@@ -89,7 +89,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         super().on_post(data)
 
     def on_patch(self, before, after):
-        self.validate_on_patch(after)
+        self.validate_on_patch(before, after)
         self.validate_framework_patch_status(after)
         super().on_patch(before, after)
 
@@ -111,17 +111,18 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             checks.append(dt_from_iso(data["qualificationPeriod"]["endDate"]))
         return min(checks).isoformat() if checks else None
 
-    def validate_on_patch(self, data):
-        status = data.get("status")
+    def validate_on_patch(self, before, after):
+        status = after.get("status")
         if status not in ("draft", "active"):
             raise_operation_error(
                 get_request(),
                 f"Can't switch to {status} status",
             )
         if status == "active":
-            self.calculate_framework_periods(data)
+            self.calculate_framework_periods(after)
             self.validate_qualification_period_duration(
-                data,
+                before,
+                after,
                 MIN_QUALIFICATION_DURATION,
                 MAX_QUALIFICATION_DURATION,
             )
@@ -160,28 +161,28 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
                 ),
             )
 
-    def validate_qualification_period_duration(self, data, min_duration, max_duration):
-        qualification_period = data.get("qualificationPeriod")
-        if qualification_start := qualification_period.get("startDate"):
-            start_date = dt_from_iso(qualification_start)
-        else:
-            start_date = get_now()
+    def validate_qualification_period_duration(self, before, after, min_duration, max_duration):
+        if before["status"] == "active" and before["qualificationPeriod"] == after["qualificationPeriod"]:
+            # There is a cases when qualificationPeriod in active frameworks
+            # where changed outside the api to prolong the framework.
+            # In this case we should not validate the qualificationPeriod duration
+            # if it was not changed in this request.
+            # So, skip the validation.
+            return
 
-        qualification_period_min_end_date = calculate_framework_date(start_date, timedelta(days=min_duration), data)
-        qualification_period_max_end_date = calculate_framework_date(
-            start_date, timedelta(days=max_duration), data, ceil=True
-        )
-        if qualification_period_min_end_date > dt_from_iso(qualification_period["endDate"]):
+        start_date = dt_from_iso(after["qualificationPeriod"]["startDate"])
+        end_date = dt_from_iso(after["qualificationPeriod"]["endDate"])
+
+        end_date_min = calculate_framework_date(start_date, timedelta(days=min_duration), after)
+        if end_date_min > end_date:
             raise_operation_error(
-                get_request(),
-                "qualificationPeriod must be at least "
-                "{min_duration} full calendar days long".format(min_duration=min_duration),
+                get_request(), f"qualificationPeriod must be at least {min_duration} full calendar days long"
             )
-        if qualification_period_max_end_date < dt_from_iso(qualification_period["endDate"]):
+
+        end_date_max = calculate_framework_date(start_date, timedelta(days=max_duration), after, ceil=True)
+        if end_date_max < end_date:
             raise_operation_error(
-                get_request(),
-                "qualificationPeriod must be less than "
-                "{max_duration} full calendar days long".format(max_duration=max_duration),
+                get_request(), f"qualificationPeriod must be less than {max_duration} full calendar days long"
             )
 
     def calculate_framework_periods(self, data):
@@ -195,7 +196,11 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             enquiry_period_end_date = dt_from_iso(enquiry_end)
         else:
             enquiry_period_end_date = calculate_framework_date(
-                enquiry_period_start_date, timedelta(days=ENQUIRY_PERIOD_DURATION), data, working_days=True, ceil=True
+                enquiry_period_start_date,
+                timedelta(days=ENQUIRY_PERIOD_DURATION),
+                data,
+                working_days=True,
+                ceil=True,
             )
 
         clarifications_until = calculate_framework_date(

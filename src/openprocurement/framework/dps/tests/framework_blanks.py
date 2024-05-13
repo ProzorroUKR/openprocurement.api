@@ -1047,6 +1047,72 @@ def patch_framework_active(self):
         framework["qualificationPeriod"]["endDate"], framework_patch_data["qualificationPeriod"]["endDate"]
     )
 
+    qualificationPeriod_endDate = (get_now() + timedelta(days=10000)).isoformat()
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"qualificationPeriod": {"endDate": qualificationPeriod_endDate}}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "qualificationPeriod must be less than 1095 full calendar days long",
+            }
+        ],
+    )
+
+    # There is a cases when qualificationPeriod in active frameworks
+    # where changed outside the api to prolong the framework.
+    # In this case we should not validate the qualificationPeriod duration
+    # if it was not changed in this request.
+    qualificationPeriod_endDate_external = (get_now() + timedelta(days=100)).isoformat()
+    framework_raw = self.app.app.registry.mongodb.frameworks.get(framework["id"])
+    framework_raw["qualificationPeriod"] = {
+        "startDate": get_now().isoformat(),
+        "endDate": qualificationPeriod_endDate_external,
+    }
+    self.app.app.registry.mongodb.frameworks.save(framework_raw)
+
+    # patch framework with the same qualificationPeriod.endDate that is greater than max days but different from db
+    qualificationPeriod_endDate = (get_now() + timedelta(days=9999)).isoformat()
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"qualificationPeriod": {"endDate": qualificationPeriod_endDate}}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "qualificationPeriod must be less than 1095 full calendar days long",
+            }
+        ],
+    )
+
+    # patch framework with the same qualificationPeriod.endDate that is greater than max days but the same as in db
+    framework_patch_data = {
+        "description": "changed again",
+        "qualificationPeriod": {"endDate": qualificationPeriod_endDate_external},
+    }
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": framework_patch_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    self.assertEqual(framework["description"], framework_patch_data["description"])
+    self.assertEqual(framework["qualificationPeriod"]["endDate"], qualificationPeriod_endDate_external)
+
 
 def framework_fields(self):
     response = self.app.post_json(
