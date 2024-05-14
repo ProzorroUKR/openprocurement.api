@@ -3807,14 +3807,12 @@ def tender_delivery_milestones(self):
                     {
                         "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
                         "percentage": ["Rogue field"],
-                        "relatedLot": ["This field is required."],
                     }
                 ],
             }
         ],
     )
 
-    data["milestones"][-1]["relatedLot"] = self.initial_lots[0]["id"]
     data["milestones"][-1]["code"] = "standard"
     data["milestones"][-1]["title"] = "executionOfWorks"
     del data["milestones"][-1]["percentage"]
@@ -3830,6 +3828,18 @@ def tender_delivery_milestones(self):
         ],
     )
     data["milestones"][-1]["title"] = "signingTheContract"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": ["relatedLot is required"],
+            }
+        ],
+    )
+    data["milestones"][-1]["relatedLot"] = self.initial_lots[0]["id"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]

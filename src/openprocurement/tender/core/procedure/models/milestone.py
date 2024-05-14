@@ -105,13 +105,14 @@ class Milestone(Model):
         if value not in MILESTONE_TITLES[milestone_type]:
             raise ValidationError(f"Value must be one of {MILESTONE_TITLES[milestone_type]}")
 
-    def validate_relatedLot(self, data, value):
-        if data.get("type") == TenderMilestoneTypes.DELIVERY.value and not value:
-            raise ValidationError("This field is required.")
-
 
 def validate_milestones_lot(data, milestones):
     lot_ids = {l.get("id") for l in data.get("lots") or ""}
     for milestone in milestones or "":
+        if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+            if data.get("lots") and milestone.relatedLot is None:
+                raise ValidationError("relatedLot is required")
+            if not data.get("lots") and milestone.relatedLot:
+                raise ValidationError("relatedLot is a rogue field")
         if milestone.relatedLot is not None and milestone.relatedLot not in lot_ids:
             raise ValidationError("relatedLot should be one of the lots.")
