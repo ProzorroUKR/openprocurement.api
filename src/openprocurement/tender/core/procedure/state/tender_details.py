@@ -71,6 +71,7 @@ class TenderConfigMixin:
         "hasAwardComplaints",
         "hasCancellationComplaints",
         "restricted",
+        "cancellationComplainDuration",
     )
 
     def validate_config(self, data):
