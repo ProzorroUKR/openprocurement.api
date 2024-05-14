@@ -1,4 +1,4 @@
-FROM python:3.8-alpine3.18
+FROM python:3.11-alpine3.19
 
 RUN apk --no-cache add gcc build-base git openssl-dev libffi-dev
 
