@@ -26,6 +26,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "restricted": False,
+    "cancellationComplainDuration": 10,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
@@ -44,4 +45,5 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "restricted": False,
+    "cancellationComplainDuration": 10,
 }

@@ -2853,3 +2853,149 @@ class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertIn("complaintPeriod", response.json["data"])
+
+
+class TenderCancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
+    initial_data = deepcopy(test_docs_tender_below)
+
+    def test_docs_cancellation_complain_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="cancellationComplainDuration",
+            file_path=TARGET_CSV_DIR + "cancellation-complain-duration-values.csv",
+        )
+
+    def test_docs_cancellation_complain_duration_complaint_period_exists(self):
+        config = deepcopy(test_tender_open_config)
+        test_tender_data = deepcopy(test_docs_tender_open)
+
+        # Create tender
+        with open(TARGET_DIR + "cancellation-complain-duration-tender-post-1.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": test_tender_data, "config": config},
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        tender_id = self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot["value"] = test_tender_data["value"]
+        test_lot["minimalStep"] = test_tender_data["minimalStep"]
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
+            {"data": test_lot},
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}},
+        )
+        cancellation_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+            {
+                "data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        with open(TARGET_DIR + "cancellation-complain-duration-tender-patch-1.http", "w") as self.app.file_obj:
+
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+                {'data': {"status": "pending"}},
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertIn("complaintPeriod", response.json["data"])
+
+    def test_docs_cancellation_complain_duration_complaint_period_dont_exist(self):
+        config = deepcopy(self.initial_config)
+
+        # Create tender
+        with open(TARGET_DIR + "cancellation-complain-duration-tender-post-2.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1",
+                {"data": self.initial_data, "config": config},
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        tender_id = self.tender_id = tender["id"]
+        owner_token = response.json["access"]["token"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        # add lot
+        test_lot = deepcopy(test_docs_lots[0])
+        test_lot["value"] = self.initial_data["value"]
+        test_lot["minimalStep"] = self.initial_data["minimalStep"]
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token),
+            {"data": test_lot},
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.set_status("active.tendering")
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations?acc_token={}'.format(self.tender_id, owner_token),
+            {'data': {'reason': 'cancellation reason', 'reasonType': 'noDemand'}},
+        )
+        cancellation_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.post_json(
+            '/tenders/{}/cancellations/{}/documents?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+            {
+                "data": {
+                    "title": "Notice.pdf",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                }
+            },
+        )
+        with open(TARGET_DIR + "cancellation-complain-duration-tender-patch-2.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}/cancellations/{}?acc_token={}'.format(self.tender_id, cancellation_id, owner_token),
+                {'data': {"status": "pending"}},
+            )
+            self.assertEqual(response.status, '200 OK')
+            self.assertNotIn("complaintPeriod", response.json["data"])
