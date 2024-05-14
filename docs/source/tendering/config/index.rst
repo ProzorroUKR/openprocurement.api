@@ -21,5 +21,9 @@ Contents:
    award_complaints
    cancellation_complaints
    has_value_estimation
-   restricted
+   has_qualification_complaints
+   tender_complain_regulation
+   qualification_complain_duration
    award_complain_duration
+   cancellation_complain_duration
+   restricted

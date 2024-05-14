@@ -97,6 +97,12 @@ msgstr ""
 msgid "restricted"
 msgstr ""
 
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
 msgid "tenderComplainRegulation"
 msgstr ""
 

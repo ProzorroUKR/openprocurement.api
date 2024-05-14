@@ -90,6 +90,12 @@ msgstr ""
 msgid "restricted"
 msgstr ""
 
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
 msgid "tenderComplainRegulation"
 msgstr ""
 

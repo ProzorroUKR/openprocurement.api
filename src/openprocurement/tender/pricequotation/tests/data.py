@@ -313,8 +313,8 @@ test_tender_pq_config = {
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 0,
-    "restricted": False,
     "cancellationComplainDuration": 0,
+    "restricted": False,
 }
 
 test_tender_pq_cancellation = {

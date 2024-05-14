@@ -1,6 +1,7 @@
 {
     "config": {
         "awardComplainDuration": 5,
+        "cancellationComplainDuration": 10,
         "hasAuction": true,
         "hasAwardComplaints": true,
         "hasAwardingOrder": true,
