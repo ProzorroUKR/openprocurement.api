@@ -90,8 +90,8 @@ test_tender_cfaselectionua_config = {
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 0,
-    "restricted": False,
     "cancellationComplainDuration": 0,
+    "restricted": False,
 }
 
 

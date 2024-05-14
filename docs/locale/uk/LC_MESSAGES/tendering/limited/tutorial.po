@@ -98,6 +98,12 @@ msgstr ""
 msgid "0"
 msgstr ""
 
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
 msgid "The set of possible configuration values for `negotiation`:"
 msgstr "Набір можливих значень конфігурації для `negotiation`:"
 

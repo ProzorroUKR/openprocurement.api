@@ -6,11 +6,11 @@ from openprocurement.api.utils import request_fetch_agreement
 from openprocurement.tender.core.migrations.add_config_award_complain_duration import (
     award_complain_duration_populator,
 )
-from openprocurement.tender.core.migrations.add_config_complain_regulation_field import (
-    tender_complain_regulation_populator,
-)
 from openprocurement.tender.core.migrations.add_config_cancellation_complain_duration import (
     cancellation_complain_duration_populator,
+)
+from openprocurement.tender.core.migrations.add_config_complain_regulation_field import (
+    tender_complain_regulation_populator,
 )
 from openprocurement.tender.core.migrations.add_config_complaints import (
     has_award_complaints_populator,

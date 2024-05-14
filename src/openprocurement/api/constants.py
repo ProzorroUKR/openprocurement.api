@@ -345,14 +345,14 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_AWARD_COMPLAIN_DURATION_OPTIONAL",
         parse_func=parse_bool,
     ),
-    "restricted": get_constant(
-        CONSTANTS_CONFIG,
-        "TENDER_CONFIG_RESTRICTED_OPTIONAL",
-        parse_func=parse_bool,
-    ),
     "cancellationComplainDuration": get_constant(
         CONSTANTS_CONFIG,
         "TENDER_CONFIG_CANCELLATION_COMPLAIN_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
+    "restricted": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_RESTRICTED_OPTIONAL",
         parse_func=parse_bool,
     ),
 }

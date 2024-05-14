@@ -101,6 +101,13 @@ msgstr ""
 msgid "false,true"
 msgstr ""
 
+#, fuzzy
+msgid "cancellationComplainDuration"
+msgstr "Оскарження скасування тендеру"
+
+msgid "0"
+msgstr ""
+
 msgid "tenderComplainRegulation"
 msgstr ""
 

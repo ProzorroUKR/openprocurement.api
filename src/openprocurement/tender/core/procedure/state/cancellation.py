@@ -172,7 +172,6 @@ class CancellationStateMixing:
 
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
-        cancellation_complain_duration = tender["config"]["cancellationComplainDuration"]
         if before == "draft" and after == "pending":
             if not cancellation["reason"] or not cancellation.get("documents"):
                 raise_operation_error(
@@ -182,6 +181,7 @@ class CancellationStateMixing:
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
+            cancellation_complain_duration = tender["config"]["cancellationComplainDuration"]
             if tender["config"]["hasCancellationComplaints"] is True and cancellation_complain_duration > 0:
                 now = get_now()
                 cancellation["complaintPeriod"] = {

@@ -186,6 +186,7 @@ Content-Type: application/json
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 0,
+    "cancellationComplainDuration": 0,
     "restricted": false
   }
 }
