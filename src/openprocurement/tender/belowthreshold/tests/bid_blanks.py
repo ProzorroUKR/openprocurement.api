@@ -2405,7 +2405,7 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
             "quantity": 7,
             "description": "футляри до державних нагород",
             "id": items[0]['id'],
-            "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH"}},
+            "unit": {"code": "DMQ", "value": {"amount": 100, "currency": "UAH"}},
         },
     ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
