@@ -84,6 +84,7 @@ test_tender_reporting_config = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 0,
     "restricted": False,
+    "cancellationComplainDuration": 0,
 }
 
 test_tender_negotiation_config = {
@@ -103,6 +104,7 @@ test_tender_negotiation_config = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "restricted": False,
+    "cancellationComplainDuration": 10,
 }
 
 test_tender_negotiation_quick_config = {
@@ -122,6 +124,7 @@ test_tender_negotiation_quick_config = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "restricted": False,
+    "cancellationComplainDuration": 10,
 }
 
 

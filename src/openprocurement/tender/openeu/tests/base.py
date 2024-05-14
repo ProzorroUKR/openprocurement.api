@@ -247,6 +247,7 @@ test_tender_openeu_config = {
     "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "restricted": False,
+    "cancellationComplainDuration": 10,
 }
 
 
