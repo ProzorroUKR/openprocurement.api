@@ -1,7 +1,7 @@
 from datetime import timedelta
 from logging import getLogger
 
-from openprocurement.api.constants import OBJECTIONS_ARGUMENTS_VALIDATION_FROM
+from openprocurement.api.constants import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
@@ -57,7 +57,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         self.validate_create_allowed_tender_status()
         self.validate_lot_status()
         self.validate_tender_in_complaint_period(tender)
-        self.validate_objections_arguments(complaint)
+        self.validate_objections(complaint)
 
         self.validate_add_complaint_with_tender_cancellation_in_pending(tender)
         self.validate_add_complaint_with_lot_cancellation_in_pending(tender, complaint)
@@ -113,7 +113,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         # auth role action scenario
         _, handler = self.get_patch_action_model_and_handler()
         handler(complaint)
-        self.validate_objections_arguments(complaint)
+        self.validate_objections(complaint)
 
     def get_patch_data_model(self):
         model, _ = self.get_patch_action_model_and_handler()
@@ -313,9 +313,16 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                         "Can't add complaint with 'pending' lot cancellation",
                     )
 
-    def validate_objections_arguments(self, complaint):
-        if tender_created_after(OBJECTIONS_ARGUMENTS_VALIDATION_FROM):
+    def validate_objections(self, complaint):
+        if tender_created_after(OBJECTIONS_ADDITIONAL_VALIDATION_FROM):
             for objection in complaint.get("objections", []):
+                if objection.get("sequenceNumber") is None:
+                    raise_operation_error(
+                        self.request,
+                        "sequenceNumber field is required",
+                        status=422,
+                        name="objections",
+                    )
                 if len(objection.get("arguments", [])) > 1:
                     raise_operation_error(
                         self.request,

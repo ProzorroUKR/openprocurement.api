@@ -968,6 +968,24 @@ def create_complaint_objection_validation(self):
         ["Value must be one of article_16 reasons"],
     )
 
+    invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
+    invalid_objection_data.pop("sequenceNumber", None)
+    complaint_data["objections"] = [invalid_objection_data]
+    response = self.create_complaint(complaint_data, with_valid_relates_to=True, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "sequenceNumber field is required",
+    )
+
+    # create objection without sequenceNumber before release
+    with patch(
+        "openprocurement.tender.core.procedure.state.complaint.OBJECTIONS_ADDITIONAL_VALIDATION_FROM",
+        get_now() + timedelta(days=10),
+    ):
+        response = self.create_complaint(complaint_data, with_valid_relates_to=True)
+        self.assertEqual(response.status, "201 Created")
+
 
 def patch_complaint_objection(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)

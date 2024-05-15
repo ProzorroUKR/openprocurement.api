@@ -46,7 +46,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         self.validate_cancellation_complaint_resolved(complaint)
         self.validate_tender_in_complaint_period(tender)
         self.validate_objection_related_item(complaint)
-        self.validate_objections_arguments(complaint)
+        self.validate_objections(complaint)
 
     def validate_objection_related_item(self, complaint):
         if objections := complaint.get("objections", []):
