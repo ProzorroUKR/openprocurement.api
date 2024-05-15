@@ -79,7 +79,7 @@ class Objection(Model):
             validate_items_uniq,
         ],
     )
-    sequenceNumber = IntType(required=True, min_value=0)
+    sequenceNumber = IntType(min_value=0, serialize_when_none=True)
 
     def validate_relatedItem(self, data, value):
         complaint = get_complaint() or data.get("__parent__", {})

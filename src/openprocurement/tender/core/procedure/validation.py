@@ -1529,7 +1529,7 @@ def validate_numerated(field_name="sequenceNumber"):
         if not value:
             return
         for i, obj in enumerate(value):
-            if obj.get(field_name) != i + 1:
+            if obj.get(field_name) is not None and obj.get(field_name) != i + 1:  # field can be optional
                 raise ValidationError(
                     f"Field {field_name} should contain incrementing sequence numbers starting from 1"
                 )
