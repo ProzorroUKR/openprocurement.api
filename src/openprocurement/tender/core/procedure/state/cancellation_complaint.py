@@ -5,6 +5,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.models.complaint import (
     AdministratorPatchComplaint,
     BotPatchComplaint,
@@ -114,7 +115,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         auth_role = request.authenticated_role
         current_complaint = request.validated["complaint"]
         status = current_complaint["status"]
-        request_data = request.json["data"]
+        request_data = validate_json_data(request)
         new_status = request_data.get("status") or status
 
         # this one somewhat duplicates the checks below
