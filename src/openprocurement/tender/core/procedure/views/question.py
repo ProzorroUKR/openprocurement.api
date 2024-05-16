@@ -82,8 +82,6 @@ class TenderQuestionResource(TenderBaseResource):
             tender["questions"] = []
         tender["questions"].append(question)
 
-        self.state.always(tender)
-
         if save_tender(self.request):
             self.LOGGER.info(
                 f"Created tender question {question['id']}",
@@ -119,7 +117,6 @@ class TenderQuestionResource(TenderBaseResource):
             question = self.request.validated["question"]
             set_item(self.request.validated["tender"], "questions", question["id"], updated)
             self.state.question_on_patch(question, updated)
-            self.state.always(self.request.validated["tender"])
             if save_tender(self.request):
                 self.LOGGER.info(
                     "Updated tender question {}".format(question["id"]),

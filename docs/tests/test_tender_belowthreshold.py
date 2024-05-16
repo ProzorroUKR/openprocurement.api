@@ -1023,3 +1023,160 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         with open(TARGET_DIR + 'multi-currency/contract-activated.http', 'w') as self.app.file_obj:
             self.app.get('/contracts/{}?acc_token={}'.format(self.contract_id, owner_token))
+
+    def test_inspector_tutorial(self):
+        tender_data = deepcopy(test_tender_data)
+        tender_data["inspector"] = inspector_data = deepcopy(test_docs_funder)
+
+        # Create tender with inspector
+        with open(TARGET_DIR + 'tutorial/tender-with-inspector-post-without-funders.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': tender_data, 'config': self.initial_config},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        tender_data["funders"] = [test_docs_funder]
+        with open(TARGET_DIR + 'tutorial/tender-with-inspector-post-success.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': tender_data, 'config': self.initial_config},
+            )
+            self.assertEqual(response.status, '201 Created')
+            self.tender_id = tender_id = response.json["data"]["id"]
+            owner_token = response.json["access"]["token"]
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_tender_below_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id = response.json["data"]["id"]
+
+        response = self.app.post_json(
+            '/tenders?opt_pretty=1',
+            {'data': test_tender_data, 'config': self.initial_config},
+        )
+        self.assertEqual(response.status, '201 Created')
+        tender_wi_id = response.json['data']['id']
+        owner_wi_token = response.json['access']['token']
+
+        response = self.app.patch_json(
+            f'/tenders/{tender_wi_id}?acc_token={owner_wi_token}', {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # PATCH inspector
+
+        response = self.app.patch_json(
+            f'/tenders/{tender_id}?acc_token={owner_token}', {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        inspector_data["name"] = "Компанія Контролер"
+
+        with open(TARGET_DIR + 'tutorial/patch-tender-inspector-success.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}?acc_token={owner_token}',
+                {'data': {'inspector': inspector_data}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        # POST Review requests
+
+        with open(TARGET_DIR + 'tutorial/post-tender-review-request-success.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {}},
+            )
+            self.assertEqual(response.status, '201 Created')
+            review_request_id = response.json['data']['id']
+
+        with open(TARGET_DIR + 'tutorial/post-tender-review-request-already-exist.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        with open(TARGET_DIR + 'tutorial/patch-tender-with-unanswered-review-request.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}?acc_token={owner_token}',
+                {'data': {'description': 'Оновлений опис'}},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        with open(TARGET_DIR + 'tutorial/patch-tender-period-with-review-request.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}?acc_token={owner_token}',
+                {
+                    'data': {
+                        'tenderPeriod': {
+                            'startDate': (get_now() + timedelta(days=10)).isoformat(),
+                            'endDate': (get_now() + timedelta(days=15)).isoformat(),
+                        }
+                    }
+                },
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        # PATCH review request
+
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('inspector', ''))
+
+        with open(TARGET_DIR + 'tutorial/patch-tender-review-request-false.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/review_requests/{review_request_id}',
+                {'data': {'approved': False, 'description': 'Виправте description'}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'tutorial/second-patch-tender-review-request-false.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/review_requests/{review_request_id}',
+                {'data': {'approved': True}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')
+
+        self.app.authorization = auth
+
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+            {"data": {}},
+        )
+        self.assertEqual(response.status, '201 Created')
+        review_request_id = response.json['data']['id']
+
+        auth = self.app.authorization
+        self.app.authorization = ('Basic', ('inspector', ''))
+
+        with open(TARGET_DIR + 'tutorial/patch-tender-review-request-true.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                f'/tenders/{tender_id}/review_requests/{review_request_id}',
+                {'data': {'approved': True}},
+            )
+            self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = auth
+
+        self.set_status("active.qualification")
+
+        with open(TARGET_DIR + 'tutorial/post-review-request-without-lot-id.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {}},
+                status=422,
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        with open(TARGET_DIR + 'tutorial/post-review-request-without-active-award.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/review_requests?acc_token={owner_token}',
+                {"data": {"lotID": lot_id}},
+                status=403,
+            )
+            self.assertEqual(response.status, '403 Forbidden')

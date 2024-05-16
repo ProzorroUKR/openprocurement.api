@@ -13,7 +13,7 @@ class PriceQuotationTenderState(TenderState):
     award_class = Award
     generate_award_milestones = False
 
-    def get_events(self, tender):
+    def get_events(self, tender, enable_approve_check=False):
         status = tender["status"]
 
         if status == "active.tendering":

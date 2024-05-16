@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/a7b9a682e7474cf7841bf6a8139238cc/review_requests/66d4ebcf415b49549e56f12190dcc2b5 HTTP/1.0
+Authorization: Bearer inspector
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "approved": true
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "66d4ebcf415b49549e56f12190dcc2b5",
+    "tenderStatus": "active.enquiries",
+    "approved": true,
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "date": "2023-10-10T01:00:00+03:00",
+    "is_valid": true
+  }
+}
+

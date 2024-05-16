@@ -501,3 +501,55 @@ def is_multi_currency_tender(check_funders=False):
     # But anyway multi currency can be only in belowThreshold, competitiveOrdering and new contracting
     if tender := get_tender():
         return tender["config"]["valueCurrencyEquality"] is False and (tender.get("funders") or not check_funders)
+
+
+def was_changed_after_approve_review_request(tender: dict, review_request_date: dict) -> bool:
+    excluded_changed_field = ("questions", "tenderPeriod", "next_check", "reviewRequests")
+
+    request = get_request()
+    tender_src = request.validated["tender_src"]
+
+    changes = get_revision_changes(tender, tender_src)
+    revisions = [{"date": get_now().isoformat(), "changes": changes}]
+    revisions.extend(tender.get("revisions", [])[::-1])
+
+    for rev in revisions:
+        if review_request_date >= parse_date(rev["date"]):
+            break
+
+        for change in rev.get("changes", ""):
+            path = change.get("path", "")
+            if path and path.split("/")[1] not in excluded_changed_field:
+                return True
+
+    return False
+
+
+def check_is_waiting_for_inspector_approve(tender: dict, lot_id=None, valid_statuses=None) -> bool:
+    if not valid_statuses:
+        return False
+
+    status = tender.get("status", "")
+    inspector = tender.get("inspector")
+
+    if status not in valid_statuses or not inspector:
+        return False
+
+    rev_reqs = [i for i in tender.get("reviewRequests", []) if i.get("lotID") == lot_id and i["tenderStatus"] == status]
+
+    if not rev_reqs:
+        return True
+
+    rev_req = rev_reqs[-1]
+
+    return not rev_req.get("approved") or not rev_req.get("is_valid")
+
+
+def check_is_tender_waiting_for_inspector_approve(tender: dict, lot_id=None) -> bool:
+    return check_is_waiting_for_inspector_approve(tender, lot_id, valid_statuses=["active.enquiries"])
+
+
+def check_is_contract_waiting_for_inspector_approve(tender: dict, lot_id=None) -> bool:
+    return check_is_waiting_for_inspector_approve(
+        tender, lot_id, valid_statuses=["active.qualification", "active.awarded"]
+    )

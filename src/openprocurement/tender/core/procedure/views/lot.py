@@ -84,6 +84,7 @@ class TenderLotResource(TenderBaseResource):
         tender["lots"].append(lot)
 
         self.state.lot_on_post(lot)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -147,6 +148,7 @@ class TenderLotResource(TenderBaseResource):
         set_item(self.request.validated["tender"], "lots", lot["id"], updated)
 
         self.state.lot_on_patch(lot, updated)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -178,6 +180,7 @@ class TenderLotResource(TenderBaseResource):
         if not tender["lots"]:
             del tender["lots"]
         self.state.lot_on_delete(lot)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(

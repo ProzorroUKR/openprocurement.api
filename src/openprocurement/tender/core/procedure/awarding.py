@@ -71,6 +71,7 @@ class TenderStateAwardingMixing:
                     continue
 
                 all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
+
                 if all_bids:
                     bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=lot["id"])
                     if bids:

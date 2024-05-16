@@ -10,6 +10,7 @@ from openprocurement.tender.belowthreshold.constants import (
 )
 from openprocurement.tender.belowthreshold.procedure.models.tender import (
     PatchActiveTender,
+    PatchDraftTender,
     PatchTender,
 )
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
@@ -100,8 +101,10 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     def get_patch_data_model(self):
         tender = get_tender()
-        if tender.get("status") == "active.tendering":
+        if tender.get("status", "") == "active.tendering":
             return PatchActiveTender
+        elif tender.get("status", "") in ("draft", "active.enquiries"):
+            return PatchDraftTender
         return PatchTender
 
 

@@ -17,6 +17,7 @@ class BelowThresholdCriterionStateMixin(BaseBelowThresholdCriterionStateMixin, C
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
         self._validate_criterion_uniq_patch(before, after)
+        self.validate_action_with_exist_inspector_review_request()
 
 
 class BelowThresholdCriterionState(BelowThresholdCriterionStateMixin, BelowThresholdTenderState):

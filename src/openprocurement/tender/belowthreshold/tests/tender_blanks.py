@@ -1780,6 +1780,59 @@ def tender_fields(self):
     self.assertIn(tender["id"], response.headers["Location"])
 
 
+def tender_inspector(self):
+    tender_data = deepcopy(self.initial_data)
+    organization = deepcopy(test_tender_below_organization)
+    del organization["scale"]
+    funder_organization = deepcopy(organization)
+    funder_organization["identifier"]["id"] = "44000"
+    funder_organization["identifier"]["scheme"] = "XM-DAC"
+
+    tender_data["inspector"] = organization
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "inspector", "description": ["Inspector couldn't exist without funders"]}],
+    )
+
+    tender_data["funders"] = [funder_organization]
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("funders", response.json["data"])
+    self.assertIn("inspector", response.json["data"])
+
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("funders", response.json["data"])
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"inspector": organization}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "inspector", "description": ["Inspector couldn't exist without funders"]}],
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"funders": [funder_organization], "inspector": organization}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("funders", response.json["data"])
+    self.assertIn("inspector", response.json["data"])
+
+
 def tender_items_float_quantity(self):
     data = deepcopy(self.initial_data)
     quantity = 5.4999999
