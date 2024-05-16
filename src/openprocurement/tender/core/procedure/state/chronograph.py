@@ -11,10 +11,7 @@ from openprocurement.tender.core.procedure.contracting import (
     update_econtracts_statuses,
 )
 from openprocurement.tender.core.procedure.models.qualification import Qualification
-from openprocurement.tender.core.procedure.state.utils import (
-    awarding_is_unsuccessful,
-    numerate_objections,
-)
+from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
     activate_bids,
     calc_auction_end_time,
@@ -263,7 +260,6 @@ class ChronographEventsMixing:
         def handler(*_):
             self.set_object_status(complaint, "mistaken")
             complaint["rejectReason"] = "complaintPeriodEnded"
-            numerate_objections(complaint)
 
         return handler
 

@@ -24,7 +24,6 @@ from openprocurement.tender.core.procedure.models.complaint import (
     TendererResolvePatchComplaint,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.utils import numerate_objections
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     restrict_value_to_bounds,
@@ -140,14 +139,12 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                     def handler(complaint):
                         complaint["rejectReason"] = "incorrectPayment"
-                        numerate_objections(complaint)
 
                     return BotPatchComplaint, handler
                 elif new_status == "pending":
 
                     def handler(complaint):
                         complaint["dateSubmitted"] = get_now().isoformat()
-                        numerate_objections(complaint)
 
                     return BotPatchComplaint, handler
             else:
@@ -163,7 +160,6 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
                 def handler(complaint):
                     complaint["rejectReason"] = "cancelledByComplainant"
-                    numerate_objections(complaint)
 
                 return self.draft_patch_model, handler
             elif status in ["pending", "accepted"] and new_status == "stopping" and not new_rules:
