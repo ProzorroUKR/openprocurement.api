@@ -8,7 +8,10 @@ from openprocurement.tender.core.procedure.models.chronograph import (
 from openprocurement.tender.core.procedure.serializers.chronograph import (
     ChronographSerializer,
 )
-from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.utils import (
+    check_is_tender_waiting_for_inspector_approve,
+    save_tender,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
@@ -28,6 +31,7 @@ class TenderChronographResource(TenderBaseResource):
         validators=(validate_input_data(TenderChronographData),),
     )
     def patch(self):
+
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update

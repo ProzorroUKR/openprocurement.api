@@ -49,6 +49,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     def requirement_always(self, data: dict) -> None:
         self.invalidate_bids()
         self.validate_always(data)
+        self.invalidate_review_requests()
 
     def validate_on_post(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]
@@ -64,6 +65,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     def validate_always(self, data: dict) -> None:
         self._validate_requirement_data(data)
+        self.validate_action_with_exist_inspector_review_request()
 
     @validation_error_handler
     def _validate_ids_uniq(self) -> None:

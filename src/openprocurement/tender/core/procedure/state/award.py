@@ -19,10 +19,13 @@ class AwardStateMixing:
     def validate_award_patch(self, before, after):
         request, tender = get_request(), get_tender()
         self.validate_cancellation_blocks(request, tender, lot_id=before.get("lotID"))
+        self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
 
     def award_on_patch(self, before, award):
         # start complaintPeriod
+
         if before["status"] != award["status"]:
+            self.invalidate_review_requests(lot_id=award.get("lotID", ""))
             if award["status"] in ("active", "unsuccessful"):
                 if not award.get("complaintPeriod"):
                     award["complaintPeriod"] = {}

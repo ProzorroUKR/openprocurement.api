@@ -69,6 +69,7 @@ class BaseCriterionResource(TenderBaseResource):
         self.state.validate_on_post(criteria)
         tender["criteria"].extend(criteria)
         self.state.criterion_on_post(criteria)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             for criterion in criteria:
@@ -111,6 +112,7 @@ class BaseCriterionResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         self.state.criterion_on_patch(criterion, updated_criterion)
         set_item(tender, "criteria", criterion["id"], updated_criterion)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(

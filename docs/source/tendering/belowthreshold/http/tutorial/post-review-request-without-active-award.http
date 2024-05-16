@@ -1,0 +1,26 @@
+POST /api/2.5/tenders/a7b9a682e7474cf7841bf6a8139238cc/review_requests?acc_token=ae6fe916e0db4b65966bad37e333cadb HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "lotID": "c5688ea55ff244c7815a7c00dcf5f23c"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Review request can be created only for lot with active award"
+    }
+  ]
+}
+

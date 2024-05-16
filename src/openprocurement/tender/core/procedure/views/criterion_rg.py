@@ -78,6 +78,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
         criterion["requirementGroups"].append(requirement_group)
 
         self.state.requirement_group_on_post(requirement_group)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -119,6 +120,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
         criterion = self.request.validated["criterion"]
         self.state.requirement_group_on_patch(requirement_group, updated_requirement_group)
         set_item(criterion, "requirementGroups", requirement_group["id"], updated_requirement_group)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(

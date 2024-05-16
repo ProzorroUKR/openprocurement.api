@@ -2,6 +2,7 @@ from datetime import datetime
 from decimal import ROUND_UP, Decimal
 from itertools import zip_longest
 from logging import getLogger
+from typing import Optional
 
 from schematics.types import BaseType
 
@@ -20,6 +21,7 @@ from openprocurement.tender.core.procedure.context import get_award, get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
+    check_is_contract_waiting_for_inspector_approve,
     contracts_allow_to_complete,
     dt_from_iso,
     get_contracts_values_related_to_patched_contract,
@@ -286,6 +288,9 @@ class ContractStateMixing:
             self.contract_status_up(before["status"], after["status"], after)
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
+            self.validate_activate_contract_with_review_request(
+                self.request, self.request.validated["tender"], after, self.request.validated["award"].get("lotID")
+            )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_now().isoformat()
         if after.get("value", {}) != before.get("value", {}):
@@ -461,6 +466,16 @@ class ContractStateMixing:
                 else:
                     if amount != amount_net:
                         raise_operation_error(request, "Amount and amountNet should be equal", name="value")
+
+    @staticmethod
+    def validate_activate_contract_with_review_request(
+        request, tender: dict, after: dict, lot_id: Optional[str] = None
+    ) -> None:
+        if check_is_contract_waiting_for_inspector_approve(tender, lot_id):
+            raise_operation_error(
+                request,
+                f"Can't update contract to {after['status']} till inspector approve",
+            )
 
 
 class ContractState(ContractStateMixing, TenderState):

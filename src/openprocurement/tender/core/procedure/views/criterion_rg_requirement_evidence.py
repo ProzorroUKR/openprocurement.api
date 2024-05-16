@@ -85,6 +85,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         requirement["eligibleEvidences"].append(evidence)
 
         self.state.evidence_on_post(requirement)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -139,6 +140,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         self.state.evidence_on_patch(evidence, updated_evidence)
 
         set_item(requirement, "eligibleEvidences", evidence["id"], updated_evidence)
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
             self.LOGGER.info(
@@ -160,6 +162,8 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         requirement["eligibleEvidences"].remove(evidence)
         if not requirement["eligibleEvidences"]:
             del requirement["eligibleEvidences"]
+
+        self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request, modified=False):
             self.LOGGER.info(
