@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_required_unit,
     guarantee,
     patch_tender_minimalstep_validation,
+    tender_financing_milestones,
     tender_lot_minimalstep_validation,
     tender_milestones_required,
     tender_minimalstep_validation,
@@ -33,6 +34,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     patch_tender_eu_ua,
     patch_tender_lots_none,
     path_complete_tender,
+    tender_delivery_milestones,
     tender_features_invalid,
     tender_with_main_procurement_category,
     try_go_to_ready_stage_eu,
@@ -77,6 +79,8 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
+    test_tender_financing_milestones = snitch(tender_financing_milestones)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -103,6 +107,8 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
+    test_tender_financing_milestones = snitch(tender_financing_milestones)
 
 
 def suite():
