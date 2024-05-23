@@ -1,10 +1,10 @@
 from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import ModelType
-from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.core.procedure.models.item import (
     CPVClassification as BaseCPVClassification,
 )
 from openprocurement.tender.core.procedure.models.item import Item as TenderBaseItem
+from openprocurement.tender.core.procedure.models.item import LocalizationItem
 
 
 class CPVClassification(BaseCPVClassification):
@@ -12,7 +12,7 @@ class CPVClassification(BaseCPVClassification):
         pass
 
 
-class BidItem(BaseItem):
+class BidItem(LocalizationItem):
     def validate_quantity(self, data, value):
         pass
 

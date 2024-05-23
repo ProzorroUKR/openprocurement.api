@@ -47,6 +47,7 @@ from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
+from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 
 
 @patch(
@@ -73,6 +74,7 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
+    test_bids_related_product = snitch(bids_related_product)
 
     def setUp(self):
         super().setUp()

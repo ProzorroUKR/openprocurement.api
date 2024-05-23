@@ -13,7 +13,7 @@ from openprocurement.tender.core.procedure.models.bid_document import (
     Document,
     PostDocument,
 )
-from openprocurement.tender.core.procedure.models.item import BaseItem
+from openprocurement.tender.core.procedure.models.item import LocalizationItem
 from openprocurement.tender.core.procedure.models.organization import (
     BusinessOrganization,
 )
@@ -34,7 +34,7 @@ class PatchBid(PatchObjResponsesMixin, Model):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
-    items = ListType(ModelType(BaseItem, required=True))
+    items = ListType(ModelType(LocalizationItem, required=True))
 
     def validate_value(self, data, value):
         if value is not None:
@@ -60,7 +60,7 @@ class PostBid(PostBidResponsesMixin, PatchBid):
         default="draft",
     )
     items = ListType(
-        ModelType(BaseItem, required=True),
+        ModelType(LocalizationItem, required=True),
         min_size=1,
         validators=[validate_items_uniq],
     )
@@ -93,7 +93,7 @@ class Bid(ObjResponseMixin, Model):
         required=True,
     )
     items = ListType(
-        ModelType(BaseItem, required=True),
+        ModelType(LocalizationItem, required=True),
         min_size=1,
         validators=[validate_items_uniq],
     )

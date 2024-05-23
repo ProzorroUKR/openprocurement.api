@@ -1,5 +1,7 @@
-from openprocurement.tender.core.procedure.models.item import BaseItem
 from openprocurement.tender.core.procedure.models.item import Item as TenderBaseItem
+from openprocurement.tender.core.procedure.models.item import (
+    LocalizationItem as BaseItem,
+)
 
 
 class BidItem(BaseItem):

@@ -18,7 +18,7 @@ from openprocurement.tender.core.procedure.models.bid_document import (
     Document,
     PostDocument,
 )
-from openprocurement.tender.core.procedure.models.item import BaseItem
+from openprocurement.tender.core.procedure.models.item import BaseItem, LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
     LotValue,
     PatchLotValue,
@@ -45,6 +45,10 @@ class PatchBid(BaseBid):
     status = StringType(
         choices=["draft", "pending", "active", "invalid", "invalid.pre-qualification", "unsuccessful", "deleted"],
     )
+
+
+class PatchLocalizationBid(PatchBid):
+    items = ListType(ModelType(LocalizationItem, required=True))
 
 
 # --- PATCH DATA
@@ -127,6 +131,10 @@ class PostBid(CommonBid):
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
 
+class PostLocalizationBid(PostBid):
+    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_items_uniq])
+
+
 # -- POST
 
 
@@ -144,6 +152,10 @@ class Bid(MetaBid, CommonBid):
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))
     qualificationDocuments = ListType(ModelType(Document, required=True))
+
+
+class LocalizationBid(Bid):
+    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_items_uniq])
 
 
 Administrator_bid_role = whitelist("tenderers")

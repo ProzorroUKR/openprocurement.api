@@ -9,6 +9,7 @@ from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import (
     context_unpack,
     error_handler,
+    get_tender_product,
     raise_operation_error,
 )
 from openprocurement.tender.cfaselectionua.procedure.utils import (
@@ -36,6 +37,7 @@ class BidState(BaseState):
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
+        self.validate_items_related_product(data, {})
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -49,6 +51,7 @@ class BidState(BaseState):
         self.validate_status_change(before, after)
         self.update_date_on_value_amount_change(before, after)
         self.validate_items_id(after)
+        self.validate_items_related_product(after, before)
         super().on_patch(before, after)
 
     def validate_bid_unit_value(self, data):
@@ -253,3 +256,12 @@ class BidState(BaseState):
                 f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",
                 status=422,
             )
+
+    def validate_items_related_product(self, after: dict, before: dict) -> None:
+        after_items_rps = {item["id"]: item.get("product", "") for item in after.get("items", "")}
+        before_items_rps = {item["id"]: item.get("product", "") for item in before.get("items", "")}
+
+        for item_id, after_rp in after_items_rps.items():
+            if after_rp:
+                if not (before_rp := before_items_rps.get(item_id)) or before_rp != after_rp:
+                    get_tender_product(get_request(), after_rp)

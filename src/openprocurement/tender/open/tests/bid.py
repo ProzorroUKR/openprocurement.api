@@ -69,6 +69,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     put_tender_bidder_document_json,
     tender_bidder_confidential_document,
 )
+from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 
 
 class TenderBidResourceTestMixin:
@@ -201,6 +202,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
+    test_bids_related_product = snitch(bids_related_product)
 
 
 class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):

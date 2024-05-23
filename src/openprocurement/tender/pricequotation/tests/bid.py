@@ -14,13 +14,13 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     not_found,
     put_tender_bid_document_json,
 )
+from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_tender_pq_bids,
     test_tender_pq_criteria,
     test_tender_pq_organization,
     test_tender_pq_requirement_response,
-    test_tender_pq_requirement_response_valid,
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
@@ -56,6 +56,7 @@ from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuid
 class TenderBidResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria
+    test_bids_data = test_tender_pq_bids
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
@@ -69,6 +70,7 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_invalidate_not_agreement_member_bid_via_chronograph = snitch(
         invalidate_not_agreement_member_bid_via_chronograph
     )
+    test_bids_related_product = snitch(bids_related_product)
 
 
 class TenderBidCriteriaTest(TenderContentWebTest):
