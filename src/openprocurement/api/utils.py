@@ -498,7 +498,7 @@ def requested_fields_changes(request, fieldnames):
     return set(fieldnames) & set(changed_fields)
 
 
-def get_child_items(parent, item_field, item_id):
+def get_child_items(parent: dict, item_field: str, item_id: str) -> list:
     return [i for i in parent.get(item_field, []) if i.get("id") == item_id]
 
 
@@ -508,10 +508,12 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def get_tender_profile(request, profile_id):
+def get_catalogue_object(request, uri: str, obj_id: str) -> dict:
     catalog_api_host = request.registry.catalog_api_host
+    obj_name = uri.split("/")[-1]
+
     try:
-        resp = requests.get(f"{catalog_api_host}/api/profiles/{profile_id}")
+        resp = requests.get(f"{catalog_api_host}/api/{uri}/{obj_id}")
     except requests.exceptions.RequestException as e:
         LOGGER.warning(f"Error while getting data from ProZorro e-Catalogues. Details: {e}")
         raise raise_operation_error(
@@ -520,10 +522,22 @@ def get_tender_profile(request, profile_id):
             status=502,
         )
     if resp.status_code == 404:
-        raise_operation_error(request, f"Profile {profile_id} not found in catalouges.", status=404)
+        raise_operation_error(request, f"{obj_name.capitalize()} {obj_id} not found in catalouges.", status=404)
     elif resp.status_code != 200:
         response_text = resp.json()
         raise_operation_error(
-            request, f"Fail getting profile {profile_id}: {resp.status_code} {response_text}.", status=resp.status_code
+            request, f"Fail getting {obj_name} {obj_id}: {resp.status_code} {response_text}.", status=resp.status_code
         )
     return resp.json().get("data", {})
+
+
+def get_tender_profile(request, profile_id: str) -> dict:
+    return get_catalogue_object(request, "profiles", profile_id)
+
+
+def get_tender_category(request, category_id: str) -> dict:
+    return get_catalogue_object(request, "categories", category_id)
+
+
+def get_tender_product(request, product_id: str) -> dict:
+    return get_catalogue_object(request, "products", product_id)

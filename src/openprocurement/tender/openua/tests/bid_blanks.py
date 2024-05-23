@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import Mock, patch
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -2943,3 +2944,82 @@ def patch_tender_with_bids_lots_none(self):
         response.json["errors"],
         [{"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]}],
     )
+
+
+def bids_related_product(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    tender_item_1 = tender["items"][0]
+    bid_data = self.test_bids_data[0].copy()
+    if tender.get("lots"):
+        set_bid_lotvalues(bid_data, self.initial_lots)
+
+    related_product_id = "1" * 32
+    bid_data["items"] = [
+        {
+            "quantity": 4,
+            "description": "футляри до державних нагород",
+            "id": tender_item_1["id"],
+            # "unit": {"code": "KGM", "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True}},
+            "product": related_product_id,
+        },
+    ]
+
+    response_404 = Mock()
+    response_404.status_code = 404
+
+    with patch(
+        "requests.get",
+        Mock(return_value=response_404),
+    ):
+        response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=404)
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(
+            response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
+        )
+
+    response_200 = Mock()
+    response_200.status_code = 200
+    response_200.json = Mock(return_value={"data": {"id": related_product_id}})
+
+    with patch(
+        "requests.get",
+        Mock(return_value=response_200),
+    ):
+        response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["product"], related_product_id)
+        bid_id = response.json["data"]["id"]
+        bid_token = response.json["access"]["token"]
+
+    items = bid_data["items"].copy()
+    items[0]["quantity"] = 2
+
+    with patch(
+        "requests.get",
+        Mock(return_value=response_404),
+    ):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["product"], related_product_id)
+
+    related_product_id = "2" * 32
+    items = bid_data["items"].copy()
+    items[0]["product"] = related_product_id
+
+    with patch(
+        "requests.get",
+        Mock(return_value=response_404),
+    ):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": items}}, status=404
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
+        )

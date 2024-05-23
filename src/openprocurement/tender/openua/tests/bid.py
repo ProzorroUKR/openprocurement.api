@@ -2,10 +2,8 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_bids,
     test_tender_below_lots,
     test_tender_below_organization,
 )
@@ -18,10 +16,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBi
     post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
-from openprocurement.tender.core.tests.base import (
-    test_exclusion_criteria,
-    test_language_criteria,
-)
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAContentWebTest,
     test_tender_openua_bids,
@@ -34,6 +29,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (  # TenderBidResourc
     bid_Administrator_change,
     bid_invalidation_after_requirement_put,
     bids_activation_on_tender_documents,
+    bids_related_product,
     create_bid_after_removing_lot,
     create_bid_requirement_response,
     create_bid_requirement_response_evidence,
@@ -197,6 +193,7 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
     test_draft1_bid = snitch(draft1_bid)
     test_draft2_bids = snitch(draft2_bids)
+    test_bids_related_product = snitch(bids_related_product)
 
     def setUp(self):
         super().setUp()

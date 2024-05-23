@@ -62,6 +62,7 @@ from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
+from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 
 
 class BaseTenderLotsContentWebTest(BaseTenderContentWebTest):
@@ -100,6 +101,7 @@ class TenderBidResourceTest(BaseTenderLotsContentWebTest):
     test_deleted_bid_do_not_locks_tender_in_state = snitch(deleted_bid_do_not_locks_tender_in_state)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
+    test_bids_related_product = snitch(bids_related_product)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):

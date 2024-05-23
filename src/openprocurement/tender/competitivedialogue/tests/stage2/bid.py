@@ -29,14 +29,10 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     features_bidder_ua,
     ukrainian_author_id,
 )
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.openeu.tests.bid import (
     Tender2BidResourceTestMixin,
     TenderBidDocumentResourceWithDSTestMixin,
     TenderBidResourceTestMixin,
-)
-from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.bid import (
     TenderBidDocumentWithDSResourceTestMixin as TenderUABidDocumentWithDSResourceTestMixin,
@@ -48,6 +44,7 @@ from openprocurement.tender.openua.tests.bid import (
 from openprocurement.tender.openua.tests.bid_blanks import (
     bid_Administrator_change as bid_Administrator_change_ua,
 )
+from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.openua.tests.bid_blanks import (
     delete_tender_bidder as delete_tender_bidder_ua,
 )
@@ -100,6 +97,7 @@ class TenderStage2EUBidResourceTest(
     test_ukrainian_author_id = snitch(ukrainian_author_id)
     # TODO: undone that
     test_create_tender_biddder_invalid = None
+    test_bids_related_product = snitch(bids_related_product)
 
     def setUp(self):
         super().setUp()
@@ -181,6 +179,7 @@ class TenderStage2UABidResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest)
     test_2_draft_bids = snitch(two_draft_bids)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change_ua)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents_ua)
+    test_bids_related_product = snitch(bids_related_product)
 
 
 class TenderStage2UABidFeaturesResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):

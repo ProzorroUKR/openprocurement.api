@@ -72,6 +72,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
 from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
+    bids_related_product,
     patch_tender_with_bids_lots_none,
 )
 
@@ -138,6 +139,8 @@ class TenderBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid_31_12 = snitch(create_tender_bid_31_12)
 
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+
+    test_bids_related_product = snitch(bids_related_product)
 
     def setUp(self):
         super().setUp()

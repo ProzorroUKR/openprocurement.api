@@ -69,6 +69,7 @@ from openprocurement.tender.openua.tests.bid import (
     TenderBidRequirementResponseTestMixin,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
+    bids_related_product,
     patch_tender_with_bids_lots_none,
 )
 
@@ -116,6 +117,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
 
     test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
+    test_bids_related_product = snitch(bids_related_product)
 
     def setUp(self):
         super().setUp()
