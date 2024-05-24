@@ -6,12 +6,14 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class ReviewRequestStateMixin:
+    review_request_tender_statuses = ("active.enquiries", "active.qualification", "active.awarded")
+
     def review_request_on_post(self, data: dict) -> None:
         tender = self.request.validated["tender"]
 
         self.validate_lot_id(data, tender)
         self.validate_post_review_request_without_inspector(tender)
-        self.validate_post_in_tender_status(tender)
+        self.validate_operation_in_allowed_tender_status()
         self.validate_post_without_active_award(data, tender)
         self.validate_exist_unanswered_review_request(data, tender)
 
@@ -25,6 +27,8 @@ class ReviewRequestStateMixin:
 
     def review_request_on_patch(self, before: dict, after: dict) -> None:
         self.validate_patch_review_request_once(before)
+        self.validate_operation_in_allowed_tender_status()
+
         after["date"] = get_now().isoformat()
         if after["approved"]:
             after["is_valid"] = True
@@ -64,13 +68,13 @@ class ReviewRequestStateMixin:
         if not tender.get("inspector"):
             raise_operation_error(get_request(), "Can't create reviewRequest without inspector")
 
-    @staticmethod
-    def validate_post_in_tender_status(tender: dict) -> None:
-        allowed_post_statuses = ("active.enquiries", "active.qualification", "active.awarded")
-        if tender["status"] not in allowed_post_statuses:
+    def validate_operation_in_allowed_tender_status(self) -> None:
+        tender_status = self.request.validated["tender"]["status"]
+
+        if tender_status not in self.review_request_tender_statuses:
             raise_operation_error(
                 get_request(),
-                f"Review request can be created only in {allowed_post_statuses} tender statuses",
+                f"Can't perform review request in {tender_status} tender status",
             )
 
     @staticmethod

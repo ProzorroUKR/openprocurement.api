@@ -78,8 +78,7 @@ def create_review_request(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Review request can be created only in "
-                "('active.enquiries', 'active.qualification', 'active.awarded') tender statuses",
+                "description": "Can't perform review request in active.tendering tender status",
             }
         ],
     )
