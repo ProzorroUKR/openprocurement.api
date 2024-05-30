@@ -1,4 +1,6 @@
 from datetime import datetime
+from decimal import Decimal
+from itertools import zip_longest
 from logging import getLogger
 
 from openprocurement.api.constants import ECONTRACT_SIGNER_INFO_REQUIRED
@@ -19,6 +21,7 @@ from openprocurement.tender.core.procedure.utils import (
     is_multi_currency_tender,
     save_tender,
 )
+from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
 from openprocurement.tender.limited.procedure.state.contract import (
     LimitedContractStateMixing,
@@ -42,6 +45,7 @@ class EContractState(
 
     def on_patch(self, before, after) -> None:
         after["id"] = after["_id"]
+        self.convert_items_attributes_types(before, after)
         self.validate_contract_patch(self.request, before, after)
         super().on_patch(before, after)
         contract_changed = False
@@ -360,3 +364,27 @@ class EContractState(
     def check_skip_award_complaint_period(self) -> bool:
         tender = get_tender()
         return tender.get("config", {}).get("hasAwardComplaints") is False
+
+    def convert_items_attributes_types(self, before: dict, after: dict) -> dict:
+        if not "items" in before:
+            return
+
+        items_before = before.get("items", [])
+        items_after = after.get("items", [])
+        for item_before, item_after in zip_longest(items_before, items_after):
+            if not item_before or not item_after:
+                continue
+
+            attrs_before = item_before.get("attributes", [])
+            attrs_after = item_after.get("attributes", [])
+
+            for attr_before, attr_after in zip_longest(attrs_before, attrs_after):
+                if not attr_before or not attr_after:
+                    continue
+                value_type = type(attr_before["values"][0])
+                if value_type is Decimal:
+                    value_type = to_decimal
+                try:
+                    attr_after["values"] = [value_type(i) for i in attr_after["values"]]
+                except TypeError:
+                    raise_operation_error(self.request, "items attributes type mismatch.", status=422)

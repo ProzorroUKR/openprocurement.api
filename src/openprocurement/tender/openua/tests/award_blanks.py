@@ -74,6 +74,15 @@ def patch_tender_award_active(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
 
+    tender = self.mongodb.tenders.get(self.tender_id)
+    item = deepcopy(self.initial_data["items"])[0]
+    item["id"] = "1" * 32
+    tender["items"] = [dict(item)]
+    item["product"] = "1" * 32
+    tender["bids"][1]["items"] = [item]
+
+    self.mongodb.tenders.save(tender)
+
     response = self.app.patch_json(
         new_award_location[-81:] + "?acc_token={}".format(self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},

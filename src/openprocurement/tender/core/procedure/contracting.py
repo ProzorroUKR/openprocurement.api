@@ -8,7 +8,14 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_contract_by_id, request_init_contract
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.econtract.procedure.models.contract import PostContract
+from openprocurement.contracting.econtract.procedure.models.contract import Buyer
+from openprocurement.contracting.econtract.procedure.models.contract import (
+    Item as ContractItem,
+)
+from openprocurement.contracting.econtract.procedure.models.contract import (
+    PostContract,
+    Supplier,
+)
 from openprocurement.tender.belowthreshold.procedure.utils import (
     prepare_tender_item_for_contract,
 )
@@ -113,9 +120,10 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
     contract_data = {
         # "awardID": award["id"],
         "suppliers": award["suppliers"],
-        "items": contract_items,
         "buyerID": buyer_id,
     }
+    if contract_items:
+        contract_data["items"] = clean_objs(deepcopy(contract_items), ContractItem)
 
     if tender.get("contractTemplateName"):
         contract_data["contractTemplateName"] = tender["contractTemplateName"]
@@ -133,10 +141,19 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
     return contract_data
 
 
-def delete_buyers_attrs(objs):
+def clean_objs(objs: List[Dict], model, forbidden_fields=None):
+    if not objs:
+        return
+
+    if not forbidden_fields:
+        forbidden_fields = {}
+
+    acceptable_fields = set(model.fields)
     for obj in objs:
-        obj.pop("id", None)
-        obj.pop("contactPoint", None)
+        for field in set(obj.keys()):
+            if field not in acceptable_fields or field in forbidden_fields:
+                obj.pop(field, None)
+    return objs
 
 
 def set_attributes_to_contract_items(tender, bid, contract):
@@ -168,7 +185,7 @@ def set_attributes_to_contract_items(tender, bid, contract):
 
                 items_attributes[item_id].append(item_attr)
 
-    for item in contract["items"]:
+    for item in contract.get("items", ""):
         if item["id"] in items_attributes:
             item["attributes"] = items_attributes[item["id"]]
 
@@ -186,8 +203,8 @@ def get_additional_contract_data(request, contract, tender, award):
     else:
         buyer = deepcopy(tender["procuringEntity"])
 
-    delete_buyers_attrs([buyer])
-    delete_buyers_attrs(contract["suppliers"])
+    clean_objs([buyer], Buyer, {"id", "contactPoint"})
+    clean_objs(contract["suppliers"], Supplier, {"id", "contactPoint"})
 
     bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
     if bids:
