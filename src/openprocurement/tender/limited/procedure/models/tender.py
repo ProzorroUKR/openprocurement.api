@@ -74,9 +74,10 @@ class PostReportingTender(PostBaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        for milestone in value:
-            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+        if value:
+            for milestone in value:
+                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
 
 
 class PatchReportingTender(PatchBaseTender):
@@ -120,9 +121,10 @@ class ReportingTender(BaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        for milestone in value:
-            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+        if value:
+            for milestone in value:
+                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
 
 
 # Negotiation

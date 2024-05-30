@@ -3,7 +3,12 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
-from openprocurement.api.constants import ROUTE_PREFIX, SANDBOX_MODE
+from openprocurement.api.constants import (
+    MILESTONE_CODES,
+    MILESTONE_TITLES,
+    ROUTE_PREFIX,
+    SANDBOX_MODE,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.pricequotation.constants import PQ, PQ_KINDS
@@ -441,7 +446,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "milestones", "description": "Rogue field"}],
+        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
     )
 
     data = deepcopy(self.initial_data)
@@ -1554,7 +1559,7 @@ def patch_tender(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "milestones", "description": "Rogue field"}],
+        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
     )
 
     pq_entity = deepcopy(tender["procuringEntity"])
@@ -2226,3 +2231,96 @@ def switch_draft_publishing_to_tendering_manually(self):
             response.json["data"]["tenderPeriod"]["startDate"],
             tender_prev["tenderPeriod"]["startDate"],
         )
+
+
+def tender_milestones(self):
+    data = deepcopy(self.initial_data)
+    # add financing milesstones
+    data["milestones"] = test_tender_pq_milestones
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "milestones", "description": ['Forbidden to add milestone with type financing']}],
+    )
+    data["milestones"] = [
+        {
+            "id": "c" * 32,
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 1500, "type": "calendar"},
+            "sequenceNumber": 0,
+            "code": "postpayment",
+            "percentage": 10,
+        }
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
+                        "percentage": ["Rogue field"],
+                    }
+                ],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["code"] = "standard"
+    data["milestones"][-1]["title"] = "executionOfWorks"
+    del data["milestones"][-1]["percentage"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"title": [f"Value must be one of {MILESTONE_TITLES['delivery']}"]}],
+            }
+        ],
+    )
+    data["milestones"][-1]["title"] = "signingTheContract"
+    data["milestones"][-1]["relatedLot"] = uuid4().hex
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": ["relatedLot is a rogue field"],
+            }
+        ],
+    )
+    del data["milestones"][-1]["relatedLot"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    # try to patch incorrect milestone code
+    data["milestones"][-1]["code"] = "postpayment"
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"milestones": data["milestones"]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
+                    }
+                ],
+            }
+        ],
+    )
