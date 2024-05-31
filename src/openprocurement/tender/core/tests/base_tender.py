@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.core.procedure.models.lot import Lot
+from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneTypes
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 
 test_tender_data = deepcopy(test_tender_below_data)
@@ -90,7 +91,6 @@ class TestTenderMilestones(unittest.TestCase):
                         "title": ["This field is required."],
                         "code": ["This field is required."],
                         "duration": ["This field is required."],
-                        "percentage": ["This field is required."],
                         "type": ["This field is required."],
                         "sequenceNumber": ["This field is required."],
                     }
@@ -116,27 +116,13 @@ class TestTenderMilestones(unittest.TestCase):
 
         with self.assertRaises(ModelValidationError) as e:
             tender.validate()
-
-        expected_title_options = [
-            "executionOfWorks",
-            "deliveryOfGoods",
-            "submittingServices",
-            "signingTheContract",
-            "submissionDateOfApplications",
-            "dateOfInvoicing",
-            "endDateOfTheReportingPeriod",
-            "anotherEvent",
-        ]
-        expected_codes = ["prepayment", "postpayment"]
-        expected_types = ["financing"]
+        expected_types = [TenderMilestoneTypes.FINANCING.value, TenderMilestoneTypes.DELIVERY.value]
         self.maxDiff = None
         self.assertEqual(
             e.exception.messages,
             {
                 "milestones": [
                     {
-                        "title": ["Value must be one of {}.".format(expected_title_options)],
-                        "code": ["Value must be one of {}.".format(expected_codes)],
                         "type": ["Value must be one of {}.".format(expected_types)],
                         "duration": {
                             "type": ["Value must be one of ['working', 'banking', 'calendar']."],

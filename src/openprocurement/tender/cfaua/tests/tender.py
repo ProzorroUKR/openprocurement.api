@@ -12,6 +12,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     invalid_tender_conditions,
     patch_not_author,
     patch_tender_lots_none,
+    tender_financing_milestones,
     tender_milestones_required,
 )
 from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
@@ -46,6 +47,9 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_features_invalid,
     tender_with_main_procurement_category,
     unsuccessful_after_prequalification_tender,
+)
+from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
+    tender_delivery_milestones,
 )
 from openprocurement.tender.openua.tests.tender_blanks import (
     empty_listing,
@@ -104,6 +108,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_cfaua_tender_with_earlier_non_required_unit = snitch(create_tender_with_earlier_non_required_unit)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_not_author = snitch(patch_not_author)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
+    test_tender_financing_milestones = snitch(tender_financing_milestones)
 
 
 class TenderProcessTest(BaseTenderWebTest):

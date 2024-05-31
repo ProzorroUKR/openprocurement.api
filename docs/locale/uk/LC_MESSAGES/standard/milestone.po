@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-07 14:32+0300\n"
+"POT-Creation-Date: 2024-03-22 13:13+0100\n"
 "PO-Revision-Date: 2018-11-20 10:32+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Milestone"
 msgstr ""
@@ -35,32 +35,8 @@ msgstr ""
 msgid "string, required"
 msgstr "рядок, обов’язковий"
 
-msgid "Possible values are:"
-msgstr "Можливі значення:"
-
-msgid "`executionOfWorks`"
-msgstr ""
-
-msgid "`deliveryOfGoods`"
-msgstr ""
-
-msgid "`submittingServices`"
-msgstr ""
-
-msgid "`signingTheContract`"
-msgstr ""
-
-msgid "`submissionDateOfApplications`"
-msgstr ""
-
-msgid "`dateOfInvoicing`"
-msgstr ""
-
-msgid "`endDateOfTheReportingPeriod`"
-msgstr ""
-
-msgid "`anotherEvent`"
-msgstr ""
+msgid "Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ dictionaries."
+msgstr "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ довідниками."
 
 msgid "description"
 msgstr ""
@@ -77,20 +53,20 @@ msgstr "Єдине можливе значення:"
 msgid "`financing`"
 msgstr ""
 
+msgid "`delivery`"
+msgstr ""
+
 msgid "code"
 msgstr ""
 
-msgid "`prepayment`"
-msgstr ""
-
-msgid "`postpayment`"
-msgstr ""
+msgid "Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries."
+msgstr "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками."
 
 msgid "percentage"
 msgstr ""
 
-msgid "float, required, 0..100"
-msgstr "float, обов’язково, 0..100"
+msgid "float, required if type == `financing`, 0..100"
+msgstr "float, обов’язково якщо type == `financing`, 0..100"
 
 msgid "Sum of all tender (or lot) milestones should be 100"
 msgstr "Сума всіх milestone тендеру (або лоту) повинна бути 100"
@@ -125,17 +101,29 @@ msgstr ""
 msgid "`ban`"
 msgstr ""
 
-msgid "`disqualification`"
+msgid "status"
 msgstr ""
 
-msgid "`terminated`"
+msgid "string"
+msgstr ""
+
+msgid "`scheduled`"
+msgstr ""
+
+msgid "`met`"
+msgstr ""
+
+msgid "`notMet`"
+msgstr ""
+
+msgid "`partiallyMet`"
 msgstr ""
 
 msgid "dueDate"
 msgstr ""
 
-msgid "string, :ref:`date`, required"
-msgstr "рядок, :ref:`date`, обов’язковий"
+msgid "string, :ref:`date`"
+msgstr "рядок, :ref:`date`"
 
 msgid "documents"
 msgstr ""
@@ -152,6 +140,9 @@ msgstr "рядок, :ref:`date`, генерується автоматично, 
 msgid "The date of milestone change."
 msgstr "Дата зміни майлстону"
 
+msgid "dateMet"
+msgstr ""
+
 msgid "Duration"
 msgstr ""
 
@@ -160,6 +151,9 @@ msgstr ""
 
 msgid "integer, required, positive"
 msgstr "integer, обов’язковий, не негативний"
+
+msgid "Possible values are:"
+msgstr "Можливі значення:"
 
 msgid "`working`"
 msgstr ""

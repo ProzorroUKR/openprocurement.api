@@ -359,3 +359,21 @@ QUALIFICATION_AFTER_COMPLAINT_FROM = get_constant(CONSTANTS_CONFIG, "QUALIFICATI
 CRITICAL_HEADERS_LOG_ENABLED = get_constant(CONSTANTS_CONFIG, "CRITICAL_HEADERS_LOG_ENABLED", parse_func=parse_bool)
 
 OBJECTIONS_ADDITIONAL_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "OBJECTIONS_ADDITIONAL_VALIDATION_FROM")
+
+# milestone dictionaries
+MILESTONE_CODES = {
+    "delivery": {
+        key for key, desc in standards.load("codelists/milestones/code.json").items() if "delivery" in desc["type"]
+    },
+    "financing": {
+        key for key, desc in standards.load("codelists/milestones/code.json").items() if "financing" in desc["type"]
+    },
+}
+MILESTONE_TITLES = {
+    "delivery": {
+        key for key, desc in standards.load("codelists/milestones/title.json").items() if "delivery" in desc["type"]
+    },
+    "financing": {
+        key for key, desc in standards.load("codelists/milestones/title.json").items() if "financing" in desc["type"]
+    },
+}

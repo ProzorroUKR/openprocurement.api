@@ -57,6 +57,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     switch_draft_to_tendering_success,
     tender_criteria_values_type,
     tender_fields,
+    tender_milestones,
     tender_owner_can_change_in_draft,
     tender_owner_cannot_change_in_draft,
     tender_period_update,
@@ -86,6 +87,7 @@ class TenderResourceTestMixin:
     test_create_tender_in_not_draft_status = snitch(create_tender_in_not_draft_status)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_create_tender_config_test = snitch(create_tender_config_test)
+    test_tender_milestones = snitch(tender_milestones)
 
 
 @patch(

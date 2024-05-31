@@ -19,6 +19,7 @@ from openprocurement.tender.core.procedure.models.item import (
 from openprocurement.tender.core.procedure.models.lot import validate_lots_uniq
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
+    TenderMilestoneTypes,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.tender import (
@@ -72,6 +73,12 @@ class PostReportingTender(PostBaseTender):
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
 
+    def validate_milestones(self, data, value):
+        if value:
+            for milestone in value:
+                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+
 
 class PatchReportingTender(PatchBaseTender):
     procurementMethodType = StringType(choices=[REPORTING])
@@ -112,6 +119,12 @@ class ReportingTender(BaseTender):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
+
+    def validate_milestones(self, data, value):
+        if value:
+            for milestone in value:
+                if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
 
 
 # Negotiation

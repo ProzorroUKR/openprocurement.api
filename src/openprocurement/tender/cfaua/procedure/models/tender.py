@@ -7,6 +7,7 @@ from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
+from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDurationType
 from openprocurement.api.procedure.validation import validate_features_uniq
@@ -28,6 +29,10 @@ from openprocurement.tender.core.procedure.models.lot import (
     PostTenderLot,
     validate_lots_uniq,
 )
+from openprocurement.tender.core.procedure.models.milestone import (
+    TenderMilestoneTypes,
+    validate_milestones_lot,
+)
 from openprocurement.tender.core.procedure.models.period import (
     EnquiryPeriod,
     PeriodStartEndRequired,
@@ -40,7 +45,10 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    validate_features_custom_weight,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
     validate_tender_period_start_date,
@@ -109,6 +117,15 @@ class PostTender(BasePostTender):
 
     def validate_features(self, data, features):
         validate_features(data, features)
+
+    def validate_milestones(self, data, value):
+        if tender_created_after(MILESTONES_VALIDATION_FROM):
+            if value is None or len(value) < 1:
+                raise ValidationError("Tender should contain at least one milestone")
+        for milestone in value:
+            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+        validate_milestones_lot(data, value)
 
 
 class PatchTender(BasePatchTender):
@@ -194,3 +211,12 @@ class Tender(BaseTender):
 
     def validate_features(self, data, features):
         validate_features(data, features)
+
+    def validate_milestones(self, data, value):
+        if tender_created_after(MILESTONES_VALIDATION_FROM):
+            if value is None or len(value) < 1:
+                raise ValidationError("Tender should contain at least one milestone")
+        for milestone in value:
+            if milestone.type == TenderMilestoneTypes.DELIVERY.value:
+                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+        validate_milestones_lot(data, value)

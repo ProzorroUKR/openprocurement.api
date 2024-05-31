@@ -15,10 +15,14 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_items_related_buyer_id,
     patch_tender_draft,
     patch_tender_lots_none,
+    tender_delivery_milestones,
     tender_funders,
     tender_milestones_not_required,
     tender_milestones_required,
     tender_not_found,
+)
+from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
+    tender_delivery_milestones as tender_delivery_milestones_forbidden,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
@@ -103,6 +107,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_create_tender_config_test = snitch(create_tender_config_test)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones_forbidden)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):
@@ -114,11 +119,14 @@ class TenderNegotiationResourceTest(TenderResourceTest):
     test_changing_tender_after_award = snitch(changing_tender_after_award)
     test_initial_lot_date = snitch(initial_lot_date)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
 
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
+
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
 
 
 class TenderProcessTest(BaseTenderWebTest):
