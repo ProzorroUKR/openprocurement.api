@@ -362,15 +362,12 @@ OBJECTIONS_ADDITIONAL_VALIDATION_FROM = get_constant(CONSTANTS_CONFIG, "OBJECTIO
 
 # milestone dictionaries
 MILESTONE_CODES = {
-    # TODO: fix to dictionary from standard
-    "delivery": ("standard", "recurring"),
-    "financing": ("prepayment", "postpayment"),
-    # "delivery": {
-    #     key for key, desc in standards.load("codelists/milestones/code.json").items() if "delivery" in desc["type"]
-    # },
-    # "financing": {
-    #     key for key, desc in standards.load("codelists/milestones/code.json").items() if "financing" in desc["type"]
-    # },
+    "delivery": {
+        key for key, desc in standards.load("codelists/milestones/code.json").items() if "delivery" in desc["type"]
+    },
+    "financing": {
+        key for key, desc in standards.load("codelists/milestones/code.json").items() if "financing" in desc["type"]
+    },
 }
 MILESTONE_TITLES = {
     "delivery": {
