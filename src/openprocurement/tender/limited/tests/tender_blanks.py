@@ -7,6 +7,7 @@ from openprocurement.api.constants import (
     NEW_NEGOTIATION_CAUSES_FROM,
     RELEASE_2020_04_19,
     ROUTE_PREFIX,
+    TENDER_CAUSE,
 )
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -520,6 +521,7 @@ def create_tender_generated(self):
         "date",
         "mainProcurementCategory",
         "milestones",
+        "procurementMethodRationale",
     ]
     if "lots" in self.initial_data:
         fields.append("lots")
@@ -731,7 +733,7 @@ def patch_tender(self):
     )
 
     revisions = self.mongodb.tenders.get(tender["id"]).get("revisions")
-    self.assertEqual(revisions[-1]["changes"][0]["op"], "remove")
+    self.assertEqual(revisions[-1]["changes"][0]["op"], "replace")
     self.assertEqual(revisions[-1]["changes"][0]["path"], "/procurementMethodRationale")
 
     response = self.app.patch_json(
@@ -1536,3 +1538,81 @@ def tender_set_fund_organizations(self):
     resp = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
     result = resp.json["data"]
     self.assertEqual([{"name": "Запишіть в тєтрадку"}], result["funders"])
+
+
+def tender_cause_reporting(self):
+    data = dict(**self.initial_data)
+    del data["procurementMethodRationale"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "cause", "description": ["This field is required."]},
+            {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
+        ],
+    )
+
+    # try to add archived cause
+    data["cause"] = "noCompetition"
+    data["causeDescription"] = "test"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "cause",
+                "description": [f"Value must be one of ['{TENDER_CAUSE}']."],
+            }
+        ],
+    )
+
+    data["cause"] = "additionalPurchase"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    # patch cause in draft
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"cause": "stateLegalServices", "causeDescription": "foo", "causeDescription_en": "bar"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["cause"], "stateLegalServices")
+
+    # patch cause in active status
+    response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"status": "active"}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"cause": "activeComplaint", "causeDescription": "bar", "causeDescription_en": "foo"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["cause"], "activeComplaint")
+
+    # try to delete procurementMethodRationale in active tender without cause
+    data = dict(**self.initial_data)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"status": "active"}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"procurementMethodRationale": None}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "cause", "description": ["This field is required."]},
+            {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
+        ],
+    )

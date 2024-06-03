@@ -5,6 +5,7 @@ from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
+    TENDER_CAUSE,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -69,6 +70,9 @@ class PostReportingTender(PostBaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType(min_length=1)
+    causeDescription_en = StringType(min_length=1)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -78,6 +82,17 @@ class PostReportingTender(PostBaseTender):
             for milestone in value:
                 if milestone.type == TenderMilestoneTypes.DELIVERY.value:
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+
+    def validate_cause(self, data, value):
+        if not data.get("procurementMethodRationale") and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+        if value and value not in TENDER_CAUSE:
+            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
+
+    def validate_causeDescription(self, data, value):
+        if not data.get("procurementMethodRationale") and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class PatchReportingTender(PatchBaseTender):
@@ -95,6 +110,9 @@ class PatchReportingTender(PatchBaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType(min_length=1)
+    causeDescription_en = StringType(min_length=1)
 
 
 class ReportingTender(BaseTender):
@@ -116,6 +134,9 @@ class ReportingTender(BaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType(min_length=1)
+    causeDescription_en = StringType(min_length=1)
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -125,6 +146,17 @@ class ReportingTender(BaseTender):
             for milestone in value:
                 if milestone.type == TenderMilestoneTypes.DELIVERY.value:
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+
+    def validate_cause(self, data, value):
+        if not data.get("procurementMethodRationale") and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+        if value and value not in TENDER_CAUSE:
+            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
+
+    def validate_causeDescription(self, data, value):
+        if not data.get("procurementMethodRationale") and not value:
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 # Negotiation

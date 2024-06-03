@@ -377,3 +377,8 @@ MILESTONE_TITLES = {
         key for key, desc in standards.load("codelists/milestones/title.json").items() if "financing" in desc["type"]
     },
 }
+
+# cause for reporting
+TENDER_CAUSE = {
+    key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
+}

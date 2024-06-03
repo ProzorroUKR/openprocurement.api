@@ -54,6 +54,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_cause_choices,
     tender_cause_desc,
     tender_cause_quick,
+    tender_cause_reporting,
     tender_negotiation_status_change,
     tender_set_fund_organizations,
     tender_status_change,
@@ -75,6 +76,7 @@ class TenderTest(BaseTenderWebTest):
     initial_data = test_tender_reporting_data
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
+    test_tender_cause = snitch(tender_cause_reporting)
 
 
 class TenderResourceTest(BaseTenderWebTest):

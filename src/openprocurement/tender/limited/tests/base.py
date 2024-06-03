@@ -20,6 +20,7 @@ del test_tender_reporting_data["tenderPeriod"]
 del test_tender_reporting_data["minimalStep"]
 
 test_tender_reporting_data["procurementMethodType"] = "reporting"
+test_tender_reporting_data["procurementMethodRationale"] = "simple"
 test_tender_reporting_data["procuringEntity"]["kind"] = "general"
 if SANDBOX_MODE:
     test_tender_reporting_data["procurementMethodDetails"] = "quick, accelerator=1440"
