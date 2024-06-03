@@ -43,6 +43,7 @@ EXCLUDED_FIELDS = {
     "procurementMethod",
     "procurementMethodType",
     "next_check",
+    "config",
 }
 
 EXCLUDED_ROLES = (
