@@ -40,9 +40,15 @@ Creating tender for reporting procedure
 
 To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``.
 
-Let’s create a tender:
+For **reporting** procedure there are two required fields if `procurementMethodRationale` is empty.
+Let's try create tender without `procurementMethodRationale`:
 
-.. http:example:: http/tutorial/create-tender-procuringEntity.http
+.. http:example:: http/tutorial/create-tender-reporting-invalid.http
+   :code:
+
+Let's add `cause` and `causeDescription` and then create a tender:
+
+.. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http
    :code:
 
 We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.

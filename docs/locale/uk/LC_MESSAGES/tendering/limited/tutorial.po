@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-25 12:50+0100\n"
+"POT-Creation-Date: 2024-06-04 19:06+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -104,8 +104,11 @@ msgstr "Створення закупівлі для процедури звіт
 msgid "To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``."
 msgstr "Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``."
 
-msgid "Let’s create a tender:"
-msgstr "Створимо закупівлю:"
+msgid "For **reporting** procedure there are two required fields if `procurementMethodRationale` is empty. Let's try create tender without `procurementMethodRationale`:"
+msgstr "Для процедури **звітування про укладений договір** додавання полів `cause` та `causeDescription` до тендеру є обов’язковими, якщо поле `procurmentMethodRationale` пусте. Спробуємо створити тендер без поля `procurementMethodRationale`:"
+
+msgid "Let's add `cause` and `causeDescription` and then create a tender:"
+msgstr "Додамо до тендеру поля `cause` та `causeDescription` і після цього створимо закупівлю:"
 
 msgid "We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
 msgstr "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - дату, що показує час, коли закупівля востаннє модифікувалась."

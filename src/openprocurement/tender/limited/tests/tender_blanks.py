@@ -1588,10 +1588,10 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"cause": "activeComplaint", "causeDescription": "bar", "causeDescription_en": "foo"}},
+        {"data": {"cause": "additionalPurchase", "causeDescription": "bar", "causeDescription_en": "foo"}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["cause"], "activeComplaint")
+    self.assertEqual(response.json["data"]["cause"], "additionalPurchase")
 
     # try to delete procurementMethodRationale in active tender without cause
     data = dict(**self.initial_data)
