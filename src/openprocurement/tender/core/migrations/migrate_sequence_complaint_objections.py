@@ -33,6 +33,12 @@ def add_sequence_numbers(complaints):
                 if objection.get("sequenceNumber") != number:
                     objection["sequenceNumber"] = number
                     modified = True
+                # migrate old criterion from article_16 dictionary
+                if objection["classification"]["id"] == (
+                    "CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING.TURNOVER.GENERAL_YEARLY"
+                ):
+                    objection["classification"]["id"] = "CRITERION.SELECTION.ECONOMIC_FINANCIAL_STANDING"
+                    modified = True
     return modified
 
 
