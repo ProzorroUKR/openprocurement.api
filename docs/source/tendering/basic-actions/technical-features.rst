@@ -26,12 +26,8 @@ Creating tender for technical features
 --------------------------------------
 
 You can set id of catalogue object in field `profile` or `category` to item.
-If you try set `profile` and `category` together to item, you will get an error:
 
-.. http:example:: http/techfeatures/disallowed-profile-category-together.http
-   :code:
-
-if such profile or category doesn't exist in catalogue service, ypu will get an error:
+If such profile or category doesn't exist in catalogue service, you will get an error:
 
 .. http:example:: http/techfeatures/item-profile-not-found.http
    :code:

@@ -1538,22 +1538,24 @@ def tender_items_category_profile(self):
     items = data["items"]
     items[0]["profile"] = "1" * 32
 
-    with patch(
-        "requests.get",
-        Mock(return_value=response_404),
-    ):
-        response = self.app.post_json(
-            "/tenders",
-            {"data": data, "config": self.initial_config},
-            status=404,
-        )
-        self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"], f"Profiles {items[0]['profile']} not found in catalouges."
-        )
+    response = self.app.post_json(
+        "/tenders",
+        {"data": data, "config": self.initial_config},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"category": ["profile and category should be provided together"]}],
+            }
+        ],
+    )
 
-    del items[0]["profile"]
     items[0]["category"] = "1" * 32
 
     with patch(
@@ -1568,12 +1570,18 @@ def tender_items_category_profile(self):
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"][0]["description"], f"Categories {items[0]['category']} not found in catalouges."
+            response.json["errors"][0]["description"], f"Categories {items[0]['profile']} not found in catalouges."
         )
 
-    with patch(
-        "requests.get",
-        Mock(return_value=response_200_not_valid_status),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value={"id": "1" * 32, "criteria": []}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "2" * 32, "criteria": []}),
+        ),
     ):
         response = self.app.post_json(
             "/tenders",
@@ -1583,13 +1591,19 @@ def tender_items_category_profile(self):
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
-            response.json["errors"][0]["description"],
-            f"Categories {items[0]['category']}: hidden not in ('active',)",
+            response.json["errors"],
+            [{"location": "body", "name": "data", "description": "Profile should be related to category"}],
         )
 
-    with patch(
-        "requests.get",
-        Mock(return_value=response_200_valid_status),
+    with (
+        patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value={"id": "1" * 32, "criteria": []}),
+        ),
+        patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+        ),
     ):
         response = self.app.post_json(
             "/tenders",
@@ -1609,51 +1623,3 @@ def tender_items_category_profile(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["title"], "New title!")
-
-    items[0]["profile"] = "2" * 32
-
-    with patch(
-        "requests.get",
-        Mock(return_value=response_200_valid_status),
-    ):
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}?acc_token={tender_token}",
-            {"data": {"items": items}},
-            status=422,
-        )
-
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"], [{'category': ['Cannot exist together with profile']}]
-        )
-
-    del items[0]["category"]
-
-    with patch(
-        "requests.get",
-        Mock(return_value=response_404),
-    ):
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}?acc_token={tender_token}",
-            {"data": {"items": items}},
-            status=404,
-        )
-        self.assertEqual(response.status, "404 Not Found")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(
-            response.json["errors"][0]["description"], f"Profiles {items[0]['profile']} not found in catalouges."
-        )
-
-    with patch(
-        "requests.get",
-        Mock(return_value=response_200_valid_status),
-    ):
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}?acc_token={tender_token}",
-            {"data": {"items": items}},
-        )
-        self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["data"]["items"][0]["profile"], items[0]["profile"])
-        self.assertNotIn("category", response.json["data"]["items"][0])

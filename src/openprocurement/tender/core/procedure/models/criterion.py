@@ -412,12 +412,23 @@ class Criterion(ValidateIdMixing, BaseCriterion):
         )
 
         if value and is_criterion_active:
-            tender = get_tender() or get_json_data()
+            json_data = get_json_data()
+            tender = get_tender() or json_data
+
             if data.get("relatesTo") == "lot":
+                # if lots was changed
+                if "lots" in json_data:
+                    tender = json_data
+
                 lot_ids = [i["id"] for i in tender.get("lots") or []]
                 if value not in lot_ids:
                     raise ValidationError("relatedItem should be one of lots")
+
             if data.get("relatesTo") == "item":
+                # if items was changed
+                if "items" in json_data:
+                    tender = json_data
+
                 item_ids = [i["id"] for i in tender.get("items") or []]
                 if value not in item_ids:
                     raise ValidationError("relatedItem should be one of items")

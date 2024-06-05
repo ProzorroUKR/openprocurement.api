@@ -13,10 +13,6 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
-tech_item_response_200 = Mock(
-    status_code=200, json=Mock(return_value={"data": {"id": "1" * 32, "status": "active", "criteria": ["dasd"]}})
-)
-
 
 def create_tender_criteria_valid(self):
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
@@ -1727,13 +1723,22 @@ def lcc_criterion_invalid(self):
         )
 
 
-@patch("requests.get", Mock(return_value=tech_item_response_200))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value={"id": "1" * 32, "criteria": []}),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+)
 def tech_feature_criterion(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     items = tender["items"]
     tech_item = items[0].copy()
     tech_item["profile"] = "1" * 32
+    tech_item["category"] = "1" * 32
+
     del tech_item["id"]
     items.append(tech_item)
 

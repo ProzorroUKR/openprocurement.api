@@ -79,9 +79,10 @@ class TechFeatureItem(Item):
     profile = StringType()
     category = StringType()
 
-    def validate_category(self, data, category):
-        if category and data.get("profile"):
-            raise ValidationError("Cannot exist together with profile")
+    def validate_category(self, data, value):
+        profile = data.get("profile")
+        if (not profile and value) or (profile and not value):
+            raise ValidationError("profile and category should be provided together")
 
 
 class RelatedBuyerMixing:

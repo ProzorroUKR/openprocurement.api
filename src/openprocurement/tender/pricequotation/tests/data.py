@@ -360,6 +360,7 @@ test_tender_pq_shortlisted_firms = [
 test_tender_pq_short_profile = {
     "classification": {"description": "Комп’ютерне обладнання", "id": "30230000-0", "scheme": "ДК021"},
     "id": "655360-30230000-889652-40000777",
+    "relatedCategory": "655360-30230000-889652",
     "unit": {"code": "H87", "name": "штук"},
     "criteria": [
         {

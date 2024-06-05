@@ -35,6 +35,10 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
 
         super().on_post(tender)
 
+    def validate_change_item_profile_or_category(self, after, before):
+        if self.request.method != "POST":
+            super().validate_change_item_profile_or_category(after, before)
+
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     tender_create_accreditations = (ACCR_COMPETITIVE,)

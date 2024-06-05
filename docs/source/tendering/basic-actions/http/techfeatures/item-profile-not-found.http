@@ -87,7 +87,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5,
-        "profile": "655360-30230000-889652-40000777"
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
       }
     ],
     "enquiryPeriod": {
@@ -148,7 +149,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Profiles 655360-30230000-889652-40000777 not found in catalouges."
+      "description": "Categories 655360-30230000-889652 not found in catalouges."
     }
   ]
 }

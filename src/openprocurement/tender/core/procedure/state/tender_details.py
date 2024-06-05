@@ -640,17 +640,16 @@ class TenderDetailsMixing(TenderConfigMixin):
         request = get_request()
 
         for k, after_values in after_cp.items():
-            changed = False
             before_values = before_cp.get(k, {})
-            if after_values.get("profile") and before_values.get("profile") != after_values.get("profile"):
-                changed = True
-                get_tender_profile(request, after_values.get("profile"), ("active",))
+            if (before_values.get("profile") != after_values.get("profile")) or (
+                before_values.get("category") != after_values.get("category")
+            ):
+                category_id = after_values.get("category")
+                get_tender_category(request, category_id, ("active",))
+                profile = get_tender_profile(request, after_values.get("profile"), ("active", "general"))
+                if profile.get("relatedCategory") != category_id:
+                    raise_operation_error(request, "Profile should be related to category", status=422)
 
-            elif after_values.get("category") and before_values.get("category") != after_values.get("category"):
-                changed = True
-                get_tender_category(request, after_values.get("category"), ("active",))
-
-            if changed:
                 self.cancel_all_technical_criteria(after, k)
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:

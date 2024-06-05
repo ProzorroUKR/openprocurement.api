@@ -112,10 +112,11 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
             return
 
         for field in value_fields:
-            if after.get(field) and before.get(field):
+            if not after.get(field) and before.get(field):
                 raise_operation_error(
                     self.request,
                     f"Disallowed remove {field} field and set other value fields.",
+                    status=422,
                 )
 
 

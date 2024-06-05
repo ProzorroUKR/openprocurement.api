@@ -85,6 +85,11 @@ class PostTender(BasePostTender):
 class PatchTender(BasePatchTender):
     enquiryPeriod = ModelType(EnquiryPeriodEndRequired)
     procuringEntity = ModelType(ProcuringEntity)
+    items = ListType(
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
 
 
 class PatchActiveTender(Model):
@@ -112,12 +117,22 @@ class PatchActiveTender(Model):
 
 class PatchDraftTender(PatchTender):
     inspector = ModelType(Organization)
+    items = ListType(
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
 
 
 class Tender(BaseTender):
     procurementMethodType = StringType(choices=[BELOW_THRESHOLD], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     enquiryPeriod = ModelType(EnquiryPeriodEndRequired, required=True)
+    items = ListType(
+        ModelType(Item, required=True),
+        min_size=1,
+        validators=[validate_items_uniq, validate_classification_id],
+    )
 
     def validate_enquiryPeriod(self, data, period):
         validate_enquiry_period(data, period)
