@@ -10,5 +10,14 @@ class Value(Guarantee):
     addition = DecimalType()
 
 
+class EstimatedValue(Value):
+    """Estimated tender value.
+
+    Amount is not required.
+    """
+
+    amount = FloatType(required=False, min_value=0)
+
+
 class ContractValue(Value):
     amountNet = FloatType(min_value=0)

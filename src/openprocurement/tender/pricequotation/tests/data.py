@@ -307,6 +307,7 @@ test_tender_pq_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
+    "hasValueEstimation": True,
     "restricted": False,
 }
 

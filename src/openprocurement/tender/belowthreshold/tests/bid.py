@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data_no_auction,
     test_tender_below_features_data,
     test_tender_below_lots,
+    test_tender_below_lots_no_min_step,
     test_tender_below_organization,
     test_tender_below_simple_data,
 )
@@ -259,7 +260,7 @@ class TenderWithDisabledValueRestriction(TenderContentWebTest):
 class TenderLotsWithDisabledValueCurrencyEquality(TenderContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_below_bids
-    initial_lots = 2 * test_tender_below_lots
+    initial_lots = 2 * deepcopy(test_tender_below_lots_no_min_step)
     initial_data = test_tender_below_data_no_auction
 
     test_post_tender_bid_with_disabled_lot_values_currency_equality = snitch(

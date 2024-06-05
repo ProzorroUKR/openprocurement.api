@@ -418,7 +418,13 @@ def patch_tender_lot_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["value should be less than value of lot"], "location": "body", "name": "minimalStep"}],
+        [
+            {
+                "description": "Minimal step value should be less than lot value",
+                "location": "body",
+                "name": "lots",
+            }
+        ],
     )
 
     response = self.app.patch_json(

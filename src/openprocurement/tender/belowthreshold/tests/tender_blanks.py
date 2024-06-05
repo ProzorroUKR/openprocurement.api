@@ -390,7 +390,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -544,9 +544,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["value should be less than value of tender"],
+                "description": "Tender minimal step amount should be less than tender amount",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.amount",
             }
         ],
     )
@@ -562,11 +562,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
-                ],
+                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.valueAddedTaxIncluded",
             }
         ],
     )
@@ -582,9 +580,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )
@@ -1086,6 +1084,176 @@ def create_tender_with_inn(self):
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
     self.assertEqual(response.status, "201 Created")
+
+
+def create_tender_with_estimated_value(self):
+    data = deepcopy(self.initial_data)
+    config = self.initial_config
+    config["hasValueEstimation"] = True
+
+    # Minimal step validation if hasAuction is True
+    lot_min_step = data["lots"][0].pop("minimalStep")
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': ['This field is required.'],
+                'location': 'body',
+                'name': 'minimalStep',
+            }
+        ],
+    )
+    data["lots"][0]["minimalStep"] = lot_min_step
+
+    # Tender amount validation
+    tender_value_amount = data["value"].pop("amount")
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'This field is required',
+                'location': 'body',
+                'name': 'value.amount',
+            }
+        ],
+    )
+    data["value"]["amount"] = tender_value_amount
+
+    # Lot amount validation
+    lot_value_amount = data["lots"][0]["value"].pop("amount")
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'This field is required', 'location': 'body', 'name': 'lots.value.amount'}],
+    )
+    data["lots"][0]["value"]["amount"] = lot_value_amount
+
+    # Set tender amount 0
+    data["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'Tender minimal step amount should be less than tender amount',
+                'location': 'body',
+                'name': 'minimalStep.amount',
+            }
+        ],
+    )
+    data["value"]["amount"] = tender_value_amount
+
+    # Set tender minimal step amount too high
+    data["minimalStep"]["amount"] = 50
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
+                'location': 'body',
+                'name': 'data',
+            }
+        ],
+    )
+    data["minimalStep"]["amount"] = 15
+
+    # Set lot minimal step 0
+    data["lots"][0]["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'Minimal step value should be less than lot value',
+                'location': 'body',
+                'name': 'lots',
+            }
+        ],
+    )
+    data["lots"][0]["value"]["amount"] = lot_value_amount
+
+    # Set lot minimal step amount too high
+    data["lots"][0]["minimalStep"]["amount"] = 50
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
+                'location': 'body',
+                'name': 'data',
+            }
+        ],
+    )
+    data["lots"][0]["minimalStep"]["amount"] = 15
+
+
+def create_tender_without_estimated_value(self):
+    data = deepcopy(self.initial_data)
+    config = self.initial_config
+
+    # hasValueEstimation and hasValueRestriction mismatch
+    config["hasValueEstimation"] = False
+    config["hasValueRestriction"] = True
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{'description': 'hasValueRestriction should be False', 'location': 'body', 'name': 'value'}],
+    )
+
+    # hasValueEstimation and hasValueRestriction match
+    config["hasValueRestriction"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': "Rogue field",
+                'location': 'body',
+                'name': 'value.amount',
+            }
+        ],
+    )
+
+    # Tender lots has estimated value
+    data["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                'description': "Value amount should not be passed if tender does not have estimated value",
+                'location': 'body',
+                'name': 'lots.value.amount',
+            }
+        ],
+    )
+
+    data["lots"][0]["value"]["amount"] = 0
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["value"]["amount"], 0.0)
+    self.assertEqual(tender["lots"][0]["value"]["amount"], 0.0)
+
+    response = self.app.get("/tenders/{}".format(tender["id"]))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertEqual(tender["value"]["amount"], 0.0)
+    self.assertEqual(tender["lots"][0]["value"]["amount"], 0.0)
 
 
 @mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
@@ -3065,21 +3233,21 @@ def tender_token_invalid(self):
 
 def tender_minimalstep_validation(self):
     data = deepcopy(self.initial_data)
-    data["minimalStep"]["amount"] = 35
-    del data["lots"]
+    data["minimalStep"]["amount"] = 500
     # invalid minimalStep validated on tender level
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0],
         {
-            "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+            "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
             "location": "body",
-            "name": "minimalStep",
+            "name": "data",
         },
     )
     with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1)
+        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
     ):
         data["lots"] = self.initial_lots
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
@@ -3121,16 +3289,15 @@ def tender_lot_minimalstep_validation(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
-                ],
+                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 'location': 'body',
-                'name': 'lots',
+                'name': 'data',
             }
         ],
     )
     with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1)
+        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
         self.assertEqual(response.status, "201 Created")
@@ -3160,7 +3327,8 @@ def patch_tender_minimalstep_validation(self):
 
     # tender created before MINIMAL_STEP_VALIDATION_FROM
     with mock.patch(
-        "openprocurement.tender.core.procedure.models.lot.MINIMAL_STEP_VALIDATION_FROM", get_now() + timedelta(days=1)
+        "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.tender_id = response.json["data"]["id"]
@@ -3186,11 +3354,9 @@ def patch_tender_minimalstep_validation(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
-                ],
+                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 'location': 'body',
-                'name': 'lots',
+                'name': 'data',
             }
         ],
     )

@@ -4,6 +4,7 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
+    test_tender_below_lots_no_min_step,
     test_tender_below_organization,
 )
 from openprocurement.tender.belowthreshold.tests.contract import (
@@ -169,7 +170,7 @@ class TenderEContractDPSResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
-    initial_lots = test_tender_below_lots
+    initial_lots = test_tender_below_lots_no_min_step
     initial_data = test_tender_dps_no_auction
     tender_for_funders = True
     config = deepcopy(test_tender_dps_config)

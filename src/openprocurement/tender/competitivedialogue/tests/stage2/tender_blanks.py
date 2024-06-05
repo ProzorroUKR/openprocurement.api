@@ -71,7 +71,7 @@ def create_tender_invalid_eu(self):
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -80,18 +80,16 @@ def create_tender_invalid_eu(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
-                ],
+                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.valueAddedTaxIncluded",
             }
         ],
     )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -100,9 +98,9 @@ def create_tender_invalid_eu(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )
@@ -187,7 +185,7 @@ def create_tender_invalid_eu(self):
     classification["id"] = "19212310-1"
     data["classification"] = classification
     self.initial_data["items"] = [self.initial_data["items"][0], data]
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -357,7 +355,7 @@ def create_tender_invalid_ua(self):
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -366,18 +364,16 @@ def create_tender_invalid_ua(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
-                ],
+                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.valueAddedTaxIncluded",
             }
         ],
     )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -386,9 +382,9 @@ def create_tender_invalid_ua(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )

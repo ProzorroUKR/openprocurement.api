@@ -176,6 +176,13 @@ test_tender_below_lots = [
         "minimalStep": test_tender_below_data["minimalStep"],
     }
 ]
+test_tender_below_lots_no_min_step = [
+    {
+        "title": "lot title",
+        "description": "lot description",
+        "value": test_tender_below_data["value"],
+    }
+]
 test_tender_below_cancellation = {
     "reason": "cancellation reason",
 }
@@ -230,6 +237,7 @@ test_tender_below_config = {
     "hasTenderComplaints": False,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": False,
+    "hasValueEstimation": True,
     "restricted": False,
 }
 

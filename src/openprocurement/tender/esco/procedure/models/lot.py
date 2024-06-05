@@ -14,12 +14,9 @@ from openprocurement.tender.core.procedure.models.guarantee import (
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
     LotGuaranteeSerializerMixin,
+    PostBaseLot,
+    TenderLotMixin,
 )
-from openprocurement.tender.core.procedure.models.lot import PatchLot as BasePatchLot
-from openprocurement.tender.core.procedure.models.lot import (
-    PatchTenderLot as BasePatchTenderLot,
-)
-from openprocurement.tender.core.procedure.models.lot import PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.esco.procedure.constants import (
     LotMinimalStepPercentageValues,
