@@ -53,14 +53,14 @@ Content-Type: application/json
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
-      "amount": 15.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 15.0
     },
     "tenderPeriod": {
       "startDate": "2023-10-17T01:00:00+03:00",
@@ -166,6 +166,7 @@ Content-Type: application/json
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
     "restricted": false
   }
 }

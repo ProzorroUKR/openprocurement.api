@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openua 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 19:12+0200\n"
+"POT-Creation-Date: 2024-05-02 22:33+0300\n"
 "PO-Revision-Date: 2020-05-10 18:00+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.14.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -72,6 +72,9 @@ msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "hasValueEstimation"
 msgstr ""
 
 msgid "restricted"
@@ -358,3 +361,4 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 4 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "якщо період оскарження(триває 4 дня) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
+

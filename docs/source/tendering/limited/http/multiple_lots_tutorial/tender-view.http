@@ -144,6 +144,7 @@ Content-Type: application/json
     "hasTenderComplaints": false,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false
   }
 }
