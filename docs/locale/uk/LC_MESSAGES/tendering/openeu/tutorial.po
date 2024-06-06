@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 19:45+0200\n"
+"POT-Creation-Date: 2024-06-05 16:40+0300\n"
 "PO-Revision-Date: 2019-12-19 14:55+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.14.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -70,6 +70,12 @@ msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "5"
 msgstr ""
 
 msgid "restricted"
@@ -452,4 +458,7 @@ msgstr "Якщо період оскарження(триває 10 днів) с�
 
 #~ msgid "All operations with contract moved to :ref:`econtracting`"
 #~ msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
+
+#~ msgid "hasValueEstimation"
+#~ msgstr ""
 

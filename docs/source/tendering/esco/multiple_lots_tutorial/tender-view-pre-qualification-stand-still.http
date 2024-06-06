@@ -1045,7 +1045,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "7f2da78103824ac0aa42c728a3943885",
@@ -1054,7 +1058,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       }
     ],
     "complaintPeriod": {
@@ -1075,6 +1083,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "qualificationComplainDuration": 5,
     "restricted": false
   }
 }

@@ -123,8 +123,8 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "endDate": "2023-09-13T01:00:00+03:00",
-      "startDate": "2023-08-13T01:00:00+03:00"
+      "endDate": "2023-09-18T01:00:00+03:00",
+      "startDate": "2023-08-18T01:00:00+03:00"
     },
     "status": "complete",
     "tenderID": "UA-2023-10-10-000001-a",
@@ -137,16 +137,16 @@ Content-Type: application/json
     },
     "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
-      "startDate": "2023-08-13T01:00:00+03:00",
-      "endDate": "2023-09-03T01:00:00+03:00",
+      "startDate": "2023-08-18T01:00:00+03:00",
+      "endDate": "2023-09-08T01:00:00+03:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "qualificationPeriod": {
-      "startDate": "2023-09-13T01:00:00+03:00",
+      "startDate": "2023-09-18T01:00:00+03:00",
       "endDate": "2023-09-23T01:00:00+03:00",
-      "reportingDatePublication": "2023-09-17T01:00:00+03:00"
+      "reportingDatePublication": "2023-09-18T01:00:00+03:00"
     },
     "auctionPeriod": {
       "startDate": "2023-09-23T01:00:00+03:00",
@@ -198,11 +198,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2023-08-13T01:00:01+03:00"
+            "date": "2023-08-18T01:00:01+03:00"
           }
         ],
         "id": "78290ccc2a114830a97e8f2c510bacaf",
-        "date": "2023-08-13T01:00:01+03:00",
+        "date": "2023-08-18T01:00:01+03:00",
         "status": "active"
       },
       {
@@ -241,11 +241,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2023-08-13T01:00:02+03:00"
+            "date": "2023-08-18T01:00:02+03:00"
           }
         ],
         "id": "be6885d5a2ec4336a11ed73370239ed6",
-        "date": "2023-08-13T01:00:02+03:00",
+        "date": "2023-08-18T01:00:02+03:00",
         "status": "active"
       },
       {
@@ -284,11 +284,11 @@ Content-Type: application/json
               "valueAddedTaxIncluded": true
             },
             "relatedLot": "04651361e47848abb6eda21e59c8b4a1",
-            "date": "2023-08-13T01:00:03+03:00"
+            "date": "2023-08-18T01:00:03+03:00"
           }
         ],
         "id": "593a5fc959d64463b40f460fe47f30cb",
-        "date": "2023-08-13T01:00:03+03:00",
+        "date": "2023-08-18T01:00:03+03:00",
         "status": "active"
       }
     ],
@@ -298,27 +298,39 @@ Content-Type: application/json
         "bidID": "78290ccc2a114830a97e8f2c510bacaf",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2023-09-13T01:00:00+03:00",
+        "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       },
       {
         "id": "3c1ef529e7b84db2a7f8824f830c80e9",
         "bidID": "be6885d5a2ec4336a11ed73370239ed6",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2023-09-13T01:00:00+03:00",
+        "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       },
       {
         "id": "1376deb920134d33b9a67dd23a462745",
         "bidID": "593a5fc959d64463b40f460fe47f30cb",
         "status": "active",
         "lotID": "04651361e47848abb6eda21e59c8b4a1",
-        "date": "2023-09-13T01:00:00+03:00",
+        "date": "2023-09-18T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       }
     ],
     "awards": [
@@ -631,6 +643,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "qualificationComplainDuration": 5,
     "restricted": false
   }
 }

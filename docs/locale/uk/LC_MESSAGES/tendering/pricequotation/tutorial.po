@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-01 14:55+0100\n"
+"POT-Creation-Date: 2024-06-05 16:40+0300\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.14.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -71,6 +71,12 @@ msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "0"
 msgstr ""
 
 msgid "restricted"
@@ -351,4 +357,7 @@ msgstr "Завантажити нову версію документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту на відміну закупівлі"
+
+#~ msgid "hasValueEstimation"
+#~ msgstr ""
 
