@@ -199,16 +199,33 @@ class BaseCoreWebTest(BaseWebTest):
             self.activate_bids()
         elif status == "active.auction":
             self.activate_bids()
+            self.update_qualification_complaint_periods()
         elif status == "active.qualification":
             self.activate_bids()
+            self.update_qualification_complaint_periods()
         elif status == "active.awarded":
             self.activate_bids()
+            self.update_qualification_complaint_periods()
+        elif status == "active.stage2.pending":
+            self.update_qualification_complaint_periods()
 
         if extra:
             self.tender_document_patch.update(extra)
 
         self.save_changes()
         return self.get_tender()
+
+    def update_qualification_complaint_periods(self):
+        qualifications = self.tender_document.get("qualifications")
+        if qualifications:
+            complain_duration = self.tender_document["config"]["qualificationComplainDuration"]
+            for qualification in qualifications:
+                complaint_period = qualification.get("complaintPeriod")
+                if complaint_period and complaint_period.get("endDate"):
+                    start_date = get_now() - timedelta(days=complain_duration)
+                    qualification["complaintPeriod"]["startDate"] = start_date.isoformat()
+                    qualification["complaintPeriod"]["endDate"] = get_now().isoformat()
+            self.tender_document_patch.update({"qualifications": qualifications})
 
     def update_periods(self, status, startend="start", shift=None):
         shift = shift or timedelta()
@@ -251,6 +268,8 @@ class BaseCoreWebTest(BaseWebTest):
         self.update_periods(status, startend=startend, shift=shift)
         if extra:
             self.tender_document_patch.update(extra)
+        if status != "active.pre-qualification.stand-still":
+            self.update_qualification_complaint_periods()
         self.save_changes()
 
     def save_changes(self):

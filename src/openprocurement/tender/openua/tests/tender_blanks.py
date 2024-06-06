@@ -585,6 +585,10 @@ def tender_fields(self):
         "date",
         "awardPeriod",
     }
+
+    if tender["procurementMethodType"] == 'aboveThresholdEU':
+        expected_keys.add("qualificationPeriod")
+
     self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
 
 

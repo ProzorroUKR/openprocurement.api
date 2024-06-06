@@ -1,8 +1,5 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.tender.openeu.constants import (
-    PREQUALIFICATION_COMPLAINT_STAND_STILL,
-)
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -37,7 +34,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-    pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post

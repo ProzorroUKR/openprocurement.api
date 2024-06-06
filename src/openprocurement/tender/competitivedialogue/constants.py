@@ -20,6 +20,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "qualificationComplainDuration": 5,
     "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
@@ -33,5 +34,6 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "qualificationComplainDuration": 0,
     "restricted": False,
 }

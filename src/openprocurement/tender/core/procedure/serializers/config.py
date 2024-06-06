@@ -23,6 +23,9 @@ from openprocurement.tender.core.migrations.add_config_min_bids_number import (
 from openprocurement.tender.core.migrations.add_config_pre_selection import (
     pre_selection_populator,
 )
+from openprocurement.tender.core.migrations.add_config_qualification_complain_duration import (
+    qualification_complain_duration_populator,
+)
 
 
 def has_auction_serializer(obj, value):
@@ -110,6 +113,14 @@ def has_cancellation_complaints_serializer(obj, value):
     return value
 
 
+def qualification_complain_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["qualificationComplainDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return qualification_complain_duration_populator(tender)
+    return value
+
+
 def restricted_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
         request = get_request()
@@ -136,5 +147,6 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "hasTenderComplaints": has_tender_complaints_serializer,
         "hasAwardComplaints": has_award_complaints_serializer,
         "hasCancellationComplaints": has_cancellation_complaints_serializer,
+        "qualificationComplainDuration": qualification_complain_duration_serializer,
         "restricted": restricted_serializer,
     }

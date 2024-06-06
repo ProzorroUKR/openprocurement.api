@@ -162,13 +162,15 @@ def switch_bid_status_unsuccessul_to_active(self):
         {"data": {"status": "active.pre-qualification.stand-still"}},
     )
     self.assertEqual(response.status, "200 OK")
-    end_date = parse_date(response.json["data"]["qualificationPeriod"]["endDate"])
-    date = parse_date(response.json["data"]["date"])
-    duration = (end_date - date).total_seconds()
-    if SANDBOX_MODE:
-        duration = ceil(duration) * 1440
-    duration = duration / 86400  # days float
-    self.assertEqual(int(duration), 5)
+    qualifications = response.json["data"]["qualifications"]
+    for qualification in qualifications:
+        end_date = parse_date(qualification["complaintPeriod"]["endDate"])
+        start_date = parse_date(qualification["complaintPeriod"]["startDate"])
+        duration = (end_date - start_date).total_seconds()
+        if SANDBOX_MODE:
+            duration = ceil(duration) * 1440
+        duration = duration / 86400  # days float
+        self.assertEqual(int(duration), 5)
 
     # create complaint
     response = self.app.post_json(

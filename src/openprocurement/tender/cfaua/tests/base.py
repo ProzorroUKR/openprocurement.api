@@ -23,6 +23,7 @@ from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
+from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest,
 )
@@ -96,6 +97,7 @@ test_tender_cfaua_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "qualificationComplainDuration": 5,
     "restricted": False,
 }
 
@@ -257,6 +259,14 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             for index, qualification in enumerate(qualifications):
                 if qualification["status"] == "pending":
                     qualification.update({"status": "active", "qualified": True, "eligible": True})
+                    qualification["complaintPeriod"] = {
+                        "startDate": get_now().isoformat(),
+                        "endDate": calculate_complaint_business_date(
+                            get_now(),
+                            timedelta(days=self.tender_document["config"]["qualificationComplainDuration"]),
+                            self.tender_document,
+                        ).isoformat(),
+                    }
                     for bid in self.tender_document_patch["bids"]:
                         if bid["id"] == qualification["bidID"]:
                             if lots:
@@ -437,12 +447,14 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         self.save_changes()
         if status == "active.tendering":
             self.update_periods(status, startend)
+
         elif status == "active.pre-qualification":
             self.update_periods(status, startend)
             # generate bids
             self.generate_bids(status, startend)
             # generate qualifications
             self.generate_qualifications(status, startend)
+
         elif status == "active.pre-qualification.stand-still":
             self.update_periods(status, startend)
             # generate bids
@@ -452,6 +464,9 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             # activate qualifications and bids
             self.activate_qualifications()
 
+            if startend == "end":
+                self.update_qualification_complaint_periods()
+
         elif status == "active.auction":
             self.update_periods(status, startend)
             # generate bids
@@ -460,6 +475,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.generate_qualifications(status, startend)
             # activate qualifications and bids
             self.activate_qualifications()
+            self.update_qualification_complaint_periods()
 
         elif status == "active.qualification":
             self.update_periods(status, startend)
@@ -471,6 +487,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.activate_qualifications()
             # generate awards
             self.generate_awards(status, startend)
+            self.update_qualification_complaint_periods()
 
         elif status == "active.qualification.stand-still":
             self.update_periods(status, startend)
@@ -484,6 +501,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.generate_awards(status, startend)
             self.activate_awards()
             self.update_awards_complaint_periods(status, startend)
+            self.update_qualification_complaint_periods()
+
         elif status == "active.awarded":
             self.update_periods(status, startend)
             # generate bids
@@ -497,6 +516,8 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.activate_awards()
             self.update_awards_complaint_periods(status, startend)
             self.generate_agreements(status, startend)
+            self.update_qualification_complaint_periods()
+
             # generate_agreements()
         elif status == "complete":
             self.update_periods(status, startend)
@@ -506,6 +527,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             self.generate_qualifications(status, startend)
             # activate qualifications and bids
             self.activate_qualifications()
+            self.update_qualification_complaint_periods()
             # generate awards
             self.generate_awards(status, startend)
             self.activate_awards()

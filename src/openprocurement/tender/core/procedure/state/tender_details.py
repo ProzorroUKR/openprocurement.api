@@ -65,6 +65,7 @@ class TenderConfigMixin:
         "hasTenderComplaints",
         "hasAwardComplaints",
         "hasCancellationComplaints",
+        "qualificationComplainDuration",
         "restricted",
     )
 
@@ -138,7 +139,6 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     enquiry_period_timedelta: timedelta
     enquiry_stand_still_timedelta: timedelta
-    pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
@@ -269,6 +269,9 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     def validate_pre_qualification_status_change(self, before, after):
+        tender = get_tender()
+        qualif_complain_duration = tender["config"]["qualificationComplainDuration"]
+
         # TODO: find a better place for this check, may be a distinct endpoint: PUT /tender/uid/status
         if before["status"] == "active.pre-qualification":
             passed_data = get_request().validated["json_data"]
@@ -296,9 +299,19 @@ class TenderDetailsMixing(TenderConfigMixin):
                     )
 
                 if self.all_bids_are_reviewed(after):
-                    after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), self.pre_qualification_complaint_stand_still, after
+                    end_date = calculate_complaint_business_date(
+                        get_now(), timedelta(days=qualif_complain_duration), after
                     ).isoformat()
+
+                    if qualif_complain_duration > 0:
+                        for qualification in after["qualifications"]:
+                            if qualification.get("status") in ["unsuccessful", "active"]:
+                                qualification["complaintPeriod"] = {
+                                    "startDate": get_now().isoformat(),
+                                    "endDate": end_date,
+                                }
+
+                    after["qualificationPeriod"]["endDate"] = end_date
                     after["qualificationPeriod"]["reportingDatePublication"] = get_now().isoformat()
                 else:
                     raise_operation_error(

@@ -241,6 +241,7 @@ test_tender_openeu_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "qualificationComplainDuration": 5,
     "restricted": False,
 }
 

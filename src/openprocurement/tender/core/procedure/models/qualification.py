@@ -5,6 +5,7 @@ from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.milestone import (
@@ -38,6 +39,7 @@ class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestone
     qualified = BooleanType()  # відсутність підстав для відмови в участі
     eligible = BooleanType()  # підтвердити відповідність кваліфікаційним критеріям (17 стаття)
     complaints = BaseType()
+    complaintPeriod = ModelType(Period)
 
     @staticmethod
     def should_be_qualified():
