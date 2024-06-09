@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-16 17:43+0300\n"
-"PO-Revision-Date: 2017-07-25 15:20+0200\n"
+"POT-Creation-Date: 2024-06-09 16:55+0300\n"
+"PO-Revision-Date: 2024-06-09 17:14+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
@@ -175,29 +175,74 @@ msgstr "Замовник може завантажити PDF файл у ств�
 msgid "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
 msgstr "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції `документів`, щоб підтвердити дію:"
 
-msgid "The single array element describes the uploaded document. We can upload more documents:"
-msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
-
-msgid "And again we can confirm that there are two documents uploaded."
-msgstr "І знову можна перевірити, що є два завантажених документа."
-
 msgid "Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:"
 msgstr "Додамо нове поле `documentType` з параметром `technicalSpecifications` до вже завантаженого документа."
 
 msgid "Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added ."
 msgstr "Успіх! Код відповіді `200 OK` підтверджує, що поле `documentType` з параметром `technicalSpecifications` було додано."
 
-msgid "Now let’s try to modify any field in our document. For example, `description`:"
-msgstr "Можна змінити будь-яке поле в документі. Наприклад, `description` (опис):"
+msgid "Here is the basic list of fields that can be changed for a document."
+msgstr "Ось основний перелік полів, які можна змінити для документа."
 
-msgid "`200 OK` response was returned. The description was modified successfully."
-msgstr "Повернено код `200 OK`, тобто опис було успішно відредаговано."
+msgid "documentOf"
+msgstr ""
 
-msgid "In case we made an error, we can reupload the document over the older version:"
-msgstr "Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:"
+msgid "language"
+msgstr ""
+
+msgid "documentType"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "title_en"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "description_en"
+msgstr ""
+
+msgid "format"
+msgstr ""
+
+msgid "relatedItem"
+msgstr ""
+
+msgid "We can modify more of them:"
+msgstr "Ми можемо змінити декілька з них:"
+
+msgid "You may notice that `dateModified` field changes with every modification."
+msgstr "Ви могли помітити що `dateModified` оновлюється при зміні інформації про документ."
+
+msgid "The single array element describes the uploaded document. We can upload more documents:"
+msgstr "Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:"
+
+msgid "And again we can confirm that there are two documents uploaded."
+msgstr "І знову можна перевірити, що є два завантажених документа."
+
+msgid "Before we updated document details. It is also possible to change document content itself (file). To do so, we can upload a new version of the document:"
+msgstr "Раніше ми оновлювали деталі документа. Також можливо змінити сам (файл) документ. Для цього ми можемо завантажити нову версію:"
 
 msgid "And we can see that it is overriding the original version:"
 msgstr "І ми бачимо, що вона перекриває оригінальну версію:"
+
+msgid "Please notice that `datePublished` field has also been changed. It is connected to the document file and only changes when a new file uploaded."
+msgstr "Зауважте, що `datePublished` поле також було змінено. Воно пов'язано з файлом документа і вказує на момент його додавання."
+
+msgid "It is possible to see all versions of all documents. To do this, use `?all=1` parameter."
+msgstr "Є можливість переглянути всі версії усіх документів. Для цього використайте `?all=1` параметр."
+
+msgid "In the response you should see one version of the Notice document and two versions of the AwardCriteria document. Both versions have the same `id` field, but `datePublished` fields are different. Because that's the time when files were published."
+msgstr "У відповіді ми бачимо одну версію Notice документа і дві версії AwardCriteria документа. Обидві версії мають однакове значення `id` поля, але різні для `datePublished`. Вони вказують на час додавання цих версій."
+
+msgid "Notice, the `datePublished` and `dateModified` fields are the same. That's because their documents details haven't been additionally changed."
+msgstr "Зауважте, поля `datePublished` та `dateModified` дорівнюють одне одному. "
+
+msgid "Also notice, the fields that can be additionally modified like title, language, description etc. All of them are applied to the latest version. The previous version keeps its own values."
+msgstr "Також зверніть увагу поля з інформацією про документ, що можна змінювати, - title, language, description і тд. Всі вони застосовані до нової версії. Попередня версія зберігає свої значення. "
 
 msgid "Enquiries"
 msgstr "Уточнення"

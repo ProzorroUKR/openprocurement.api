@@ -10,29 +10,33 @@ Content-Type: application/json
   "data": [
     {
       "documentType": "technicalSpecifications",
-      "description": "document description modified",
+      "description": "змінений опис документа",
+      "description_en": "document description modified",
+      "relatedItem": "ffffffffffffffffffffffffffffffff",
       "id": "dcc28f9e5b0a4475ae1511c9195924ba",
       "datePublished": "2023-10-10T01:00:01+03:00",
       "hash": "md5:00000000000000000000000000000000",
-      "title": "Notice.pdf",
-      "format": "application/pdf",
+      "title": "Notice.doc",
+      "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d5acc9f6744445090ee6163719b792e?Signature=sgMJT6uclURHXV1QkzMq700s6436i6ynr4LaZyZf5B4O1Sn6ed7A8ogX5x1LCHhuC5HKuPrXHgPRYIyDC6H%2BDg%3D%3D&KeyID=a8968c46",
-      "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:01+03:00",
+      "documentOf": "item",
+      "dateModified": "2023-10-10T01:03:03+03:00",
       "author": "tender_owner",
       "language": "uk"
     },
     {
+      "description": "Новий версія AwardCriteria документу",
+      "description_en": "new version of the AwardCriteria document",
       "id": "9e36c772ea13480da2398a2c2bd63fe5",
-      "datePublished": "2023-10-10T01:00:01+03:00",
-      "hash": "md5:00000000000000000000000000000000",
+      "datePublished": "2023-10-10T01:10:05+03:00",
+      "hash": "md5:11111111111111111111111111111111",
       "title": "AwardCriteria-2.pdf",
       "format": "application/pdf",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc7c2e1fbe6a49fea049b4173a46deb0?Signature=Ll9xBeKOaMIyV4Pevgb8PUnKFy7IdwbH4qx5dP82%2F1xZyRrLncOjRe9WiUndVv31OgIMb7ENLhVIa0omK%2BNGAw%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=0uc1L5Hds4PPrsYRM1sNQluvq8QLZco0a1xvfdPZqf%2FJEhY96LTb%2Fj2CKzBVACqO7%2FfslMvzgkEKGAz8pV%2FiCg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:01+03:00",
+      "dateModified": "2023-10-10T01:10:05+03:00",
       "author": "tender_owner",
-      "language": "uk"
+      "language": "en"
     }
   ]
 }

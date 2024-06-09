@@ -21,10 +21,10 @@ Content-Type: application/json
     },
     "title": "Калорійність",
     "description": "Просимо додати таблицю потрібної калорійності харчування",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2023-10-10T01:10:05+03:00",
     "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
     "questionOf": "tender",
-    "dateAnswered": "2023-10-10T01:00:01+03:00"
+    "dateAnswered": "2023-10-10T01:10:05+03:00"
   }
 }
 

@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-26 10:23+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+msgid "Restricted access"
+msgstr ""
+
+msgid "Framework can have restricted access with next rules"
+msgstr ""
+
+msgid "Object"
+msgstr ""
+
+msgid "Public API"
+msgstr ""
+
+msgid "Private API (Procuring Entity)"
+msgstr ""
+
+msgid "Private API (Supplier)"
+msgstr ""
+
+msgid "framework"
+msgstr ""
+
+msgid "view"
+msgstr ""
+
+msgid "view/edit"
+msgstr ""
+
+msgid "submission"
+msgstr ""
+
+msgid "–"
+msgstr ""
+
+msgid "view (all)"
+msgstr ""
+
+msgid "view/edit (own)"
+msgstr ""
+
+msgid "qualification"
+msgstr ""
+
+msgid "view/edit (all)"
+msgstr ""
+
+msgid "view (own)"
+msgstr ""
+
+msgid "agreement"
+msgstr ""
+
+msgid "Let's make an agreement that `Procuring Entity` and `Suppliers` will use different brokers for working with API:"
+msgstr ""
+
+msgid "Procuring Entity uses `Broker`"
+msgstr ""
+
+msgid "Supplier 1 uses `Broker 1`"
+msgstr ""
+
+msgid "Supplier 2 uses `Broker 2`"
+msgstr ""
+
+msgid "Create Framework with restricted access"
+msgstr ""
+
+msgid "First create framework with restricted access by `Broker`. To do this, we need to set ``restricted_derivatives`` field to ``true`` in ``config`` section of framework creation request."
+msgstr ""
+
+msgid "This framework by itself is visible to everyone in public API."
+msgstr ""
+
+msgid "For `ProcuringEntity` with `defense` kind ``restricted_derivatives`` field will be set to ``true`` automatically."
+msgstr ""
+
+msgid "The second step is moving the framework to `active` status:"
+msgstr ""
+
+msgid "Enquiries"
+msgstr ""
+
+msgid "The participant has the opportunity to contact the administrator through the electronic procurement system regarding the review of the requirements for the participant, specified in the announcement of qualification for the electronic catalog within ten working days from the day of its publication."
+msgstr ""
+
+msgid "During enquiry period, interested parties can ask questions:"
+msgstr ""
+
+msgid "Procuring entity can answer them:"
+msgstr ""
+
+msgid "It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`. In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:"
+msgstr ""
+
+msgid "Only procuring entity has permission to answer the questions:"
+msgstr ""
+
+msgid "To retrieve the questions list:"
+msgstr ""
+
+msgid "To retrieve the individual answer:"
+msgstr ""
+
+msgid "The presence of a question does not block the transition of the qualification announcement to the next status."
+msgstr ""
+
+msgid "The presence or absence of an answer to the question does not block the transition of the qualification announcement to the next status."
+msgstr ""
+
+msgid "The period during which the participant can apply to the administrator through the electronic procurement system to review the requirements for the participant: the date of publication of the announcement + 10 working days."
+msgstr ""
+
+msgid "It is forbidden to ask or answer question outside the enquiry period:"
+msgstr ""
+
+msgid "Create and activate Submissions with restricted access"
+msgstr ""
+
+msgid "After activating framework, users can register their submissions in period from `framework.enquiryPeriod.endDate` to `period.Date`."
+msgstr ""
+
+msgid "Let's register submission by `Broker 1`:"
+msgstr ""
+
+msgid "You can see that ``restricted`` field was set to ``true`` in ``config`` section of submission creation response."
+msgstr ""
+
+msgid "Next activate submission by `Broker 1`:"
+msgstr ""
+
+msgid "Add another Submission by `Broker 2`:"
+msgstr ""
+
+msgid "And activate it:"
+msgstr ""
+
+msgid "Request submissions with restricted access"
+msgstr ""
+
+msgid "Let's check submissions by all participants:"
+msgstr ""
+
+msgid "Broker (Procuring Entity)"
+msgstr ""
+
+msgid "Let's check submission feed for `Broker` that is `Procuring Entity` and has access to all submissions of framework:"
+msgstr ""
+
+msgid "Now make request by `Broker` for submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker` for submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Broker 1 (Supplier 1)"
+msgstr ""
+
+msgid "Let's check submission feed for `Broker 1` that is `Supplier 1` and has access only to own submissions:"
+msgstr ""
+
+msgid "We can see that second submission is partially visible in feed and marked with ``restricted`` field set to ``true``."
+msgstr ""
+
+msgid "Now make request by `Broker 1` for submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker 1` for submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "We can see error message that submission is restricted for `Broker 1`."
+msgstr ""
+
+msgid "Broker 2 (Supplier 2)"
+msgstr ""
+
+msgid "Let's check submission feed for `Broker 2` that is `Supplier 2` and has access only to own submissions:"
+msgstr ""
+
+msgid "Now make request by `Broker 2` for submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker 2` for submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "Let's check submission feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
+msgstr ""
+
+msgid "Now make request for submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request for submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Request Qualifications with restricted access"
+msgstr ""
+
+msgid "Let's check qualifications by all participants:"
+msgstr ""
+
+msgid "Let's check qualification feed for `Broker` that is `Procuring Entity` and has access to all qualifications of framework:"
+msgstr ""
+
+msgid "Now make request by `Broker` for qualification of submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker` for qualification of submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Let's check qualification feed for `Broker 1` that is `Supplier 1` and has access only to qualifications of it own submissions:"
+msgstr ""
+
+msgid "We can see that second qualification is partially visible in feed and marked with ``restricted`` field set to ``true``."
+msgstr ""
+
+msgid "Now make request by `Broker 1` for qualification of submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker 1` for qualification of submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "We can see error message that qualification is restricted for `Broker 1`."
+msgstr ""
+
+msgid "Let's check qualification feed for `Broker 2` that is `Supplier 2` and has access only to qualifications of it own submissions:"
+msgstr ""
+
+msgid "Now make request by `Broker 2` for qualification of submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request by `Broker 2` for qualification of submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Let's check qualification feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
+msgstr ""
+
+msgid "Now make request for qualification of submission that was created by `Broker 1`:"
+msgstr ""
+
+msgid "Then make request for qualification of submission that was created by `Broker 2`:"
+msgstr ""
+
+msgid "Activate Qualifications with restricted access"
+msgstr ""
+
+msgid "Let's activate all qualifications by `Broker`:"
+msgstr ""
+
+msgid "Let's check current framework"
+msgstr ""
+
+msgid "You can see that `agreementID` appeared in current framework, so let's check that agreement."
+msgstr ""
+
+msgid "Request Agreement with restricted access"
+msgstr ""
+
+msgid "Let's check agreement by all participants:"
+msgstr ""
+
+msgid "Let's check agreement feed for `Broker` that is `Procuring Entity` and has access to agreement of framework:"
+msgstr ""
+
+msgid "Now make request by `Broker` for agreement:"
+msgstr ""
+
+msgid "Let's check agreement feed for `Broker 1`:"
+msgstr ""
+
+msgid "Now make request by `Broker 1` for agreement:"
+msgstr ""
+
+msgid "Let's check agreement feed for `Broker 2`:"
+msgstr ""
+
+msgid "Now make request by `Broker 2` for agreement:"
+msgstr ""
+
+msgid "Let's check agreement feed with anonymous request (or any broker that is not `Broker` or `Broker 1`):"
+msgstr ""
+
+msgid "Now make request for agreement:"
+msgstr ""
+

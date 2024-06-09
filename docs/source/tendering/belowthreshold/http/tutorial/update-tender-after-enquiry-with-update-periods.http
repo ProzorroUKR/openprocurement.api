@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-21T01:00:01+03:00"
+      "endDate": "2023-10-21T01:10:05+03:00"
     }
   }
 }
@@ -46,7 +46,7 @@ Content-Type: application/json
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-16T01:00:02+03:00",
+    "dateModified": "2023-10-16T01:14:06+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
     "questions": [
@@ -57,50 +57,54 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-10-10T01:00:01+03:00",
+        "date": "2023-10-10T01:10:05+03:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-10-10T01:00:01+03:00"
+        "dateAnswered": "2023-10-10T01:10:05+03:00"
       }
     ],
     "documents": [
       {
         "documentType": "technicalSpecifications",
-        "description": "document description modified",
+        "description": "змінений опис документа",
+        "description_en": "document description modified",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
         "id": "dcc28f9e5b0a4475ae1511c9195924ba",
         "datePublished": "2023-10-10T01:00:01+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
+        "title": "Notice.doc",
+        "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/dcc28f9e5b0a4475ae1511c9195924ba?download=6d5acc9f6744445090ee6163719b792e",
-        "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "documentOf": "item",
+        "dateModified": "2023-10-10T01:03:03+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "id": "9e36c772ea13480da2398a2c2bd63fe5",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2023-10-10T01:06:04+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/9e36c772ea13480da2398a2c2bd63fe5?download=8b660719e71c4e3b80ac24648fac52c2",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2023-10-10T01:06:04+03:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
+        "description": "Новий версія AwardCriteria документу",
+        "description_en": "new version of the AwardCriteria document",
         "id": "9e36c772ea13480da2398a2c2bd63fe5",
-        "datePublished": "2023-10-10T01:00:01+03:00",
-        "hash": "md5:00000000000000000000000000000000",
+        "datePublished": "2023-10-10T01:10:05+03:00",
+        "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria-2.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/9e36c772ea13480da2398a2c2bd63fe5?download=cc7c2e1fbe6a49fea049b4173a46deb0",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3/documents/9e36c772ea13480da2398a2c2bd63fe5?download=60e622bce3a645a3be99a66482061e52",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2023-10-10T01:10:05+03:00",
         "author": "tender_owner",
-        "language": "uk"
+        "language": "en"
       }
     ],
     "status": "active.tendering",
@@ -119,15 +123,15 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-21T01:00:01+03:00",
+    "next_check": "2023-10-21T01:10:05+03:00",
     "minimalStep": {
       "amount": 15.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:01+03:00",
-      "endDate": "2023-10-21T01:00:01+03:00"
+      "startDate": "2023-10-10T01:10:05+03:00",
+      "endDate": "2023-10-21T01:10:05+03:00"
     },
     "items": [
       {
@@ -230,10 +234,10 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "startDate": "2023-09-30T01:00:01+03:00",
-      "clarificationsUntil": "2023-10-11T01:00:01+03:00",
-      "endDate": "2023-10-10T01:00:01+03:00",
-      "invalidationDate": "2023-10-16T01:00:02+03:00"
+      "startDate": "2023-09-30T01:10:05+03:00",
+      "clarificationsUntil": "2023-10-11T01:10:05+03:00",
+      "endDate": "2023-10-10T01:10:05+03:00",
+      "invalidationDate": "2023-10-16T01:14:06+03:00"
     },
     "id": "3f5ff57c43ca4ba6b3a1d0619b7a14c3"
   },

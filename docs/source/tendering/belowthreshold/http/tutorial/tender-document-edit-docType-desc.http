@@ -5,7 +5,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "description": "document description modified"
+    "title": "Notice.doc",
+    "format": "application/msword",
+    "description": "змінений опис документа",
+    "description_en": "document description modified",
+    "documentOf": "item",
+    "relatedItem": "ffffffffffffffffffffffffffffffff"
   }
 }
 
@@ -16,15 +21,17 @@ Content-Type: application/json
 {
   "data": {
     "documentType": "technicalSpecifications",
-    "description": "document description modified",
+    "description": "змінений опис документа",
+    "description_en": "document description modified",
+    "relatedItem": "ffffffffffffffffffffffffffffffff",
     "id": "dcc28f9e5b0a4475ae1511c9195924ba",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
-    "title": "Notice.pdf",
-    "format": "application/pdf",
+    "title": "Notice.doc",
+    "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d5acc9f6744445090ee6163719b792e?Signature=sgMJT6uclURHXV1QkzMq700s6436i6ynr4LaZyZf5B4O1Sn6ed7A8ogX5x1LCHhuC5HKuPrXHgPRYIyDC6H%2BDg%3D%3D&KeyID=a8968c46",
-    "documentOf": "tender",
-    "dateModified": "2023-10-10T01:00:01+03:00",
+    "documentOf": "item",
+    "dateModified": "2023-10-10T01:03:03+03:00",
     "author": "tender_owner",
     "language": "uk"
   }

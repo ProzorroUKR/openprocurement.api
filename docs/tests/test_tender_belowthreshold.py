@@ -294,6 +294,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '201 Created')
 
+        self.tick(delta=timedelta(seconds=60))
+
         doc_id = response.json["data"]["id"]
         with open(TARGET_DIR + 'tutorial/tender-documents.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/documents/{}'.format(self.tender_id, doc_id))
@@ -306,12 +308,23 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '200 OK')
 
+        self.tick(delta=timedelta(seconds=60))
+
         with open(TARGET_DIR + 'tutorial/tender-document-edit-docType-desc.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
-                {'data': {"description": "document description modified"}},
+                {'data': {
+                    "title": "Notice.doc",
+                    "format": "application/msword",
+                    "description": "змінений опис документа",
+                    "description_en": "document description modified",
+                    "documentOf": "item",
+                    "relatedItem": tender["items"][0]["id"],
+                }},
             )
             self.assertEqual(response.status, '200 OK')
+
+        self.tick(delta=timedelta(seconds=60))
 
         with open(TARGET_DIR + 'tutorial/upload-award-criteria.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -327,6 +340,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, '201 Created')
 
+        self.tick(delta=timedelta(seconds=60))
+
         doc_id = response.json["data"]["id"]
 
         with open(TARGET_DIR + 'tutorial/tender-documents-2.http', 'w') as self.app.file_obj:
@@ -339,9 +354,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {
                     'data': {
                         'title': 'AwardCriteria-2.pdf',
-                        'url': self.generate_docservice_url(),
-                        'hash': 'md5:' + '0' * 32,
+                        'description': 'Нова версія AwardCriteria документу',
+                        'description_en': 'new version of the AwardCriteria document',
+                        'url': self.generate_docservice_url(doc_hash="1" * 32),
+                        'hash': 'md5:' + '1' * 32,
                         'format': 'application/pdf',
+                        'language': 'en'
                     }
                 },
             )
@@ -349,6 +367,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         with open(TARGET_DIR + 'tutorial/tender-documents-3.http', 'w') as self.app.file_obj:
             response = self.app.get('/tenders/{}/documents'.format(self.tender_id))
+            self.assertEqual(response.status, '200 OK')
+
+        with open(TARGET_DIR + 'tutorial/tender-documents-3-all.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}/documents?all=1'.format(self.tender_id))
             self.assertEqual(response.status, '200 OK')
 
         # Enquiries
