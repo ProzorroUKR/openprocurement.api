@@ -58,8 +58,8 @@ Content-Type: application/json
         "language": "uk",
         "id": "b57bff4881434c139ba83f203f41d9dc",
         "confidentiality": "public",
-        "datePublished": "2023-10-16T01:00:02+03:00",
-        "dateModified": "2023-10-16T01:00:02+03:00"
+        "datePublished": "2023-10-16T01:14:06+03:00",
+        "dateModified": "2023-10-16T01:14:06+03:00"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -70,8 +70,8 @@ Content-Type: application/json
         "language": "uk",
         "id": "6dedbd358d08409eac7efb40cb71f63d",
         "confidentiality": "public",
-        "datePublished": "2023-10-16T01:00:02+03:00",
-        "dateModified": "2023-10-16T01:00:02+03:00"
+        "datePublished": "2023-10-16T01:14:06+03:00",
+        "dateModified": "2023-10-16T01:14:06+03:00"
       }
     ],
     "lotValues": [
@@ -83,12 +83,12 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "987404b67a4c4d888112d4e9755edefc",
-        "date": "2023-10-16T01:00:02+03:00",
+        "date": "2023-10-16T01:14:06+03:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/3f5ff57c43ca4ba6b3a1d0619b7a14c3_987404b67a4c4d888112d4e9755edefc?key_for_bid=9a6691c52a6e40478d3057022922c776"
       }
     ],
     "id": "9a6691c52a6e40478d3057022922c776",
-    "date": "2023-10-16T01:00:02+03:00"
+    "date": "2023-10-16T01:14:06+03:00"
   }
 }
 

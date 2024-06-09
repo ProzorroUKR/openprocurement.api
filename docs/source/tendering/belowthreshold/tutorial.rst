@@ -155,6 +155,7 @@ That is why tenderPeriod has to be extended by minimum 2 days.
 
 
 .. index:: Document
+.. _bt-documents-tutorial:
 
 Uploading documentation
 -----------------------
@@ -172,6 +173,36 @@ action:
 .. http:example:: http/tutorial/tender-documents.http
    :code:
 
+
+Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:
+
+.. http:example:: http/tutorial/tender-document-add-documentType.http
+   :code:
+
+Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added .
+
+
+Here is the basic list of fields that can be changed for a document.
+
+* documentOf
+* language
+* documentType
+* title
+* title_en
+* description
+* description_en
+* format
+* relatedItem
+
+
+We can modify more of them:
+
+.. http:example:: http/tutorial/tender-document-edit-docType-desc.http
+   :code:
+
+You may notice that `dateModified` field changes with every modification.
+
+
 The single array element describes the uploaded document. We can upload more documents:
 
 .. http:example:: http/tutorial/upload-award-criteria.http
@@ -182,21 +213,9 @@ And again we can confirm that there are two documents uploaded.
 .. http:example:: http/tutorial/tender-documents-2.http
    :code:
 
-Let’s add new `documentType` field with `technicalSpecifications` parameter to the previously uploaded document:
 
-.. http:example:: http/tutorial/tender-document-add-documentType.http
-   :code:
-
-Success! Response code is `200 OK` and it confirms that `documentType` field with `technicalSpecifications` parameter was added .
-
-Now let’s try to modify any field in our document. For example, `description`:
-
-.. http:example:: http/tutorial/tender-document-edit-docType-desc.http
-   :code:
-
-`200 OK` response was returned. The description was modified successfully.
-
-In case we made an error, we can reupload the document over the older version:
+Before we updated document details. It is also possible to change document content itself (file).
+To do so, we can upload a new version of the document:
 
 .. http:example:: http/tutorial/update-award-criteria.http
    :code:
@@ -205,6 +224,27 @@ And we can see that it is overriding the original version:
 
 .. http:example:: http/tutorial/tender-documents-3.http
    :code:
+
+Please notice that `datePublished` field has also been changed.
+It is connected to the document file and only changes when a new file uploaded.
+
+
+It is possible to see all versions of all documents. To do this, use `?all=1` parameter.
+
+.. http:example:: http/tutorial/tender-documents-3-all.http
+   :code:
+
+In the response you should see one version of the Notice document
+and two versions of the AwardCriteria document.
+Both versions have the same `id` field, but `datePublished` fields are different.
+Because that's the time when files were published.
+
+Notice, the `datePublished` and `dateModified` fields are the same.
+That's because their documents details haven't been additionally changed.
+
+
+Also notice, the fields that can be additionally modified like title, language, description etc.
+All of them are applied to the latest version. The previous version keeps its own values.
 
 
 .. index:: Enquiries, Question, Answer

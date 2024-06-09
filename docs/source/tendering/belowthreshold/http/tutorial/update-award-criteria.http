@@ -6,9 +6,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "AwardCriteria.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc7c2e1fbe6a49fea049b4173a46deb0?Signature=KpP9ZLwq%2F6bffcCLhZesC8VhW4hB2b8DGT07M5tz87n07cIHWwvac8nmke8%2FIOG0Je4QE6I77kkjKRPj86SzAQ%3D%3D&KeyID=a8968c46",
-    "hash": "md5:00000000000000000000000000000000",
-    "format": "application/pdf"
+    "description": "Нова версія AwardCriteria документу",
+    "description_en": "new version of the AwardCriteria document",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=gl60ZSgdj7k%2FWM8b1vpgy2xAJTWBSDRyrXxI5oFqLaIJQVvd%2BtDleZs6kUxJtv1Yplc7cCFq5M8Wt07flNYwDA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:11111111111111111111111111111111",
+    "format": "application/pdf",
+    "language": "en"
   }
 }
 
@@ -18,16 +21,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "description": "Нова версія AwardCriteria документу",
+    "description_en": "new version of the AwardCriteria document",
     "id": "9e36c772ea13480da2398a2c2bd63fe5",
-    "datePublished": "2023-10-10T01:00:01+03:00",
-    "hash": "md5:00000000000000000000000000000000",
+    "datePublished": "2023-10-10T01:10:05+03:00",
+    "hash": "md5:11111111111111111111111111111111",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc7c2e1fbe6a49fea049b4173a46deb0?Signature=Ll9xBeKOaMIyV4Pevgb8PUnKFy7IdwbH4qx5dP82%2F1xZyRrLncOjRe9WiUndVv31OgIMb7ENLhVIa0omK%2BNGAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/60e622bce3a645a3be99a66482061e52?Signature=0uc1L5Hds4PPrsYRM1sNQluvq8QLZco0a1xvfdPZqf%2FJEhY96LTb%2Fj2CKzBVACqO7%2FfslMvzgkEKGAz8pV%2FiCg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateModified": "2023-10-10T01:10:05+03:00",
     "author": "tender_owner",
-    "language": "uk"
+    "language": "en"
   }
 }
 
