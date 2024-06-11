@@ -40,8 +40,13 @@ Creating tender for reporting procedure
 
 To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``.
 
-For **reporting** procedure there are two required fields if `procurementMethodRationale` is empty.
-Let's try create tender without `procurementMethodRationale`:
+For **reporting** procedure there are two required fields `cause` and `causeDescription`. They are required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
+
+    * 100 000 for goods,
+    * 200 000 for services,
+    * 1 500 000 for works.
+
+Let's try create tender with value amount bigger than threshold and without `procurementMethodRationale`:
 
 .. http:example:: http/tutorial/create-tender-reporting-invalid.http
    :code:

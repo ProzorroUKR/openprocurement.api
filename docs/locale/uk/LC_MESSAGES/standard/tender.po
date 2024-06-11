@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-03 17:58+0300\n"
+"POT-Creation-Date: 2024-06-11 12:31+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -657,8 +657,17 @@ msgstr "Зміни властивостей об’єктів Закупівлі
 msgid "cause"
 msgstr ""
 
-msgid "string, required for **negotiation** and **negotiation.quick** procedures, required for **reporting** procedure if field `procurementMethodRationale` is empty"
-msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**, обов’язковий для  **звітів**, які мають пусте поле procurmentMethodRationale"
+msgid "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
+
+msgid "100 000 for goods,"
+msgstr "100 000 для товарів,"
+
+msgid "200 000 for services,"
+msgstr "200 000 для послуг,"
+
+msgid "1 500 000 for works."
+msgstr "1 500 000 для робіт."
 
 msgid "Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\"."
 msgstr "Підстава для використання звітів, “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \\”Про публічні закупівлі\\”."
@@ -717,8 +726,8 @@ msgstr "Можливі значення для **звітів** зберігаю
 msgid "causeDescription"
 msgstr ""
 
-msgid "string, multilingual, required for **negotiation** and **negotiation.quick** procedures, required for **reporting** procedure if field `procurementMethodRationale` is empty"
-msgstr "рядок, багатомовний, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**, обов’язковий для  **звітів**, які мають пусте поле procurmentMethodRationale"
+msgid "string, multilingual, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "рядок, багатомовний, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
 msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
 msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."

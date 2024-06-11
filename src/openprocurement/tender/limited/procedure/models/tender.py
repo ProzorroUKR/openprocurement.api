@@ -52,6 +52,23 @@ from openprocurement.tender.limited.procedure.models.organization import (
 )
 from openprocurement.tender.openua.procedure.models.item import Item
 
+VALUE_AMOUNT_THRESHOLD = {
+    "goods": 100000,
+    "services": 200000,
+    "works": 1500000,
+}
+
+
+def reporting_cause_is_required(data, value):
+    return all(
+        [
+            data.get("procuringEntity", {}).get("kind") != "other",
+            not data.get("procurementMethodRationale"),
+            data.get("value", {}).get("amount", 0) >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]],
+            not value,
+        ]
+    )
+
 
 # reporting
 class PostReportingTender(PostBaseTender):
@@ -84,14 +101,14 @@ class PostReportingTender(PostBaseTender):
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
 
     def validate_cause(self, data, value):
-        if not data.get("procurementMethodRationale") and not value:
+        if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
         if value and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
     def validate_causeDescription(self, data, value):
-        if not data.get("procurementMethodRationale") and not value:
+        if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
 
@@ -148,14 +165,14 @@ class ReportingTender(BaseTender):
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
 
     def validate_cause(self, data, value):
-        if not data.get("procurementMethodRationale") and not value:
+        if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
         if value and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
     def validate_causeDescription(self, data, value):
-        if not data.get("procurementMethodRationale") and not value:
+        if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
 

@@ -19,6 +19,7 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
 from openprocurement.tender.limited.procedure.models.tender import (
+    VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,
     cause_choices_quick,
@@ -1543,14 +1544,17 @@ def tender_set_fund_organizations(self):
 def tender_cause_reporting(self):
     data = dict(**self.initial_data)
     del data["procurementMethodRationale"]
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {"location": "body", "name": "cause", "description": ["This field is required."]},
-            {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
-        ],
-    )
+    for category, value in VALUE_AMOUNT_THRESHOLD.items():
+        data["mainProcurementCategory"] = category
+        data["value"]["amount"] = value
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {"location": "body", "name": "cause", "description": ["This field is required."]},
+                {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
+            ],
+        )
 
     # try to add archived cause
     data["cause"] = "noCompetition"
@@ -1616,3 +1620,11 @@ def tender_cause_reporting(self):
             {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
         ],
     )
+
+    # for kind other cause and causeDescription are optional (doesn't matter what value amount tender has)
+    data = dict(**self.initial_data)
+    data["procuringEntity"]["kind"] = "other"
+    del data["procurementMethodRationale"]
+    data["value"]["amount"] = 2000000
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
