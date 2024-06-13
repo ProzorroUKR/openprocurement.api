@@ -3848,13 +3848,7 @@ def tender_delivery_milestones(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "milestones",
-                "description": [{"percentage": ["This field is required."]}]
-            }
-        ],
+        [{"location": "body", "name": "milestones", "description": [{"percentage": ["This field is required."]}]}],
     )
     data["milestones"][-1]["percentage"] = 10
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)

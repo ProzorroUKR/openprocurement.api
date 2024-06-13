@@ -710,7 +710,7 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "4d525299c60841739d84314aefa3e436",
@@ -722,7 +722,7 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2
       }
     ],
     "tenderPeriod": {

@@ -386,6 +386,8 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         tender_data = deepcopy(self.initial_data)
         tender_data.pop("lots", None)
         tender_data["items"] = test_tender_negotiation_data["items"]
+        for milestone in tender_data["milestones"]:
+            milestone.pop("relatedLot", None)
         with open(TARGET_DIR + 'multiple_lots_tutorial/tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders?opt_pretty=1', {'data': tender_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')

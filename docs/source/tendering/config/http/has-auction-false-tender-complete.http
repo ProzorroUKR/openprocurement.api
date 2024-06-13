@@ -508,7 +508,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "complete",
-        "id": "5b1a9504cc16400fa33f3d9e84606053",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-11-09T00:00:00+02:00",
         "value": {
           "amount": 500.0,
@@ -517,10 +517,10 @@ Content-Type: application/json
         }
       },
       {
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
         "status": "complete",
-        "id": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "id": "5b1a9504cc16400fa33f3d9e84606053",
         "date": "2023-11-09T00:00:00+02:00",
         "value": {
           "amount": 500.0,
@@ -540,7 +540,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "54885e2435434072891db5e792b35a43",
@@ -552,7 +553,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "complaintPeriod": {
@@ -619,7 +621,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -658,7 +660,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
         "deliveryDate": {
           "startDate": "2023-10-30T00:00:00+02:00",
           "endDate": "2023-11-29T00:00:00+02:00"
@@ -811,7 +813,7 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "subcontractingDetails": "ДКП «Орфей», Україна"
@@ -822,7 +824,7 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "subcontractingDetails": "ДКП «Орфей», Україна"
@@ -967,7 +969,7 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "subcontractingDetails": "ДКП «Укр Прінт», Україна"
@@ -978,7 +980,7 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
             "subcontractingDetails": "ДКП «Укр Прінт», Україна"
@@ -1025,7 +1027,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "lotID": "5b1a9504cc16400fa33f3d9e84606053",
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {
@@ -1067,7 +1069,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "lotID": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "lotID": "5b1a9504cc16400fa33f3d9e84606053",
         "qualified": true,
         "eligible": true,
         "complaintPeriod": {

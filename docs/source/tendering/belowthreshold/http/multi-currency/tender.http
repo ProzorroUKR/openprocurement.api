@@ -647,7 +647,7 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "4bd89ce3db9542d593f96929061c5f47",
@@ -659,7 +659,7 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2
       }
     ],
     "procurementMethodType": "belowThreshold",

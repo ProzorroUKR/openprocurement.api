@@ -34,7 +34,10 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_config,
+    test_tender_below_milestones,
+)
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_lotvalues,
     set_tender_lots,
@@ -239,17 +242,23 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         )
 
     def test_docs_has_auction_true(self):
-        request_path = '/tenders?opt_pretty=1'
-
         config = deepcopy(self.initial_config)
         config["hasAuction"] = True
 
         test_tender_data = deepcopy(test_docs_tender_open)
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[0])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+
+        test_tender_data['lots'] = [lot1]
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -268,17 +277,10 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         # add lots
         with open(TARGET_DIR + 'has-auction-true-tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}
             )
             self.assertEqual(response.status, '201 Created')
-            lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
+            lot_id2 = response.json['data']['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -389,16 +391,22 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
     def test_docs_has_auction_false(self):
-        request_path = '/tenders?opt_pretty=1'
-
         config = deepcopy(self.initial_config)
         config["hasAuction"] = False
 
         test_tender_data = deepcopy(test_docs_tender_open)
         del test_tender_data['minimalStep']
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[1]['value'] = test_tender_data['value']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[0])
+        lot2['value'] = test_tender_data['value']
+
+        test_tender_data['lots'] = [lot1]
+
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         #### Creating tender
 
@@ -415,17 +423,10 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
         # add lots
         with open(TARGET_DIR + 'has-auction-false-tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}
             )
             self.assertEqual(response.status, '201 Created')
-            lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
+            lot_id2 = response.json['data']['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -600,11 +601,18 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["awardCriteria"] = "lowestCost"
         test_tender_data["items"] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[0])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+
+        test_tender_data['lots'] = [lot1]
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         # Creating tender
 
@@ -621,15 +629,10 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         # add lots
         with open(TARGET_DIR + 'has-awarding-order-true-tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}
             )
             self.assertEqual(response.status, '201 Created')
-            lot_id1 = response.json['data']['id']
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id2 = response.json['data']['id']
+            lot_id2 = response.json['data']['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
@@ -758,11 +761,18 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["items"] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[0])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+
+        test_tender_data['lots'] = [lot1]
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         # Creating tender
 
@@ -779,20 +789,16 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         # add lots
         with open(TARGET_DIR + 'has-awarding-order-false-tender-add-lot.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': lot2}
             )
             self.assertEqual(response.status, '201 Created')
-            lot_id1 = response.json['data']['id']
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id2 = response.json['data']['id']
+            lot_id2 = response.json['data']['id']
 
         # add relatedLot for item
         items = deepcopy(tender["items"])
         items[0]["relatedLot"] = lot_id1
         items[1]["relatedLot"] = lot_id2
+
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
         )
@@ -1160,11 +1166,21 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["items"] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[1])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot_id2 = lot2['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot1, lot2]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id1
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         #### Creating tender
 
@@ -1175,31 +1191,6 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # add lots
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id1
-        items[1]["relatedLot"] = lot_id2
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
 
@@ -1303,11 +1294,21 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["items"] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[1])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot_id2 = lot2['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot1, lot2]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id1
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         #### Creating tender
 
@@ -1318,31 +1319,6 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # add lots
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id1
-        items[1]["relatedLot"] = lot_id2
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
 
@@ -1397,12 +1373,21 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         config["valueCurrencyEquality"] = True
 
         test_tender_data = deepcopy(test_docs_tender_below)
-        test_tender_data["items"] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[1])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot_id2 = lot2['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot1, lot2]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id1
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         # Creating tender
 
@@ -1413,31 +1398,6 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # add lots
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id1
-        items[1]["relatedLot"] = lot_id2
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
 
@@ -1552,9 +1512,19 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data["items"] = test_docs_items_open
         del test_tender_data["minimalStep"]
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[1]['value'] = test_tender_data['value']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[1])
+        lot2['value'] = test_tender_data['value']
+        lot_id2 = lot2['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot1, lot2]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id1
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         # Creating tender
 
@@ -1565,31 +1535,6 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # add lots
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id1
-        items[1]["relatedLot"] = lot_id2
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
 
@@ -1766,37 +1711,28 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         config["minBidsNumber"] = 2
         config["hasValueRestriction"] = True
 
+        test_tender_data = deepcopy(self.initial_data)
+        lot = deepcopy(test_docs_lots[0])
+        lot['value'] = test_tender_data['value']
+        lot['minimalStep'] = test_tender_data['minimalStep']
+        lot_id = lot['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id
+
         with open(TARGET_DIR + 'min-bids-number-tender-post-1.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1',
-                {'data': self.initial_data, 'config': config},
+                {'data': test_tender_data, 'config': config},
             )
             self.assertEqual(response.status, '201 Created')
 
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        # add lot
-        test_lot = deepcopy(test_docs_lots[0])
-        test_lot['value'] = self.initial_data['value']
-        test_lot['minimalStep'] = self.initial_data['minimalStep']
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lot}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot = response.json['data']
-        lot_id = lot['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
         self.activate_tender(tender_id, owner_token)
@@ -1865,11 +1801,21 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
 
         test_tender_data = deepcopy(test_docs_tender_below)
         test_tender_data['items'] = test_docs_items_open
-        test_lots = deepcopy(test_docs_lots)
-        test_lots[0]['value'] = test_tender_data['value']
-        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
-        test_lots[1]['value'] = test_tender_data['value']
-        test_lots[1]['minimalStep'] = test_tender_data['minimalStep']
+        lot1 = deepcopy(test_docs_lots[0])
+        lot1['value'] = test_tender_data['value']
+        lot1['minimalStep'] = test_tender_data['minimalStep']
+        lot_id1 = lot1['id'] = uuid4().hex
+
+        lot2 = deepcopy(test_docs_lots[1])
+        lot2['value'] = test_tender_data['value']
+        lot2['minimalStep'] = test_tender_data['minimalStep']
+        lot_id2 = lot2['id'] = uuid4().hex
+
+        test_tender_data['lots'] = [lot1, lot2]
+        for item in test_tender_data["items"]:
+            item["relatedLot"] = lot_id1
+        for milestone in test_tender_data["milestones"]:
+            milestone["relatedLot"] = lot_id1
 
         with open(TARGET_DIR + 'min-bids-number-tender-post-3.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -1881,30 +1827,6 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         tender = response.json['data']
         tender_id = self.tender_id = tender['id']
         owner_token = response.json['access']['token']
-
-        self.app.authorization = ('Basic', ('broker', ''))
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot_id1 = response.json['data']['id']
-
-        response = self.app.post_json(
-            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
-        )
-        self.assertEqual(response.status, '201 Created')
-        lot2 = response.json['data']
-        lot_id2 = lot2['id']
-
-        # add relatedLot for item
-        items = deepcopy(tender["items"])
-        items[0]["relatedLot"] = lot_id1
-        items[1]["relatedLot"] = lot_id2
-        response = self.app.patch_json(
-            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
-        )
-        self.assertEqual(response.status, '200 OK')
 
         self.add_criteria(tender_id, owner_token)
         self.activate_tender(tender_id, owner_token)
@@ -2179,6 +2101,8 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
                 "endDate": (get_now() + datetime.timedelta(days=5)).isoformat(),
             }
             item['classification']['id'] = test_framework_dps_data['classification']['id']
+        for milestone in data["milestones"]:
+            milestone["relatedLot"] = lot["id"]
 
         # Create not masked tender
         with open(TARGET_DIR + 'restricted-false-tender-post.http', 'w') as self.app.file_obj:

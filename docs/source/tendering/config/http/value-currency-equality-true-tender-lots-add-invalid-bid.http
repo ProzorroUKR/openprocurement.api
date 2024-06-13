@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 600,
           "currency": "USD"
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "value": {
           "amount": 500,
           "currency": "UAH"
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
     ]
   }

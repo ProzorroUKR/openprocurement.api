@@ -52,7 +52,7 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "5913e805a15e4ee484617292a375c8c4",
@@ -64,7 +64,7 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2
       }
     ],
     "complaintPeriod": {

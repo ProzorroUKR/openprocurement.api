@@ -80,7 +80,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "percentage": 45.55
       },
       {
@@ -91,7 +91,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0,
+        "sequenceNumber": 2,
         "percentage": 54.45
       }
     ]
@@ -177,7 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "a408d2d9993b4d5ca7e7b2774859ddfe",
@@ -189,7 +189,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f5ff57c43ca4ba6
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2
       }
     ],
     "procurementMethodType": "belowThreshold",
