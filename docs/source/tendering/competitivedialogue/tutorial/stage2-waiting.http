@@ -1353,9 +1353,9 @@ Content-Type: application/json
       }
     ],
     "qualificationPeriod": {
-      "startDate": "2023-09-30T01:00:00+03:00",
+      "startDate": "2023-10-05T01:00:00+03:00",
       "endDate": "2023-10-10T01:00:00+03:00",
-      "reportingDatePublication": "2023-10-04T01:00:00+03:00"
+      "reportingDatePublication": "2023-10-05T01:00:00+03:00"
     },
     "qualifications": [
       {
@@ -1365,7 +1365,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       },
       {
         "id": "b6950f13fd8e47a29630f0cd44b63da4",
@@ -1374,7 +1378,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       },
       {
         "id": "0f5c997d2c934d32b787bf0539157426",
@@ -1383,7 +1391,11 @@ Content-Type: application/json
         "status": "unsuccessful",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": false,
-        "eligible": false
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       },
       {
         "id": "fea726b3ec3e47bbb71500fa120b5ede",
@@ -1392,7 +1404,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:00:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-05T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        }
       }
     ],
     "procuringEntity": {
@@ -1422,18 +1438,18 @@ Content-Type: application/json
     },
     "awardCriteria": "lowestCost",
     "enquiryPeriod": {
-      "startDate": "2023-08-30T01:00:00+03:00",
-      "endDate": "2023-09-10T01:00:00+03:00",
+      "startDate": "2023-09-04T01:00:00+03:00",
+      "endDate": "2023-09-15T01:00:00+03:00",
       "clarificationsUntil": "2023-10-12T00:00:00+03:00",
       "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-08-30T01:00:00+03:00",
-      "endDate": "2023-09-30T01:00:00+03:00"
+      "startDate": "2023-09-04T01:00:00+03:00",
+      "endDate": "2023-10-05T01:00:00+03:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-08-30T01:00:00+03:00",
-      "endDate": "2023-09-26T00:00:00+03:00"
+      "startDate": "2023-09-04T01:00:00+03:00",
+      "endDate": "2023-10-01T00:00:00+03:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",
@@ -1553,6 +1569,7 @@ Content-Type: application/json
     "hasValueEstimation": true,
     "hasQualificationComplaints": true,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
     "awardComplainDuration": 0,
     "restricted": false
   }

@@ -89,6 +89,12 @@ msgstr ""
 msgid "hasQualificationComplaints"
 msgstr ""
 
+msgid "qualificationComplainDuration"
+msgstr "Оскарження кваліцікації"
+
+msgid "0"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 

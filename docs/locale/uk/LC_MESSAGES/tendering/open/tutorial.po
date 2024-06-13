@@ -86,6 +86,12 @@ msgstr ""
 msgid "5"
 msgstr ""
 
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 

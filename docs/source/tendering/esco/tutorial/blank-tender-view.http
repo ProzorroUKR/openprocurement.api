@@ -159,6 +159,7 @@ Content-Type: application/json
     "hasValueEstimation": false,
     "hasQualificationComplaints": true,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "restricted": false
   }
