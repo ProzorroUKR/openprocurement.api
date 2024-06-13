@@ -138,6 +138,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "restricted": false
   }

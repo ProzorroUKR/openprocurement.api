@@ -1001,6 +1001,7 @@ Content-Type: application/json
     "hasValueEstimation": true,
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "restricted": false
   }

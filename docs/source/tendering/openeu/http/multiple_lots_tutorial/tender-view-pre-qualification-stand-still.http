@@ -1044,7 +1044,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:01:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       },
       {
         "id": "53e540ee40f548f9b30af0d358863f79",
@@ -1053,7 +1057,11 @@ Content-Type: application/json
         "status": "active",
         "date": "2023-10-10T01:01:00+03:00",
         "qualified": true,
-        "eligible": true
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-16T00:00:00+03:00"
+        }
       }
     ],
     "procurementMethodType": "aboveThresholdEU",
@@ -1195,6 +1203,7 @@ Content-Type: application/json
     "hasValueEstimation": true,
     "hasQualificationComplaints": true,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "restricted": false
   }
