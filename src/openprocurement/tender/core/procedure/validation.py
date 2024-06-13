@@ -1420,20 +1420,21 @@ validate_value_type = validate_value_factory(TYPEMAP)
 
 def validate_milestones(value):
     if isinstance(value, list):
-        sums = defaultdict(Decimal)
+        sums = {
+            "financing": defaultdict(Decimal),
+            "delivery": defaultdict(Decimal),
+        }
         for milestone in value:
-            if milestone["type"] == "financing":
-                percentage = milestone.get("percentage")
-                if percentage:
-                    sums[milestone.get("relatedLot")] += to_decimal(percentage)
+            if percentage := milestone.get("percentage"):
+                sums[milestone["type"]][milestone.get("relatedLot")] += to_decimal(percentage)
 
-        for uid, sum_value in sums.items():
-            if sum_value != Decimal("100"):
-                raise ValidationError(
-                    "Sum of the financial milestone percentages {} is not equal 100{}.".format(
-                        sum_value, " for lot {}".format(uid) if uid else ""
+        for milestone_type, values in sums.items():
+            for uid, sum_value in values.items():
+                if sum_value != Decimal("100"):
+                    raise ValidationError(
+                        f"Sum of the {milestone_type} milestone percentages {sum_value} "
+                        f"is not equal 100{f' for lot {uid}' if uid else ''}."
                     )
-                )
 
 
 def validate_gmdn(classification_id, additional_classifications):

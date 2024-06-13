@@ -2,6 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
@@ -101,7 +102,7 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    initial_lots = test_lots
 
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_active_not_qualified = snitch(patch_active_not_qualified)
@@ -113,7 +114,7 @@ class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):
     initial_config = test_tender_negotiation_config
     test_tender_negotiation_data_local = test_tender_negotiation_data
     test_tender_data_local = test_tender_reporting_data
-    test_lots_data = test_lots  # TODO: change attribute identifier
+    initial_lots = test_lots
 
     test_create_award_with_lot = snitch(create_award_with_lot)
     test_create_tender_award_with_lot = snitch(create_tender_award_with_lot)
@@ -134,6 +135,7 @@ class TenderNegotiationQuickAwardResourceTest(TenderNegotiationAwardResourceTest
 class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
+    initial_lots = test_lots
     docservice = True
 
     def create_award(self):
@@ -147,6 +149,7 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
                     "qualified": True,
                     "status": "pending",
                     "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+                    "lotID": self.initial_lots[0]["id"],
                 }
             },
         )
@@ -222,6 +225,7 @@ class TenderLotNegotiationAwardComplaintResourceTest(TenderNegotiationAwardCompl
 class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data_2items
     initial_config = test_tender_negotiation_config
+    initial_lots = test_lots
 
     def setUp(self):
         super().setUp()
@@ -305,11 +309,13 @@ class Tender2LotNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
 
 class Tender2LotNegotiationQuickAwardComplaintResourceTest(Tender2LotNegotiationAwardComplaintResourceTest):
     initial_data = test_tender_negotiation_quick_data_2items
+    initial_lots = test_lots
 
 
 class Tender2LotNegotiationAwardComplaint2ResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data_2items
     initial_config = test_tender_negotiation_config
+    initial_lots = test_lots
 
     def setUp(self):
         super().setUp()
@@ -478,10 +484,12 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
 class TenderAwardNegotiationDocumentResourceTest(TenderAwardDocumentResourceTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
+    initial_lots = test_lots
 
 
 class TenderAwardNegotiationQuickDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):
     initial_data = test_tender_negotiation_quick_data
+    initial_lots = test_lots
 
 
 class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocumentResourceTest):

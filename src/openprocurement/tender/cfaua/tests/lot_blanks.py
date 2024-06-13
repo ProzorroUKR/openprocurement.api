@@ -1395,12 +1395,12 @@ def tender_lot_guarantee(self):
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "GBP")
 
     response = self.app.delete(
-        "/tenders/{}/lots/{}?acc_token={}".format(tender["id"], lot_id, tender_token), status=403
+        "/tenders/{}/lots/{}?acc_token={}".format(tender["id"], lot_id, tender_token), status=422
     )
-    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "data", "description": "Lots count in tender cannot be less than 1 items"}],
+        [{"location": "body", "name": "data", "description": "Cannot delete lot with related milestones"}],
     )
 
     response = self.app.get("/tenders/{}".format(tender["id"]))

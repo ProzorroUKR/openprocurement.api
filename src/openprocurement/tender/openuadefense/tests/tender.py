@@ -15,12 +15,14 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_required,
     tender_minimalstep_validation,
 )
-from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
+from openprocurement.tender.open.tests.tender_blanks import (
+    create_tender_invalid_config,
+    tender_finance_milestones,
+)
 from openprocurement.tender.openua.tests.tender import TenderUaProcessTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_generated,
     empty_listing,
-    tender_finance_milestones,
     tender_with_main_procurement_category,
 )
 from openprocurement.tender.openuadefense.tests.base import (

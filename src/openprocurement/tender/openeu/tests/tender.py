@@ -19,6 +19,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_minimalstep_validation,
     tender_with_guarantee_multilot,
 )
+from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openeu.tests.base import (
     BaseTenderWebTest,
     test_tender_openeu_bids,
@@ -41,7 +42,6 @@ from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_invalid_config,
     create_tender_with_criteria_lcc,
-    tender_finance_milestones,
     tender_with_main_procurement_category,
 )
 

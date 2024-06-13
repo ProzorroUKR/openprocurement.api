@@ -97,6 +97,10 @@ lot_bid_amount = round(
     "openprocurement.tender.core.procedure.state.tender_details.RELEASE_ECRITERIA_ARTICLE_17",
     get_now() + timedelta(days=1),
 )
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderLotResourceTest(BaseESCOContentWebTest):
     docservice = True
     initial_auth = ("Basic", ("broker", ""))
@@ -231,6 +235,10 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
     test_create_tender_bid = snitch(create_tender_feature_bid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
     docservice = True
     setUp = BaseESCOContentWebTest.setUp

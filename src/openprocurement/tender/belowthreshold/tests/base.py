@@ -59,7 +59,7 @@ test_tender_below_milestones = [
         "code": "prepayment",
         "type": "financing",
         "duration": {"days": 2, "type": "banking"},
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "percentage": 45.55,
     },
     {
@@ -67,7 +67,7 @@ test_tender_below_milestones = [
         "code": "postpayment",
         "type": "financing",
         "duration": {"days": 900, "type": "calendar"},
-        "sequenceNumber": 0,
+        "sequenceNumber": 2,
         "percentage": 54.45,
     },
 ]

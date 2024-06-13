@@ -1641,10 +1641,12 @@ def lcc_criterion_valid(self):
 
 def lcc_criterion_invalid(self):
     # create lcc tender draft
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
     data.pop("lots", None)
+    for milestone in data["milestones"]:
+        milestone.pop("relatedLot", None)
     data["items"][0].pop("relatedLot", None)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1682,7 +1684,7 @@ def lcc_criterion_invalid(self):
         )
 
     # create lcc tender draft with lots
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
     data["lots"] = self.initial_lots
