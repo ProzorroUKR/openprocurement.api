@@ -130,13 +130,6 @@ Content-Type: application/json
       "description": [
         "This field is required."
       ]
-    },
-    {
-      "location": "body",
-      "name": "causeDescription",
-      "description": [
-        "This field is required."
-      ]
     }
   ]
 }

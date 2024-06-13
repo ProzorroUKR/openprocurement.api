@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-11 12:31+0300\n"
+"POT-Creation-Date: 2024-06-13 12:03+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -725,9 +725,6 @@ msgstr "Можливі значення для **звітів** зберігаю
 
 msgid "causeDescription"
 msgstr ""
-
-msgid "string, multilingual, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
-msgstr "рядок, багатомовний, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
 msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
 msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."

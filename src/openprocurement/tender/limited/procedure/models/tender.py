@@ -88,8 +88,8 @@ class PostReportingTender(PostBaseTender):
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
     cause = StringType()
-    causeDescription = StringType(min_length=1)
-    causeDescription_en = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -104,12 +104,8 @@ class PostReportingTender(PostBaseTender):
         if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
-        if value and value not in TENDER_CAUSE:
+        if value is not None and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
-
-    def validate_causeDescription(self, data, value):
-        if reporting_cause_is_required(data, value):
-            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class PatchReportingTender(PatchBaseTender):
@@ -128,8 +124,8 @@ class PatchReportingTender(PatchBaseTender):
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
     cause = StringType()
-    causeDescription = StringType(min_length=1)
-    causeDescription_en = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
 
 class ReportingTender(BaseTender):
@@ -152,8 +148,8 @@ class ReportingTender(BaseTender):
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
     cause = StringType()
-    causeDescription = StringType(min_length=1)
-    causeDescription_en = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -168,12 +164,8 @@ class ReportingTender(BaseTender):
         if reporting_cause_is_required(data, value):
             raise ValidationError(BaseType.MESSAGES["required"])
 
-        if value and value not in TENDER_CAUSE:
+        if value is not None and value not in TENDER_CAUSE:
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
-
-    def validate_causeDescription(self, data, value):
-        if reporting_cause_is_required(data, value):
-            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 # Negotiation
@@ -219,9 +211,9 @@ class PostNegotiationTender(PostBaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
-    causeDescription = StringType(required=True, min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
@@ -252,9 +244,9 @@ class PatchNegotiationTender(PatchBaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType()
-    causeDescription = StringType(min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
@@ -272,9 +264,9 @@ class NegotiationTender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
-    causeDescription = StringType(required=True, min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])

@@ -1470,24 +1470,9 @@ def tender_cause_choices(self):
 def tender_cause_desc(self):
     data = deepcopy(self.initial_data)
     del data["causeDescription"]
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "causeDescription"}],
-    )
-
-    data["causeDescription"] = ""
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["String value is too short."], "location": "body", "name": "causeDescription"}],
-    )
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("causeDescription", response.json["data"])  # causeDescription is optional
 
     data["causeDescription"] = "blue pine"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1552,7 +1537,6 @@ def tender_cause_reporting(self):
             response.json["errors"],
             [
                 {"location": "body", "name": "cause", "description": ["This field is required."]},
-                {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
             ],
         )
 
@@ -1617,11 +1601,10 @@ def tender_cause_reporting(self):
         response.json["errors"],
         [
             {"location": "body", "name": "cause", "description": ["This field is required."]},
-            {"location": "body", "name": "causeDescription", "description": ["This field is required."]},
         ],
     )
 
-    # for kind other cause and causeDescription are optional (doesn't matter what value amount tender has)
+    # for kind other cause is optional (doesn't matter what value amount tender has)
     data = dict(**self.initial_data)
     data["procuringEntity"]["kind"] = "other"
     del data["procurementMethodRationale"]

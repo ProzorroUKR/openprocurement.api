@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-11 12:31+0300\n"
+"POT-Creation-Date: 2024-06-13 12:03+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -104,8 +104,8 @@ msgstr "Створення закупівлі для процедури звіт
 msgid "To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``."
 msgstr "Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``."
 
-msgid "For **reporting** procedure there are two required fields `cause` and `causeDescription`. They are required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
-msgstr "Для процедури **звітування про укладений договір** додавання полів `cause` та `causeDescription` до тендеру є обов’язковими, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
+msgid "For **reporting** procedure there is required field `cause`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "Для процедури **звітування про укладений договір** додавання поля `cause` до тендеру є обов’язковими, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
 msgid "100 000 for goods,"
 msgstr "100 000 для товарів,"
@@ -116,7 +116,7 @@ msgstr "200 000 для послуг,"
 msgid "1 500 000 for works."
 msgstr "1 500 000 для робіт."
 
-msgid "Let's try create tender with value amount bigger than threshold and without `procurementMethodRationale`:"
+msgid "Let's try to create tender with value amount bigger than threshold and without `procurementMethodRationale`:"
 msgstr "Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:"
 
 msgid "Let's add `cause` and `causeDescription` and then create a tender:"
