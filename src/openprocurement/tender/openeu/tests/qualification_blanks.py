@@ -257,12 +257,15 @@ def check_reporting_date_publication(self):
     qualification_period = response.json["data"]["qualificationPeriod"]
     self.assertIn("reportingDatePublication", qualification_period)
     reporting_date = parse_date(qualification_period["reportingDatePublication"])
-    end_date = parse_date(qualification_period["endDate"])
-    delta = end_date - reporting_date
-    if SANDBOX_MODE:
-        self.assertEqual((delta * 1440).days, 5)  # accelerator = 1440
-    else:
-        self.assertEqual(delta.days, 5)
+
+    qualifications = response.json["data"]["qualifications"]
+    for qualification in qualifications:
+        end_date = parse_date(qualification["complaintPeriod"]["endDate"])
+        delta = end_date - reporting_date
+        if SANDBOX_MODE:
+            self.assertEqual((delta * 1440).days, 5)  # accelerator = 1440
+        else:
+            self.assertEqual(delta.days, 5)
 
 
 # Tender2LotQualificationResourceTest
@@ -1895,7 +1898,8 @@ def get_tender_qualification_complaints(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     tender = self.mongodb.tenders.get(self.tender_id)
-    tender["qualificationPeriod"]["endDate"] = tender["qualificationPeriod"]["startDate"]
+    for qualification in tender["qualifications"]:
+        qualification["complaintPeriod"]["endDate"] = qualification["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
@@ -1907,7 +1911,7 @@ def get_tender_qualification_complaints(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in qualificationPeriod")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in complaintPeriod")
 
 
 def change_status_to_standstill_with_complaint(self):
@@ -2316,7 +2320,8 @@ def get_tender_lot_qualification_complaints(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "tender_id"}])
 
     tender = self.mongodb.tenders.get(self.tender_id)
-    tender["qualificationPeriod"]["endDate"] = tender["qualificationPeriod"]["startDate"]
+    for qualification in tender["qualifications"]:
+        qualification["complaintPeriod"]["endDate"] = qualification["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(tender)
 
     response = self.app.post_json(
@@ -2328,7 +2333,7 @@ def get_tender_lot_qualification_complaints(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in qualificationPeriod")
+    self.assertEqual(response.json["errors"][0]["description"], "Can add complaint only in complaintPeriod")
 
 
 # Tender2LotQualificationComplaintResourceTest
