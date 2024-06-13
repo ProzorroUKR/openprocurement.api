@@ -116,6 +116,8 @@ def tender_yearlyPaymentsPercentageRange(self):
     data = deepcopy(self.initial_data)
     data.pop("lots", None)
     data["items"][0].pop("relatedLot", None)
+    for milestone in data["milestones"]:
+        milestone.pop("relatedLot", None)
     del data["yearlyPaymentsPercentageRange"]
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})

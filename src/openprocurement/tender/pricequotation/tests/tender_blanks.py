@@ -2248,7 +2248,7 @@ def tender_milestones(self):
             "title": "signingTheContract",
             "type": "delivery",
             "duration": {"days": 1500, "type": "calendar"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
             "code": "postpayment",
             "percentage": 10,
         }

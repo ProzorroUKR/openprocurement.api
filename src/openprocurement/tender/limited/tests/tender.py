@@ -59,10 +59,8 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_status_change,
     tender_with_main_procurement_category,
 )
-from openprocurement.tender.openua.tests.tender_blanks import (
-    empty_listing,
-    tender_finance_milestones,
-)
+from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
+from openprocurement.tender.openua.tests.tender_blanks import empty_listing
 
 
 class AccreditationTenderTest(BaseTenderWebTest):

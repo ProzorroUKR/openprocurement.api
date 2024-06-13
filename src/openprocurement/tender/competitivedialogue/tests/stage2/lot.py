@@ -1,8 +1,11 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_value
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -161,6 +164,10 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
     test_create_tender_bidder = snitch(create_tender_with_features_bidder)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
     initial_data = test_tender_cdeu_stage2_data
     test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
@@ -371,6 +378,8 @@ class TenderStage2UALotProcessTest(BaseCompetitiveDialogUAStage2ContentWebTest):
                 item["relatedLot"] = lots[i % len(lots)]["id"]
             for firm in data["shortlistedFirms"]:
                 firm["lots"] = [dict(id=lot["id"]) for lot in lots]
+            for milestone in data["milestones"]:
+                milestone["relatedLot"] = lots[0]["id"]
             self.lots_id = [lot["id"] for lot in lots]
         if features:
             for feature in features:

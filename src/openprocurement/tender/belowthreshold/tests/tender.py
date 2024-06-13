@@ -57,6 +57,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_items_zero_quantity,
     tender_lot_minimalstep_validation,
     tender_milestones_required,
+    tender_milestones_sequence_number,
     tender_minimalstep_validation,
     tender_not_found,
     tender_token_invalid,
@@ -89,6 +90,7 @@ class TenderResourceTestMixin:
     test_create_tender_config_test = snitch(create_tender_config_test)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
+    test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
 
 
 class TenderTest(BaseApiWebTest):

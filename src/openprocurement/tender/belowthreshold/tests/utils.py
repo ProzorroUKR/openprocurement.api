@@ -12,6 +12,8 @@ def set_tender_lots(tender, lots):
         tender["lots"].append(lot)
     for i, item in enumerate(tender["items"]):
         item["relatedLot"] = tender["lots"][i % len(tender["lots"])]["id"]
+    for i, milestone in enumerate(tender.get("milestones", [])):
+        milestone["relatedLot"] = tender["lots"][0]["id"]
     return tender
 
 

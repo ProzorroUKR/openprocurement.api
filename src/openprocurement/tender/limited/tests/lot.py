@@ -1,4 +1,8 @@
+from datetime import timedelta
+from unittest import mock
+
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -30,6 +34,10 @@ from openprocurement.tender.limited.tests.lot_blanks import (  # TenderLotNegoti
 )
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_negotiation_data
@@ -58,6 +66,10 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     test_tender_lot_milestones = snitch(tender_lot_milestones)
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config

@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
+from uuid import uuid4
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
@@ -1578,6 +1579,7 @@ def tender_delivery_milestones(self):
             "type": "delivery",
             "duration": {"days": 1500, "type": "calendar"},
             "sequenceNumber": 0,
+            "percentage": 100,
             "code": "standard",
         }
     )
@@ -1592,3 +1594,84 @@ def tender_delivery_milestones(self):
             }
         ],
     )
+
+
+def tender_milestones_sequence_number(self):
+    data = deepcopy(self.initial_data)
+    lot = deepcopy(self.initial_lots[0])
+    lot["id"] = uuid4().hex
+    data["lots"].append(lot)
+    data["items"][0]["relatedLot"] = lot["id"]
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 100,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 2,
+            "percentage": 100,
+            "relatedLot": lot["id"],
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "sequenceNumber": "Field should contain incrementing sequence numbers starting from 1 for tender/lot separately"
+                    }
+                ],
+            }
+        ],
+    )
+    data["milestones"][-1]["sequenceNumber"] = 1
+    del data["milestones"][-1]["relatedLot"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "milestones.relatedLot", "description": ["This field is required."]}],
+    )
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 45.55,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": {"days": 999, "type": "calendar"},
+            "sequenceNumber": 1,
+            "percentage": 100,
+            "relatedLot": lot["id"],
+        },
+        {
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": {"days": 999, "type": "calendar"},
+            "sequenceNumber": 2,
+            "percentage": 54.45,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")

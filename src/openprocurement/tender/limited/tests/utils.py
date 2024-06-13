@@ -12,5 +12,6 @@ def get_award_data(self, **kwargs):
     }
     if self.initial_data["procurementMethodType"] != "reporting":
         data["qualified"] = True
+        data["lotID"] = self.initial_lots[0]["id"]
     data.update(kwargs)
     return data
