@@ -584,7 +584,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       },
       {
         "id": "0dac28eb201345049f8baef02809a471",
@@ -596,7 +597,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       }
     ],
     "procuringEntity": {

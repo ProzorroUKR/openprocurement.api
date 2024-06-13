@@ -91,6 +91,7 @@ class TestTenderMilestones(unittest.TestCase):
                         "title": ["This field is required."],
                         "code": ["This field is required."],
                         "duration": ["This field is required."],
+                        'percentage': ['This field is required.'],
                         "type": ["This field is required."],
                         "sequenceNumber": ["This field is required."],
                     }
@@ -230,7 +231,7 @@ class TestTenderMilestones(unittest.TestCase):
 
         self.assertEqual(
             e.exception.messages,
-            {"milestones": ["Sum of the financial milestone percentages 100.001 is not equal 100."]},
+            {"milestones": ["Sum of the financing milestone percentages 100.001 is not equal 100."]},
         )
 
     def test_validate_percentage_sum_float_point(self):
@@ -343,7 +344,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             e.exception.messages,
             {
                 "milestones": [
-                    "Sum of the financial milestone percentages 50.0 is not equal 100 for lot {}.".format(
+                    "Sum of the financing milestone percentages 50.0 is not equal 100 for lot {}.".format(
                         initial_data["lots"][0]["id"]
                     )
                 ]
@@ -438,7 +439,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
             e.exception.messages,
             {
                 "milestones": [
-                    "Sum of the financial milestone percentages 99.999 is not equal 100 for lot {}.".format(
+                    "Sum of the financing milestone percentages 99.999 is not equal 100 for lot {}.".format(
                         initial_data["lots"][1]["id"],
                     )
                 ]

@@ -552,7 +552,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "f37d4ff0e19c4823be20bfcb7b612a87",
@@ -591,10 +591,32 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
       }
     ],
     "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-10T01:00:00+03:00",
+          "endDate": "2023-10-10T01:00:00+03:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6"
+      },
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
@@ -616,28 +638,6 @@ Content-Type: application/json
           "endDate": "2023-10-10T01:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053"
-      },
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "9dcdb4eb18734e52bbd56421b7fed34c",
-        "date": "2023-10-10T01:00:00+03:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "amount": 15.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "auctionPeriod": {
-          "startDate": "2023-10-10T01:00:00+03:00",
-          "endDate": "2023-10-10T01:00:00+03:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c"
       }
     ],
     "milestones": [
@@ -651,7 +651,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "54885e2435434072891db5e792b35a43",
@@ -663,7 +664,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -696,7 +698,7 @@ Content-Type: application/json
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
         "author": {
-          "hash": "59146b1d81f2f5fe45651999a604d849"
+          "hash": "2918def933aba7d8480fd16de1e9bdc1"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -844,10 +846,10 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
           },
           {
             "value": {
@@ -855,10 +857,10 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c"
           }
         ]
       },
@@ -999,10 +1001,10 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
           },
           {
             "value": {
@@ -1010,10 +1012,10 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": true
             },
-            "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+            "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
             "status": "active",
             "date": "2023-10-10T01:00:00+03:00",
-            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
+            "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad"
           }
         ]
       }
@@ -1059,7 +1061,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "lotID": "5b1a9504cc16400fa33f3d9e84606053"
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "99e6dcc3408d4794ae66c30ae2297ea7",
@@ -1095,7 +1097,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
-        "lotID": "5b1a9504cc16400fa33f3d9e84606053"
+        "lotID": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "caa0fe450e3a4b99bc1d7a6fc77bdde5",
@@ -1131,7 +1133,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
-        "lotID": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "lotID": "5b1a9504cc16400fa33f3d9e84606053"
       },
       {
         "id": "f8c771c7053c432cadbce62b9c7be656",
@@ -1167,7 +1169,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "lotID": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "lotID": "5b1a9504cc16400fa33f3d9e84606053"
       }
     ],
     "id": "38bca89f7ba4477d97f553d576fd6994"

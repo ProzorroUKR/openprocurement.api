@@ -122,7 +122,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "dcc3f8f1b92b47128900eacef2094061"
       },
       {
         "id": "7f96196af29c4c89bc9c58b8070f95fa",
@@ -134,7 +135,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "dcc3f8f1b92b47128900eacef2094061"
       }
     ],
     "procurementMethodType": "negotiation.quick",

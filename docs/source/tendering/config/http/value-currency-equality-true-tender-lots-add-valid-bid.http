@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 500,
           "currency": "UAH"
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "value": {
           "amount": 500,
           "currency": "UAH"
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
     ]
   }
@@ -89,7 +89,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
@@ -99,7 +99,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
@@ -107,8 +107,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "bed2a0c68b0347dab30b439da99f00d8",
-    "transfer": "857bf8327126450d82f8a82679f7c783"
+    "token": "3d0090690f474213b61cd8c7deaeb977",
+    "transfer": "bed2a0c68b0347dab30b439da99f00d8"
   }
 }
 

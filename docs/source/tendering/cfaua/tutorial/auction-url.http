@@ -1340,7 +1340,7 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       }
     ],
     "qualificationPeriod": {

@@ -33,7 +33,7 @@ Schema
     Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries.
 
 :percentage:
-    float, required if type == `financing`, 0..100
+    float, 0..100
 
     Sum of all tender (or lot) milestones should be 100
 
