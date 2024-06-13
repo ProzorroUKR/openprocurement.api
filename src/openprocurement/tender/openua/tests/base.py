@@ -88,6 +88,7 @@ test_tender_openua_config = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "restricted": False,
 }

@@ -23,6 +23,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": True,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "restricted": False,
 }
@@ -40,6 +41,7 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
     "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "restricted": False,
 }

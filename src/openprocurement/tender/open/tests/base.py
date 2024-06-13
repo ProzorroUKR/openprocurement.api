@@ -91,6 +91,7 @@ test_tender_open_config = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
     "tenderComplainRegulation": 3,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "restricted": False,
 }
@@ -109,6 +110,7 @@ test_tender_dps_config = {
     "hasValueEstimation": True,
     "hasQualificationComplaints": False,
     "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "restricted": False,
 }

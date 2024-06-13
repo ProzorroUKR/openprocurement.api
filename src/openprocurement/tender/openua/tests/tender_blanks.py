@@ -585,6 +585,10 @@ def tender_fields(self):
         "documents",
         "noticePublicationDate",
     }
+
+    if self.initial_config["hasPrequalification"]:
+        expected_keys.add("qualificationPeriod")
+
     self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
 
 

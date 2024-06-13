@@ -222,6 +222,7 @@ class TenderConfig(Model):
     hasValueEstimation = BooleanType()
     hasQualificationComplaints = BooleanType()
     tenderComplainRegulation = IntType(min_value=0)
+    qualificationComplainDuration = IntType(min_value=0)
     awardComplainDuration = IntType(min_value=0)
     restricted = BooleanType()
 
