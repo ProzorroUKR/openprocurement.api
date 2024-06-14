@@ -189,6 +189,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
         self.invalidate_review_requests()
+        self.validate_remove_inspector(before, after)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -622,6 +623,16 @@ class TenderDetailsMixing(TenderConfigMixin):
             "startDate": tender["tenderPeriod"]["startDate"],
             "endDate": end_date.isoformat(),
         }
+
+    def validate_remove_inspector(self, before, after):
+        if after["status"] == "draft":
+            return
+        if before.get("inspector") and not after.get("inspector"):
+            raise_operation_error(
+                get_request(),
+                f"You can't remove inspector in current({after['status']}) tender status",
+                status=422,
+            )
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):
