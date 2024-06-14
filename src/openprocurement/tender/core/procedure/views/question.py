@@ -76,11 +76,11 @@ class TenderQuestionResource(TenderBaseResource):
         tender = self.request.validated["tender"]
         question = self.request.validated["data"]
 
-        self.state.question_on_post(question)
-
         if "questions" not in tender:
             tender["questions"] = []
         tender["questions"].append(question)
+
+        self.state.question_on_post(question)
 
         if save_tender(self.request):
             self.LOGGER.info(

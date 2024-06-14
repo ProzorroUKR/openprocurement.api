@@ -7,15 +7,20 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class TenderQuestionStateMixin:
+    always: callable  # method from TenderState
     question_create_accreditations: set = None  # formerly tender.edit_accreditations
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()
         self.validate_question_on_post(question)
 
+        self.always(get_tender())
+
     def question_on_patch(self, before, question):
         self.validate_question_on_patch(before, question)
         question["dateAnswered"] = get_now().isoformat()
+
+        self.always(get_tender())
 
     def validate_question_on_post(self, question):
         self.validate_question_operation(get_tender(), question)

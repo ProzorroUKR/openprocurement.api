@@ -24,6 +24,7 @@ from openprocurement.tender.open.tests.question_blanks import (
     dps_create_tender_question_check_author,
     item_has_unanswered_questions,
     lot_has_unanswered_questions,
+    questions_chronograph_events,
     tender_has_unanswered_questions,
 )
 
@@ -59,6 +60,7 @@ class TenderLotQuestionResourceTest(BaseTenderUAContentWebTest):
     test_lot_has_unanswered_questions = snitch(lot_has_unanswered_questions)
     test_item_has_unanswered_questions = snitch(item_has_unanswered_questions)
     test_lot_patch_tender_question_lots_none = snitch(lot_patch_tender_question_lots_none)
+    test_questions_chronograph_events = snitch(questions_chronograph_events)
 
 
 class TenderDPSLotQuestionResourceTest(BaseTenderUAContentWebTest):
