@@ -12,6 +12,7 @@ class ContractBaseSerializer(BaseUIDSerializer):
         "rev",
         "tender_token",
         "owner_token",
+        "bid_owner",
         "bid_token",
         "revisions",
         "public_modified",

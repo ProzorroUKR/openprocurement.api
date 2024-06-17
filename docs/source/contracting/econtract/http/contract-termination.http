@@ -116,7 +116,6 @@ Content-Type: application/json
       "amountNet": 420.0,
       "valueAddedTaxIncluded": true
     },
-    "bid_owner": "broker",
     "status": "terminated",
     "buyer": {
       "name": "Державне управління справами",

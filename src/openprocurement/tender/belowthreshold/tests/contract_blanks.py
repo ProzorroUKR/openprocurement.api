@@ -1061,7 +1061,6 @@ def create_tender_contract(self):
         "items",
         "tender_id",
         "owner",
-        "bid_owner",
         "status",
         "suppliers",
         "buyer",

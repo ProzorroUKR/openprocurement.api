@@ -22,7 +22,6 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "14be9ab9e27d4db8aed4f62d015d0a56",
     "owner": "broker",
-    "bid_owner": "broker",
     "status": "cancelled",
     "buyer": {
       "name": "Державне управління справами",

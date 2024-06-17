@@ -19,7 +19,6 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2024-10-09T01:00:00+03:00"
     },
-    "bid_owner": "broker",
     "status": "cancelled",
     "buyer": {
       "name": "Державне управління справами",
