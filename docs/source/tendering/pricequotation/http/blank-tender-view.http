@@ -102,7 +102,7 @@ Content-Type: application/json
                 "dataType": "string",
                 "status": "active",
                 "expectedValue": "Розчин для інфузій",
-                "datePublished": "2023-09-20T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
@@ -127,7 +127,7 @@ Content-Type: application/json
                   "name": "кілограми"
                 },
                 "minValue": 5,
-                "datePublished": "2023-09-20T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }
@@ -155,7 +155,7 @@ Content-Type: application/json
                 ],
                 "expectedMinItems": 2,
                 "expectedMaxItems": 3,
-                "datePublished": "2023-09-20T01:00:00+03:00"
+                "datePublished": "2023-10-10T01:00:00+03:00"
               }
             ]
           }

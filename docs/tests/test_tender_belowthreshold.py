@@ -1073,6 +1073,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender_wi_id = response.json['data']['id']
         owner_wi_token = response.json['access']['token']
 
+        self.add_notice_doc(tender_wi_id, owner_wi_token)
         response = self.app.patch_json(
             f'/tenders/{tender_wi_id}?acc_token={owner_wi_token}', {'data': {"status": "active.enquiries"}}
         )
@@ -1080,6 +1081,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # PATCH inspector
 
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f'/tenders/{tender_id}?acc_token={owner_token}', {'data': {"status": "active.enquiries"}}
         )

@@ -10,12 +10,6 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class TenderDocumentState(BaseDocumentState):
-    def validate_document_post(self, data):
-        self.validate_notice_document_already_exists(data)
-
-    def validate_document_patch(self, before, after):
-        self.validate_notice_document_already_exists(after)
-
     def validate_notice_document_already_exists(self, doc_data):
         if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             if doc_data.get("documentType") == "notice":
@@ -33,6 +27,7 @@ class TenderDocumentState(BaseDocumentState):
                 validate_notice_doc_quantity(documents)
 
     def document_always(self, data: dict) -> None:
+        self.validate_notice_document_already_exists(data)
         if data.get("documentType") != "notice":
             self.validate_action_with_exist_inspector_review_request()
         super().document_always(data)
