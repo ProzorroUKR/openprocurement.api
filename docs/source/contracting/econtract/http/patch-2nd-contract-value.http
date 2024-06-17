@@ -25,7 +25,6 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tender_id": "d1c99512210a440d8816081d0616ce15",
     "owner": "broker",
-    "bid_owner": "broker",
     "status": "pending",
     "buyer": {
       "name": "Державне управління справами",
