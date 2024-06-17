@@ -3,7 +3,7 @@
 if __name__ == "__main__":
     from gevent import monkey
 
-    monkey.patch_all(thread=False, select=False)
+    monkey.patch_all()
 
 import argparse
 import logging
