@@ -177,3 +177,28 @@ def dps_create_tender_question_check_author(self):
         },
     )
     self.assertEqual(response.status, "201 Created")
+
+
+def questions_chronograph_events(self):
+    response = self.check_chronograph()
+    tender = response.json["data"]
+
+    self.assertEqual(tender["status"], "active.tendering")
+    self.assertIn("next_check", tender)
+
+    question_id = self.create_question_for("tender", self.tender_id)
+
+    response = self.get_tender()
+    tender = response.json["data"]
+
+    self.assertNotIn("next_check", tender, "Tender has unanswered questions")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/questions/{question_id}?acc_token={self.tender_token}",
+        {"data": {"answer": "answer"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.get_tender()
+    tender = response.json["data"]
+    self.assertIn("next_check", tender)
