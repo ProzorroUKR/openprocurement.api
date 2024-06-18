@@ -639,7 +639,6 @@ Content-Type: application/json
     "status": "active.tendering",
     "minimalStepPercentage": 0.006,
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -683,7 +682,6 @@ Content-Type: application/json
         "id": "ce7777a3b9954a00a43ea3c722f5af5b",
         "date": "2023-10-10T01:00:00+03:00",
         "minValue": {
-          "amount": 0.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
@@ -812,6 +810,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
     "restricted": false,
     "awardComplainDuration": 10
   }

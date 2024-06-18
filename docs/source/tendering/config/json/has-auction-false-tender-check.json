@@ -8,6 +8,7 @@
         "hasPreSelectionAgreement": false,
         "hasPrequalification": false,
         "hasTenderComplaints": true,
+        "hasValueEstimation": true,
         "hasValueRestriction": false,
         "minBidsNumber": 1,
         "restricted": false,

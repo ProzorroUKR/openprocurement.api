@@ -9,5 +9,6 @@ hasPreSelectionAgreement,false,false
 hasTenderComplaints,true,true
 hasAwardComplaints,false,false
 hasCancellationComplaints,true,true
+hasValueEstimation,true,true
 awardComplainDuration,0,0
 restricted,false,false

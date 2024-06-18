@@ -996,9 +996,9 @@ Content-Type: application/json
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "guarantee": {
       "amount": 8.0,
@@ -1232,6 +1232,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 10
   }

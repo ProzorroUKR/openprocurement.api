@@ -15,7 +15,6 @@ Content-Type: application/json
     "procurementMethodType": "esco",
     "status": "draft",
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -157,6 +156,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
     "restricted": false,
     "awardComplainDuration": 10
   }

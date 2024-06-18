@@ -34,10 +34,7 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_config,
-    test_tender_below_milestones,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.belowthreshold.tests.utils import (
     set_bid_lotvalues,
     set_tender_lots,
@@ -1157,6 +1154,97 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
             response = self.app.get(
                 '/tenders/{}/awards?acc_token={}'.format(self.tender_id, owner_token),
             )
+            self.assertEqual(response.status, '200 OK')
+
+
+class TenderHasValueEstimationResourceTest(TenderConfigBaseResourceTest):
+    def test_docs_has_value_estimation_values_csv(self):
+        self.write_config_values_csv(
+            config_name="hasValueEstimation",
+            file_path=TARGET_CSV_DIR + "has-value-estimation-values.csv",
+        )
+
+    def test_docs_lots_has_value_estimation_true(self):
+        config = deepcopy(self.initial_config)
+        config["hasValueEstimation"] = True
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
+
+        with open(TARGET_DIR + 'has-value-estimation-true-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots
+        with open(TARGET_DIR + 'has-value-estimation-true-tender-lots-add-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                {'data': test_lots[0]},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        # get complete tender
+        with open(TARGET_DIR + 'has-value-estimation-true-tender-complete.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender_id))
+            self.assertEqual(response.status, '200 OK')
+
+    def test_docs_lots_has_value_estimation_false(self):
+        config = deepcopy(self.initial_config)
+        config["hasValueEstimation"] = False
+        config["hasValueRestriction"] = False
+
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_tender_data["items"] = test_docs_items_open
+        with open(TARGET_DIR + 'has-value-estimation-false-tender-lots-post-invalid.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config}, status=422
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        test_tender_data["value"]["amount"] = 0
+        with open(TARGET_DIR + 'has-value-estimation-false-tender-lots-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json['data']
+        test_lots = deepcopy(test_docs_lots)
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        # add lots invalid
+        test_lots[0]['value']["amount"] = 100
+        with open(
+            TARGET_DIR + 'has-value-estimation-false-tender-lots-add-post-invalid.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}, status=422
+            )
+            self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        test_lots[0]['value']["amount"] = 0
+        # add lots
+        with open(TARGET_DIR + 'has-value-estimation-false-tender-lots-add-post.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token),
+                {'data': test_lots[0]},
+            )
+            self.assertEqual(response.status, '201 Created')
+
+        # get complete tender
+        with open(TARGET_DIR + 'has-value-estimation-false-tender-complete.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender_id))
             self.assertEqual(response.status, '200 OK')
 
 
