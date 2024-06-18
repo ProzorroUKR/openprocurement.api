@@ -28,15 +28,15 @@ Content-Type: application/json
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "next_check": "2023-10-26T01:00:00+03:00",
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     },
     "auctionPeriod": {
       "shouldStartAfter": "2023-10-27T00:00:00+03:00"
@@ -158,6 +158,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 4
   }

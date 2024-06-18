@@ -685,9 +685,9 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "next_check": "2023-10-18T01:00:00+03:00",
     "minimalStep": {
@@ -851,6 +851,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 10
   }

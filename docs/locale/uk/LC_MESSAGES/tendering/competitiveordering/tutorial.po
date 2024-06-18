@@ -69,13 +69,16 @@ msgid "hasPreSelectionAgreement"
 msgstr ""
 
 msgid "hasTenderComplaints"
-msgstr "Оскарження скасування тендеру"
+msgstr ""
 
 msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
-msgstr "Оскарження скасування тендеру"
+msgstr ""
+
+msgid "hasValueEstimation"
+msgstr ""
 
 msgid "awardComplainDuration"
 msgstr ""

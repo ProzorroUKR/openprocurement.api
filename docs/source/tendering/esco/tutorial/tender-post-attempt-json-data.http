@@ -126,6 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
     "restricted": false,
     "awardComplainDuration": 10
   }
@@ -145,7 +146,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "procurementMethodType": "esco",
     "status": "draft",
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -287,6 +287,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": false,
     "restricted": false,
     "awardComplainDuration": 10
   },

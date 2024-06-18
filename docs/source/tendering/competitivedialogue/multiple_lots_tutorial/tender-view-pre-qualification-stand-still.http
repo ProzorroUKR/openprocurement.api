@@ -124,9 +124,9 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "open",
     "value": {
-      "amount": 900.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 900.0
     },
     "minimalStep": {
       "amount": 5.0,
@@ -366,6 +366,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 0
   }

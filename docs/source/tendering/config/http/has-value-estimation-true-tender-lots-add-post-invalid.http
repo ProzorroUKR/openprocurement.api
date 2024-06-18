@@ -1,0 +1,35 @@
+POST /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/lots?acc_token=2672dd6712284300b2af487b1f9d0ac1 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Лот №1",
+    "description": "Опис Лот №1",
+    "value": {
+      "amount": 100,
+      "currency": "UAH"
+    },
+    "minimalStep": {
+      "amount": 15,
+      "currency": "UAH"
+    }
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "lots",
+      "description": "Rogue field"
+    }
+  ]
+}
+

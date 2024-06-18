@@ -38,7 +38,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -62,7 +62,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5,
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       }
     ],
     "enquiryPeriod": {
@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "df827a0a87354ad59f985d4b31bbaf6c",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -126,7 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 45.55,
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       },
       {
         "title": "deliveryOfGoods",
@@ -138,7 +138,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 54.45,
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       }
     ],
     "mainProcurementCategory": "services",
@@ -147,7 +147,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "9217965f43384438ac7af4b14e4fc52a",
+        "id": "cdf35e568bb24cf48883297a134050b4",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -173,6 +173,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 2
   }
@@ -193,9 +194,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
     "status": "draft",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
       "amount": 15.0,
@@ -211,7 +212,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
         "title": "lot title",
         "description": "lot description",
         "date": "2023-10-10T01:00:00+03:00",
-        "id": "9217965f43384438ac7af4b14e4fc52a",
+        "id": "cdf35e568bb24cf48883297a134050b4",
         "status": "active",
         "value": {
           "amount": 500.0,
@@ -229,7 +230,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
       {
         "code": "OCDS-123454-AIR-INTAKE",
         "featureOf": "item",
-        "relatedItem": "df827a0a87354ad59f985d4b31bbaf6c",
+        "relatedItem": "ffffffffffffffffffffffffffffffff",
         "title": "Потужність всмоктування",
         "title_en": "Air Intake",
         "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
@@ -278,7 +279,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
           "type": "banking"
         },
         "sequenceNumber": 1,
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       },
       {
         "id": "f16bf86d70dd4592a01e33f03b2babd0",
@@ -291,7 +292,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
           "type": "calendar"
         },
         "sequenceNumber": 2,
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -322,7 +323,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
     },
     "items": [
       {
-        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -348,7 +349,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "9217965f43384438ac7af4b14e4fc52a"
+        "relatedLot": "cdf35e568bb24cf48883297a134050b4"
       }
     ],
     "tenderID": "UA-2023-10-10-000002-a",
@@ -371,6 +372,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2f5e224866d0459c
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 2
   },

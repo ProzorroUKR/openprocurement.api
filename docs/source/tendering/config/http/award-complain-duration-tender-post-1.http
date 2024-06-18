@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -125,6 +125,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 2
   }
@@ -142,9 +143,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "status": "draft",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
       "amount": 15.0,
@@ -230,7 +231,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "items": [
       {
-        "id": "df827a0a87354ad59f985d4b31bbaf6c",
+        "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
@@ -279,6 +280,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 2
   },

@@ -27,7 +27,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab
     "yearlyPaymentsPercentageRange": 0.8,
     "fundingKind": "other",
     "minValue": {
-      "amount": 0.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },

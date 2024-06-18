@@ -514,9 +514,9 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "value": {
-      "amount": 1000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 1000.0
     },
     "lots": [
       {
@@ -1135,6 +1135,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 5
   }

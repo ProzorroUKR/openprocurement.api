@@ -154,8 +154,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
-    "restricted": false,
-    "awardComplainDuration": 0
+    "hasValueEstimation": true,
+    "awardComplainDuration": 0,
+    "restricted": false
   }
 }
 
@@ -169,14 +170,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
     "value": {
-      "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
     },
     "minimalStep": {
-      "amount": 5.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": true,
+      "amount": 5.0
     },
     "milestones": [
       {
@@ -343,6 +344,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
     "restricted": false,
     "awardComplainDuration": 0
   },
