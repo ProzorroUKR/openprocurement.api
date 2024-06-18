@@ -5,7 +5,7 @@ from schematics.types.compound import ListType, ModelType
 from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
-from openprocurement.api.procedure.models.value import Value
+from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
@@ -108,7 +108,7 @@ class PostTender(PostBaseTender):
     submissionMethodDetails_ru = StringType()
     procurementMethodType = StringType(choices=[ESCO], default=ESCO)
     status = StringType(choices=["draft"], default="draft")
-    minValue = ModelType(Value, default={"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True})
+    minValue = ModelType(EstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": True})
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(
         default=Decimal("0.8"), min_value=Decimal("0"), max_value=Decimal("1"), precision=-5
@@ -199,7 +199,7 @@ class Tender(BaseTender):
         required=True,
     )
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
-    minValue = ModelType(Value, required=True)
+    minValue = ModelType(EstimatedValue)
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)

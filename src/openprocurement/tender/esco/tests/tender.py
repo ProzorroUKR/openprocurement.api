@@ -23,6 +23,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_without_estimated_value,
     invalid_bid_tender_features,
     patch_tender,
     patch_tender_draft,
@@ -62,6 +63,7 @@ class TenderESCOTest(BaseESCOWebTest):
 
     test_tender_value = snitch(tender_value)
     test_tender_min_value = snitch(tender_min_value)
+    test_create_tender_without_estimated_value = snitch(create_tender_without_estimated_value)
     test_tender_minimal_step_invalid = snitch(tender_minimal_step_invalid)
     test_tender_yearlyPaymentsPercentageRange_invalid = snitch(tender_yearlyPaymentsPercentageRange_invalid)
     test_tender_yearlyPaymentsPercentageRange = snitch(tender_yearlyPaymentsPercentageRange)

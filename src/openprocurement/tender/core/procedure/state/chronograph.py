@@ -806,11 +806,23 @@ class ChronographEventsMixing:
     def calc_tender_value(tender: dict) -> None:
         if not tender.get("lots") or not tender.get("value"):
             return
+
         tender["value"] = {
-            "amount": sum(i["value"]["amount"] for i in tender.get("lots", "") if i.get("value")),
             "currency": tender["value"]["currency"],
             "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
         }
+
+        lot_values = [
+            i["value"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("value") and i["value"].get("amount") is not None
+        ]
+
+        # If hasValueEstimation is False, lot values could not be passed at all, so we don't need to add them.
+        # 0 is legit for lot value amount if hasValueEstimation is False, so if user passed 0 as lot value amount - it
+        # should be displayed.
+        if lot_values:
+            tender["value"]["amount"] = sum(lot_values)
 
     @staticmethod
     def calc_tender_guarantee(tender: dict) -> None:
@@ -830,7 +842,11 @@ class ChronographEventsMixing:
     def calc_tender_minimal_step(tender: dict) -> None:
         if not tender.get("lots") or not tender.get("minimalStep"):
             return
-        amounts = [i["minimalStep"]["amount"] for i in tender.get("lots", "") if i.get("minimalStep")]
+        amounts = [
+            i["minimalStep"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("minimalStep") and i["minimalStep"].get("amount")
+        ]
         if not amounts:
             return
         tender["minimalStep"] = {
@@ -841,13 +857,26 @@ class ChronographEventsMixing:
 
     @staticmethod
     def calc_tender_min_value(tender: dict) -> None:
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+
         if not tender.get("lots") or not tender.get("minValue"):
             return
+
         tender["minValue"] = {
-            "amount": sum(i["minValue"]["amount"] for i in tender["lots"] if i.get("minValue")),
             "currency": tender["minValue"]["currency"],
             "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
+        lot_values = [
+            i["minValue"]["amount"]
+            for i in tender.get("lots", "")
+            if i.get("minValue") and i["minValue"].get("amount") is not None
+        ]
+
+        if not has_value_estimation:
+            if lot_values:
+                tender["minValue"]["amount"] = sum(lot_values)
+        else:
+            tender["minValue"]["amount"] = sum(lot_values)
 
     @staticmethod
     def calc_tender_minimal_step_percentage(tender: dict) -> None:

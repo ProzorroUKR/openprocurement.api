@@ -1,4 +1,3 @@
-from math import ceil, floor
 from typing import List
 from uuid import uuid4
 
@@ -7,21 +6,15 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
-from openprocurement.api.constants import (
-    MINIMAL_STEP_VALIDATION_FROM,
-    MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
-    MINIMAL_STEP_VALIDATION_PRESCISSION,
-    MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
-)
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.procedure.models.guarantee import (
+    EstimatedValue,
     Guarantee,
+    PostEstimatedValue,
     PostGuarantee,
-    PostValue,
     Value,
 )
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
@@ -45,7 +38,7 @@ class LotGuaranteeSerializerMixin(BaseLotSerializersMixin):
 
 
 class LotSerializersMixin(LotGuaranteeSerializerMixin):
-    @serializable(serialized_name="minimalStep", type=ModelType(Value))
+    @serializable(serialized_name="minimalStep", type=ModelType(Value), serialize_when_none=False)
     def lot_minimalStep(self) -> Value:
         tender = self.get_tender()
         tender_minimal_step = tender["minimalStep"] if tender.get("minimalStep") else {}
@@ -58,11 +51,11 @@ class LotSerializersMixin(LotGuaranteeSerializerMixin):
                 }
             )
 
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def lot_value(self) -> Value:
+    @serializable(serialized_name="value", type=ModelType(EstimatedValue), serialize_when_none=False)
+    def lot_value(self) -> EstimatedValue:
         tender = self.get_tender()
         tender_value = tender["value"] if tender.get("value") else {}
-        return Value(
+        return EstimatedValue(
             {
                 "amount": self.value.amount,
                 "currency": tender_value["currency"],
@@ -96,31 +89,25 @@ class PostBaseLot(BaseLot):
 
 class PatchLot(BaseLot):
     title = StringType()
-    value = ModelType(Value)
-    minimalStep = ModelType(Value)
+    value = ModelType(EstimatedValue)
+    minimalStep = ModelType(EstimatedValue)
     guarantee = ModelType(Guarantee)
     status = StringType(choices=["active"])
 
 
 class PostLot(PostBaseLot, LotSerializersMixin):
-    value = ModelType(PostValue, required=True)
-    minimalStep = ModelType(PostValue)
+    value = ModelType(PostEstimatedValue, required=True)
+    minimalStep = ModelType(PostEstimatedValue)
     guarantee = ModelType(PostGuarantee)
-
-    def validate_minimalStep(self, data: dict, value: Value) -> None:
-        validate_minimal_step(data, value)
 
 
 # --- For work from tender ---
 
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
-    value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value)
+    value = ModelType(EstimatedValue, required=True)
+    minimalStep = ModelType(EstimatedValue)
     guarantee = ModelType(Guarantee)
-
-    def validate_minimalStep(self, data: dict, value: Value) -> None:
-        validate_minimal_step(data, value)
 
 
 class PostTenderLot(PostLot, TenderLotMixin):
@@ -128,16 +115,13 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 
 class Lot(BaseLot, TenderLotMixin, LotSerializersMixin):
-    value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value)
+    value = ModelType(EstimatedValue, required=True)
+    minimalStep = ModelType(EstimatedValue)
     guarantee = ModelType(Guarantee)
 
     auctionPeriod = ModelType(LotAuctionPeriod)
     auctionUrl = URLType()
     numberOfBids = BaseType()  # deprecated
-
-    def validate_minimalStep(self, data: dict, value: Value) -> None:
-        validate_minimal_step(data, value)
 
 
 def validate_lots_uniq(lots: List[Lot], *_) -> None:
@@ -145,26 +129,3 @@ def validate_lots_uniq(lots: List[Lot], *_) -> None:
         ids = [i.id for i in lots]
         if [i for i in set(ids) if ids.count(i) > 1]:
             raise ValidationError("Lot id should be uniq for all lots")
-
-
-def validate_minimal_step(data: dict, value: Value) -> None:
-    if value and value.amount and data.get("value") and data.get("value").amount < value.amount:
-        raise ValidationError("value should be less than value of lot")
-    validate_minimal_step_limits(data, value)
-
-
-def validate_minimal_step_limits(data: dict, value: Value) -> None:
-    if value and value.amount is not None and data.get("value"):
-        tender_created = get_first_revision_date(get_tender(), default=get_now())
-        if tender_created > MINIMAL_STEP_VALIDATION_FROM:
-            precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
-            lower_step = (
-                floor(float(data.get("value").amount) * MINIMAL_STEP_VALIDATION_LOWER_LIMIT * precision_multiplier)
-                / precision_multiplier
-            )
-            higher_step = (
-                ceil(float(data.get("value").amount) * MINIMAL_STEP_VALIDATION_UPPER_LIMIT * precision_multiplier)
-                / precision_multiplier
-            )
-            if higher_step < value.amount or value.amount < lower_step:
-                raise ValidationError("minimalstep must be between 0.5% and 3% of value (with 2 digits precision).")

@@ -63,7 +63,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -222,7 +222,7 @@ def create_tender_invalid(self):
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "1000.0"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -231,16 +231,16 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["value should be less than value of tender"],
+                "description": "Tender minimal step amount should be less than tender amount",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.amount",
             }
         ],
     )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -249,18 +249,16 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
-                ],
+                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.valueAddedTaxIncluded",
             }
         ],
     )
 
     data = self.initial_data["minimalStep"]
     self.initial_data["minimalStep"] = {"amount": "100.0", "currency": "USD"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -269,15 +267,15 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )
     data = deepcopy(self.initial_data["lots"])
     self.initial_data["lots"][0]["minimalStep"] = {"amount": "1.0"}
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["lots"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -286,11 +284,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
-                ],
+                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 'location': 'body',
-                'name': 'lots',
+                'name': 'data',
             }
         ],
     )
@@ -748,11 +744,9 @@ def patch_tender(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
-                ],
+                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 'location': 'body',
-                'name': 'lots',
+                'name': 'data',
             }
         ],
     )
