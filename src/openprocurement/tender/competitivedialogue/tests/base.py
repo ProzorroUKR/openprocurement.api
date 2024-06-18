@@ -152,8 +152,9 @@ test_tender_cdeu_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": True,
-    "restricted": False,
+    "hasValueEstimation": True,
     "awardComplainDuration": 0,
+    "restricted": False,
 }
 
 test_tender_cdua_config = {
@@ -167,6 +168,7 @@ test_tender_cdua_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": False,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
     "awardComplainDuration": 0,
     "restricted": False,
 }
@@ -182,6 +184,7 @@ test_tender_cdeu_stage2_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
     "awardComplainDuration": 10,
     "restricted": False,
 }
@@ -197,6 +200,7 @@ test_tender_cdua_stage2_config = {
     "hasTenderComplaints": True,
     "hasAwardComplaints": True,
     "hasCancellationComplaints": True,
+    "hasValueEstimation": True,
     "awardComplainDuration": 10,
     "restricted": False,
 }

@@ -97,9 +97,9 @@ def patch_tender_currency(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )
@@ -183,9 +183,9 @@ def patch_tender_lot(self):
         response.json["errors"],
         [
             {
-                "description": ["minimalstep must be between 0.5% and 3% of value (with 2 digits precision)."],
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "data",
             }
         ],
     )
@@ -273,7 +273,7 @@ def patch_tender_vat(self):
         {
             "data": {
                 "value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
-                "minimalStep": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
+                "minimalStep": {"valueAddedTaxIncluded": False, "amount": 15},
             }
         },
     )
@@ -1227,11 +1227,9 @@ def create_tender_lot(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    {'minimalStep': ['minimalstep must be between 0.5% and 3% of value (with 2 digits precision).']}
-                ],
+                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
                 'location': 'body',
-                'name': 'lots',
+                'name': 'data',
             }
         ],
     )

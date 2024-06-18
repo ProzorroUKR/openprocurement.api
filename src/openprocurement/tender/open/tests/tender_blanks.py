@@ -140,7 +140,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "value",
             }
@@ -303,9 +303,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["value should be less than value of tender"],
+                "description": "Tender minimal step amount should be less than tender amount",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.amount",
             }
         ],
     )
@@ -321,11 +321,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": [
-                    "valueAddedTaxIncluded should be identical to valueAddedTaxIncluded of value of tender"
-                ],
+                "description": "Tender minimal step valueAddedTaxIncluded should be identical to tender valueAddedTaxIncluded",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.valueAddedTaxIncluded",
             }
         ],
     )
@@ -341,9 +339,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )

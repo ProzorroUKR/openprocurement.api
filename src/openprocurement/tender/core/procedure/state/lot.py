@@ -8,6 +8,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 
 class LotStateMixin:
     request = None
+    should_validate_lot_minimal_step = True
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
@@ -18,6 +19,7 @@ class LotStateMixin:
         request, tender = get_request(), get_tender()
         self.pre_save_validations(data)
         self.validate_minimal_step(data)
+        self.validate_lot_value(tender, data)
         self.validate_lots_count(tender)
         self.set_lot_data(data)
         self.lot_always(data)
@@ -28,8 +30,10 @@ class LotStateMixin:
         self.validate_cancellation_blocks(request, tender, lot_id=before["id"])
 
     def lot_on_patch(self, before: dict, after: dict) -> None:
+        tender = get_tender()
         self.pre_save_validations(after)
         self.validate_minimal_step(after, before=before)
+        self.validate_lot_value(tender, after)
         self.set_lot_data(after)
         self.lot_always(after)
         if "status" in after and before["status"] != after["status"]:

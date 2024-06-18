@@ -41,7 +41,7 @@ def tender_min_value(self):
     tender = response.json["data"]
     owner_token = response.json["access"]["token"]
     self.assertIn("minValue", response.json["data"])
-    self.assertEqual(response.json["data"]["minValue"]["amount"], 0)
+    self.assertEqual(response.json["data"]["minValue"].get("amount"), None)
     self.assertEqual(response.json["data"]["minValue"]["currency"], "UAH")
 
     response = self.app.patch_json(
@@ -50,6 +50,24 @@ def tender_min_value(self):
         status=422,
     )
     self.assertEqual(response.json["errors"], [{"location": "body", "name": "minValue", "description": "Rogue field"}])
+
+
+def create_tender_without_estimated_value(self):
+    data = deepcopy(self.initial_data)
+    config = deepcopy(self.initial_config)
+
+    # ESCO does not have hasValueEstimation and hasValueRestriction mismatch
+    config["hasValueEstimation"] = False
+    config["hasValueRestriction"] = True
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+
+    # ESCO minValue should not be present if lots does not have it
+    assert "minValue" not in data["lots"][0]
+    response = self.app.post_json("/tenders", {"data": data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    assert "amount" not in tender["minValue"]
 
 
 def tender_minimal_step_invalid(self):
@@ -421,7 +439,7 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": ["Please use a mapping for this field or EstimatedValue instance instead of str."],
                 "location": "body",
                 "name": "minValue",
             }

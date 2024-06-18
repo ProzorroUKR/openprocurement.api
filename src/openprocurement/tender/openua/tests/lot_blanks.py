@@ -43,9 +43,9 @@ def patch_tender_currency(self):
         response.json["errors"],
         [
             {
-                "description": ["currency should be identical to currency of value of tender"],
+                "description": "Tender minimal step currency should be identical to tender currency",
                 "location": "body",
-                "name": "minimalStep",
+                "name": "minimalStep.currency",
             }
         ],
     )

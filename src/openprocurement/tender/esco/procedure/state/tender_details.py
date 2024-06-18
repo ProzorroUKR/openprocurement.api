@@ -65,6 +65,74 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
         ):
             tender["noticePublicationDate"] = get_now().isoformat()
 
+    def validate_tender_value(self, tender):
+        """Validate tender minValue.
+
+        Validation includes tender minValue.
+
+        :param tender: Tender dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        tender_min_value = tender.get("minValue", {})
+
+        if not tender_min_value:
+            return
+
+        tender_min_value_amount = tender_min_value.get("amount")
+        if has_value_estimation is True and tender_min_value_amount is None:
+            raise_operation_error(
+                self.request,
+                "This field is required",
+                status=422,
+                location="body",
+                name="minValue.amount",
+            )
+
+        if has_value_estimation is False and tender_min_value_amount:
+            raise_operation_error(
+                self.request,
+                "Rogue field",
+                status=422,
+                location="body",
+                name="minValue.amount",
+            )
+
+    def validate_tender_lots(self, tender: dict, before=None) -> None:
+        """Validate lot minValue.
+
+        Validation includes lot minValue.
+
+        :param tender: Tender dictionary
+        :param lot: Lot dictionary
+        :return: None
+        """
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+
+        for lot in tender.get("lots", {}):
+            lot_min_value = lot.get("minValue", {})
+
+            if not lot_min_value:
+                return
+
+            lot_value_amount = lot_min_value.get("amount")
+
+            if has_value_estimation is True and lot_value_amount is None:
+                raise_operation_error(
+                    self.request,
+                    "This field is required",
+                    status=422,
+                    name="lots.minValue.amount",
+                )
+
+            if has_value_estimation is False and lot_value_amount:
+                raise_operation_error(
+                    self.request,
+                    "Rogue field",
+                    status=422,
+                    name="lots.minValue.amount",
+                )
+
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco
         # TODO: Look at original validate_minimal_step in openprocurement.tender.core.procedure.state.tender
