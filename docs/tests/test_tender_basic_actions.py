@@ -3154,36 +3154,30 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_item["profile"] = profile["id"]
         tech_item["category"] = category["id"]
 
-        with (
-            patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))),
-            open(TARGET_DIR + 'techfeatures/item-profile-not-found.http', 'w') as self.app.file_obj,
-        ):
+        with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
+            TARGET_DIR + 'techfeatures/item-profile-not-found.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=404)
             self.assertEqual(response.status, "404 Not Found")
 
-        with (
-            patch(
-                "openprocurement.api.utils.requests.get",
-                Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": profile}))),
-            ),
-            open(TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w') as self.app.file_obj,
-        ):
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": profile}))),
+        ), open(TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
 
         profile["status"] = "active"
 
-        with (
-            patch(
-                "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
-                Mock(return_value=category),
-            ),
-            patch(
-                "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
-                Mock(return_value=profile),
-            ),
-            open(TARGET_DIR + 'techfeatures/tender-with-item-profile-created.http', 'w') as self.app.file_obj,
-        ):
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value=category),
+        ), patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value=profile),
+        ), open(
+            TARGET_DIR + 'techfeatures/tender-with-item-profile-created.http', 'w'
+        ) as self.app.file_obj:
 
             response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
             self.assertEqual(response.status, "201 Created")
