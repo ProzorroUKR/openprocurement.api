@@ -220,6 +220,7 @@ test_tender_pq_procuring_entity["kind"] = "general"
 
 test_tender_pq_item = {
     "description": "Комп’ютерне обладнання",
+    "category": "655360-30230000-889652",
     "profile": "655360-30230000-889652-40000777",
     "quantity": 5,
     "deliveryDate": {

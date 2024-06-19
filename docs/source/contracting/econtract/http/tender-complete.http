@@ -67,6 +67,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "category": "655360-30230000-889652",
         "additionalClassifications": [
           {
             "scheme": "INN",
@@ -105,6 +106,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "category": "655360-30230000-889652",
         "additionalClassifications": [
           {
             "scheme": "INN",
