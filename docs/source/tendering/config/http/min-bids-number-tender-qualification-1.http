@@ -515,37 +515,6 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-18T01:00:00+03:00"
     },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
-      }
-    ],
     "lots": [
       {
         "title": "Лот №1",
@@ -617,6 +586,37 @@ Content-Type: application/json
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
       "endDate": "2023-10-15T01:00:00+03:00"
     },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+      }
+    ],
     "questions": [
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
