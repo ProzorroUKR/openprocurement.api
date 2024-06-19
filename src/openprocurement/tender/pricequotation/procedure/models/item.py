@@ -7,7 +7,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import ValidationError
 from openprocurement.tender.core.procedure.models.item import AdditionalClassification
-from openprocurement.tender.core.procedure.models.item import Item as BaseItem
+from openprocurement.tender.core.procedure.models.item import TechFeatureItem as BaseItem
 from openprocurement.tender.core.procedure.models.unit import Unit
 
 
