@@ -1,5 +1,6 @@
 from collections import defaultdict
 from datetime import timedelta
+from decimal import Decimal
 
 from jsonschema.exceptions import ValidationError
 from jsonschema.validators import validate
@@ -19,6 +20,7 @@ from openprocurement.api.procedure.context import get_agreement, get_object, get
 from openprocurement.api.procedure.utils import (
     get_cpv_prefix_length,
     get_cpv_uniq_prefixes,
+    to_decimal,
 )
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
@@ -264,6 +266,11 @@ class TenderDetailsMixing(TenderConfigMixin):
 
     def validate_milestones(self, tender):
         grouped_data = defaultdict(list)
+        sums = {
+            "financing": defaultdict(Decimal),
+            "delivery": defaultdict(Decimal),
+        }
+        related_lot_exists = False
         for milestone in tender.get("milestones", []):
             if milestone.get("type") == "financing":
                 if (
@@ -276,11 +283,26 @@ class TenderDetailsMixing(TenderConfigMixin):
                         status=422,
                         name="milestones",
                     )
+            sums[milestone["type"]][milestone.get("relatedLot")] += to_decimal(milestone.get("percentage", 0))
             grouped_data[milestone.get('relatedLot')].append(milestone)
+
+            if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM) and milestone.get('relatedLot'):
+                related_lot_exists = True
 
         if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM):
             for lot, milestones in grouped_data.items():
                 for i, milestone in enumerate(milestones):
+                    if related_lot_exists and not milestone.get('relatedLot'):
+                        raise_operation_error(
+                            get_request(),
+                            [
+                                {
+                                    "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                                }
+                            ],
+                            status=422,
+                            name="milestones",
+                        )
                     if milestone.get("sequenceNumber") != i + 1:
                         raise_operation_error(
                             get_request(),
@@ -292,11 +314,15 @@ class TenderDetailsMixing(TenderConfigMixin):
                             status=422,
                             name="milestones",
                         )
-                    validate_field(
-                        milestone,
-                        "relatedLot",
-                        enabled=tender.get("lots") is not None,
-                        error_field_name="milestones.relatedLot",
+        for milestone_type, values in sums.items():
+            for uid, sum_value in values.items():
+                if sum_value != Decimal("100"):
+                    raise_operation_error(
+                        get_request(),
+                        f"Sum of the {milestone_type} milestone percentages {sum_value} "
+                        f"is not equal 100{f' for lot {uid}' if uid else ''}.",
+                        status=422,
+                        name="milestones",
                     )
 
     def validate_lots_count(self, tender):

@@ -1,5 +1,4 @@
 import logging
-from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
@@ -1416,25 +1415,6 @@ def validate_value_factory(type_map):
 
 
 validate_value_type = validate_value_factory(TYPEMAP)
-
-
-def validate_milestones(value):
-    if isinstance(value, list):
-        sums = {
-            "financing": defaultdict(Decimal),
-            "delivery": defaultdict(Decimal),
-        }
-        for milestone in value:
-            if percentage := milestone.get("percentage"):
-                sums[milestone["type"]][milestone.get("relatedLot")] += to_decimal(percentage)
-
-        for milestone_type, values in sums.items():
-            for uid, sum_value in values.items():
-                if sum_value != Decimal("100"):
-                    raise ValidationError(
-                        f"Sum of the {milestone_type} milestone percentages {sum_value} "
-                        f"is not equal 100{f' for lot {uid}' if uid else ''}."
-                    )
 
 
 def validate_gmdn(classification_id, additional_classifications):

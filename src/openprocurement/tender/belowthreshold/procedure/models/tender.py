@@ -35,9 +35,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.procedure.validation import (
-    validate_milestones,
     validate_tender_period_duration,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -90,7 +88,7 @@ class PatchActiveTender(Model):
     value = ModelType(Value)
     milestones = ListType(
         ModelType(Milestone, required=True),
-        validators=[validate_items_uniq, validate_milestones],
+        validators=[validate_items_uniq],
     )
     items = ListType(
         ModelType(Item, required=True),

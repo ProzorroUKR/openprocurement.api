@@ -1642,7 +1642,17 @@ def tender_milestones_sequence_number(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "milestones.relatedLot", "description": ["This field is required."]}],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
     )
     data["milestones"] = [
         {

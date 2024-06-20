@@ -215,7 +215,13 @@ def bid_in_invalid_status() -> Optional[bool]:
 
 
 def validate_field(
-    data, field, before=None, enabled=True, required=True, rogue=True, default=None, error_field_name=None
+    data,
+    field,
+    before=None,
+    enabled=True,
+    required=True,
+    rogue=True,
+    default=None,
 ):
     request = get_request()
     if before is not None and before.get(field) is not None:
@@ -233,7 +239,7 @@ def validate_field(
                 ["This field is required."],
                 status=422,
                 location="body",
-                name=error_field_name or field,
+                name=field,
             )
 
     # field is disabled (or optional)
@@ -244,7 +250,7 @@ def validate_field(
                 ["Rogue field."],
                 status=422,
                 location="body",
-                name=error_field_name or field,
+                name=field,
             )
 
 

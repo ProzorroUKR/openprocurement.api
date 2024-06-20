@@ -30,3 +30,8 @@ Field `sequenceNumber` should be sequence for every lot or generally for tender.
 
 .. http:example:: http/milestones/tender-patch-lot-milestones-invalid-sequence.http
    :code:
+
+All milestones in tender should have the same logic, they all should be related to lots or all should be related to tender. If milestones have different relation logic, we will see the error:
+
+.. http:example:: http/milestones/tender-patch-lot-milestones-invalid-relation.http
+   :code:

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-13 19:38+0300\n"
+"POT-Creation-Date: 2024-06-19 17:00+0300\n"
 "PO-Revision-Date: 2018-11-20 10:25+0200\n"
 "Last-Translator: \n"
 "Language: uk\n"
@@ -36,4 +36,7 @@ msgstr "Будте обачні, об’єкт :ref:`lot <lot>` не може б
 
 msgid "Field `sequenceNumber` should be sequence for every lot or generally for tender. If there is incorrect number in this field we will see the error:"
 msgstr "Поле `sequenceNumber` має бути послідовним від 1 до n, без пропусків і дублів для кожного лоту окремо або загалом для тендеру. Якщо вказано неправильне значення, то буде помилка:"
+
+msgid "All milestones in tender should have the same logic, they all should be related to lots or all should be related to tender. If milestones have different relation logic, we will see the error:"
+msgstr "Всі майлстоуни в закупівлі повинні мати однакову логіку, вони всі мають посилатися на лот або всі мають посилатися на тендер. Якщо майлстоуни мають різну логіку посилання, то буде помилка:"
 

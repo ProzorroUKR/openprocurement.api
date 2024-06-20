@@ -2088,9 +2088,18 @@ def tender_milestones_sequence_number(self):
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
             "sequenceNumber": 0,
-            "percentage": 100,
+            "percentage": 50,
             "relatedLot": self.initial_lots[0]["id"],
-        }
+        },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 2,
+            "percentage": 50,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -2107,12 +2116,22 @@ def tender_milestones_sequence_number(self):
             }
         ],
     )
-    data["milestones"][-1]["sequenceNumber"] = 1
+    data["milestones"][0]["sequenceNumber"] = 1
     del data["milestones"][-1]["relatedLot"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "milestones.relatedLot", "description": ["This field is required."]}],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
     )
     data["milestones"] = [
         {

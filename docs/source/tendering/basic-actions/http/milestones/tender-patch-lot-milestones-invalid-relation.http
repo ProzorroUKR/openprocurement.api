@@ -1,0 +1,57 @@
+PATCH /api/2.5/tenders/fc330bfd80e44365b8a127c12bbf9a1a?acc_token=3c1eccac9dc948528b14a5a86a4438ab HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "milestones": [
+      {
+        "id": "a9e3871f21ee40c1a8d2e096fe390c38",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 1,
+        "relatedLot": "9cb8f22596d64ab09d23b3b5007bd96f"
+      },
+      {
+        "id": "56a863f66dfc4d46a033dd466795a172",
+        "title": "anotherEvent",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2,
+        "description": "Підозрілий опис"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "milestones",
+      "description": [
+        {
+          "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+        }
+      ]
+    }
+  ]
+}
+

@@ -50,10 +50,8 @@ from openprocurement.tender.core.procedure.models.tender import (
 )
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.core.procedure.validation import (
-    validate_milestones,
     validate_tender_period_duration,
 )
-from openprocurement.tender.core.utils import calculate_complaint_business_date
 
 
 def validate_features(data, features):
@@ -95,7 +93,7 @@ class PostTender(PostBaseTender):
         ModelType(PostTenderLot, required=True), min_size=1, max_size=1, required=True, validators=[validate_lots_uniq]
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     guarantee = ModelType(PostGuarantee)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
@@ -151,7 +149,7 @@ class PatchTender(PatchBaseTender):
     lots = ListType(ModelType(PatchTenderLot, required=True), min_size=1, max_size=1, validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
@@ -196,7 +194,7 @@ class Tender(BaseTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     tenderPeriod = ModelType(PeriodEndRequired)
     enquiryPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable

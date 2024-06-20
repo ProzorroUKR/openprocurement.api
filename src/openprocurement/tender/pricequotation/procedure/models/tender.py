@@ -27,7 +27,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     validate_related_buyer_in_items,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_milestones,
     validate_tender_period_start_date,
 )
 from openprocurement.tender.core.utils import calculate_tender_business_date
@@ -67,7 +66,7 @@ class PostTender(PostBaseTender):
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     items = ListType(
         ModelType(TenderItem, required=True),
@@ -129,7 +128,7 @@ class PatchTender(PatchBaseTender):
     tenderPeriod = ModelType(PeriodEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     classification = ModelType(Classification)
 
@@ -176,7 +175,7 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     classification = ModelType(Classification)
     noticePublicationDate = IsoDateTimeType()

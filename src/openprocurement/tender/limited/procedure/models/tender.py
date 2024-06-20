@@ -31,7 +31,6 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
     validate_funders_unique,
-    validate_milestones,
 )
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
@@ -64,7 +63,7 @@ class PostReportingTender(PostBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft"], default="draft")
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
@@ -90,7 +89,7 @@ class PatchReportingTender(PatchBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft", "active"])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
@@ -112,7 +111,7 @@ class ReportingTender(BaseTender):
     # contracts = BaseType()
     cancellations = BaseType()
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
@@ -175,7 +174,7 @@ class PostNegotiationTender(PostBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -208,7 +207,7 @@ class PatchNegotiationTender(PatchBaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
 
 class NegotiationTender(BaseTender):
@@ -228,7 +227,7 @@ class NegotiationTender(BaseTender):
     causeDescription_ru = StringType(min_length=1)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     awards = BaseType()
 
     def validate_items(self, data, items):

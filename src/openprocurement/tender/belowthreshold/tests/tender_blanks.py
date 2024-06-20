@@ -3798,7 +3798,7 @@ def tender_delivery_milestones(self):
             "duration": {"days": 1500, "type": "calendar"},
             "sequenceNumber": 0,
             "code": "postpayment",
-            "percentage": 100,
+            "percentage": 10,
         }
     )
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -3831,6 +3831,7 @@ def tender_delivery_milestones(self):
         ],
     )
     data["milestones"][-1]["title"] = "signingTheContract"
+    data["milestones"][-1]["sequenceNumber"] = 3
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -3838,12 +3839,15 @@ def tender_delivery_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": ["relatedLot is required"],
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
             }
         ],
     )
     data["milestones"][-1]["relatedLot"] = lot_id
-    data["milestones"][-1]["sequenceNumber"] = 3
     del data["milestones"][-1]["percentage"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -3858,7 +3862,7 @@ def tender_delivery_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": [f"Sum of the delivery milestone percentages 10.0 is not equal 100 for lot {lot_id}."],
+                "description": f"Sum of the delivery milestone percentages 10.0 is not equal 100 for lot {lot_id}.",
             }
         ],
     )
@@ -3933,11 +3937,21 @@ def tender_milestones_sequence_number(self):
         ],
     )
     data["milestones"][-1]["sequenceNumber"] = 1
-    del data["milestones"][-1]["relatedLot"]
+    del data["milestones"][0]["relatedLot"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "milestones.relatedLot", "description": ["This field is required."]}],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
     )
     data["milestones"] = [
         {

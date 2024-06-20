@@ -2250,7 +2250,7 @@ def tender_milestones(self):
             "duration": {"days": 1500, "type": "calendar"},
             "sequenceNumber": 1,
             "code": "postpayment",
-            "percentage": 100,
+            "percentage": 10,
         }
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -2291,7 +2291,7 @@ def tender_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": ["relatedLot is a rogue field"],
+                "description": ["relatedLot should be one of the lots."],
             }
         ],
     )
@@ -2310,7 +2310,7 @@ def tender_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": ["Sum of the delivery milestone percentages 10.0 is not equal 100."],
+                "description": "Sum of the delivery milestone percentages 10.0 is not equal 100.",
             }
         ],
     )
