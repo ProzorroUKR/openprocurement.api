@@ -194,6 +194,17 @@ Approve qualification
 ------------------------
 
 Qualification can be approved only in `pending` status.
+Before activating qualification it is required to add sign document to tender. If there is no sign document during activation, we will see an error:
+
+.. http:example:: tutorial/evaluation-reports-document-required.http
+   :code:
+
+Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: tutorial/add-evaluation-reports-document.http
+   :code:
+
+Then it is allowed to activate qualification:
 
 .. http:example:: tutorial/activation-qualification.http
    :code:

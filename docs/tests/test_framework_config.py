@@ -216,6 +216,19 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
 
         # Activate Qualifications
         with change_auth(self.app, ("Basic", ("brokerr", ""))):
+            response = self.app.post_json(
+                '/qualifications/{}/documents?acc_token={}'.format(self.qualification1_id, owner_token),
+                {
+                    "data": {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                        "documentType": "evaluationReports",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
             with open(TARGET_DIR_RESTRICTED + 'qualification-activate-broker.http', 'w') as self.app.file_obj:
                 response = self.app.patch_json(
                     '/qualifications/{}?acc_token={}'.format(self.qualification1_id, owner_token),

@@ -255,6 +255,27 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
             {'data': {"status": "active"}},
         )
         self.qualification_id = response.json["data"]["qualificationID"]
+        with open(TARGET_DIR + 'evaluation-reports-document-required.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/qualifications/{self.qualification_id}?acc_token={owner_token}',
+                {'data': {"status": "active"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'add-evaluation-reports-document.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/qualifications/{self.qualification_id}/documents?acc_token={owner_token}',
+                {
+                    "data": {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                        "documentType": "evaluationReports",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR + 'activation-qualification.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(

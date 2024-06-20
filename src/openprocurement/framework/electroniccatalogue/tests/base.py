@@ -255,21 +255,23 @@ class BaseSubmissionContentWebTest(FrameworkContentWebTest):
         self.qualification_id = response.json["data"]["qualificationID"]
         return response
 
-    def activate_qualification(self):
+    def activate_qualification(self, qualification_id=None):
+        qual_id = qualification_id or self.qualification_id
         response = self.app.post_json(
-            "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
+            "/qualifications/{}/documents?acc_token={}".format(qual_id, self.framework_token),
             {
                 "data": {
-                    "title": "укр.doc",
+                    "title": "sign.p7s",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
+                    "format": "application/pkcs7-signature",
+                    "documentType": "evaluationReports",
                 }
             },
         )
         self.assertEqual(response.status, "201 Created")
         response = self.app.patch_json(
-            f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
+            f"/qualifications/{qual_id}?acc_token={self.framework_token}",
             {"data": {"status": "active"}},
         )
         self.assertEqual(response.status, "200 OK")

@@ -1192,12 +1192,7 @@ def patch_submission_complete(self):
     self.assertEqual(submission["status"], "active")
     qualification_id = submission["qualificationID"]
 
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(submission["status"], "active")
+    self.activate_qualification(qualification_id)
 
     statuses = ("active", "draft", "deleted", "complete")
 

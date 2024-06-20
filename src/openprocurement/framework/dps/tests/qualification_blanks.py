@@ -42,10 +42,7 @@ def listing(self):
         self.assertEqual(response.json["data"]["status"], "active")
         qualification_id = response.json["data"]["qualificationID"]
 
-        response = self.app.patch_json(
-            "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-            {"data": {"status": "active"}},
-        )
+        response = self.activate_qualification(qualification_id)
         qualifications.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in qualifications])
@@ -154,10 +151,7 @@ def listing_changes(self):
         self.assertEqual(response.content_type, "application/json")
         qualification_id = response.json["data"]["qualificationID"]
 
-        response = self.app.patch_json(
-            "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-            {"data": {"status": "active"}},
-        )
+        response = self.activate_qualification(qualification_id)
         qualifications.append(response.json["data"])
 
     ids = ",".join([i["id"] for i in qualifications])
@@ -257,14 +251,7 @@ def patch_submission_pending(self):
     error_fields = [field["name"] for field in response.json["errors"]]
     self.assertListEqual(sorted(error_fields), list(qualification_invalid_patch_data.keys()))
 
-    qualification_patch_data = {"status": "active"}
-
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": qualification_patch_data},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    self.activate_qualification(qualification_id)
     qualification = self.app.get("/qualifications/{}".format(qualification_id, self.framework_token)).json["data"]
     self.assertEqual(qualification["status"], "active")
 
@@ -343,10 +330,11 @@ def activate_qualification_for_submission_with_docs(self):
             {
                 "id": "040cfd87cca140d98bcff5a40b2b067a",
                 "datePublished": get_now().isoformat(),
-                "title": "name1.doc",
+                "title": "evalouationReports.p7s",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
             }
         ],
     }
@@ -650,14 +638,7 @@ def patch_qualification_active(self):
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
 
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
-    self.assertEqual(response.json["data"]["frameworkID"], self.framework_id)
+    self.activate_qualification(qualification_id)
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
@@ -862,14 +843,113 @@ def qualification_fields(self):
     }
     self.assertEqual(set(qualification), fields)
 
+    response = self.activate_qualification(qualification_id)
+    qualification = response.json["data"]
+    fields = fields | {"documents"}
+    self.assertEqual(set(qualification), fields)
+
+
+def qualification_evaluation_reports_documents(self):
     response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification["id"], self.framework_token),
+        "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    qualification = response.json["data"]
-    self.assertEqual(set(qualification), fields)
+    qualification_id = response.json["data"]["qualificationID"]
+
+    # try to activate qualification without docs
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+        {"data": {"status": "active"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'evaluationReports' and format pkcs7-signature is required",
+    )
+
+    # try to patch qualification with two evaluationReports documents
+    data = {
+        "documents": [
+            {
+                "id": "e4d7216f28dc4a1cbf18c5e4ee2cd1c5",
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            },
+            {
+                "title": "evalouationReports.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            },
+        ],
+    }
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+        {"data": data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "evaluationReports document in qualification should be only one",
+    )
+
+    # try to add bulk of evaluationReports documents via docs endpoints
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {"data": data["documents"]},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "evaluationReports document in qualification should be only one",
+    )
+
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {"data": data["documents"][0]},
+    )
+    self.assertEqual(response.status, "201 Created")
+    doc_id = response.json["data"]["id"]
+
+    # add evaluationReports document when another one already exists
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {"data": data["documents"][0]},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "evaluationReports document already exists in qualification",
+    )
+
+    # patch documentType in evaluationReports doc
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}/documents/{doc_id}?acc_token={self.framework_token}",
+        {"data": {"documentType": "notice"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to add another evaluationReports
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {"data": data["documents"][0]},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    # try to activate qualification
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
 
 
 def date_qualification(self):
@@ -979,12 +1059,7 @@ def dateModified_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["dateModified"], dateModified)
 
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
+    response = self.activate_qualification(qualification_id)
     self.assertNotEqual(response.json["data"]["dateModified"], dateModified)
     qualification = response.json["data"]
     dateModified = qualification["dateModified"]
@@ -1364,11 +1439,7 @@ def put_qualification_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.app.patch_json(
-        "/qualifications/{}?acc_token={}".format(self.qualification_id, self.framework_token),
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
+    self.activate_qualification()
 
     response = self.app.put_json(
         "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
@@ -1420,6 +1491,19 @@ def active_qualification_changes_atomic(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     qualification_id = response.json["data"]["qualificationID"]
+
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            }
+        },
+    )
 
     with patch("openprocurement.framework.core.database.SubmissionCollection.save") as agreement_save_mock:
         agreement_save_mock.side_effect = MongodbResourceConflict("Conflict")
