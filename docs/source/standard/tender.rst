@@ -448,9 +448,14 @@ Schema
 
 
 :cause:
-    string, required for **negotiation** and **negotiation.quick** procedures
+    string, required for **negotiation** and **negotiation.quick** procedures.
+    Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
 
-    Causes for using negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement".
+        * 100 000 for goods,
+        * 200 000 for services,
+        * 1 500 000 for works.
+
+    Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement".
 
     Possible values for **negotiation** and **negotiation.quick** procedures:
 
@@ -484,12 +489,15 @@ Schema
 
         * `activeComplaint` Unfinished complaining process in active procurement
 
+    Possible values for **reporting** procedure in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries.
+
+
     Only in :ref:`limited`
 
 :causeDescription:
-    string, multilingual, required for **negotiation** and **negotiation.quick** procedures
+    string, multilingual
 
-    Reasoning behind usage of negotiation or negotiation.quick procedures.
+    Reasoning behind usage of reporting, negotiation or negotiation.quick procedures.
 
     Only in :ref:`limited`
 

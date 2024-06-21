@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "24459bec4c87461598d771bb8626c8ea",
+        "id": "2c940a0f1b8d47f7ac530d4bb53e770a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "code": "MON",
@@ -84,7 +84,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "24459bec4c87461598d771bb8626c8ea",
+        "id": "2c940a0f1b8d47f7ac530d4bb53e770a",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "month",
@@ -136,7 +136,7 @@ Content-Type: application/json
         "sequenceNumber": 0
       },
       {
-        "id": "7f96196af29c4c89bc9c58b8070f95fa",
+        "id": "be1c299091a845bdb66c697c5691b754",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -148,6 +148,8 @@ Content-Type: application/json
         "sequenceNumber": 0
       }
     ],
+    "cause": "marketUnsuccessful",
+    "causeDescription": "Закупівля із застосуванням електронного каталогу не відбулася",
     "id": "f082eef1f646440d9089b9620ea0bb9a"
   },
   "config": {

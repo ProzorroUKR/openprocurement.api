@@ -78,10 +78,19 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         #### Creating tender for negotiation/reporting procedure
 
         self.app.authorization = ('Basic', ('broker', ''))
+        reporting_data = deepcopy(test_tender_data)
+        reporting_data.pop("procurementMethodRationale", None)
 
-        with open(TARGET_DIR + 'tutorial/create-tender-procuringEntity.http', 'w') as self.app.file_obj:
+        with open(TARGET_DIR + 'tutorial/create-tender-reporting-invalid.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
-                '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': self.initial_config}
+                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
+            )
+        reporting_data["cause"] = "marketUnsuccessful"
+        reporting_data["causeDescription"] = "Закупівля із застосуванням електронного каталогу не відбулася"
+
+        with open(TARGET_DIR + 'tutorial/create-tender-reporting-procuringEntity.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}
             )
             self.assertEqual(response.status, '201 Created')
 

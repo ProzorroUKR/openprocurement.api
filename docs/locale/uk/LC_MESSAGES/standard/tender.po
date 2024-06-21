@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-26 12:55+0300\n"
+"POT-Creation-Date: 2024-06-13 12:03+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -12,9 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
-"Language: uk\n"
-"X-Generator: Poedit 2.4.2\n"
+"Generated-By: Babel 2.10.1\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -659,11 +657,20 @@ msgstr "Зміни властивостей об’єктів Закупівлі
 msgid "cause"
 msgstr ""
 
-msgid "string, required for **negotiation** and **negotiation.quick** procedures"
-msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**"
+msgid "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgstr "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
 
-msgid "Causes for using negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\"."
-msgstr "Підстава для використання “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \\”Про публічні закупівлі\\”."
+msgid "100 000 for goods,"
+msgstr "100 000 для товарів,"
+
+msgid "200 000 for services,"
+msgstr "200 000 для послуг,"
+
+msgid "1 500 000 for works."
+msgstr "1 500 000 для робіт."
+
+msgid "Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\"."
+msgstr "Підстава для використання звітів, “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \\”Про публічні закупівлі\\”."
 
 msgid "Possible values for **negotiation** and **negotiation.quick** procedures:"
 msgstr "Можливі значення для **переговорної процедури** та **переговорної процедури за нагальною потребою** :"
@@ -713,14 +720,14 @@ msgstr "`contractCancelled` Розірвання договору про зак�
 msgid "`activeComplaint` Unfinished complaining process in active procurement"
 msgstr "`activeComplaint` Оскарження прийнятих рішень, дій чи бездіяльності замовника щодо триваючого тендера"
 
+msgid "Possible values for **reporting** procedure in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries."
+msgstr "Можливі значення для **звітів** зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_."
+
 msgid "causeDescription"
 msgstr ""
 
-msgid "string, multilingual, required for **negotiation** and **negotiation.quick** procedures"
-msgstr "рядок, багатомовний, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**"
-
-msgid "Reasoning behind usage of negotiation or negotiation.quick procedures."
-msgstr "Обгрунтування використання \\”звичайної\\” переговорної процедури або ереговорної процедури за нагальною потребою."
+msgid "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
+msgstr "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
 
 msgid "stage2TenderID"
 msgstr ""
@@ -844,3 +851,4 @@ msgstr "Робочий процес у :ref:`limited`"
 
 msgid "\\* marks initial state"
 msgstr "\\* позначає початковий стан"
+

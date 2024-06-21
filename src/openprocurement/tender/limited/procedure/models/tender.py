@@ -5,6 +5,7 @@ from openprocurement.api.constants import (
     MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
+    TENDER_CAUSE,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
@@ -51,6 +52,23 @@ from openprocurement.tender.limited.procedure.models.organization import (
 )
 from openprocurement.tender.openua.procedure.models.item import Item
 
+VALUE_AMOUNT_THRESHOLD = {
+    "goods": 100000,
+    "services": 200000,
+    "works": 1500000,
+}
+
+
+def reporting_cause_is_required(data, value):
+    return all(
+        [
+            data.get("procuringEntity", {}).get("kind") != "other",
+            not data.get("procurementMethodRationale"),
+            data.get("value", {}).get("amount", 0) >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]],
+            not value,
+        ]
+    )
+
 
 # reporting
 class PostReportingTender(PostBaseTender):
@@ -69,6 +87,9 @@ class PostReportingTender(PostBaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -78,6 +99,13 @@ class PostReportingTender(PostBaseTender):
             for milestone in value:
                 if milestone.type == TenderMilestoneTypes.DELIVERY.value:
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+
+    def validate_cause(self, data, value):
+        if reporting_cause_is_required(data, value):
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+        if value is not None and value not in TENDER_CAUSE:
+            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
 
 class PatchReportingTender(PatchBaseTender):
@@ -95,6 +123,9 @@ class PatchReportingTender(PatchBaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
 
 class ReportingTender(BaseTender):
@@ -116,6 +147,9 @@ class ReportingTender(BaseTender):
     funders = ListType(
         ModelType(ReportFundOrganization, required=True), validators=[validate_funders_unique, validate_funders_ids]
     )
+    cause = StringType()
+    causeDescription = StringType()
+    causeDescription_en = StringType()
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
@@ -125,6 +159,13 @@ class ReportingTender(BaseTender):
             for milestone in value:
                 if milestone.type == TenderMilestoneTypes.DELIVERY.value:
                     raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneTypes.DELIVERY.value}")
+
+    def validate_cause(self, data, value):
+        if reporting_cause_is_required(data, value):
+            raise ValidationError(BaseType.MESSAGES["required"])
+
+        if value is not None and value not in TENDER_CAUSE:
+            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
 
 # Negotiation
@@ -170,9 +211,9 @@ class PostNegotiationTender(PostBaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
-    causeDescription = StringType(required=True, min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
@@ -203,9 +244,9 @@ class PatchNegotiationTender(PatchBaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType()
-    causeDescription = StringType(min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
@@ -223,9 +264,9 @@ class NegotiationTender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     cause = StringType(required=True)
-    causeDescription = StringType(required=True, min_length=1)
-    causeDescription_en = StringType(min_length=1)
-    causeDescription_ru = StringType(min_length=1)
+    causeDescription = StringType()
+    causeDescription_en = StringType()
+    causeDescription_ru = StringType()
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
