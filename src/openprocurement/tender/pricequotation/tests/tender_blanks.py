@@ -2248,7 +2248,7 @@ def tender_milestones(self):
             "title": "signingTheContract",
             "type": "delivery",
             "duration": {"days": 1500, "type": "calendar"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
             "code": "postpayment",
             "percentage": 10,
         }
@@ -2263,7 +2263,6 @@ def tender_milestones(self):
                 "description": [
                     {
                         "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
-                        "percentage": ["Rogue field"],
                     }
                 ],
             }
@@ -2272,7 +2271,6 @@ def tender_milestones(self):
 
     data["milestones"][-1]["code"] = "standard"
     data["milestones"][-1]["title"] = "executionOfWorks"
-    del data["milestones"][-1]["percentage"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -2293,11 +2291,30 @@ def tender_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": ["relatedLot is a rogue field"],
+                "description": ["relatedLot should be one of the lots."],
             }
         ],
     )
     del data["milestones"][-1]["relatedLot"]
+    del data["milestones"][-1]["percentage"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "milestones", "description": [{"percentage": ["This field is required."]}]}],
+    )
+    data["milestones"][-1]["percentage"] = 10
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": "Sum of the delivery milestone percentages 10.0 is not equal 100.",
+            }
+        ],
+    )
+    data["milestones"][-1]["percentage"] = 100
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]

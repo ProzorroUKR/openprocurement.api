@@ -1,4 +1,3 @@
-from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -340,18 +339,8 @@ def cancelled_lot_without_relatedLot(self):
 
 def delete_first_lot_second_cancel(self):
     """One lot we delete another cancel and check tender status"""
-    response = self.app.get("/tenders/{}".format(self.tender_id))
-    tender = response.json["data"]
-    items = deepcopy(tender["items"])
-    items[0]["relatedLot"] = self.initial_lots[1]["id"]
-
-    self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"items": items}},
-    )
-
     response = self.app.delete(
-        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[0]["id"], self.tender_token)
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, self.initial_lots[1]["id"], self.tender_token)
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -366,7 +355,7 @@ def delete_first_lot_second_cancel(self):
         {
             "status": "active",
             "cancellationOf": "lot",
-            "relatedLot": self.initial_lots[1]["id"],
+            "relatedLot": self.initial_lots[0]["id"],
         }
     )
     response = self.app.post_json(

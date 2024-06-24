@@ -51,6 +51,11 @@ Milestone (delivery)
 
     Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками.
 
+:percentage:
+    float, 0..100
+
+    Sum of all tender (or lot) milestones should be 100
+
 :duration:
     :ref:`deliveryDuration` object, required
 
@@ -112,7 +117,8 @@ Delivery Logic
               "days": 14,
               "type": "calendar"
             },
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
+            "percentage": 100,
             "relatedLot": "222333222111qwd111ccc111aaaq12",
           }
         ],
@@ -163,7 +169,8 @@ Delivery Logic
               "days": 14,
               "type": "calendar"
             },
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
+            "percentage": 100,
             "relatedLot": "222333222111qwd111ccc111aaaq12",
           }
         ],
@@ -220,7 +227,8 @@ Delivery Logic
               "days": 14,
               "type": "calendar"
             },
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
+            "percentage": 100,
             "relatedLot": "222333222111qwd111ccc111aaaq12",
           }
         ],
@@ -293,7 +301,8 @@ Delivery Logic
               "days": 14,
               "type": "calendar"
             },
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
+            "percentage": 100,
             "relatedLot": "222333222111qwd111ccc111aaaq12",
           }
         ],

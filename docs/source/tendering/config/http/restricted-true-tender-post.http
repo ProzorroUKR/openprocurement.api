@@ -86,8 +86,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0,
-        "percentage": 45.55
+        "sequenceNumber": 1,
+        "percentage": 45.55,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       },
       {
         "title": "deliveryOfGoods",
@@ -97,8 +98,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0,
-        "percentage": 54.45
+        "sequenceNumber": 2,
+        "percentage": 54.45,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       }
     ],
     "mainProcurementCategory": "services",
@@ -192,7 +194,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       },
       {
         "id": "0dac28eb201345049f8baef02809a471",
@@ -204,7 +207,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "86393d2e4e8042efb3a7b0a7cdfe8d61"
       }
     ],
     "procuringEntity": {

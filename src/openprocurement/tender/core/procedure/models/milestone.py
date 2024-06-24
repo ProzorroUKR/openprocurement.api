@@ -75,7 +75,7 @@ class Milestone(Model):
         required=True, choices=[TenderMilestoneTypes.FINANCING.value, TenderMilestoneTypes.DELIVERY.value]
     )
     code = StringType(required=True)
-    percentage = FloatType(max_value=100, validators=[is_positive_float])
+    percentage = FloatType(required=True, max_value=100, validators=[is_positive_float])
 
     duration = ModelType(Duration, required=True)
     sequenceNumber = IntType(required=True, min_value=0)
@@ -88,12 +88,6 @@ class Milestone(Model):
         should_validate = get_first_revision_date(get_tender(), default=get_now()) > MILESTONES_VALIDATION_FROM
         if should_validate and value and len(value) > 2000:
             raise ValidationError("description should contain at most 2000 characters")
-
-    def validate_percentage(self, data, value):
-        if data.get("type") == TenderMilestoneTypes.FINANCING.value and not value:
-            raise ValidationError("This field is required.")
-        elif data.get("type") == TenderMilestoneTypes.DELIVERY.value and value:
-            raise ValidationError("Rogue field")
 
     def validate_code(self, data, value):
         milestone_type = data.get("type")
@@ -109,10 +103,5 @@ class Milestone(Model):
 def validate_milestones_lot(data, milestones):
     lot_ids = {l.get("id") for l in data.get("lots") or ""}
     for milestone in milestones or "":
-        if milestone.type == TenderMilestoneTypes.DELIVERY.value:
-            if data.get("lots") and milestone.relatedLot is None:
-                raise ValidationError("relatedLot is required")
-            if not data.get("lots") and milestone.relatedLot:
-                raise ValidationError("relatedLot is a rogue field")
         if milestone.relatedLot is not None and milestone.relatedLot not in lot_ids:
             raise ValidationError("relatedLot should be one of the lots.")

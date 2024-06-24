@@ -3195,7 +3195,14 @@ def patch_tender_with_bids_lots_none(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]}],
+        [
+            {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+            },
+        ],
     )
 
 

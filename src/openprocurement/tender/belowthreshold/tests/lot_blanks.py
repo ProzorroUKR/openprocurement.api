@@ -2860,13 +2860,14 @@ def tender_lot_milestones(self):
         {
             "data": {
                 "milestones": [
-                    {  # without relatedLot
+                    {
                         "title": "signingTheContract",
                         "code": "prepayment",
                         "type": "financing",
                         "duration": {"days": 2, "type": "banking"},
-                        "sequenceNumber": 0,
-                        "percentage": 100,
+                        "sequenceNumber": 1,
+                        "percentage": 50,
+                        "relatedLot": lot["id"],
                     },
                     {
                         "title": "signingTheContract",
@@ -2874,7 +2875,7 @@ def tender_lot_milestones(self):
                         "type": "financing",
                         "duration": {"days": 999, "type": "calendar"},
                         "sequenceNumber": 2,
-                        "percentage": 100,
+                        "percentage": 50,
                         "relatedLot": lot["id"],
                     },
                 ]

@@ -82,7 +82,7 @@
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
             "percentage": 100
         }
     ]

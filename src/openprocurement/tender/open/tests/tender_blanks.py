@@ -1358,16 +1358,18 @@ def tender_finance_milestones(self):
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 1,
             "percentage": 45.55,
+            "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
         },
         {
             "title": "deliveryOfGoods",
             "code": "postpayment",
             "type": "financing",
             "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 2,
             "percentage": 54.45,
+            "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
         },
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1376,8 +1378,12 @@ def tender_finance_milestones(self):
     self.assertIn("milestones", tender)
     self.assertEqual(len(tender["milestones"]), 2)
     for milestone in tender["milestones"]:
+        fields = {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
+        if self.initial_lots:
+            fields = fields | {"relatedLot"}
         self.assertEqual(
-            set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
+            set(milestone.keys()),
+            fields,
         )
     self.assertEqual(data["milestones"][0]["id"], tender["milestones"][0]["id"])
     token = response.json["access"]["token"]

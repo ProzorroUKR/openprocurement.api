@@ -25,7 +25,7 @@
                 "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
                 "date": "2023-10-10T01:00:00+03:00",
                 "id": "23995d40cc7347569e6d5f2f47ece4e8",
-                "lotID": "5b1a9504cc16400fa33f3d9e84606053",
+                "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
                 "status": "pending",
                 "suppliers": [
                     {
@@ -61,7 +61,7 @@
                 "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
                 "date": "2023-10-10T01:00:00+03:00",
                 "id": "99e6dcc3408d4794ae66c30ae2297ea7",
-                "lotID": "5b1a9504cc16400fa33f3d9e84606053",
+                "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
                 "status": "pending",
                 "suppliers": [
                     {
@@ -97,7 +97,7 @@
                 "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
                 "date": "2023-10-10T01:00:00+03:00",
                 "id": "caa0fe450e3a4b99bc1d7a6fc77bdde5",
-                "lotID": "9dcdb4eb18734e52bbd56421b7fed34c",
+                "lotID": "5b1a9504cc16400fa33f3d9e84606053",
                 "status": "pending",
                 "suppliers": [
                     {
@@ -133,7 +133,7 @@
                 "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
                 "date": "2023-10-10T01:00:00+03:00",
                 "id": "f8c771c7053c432cadbce62b9c7be656",
-                "lotID": "9dcdb4eb18734e52bbd56421b7fed34c",
+                "lotID": "5b1a9504cc16400fa33f3d9e84606053",
                 "status": "pending",
                 "suppliers": [
                     {
@@ -173,8 +173,8 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
-                        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
+                        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "value": {
                             "amount": 300.0,
@@ -184,8 +184,8 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
-                        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=4b2f22ec008b4f4e88f2f69ea174242c",
+                        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
                         "status": "active",
                         "value": {
                             "amount": 500.0,
@@ -328,8 +328,8 @@
                 "lotValues": [
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
-                        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
+                        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
                         "value": {
                             "amount": 500.0,
@@ -339,8 +339,8 @@
                     },
                     {
                         "date": "2023-10-10T01:00:00+03:00",
-                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
-                        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+                        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053?key_for_bid=33aec5588bb84aecbaf28ee83b356bad",
+                        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
                         "status": "active",
                         "value": {
                             "amount": 400.0,
@@ -997,7 +997,7 @@
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "id": "ac8e7fb163cf4fa2ab111e2e42b8dc2f",
                 "quantity": 1.0,
-                "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+                "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                 "unit": {
                     "code": "KGM",
                     "name": "\u043f\u0430\u043f\u0456\u0440",
@@ -1036,7 +1036,7 @@
                 "description_en": "Services in school canteens",
                 "id": "f37d4ff0e19c4823be20bfcb7b612a87",
                 "quantity": 1.0,
-                "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+                "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
                 "unit": {
                     "code": "KGM",
                     "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
@@ -1054,10 +1054,10 @@
                     "endDate": "2023-10-10T01:00:00+03:00",
                     "startDate": "2023-10-10T01:00:00+03:00"
                 },
-                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053",
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6",
                 "date": "2023-10-10T01:00:00+03:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
-                "id": "5b1a9504cc16400fa33f3d9e84606053",
+                "id": "d7afc0eb4f6d42549557d7b3226417e6",
                 "minimalStep": {
                     "amount": 15.0,
                     "currency": "UAH",
@@ -1076,10 +1076,10 @@
                     "endDate": "2023-10-10T01:00:00+03:00",
                     "startDate": "2023-10-10T01:00:00+03:00"
                 },
-                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_9dcdb4eb18734e52bbd56421b7fed34c",
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_5b1a9504cc16400fa33f3d9e84606053",
                 "date": "2023-10-10T01:00:00+03:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
-                "id": "9dcdb4eb18734e52bbd56421b7fed34c",
+                "id": "5b1a9504cc16400fa33f3d9e84606053",
                 "minimalStep": {
                     "amount": 15.0,
                     "currency": "UAH",
@@ -1104,7 +1104,8 @@
                 },
                 "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "percentage": 45.55,
-                "sequenceNumber": 0,
+                "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+                "sequenceNumber": 1,
                 "title": "signingTheContract",
                 "type": "financing"
             },
@@ -1116,7 +1117,8 @@
                 },
                 "id": "54885e2435434072891db5e792b35a43",
                 "percentage": 54.45,
-                "sequenceNumber": 0,
+                "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+                "sequenceNumber": 2,
                 "title": "deliveryOfGoods",
                 "type": "financing"
             }
@@ -1153,7 +1155,7 @@
             {
                 "answer": "\u0422\u0430\u0431\u043b\u0438\u0446\u044e \u0434\u043e\u0434\u0430\u043d\u043e \u0432 \u0444\u0430\u0439\u043b\u0456 \"Kalorijnist.xslx\"",
                 "author": {
-                    "hash": "59146b1d81f2f5fe45651999a604d849"
+                    "hash": "2918def933aba7d8480fd16de1e9bdc1"
                 },
                 "date": "2023-10-10T01:00:00+03:00",
                 "dateAnswered": "2023-10-10T01:00:00+03:00",

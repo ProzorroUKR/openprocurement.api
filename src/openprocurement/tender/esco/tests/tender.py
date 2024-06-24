@@ -38,6 +38,7 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     tender_yearlyPaymentsPercentageRange,
     tender_yearlyPaymentsPercentageRange_invalid,
 )
+from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openeu.constants import TENDERING_DAYS
 from openprocurement.tender.openeu.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
     invalid_bid_tender_lot,
@@ -49,7 +50,6 @@ from openprocurement.tender.openeu.tests.tender_blanks import (  # TenderProcess
 )
 from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
 from openprocurement.tender.openua.tests.tender_blanks import (
-    tender_finance_milestones,
     tender_with_main_procurement_category,
 )
 

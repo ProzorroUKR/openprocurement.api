@@ -68,7 +68,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 10
           }
         },
-        "quantity": 1
+        "quantity": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "additionalClassifications": [
@@ -103,7 +104,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 6
           }
         },
-        "quantity": 1
+        "quantity": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "enquiryPeriod": {
@@ -123,8 +125,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0,
-        "percentage": 45.55
+        "sequenceNumber": 1,
+        "percentage": 45.55,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "title": "deliveryOfGoods",
@@ -134,8 +137,37 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0,
-        "percentage": 54.45
+        "sequenceNumber": 2,
+        "percentage": 54.45,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "value": {
+          "amount": 500,
+          "currency": "UAH"
+        },
+        "minimalStep": {
+          "amount": 15,
+          "currency": "UAH"
+        },
+        "id": "d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "value": {
+          "amount": 500,
+          "currency": "UAH"
+        },
+        "minimalStep": {
+          "amount": 15,
+          "currency": "UAH"
+        },
+        "id": "6670a4933d854a00afa53a2979728a6d"
       }
     ]
   },
@@ -166,7 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "status": "draft",
     "awardCriteria": "lowestCost",
     "value": {
-      "amount": 500.0,
+      "amount": 1000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
@@ -215,7 +247,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "f37d4ff0e19c4823be20bfcb7b612a87",
@@ -253,7 +286,44 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "id": "6670a4933d854a00afa53a2979728a6d",
+        "status": "active",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "amount": 15.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "date": "2023-10-10T01:00:00+03:00"
       }
     ],
     "milestones": [
@@ -267,7 +337,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "54885e2435434072891db5e792b35a43",
@@ -279,7 +350,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -331,8 +403,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "restricted": false
   },
   "access": {
-    "token": "d7afc0eb4f6d42549557d7b3226417e6",
-    "transfer": "6670a4933d854a00afa53a2979728a6d"
+    "token": "2672dd6712284300b2af487b1f9d0ac1",
+    "transfer": "339cb54465f04f18918ea43e3d45e961"
   }
 }
 

@@ -42,7 +42,6 @@ from openprocurement.tender.core.procedure.models.tender_base import (
 )
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.core.procedure.validation import (
-    validate_milestones,
     validate_tender_period_duration,
     validate_tender_period_start_date,
 )
@@ -124,7 +123,7 @@ class PostTender(PostBaseTender):
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), required=True, min_size=1, validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     auctionPeriod = ModelType(TenderAuctionPeriod)
@@ -186,7 +185,7 @@ class PatchTender(PatchBaseTender):
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     items = ListType(ModelType(Item, required=True), min_size=1, validators=[validate_items_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     tenderPeriod = ModelType(PeriodStartEndRequired)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
@@ -224,7 +223,7 @@ class Tender(BaseTender):
         validators=[validate_items_uniq, validate_classification_id],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 

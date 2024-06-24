@@ -1,10 +1,14 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
+    test_tender_below_bids,
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (
@@ -146,6 +150,10 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     test_create_tender_bid_feature = snitch(create_tender_bid_feature)
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     docservice = True
     test_lots_data = test_tender_below_lots

@@ -188,6 +188,8 @@ class TenderResourceTest(
                 "endDate": (get_now() + datetime.timedelta(days=5)).isoformat(),
             }
             item['classification']['id'] = test_framework_dps_data['classification']['id']
+        for milestone in data["milestones"]:
+            milestone['relatedLot'] = lot['id']
 
         with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
             response = self.app.post_json('/tenders?opt_pretty=1', {'data': data, 'config': config})

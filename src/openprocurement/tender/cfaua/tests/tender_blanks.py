@@ -833,6 +833,8 @@ def tender_contract_period(self):
     data["lots"][0]["id"] = lot_id
     for item in data["items"]:
         item["relatedLot"] = lot_id
+    for milestone in data["milestones"]:
+        milestone["relatedLot"] = lot_id
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1057,7 +1059,7 @@ def invalid_bid_tender_lot(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Cannot delete lot with related items",
+                "description": "Cannot delete lot with related milestones",
             },
         ],
     )
@@ -2075,3 +2077,81 @@ def create_tender_with_required_unit(self):
     self.assertEqual(response.status, "201 Created")
     resp = response.json["data"]
     self.assertEqual("KGM", resp["items"][0]["unit"]["code"])
+
+
+def tender_milestones_sequence_number(self):
+    data = deepcopy(self.initial_data)
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 0,
+            "percentage": 50,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 2,
+            "percentage": 50,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "sequenceNumber": "Field should contain incrementing sequence numbers starting from 1 for tender/lot separately"
+                    }
+                ],
+            }
+        ],
+    )
+    data["milestones"][0]["sequenceNumber"] = 1
+    del data["milestones"][-1]["relatedLot"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
+    )
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 45.55,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": {"days": 999, "type": "calendar"},
+            "sequenceNumber": 2,
+            "percentage": 54.45,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")

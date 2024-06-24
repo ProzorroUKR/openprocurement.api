@@ -36,14 +36,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 600,
           "currency": "USD"
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "value": {
           "amount": 700,
           "currency": "EUR"
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
     ]
   }
@@ -89,7 +89,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "currency": "USD",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-10-10T01:00:00+03:00"
       },
       {
@@ -99,7 +99,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "currency": "EUR",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
         "date": "2023-10-10T01:00:00+03:00"
       }
     ],
@@ -107,8 +107,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "bed2a0c68b0347dab30b439da99f00d8",
-    "transfer": "857bf8327126450d82f8a82679f7c783"
+    "token": "3d0090690f474213b61cd8c7deaeb977",
+    "transfer": "bed2a0c68b0347dab30b439da99f00d8"
   }
 }
 
@@ -660,7 +660,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "f37d4ff0e19c4823be20bfcb7b612a87",
@@ -699,7 +699,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c"
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "lots": [
@@ -707,7 +707,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "5b1a9504cc16400fa33f3d9e84606053",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -719,7 +719,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "id": "6670a4933d854a00afa53a2979728a6d",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
           "amount": 500.0,
@@ -739,7 +739,8 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       },
       {
         "id": "54885e2435434072891db5e792b35a43",
@@ -751,7 +752,8 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 2,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -785,7 +787,7 @@ Content-Type: application/json
       {
         "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
         "author": {
-          "hash": "59146b1d81f2f5fe45651999a604d849"
+          "hash": "a982ed89e9643cfa85c688c3a7ec233d"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -812,7 +814,7 @@ Content-Type: application/json
   }
 }
 
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=bed2a0c68b0347dab30b439da99f00d8 HTTP/1.0
+PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=3d0090690f474213b61cd8c7deaeb977 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -1057,7 +1059,7 @@ Content-Type: application/json
           "currency": "USD",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "5b1a9504cc16400fa33f3d9e84606053",
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       },
@@ -1067,7 +1069,7 @@ Content-Type: application/json
           "currency": "EUR",
           "valueAddedTaxIncluded": true
         },
-        "relatedLot": "9dcdb4eb18734e52bbd56421b7fed34c",
+        "relatedLot": "6670a4933d854a00afa53a2979728a6d",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00"
       }

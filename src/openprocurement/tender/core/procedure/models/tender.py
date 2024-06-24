@@ -49,7 +49,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     validate_features_custom_weight,
 )
-from openprocurement.tender.core.procedure.validation import validate_milestones
 
 
 def validate_minimalstep(data, value):
@@ -124,7 +123,7 @@ class PostTender(PostBaseTender):
     )
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     def validate_lots(self, data, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
@@ -170,7 +169,7 @@ class PatchTender(PatchBaseTender):
     )
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     def validate_lots(self, data, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
@@ -200,7 +199,7 @@ class Tender(BaseTender):
     )
     lots = ListType(ModelType(Lot, required=True), validators=[validate_lots_uniq])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq, validate_milestones])
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_items_uniq])
 
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)

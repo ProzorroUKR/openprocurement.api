@@ -1,6 +1,7 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 from uuid import uuid4
 
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -3130,3 +3131,36 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
             response.json['errors'],
             [{"location": "body", "name": "data", "description": "Cannot delete lot with related milestones"}],
         )
+
+        milestones[0]["sequenceNumber"] = 0
+        milestones[1]["sequenceNumber"] = 3
+        with open(
+            TARGET_DIR + 'milestones/tender-patch-lot-milestones-invalid-sequence.http', 'w'
+        ) as self.app.file_obj:
+            with patch(
+                "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+                get_now() - timedelta(days=1),
+            ):
+                response = self.app.patch_json(
+                    '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                    {"data": {"milestones": milestones}},
+                    status=422,
+                )
+                self.assertEqual(response.status, '422 Unprocessable Entity')
+
+        milestones[0]["sequenceNumber"] = 1
+        milestones[1]["sequenceNumber"] = 2
+        milestones[1].pop("relatedLot")
+        with open(
+            TARGET_DIR + 'milestones/tender-patch-lot-milestones-invalid-relation.http', 'w'
+        ) as self.app.file_obj:
+            with patch(
+                "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
+                get_now() - timedelta(days=1),
+            ):
+                response = self.app.patch_json(
+                    '/tenders/{}?acc_token={}'.format(tender["id"], owner_token),
+                    {"data": {"milestones": milestones}},
+                    status=422,
+                )
+                self.assertEqual(response.status, '422 Unprocessable Entity')
