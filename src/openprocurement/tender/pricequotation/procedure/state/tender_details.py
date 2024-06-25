@@ -23,6 +23,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
+    should_validate_notice_doc_required = True
     agreement_field = "agreement"
 
     def on_post(self, tender):
@@ -43,8 +44,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         super().status_up(before, after, data)
 
         if before == "draft" and after == "active.tendering":
-            if not data.get("noticePublicationDate"):
-                data["noticePublicationDate"] = get_now().isoformat()
             data["tenderPeriod"]["startDate"] = get_now().isoformat()
 
         # TODO: it's insurance for some period while refusing PQ bot, just to have opportunity manually activate tender

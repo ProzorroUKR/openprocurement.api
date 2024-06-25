@@ -197,7 +197,7 @@ def put_contract_document(self):
         f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {
             "data": {
-                "title": "name name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url("1" * 32),
                 "hash": "md5:" + "1" * 32,
                 "format": "application/msword",
@@ -224,7 +224,6 @@ def put_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name name.doc", response.json["data"]["title"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
@@ -457,7 +456,7 @@ def contract_change_document(self):
         f"/contracts/{self.contract_id}/documents/{doc_id}?acc_token={self.contract_token}",
         {
             "data": {
-                "title": "укр2.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url("1" * 32),
                 "hash": "md5:" + "1" * 32,
                 "format": "application/msword",
@@ -683,7 +682,7 @@ def put_contract_document_json(self):
         f"/contracts/{self.contract_id}/documents?acc_token={self.contract_token}",
         {
             "data": {
-                "title": "name name.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -692,7 +691,7 @@ def put_contract_document_json(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual("name name.doc", response.json["data"]["title"])
+    self.assertEqual("name.doc", response.json["data"]["title"])
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])

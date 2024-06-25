@@ -363,7 +363,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
         "/plans/{}/documents/{}?acc_token={}".format(plan_id, doc_id, acc_token),
         {
             "data": {
-                "title": "укр_2.doc",
+                "title": "укр.doc",
                 "url": generate_docservice_url(app),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",

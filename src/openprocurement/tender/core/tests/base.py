@@ -134,6 +134,8 @@ class BaseCoreWebTest(BaseWebTest):
         from openprocurement.tender.core.tests.criteria_utils import add_criteria
 
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
+        if "active" in status:
+            self.add_notice_doc(tender["data"]["id"], tender["access"]["token"])
         response = self.app.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
             {"data": {"status": status}},
@@ -209,6 +211,21 @@ class BaseCoreWebTest(BaseWebTest):
 
         self.save_changes()
         return self.get_tender()
+
+    def add_notice_doc(self, tender_id, tender_token):
+        response = self.app.post_json(
+            f"/tenders/{tender_id}/documents?acc_token={tender_token}",
+            {
+                "data": {
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                    "documentType": "notice",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
 
     def update_periods(self, status, startend="start", shift=None):
         shift = shift or timedelta()

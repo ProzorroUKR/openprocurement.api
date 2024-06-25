@@ -457,7 +457,7 @@ class TenderHasAuctionResourceTest(TenderConfigBaseResourceTest):
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
     def activate_tender(self, tender_id, owner_token):
-        #### Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
@@ -646,6 +646,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         # Tender activating
 
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -807,6 +808,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
         # Tender activating
 
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -942,6 +944,7 @@ class TenderHasAwardingResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1195,6 +1198,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1323,6 +1327,7 @@ class TenderHasValueRestrictionResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1402,6 +1407,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1539,6 +1545,7 @@ class TenderValueCurrencyEqualityResourceTest(TenderConfigBaseResourceTest):
         self.add_criteria(tender_id, owner_token)
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -1647,6 +1654,7 @@ class TenderMinBidsNumberResourceTest(TenderConfigBaseResourceTest):
         )
 
     def activate_tender(self, tender_id, owner_token):
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
         )
@@ -2128,6 +2136,7 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
@@ -2173,24 +2182,11 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         self.assertEqual(response.status, '201 Created')
 
         # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.tendering"}}
         )
         self.assertEqual(response.status, '200 OK')
-
-        response = self.app.post_json(
-            '/tenders/{}/documents?acc_token={}'.format(tender_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "notice",
-                }
-            },
-        )
-        self.assertEqual(response.status, '201 Created')
 
         response = self.app.post_json(
             '/tenders/{}/documents?acc_token={}'.format(tender_id, owner_token),

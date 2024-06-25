@@ -42,6 +42,8 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
 
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
+    should_validate_notice_doc_required = True
+
     def initialize_enquiry_period(self, tender):  # openeu, openua
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
         end_date = calculate_tender_business_date(

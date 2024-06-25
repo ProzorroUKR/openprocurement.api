@@ -531,6 +531,45 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000002-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "b341b0b88047496f9941c908c61b51e9",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/b341b0b88047496f9941c908c61b51e9?download=b97ad9dc846441568596cedaf5861ddf",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/5159b7a0b25f45ffa502c777e8c3d8e6?download=7617d51c15154ebf916a047f62fbe2b9",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "description.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/832da0e2beae4231a700dc858436811a?download=2bd25ecac7274f6e9f062904741ca519",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "832da0e2beae4231a700dc858436811a",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner"
+      }
+    ],
     "owner": "brokerr",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -675,46 +714,8 @@ Content-Type: application/json
         }
       }
     ],
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-25T00:00:00+02:00",
-    "documents": [
-      {
-        "documentType": "notice",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/3acc8466be6b4b3782cc61ed3662ad09?download=920546603e3a4398b81fb8f88c0c9af7",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "3acc8466be6b4b3782cc61ed3662ad09",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      },
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/b341b0b88047496f9941c908c61b51e9?download=07f3bd11885c4509a40cd7825f1dfa3b",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "b341b0b88047496f9941c908c61b51e9",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      },
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "description.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff/documents/5159b7a0b25f45ffa502c777e8c3d8e6?download=7617d51c15154ebf916a047f62fbe2b9",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "5159b7a0b25f45ffa502c777e8c3d8e6",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      }
-    ],
     "id": "2b5eb9efd396490d8e3e662b7153c1ff"
   },
   "config": {

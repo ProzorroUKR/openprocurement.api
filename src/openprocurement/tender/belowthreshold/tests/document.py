@@ -17,6 +17,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     patch_tender_document,
     put_tender_document,
     put_tender_document_json,
+    tender_notice_documents,
 )
 
 
@@ -29,6 +30,7 @@ class TenderDocumentWithDSResourceTestMixin:
     test_create_tender_document_json = snitch(create_tender_document_json)
     test_create_tender_document_json_bulk = snitch(create_tender_document_json_bulk)
     test_put_tender_document_json = snitch(put_tender_document_json)
+    test_tender_notice_documents = snitch(tender_notice_documents)
 
 
 class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):

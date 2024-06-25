@@ -41,7 +41,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_bids = test_tender_pq_bids
-    freezing_datetime = '2023-09-20T00:00:00+02:00'
+    freezing_datetime = '2023-10-10T00:00:00+02:00'
     docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
@@ -135,6 +135,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Activating tender
 
+        profile = deepcopy(test_tender_pq_short_profile)
+        self.activate_tender(profile, filename='notice-document-required')
+
+        with open(TARGET_DIR + 'add-notice-document.http', 'w') as self.app.file_obj:
+            self.add_notice_doc(self.tender_id, self.tender_token)
+
         # tender relates to non existed profile
         with patch(
             "openprocurement.api.utils.requests.get",
@@ -148,7 +154,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "404 Not Found")
 
         # tender item has not active profile
-        profile = deepcopy(test_tender_pq_short_profile)
         profile["status"] = "hidden"
         self.activate_tender(profile, filename="tender-with-non-active-profile")
 
@@ -425,7 +430,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 ),
                 {
                     'data': {
-                        'title': 'Notice-2.pdf',
+                        'title': 'Notice.pdf',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
                         'format': 'application/pdf',

@@ -55,7 +55,7 @@ Content-Type: application/json
         "id": "76a4bed05322478993d703fad4a917d3",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
+        "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5fd17b367a75453582bffe24ae83b896/documents/76a4bed05322478993d703fad4a917d3?download=69070d50771a4daca7c07e2513280022",
         "documentOf": "tender",

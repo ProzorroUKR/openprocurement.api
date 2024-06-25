@@ -872,6 +872,19 @@ Content-Type: application/json
     ],
     "documents": [
       {
+        "documentType": "notice",
+        "id": "68bc19ea62f541dd89ad605641cfdea1",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/68bc19ea62f541dd89ad605641cfdea1?download=ede7ba6152ad461283c7dee16284cc57",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
         "id": "2fcdb08835d84fa1bb3631a6a268cc78",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
@@ -899,7 +912,7 @@ Content-Type: application/json
         "id": "1962b49e34b6420da1e07e92f384f7ee",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
+        "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=37430e4809ff40d7bf31e6ffa0e3e012",
         "documentOf": "tender",
@@ -912,6 +925,7 @@ Content-Type: application/json
     "title": "I need more pictures of spiderman!",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
     "procurementMethodType": "esco",
@@ -925,7 +939,6 @@ Content-Type: application/json
     "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"

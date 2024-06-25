@@ -963,6 +963,21 @@
         "date": "2023-10-10T01:00:00+03:00",
         "dateCreated": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00",
+        "documents": [
+            {
+                "author": "tender_owner",
+                "dateModified": "2023-10-10T01:00:00+03:00",
+                "datePublished": "2023-10-10T01:00:00+03:00",
+                "documentOf": "tender",
+                "documentType": "notice",
+                "format": "application/pdf",
+                "hash": "md5:00000000000000000000000000000000",
+                "id": "3acc8466be6b4b3782cc61ed3662ad09",
+                "language": "uk",
+                "title": "sign.p7s",
+                "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/documents/3acc8466be6b4b3782cc61ed3662ad09?download=389951a70228404a81d813a8c8f3d793"
+            }
+        ],
         "enquiryPeriod": {
             "clarificationsUntil": "2023-10-19T00:00:00+03:00",
             "endDate": "2023-10-07T01:00:00+03:00",
@@ -1128,6 +1143,7 @@
             "currency": "UAH",
             "valueAddedTaxIncluded": true
         },
+        "noticePublicationDate": "2023-10-10T01:00:00+03:00",
         "owner": "broker",
         "procurementMethod": "open",
         "procurementMethodType": "belowThreshold",

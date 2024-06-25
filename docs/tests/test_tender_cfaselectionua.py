@@ -293,7 +293,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 '/tenders/{}/documents/{}?acc_token={}'.format(self.tender_id, doc_id, owner_token),
                 {
                     'data': {
-                        'title': 'AwardCriteria-2.pdf',
+                        'title': 'AwardCriteria.pdf',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
                         'format': 'application/pdf',
@@ -545,7 +545,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 ),
                 {
                     'data': {
-                        'title': 'Notice-2.pdf',
+                        'title': 'Notice.pdf',
                         'url': self.generate_docservice_url(),
                         'hash': 'md5:' + '0' * 32,
                         'format': 'application/pdf',

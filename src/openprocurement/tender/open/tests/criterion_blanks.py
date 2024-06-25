@@ -465,6 +465,7 @@ def get_tender_criteria(self):
 
 def activate_tender(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     # If there are required criteria
     if self.required_criteria:
@@ -1496,6 +1497,7 @@ def lcc_criterion_valid(self):
     )
     criteria_request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     response = self.app.post_json(criteria_request_path, {"data": [test_lcc_criteria[0]]}, status=201)
+    self.add_notice_doc(self.tender_id, self.tender_token)
 
     # patch tender to active.tendering
     tender_request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)

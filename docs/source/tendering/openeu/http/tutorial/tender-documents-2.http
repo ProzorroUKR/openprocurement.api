@@ -9,6 +9,19 @@ Content-Type: application/json
 {
   "data": [
     {
+      "documentType": "notice",
+      "id": "ba33859beefd442585d4792f0fd0adbd",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86683c6890ff4ef181a41e65011a4c98?Signature=3tNNww%2B%2BX0HNYnkqjRKBe1eRcaft%2FOTgjetg0685pxcoCLGmwARgfnlrZb%2FDANk5sopjWEVXr1WWs4Dz9LbmCA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.pdf",
       "format": "application/pdf",

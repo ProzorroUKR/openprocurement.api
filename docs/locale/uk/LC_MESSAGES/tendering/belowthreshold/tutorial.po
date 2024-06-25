@@ -118,6 +118,12 @@ msgstr "Потрібно оновити дані пов’язані із зал
 msgid "Tender activating"
 msgstr "Активація закупівлі"
 
+msgid "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
+msgstr "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
+
+msgid "Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:"
+msgstr "Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:"
+
 msgid "For activating tender you should update status to ``active.enquiries``:"
 msgstr "Для активації процедури потрібно перевести її статус в ``active.enquiries``:"
 

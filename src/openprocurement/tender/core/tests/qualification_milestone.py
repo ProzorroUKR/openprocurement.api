@@ -236,7 +236,6 @@ class BaseTenderMilestone24HMixin:
             status=201 if success else 403,
         )
         if success:  #
-            document["title"] = "ham.jpeg"
             self.app.put_json(
                 "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(
                     self.tender_id, bid_id, response.json["data"]["id"], bid_token
@@ -610,7 +609,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
             "/tenders/{}/bids/{}/documents/{}?acc_token={}".format(self.tender_id, bid_id, document["id"], bid_token),
             {
                 "data": {
-                    "title": "lorem(1).doc",
+                    "title": "name.doc",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -620,7 +619,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
             status=200,
         )
         document = response.json["data"]
-        self.assertEqual(document["title"], "lorem(1).doc")
+        self.assertEqual(document["title"], "name.doc")
         if doc_type is not None:
             self.assertEqual(document["documentType"], doc_type)
         else:
@@ -662,7 +661,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
                 ),
                 {
                     "data": {
-                        "title": "lorem(5).doc",
+                        "title": "name.doc",
                         "url": self.generate_docservice_url(),
                         "hash": "md5:" + "0" * 32,
                         "format": "application/msword",

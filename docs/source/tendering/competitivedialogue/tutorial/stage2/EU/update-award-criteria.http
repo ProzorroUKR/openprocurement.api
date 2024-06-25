@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "title": "AwardCriteria-2.pdf",
+    "title": "AwardCriteria.pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bb6644ca3cc400d97eac336e142552d?Signature=L76W8taoWS1t3vtkF%2BmwTo6niPvSRpvXhhwE9TF1hUCSp4CpSyKjO1%2F%2FFEDkBQMq7DuJ%2BYlPohR7Rsh1G7WJBA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
@@ -21,7 +21,7 @@ Content-Type: application/json
     "id": "a0c2629e0ed641c1986ae2c517ef0da6",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "hash": "md5:00000000000000000000000000000000",
-    "title": "AwardCriteria-2.pdf",
+    "title": "AwardCriteria.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bb6644ca3cc400d97eac336e142552d?Signature=4NhdJLlNU1seF9Dj6EcQ1ysxyvmSFwtPJ%2FHtUlISHgzxgfulPsaH7DSCUtBqsDHAPuA7HIb%2B61YMR5ZmJOUlCw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",

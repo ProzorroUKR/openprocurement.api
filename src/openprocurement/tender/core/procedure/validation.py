@@ -1516,3 +1516,14 @@ def validate_numerated(field_name="sequenceNumber"):
                 )
 
     return validator
+
+
+def validate_notice_doc_quantity(documents):
+    notice_docs = {doc["id"] for doc in documents if doc.get("documentType") == "notice"}
+    if len(notice_docs) > 1:
+        raise_operation_error(
+            get_request(),
+            "Notice document in tender should be only one",
+            name="documents",
+            status=422,
+        )

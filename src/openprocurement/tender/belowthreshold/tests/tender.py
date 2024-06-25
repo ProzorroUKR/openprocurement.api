@@ -8,6 +8,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    check_notice_doc_during_activation,
     create_tender,
     create_tender_central,
     create_tender_central_invalid,
@@ -60,6 +61,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_milestones_sequence_number,
     tender_minimalstep_validation,
     tender_not_found,
+    tender_notice_documents,
     tender_token_invalid,
     tender_with_main_procurement_category,
     validate_enquiry_period,
@@ -91,6 +93,7 @@ class TenderResourceTestMixin:
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
+    test_tender_notice_documents = snitch(tender_notice_documents)
 
 
 class TenderTest(BaseApiWebTest):
@@ -133,6 +136,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_enquiry_tender_periods = snitch(patch_enquiry_tender_periods)
     test_tender_created_before_related_lot_is_required = snitch(tender_created_before_related_lot_is_required)
     test_tender_created_after_related_lot_is_required = snitch(tender_created_after_related_lot_is_required)
+    test_check_notice_doc_during_activation = snitch(check_notice_doc_during_activation)
 
 
 class TenderProcessTest(BaseTenderWebTest):

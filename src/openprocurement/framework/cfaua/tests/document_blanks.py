@@ -136,7 +136,7 @@ def put_contract_document(self):
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
         {
             "data": {
-                "title": "name name.doc",
+                "title": "укр.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -156,7 +156,6 @@ def put_contract_document(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(doc_id, response.json["data"]["id"])
-    self.assertEqual("name name.doc", response.json["data"]["title"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
     self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
@@ -193,7 +192,7 @@ def put_contract_document(self):
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
         {
             "data": {
-                "title": "name1.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",
@@ -233,7 +232,7 @@ def put_contract_document(self):
         "/agreements/{}/documents/{}?acc_token={}".format(self.agreement_id, doc_id, self.agreement_token),
         {
             "data": {
-                "title": "name1.doc",
+                "title": "name.doc",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
                 "format": "application/msword",

@@ -517,9 +517,10 @@ def create_tender_generated(self):
         "date",
         "mainProcurementCategory",
         "milestones",
+        "documents",
     }
     if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
-        assert_fields.add("criteria")
+        assert_fields.update(["criteria", "noticePublicationDate"])
     self.assertEqual(
         set(tender),
         assert_fields,
@@ -557,6 +558,8 @@ def tender_fields(self):
             "next_check",
             "owner",
             "date",
+            "documents",
+            "noticePublicationDate",
         },
     )
 
@@ -584,6 +587,8 @@ def tender_fields(self):
         "owner",
         "date",
         "awardPeriod",
+        "documents",
+        "noticePublicationDate",
     }
     self.assertEqual(set(tender.keys()) - set(self.initial_data.keys()), expected_keys)
 

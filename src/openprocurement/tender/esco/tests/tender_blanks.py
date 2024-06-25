@@ -377,6 +377,7 @@ def tender_noticePublicationDate(self):
     self.tender_token = response.json["access"]["token"]
 
     add_criteria(self)
+    self.add_notice_doc(self.tender_id, self.tender_token)
     # set active.tendering status
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"status": "active.tendering"}}
@@ -802,6 +803,7 @@ def tender_fields(self):
             "owner",
             "date",
             "noticePublicationDate",
+            "documents",
         },
     )
 
@@ -1093,6 +1095,7 @@ def tender_with_nbu_discount_rate(self):
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1469,6 +1472,7 @@ def create_tender_generated(self):
             "yearlyPaymentsPercentageRange",
             "mainProcurementCategory",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

@@ -9,6 +9,7 @@ from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
+    NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     TENDER_CONFIG_JSONSCHEMAS,
@@ -46,6 +47,9 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_before,
     validate_field,
+)
+from openprocurement.tender.core.procedure.validation import (
+    validate_notice_doc_quantity,
 )
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
@@ -148,6 +152,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
+    should_validate_notice_doc_required = False
     complaint_submit_time = timedelta(days=0)
     agreement_field = "agreements"
 
@@ -164,6 +169,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
+        self.validate_notice_docs(tender)
         self.watch_value_meta_changes(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
@@ -185,6 +191,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
         self.validate_action_with_exist_inspector_review_request(("tenderPeriod",))
+        self.validate_notice_docs(after, before)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
@@ -203,6 +210,7 @@ class TenderDetailsMixing(TenderConfigMixin):
             )
         if after != "draft" and before == "draft":
             self.validate_pre_selection_agreement(data)
+            self.validate_notice_doc_required(data)
         elif after == "active.tendering" and before != "active.tendering":
             tendering_start = data["tenderPeriod"]["startDate"]
             if dt_from_iso(tendering_start) <= get_now() - timedelta(minutes=TENDER_PERIOD_START_DATE_STALE_MINUTES):
@@ -214,6 +222,21 @@ class TenderDetailsMixing(TenderConfigMixin):
                     name="tenderPeriod.startDate",
                 )
         super().status_up(before, after, data)
+
+    def validate_notice_doc_required(self, tender):
+        if self.should_validate_notice_doc_required is False or not tender_created_after(NOTICE_DOC_REQUIRED_FROM):
+            return
+        for doc in tender.get("documents", []):
+            if doc.get("documentType") == "notice" and doc["title"][-4:] == ".p7s":
+                break
+        else:
+            raise_operation_error(
+                self.request,
+                "Document with type 'notice' is required",
+                status=422,
+                name="documents",
+            )
+        tender["noticePublicationDate"] = get_now().isoformat()
 
     def validate_pre_selection_agreement(self, tender):
         if self.should_validate_pre_selection_agreement is False:
@@ -618,6 +641,12 @@ class TenderDetailsMixing(TenderConfigMixin):
                         "working days" if self.tendering_period_extra_working_days else "days",
                     ),
                 )
+
+    def validate_notice_docs(self, data, before=None):
+        if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
+            documents = data.get("documents", [])
+            if before and len(before.get("documents", [])) != len(documents) or before is None:
+                validate_notice_doc_quantity(documents)
 
     @staticmethod
     def calculate_item_identification_tuple(item):

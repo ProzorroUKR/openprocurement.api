@@ -17,6 +17,7 @@ from openprocurement.tender.openua.tests.criterion import (
 class TenderEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_openeu_data
     initial_lots = test_tender_below_lots
+    initial_auth = ("Basic", ("broker", ""))
     initial_status = "draft"
 
     required_criteria = {

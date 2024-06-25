@@ -501,6 +501,21 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "4322b1507fa54f219e4dc085c6bd13d1",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eedf00bccdb24a20b547ba72173a8d35/documents/4322b1507fa54f219e4dc085c6bd13d1?download=8352becb1c1943809e811de9d06a463b",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -645,6 +660,7 @@ Content-Type: application/json
         }
       }
     ],
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-25T00:00:00+02:00",
     "id": "eedf00bccdb24a20b547ba72173a8d35"
   },

@@ -107,8 +107,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     "date": "2023-10-10T01:00:00+03:00"
   },
   "access": {
-    "token": "3d0090690f474213b61cd8c7deaeb977",
-    "transfer": "bed2a0c68b0347dab30b439da99f00d8"
+    "token": "857bf8327126450d82f8a82679f7c783",
+    "transfer": "bebf8577c87d49a99472444e2fc46ea7"
   }
 }
 
@@ -608,6 +608,21 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "3acc8466be6b4b3782cc61ed3662ad09",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/documents/3acc8466be6b4b3782cc61ed3662ad09?download=269571a044964dbeabc9ca9c20e6eed8",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "status": "active.tendering",
     "owner": "broker",
     "title": "футляри до державних нагород",
@@ -782,6 +797,7 @@ Content-Type: application/json
       "clarificationsUntil": "2023-10-19T00:00:00+03:00",
       "endDate": "2023-10-15T01:00:00+03:00"
     },
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-17T00:00:00+02:00",
     "questions": [
       {
@@ -814,7 +830,7 @@ Content-Type: application/json
   }
 }
 
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=3d0090690f474213b61cd8c7deaeb977 HTTP/1.0
+PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/bids/4b2f22ec008b4f4e88f2f69ea174242c?acc_token=857bf8327126450d82f8a82679f7c783 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

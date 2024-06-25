@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "title": "Notice-2.pdf",
+    "title": "Notice.pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=Qzl9WJq8T8ceul6BsXjCyQlf2I%2F3wpM6tNBgij3fHh1H4tc33cIkSUyIWiQk7sv8pWJjlOF%2F7DLdnkbxRriCBw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
@@ -22,7 +22,7 @@ Content-Type: application/json
     "id": "3a864a9e9fda4374af78d5f9831fb9f7",
     "datePublished": "2023-10-16T01:00:02+03:00",
     "hash": "md5:00000000000000000000000000000000",
-    "title": "Notice-2.pdf",
+    "title": "Notice.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=%2FYRZ%2B%2BRtFSyc1fRd7U3XC1JzzD8NRsKvmiPxbIxu3tC2RImeoRJr9W%2FiDeEO2nWheF2%2BuWjigqJR0CMp8ltlBg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",

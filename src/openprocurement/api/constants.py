@@ -385,3 +385,6 @@ MILESTONE_TITLES = {
 TENDER_CAUSE = {
     key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
 }
+
+# CS-16168
+NOTICE_DOC_REQUIRED_FROM = get_constant(CONSTANTS_CONFIG, "NOTICE_DOC_REQUIRED_FROM")

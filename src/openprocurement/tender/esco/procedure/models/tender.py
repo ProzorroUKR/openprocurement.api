@@ -128,7 +128,6 @@ class PostTender(PostBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
     auctionPeriod = ModelType(TenderAuctionPeriod)
     awardPeriod = ModelType(Period)
-    noticePublicationDate = IsoDateTimeType()
 
     def validate_tenderPeriod(self, data, period):
         if period:
@@ -154,11 +153,6 @@ class PostTender(PostBaseTender):
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
-
-    @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
-    def tender_noticePublicationDate(self):
-        if self.status == "active.tendering":
-            return get_now()
 
 
 class PatchTender(PatchBaseTender):
@@ -211,7 +205,6 @@ class Tender(BaseTender):
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)
-    noticePublicationDate = IsoDateTimeType()
     guarantee = ModelType(Guarantee)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -260,10 +253,3 @@ class Tender(BaseTender):
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
-
-    @serializable(serialized_name="noticePublicationDate", serialize_when_none=False, type=IsoDateTimeType())
-    def tender_noticePublicationDate(self):
-        if not self.noticePublicationDate and self.status == "active.tendering":
-            return get_now()
-        else:
-            return self.noticePublicationDate

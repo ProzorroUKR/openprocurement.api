@@ -577,10 +577,62 @@ Content-Type: application/json
     "dateModified": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
+    "documents": [
+      {
+        "documentType": "notice",
+        "id": "68bc19ea62f541dd89ad605641cfdea1",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/68bc19ea62f541dd89ad605641cfdea1?download=ede7ba6152ad461283c7dee16284cc57",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/2fcdb08835d84fa1bb3631a6a268cc78?download=24ab7b02c104473dbe8a5ea32a297be2",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "2fcdb08835d84fa1bb3631a6a268cc78",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner"
+      },
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=f429b74ab3cd42789419eb507330852a",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "1962b49e34b6420da1e07e92f384f7ee",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner"
+      },
+      {
+        "id": "1962b49e34b6420da1e07e92f384f7ee",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=37430e4809ff40d7bf31e6ffa0e3e012",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
     "procurementMethodType": "esco",
@@ -594,7 +646,6 @@ Content-Type: application/json
     "yearlyPaymentsPercentageRange": 0.8,
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
@@ -733,44 +784,6 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-06T00:00:00+02:00"
     },
-    "documents": [
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/2fcdb08835d84fa1bb3631a6a268cc78?download=24ab7b02c104473dbe8a5ea32a297be2",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "2fcdb08835d84fa1bb3631a6a268cc78",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      },
-      {
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=f429b74ab3cd42789419eb507330852a",
-        "documentOf": "tender",
-        "language": "uk",
-        "id": "1962b49e34b6420da1e07e92f384f7ee",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner"
-      },
-      {
-        "id": "1962b49e34b6420da1e07e92f384f7ee",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria-2.pdf",
-        "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/1962b49e34b6420da1e07e92f384f7ee?download=37430e4809ff40d7bf31e6ffa0e3e012",
-        "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
     "questions": [
       {
         "id": "aa624b0b6d2e4dd1acc4805439c12b81",

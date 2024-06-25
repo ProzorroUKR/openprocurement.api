@@ -431,7 +431,7 @@
                 "awardID": "23995d40cc7347569e6d5f2f47ece4e8",
                 "contractID": "UA-2023-10-10-000001-a-1",
                 "date": "2023-11-09T00:00:00+02:00",
-                "id": "46869872f67449aabbe1a2bfe87200fb",
+                "id": "5f83267d6cf04d448ecb9716d7f443a4",
                 "status": "active",
                 "value": {
                     "amount": 500.0,
@@ -444,7 +444,7 @@
                 "awardID": "99e6dcc3408d4794ae66c30ae2297ea7",
                 "contractID": "UA-2023-10-10-000001-a-2",
                 "date": "2023-11-09T00:00:00+02:00",
-                "id": "f18b8a8f5e9f49ab86d0c8257ad0d0b3",
+                "id": "af1f946d1ab8441f9ec7d0324162df65",
                 "status": "active",
                 "value": {
                     "amount": 500.0,
@@ -939,6 +939,21 @@
         "date": "2023-11-09T00:00:00+02:00",
         "dateCreated": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-11-09T00:00:00+02:00",
+        "documents": [
+            {
+                "author": "tender_owner",
+                "dateModified": "2023-10-10T01:00:00+03:00",
+                "datePublished": "2023-10-10T01:00:00+03:00",
+                "documentOf": "tender",
+                "documentType": "notice",
+                "format": "application/pdf",
+                "hash": "md5:00000000000000000000000000000000",
+                "id": "3acc8466be6b4b3782cc61ed3662ad09",
+                "language": "uk",
+                "title": "sign.p7s",
+                "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/documents/3acc8466be6b4b3782cc61ed3662ad09?download=389951a70228404a81d813a8c8f3d793"
+            }
+        ],
         "enquiryPeriod": {
             "clarificationsUntil": "2023-10-25T00:00:00+03:00",
             "endDate": "2023-10-22T00:00:00+03:00",
@@ -1103,6 +1118,7 @@
             "currency": "UAH",
             "valueAddedTaxIncluded": true
         },
+        "noticePublicationDate": "2023-10-10T01:00:00+03:00",
         "owner": "broker",
         "procurementMethod": "open",
         "procurementMethodType": "aboveThreshold",

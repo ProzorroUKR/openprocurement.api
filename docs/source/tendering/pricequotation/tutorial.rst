@@ -86,6 +86,17 @@ Activating tender
 
 After creation Procuring Entity can activate tender by changing status to `active.tendering`.
 
+Before activating tender it is required to add sign document to tender.
+If there is no sign document during activation, we will see an error:
+
+.. http:example:: http/notice-document-required.http
+   :code:
+
+Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+
+.. http:example:: http/add-notice-document.http
+   :code:
+
 During activation CBD runs some validations:
 
 * Existence of item profile in catalogue

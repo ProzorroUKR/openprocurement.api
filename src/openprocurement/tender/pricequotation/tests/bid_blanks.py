@@ -673,6 +673,7 @@ def requirement_response_value_validation_for_expected_values(self):
         },
     ]
     # switch to tendering and add criteria with expectedValues array
+    self.add_notice_doc(tender['id'], tender_token)
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={tender_token}",
         {

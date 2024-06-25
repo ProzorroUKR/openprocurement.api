@@ -419,6 +419,8 @@ def create_tender_generated(self):
             "mainProcurementCategory",
             "milestones",
             "lots",
+            "documents",
+            "noticePublicationDate",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

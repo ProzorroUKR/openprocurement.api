@@ -54,9 +54,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             endDate=end_date.isoformat(),
         )
 
-        if tender["status"] == "active.tendering" and not tender.get("noticePublicationDate"):
-            tender["noticePublicationDate"] = get_now().isoformat()
-
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco
         # TODO: Look at original validate_minimal_step in openprocurement.tender.core.procedure.state.tender

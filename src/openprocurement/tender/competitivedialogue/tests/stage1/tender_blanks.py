@@ -309,6 +309,7 @@ def create_tender_generated_eu(self):
             "mainProcurementCategory",
             "milestones",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1044,6 +1045,7 @@ def create_tender_generated_ua(self):
             "mainProcurementCategory",
             "milestones",
             "lots",
+            "documents",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])

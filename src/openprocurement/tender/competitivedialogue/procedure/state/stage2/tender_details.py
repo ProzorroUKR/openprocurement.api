@@ -22,6 +22,7 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     tender_transfer_accreditations = (ACCR_3, ACCR_5)
 
     tendering_duration = EU_TENDERING_DURATION
+    should_validate_notice_doc_required = False
 
     @staticmethod
     def watch_value_meta_changes(tender):

@@ -507,10 +507,24 @@ def test_update_milestone_documents(app, centralized_milestone):
 
     # put
     request_data = {
-        "title": "sign-2.p7s",
+        "title": "sign.p7s",
         "url": generate_docservice_url(app),
         "hash": "md5:" + "0" * 32,
         "format": "application/signature",
+    }
+    response = app.put_json(
+        "/plans/{}/milestones/{}/documents/{}?acc_token={}".format(
+            plan["id"], milestone["id"], new_doc["id"], milestone_token
+        ),
+        {"data": request_data},
+    )
+    assert response.json["data"]["format"] == "application/pk7s"
+
+    request_data = {
+        "title": "sign.p7s",
+        "url": generate_docservice_url(app),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pk7s",
     }
     response = app.put_json(
         "/plans/{}/milestones/{}/documents/{}?acc_token={}".format(
@@ -522,9 +536,9 @@ def test_update_milestone_documents(app, centralized_milestone):
 
     result_plan = app.app.registry.mongodb.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
-    assert len(result_milestone["documents"]) == 3
+    assert len(result_milestone["documents"]) == 4
     old_doc = new_doc
-    new_doc = result_milestone["documents"][2]
+    new_doc = result_milestone["documents"][-1]
     assert new_doc["id"] == old_doc["id"]
     assert new_doc["title"] == request_data["title"]
     assert new_doc["hash"] == request_data["hash"]
@@ -552,8 +566,8 @@ def test_update_milestone_documents(app, centralized_milestone):
 
     result_plan = app.app.registry.mongodb.plans.get(plan["id"])
     result_milestone = result_plan.get("milestones")[0]
-    assert len(result_milestone["documents"]) == 3
-    patched_doc = result_milestone["documents"][2]
+    assert len(result_milestone["documents"]) == 4
+    patched_doc = result_milestone["documents"][-1]
     assert patched_doc["id"] == new_doc["id"]
     assert patched_doc["hash"] == new_doc["hash"]
     assert patched_doc["url"].split("Signature")[0] == new_doc["url"].split("Signature")[0]

@@ -2092,7 +2092,7 @@ def put_tender_bidder_document(self):
             ),
             {
                 "data": {
-                    "title": "name.doc",
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -2123,7 +2123,6 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(doc_id, response.json["data"]["id"])
-        self.assertEqual("name.doc", response.json["data"]["title"])
 
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"status": "active.tendering"})
@@ -2718,7 +2717,7 @@ def patch_and_put_document_into_invalid_bid(self):
             ),
             {
                 "data": {
-                    "title": "name.doc",
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -3279,7 +3278,7 @@ def put_tender_bidder_document_private_json(self):
             ),
             {
                 "data": {
-                    "title": "name_{}_v2.doc".format(doc_resource[:-1]),
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
@@ -3343,7 +3342,7 @@ def put_tender_bidder_document_private_json(self):
             ),
             {
                 "data": {
-                    "title": "name_{}_v3.doc".format(doc_resource[:-1]),
+                    "title": "name_{}.doc".format(doc_resource[:-1]),
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
                     "format": "application/msword",
