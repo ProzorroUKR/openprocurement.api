@@ -1356,7 +1356,7 @@ def tender_notice_documents(self):
         }
     )
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
     data["documents"] = [
         {
@@ -1400,7 +1400,7 @@ def tender_notice_documents(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
 
 def patch_tender_active_tendering(self):

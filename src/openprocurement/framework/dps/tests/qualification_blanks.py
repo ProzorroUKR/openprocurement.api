@@ -927,7 +927,7 @@ def qualification_evaluation_reports_documents(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "evaluationReports document already exists in qualification",
+        "evaluationReports document in qualification should be only one",
     )
 
     # patch documentType in evaluationReports doc

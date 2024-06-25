@@ -11,9 +11,7 @@ from openprocurement.api.utils import (
 from openprocurement.framework.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
-from openprocurement.framework.core.procedure.validation import (
-    validate_evaluation_reports_doc_quantity,
-)
+from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
 LOGGER = getLogger(__name__)
 
@@ -32,7 +30,7 @@ class QualificationState(ChronographEventsMixing, BaseState):
         super().on_patch(before, after)
 
         if len(before.get("documents", [])) != len(after.get("documents", [])):
-            validate_evaluation_reports_doc_quantity(self.request, after["documents"])
+            validate_doc_type_quantity(after["documents"], document_type="evaluationReports", obj_name="qualification")
 
         if before.get("status") != after.get("status"):
             self.framework.submission.set_complete_status()

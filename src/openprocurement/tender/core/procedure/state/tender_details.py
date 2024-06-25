@@ -48,9 +48,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
     validate_field,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_notice_doc_quantity,
-)
+from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
     calculate_tender_business_date,
@@ -646,7 +644,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             documents = data.get("documents", [])
             if before and len(before.get("documents", [])) != len(documents) or before is None:
-                validate_notice_doc_quantity(documents)
+                validate_doc_type_quantity(documents)
 
     @staticmethod
     def calculate_item_identification_tuple(item):

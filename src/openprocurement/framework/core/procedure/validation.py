@@ -296,14 +296,3 @@ def validate_document_operation_in_not_allowed_status(request, **kwargs):
             request,
             f"Can't {OPERATIONS.get(request.method)} document in current ({qualification['status']}) qualification status",
         )
-
-
-def validate_evaluation_reports_doc_quantity(request, documents):
-    notice_docs = {doc["id"] for doc in documents if doc.get("documentType") == "evaluationReports"}
-    if len(notice_docs) > 1:
-        raise_operation_error(
-            request,
-            "evaluationReports document in qualification should be only one",
-            name="documents",
-            status=422,
-        )
