@@ -1,13 +1,11 @@
 import logging
 
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.tender.cfaselectionua.constants import STAND_STILL_TIME
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
@@ -19,45 +17,12 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
     contract_model = Contract
     award_stand_still_time = STAND_STILL_TIME
 
-    def award_on_patch(self, before, award):
-        if before["status"] != award["status"]:
-            self.award_status_up(before["status"], award["status"], award)
-
-        elif award["status"] == "pending":
-            pass  # allowing to update award in pending status
-        else:
-            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
-
     def award_status_up(self, before, after, award):
-        assert before != after, "Statuses must be different"
-        tender = get_tender()
-
-        if before == "pending" and after == "active":
-            self.request.validated["contracts_added"] = add_contracts(get_request(), award)
-            self.add_next_award()
-
-        elif before == "active" and after == "cancelled":
-            self.cancel_award(award)
-            self.add_next_award()
-
-        elif before == "pending" and after == "unsuccessful":
-            if tender["status"] == "active.qualification":
-                if not any(
-                    a["bid_id"] == award["bid_id"]
-                    and a["status"] == "cancelled"  # not need to check `a["id"] != award["id"]`
-                    for a in tender.get("awards", [])
-                ):
-                    raise_operation_error(
-                        self.request,
-                        f"Can't update award status to {award['status']}, if tender status is {tender['status']}"
-                        " and there is no cancelled award with the same bid_id",
-                    )
-            self.add_next_award()
-        else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
+        super().award_status_up(before, after, award)
 
         # code from openprocurement.tender.cfaselectionua.utils.check_tender_status
         # TODO: find a better place ?
+        tender = get_tender()
         lots = tender.get("lots")
         if lots:
             for lot in lots:
@@ -69,7 +34,9 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                             LOGGER.info(
                                 f"Switched lot {lot['id']} of tender {tender['_id']} to unsuccessful",
                                 extra=context_unpack(
-                                    get_request(), {"MESSAGE_ID": "switched_lot_unsuccessful"}, {"LOT_ID": lot["id"]}
+                                    self.request,
+                                    {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                                    {"LOT_ID": lot["id"]},
                                 ),
                             )
                             self.set_object_status(lot, "unsuccessful")
@@ -88,7 +55,9 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
                                 LOGGER.info(
                                     f"Switched lot {lot['id']} of tender {tender['_id']} to complete",
                                     extra=context_unpack(
-                                        get_request(), {"MESSAGE_ID": "switched_lot_complete"}, {"LOT_ID": lot["id"]}
+                                        self.request,
+                                        {"MESSAGE_ID": "switched_lot_complete"},
+                                        {"LOT_ID": lot["id"]},
                                     ),
                                 )
                                 self.set_object_status(lot, "complete")
@@ -114,5 +83,27 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
             if contract_statuses and "active" in contract_statuses and "pending" not in contract_statuses:
                 self.get_change_tender_status_handler("complete")(tender)
 
-        # date updated when status updated
-        award["date"] = get_now().isoformat()
+    def award_status_up_from_pending_to_active(self, award, tender):
+        self.request.validated["contracts_added"] = add_contracts(self.request, award)
+        self.add_next_award()
+
+    def award_status_up_from_active_to_cancelled(self, award, tender):
+        self.cancel_award(award)
+        self.add_next_award()
+
+    def award_status_up_from_pending_to_unsuccessful(self, award, tender):
+        if tender["status"] == "active.qualification":
+            if not any(
+                a["bid_id"] == award["bid_id"]
+                and a["status"] == "cancelled"  # not need to check `a["id"] != award["id"]`
+                for a in tender.get("awards", [])
+            ):
+                raise_operation_error(
+                    self.request,
+                    f"Can't update award status to {award['status']}, if tender status is {tender['status']}"
+                    " and there is no cancelled award with the same bid_id",
+                )
+        self.add_next_award()
+
+    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
+        raise_operation_error(self.request, f"Can't update award in current (unsuccessful) status")
