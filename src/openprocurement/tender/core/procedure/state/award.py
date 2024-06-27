@@ -88,7 +88,7 @@ class AwardStateMixing:
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
         if not self.has_considered_award_complaints(award, tender):
-            return
+            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
         if tender["status"] == "active.awarded":
             # Go back to active.qualification status

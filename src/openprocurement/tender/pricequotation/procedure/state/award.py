@@ -19,4 +19,4 @@ class AwardState(AwardStateMixing, PriceQuotationTenderState):
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
-        raise_operation_error(self.request, f"Can't update award in current (unsuccessful) status")
+        raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")

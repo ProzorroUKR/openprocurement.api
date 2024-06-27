@@ -1,3 +1,4 @@
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.openua.constants import STAND_STILL_TIME
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
@@ -21,7 +22,7 @@ class AwardState(AwardStateMixing, OpenUATenderState):
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
         if not self.has_considered_award_complaints(award, tender):
-            return
+            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
         if tender["status"] == "active.awarded":
             # Go back to active.qualification status
