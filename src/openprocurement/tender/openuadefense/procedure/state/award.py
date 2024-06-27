@@ -74,17 +74,11 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
             if any(i.get("status") == "satisfied" for i in award.get("complaints", "")):
                 for i in tender.get("awards", ""):
                     if i.get("lotID") == award.get("lotID"):
-                        period = i.get("complaintPeriod")
-                        if not new_defence_complaints and period:
-                            if not period.get("endDate") or period["endDate"] > now:
-                                period["endDate"] = now
                         if self.is_available_to_cancel_award(i, [award["id"]]):
                             self.cancel_award(i)
 
                 self.add_next_award()
             else:
-                if not new_defence_complaints and award["complaintPeriod"]["endDate"] > now:
-                    award["complaintPeriod"]["endDate"] = now
                 self.cancel_award(award)
                 self.add_next_award()
         elif before == "unsuccessful" and after == "cancelled" and self.has_considered_award_complaints(award, tender):
@@ -98,11 +92,6 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
 
             for i in tender.get("awards"):
                 if i.get("lotID") == award.get("lotID"):
-                    period = i.get("complaintPeriod")
-                    if not new_defence_complaints and period:
-                        if not period.get("endDate") or period["endDate"] > now:
-                            period["endDate"] = now
-
                     if self.is_available_to_cancel_award(i, [award["id"]]):
                         self.cancel_award(i)
             self.add_next_award()

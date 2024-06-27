@@ -62,14 +62,8 @@ class NegotiationAwardState(ReportingAwardState):
             if any(i["status"] == "satisfied" for i in award.get("complaints", "")):
                 for i in get_tender().get("awards", ""):
                     if i.get("lotID") == award.get("lotID"):
-                        period = i.get("complaintPeriod")
-                        if period:
-                            if not period.get("endDate") or period["endDate"] > now.isoformat():
-                                period["endDate"] = now.isoformat()
                         self.cancel_award(i)
             else:
-                if award["complaintPeriod"]["endDate"] > now.isoformat():
-                    award["complaintPeriod"]["endDate"] = now.isoformat()
                 self.cancel_award(award)
         else:  # any other state transitions are forbidden
             raise_operation_error(get_request(), f"Can't update award in current ({before}) status")

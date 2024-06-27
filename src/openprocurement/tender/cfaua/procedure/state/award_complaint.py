@@ -12,6 +12,5 @@ class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
     def reviewers_satisfied_handler(self, complaint):
         super().reviewers_satisfied_handler(complaint)
         tender = get_tender()
-        if "endDate" in tender.get("qualificationPeriod", ""):
-            del tender["qualificationPeriod"]["endDate"]
+        tender["awardPeriod"].pop("endDate", None)
         self.get_change_tender_status_handler("active.qualification")(tender)

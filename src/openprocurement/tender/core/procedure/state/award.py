@@ -48,9 +48,6 @@ class AwardStateMixing:
             self.award_status_up_from_pending_to_active(award, tender, awarding_order_enabled, working_days=True)
 
         elif before == "active" and after == "cancelled":
-            if award["complaintPeriod"]["endDate"] > now:
-                award["complaintPeriod"]["endDate"] = now
-
             self.set_award_complaints_cancelled(award)
             self.cancel_award(award)
             self.add_next_award()
@@ -86,13 +83,12 @@ class AwardStateMixing:
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender, awarding_order_enabled=False):
-        now = get_now().isoformat()
         if tender["status"] == "active.awarded":
+            # Go back to active.qualification status
+            # because there is no active award anymore
+            # for at least one of the lots
+            tender["awardPeriod"].pop("endDate", None)
             self.get_change_tender_status_handler("active.qualification")(tender)
-            if "endDate" in tender["awardPeriod"]:
-                del tender["awardPeriod"]["endDate"]
-
-        award["complaintPeriod"]["endDate"] = now
 
         if awarding_order_enabled:
             # If hasAwardingOrder is True, then the current award should be found through all
@@ -109,9 +105,11 @@ class AwardStateMixing:
                 # skip different lot awards
                 if i.get("lotID") != award.get("lotID"):
                     continue
-                self.cancel_award_with_complaint_period(i)
-        else:
-            self.cancel_award_with_complaint_period(award)
+                self.set_award_complaints_cancelled(i)
+                self.cancel_award(i)
+
+        self.set_award_complaints_cancelled(award)
+        self.cancel_award(award)
         self.add_next_award()
 
     @staticmethod
@@ -142,18 +140,11 @@ class AwardStateMixing:
                     name="awards",
                 )
 
-    def cancel_award_with_complaint_period(self, award):
-        now = get_now().isoformat()
-        # update complaintPeriod.endDate if there is a need
-        if award.get("complaintPeriod") and (
-            not award["complaintPeriod"].get("endDate") or award["complaintPeriod"]["endDate"] > now
-        ):
-            award["complaintPeriod"]["endDate"] = now
-
-        self.set_award_complaints_cancelled(award)
-        self.cancel_award(award)
-
     def cancel_award(self, award):
+        now = get_now().isoformat()
+        period = award.get("complaintPeriod")
+        if period and (not period.get("endDate") or period["endDate"] > now):
+            period["endDate"] = now
         self.set_object_status(award, "cancelled")
         self.request.validated["cancelled_contract_ids"] = self.set_award_contracts_cancelled(award)
 

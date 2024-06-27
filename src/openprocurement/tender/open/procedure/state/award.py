@@ -26,17 +26,11 @@ class AwardState(AwardStateMixing, OpenTenderState):
             if any(i.get("status") == "satisfied" for i in award.get("complaints", "")):
                 for i in tender.get("awards", ""):
                     if i.get("lotID") == award.get("lotID"):
-                        period = i.get("complaintPeriod")
-                        if period:
-                            if not period.get("endDate") or period["endDate"] > now:
-                                period["endDate"] = now
                         if self.is_available_to_cancel_award(i, [award["id"]]):
                             self.cancel_award(i)
                 self.add_next_award()
 
             else:
-                if award["complaintPeriod"]["endDate"] > now:
-                    award["complaintPeriod"]["endDate"] = now
                 self.cancel_award(award)
                 self.add_next_award()
 
@@ -49,22 +43,17 @@ class AwardState(AwardStateMixing, OpenTenderState):
         award["date"] = get_now().isoformat()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender, awarding_order_enabled=False):
-        now = get_now().isoformat()
         if tender["status"] == "active.awarded":
-            self.set_object_status(tender, "active.qualification")
-            if "endDate" in tender["awardPeriod"]:
-                del tender["awardPeriod"]["endDate"]
-
-        if award["complaintPeriod"]["endDate"] > now:
-            award["complaintPeriod"]["endDate"] = now
+            # Go back to active.qualification status
+            # because there is no active award anymore
+            # for at least one of the lots
+            tender["awardPeriod"].pop("endDate", None)
+            self.get_change_tender_status_handler("active.qualification")(tender)
 
         for i in tender.get("awards", ""):
             if i.get("lotID") == award.get("lotID"):
-                period = i.get("complaintPeriod")
-                if period:
-                    if not period.get("endDate") or period["endDate"] > now:
-                        period["endDate"] = now
-
                 if self.is_available_to_cancel_award(i, [award["id"]]):
                     self.cancel_award(i)
+
+        self.cancel_award(award)
         self.add_next_award()
