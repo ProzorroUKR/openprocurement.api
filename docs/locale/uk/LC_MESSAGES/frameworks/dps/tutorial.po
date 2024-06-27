@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-27 16:21+0200\n"
+"POT-Creation-Date: 2024-06-27 14:19+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -147,7 +147,16 @@ msgid "Canceled qualification"
 msgstr "Відміна рішення по заявці"
 
 msgid "Qualification can be cancelled only in `pending` status."
-msgstr "Рішення можливо відмінити лише у статусі `pending`:"
+msgstr "Рішення можливо відмінити лише у статусі `pending`."
+
+msgid "Before cancelling qualification it is required to add sign document to qualification. If there is no sign document during cancelling, we will see an error:"
+msgstr "Перед відміною рішення необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час відміни, ми побачимо помилку:"
+
+msgid "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
+msgstr "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
+
+msgid "Then it is allowed to cancel qualification:"
+msgstr "Тепер можна відмінити рішення по заявці:"
 
 msgid "After cancelling qualification, related submission changed status from `active` to `complete`."
 msgstr "Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`."
@@ -159,7 +168,13 @@ msgid "Approve qualification"
 msgstr "Підтвердження рішення по заявці"
 
 msgid "Qualification can be approved only in `pending` status."
-msgstr "Рішення можливо погодити лише у статусі `pending`:"
+msgstr "Рішення можливо погодити лише у статусі `pending`."
+
+msgid "Before activating qualification it is required to add sign document to qualification. If there is no sign document during activation, we will see an error:"
+msgstr "Перед погодженням необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час активації, ми побачимо помилку:"
+
+msgid "Then it is allowed to activate qualification:"
+msgstr "Тепер можна підтвердити рішення по заявці:"
 
 msgid "After approving qualification, if it was first active qualification system create agreement with contract otherwise system add contract to agreement."
 msgstr "Після підтвердження рішення по заявці, якщо це було перше затверджене рішення система створює реєстр з контрактом, в іншому випадку система додає контракт до реєстру."

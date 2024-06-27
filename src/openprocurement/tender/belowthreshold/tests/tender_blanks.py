@@ -4115,7 +4115,9 @@ def check_notice_doc_during_activation(self):
         {"data": {"status": "active.enquiries"}},
         status=422,
     )
-    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'notice' is required")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Document with type 'notice' and format pkcs7-signature is required"
+    )
 
     self.add_notice_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(

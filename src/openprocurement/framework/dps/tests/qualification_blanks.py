@@ -277,6 +277,19 @@ def patch_submission_pending(self):
     )
     self.assertEqual(response.status, "200 OK")
     qualification_id = response.json["data"]["qualificationID"]
+    response = self.app.post_json(
+        "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
         {"data": {"status": "unsuccessful"}},
@@ -712,10 +725,11 @@ def patch_qualification_unsuccessful(self):
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
         {
             "data": {
-                "title": "name1.doc",
+                "title": "sign.p7s",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
             }
         },
     )
@@ -869,6 +883,17 @@ def qualification_evaluation_reports_documents(self):
         "Document with type 'evaluationReports' and format pkcs7-signature is required",
     )
 
+    # try to set qualification as unsuccessfull without docs
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+        {"data": {"status": "unsuccessful"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'evaluationReports' and format pkcs7-signature is required",
+    )
+
     # try to patch qualification with two evaluationReports documents
     data = {
         "documents": [
@@ -947,7 +972,7 @@ def qualification_evaluation_reports_documents(self):
     # try to activate qualification
     response = self.app.patch_json(
         f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
-        {"data": {"status": "active"}},
+        {"data": {"status": "unsuccessful"}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -974,10 +999,11 @@ def date_qualification(self):
         "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
         {
             "data": {
-                "title": "укр.doc",
+                "title": "sign.p7s",
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
             }
         },
     )

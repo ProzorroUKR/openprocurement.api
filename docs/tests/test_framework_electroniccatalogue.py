@@ -231,6 +231,27 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
         #     response = self.app.get('/qualifications/{}'.format(self.qualification_id))
         #     self.assertEqual(response.status, '200 OK')
 
+        with open(TARGET_DIR + 'evaluation-reports-document-required-for-cancelling.http', 'w') as self.app.file_obj:
+            self.app.patch_json(
+                f'/qualifications/{self.qualification_id}?acc_token={owner_token}',
+                {'data': {"status": "unsuccessful"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + 'add-evaluation-reports-document-for-cancelling.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/qualifications/{self.qualification_id}/documents?acc_token={owner_token}',
+                {
+                    "data": {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                        "documentType": "evaluationReports",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
         with open(TARGET_DIR + 'unsuccessful-qualification.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/qualifications/{}?acc_token={}'.format(self.qualification_id, owner_token),

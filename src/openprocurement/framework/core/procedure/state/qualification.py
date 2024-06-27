@@ -3,15 +3,14 @@ from logging import getLogger
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import (
-    generate_id,
-    raise_operation_error,
-    request_init_qualification,
-)
+from openprocurement.api.utils import generate_id, request_init_qualification
 from openprocurement.framework.core.procedure.state.chronograph import (
     ChronographEventsMixing,
 )
-from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
+from openprocurement.tender.core.procedure.validation import (
+    validate_doc_type_quantity,
+    validate_doc_type_required,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -33,23 +32,11 @@ class QualificationState(ChronographEventsMixing, BaseState):
             validate_doc_type_quantity(after["documents"], document_type="evaluationReports", obj_name="qualification")
 
         if before.get("status") != after.get("status"):
+            validate_doc_type_required(after.get("documents", []), document_type="evaluationReports")
             self.framework.submission.set_complete_status()
 
         if before["status"] == "pending" and after.get("status") == "active":
-            self.validate_evaluation_report_doc_required(after)
             self.on_set_active()
-
-    def validate_evaluation_report_doc_required(self, qualification):
-        for doc in qualification.get("documents", []):
-            if doc.get("documentType") == "evaluationReports" and doc["title"][-4:] == ".p7s":
-                break
-        else:
-            raise_operation_error(
-                self.request,
-                "Document with type 'evaluationReports' and format pkcs7-signature is required",
-                status=422,
-                name="documents",
-            )
 
     def set_active_status(self):
         """
