@@ -152,6 +152,7 @@ class TenderCancellationBidsAvailabilityUtils:
             self.assertEqual(response.status, "200 OK")
             self.valid_bids.remove(qualification["bidID"])
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

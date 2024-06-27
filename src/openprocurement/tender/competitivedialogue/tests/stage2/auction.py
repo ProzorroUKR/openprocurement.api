@@ -61,6 +61,7 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
             )
             self.assertEqual(response.status, "200 OK")
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -99,6 +100,7 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
             self.assertEqual(response.status, "200 OK")
 
         # switch to active.pre-qualification.stand-still
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -196,6 +198,7 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
             )
             self.assertEqual(response.status, "200 OK")
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

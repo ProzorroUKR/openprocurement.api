@@ -1153,6 +1153,7 @@ def unsuccessful_after_prequalification_tender(self):
         )
         self.assertEqual(response.status, "200 OK")
     # switch to next status
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1260,6 +1261,7 @@ def one_qualificated_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertNotIn("value", response.json["data"])
     # switch to next status
+    self.add_qualification_sign_doc(tender_id, tender_owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
