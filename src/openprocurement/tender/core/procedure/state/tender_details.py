@@ -7,6 +7,7 @@ from jsonschema.validators import validate
 
 from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
+    EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
     NOTICE_DOC_REQUIRED_FROM,
@@ -177,7 +178,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_minimal_step(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
-        self.validate_notice_docs(tender)
+        self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
@@ -200,7 +201,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_award_criteria_change(after, before)
         self.validate_items_classification_prefix(after)
         self.validate_action_with_exist_inspector_review_request(("tenderPeriod",))
-        self.validate_notice_docs(after, before)
+        self.validate_docs(after, before)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
@@ -390,6 +391,14 @@ class TenderDetailsMixing(TenderConfigMixin):
                         "Can't switch to 'active.pre-qualification.stand-still' before resolve all complaints",
                     )
 
+                if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
+                    for qualification in after["qualifications"]:
+                        validate_doc_type_required(
+                            get_tender().get("documents", []),
+                            document_type="evaluationReports",
+                            lot_id=qualification.get("lotID"),
+                            after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
+                        )
                 if self.all_bids_are_reviewed(after):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), self.pre_qualification_complaint_stand_still, after
@@ -643,11 +652,13 @@ class TenderDetailsMixing(TenderConfigMixin):
                     ),
                 )
 
-    def validate_notice_docs(self, data, before=None):
-        if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
-            documents = data.get("documents", [])
-            if before and len(before.get("documents", [])) != len(documents) or before is None:
+    def validate_docs(self, data, before=None):
+        documents = data.get("documents", [])
+        if before and len(before.get("documents", [])) != len(documents) or before is None:
+            if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
                 validate_doc_type_quantity(documents)
+            if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
+                validate_doc_type_quantity(documents, document_type="evaluationReports")
 
     @staticmethod
     def calculate_item_identification_tuple(item):

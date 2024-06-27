@@ -122,6 +122,7 @@ def switch_qualification_complaints_draft(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

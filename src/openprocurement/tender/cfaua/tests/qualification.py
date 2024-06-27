@@ -11,6 +11,7 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_lots,
 )
 from openprocurement.tender.cfaua.tests.qualification_blanks import (
+    check_sign_doc_qualifications_before_stand_still,
     create_tender_lot_qualification_complaint,
     create_tender_qualification_complaint,
     switch_bid_status_unsuccessul_to_active,
@@ -82,6 +83,7 @@ class TenderQualificationResourceTest(TenderQualificationBaseTestCase):
     test_get_tender_qualifications = snitch(get_tender_qualifications)
     test_patch_tender_qualifications_after_status_change = snitch(patch_tender_qualifications_after_status_change)
     test_switch_bid_status_unsuccessul_to_active = snitch(switch_bid_status_unsuccessul_to_active)
+    test_check_sign_doc_qualifications_before_stand_still = snitch(check_sign_doc_qualifications_before_stand_still)
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
@@ -109,9 +111,7 @@ class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentR
 
 
 class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
-    initial_status = (
-        "active.pre-qualification.stand-still"  # 'active.pre-qualification.stand-still' status sets in setUp
-    )
+    initial_status = "active.pre-qualification"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
@@ -122,6 +122,23 @@ class TenderQualificationComplaintResourceTest(BaseTenderContentWebTest):
         self.assertEqual(response.content_type, "application/json")
         qualifications = response.json["data"]
         self.qualification_id = qualifications[0]["id"]
+
+        for qualification in qualifications:
+            response = self.app.patch_json(
+                "/tenders/{}/qualifications/{}?acc_token={}".format(
+                    self.tender_id, qualification["id"], self.tender_token
+                ),
+                {"data": {"status": "active", "qualified": True, "eligible": True}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["status"], "active")
+
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+            {"data": {"status": "active.pre-qualification.stand-still"}},
+        )
+        self.assertEqual(response.status, "200 OK")
 
     test_create_tender_qualification_complaint_invalid = snitch(create_tender_qualification_complaint_invalid)
     test_create_tender_qualification_complaint = snitch(create_tender_qualification_complaint)
@@ -163,6 +180,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

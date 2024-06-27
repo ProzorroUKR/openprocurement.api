@@ -191,6 +191,7 @@ class TenderQualificationComplaintObjectionMixin:
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"status": "active.pre-qualification.stand-still"}},
