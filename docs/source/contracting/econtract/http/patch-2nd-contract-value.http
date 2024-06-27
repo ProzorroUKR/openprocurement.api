@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/2c62d7369ab4440fb330ce83966351ea?acc_token=27066118c7f245328af63ebee6924f12 HTTP/1.0
+PATCH /api/2.5/contracts/7d0469536315497ba366cce980e167af?acc_token=27066118c7f245328af63ebee6924f12 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -138,7 +138,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 190.0
     },
-    "id": "2c62d7369ab4440fb330ce83966351ea"
+    "id": "7d0469536315497ba366cce980e167af"
   },
   "config": {
     "restricted": false

@@ -306,7 +306,7 @@ Content-Type: application/json
         "bid_id": "6d919725d085458490f52e3e8d5606e3"
       },
       {
-        "id": "d3abee48154c47358abc7375a2191b78",
+        "id": "d34b1b53a7dd43c3ac6bdc6a932ebe54",
         "status": "pending",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
@@ -341,7 +341,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "c503bd32d67b4bb895fe50cce285bac5",
+        "id": "479178eb904d41c5a40be7f83405f22d",
         "status": "active",
         "awardID": "c220713cbd024586b6382ef97a852dc7",
         "date": "2023-10-10T01:00:00+03:00",

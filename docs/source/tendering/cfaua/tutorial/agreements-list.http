@@ -108,7 +108,7 @@ Content-Type: application/json
               "scale": "mid"
             }
           ],
-          "awardID": "17926cab98b04e68b692d616e25a0cef",
+          "awardID": "74cfc212ef074ef68bf35e860cd27515",
           "bidID": "d36d4d7ab1d54578b92e72a7bf21354e",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [
@@ -155,7 +155,7 @@ Content-Type: application/json
               "scale": "sme"
             }
           ],
-          "awardID": "6d5e25fb6e5243279b55e008e9d8aa0d",
+          "awardID": "f383a684a1ff4e08862d1fa6b8a0135f",
           "bidID": "5d3dc5765f7b493e88a8cf48097c37b1",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [
@@ -202,7 +202,7 @@ Content-Type: application/json
               "scale": "micro"
             }
           ],
-          "awardID": "dd9e029509ec4b5f850710a23e5d17a9",
+          "awardID": "5b914088f3394751918ca1a47c417efa",
           "bidID": "b5da67b11f7643f78cdf909b0d5c4595",
           "date": "2023-10-10T01:00:00+03:00",
           "unitPrices": [

@@ -42,7 +42,7 @@ Content-Type: application/json
       "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
     },
     {
-      "id": "ef0d25ab94dc424fa0a0863235ada151",
+      "id": "69bd3533e4064a1f8a04a127a95c89f2",
       "status": "unsuccessful",
       "date": "2023-10-10T01:00:01+03:00",
       "value": {
@@ -75,7 +75,7 @@ Content-Type: application/json
       "bid_id": "b8994ac5b9f340da9a0620b8a7b2d8fc"
     },
     {
-      "id": "e01ef20540ac40c288dcd352b827253a",
+      "id": "a0574b5d194f47faab199c6792a521a5",
       "status": "active",
       "date": "2023-10-10T01:00:01+03:00",
       "value": {

@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
+PATCH /api/2.5/contracts/479178eb904d41c5a40be7f83405f22d?acc_token=3b095197e5f94f76a28bae3a3079c206 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -35,7 +35,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/8bab0d7af5a64157a2c15757833cd8b3?download=d351f09369034d459a5cd87583381c73",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -45,7 +45,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/c503bd32d67b4bb895fe50cce285bac5/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41c5a40be7f83405f22d/documents/08682b48035643a39d924df55eb915e0?download=1ea9c5fa82c84b2a8206318bc86360df",
         "documentOf": "contract",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
@@ -184,7 +184,7 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true,
       "amountNet": 230.0
     },
-    "id": "c503bd32d67b4bb895fe50cce285bac5"
+    "id": "479178eb904d41c5a40be7f83405f22d"
   },
   "config": {
     "restricted": false
