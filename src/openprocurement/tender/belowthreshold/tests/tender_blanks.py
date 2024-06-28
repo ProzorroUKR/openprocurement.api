@@ -1356,7 +1356,7 @@ def tender_notice_documents(self):
         }
     )
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
     data["documents"] = [
         {
@@ -1400,7 +1400,7 @@ def tender_notice_documents(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
 
 def patch_tender_active_tendering(self):
@@ -4115,7 +4115,9 @@ def check_notice_doc_during_activation(self):
         {"data": {"status": "active.enquiries"}},
         status=422,
     )
-    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'notice' is required")
+    self.assertEqual(
+        response.json["errors"][0]["description"], "Document with type 'notice' and format pkcs7-signature is required"
+    )
 
     self.add_notice_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(

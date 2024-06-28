@@ -1,6 +1,7 @@
 import logging
+from collections import defaultdict
 from copy import deepcopy
-from datetime import timedelta
+from datetime import datetime, timedelta
 from decimal import ROUND_FLOOR, ROUND_UP, Decimal
 from hashlib import sha512
 
@@ -1518,12 +1519,52 @@ def validate_numerated(field_name="sequenceNumber"):
     return validator
 
 
-def validate_notice_doc_quantity(documents):
-    notice_docs = {doc["id"] for doc in documents if doc.get("documentType") == "notice"}
-    if len(notice_docs) > 1:
+def validate_doc_type_quantity(documents, document_type="notice", obj_name="tender"):
+    """
+    Check whether there is no more than one document in list with particulat documentType.
+    If there is more than one document the error will be raised.
+    :param documents: list of documents
+    :param document_type: type of document
+    :param obj_name: name of object
+    """
+    grouped_docs = defaultdict(set)
+    for doc in documents:
+        if doc.get("documentType") == document_type:
+            grouped_docs[doc.get("relatedItem")].add(doc["id"])
+    for lot, docs in grouped_docs.items():
+        if len(docs) > 1:
+            raise_operation_error(
+                get_request(),
+                f"{document_type} document in {obj_name} should be only one{f' for lot {lot}' if lot else ''}",
+                name="documents",
+                status=422,
+            )
+
+
+def validate_doc_type_required(documents, document_type="notice", lot_id=None, after_date=None):
+    """
+    Check whether there is document in list which is required.
+    If there is no document the error will be raised.
+    :param documents: list of documents
+    :param document_type: type of document
+    :param lot_id: lot id. Whether document should be related to particular lot
+    :param after_date: date after which document should be published
+    """
+    for doc in documents:
+        if (
+            doc.get("documentType") == document_type
+            and doc["title"][-4:] == ".p7s"
+            and doc.get("relatedItem") == lot_id
+            and (
+                after_date is None
+                or datetime.fromisoformat(doc.get("datePublished")) > datetime.fromisoformat(after_date)
+            )
+        ):
+            break
+    else:
         raise_operation_error(
             get_request(),
-            "Notice document in tender should be only one",
-            name="documents",
+            f"Document with type '{document_type}' and format pkcs7-signature is required{f' for lot {lot_id}' if lot_id else ''}",
             status=422,
+            name="documents",
         )

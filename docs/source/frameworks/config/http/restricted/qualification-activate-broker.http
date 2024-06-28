@@ -25,6 +25,17 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b79a13cee8a432da99736d71b78fa04?Signature=uOzXHXf5MxZKG2NuP5QrTcPN8Ruj5bNoTZrSKemffFpnet8SkfmZHAa040aYXPjuzkKhatCU71v%2BzZEZv6RwCQ%3D%3D&KeyID=a8968c46",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
+      },
+      {
+        "documentType": "evaluationReports",
+        "id": "53ebd346cbf443ce92a921a8be1c2122",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e17df93b2eb844e2a9c3338e7c42b112?Signature=gXIEDScjJb78MnBrY7qG70Kd4VA33DT9%2FjQVXTzr0%2Bo05V12L7dWkupXijEkRHP1VzYkVCdy%2FYRTgk4PifGKCA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "language": "uk"
       }
     ],
     "submissionID": "9e7c60f18fc848a2be97320340d21981",

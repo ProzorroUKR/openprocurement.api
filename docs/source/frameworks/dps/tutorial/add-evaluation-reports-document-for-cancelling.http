@@ -1,0 +1,34 @@
+POST /api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/abddfc43e82f4085a26ecce77f495ef7?Signature=xDGe%2Bn9Xa9TzPVV1z9tcQnqb%2Fi%2B1F9PnlrIrkw6rmYMQUzpc5lncA8FUAnB5sNj4ws0nL1Ls9k0gN5O4%2FjwDCA%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature",
+    "documentType": "evaluationReports"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents/90ae92ab7f1c48b28fe035cef23f2e47
+
+{
+  "data": {
+    "documentType": "evaluationReports",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "sign.p7s",
+    "format": "application/pkcs7-signature",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/abddfc43e82f4085a26ecce77f495ef7?Signature=t6%2BRxz8xQuHsrcsMRC97CherReStpUz8SIX%2F08i9AbqL%2BJA8M13ehePEx2wPuVE8cpqGmLIgqAXuUM%2B6UsymAw%3D%3D&KeyID=a8968c46",
+    "language": "uk",
+    "id": "90ae92ab7f1c48b28fe035cef23f2e47",
+    "datePublished": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2023-10-26T01:00:00+03:00"
+  }
+}
+

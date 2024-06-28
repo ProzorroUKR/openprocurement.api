@@ -15,6 +15,19 @@ Content-Type: application/json
 
 {
   "data": {
+    "documents": [
+      {
+        "documentType": "evaluationReports",
+        "id": "18b7876a59574d1ab6e62a093748577c",
+        "datePublished": "2023-10-26T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/44b27ba57ebb42799fa916dd90cbcd06?Signature=CyUTMi2tHUnxe%2FxLr0VTCMwpuk1m3CLR97kuKhYCnh6%2Fk%2FaRaqXBBih0PWER%2FwOmP9zNRFBMn4BvlueesT6lBA%3D%3D&KeyID=a8968c46",
+        "dateModified": "2023-10-26T01:00:00+03:00",
+        "language": "uk"
+      }
+    ],
     "submissionID": "4693711d52b14347b47af79c501fbd5f",
     "frameworkID": "7a229c4d310842c39ef98821651b267b",
     "status": "active",

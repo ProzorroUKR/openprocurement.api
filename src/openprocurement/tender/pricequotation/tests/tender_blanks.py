@@ -706,7 +706,13 @@ def create_tender_draft(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "documents", "description": "Document with type 'notice' is required"}],
+        [
+            {
+                "location": "body",
+                "name": "documents",
+                "description": "Document with type 'notice' and format pkcs7-signature is required",
+            }
+        ],
     )
     self.add_notice_doc(tender["id"], token)
     response = self.app.patch_json(

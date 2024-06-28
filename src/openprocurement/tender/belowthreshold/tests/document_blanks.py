@@ -738,7 +738,7 @@ def tender_notice_documents(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document in tender should be only one")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -770,7 +770,7 @@ def tender_notice_documents(self):
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.json["errors"][0]["description"], "Notice document already exists in tender")
+    self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
     # patch documentType in notice doc
     response = self.app.patch_json(

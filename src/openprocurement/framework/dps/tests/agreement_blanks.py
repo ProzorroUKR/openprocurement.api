@@ -19,13 +19,7 @@ from openprocurement.framework.dps.tests.base import (
 
 
 def create_agreement(self):
-    response = self.app.patch_json(
-        f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
-        {"data": {"status": "active"}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["status"], "active")
+    response = self.activate_qualification()
     qualification_data = response.json["data"]
 
     # Check framework was updated
@@ -540,10 +534,7 @@ def patch_several_contracts_active_status(self):
         )
         self.assertEqual(response.status, "200 OK")
         qualification_id = response.json["data"]["qualificationID"]
-        response = self.app.patch_json(
-            f"/qualifications/{qualification_id}?acc_token={self.framework_token}", {"data": {"status": "active"}}
-        )
-        self.assertEqual(response.status, "200 OK")
+        self.activate_qualification(qualification_id)
         response = self.app.get(f"/agreements/{self.agreement_id}")
         self.assertEqual(response.status, "200 OK")
         contract_id = response.json["data"]["contracts"][-1]["id"]

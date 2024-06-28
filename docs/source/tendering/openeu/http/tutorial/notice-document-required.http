@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "documents",
-      "description": "Document with type 'notice' is required"
+      "description": "Document with type 'notice' and format pkcs7-signature is required"
     }
   ]
 }

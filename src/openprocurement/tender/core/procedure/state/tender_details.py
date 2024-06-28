@@ -49,7 +49,8 @@ from openprocurement.tender.core.procedure.utils import (
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_notice_doc_quantity,
+    validate_doc_type_quantity,
+    validate_doc_type_required,
 )
 from openprocurement.tender.core.utils import (
     calculate_complaint_business_date,
@@ -226,16 +227,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     def validate_notice_doc_required(self, tender):
         if self.should_validate_notice_doc_required is False or not tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             return
-        for doc in tender.get("documents", []):
-            if doc.get("documentType") == "notice" and doc["title"][-4:] == ".p7s":
-                break
-        else:
-            raise_operation_error(
-                self.request,
-                "Document with type 'notice' is required",
-                status=422,
-                name="documents",
-            )
+        validate_doc_type_required(tender.get("documents", []))
         tender["noticePublicationDate"] = get_now().isoformat()
 
     def validate_pre_selection_agreement(self, tender):
@@ -646,7 +638,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             documents = data.get("documents", [])
             if before and len(before.get("documents", [])) != len(documents) or before is None:
-                validate_notice_doc_quantity(documents)
+                validate_doc_type_quantity(documents)
 
     @staticmethod
     def calculate_item_identification_tuple(item):

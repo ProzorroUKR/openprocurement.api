@@ -1,30 +1,22 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
-from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.core.procedure.validation import (
-    validate_notice_doc_quantity,
-)
+from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
 
 class TenderDocumentState(BaseDocumentState):
     def validate_notice_document_already_exists(self, doc_data):
         if tender_created_after(NOTICE_DOC_REQUIRED_FROM):
-            if doc_data.get("documentType") == "notice":
-                tender = get_tender()
-                for doc in tender.get("documents", []):
-                    if doc.get("documentType") == "notice" and doc["id"] != doc_data.get("id"):
-                        raise_operation_error(
-                            get_request(),
-                            "Notice document already exists in tender",
-                            name="documents",
-                            status=422,
-                        )
-            documents = self.request.validated["data"]
-            if isinstance(documents, list) and len(documents) > 1:
-                validate_notice_doc_quantity(documents)
+            tender_docs = deepcopy(get_tender().get("documents", []))
+            new_documents = self.request.validated["data"]
+            if isinstance(new_documents, list):  # POST (array of docs)
+                tender_docs.extend(new_documents)
+            else:  # PATCH/PUT
+                tender_docs.append(doc_data)
+            validate_doc_type_quantity(tender_docs)
 
     def document_always(self, data: dict) -> None:
         self.validate_notice_document_already_exists(data)

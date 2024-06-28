@@ -119,10 +119,11 @@ class TenderResourceTest(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
             {
                 "data": {
-                    "title": "name.doc",
+                    "title": "sign.p7s",
                     "url": self.generate_docservice_url(),
                     "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
+                    "format": "application/pkcs7-signature",
+                    "documentType": "evaluationReports",
                 }
             },
         )
