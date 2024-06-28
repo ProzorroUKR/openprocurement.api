@@ -63,7 +63,12 @@ def reporting_cause_is_required(data, value):
         [
             data.get("procuringEntity", {}).get("kind") != "other",
             not data.get("procurementMethodRationale"),
-            data.get("value", {}).get("amount", 0) >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]],
+            (
+                data.get("value")
+                and data["value"].get("amount")
+                and data.get("mainProcurementCategory")
+                and data["value"]["amount"] >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]]
+            ),
             not value,
         ]
     )
