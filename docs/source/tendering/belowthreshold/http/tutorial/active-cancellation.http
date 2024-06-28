@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "f831d34a0471424e8781aa551242a056",
     "status": "active",
-    "date": "2023-10-16T01:00:02+03:00",
+    "date": "2023-10-16T01:14:06+03:00",
     "reasonType": "noDemand",
     "reason": "cancellation reason",
     "cancellationOf": "tender",
@@ -25,25 +25,25 @@ Content-Type: application/json
       {
         "description": "Changed description",
         "id": "3a864a9e9fda4374af78d5f9831fb9f7",
-        "datePublished": "2023-10-16T01:00:02+03:00",
+        "datePublished": "2023-10-16T01:14:06+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0a6ba4e927a4b37a419f00d99d0e1e2?Signature=FFuxQi4SZOran3sYI4B5RwlM7yntAVrvYMb9zm1GR%2FN1d9BMuK%2FTMdTj10USzad1sVWV11XuVnCjZ5DwmQvMBw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/20d128e9e0d94b378f0d20eff02ff88a?Signature=QS7hf8dU8Isr0Gx2mdwGuwjLDNmtMoB5LiUhr9Tr9YS6ojYM4GK8efB0rqFu%2FXzy7Uma7Qi50c5nWl%2BFVfzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-16T01:00:02+03:00",
+        "dateModified": "2023-10-16T01:14:06+03:00",
         "language": "uk"
       },
       {
         "description": "Changed description",
         "id": "3a864a9e9fda4374af78d5f9831fb9f7",
-        "datePublished": "2023-10-16T01:00:02+03:00",
+        "datePublished": "2023-10-16T01:14:06+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05425e3b32d940e3a6517b4a76c6318f?Signature=%2FYRZ%2B%2BRtFSyc1fRd7U3XC1JzzD8NRsKvmiPxbIxu3tC2RImeoRJr9W%2FiDeEO2nWheF2%2BuWjigqJR0CMp8ltlBg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0a6ba4e927a4b37a419f00d99d0e1e2?Signature=FFuxQi4SZOran3sYI4B5RwlM7yntAVrvYMb9zm1GR%2FN1d9BMuK%2FTMdTj10USzad1sVWV11XuVnCjZ5DwmQvMBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-16T01:00:02+03:00",
+        "dateModified": "2023-10-16T01:14:06+03:00",
         "language": "uk"
       }
     ]
