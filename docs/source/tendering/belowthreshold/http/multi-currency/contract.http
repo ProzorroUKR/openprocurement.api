@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/a22696d8dcf4471d99c902ee10fef508?acc_token=54afd6eb2d094df1add03f50537febd1 HTTP/1.0
+GET /api/2.5/contracts/7271dd7b31d444d2b56e5ed4017a74ae?acc_token=54afd6eb2d094df1add03f50537febd1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -95,7 +95,7 @@ Content-Type: application/json
     "status": "pending",
     "dateCreated": "2023-11-09T00:00:00+02:00",
     "dateModified": "2023-11-09T00:00:00+02:00",
-    "id": "a22696d8dcf4471d99c902ee10fef508"
+    "id": "7271dd7b31d444d2b56e5ed4017a74ae"
   },
   "config": {
     "restricted": false

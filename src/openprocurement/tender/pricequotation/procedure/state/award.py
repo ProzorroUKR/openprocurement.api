@@ -1,6 +1,4 @@
-from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.pricequotation.procedure.state.tender import (
@@ -9,28 +7,16 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
-    def award_on_patch(self, before, award):
-        if before["status"] != award["status"]:
-            self.award_status_up(before["status"], award["status"], award)
-        elif award["status"] == "pending":
-            pass  # allowing to update award in pending status
-        else:
-            raise_operation_error(get_request(), f"Can't update award in current ({before['status']}) status")
+    def award_status_up_from_pending_to_active(self, award, tender):
+        self.request.validated["contracts_added"] = add_contracts(self.request, award)
+        self.add_next_award()
 
-    def award_status_up(self, before, after, award):
-        assert before != after, "Statuses must be different"
+    def award_status_up_from_active_to_cancelled(self, award, tender):
+        self.cancel_award(award)
+        self.add_next_award()
 
-        if before == "pending" and after == "active":
-            self.request.validated["contracts_added"] = add_contracts(get_request(), award)
-            self.add_next_award()
+    def award_status_up_from_pending_to_unsuccessful(self, award, tender):
+        self.add_next_award()
 
-        elif before == "pending" and after == "unsuccessful":
-            self.add_next_award()
-
-        elif before == "active" and after == "cancelled":
-            self.cancel_award(award)
-            self.add_next_award()
-        else:  # any other state transitions are forbidden
-            raise_operation_error(get_request(), f"Can't update award in current ({before}) status")
-        # date updated when status updated
-        award["date"] = get_now().isoformat()
+    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
+        raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
