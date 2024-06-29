@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from openprocurement.api.constants import WORKING_DAYS
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
@@ -36,6 +37,7 @@ class TenderState(
     )  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
     unsuccessful_statuses = ("cancelled", "unsuccessful")
     terminated_statuses = ("complete", "unsuccessful", "cancelled", "draft.unsuccessful")
+    calendar = WORKING_DAYS
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)

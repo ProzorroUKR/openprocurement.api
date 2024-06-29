@@ -1,12 +1,8 @@
-from datetime import timedelta
-
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.models.contract import Contract
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
@@ -28,17 +24,10 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 
 class NegotiationAwardState(ReportingAwardState):
     contract_model = Contract
-    award_stand_still_time = timedelta(days=10)
+    award_stand_still_working_days: bool = False
 
     def award_status_up_from_pending_to_active(self, award, tender):
-        award["complaintPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": calculate_complaint_business_date(
-                get_now(),
-                self.award_stand_still_time,
-                get_tender(),
-            ).isoformat(),
-        }
+        self.set_award_complaint_period(award)
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
 
     def award_status_up_from_active_to_cancelled(self, award, tender):
@@ -50,14 +39,11 @@ class NegotiationAwardState(ReportingAwardState):
             self.cancel_award(award)
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        award["complaintPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": get_now().isoformat(),
-        }
+        pass
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
         raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
 
 class NegotiationQuickAwardState(NegotiationAwardState):
-    award_stand_still_time = timedelta(days=5)
+    pass

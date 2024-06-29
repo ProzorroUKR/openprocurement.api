@@ -1,11 +1,13 @@
+from datetime import timedelta
+
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
-    QUALIFICATION_COMPLAINT_STAND_STILL,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
@@ -25,7 +27,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
-    qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
     tendering_period_extra_working_days = False
 
     should_validate_notice_doc_required = False
@@ -67,6 +68,8 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
         super().status_up(before, after, data)
 
     def validate_qualification_status_change(self, before, after):
+        tender = get_tender()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
         if before["status"] == "active.qualification":
             passed_data = get_request().validated["json_data"]
             if passed_data != {"status": "active.qualification.stand-still"}:
@@ -94,10 +97,14 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
                 if self.all_awards_are_reviewed(after):
                     after["awardPeriod"]["endDate"] = calculate_complaint_business_date(
-                        get_now(), self.qualification_complaint_stand_still, after
+                        get_now(),
+                        timedelta(days=award_complain_duration),
+                        after,
+                        working_days=False,
+                        calendar=self.calendar,
                     ).isoformat()
                     for award in after["awards"]:
-                        if award["status"] != "cancelled":
+                        if award["status"] != "cancelled" and award_complain_duration > 0:
                             award["complaintPeriod"] = {
                                 "startDate": get_now().isoformat(),
                                 "endDate": after["awardPeriod"]["endDate"],

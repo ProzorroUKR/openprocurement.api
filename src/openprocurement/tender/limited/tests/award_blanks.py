@@ -499,7 +499,7 @@ def check_tender_award_complaint_period_dates(self):
     self.assertEqual(response.content_type, "application/json")
 
     updated_award = response.json["data"]
-    self.assertIn("startDate", updated_award["complaintPeriod"])
+    self.assertNotIn("complaintPeriod", updated_award)
 
 
 def patch_tender_award_unsuccessful(self):

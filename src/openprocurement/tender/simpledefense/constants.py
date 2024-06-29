@@ -1,16 +1,6 @@
 from datetime import datetime, timedelta
 
-import standards
-
 from openprocurement.api.constants import TZ
-
-WORKING_DAYS = {}
-HOLIDAYS = standards.load("calendars/workdays_off.json")
-WORKING_WEEKENDS = standards.load("calendars/weekends_on.json")
-for date_str in HOLIDAYS:
-    WORKING_DAYS[date_str] = True
-for date_str in WORKING_WEEKENDS:
-    WORKING_DAYS[date_str] = False
 
 TENDERING_DAYS = 6
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)

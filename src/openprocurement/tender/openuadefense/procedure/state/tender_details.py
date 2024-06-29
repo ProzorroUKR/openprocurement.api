@@ -7,6 +7,7 @@ from openprocurement.tender.openuadefense.constants import (
     ENQUIRY_PERIOD_TIME,
     ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
+    WORKING_DAYS,
 )
 
 
@@ -21,6 +22,8 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+
+    calendar = WORKING_DAYS
     period_working_day = True
 
     should_validate_notice_doc_required = False
