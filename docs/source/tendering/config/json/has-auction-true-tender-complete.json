@@ -9,6 +9,7 @@
         "hasTenderComplaints": true,
         "hasValueRestriction": false,
         "minBidsNumber": 1,
+        "qualificationDuration": 0,
         "restricted": false,
         "valueCurrencyEquality": true
     },

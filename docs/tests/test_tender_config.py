@@ -12,12 +12,17 @@ from tests.base.constants import AUCTIONS_URL, DOCS_URL, MOCK_DATETIME
 from tests.base.data import (
     test_docs_bid,
     test_docs_bid2,
+    test_docs_bid3_with_docs,
+    test_docs_bid_draft,
     test_docs_claim,
     test_docs_items_open,
     test_docs_lots,
+    test_docs_qualified,
     test_docs_question,
+    test_docs_subcontracting,
     test_docs_tender_below,
     test_docs_tender_dps,
+    test_docs_tender_esco,
     test_docs_tender_open,
 )
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -45,11 +50,14 @@ from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.esco.tests.base import test_tender_esco_config
 from openprocurement.tender.open.tests.base import (
     test_tender_dps_config,
     test_tender_open_config,
 )
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openeu.tests.periods import PERIODS
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
 TARGET_JSON_DIR = 'docs/source/tendering/config/json/'
@@ -2019,6 +2027,165 @@ class TenderComplaintsResourceTest(TenderConfigBaseResourceTest):
                 config_name=config_name,
                 file_path=TARGET_CSV_DIR + f"{config_name}-values.csv",
             )
+
+
+class TenderQualificationDurationResourceTest(TenderConfigBaseResourceTest):
+    periods = PERIODS
+
+    def test_docs_qualification_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="qualificationDuration",
+            file_path=TARGET_CSV_DIR + "qualification-duration-values.csv",
+        )
+
+    def test_qualification_duration_exists(self):
+        test_tender_data = deepcopy(test_docs_tender_esco)
+        config = deepcopy(test_tender_esco_config)
+        test_lots = deepcopy(test_docs_lots)
+        bid = deepcopy(test_docs_bid_draft)
+        bid2 = deepcopy(test_docs_bid2)
+
+        test_lots[0]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
+        test_lots[1]['minimalStepPercentage'] = test_tender_data['minimalStepPercentage']
+
+        #### Creating tender
+        self.app.authorization = ('Basic', ('broker', ''))
+        response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+        self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+
+        # add lots
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[0]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id1 = response.json['data']['id']
+
+        response = self.app.post_json(
+            '/tenders/{}/lots?acc_token={}'.format(tender_id, owner_token), {'data': test_lots[1]}
+        )
+        self.assertEqual(response.status, '201 Created')
+        lot_id2 = response.json['data']['id']
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = lot_id1
+        items[1]["relatedLot"] = lot_id2
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        #### Tender activating
+        test_criteria_data = deepcopy(test_exclusion_criteria)
+        test_criteria_data.extend(test_language_criteria)
+
+        response = self.app.post_json(
+            f'/tenders/{self.tender_id}/criteria?acc_token={owner_token}', {'data': test_criteria_data}
+        )
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            f'/tenders/{self.tender_id}?acc_token={owner_token}', {'data': {'status': 'active.tendering'}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # Registering bids
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': bid["tenderers"],
+                    'lotValues': [
+                        {
+                            "subcontractingDetails": "ДКП «Орфей», Україна",
+                            "value": {
+                                'annualCostsReduction': [200] + [1000] * 20,
+                                'yearlyPaymentsPercentage': 0.87,
+                                'contractDuration': {"years": 7},
+                            },
+                            'relatedLot': lot_id1,
+                        }
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid1_token = response.json['access']['token']
+        bid1_id = response.json['data']['id']
+        self.set_responses(tender_id, response.json, "pending")
+
+        response = self.app.post_json(
+            '/tenders/{}/bids'.format(tender_id),
+            {
+                'data': {
+                    'selfQualified': True,
+                    'status': 'draft',
+                    'tenderers': bid2["tenderers"],
+                    'lotValues': [
+                        {
+                            "value": {
+                                'annualCostsReduction': [700] + [1600] * 20,
+                                'yearlyPaymentsPercentage': 0.9,
+                                'contractDuration': {"years": 7},
+                            },
+                            'relatedLot': lot_id1,
+                        },
+                        {
+                            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                            "value": {
+                                'annualCostsReduction': [600] + [1200] * 20,
+                                'yearlyPaymentsPercentage': 0.96,
+                                'contractDuration': {"years": 9},
+                            },
+                            'relatedLot': lot_id2,
+                        },
+                    ],
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+        bid2_id = response.json['data']['id']
+        bid2_token = response.json['access']['token']
+        self.set_responses(tender_id, response.json, "pending")
+
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid1_id, bid1_token),
+            {
+                'data': {
+                    'lotValues': [
+                        {"subcontractingDetails": "ДКП «Орфей»", "value": {"amount": 500}, 'relatedLot': lot_id1}
+                    ],
+                    'status': 'pending',
+                }
+            },
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        response = self.app.patch_json(
+            '/tenders/{}/bids/{}?acc_token={}'.format(tender_id, bid2_id, bid2_token),
+            {'data': {'lotValues': [{"value": {"amount": 500}, 'relatedLot': lot_id1}], 'status': 'pending'}},
+        )
+        self.assertEqual(response.status, '200 OK')
+        # switch to active.pre-qualification
+        self.time_shift('active.pre-qualification')
+        self.check_chronograph()
+
+        with open(TARGET_DIR + 'qualification-duration-period-20-days.http', 'w') as self.app.file_obj:
+            response = self.app.get('/tenders/{}'.format(tender['id']))
+            end_date = datetime.datetime.fromisoformat(response.json["data"]["qualificationPeriod"]["endDate"])
+            calculated_end_date = calculate_tender_business_date(
+                datetime.datetime.fromisoformat(response.json["data"]["qualificationPeriod"]["startDate"]),
+                datetime.timedelta(days=response.json["config"]["qualificationDuration"]),
+                response.json["data"],
+                working_days=True,
+            )
+            self.assertEqual(end_date, calculated_end_date)
 
 
 class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
