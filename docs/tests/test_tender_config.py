@@ -2276,3 +2276,142 @@ class TenderRestrictedResourceTest(TenderConfigBaseResourceTest):
         with open(TARGET_DIR + 'restricted-true-contract-get.http', 'w') as self.app.file_obj:
             response = self.app.get('/contracts/{}'.format(contract_id))
             self.assertEqual(response.status, '200 OK')
+
+
+class TenderAwardComplainDurationResourceTest(TenderConfigBaseResourceTest):
+    initial_data = deepcopy(test_docs_tender_below)
+
+    def test_docs_award_complain_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="awardComplainDuration",
+            file_path=TARGET_CSV_DIR + "award-complain-duration-values.csv",
+        )
+
+    def test_docs_award_complain_duration_complaint_period_exists(self):
+        config = deepcopy(self.initial_config)
+        config["hasAwardingOrder"] = False
+
+        test_tender_data = deepcopy(test_docs_tender_below)
+        test_lots = deepcopy(test_docs_lots[:1])
+        test_lots[0]['value'] = test_tender_data['value']
+        test_lots[0]['minimalStep'] = test_tender_data['minimalStep']
+        set_tender_lots(test_tender_data, test_lots)
+
+        # Creating tender
+        with open(TARGET_DIR + "award-complain-duration-tender-post-1.http", "w") as self.app.file_obj:
+            response = self.app.post_json('/tenders?opt_pretty=1', {'data': test_tender_data, 'config': config})
+            self.assertEqual(response.status, '201 Created')
+
+        tender = response.json['data']
+        tender_id = self.tender_id = tender['id']
+        owner_token = response.json['access']['token']
+        lots = response.json['data']["lots"]
+        lot_id = lots[0]["id"]
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        self.add_criteria(tender_id, owner_token)
+
+        # Tender activating
+        self.add_notice_doc(tender_id, owner_token)
+        response = self.app.patch_json(
+            '/tenders/{}?acc_token={}'.format(tender_id, owner_token), {'data': {"status": "active.enquiries"}}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        # enquires
+        response = self.app.post_json(
+            '/tenders/{}/questions'.format(tender_id), {"data": test_docs_question}, status=201
+        )
+        question_id = response.json['data']['id']
+        self.assertEqual(response.status, '201 Created')
+
+        response = self.app.patch_json(
+            '/tenders/{}/questions/{}?acc_token={}'.format(tender_id, question_id, owner_token),
+            {"data": {"answer": "Таблицю додано в файлі \"Kalorijnist.xslx\""}},
+            status=200,
+        )
+        self.assertEqual(response.status, '200 OK')
+        self.set_status('active.tendering')
+
+        # register bids
+        bids = []
+        bids_tokens = []
+        for idx in range(3):
+            self.app.authorization = ('Basic', ('broker', ''))
+            bid_data = {'status': 'draft', 'tenderers': test_docs_bid["tenderers"], "value": {"amount": 500 - idx}}
+            set_bid_lotvalues(bid_data, lots)
+            response = self.app.post_json('/tenders/{}/bids'.format(self.tender_id), {'data': bid_data})
+            self.assertEqual(response.status, '201 Created')
+            bids.append(response.json['data']['id'])
+            bids_tokens.append(response.json['access']['token'])
+            self.set_responses(tender_id, response.json, "pending")
+
+        #### Auction
+        self.set_status('active.auction')
+
+        self.app.authorization = ('Basic', ('auction', ''))
+        auction_url = '{}/tenders/{}_{}'.format(self.auctions_url, self.tender_id, lot_id)
+        patch_data = {
+            'lots': [
+                {
+                    'id': lot_id,
+                    'auctionUrl': auction_url,
+                },
+            ],
+            'bids': [
+                {"id": bids[0], "lotValues": [{"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[0])}]},
+                {
+                    "id": bids[1],
+                    "lotValues": [
+                        {"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[1])},
+                    ],
+                },
+                {
+                    "id": bids[2],
+                    "lotValues": [
+                        {"participationUrl": '{}?key_for_bid={}'.format(auction_url, bids[2])},
+                    ],
+                },
+            ],
+        }
+        response = self.app.patch_json(
+            '/tenders/{}/auction/{}?acc_token={}'.format(self.tender_id, lot_id, owner_token), {'data': patch_data}
+        )
+        self.assertEqual(response.status, '200 OK')
+
+        self.app.authorization = ('Basic', ('broker', ''))
+
+        #### Confirming qualification
+        self.app.authorization = ('Basic', ('auction', ''))
+        response = self.app.get('/tenders/{}/auction'.format(self.tender_id))
+        auction_bids_data = response.json['data']['bids']
+        self.app.post_json(
+            '/tenders/{}/auction/{}'.format(self.tender_id, lot_id),
+            {
+                'data': {
+                    'bids': [
+                        {
+                            "id": b["id"],
+                            "lotValues": [
+                                {"value": lot["value"], "relatedLot": lot["relatedLot"]} for lot in b["lotValues"]
+                            ],
+                        }
+                        for b in auction_bids_data
+                    ]
+                }
+            },
+        )
+        response = self.app.get('/tenders/{}'.format(self.tender_id))
+        self.assertEqual(response.status, '200 OK')
+        award_1_id = response.json["data"]["awards"][0]["id"]
+
+        self.app.authorization = ('Basic', ('broker', ''))
+        # The customer decides that the winner is award1
+        with open(TARGET_DIR + "award-complain-duration-tender-patch-1.http", "w") as self.app.file_obj:
+            # set award as active
+            response = self.app.patch_json(
+                '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_1_id, owner_token),
+                {'data': {'status': 'active'}},
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertIn("complaintPeriod", response.json["data"])

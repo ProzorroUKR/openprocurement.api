@@ -9,6 +9,7 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_in
+from openprocurement.tender.openuadefense.constants import WORKING_DAYS
 from openprocurement.tender.openuadefense.procedure.awarding import (
     DefenseTenderStateAwardingMixing,
 )
@@ -19,6 +20,7 @@ LOGGER = getLogger(__name__)
 class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     generate_award_milestones = False
+    calendar = WORKING_DAYS
 
     def awarded_events(self, tender):
         awards = tender.get("awards", [])

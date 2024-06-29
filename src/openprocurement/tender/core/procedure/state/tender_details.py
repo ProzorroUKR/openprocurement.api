@@ -16,6 +16,7 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    WORKING_DAYS,
 )
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
@@ -82,6 +83,7 @@ class TenderConfigMixin:
         "hasAwardComplaints",
         "hasCancellationComplaints",
         "restricted",
+        "awardComplainDuration",
     )
 
     def validate_config(self, data):
@@ -162,6 +164,8 @@ class TenderDetailsMixing(TenderConfigMixin):
     should_validate_notice_doc_required = False
     complaint_submit_time = timedelta(days=0)
     agreement_field = "agreements"
+
+    calendar = WORKING_DAYS
 
     def validate_tender_patch(self, before, after):
         request = get_request()

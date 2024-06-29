@@ -1,11 +1,9 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.open.constants import STAND_STILL_TIME
 from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
 class AwardState(AwardStateMixing, OpenTenderState):
-    award_stand_still_time = STAND_STILL_TIME  # move to tender state class?
     award_stand_still_working_days: bool = False
 
     def award_status_up_from_active_to_cancelled(self, award, tender):

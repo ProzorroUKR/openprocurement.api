@@ -3,11 +3,12 @@ from datetime import timedelta
 from openprocurement.tender.cfaua.constants import (
     CLARIFICATIONS_UNTIL_PERIOD,
     COMPLAINT_STAND_STILL,
-    QUALIFICATION_COMPLAINT_STAND_STILL,
     QUESTIONS_STAND_STILL,
     TENDERING_DURATION,
     TENDERING_EXTRA_PERIOD,
 )
+
+QUALIFICATION_COMPLAINT_STAND_STILL = timedelta(days=10)
 
 PERIODS = {
     "active.tendering": {

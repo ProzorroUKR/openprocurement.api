@@ -14,7 +14,6 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 class AwardStateMixing:
     contract_model = Contract
-    award_stand_still_time: timedelta
     award_stand_still_working_days: bool = True
 
     def validate_award_patch(self, before, after):
@@ -57,15 +56,7 @@ class AwardStateMixing:
     def award_status_up_from_pending_to_active(self, award, tender):
         if tender["config"]["hasAwardingOrder"] is False:
             self.check_active_awards(award, tender)
-        award["complaintPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_full_date(
-                get_now(),
-                self.award_stand_still_time,
-                tender=get_tender(),
-                working_days=self.award_stand_still_working_days,
-            ).isoformat(),
-        }
+        self.set_award_complaint_period(award)
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
         self.add_next_award()
 
@@ -75,15 +66,7 @@ class AwardStateMixing:
         self.add_next_award()
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        award["complaintPeriod"] = {
-            "startDate": get_now().isoformat(),
-            "endDate": calculate_tender_full_date(
-                get_now(),
-                self.award_stand_still_time,
-                tender=get_tender(),
-                working_days=self.award_stand_still_working_days,
-            ).isoformat(),
-        }
+        self.set_award_complaint_period(award)
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
@@ -183,6 +166,21 @@ class AwardStateMixing:
         return any(
             i["status"] in ("claim", "answered", "pending", "resolved") for i in current_award.get("complaints", "")
         )
+
+    def set_award_complaint_period(self, award):
+        tender = get_tender()
+        award_complain_duration = tender["config"]["awardComplainDuration"]
+        if award_complain_duration > 0:
+            award["complaintPeriod"] = {
+                "startDate": get_now().isoformat(),
+                "endDate": calculate_tender_full_date(
+                    get_now(),
+                    timedelta(days=award_complain_duration),
+                    tender=tender,
+                    working_days=self.award_stand_still_working_days,
+                    calendar=self.calendar,
+                ).isoformat(),
+            }
 
 
 # example use
