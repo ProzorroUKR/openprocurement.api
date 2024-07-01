@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.openua.tests.base import (
@@ -33,6 +32,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     patch_tender_criteria_valid,
     put_rg_requirement_invalid,
     put_rg_requirement_valid,
+    tech_feature_criterion,
     validate_requirement_evidence_document,
 )
 
@@ -131,7 +131,16 @@ class TenderCriteriaLccTestMixin:
     test_lcc_criterion_invalid = snitch(lcc_criterion_invalid)
 
 
-class TenderUACriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderUAContentWebTest):
+class TenderTechFeatureCriteriaTestMixin:
+    test_tech_feature_criterion = snitch(tech_feature_criterion)
+
+
+class TenderUACriteriaTest(
+    TenderCriteriaTestMixin,
+    TenderCriteriaLccTestMixin,
+    TenderTechFeatureCriteriaTestMixin,
+    BaseTenderUAContentWebTest,
+):
     initial_data = test_tender_openua_data
     initial_lots = test_tender_below_lots
     initial_status = "draft"

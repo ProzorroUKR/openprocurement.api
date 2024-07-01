@@ -39,6 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "items": [
       {
         "description": "Комп’ютерне обладнання",
+        "category": "655360-30230000-889652",
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
@@ -219,6 +220,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
           "postalCode": "79000",
           "countryName": "Україна"
         },
+        "category": "655360-30230000-889652",
         "additionalClassifications": [
           {
             "scheme": "INN",

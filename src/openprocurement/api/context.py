@@ -28,6 +28,12 @@ def get_data() -> Union[list, dict]:
     return bid
 
 
+def get_local_cache() -> dict:
+    if not hasattr(thread_context.request, "cache"):
+        thread_context.request.cache = {}
+    return thread_context.request.cache
+
+
 def set_now(now=None):
     """
     request time

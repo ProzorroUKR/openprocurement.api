@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest.mock import Mock, patch
 
 from freezegun import freeze_time
 
@@ -12,10 +13,6 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.openua.tests.base import (
-    test_tender_openua_bids,
-    test_tender_openua_data,
-)
 
 # TenderUAResourceTest
 
@@ -1476,3 +1473,101 @@ def create_tender_with_criteria_lcc(self):
             }
         ],
     )
+
+
+def tender_items_category_profile(self):
+
+    response_404 = Mock()
+    response_404.status_code = 404
+
+    response_200_not_valid_status = Mock()
+    response_200_not_valid_status.status_code = 200
+    response_200_not_valid_status.json = Mock(return_value={"data": {"id": "", "status": "hidden"}})
+
+    response_200_valid_status = Mock()
+    response_200_valid_status.status_code = 200
+    response_200_valid_status.json = Mock(return_value={"data": {"id": "", "status": "active"}})
+
+    data = dict(**self.initial_data)
+    items = data["items"]
+    items[0]["profile"] = "1" * 32
+
+    response = self.app.post_json(
+        "/tenders",
+        {"data": data, "config": self.initial_config},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"category": ["profile and category should be provided together"]}],
+            }
+        ],
+    )
+
+    items[0]["category"] = "1" * 32
+
+    with patch(
+        "requests.get",
+        Mock(return_value=response_404),
+    ):
+        response = self.app.post_json(
+            "/tenders",
+            {"data": data, "config": self.initial_config},
+            status=404,
+        )
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"][0]["description"], f"Categories {items[0]['profile']} not found in catalouges."
+        )
+
+    with patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+        Mock(return_value={"id": "1" * 32, "criteria": []}),
+    ), patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "2" * 32, "criteria": []}),
+    ):
+        response = self.app.post_json(
+            "/tenders",
+            {"data": data, "config": self.initial_config},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "data", "description": "Profile should be related to category"}],
+        )
+
+    with patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+        Mock(return_value={"id": "1" * 32, "criteria": []}),
+    ), patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+        Mock(return_value={"id": "1" * 32, "relatedCategory": "1" * 32, "criteria": []}),
+    ):
+        response = self.app.post_json(
+            "/tenders",
+            {"data": data, "config": self.initial_config},
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["category"], items[0]["category"])
+        tender_id = response.json["data"]["id"]
+        tender_token = response.json["access"]["token"]
+        items = response.json["data"]["items"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={tender_token}",
+        {"data": {"title": "New title!"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["title"], "New title!")

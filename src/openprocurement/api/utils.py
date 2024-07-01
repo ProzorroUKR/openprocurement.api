@@ -30,6 +30,7 @@ from openprocurement.api.constants import (
     TZ,
     UA_ROAD_CPV_PREFIXES,
 )
+from openprocurement.api.context import get_local_cache
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
 
@@ -508,36 +509,55 @@ def delete_nones(data: dict):
             del data[k]
 
 
-def get_catalogue_object(request, uri: str, obj_id: str) -> dict:
+def get_catalogue_object(request, uri: str, obj_id: str, valid_statuses: tuple = None) -> dict:
     catalog_api_host = request.registry.catalog_api_host
     obj_name = uri.split("/")[-1]
 
-    try:
-        resp = requests.get(f"{catalog_api_host}/api/{uri}/{obj_id}")
-    except requests.exceptions.RequestException as e:
-        LOGGER.warning(f"Error while getting data from ProZorro e-Catalogues. Details: {e}")
-        raise raise_operation_error(
-            request,
-            "Error while getting data from ProZorro e-Catalogues: Connection closed. Try again later",
-            status=502,
-        )
-    if resp.status_code == 404:
-        raise_operation_error(request, f"{obj_name.capitalize()} {obj_id} not found in catalouges.", status=404)
-    elif resp.status_code != 200:
-        response_text = resp.json()
-        raise_operation_error(
-            request, f"Fail getting {obj_name} {obj_id}: {resp.status_code} {response_text}.", status=resp.status_code
-        )
-    return resp.json().get("data", {})
+    cache_key = f"get_catalogue_object_{uri}_{obj_id}"
+    cache = get_local_cache()
+    data = cache.get(cache_key)
+
+    if not data:
+
+        try:
+            resp = requests.get(f"{catalog_api_host}/api/{uri}/{obj_id}")
+        except requests.exceptions.RequestException as e:
+            LOGGER.warning(f"Error while getting data from ProZorro e-Catalogues. Details: {e}")
+            raise raise_operation_error(
+                request,
+                "Error while getting data from ProZorro e-Catalogues: Connection closed. Try again later",
+                status=502,
+            )
+        if resp.status_code == 404:
+            raise_operation_error(request, f"{obj_name.capitalize()} {obj_id} not found in catalouges.", status=404)
+        elif resp.status_code != 200:
+            response_text = resp.json()
+            raise_operation_error(
+                request,
+                f"Fail getting {obj_name} {obj_id}: {resp.status_code} {response_text}.",
+                status=resp.status_code,
+            )
+
+        data = cache[cache_key] = resp.json().get("data", {})
+
+    if valid_statuses:
+        if data.get("status", "active") not in valid_statuses:
+            raise_operation_error(
+                request,
+                f"{obj_name.capitalize()} {obj_id}: {data['status']} not in {valid_statuses}",
+                status=422,
+            )
+
+    return data
 
 
-def get_tender_profile(request, profile_id: str) -> dict:
-    return get_catalogue_object(request, "profiles", profile_id)
+def get_tender_profile(request, profile_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "profiles", profile_id, validate_status)
 
 
-def get_tender_category(request, category_id: str) -> dict:
-    return get_catalogue_object(request, "categories", category_id)
+def get_tender_category(request, category_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "categories", category_id, validate_status)
 
 
-def get_tender_product(request, product_id: str) -> dict:
-    return get_catalogue_object(request, "products", product_id)
+def get_tender_product(request, product_id: str, validate_status: tuple = None) -> dict:
+    return get_catalogue_object(request, "products", product_id, validate_status)

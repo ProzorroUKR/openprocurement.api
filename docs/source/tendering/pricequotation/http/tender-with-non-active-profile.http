@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Profile 655360-30230000-889652-40000777 is not active"
+      "description": "Tender agreement doesn't match profile agreement"
     }
   ]
 }

@@ -1,0 +1,90 @@
+POST /api/2.5/tenders/4292f411d6fd4a03b02903d85c6b3d96/criteria?acc_token=3a1c733f0ea64dc794cff3c2b0dc39ce HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Характеристики ноутбуку",
+      "source": "tenderer",
+      "classification": {
+        "scheme": " ESPD211",
+        "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+      },
+      "relatesTo": "item",
+      "legislation": [
+        {
+          "version": "2020-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Діагоніль екрану",
+          "requirements": [
+            {
+              "title": "Мова тендерної пропозиції українська",
+              "dataType": "integer",
+              "expectedValue": 10
+            }
+          ]
+        }
+      ],
+      "relatedItem": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "3d2bda2ac1544820a298a2783dc649cb",
+      "source": "tenderer",
+      "relatesTo": "item",
+      "relatedItem": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "classification": {
+        "scheme": " ESPD211",
+        "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+      },
+      "title": "Характеристики ноутбуку",
+      "legislation": [
+        {
+          "version": "2020-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "id": "750cac47db26445da5cecfbbdca5cd10",
+          "description": "Діагоніль екрану",
+          "requirements": [
+            {
+              "id": "bd116cd8a94c4632a06717a2b91dfd37",
+              "title": "Мова тендерної пропозиції українська",
+              "dataType": "integer",
+              "status": "active",
+              "expectedValue": 10,
+              "datePublished": "2023-10-10T01:00:00+03:00"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+

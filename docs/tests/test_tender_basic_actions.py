@@ -4,6 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 from uuid import uuid4
 
+from mock import Mock, patch
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
@@ -35,10 +36,16 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
+from openprocurement.tender.core.tests.base import (
+    test_exclusion_criteria,
+    test_tech_feature_criteria,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
 from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
+from openprocurement.tender.pricequotation.tests.base import (
+    test_tender_pq_short_profile,
+)
 
 test_tender_below_data = deepcopy(test_docs_tender_below)
 
@@ -3164,3 +3171,81 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                     status=422,
                 )
                 self.assertEqual(response.status, '422 Unprocessable Entity')
+
+    def test_docs_technical_features(self):
+        self.app.authorization = ('Basic', ('broker', ''))
+        data = deepcopy(test_tender_below_data)
+
+        profile = deepcopy(test_tender_pq_short_profile)
+        profile["status"] = "hidden"
+
+        category = {"id": profile["relatedCategory"], "status": "active"}
+
+        tech_item = deepcopy(data["items"][0])
+        tech_item["id"] = "e" * 32
+        data["items"].append(tech_item)
+
+        tech_item["profile"] = profile["id"]
+        tech_item["category"] = category["id"]
+
+        with patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))), open(
+            TARGET_DIR + 'techfeatures/item-profile-not-found.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=404)
+            self.assertEqual(response.status, "404 Not Found")
+
+        with patch(
+            "openprocurement.api.utils.requests.get",
+            Mock(return_value=Mock(status_code=200, json=Mock(return_value={"data": profile}))),
+        ), open(TARGET_DIR + 'techfeatures/item-profile-not-active.http', 'w') as self.app.file_obj:
+            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config}, status=422)
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        profile["status"] = "active"
+
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value=category),
+        ), patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value=profile),
+        ), open(
+            TARGET_DIR + 'techfeatures/tender-with-item-profile-created.http', 'w'
+        ) as self.app.file_obj:
+
+            response = self.app.post_json('/tenders', {'data': data, 'config': self.initial_config})
+            self.assertEqual(response.status, "201 Created")
+            tender_id = response.json["data"]["id"]
+            tender_token = response.json["access"]["token"]
+            items = response.json["data"]["items"]
+
+        # Create technical feature criteria
+
+        tech_criteria = deepcopy(test_tech_feature_criteria)
+        tech_criteria[0]["relatesTo"] = "tenderer"
+
+        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-without-related-item.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        tech_criteria[0]["relatesTo"] = "item"
+        tech_criteria[0]["relatedItem"] = items[0]["id"]
+
+        with open(
+            TARGET_DIR + 'techfeatures/create-tech-criteria-for-items-without-profile.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}', {'data': tech_criteria}, status=422
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+
+        tech_criteria[0]["relatedItem"] = items[1]["id"]
+
+        with open(TARGET_DIR + 'techfeatures/create-tech-criteria-success.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{tender_id}/criteria?acc_token={tender_token}',
+                {'data': tech_criteria},
+            )
+            self.assertEqual(response.status, "201 Created")

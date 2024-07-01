@@ -23,7 +23,12 @@ from openprocurement.api.procedure.utils import (
     get_cpv_uniq_prefixes,
     to_decimal,
 )
-from openprocurement.api.utils import get_first_revision_date, raise_operation_error
+from openprocurement.api.utils import (
+    get_first_revision_date,
+    get_tender_category,
+    get_tender_profile,
+    raise_operation_error,
+)
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -33,6 +38,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
+    CRITERION_TECHNICAL_FEATURES,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
     PROCUREMENT_METHOD_OPEN,
@@ -40,6 +46,7 @@ from openprocurement.tender.core.constants import (
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
 )
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -174,6 +181,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.watch_value_meta_changes(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
+        self.validate_change_item_profile_or_category(tender, {})
         super().on_post(tender)
 
         # set author for documents passed with tender data
@@ -198,6 +206,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_required_criteria(before, after)
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
+        self.validate_change_item_profile_or_category(after, before)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -701,6 +710,39 @@ class TenderDetailsMixing(TenderConfigMixin):
                 f"You can't remove inspector in current({after['status']}) tender status",
                 status=422,
             )
+
+    def validate_change_item_profile_or_category(self, after: dict, before: dict) -> None:
+        after_cp = {
+            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in after.get("items", "")
+        }
+        before_cp = {
+            i["id"]: {"profile": i.get("profile"), "category": i.get("category")} for i in before.get("items", "")
+        }
+
+        request = get_request()
+
+        for k, after_values in after_cp.items():
+            before_values = before_cp.get(k, {})
+            if (before_values.get("profile") != after_values.get("profile")) or (
+                before_values.get("category") != after_values.get("category")
+            ):
+                category_id = after_values.get("category")
+                get_tender_category(request, category_id, ("active",))
+                profile = get_tender_profile(request, after_values.get("profile"), ("active", "general"))
+                if profile.get("relatedCategory") != category_id:
+                    raise_operation_error(request, "Profile should be related to category", status=422)
+
+                self.cancel_all_technical_criteria(after, k)
+
+    def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
+        for criterion in tender.get("criteria", ""):
+            if (
+                criterion.get("classification", {}).get("id") == CRITERION_TECHNICAL_FEATURES
+                and criterion.get("relatedItem") == item_id
+            ):
+                for rg in criterion.get("requirementGroups", ""):
+                    for req in rg.get("requirements", ""):
+                        req["status"] = ReqStatuses.CANCELLED
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

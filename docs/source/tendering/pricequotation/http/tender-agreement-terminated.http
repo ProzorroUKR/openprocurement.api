@@ -18,8 +18,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "agreement",
-      "description": "Agreement status is not active"
+      "name": "data",
+      "description": "Tender agreement doesn't match profile agreement"
     }
   ]
 }

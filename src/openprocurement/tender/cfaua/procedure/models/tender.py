@@ -4,7 +4,6 @@ from decimal import Decimal
 from isodate import duration_isoformat
 from schematics.types import BaseType, IntType, StringType
 from schematics.types.compound import ListType, ModelType
-from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
 from openprocurement.api.constants import MILESTONES_VALIDATION_FROM
@@ -53,8 +52,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_period_duration,
     validate_tender_period_start_date,
 )
-from openprocurement.tender.core.utils import calculate_complaint_business_date
-from openprocurement.tender.openua.constants import COMPLAINT_SUBMIT_TIME
 
 LOTS_MIN_SIZE = 1
 LOTS_MAX_SIZE = 1

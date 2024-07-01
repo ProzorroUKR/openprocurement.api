@@ -546,6 +546,84 @@ Content-Type: application/json
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-17T01:00:00+03:00"
     },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "cca0671762d34aa183864d6a01e27315",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "id": "5cb16cd4783e4dd0b325487872b4e585",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "4bd89ce3db9542d593f96929061c5f47",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
+      }
+    ],
+    "procurementMethodType": "belowThreshold",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "enquiryPeriod": {
+      "startDate": "2023-09-30T01:00:00+03:00",
+      "clarificationsUntil": "2023-10-11T01:00:00+03:00",
+      "endDate": "2023-10-10T01:00:00+03:00"
+    },
     "items": [
       {
         "id": "725f539279e34836859087467400e721",
@@ -625,84 +703,6 @@ Content-Type: application/json
         "relatedLot": "5cb16cd4783e4dd0b325487872b4e585"
       }
     ],
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "cca0671762d34aa183864d6a01e27315",
-        "date": "2023-10-10T01:00:00+03:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        }
-      },
-      {
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
-        "status": "active",
-        "id": "5cb16cd4783e4dd0b325487872b4e585",
-        "date": "2023-10-10T01:00:00+03:00",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        }
-      }
-    ],
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 1
-      },
-      {
-        "id": "4bd89ce3db9542d593f96929061c5f47",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 2
-      }
-    ],
-    "procurementMethodType": "belowThreshold",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general"
-    },
-    "enquiryPeriod": {
-      "startDate": "2023-09-30T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-11T01:00:00+03:00",
-      "endDate": "2023-10-10T01:00:00+03:00"
-    },
     "noticePublicationDate": "2023-10-10T01:00:00+03:00",
     "next_check": "2023-10-17T00:00:00+02:00",
     "questions": [

@@ -1,0 +1,34 @@
+[
+    {
+        "title": "Характеристики ноутбуку",
+        "source": "tenderer",
+        "classification": {
+            "scheme": " ESPD211",
+            "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        },
+        "relatesTo": "item",
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+                },
+                "type": "NATIONAL_LEGISLATION"
+            }
+        ],
+        "requirementGroups": [
+            {
+                "description": "Діагоніль екрану",
+                "requirements": [
+                    {
+                        "title": "Мова тендерної пропозиції українська",
+                        "dataType": "integer",
+                        "expectedValue": 10
+                    }
+                ]
+            }
+        ]
+    }
+]

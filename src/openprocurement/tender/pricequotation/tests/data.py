@@ -220,6 +220,7 @@ test_tender_pq_procuring_entity["kind"] = "general"
 
 test_tender_pq_item = {
     "description": "Комп’ютерне обладнання",
+    "category": "655360-30230000-889652",
     "profile": "655360-30230000-889652-40000777",
     "quantity": 5,
     "deliveryDate": {
@@ -360,6 +361,7 @@ test_tender_pq_shortlisted_firms = [
 test_tender_pq_short_profile = {
     "classification": {"description": "Комп’ютерне обладнання", "id": "30230000-0", "scheme": "ДК021"},
     "id": "655360-30230000-889652-40000777",
+    "relatedCategory": "655360-30230000-889652",
     "unit": {"code": "H87", "name": "штук"},
     "criteria": [
         {
@@ -542,6 +544,13 @@ test_tender_pq_short_profile = {
     "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
     "status": "active",
     "agreementID": "2e14a78a2074952d5a2d256c3c004dda",
+}
+
+test_tender_pq_category = {
+    "classification": {"description": "Комп’ютерне обладнання", "id": "30230000-0", "scheme": "ДК021"},
+    "id": "655360-30230000-889652",
+    "status": "active",
+    "criteria": deepcopy(test_tender_pq_short_profile["criteria"]),
 }
 
 test_tender_pq_criteria_1 = [

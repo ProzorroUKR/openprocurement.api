@@ -7,7 +7,6 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
@@ -114,14 +113,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
             )
 
         for profile_id in profile_ids:
-            profile = get_tender_profile(self.request, profile_id)
-            profile_status = profile.get("status")
-            if profile_status not in ("active", "general"):
-                raise_operation_error(
-                    self.request,
-                    f"Profile {profile_id} is not active",
-                    status=422,
-                )
+            profile = get_tender_profile(self.request, profile_id, validate_status=("active", "general"))
 
             profile_agreement_id = profile.get("agreementID")
             tender_agreement_id = tender.get("agreement", {}).get("id")

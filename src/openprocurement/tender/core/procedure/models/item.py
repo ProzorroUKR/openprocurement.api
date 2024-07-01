@@ -58,6 +58,7 @@ class Item(BaseItem):
     deliveryDate = ModelType(Period)
     deliveryAddress = ModelType(Address)
     deliveryLocation = ModelType(Location)
+
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
 
@@ -72,6 +73,16 @@ class Item(BaseItem):
             classification_id = data["classification"]["id"]
             validate_ua_road(classification_id, items)
             validate_gmdn(classification_id, items)
+
+
+class TechFeatureItem(Item):
+    profile = StringType()
+    category = StringType()
+
+    def validate_category(self, data, value):
+        profile = data.get("profile")
+        if (not profile and value) or (profile and not value):
+            raise ValidationError("profile and category should be provided together")
 
 
 class RelatedBuyerMixing:

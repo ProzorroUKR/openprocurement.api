@@ -1,0 +1,59 @@
+POST /api/2.5/tenders/4292f411d6fd4a03b02903d85c6b3d96/criteria?acc_token=3a1c733f0ea64dc794cff3c2b0dc39ce HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "Характеристики ноутбуку",
+      "source": "tenderer",
+      "classification": {
+        "scheme": " ESPD211",
+        "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+      },
+      "relatesTo": "tenderer",
+      "legislation": [
+        {
+          "version": "2020-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Діагоніль екрану",
+          "requirements": [
+            {
+              "title": "Мова тендерної пропозиції українська",
+              "dataType": "integer",
+              "expectedValue": 10
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "relatesTo",
+      "description": [
+        "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES criteria relatesTo should be `item`"
+      ]
+    }
+  ]
+}
+
