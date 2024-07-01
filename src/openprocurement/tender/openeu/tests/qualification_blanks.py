@@ -318,7 +318,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
             {
                 "location": "body",
                 "name": "documents",
-                "description": f"Document with type 'evaluationReports' is required for lot {self.initial_lots[0]['id']}",
+                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
             }
         ],
     )
@@ -372,7 +372,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"Document with type 'evaluationReports' is required for lot {self.initial_lots[1]['id']}",
+        f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[1]['id']}",
     )
 
     # patch relatedItem in first doc
@@ -390,7 +390,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"Document with type 'evaluationReports' is required for lot {self.initial_lots[0]['id']}",
+        f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
     )
 
     # add sign doc for first lot
@@ -400,7 +400,6 @@ def check_sign_doc_qualifications_before_stand_still(self):
         {"data": sign_doc},
     )
     self.assertEqual(response.status, "201 Created")
-    doc_2_id = response.json["data"]["id"]
 
     # move to stand-still successfully
     response = self.app.patch_json(
@@ -2043,7 +2042,7 @@ def change_status_to_standstill_with_complaint(self):
         status=422,
     )
     self.assertIn(
-        "Document with type 'evaluationReports' is required",
+        "Document with type 'evaluationReports' and format pkcs7-signature is required",
         response.json["errors"][0]["description"],
     )
 

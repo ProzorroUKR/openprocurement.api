@@ -3,193 +3,122 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-15 10:53+0300\n"
+"POT-Creation-Date: 2024-07-01 11:00+0300\n"
 "PO-Revision-Date: 2018-09-12 11:42+0300\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: \n"
-"Language-Team: \n"
 "Language: uk\n"
-"X-Generator: Poedit 2.1.1\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
 
-#: ../../source/multiple_lots_tutorial.rst:4
 msgid "Multiple Lots Tutorial"
 msgstr "Туторіал для багатолотової закупівлі"
 
-#: ../../source/multiple_lots_tutorial.rst:8
 msgid "Creating tender"
 msgstr "Створення закупівлі"
 
-#: ../../source/multiple_lots_tutorial.rst:10
 msgid "Let's create tender:"
 msgstr "Створимо закупівлю:"
 
-#: ../../source/multiple_lots_tutorial.rst:15
-msgid ""
-"Now we can see that new object was created. Response code is `201` and "
-"`Location` response header reports the location of the created object.  The "
-"body of response reveals the information about the created tender: its "
-"internal `id` (that matches the `Location` segment), its official "
-"`tenderID` and `dateModified` datestamp stating the moment in time when "
-"tender was last modified.  Note that tender is created with `active."
-"tendering` status."
-msgstr ""
-"Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, "
-"заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. "
-"Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` "
-"(яке співпадає з сегментом `Location`), її офіційне `tenderID` та "
-"`dateModified` дату, що показує час, коли закупівля востаннє "
-"модифікувалась. Зверніть увагу, що закупівля створюється зі статусом "
-"`active.tendering`."
+msgid "Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `active.tendering` status."
+msgstr "Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.tendering`."
 
-#: ../../source/multiple_lots_tutorial.rst:22
-msgid ""
-"The peculiarity of the Open EU procedure is that ``procurementMethodType`` "
-"was changed from ``belowThreshold`` to ``aboveThresholdEU``. Also there is "
-"no opportunity to set up ``enquiryPeriod``, it will be assigned "
-"automatically."
+msgid "The peculiarity of the Open EU procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdEU``. Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically."
 msgstr ""
 
-#: ../../source/multiple_lots_tutorial.rst:25
-msgid ""
-"Tender can contain several different lots. We can add lot using the "
-"following way:"
-msgstr ""
-"Закупівля може складатись із декількох лотів. Можна створити лот таким "
-"чином:"
+msgid "Tender can contain several different lots. We can add lot using the following way:"
+msgstr "Закупівля може складатись із декількох лотів. Можна створити лот таким чином:"
 
-#: ../../source/multiple_lots_tutorial.rst:30
 msgid "Also you will need to update data about item's related lots:"
 msgstr "Потрібно оновити дані пов’язані із залежністю на лот:"
 
-#: ../../source/multiple_lots_tutorial.rst:35
 msgid "View tender listing:"
 msgstr "Перегляньте список закупівель:"
 
-#: ../../source/multiple_lots_tutorial.rst:40
 msgid "or view tender:"
 msgstr "або перегляньте окрему закупівлю:"
 
-#: ../../source/multiple_lots_tutorial.rst:48
 msgid "Registering bid"
 msgstr "Реєстрація пропозиції"
 
-#: ../../source/multiple_lots_tutorial.rst:50
 msgid "Tender status ``active.tendering`` allows registration of bids."
 msgstr "Статус закупівлі ``active.tendering`` дозволяє реєстрацію пропозицій."
 
-#: ../../source/multiple_lots_tutorial.rst:52
 msgid "Bidder can register a bid for lot №1:"
 msgstr "Учасник може зареєструвати пропозицію для лота №1:"
 
-#: ../../source/multiple_lots_tutorial.rst:57
 msgid "Bidder can register bids for all lots:"
 msgstr "Учасник може зареєструвати пропозиції для всіх лотів:"
 
-#: ../../source/multiple_lots_tutorial.rst:62
 msgid "Then bidder should upload technical and private documents of proposal."
-msgstr ""
-"Учасник повинен завантажити технічні та приватні документи пропозиції."
+msgstr "Учасник повинен завантажити технічні та приватні документи пропозиції."
 
-#: ../../source/multiple_lots_tutorial.rst:64
-msgid ""
-"We can update tender during ``active.tendering`` period. Bids will be "
-"invalid after updating tender. For example, let's reduce the lot price to "
-"400."
-msgstr ""
-"Закупівлю можна оновлювати протягом періоду ``active.tendering``. Всі "
-"пропозиції вважатимуться недійсними після оновлення закупівлі. Наприклад, "
-"зменшимо ціну лота до 400."
+msgid "We can update tender during ``active.tendering`` period. Bids will be invalid after updating tender. For example, let's reduce the lot price to 400."
+msgstr "Закупівлю можна оновлювати протягом періоду ``active.tendering``. Всі пропозиції вважатимуться недійсними після оновлення закупівлі. Наприклад, зменшимо ціну лота до 400."
 
-#: ../../source/multiple_lots_tutorial.rst:69
 msgid "Here is the bidder's proposal after tender was updated."
 msgstr "Це пропозиція учасника після оновлення закупівлі."
 
-#: ../../source/multiple_lots_tutorial.rst:74
-msgid ""
-"Firstly bidder has to renew bid, even if he was placing a bid just for a "
-"lot №1."
-msgstr ""
-"Спочатку учасник повинен поновити свою пропозицію, навіть якщо подавав її "
-"лише для лота №1."
+msgid "Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1."
+msgstr "Спочатку учасник повинен поновити свою пропозицію, навіть якщо подавав її лише для лота №1."
 
-#: ../../source/multiple_lots_tutorial.rst:79
 msgid "Then bidder has to renew bid only for a lot №1."
 msgstr "Потім учасник повинен поновити пропозицію для лота №1."
 
-#: ../../source/multiple_lots_tutorial.rst:86
 msgid "Bid Qualification"
 msgstr "Кваліфікація пропозицій"
 
-#: ../../source/multiple_lots_tutorial.rst:90
+msgid "CompetitiveDialogue procedure requires bid's value qualification."
+msgstr "Для процедури конкурентного діалогу необхідна кваліфікація значень пропозицій."
+
 msgid "Let's view tender:"
 msgstr "Переглянемо закупівлю:"
 
-#: ../../source/multiple_lots_tutorial.rst:95
 msgid "Let's list qualifications:"
 msgstr "Переглянемо список кваліфікацій:"
 
-#: ../../source/multiple_lots_tutorial.rst:100
 msgid "Approve bid's value through qualification objects:"
 msgstr "Підтвердіть значення пропозиції через кваліфікаційні об’єкти:"
 
-#: ../../source/multiple_lots_tutorial.rst:106
-msgid "Procuring entity approves qualifications by switching to next status:"
-msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу:"
+msgid "Procuring entity approves qualifications by switching to next status."
+msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу."
 
-#: ../../source/multiple_lots_tutorial.rst:111
+msgid "Before approving qualifications it is required to add sign document to tender. Sign doc should be for every lot in tender or generally for tender if there is no lots. If there is no sign document during approving qualification, we will see an error:"
+msgstr "Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути для кожного лоту в тендері або до тендеру якщо це безлотова процедура. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:"
+
+msgid "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document for all lots:"
+msgstr "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ для всіх лотів:"
+
+msgid "Let's approve qualifications one more time:"
+msgstr "Ще раз схвалимо кваліфікацію заявок:"
+
 msgid "There is 10 day stand-still period set in `qualificationPeriod`."
-msgstr ""
-"В цій процедурі є період блокування на 10 днів під час "
-"`qualificationPeriod`."
+msgstr "В цій процедурі є період блокування на 10 днів під час `qualificationPeriod`."
 
-#: ../../source/multiple_lots_tutorial.rst:88
-msgid "CompetitiveDialogue procedure requires bid's value qualification."
-msgstr ""
-"Для процедури конкурентного діалогу необхідна кваліфікація значень "
-"пропозицій."
-
-#: ../../source/multiple_lots_tutorial.rst:114
 msgid "Second stage"
 msgstr "Другий етап"
 
-#: ../../source/multiple_lots_tutorial.rst:116
-msgid ""
-"On second stage we must register new bids, but register bid can only users "
-"who was approved on first stage"
-msgstr ""
-"На другому етапі ми повині реєструвати нові пропозіції, але реєструвати "
-"можуть тільки учасники, які були допущени на першому етапі."
+msgid "On second stage we must register new bids, but register bid can only users who was approved on first stage"
+msgstr "На другому етапі ми повині реєструвати нові пропозіції, але реєструвати можуть тільки учасники, які були допущени на першому етапі."
 
-#: ../../source/multiple_lots_tutorial.rst:118
 msgid "Let's try register bid by procuring which didn't was on first stage"
 msgstr "Спробуємо "
 
-#: ../../source/multiple_lots_tutorial.rst:123
 msgid "We catch error."
 msgstr "Отримали помилку"
 
-#: ../../source/multiple_lots_tutorial.rst:125
 msgid "Now procuring which was approved on 1 lot."
-msgstr ""
-"Тепер, зареєструємо пропозицію постачальником, який був допущений на "
-"першому етапі на перший лот"
+msgstr "Тепер, зареєструємо пропозицію постачальником, який був допущений на першому етапі на перший лот"
 
-#: ../../source/multiple_lots_tutorial.rst:130
 msgid "Successs!"
 msgstr "Вдалося!"
 
-#: ../../source/multiple_lots_tutorial.rst:132
 msgid "And now try register on lot which he not allowed."
-msgstr ""
-"Тепер спробуємо зареєструємо на лот на який постачальник не був допущений."
+msgstr "Тепер спробуємо зареєструємо на лот на який постачальник не був допущений."
 
-#: ../../source/multiple_lots_tutorial.rst:137
-msgid ""
-"We again catch error. So we can conclude that, only user from first stage "
-"can register bid on second stage."
-msgstr ""
-"Ми знову виявляємо помилку. Таким чином, ми можемо зробити висновок, що "
-"тільки користувач з першого етапу може зареєструвати ставку на другому "
-"етапі."
+msgid "We again catch error. So we can conclude that, only user from first stage can register bid on second stage."
+msgstr "Ми знову виявляємо помилку. Таким чином, ми можемо зробити висновок, що тільки користувач з першого етапу може зареєструвати ставку на другому етапі."
+

@@ -919,6 +919,20 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
+      },
+      {
+        "documentType": "evaluationReports",
+        "relatedItem": "4b0e745d5e59434da2b2c0206ca2d89b",
+        "id": "a964a248e3c843dbb96f7d8b3d21d815",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d919e3a12bf04f32b88a651dc10270d1/documents/a964a248e3c843dbb96f7d8b3d21d815?download=fc06e2597c074faea6e756fb092e24ab",
+        "documentOf": "lot",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",

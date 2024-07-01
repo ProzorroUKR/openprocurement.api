@@ -95,6 +95,23 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tearDownMock()
         super().tearDown()
 
+    def add_evaluation_report_doc(self, tender_id, tender_token, lot_id):
+        response = self.app.post_json(
+            f'/tenders/{tender_id}/documents?acc_token={tender_token}',
+            {
+                "data": {
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pkcs7-signature",
+                    "documentType": "evaluationReports",
+                    "relatedItem": lot_id,
+                    "documentOf": "lot",
+                }
+            },
+        )
+        self.assertEqual(response.status, '201 Created')
+
     def test_complaints(self):
         self.app.authorization = ('Basic', ('broker', ''))
 
@@ -663,6 +680,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tick()
 
         # active.pre-qualification.stand-still
+        self.add_evaluation_report_doc(self.tender_id, owner_token, lot_id)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1153,6 +1171,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        self.add_evaluation_report_doc(self.tender_id, owner_token, lot_id)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2593,6 +2612,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        self.add_evaluation_report_doc(self.tender_id, owner_token, lot_id)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
