@@ -3,8 +3,8 @@ from binascii import Error as BinasciiError
 from urllib.parse import parse_qsl, quote, unquote, urlparse
 
 from nacl.exceptions import BadSignatureError
-from rfc6266 import build_header
 
+from openprocurement.api.rfc6266 import build_header
 from openprocurement.api.utils import error_handler, generate_docservice_url
 
 

@@ -1,4 +1,4 @@
 include:
   - project: 'cdb/openprocurement.api-ci'
-    ref: master
+    ref: 'python-3-11'
     file: 'api-ci.yml'
