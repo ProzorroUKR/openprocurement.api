@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/cancellations/e9ce3aa4b15a410c89e11683450d44c8/documents/b5c85bde03cd46f7a48e7613367fd3bb?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PUT /api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/cancellations/e9ce3aa4b15a410c89e11683450d44c8/documents/3e2f44e4f79d4eb1abd7c811aa7cdac5?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2847bc51f8fc4ed596355aa18be53ff8?Signature=cL95W8LZBeU%2BNNt8mPrlQ8kz7nEbgm00dYJ0LDgp%2FcBsGZpe3OHPMGa8wQ35NpjrDsZQ9Q7lA7%2Bi7gpxn1MbBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/252bd5d61878405f9b5a4dabdaec3e5c?Signature=O8XJyAp%2F0b%2BA12dXQKpYW%2FvKS3IDfwm4yqkdqlgx0EslstNFmkSSznw%2FuGb4Q8Y5ghq42yuj3q9Ea%2FK9cKmQDg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -19,12 +19,12 @@ Content-Type: application/json
 {
   "data": {
     "description": "Changed description",
-    "id": "b5c85bde03cd46f7a48e7613367fd3bb",
+    "id": "3e2f44e4f79d4eb1abd7c811aa7cdac5",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2847bc51f8fc4ed596355aa18be53ff8?Signature=ud5WptE9i8iXzWacold4%2BVNF%2B1GjEmD0xS%2FFrB8186fhM3wxJmQhQJm%2F%2Bt3Si4nvYMuJeOxBK7zza45gJKPwDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/252bd5d61878405f9b5a4dabdaec3e5c?Signature=LtCyuOox3BxkC5X3WnlVW1XIAdWHM5sW%2FPJd2EpvHRvVFA8FA%2FtHfDb%2BnhKP6k0YEMKEOeWUP6Go1q%2BPIF%2FnCQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "language": "uk"

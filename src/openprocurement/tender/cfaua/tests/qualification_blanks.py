@@ -266,7 +266,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
             {
                 "location": "body",
                 "name": "documents",
-                "description": f"Document with type 'evaluationReports' is required for lot {self.initial_lots[0]['id']}",
+                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
             }
         ],
     )

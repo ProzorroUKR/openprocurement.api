@@ -1152,6 +1152,20 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
+      },
+      {
+        "documentType": "evaluationReports",
+        "relatedItem": "ce7777a3b9954a00a43ea3c722f5af5b",
+        "id": "2c8b1f335b82404e95c618938b5a94bd",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/2c8b1f335b82404e95c618938b5a94bd?download=c8f1e0d6247c40238f6dbad245041fe6",
+        "documentOf": "lot",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",

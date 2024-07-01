@@ -610,6 +610,30 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             self.assertEqual(response.status, '200 OK')
 
         # active.pre-qualification.stand-still
+        with open(TARGET_DIR + 'pre-qualification-sign-doc-is-required.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.pre-qualification.stand-still'}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'upload-evaluation-reports-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/documents?acc_token={owner_token}',
+                {
+                    "data": [
+                        {
+                            "title": "sign.p7s",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentType": "evaluationReports",
+                            "relatedItem": lot_id,
+                            "documentOf": "lot",
+                        },
+                    ],
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
         with open(TARGET_DIR + 'pre-qualification-confirmation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -1169,6 +1193,28 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        with open(TARGET_DIR + 'stage2/EU/pre-qualification-sign-doc-is-required.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.pre-qualification.stand-still'}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'stage2/EU/upload-evaluation-reports-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/documents?acc_token={owner_token}',
+                {
+                    "data": {
+                        "title": "sign.p7s",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/pkcs7-signature",
+                        "documentType": "evaluationReports",
+                        "relatedItem": lot_id,
+                        "documentOf": "lot",
+                    }
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
         with open(TARGET_DIR + 'stage2/EU/pre-qualification-confirmation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -1524,6 +1570,40 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         )
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
+
+        with open(TARGET_DIR_MULTIPLE + 'pre-qualification-sign-doc-is-required.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.pre-qualification.stand-still'}},
+                status=422,
+            )
+        with open(TARGET_DIR_MULTIPLE + 'upload-evaluation-reports-doc.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/tenders/{self.tender_id}/documents?acc_token={owner_token}',
+                {
+                    "data": [
+                        {
+                            "title": "sign.p7s",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentType": "evaluationReports",
+                            "relatedItem": lot_id1,
+                            "documentOf": "lot",
+                        },
+                        {
+                            "title": "sign.p7s",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/pkcs7-signature",
+                            "documentType": "evaluationReports",
+                            "relatedItem": lot_id2,
+                            "documentOf": "lot",
+                        },
+                    ],
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
 
         with open(TARGET_DIR_MULTIPLE + 'tender-view-pre-qualification-stand-still.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
