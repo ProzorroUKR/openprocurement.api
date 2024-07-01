@@ -119,7 +119,10 @@ disable = [
 max-line-length = 120
 
 [tool.bandit]
-exclude_dirs = ["**/tests/**"]
+exclude_dirs = [
+    "**/tests/**",
+    "**/loadtesting/**",
+]
 skips = [
 
     #>> Issue: [B101:assert_used] Use of assert detected. The enclosed code will be removed when compiling to optimised byte code.
@@ -140,41 +143,12 @@ skips = [
     #   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b107_hardcoded_password_default.html
     "B107",
 
-    #>> Issue: [B311:blacklist] Standard pseudo-random generators are not suitable for security/cryptographic purposes.
-    #   Severity: Low   Confidence: High
-    #   CWE: CWE-330 (https://cwe.mitre.org/data/definitions/330.html)
-    #   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_calls.html#b311-random
-    "B311",
-
-    #>> Issue: [B404:blacklist] Consider possible security implications associated with the subprocess module.
-    #   Severity: Low   Confidence: High
-    #   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
-    #   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_imports.html#b404-import-subprocess
-    "B404",
-
-    #>> Issue: [B110:try_except_pass] Try, Except, Pass detected.
-    #   Severity: Low   Confidence: High
-    #   CWE: CWE-703 (https://cwe.mitre.org/data/definitions/703.html)
-    #   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b110_try_except_pass.html
-    "B110",
-
-    #>> Issue: [B102:exec_used] Use of exec detected.
-    #   Severity: Medium   Confidence: High
-    #   CWE: CWE-78 (https://cwe.mitre.org/data/definitions/78.html)
-    #   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b102_exec_used.html
-    "B102",
-
     #>> Issue: [B701:jinja2_autoescape_false] By default, jinja2 sets autoescape to False. Consider using autoescape=True or use the select_autoescape function to mitigate XSS vulnerabilities.
     #   Severity: High   Confidence: High
     #   CWE: CWE-94 (https://cwe.mitre.org/data/definitions/94.html)
     #   More Info: https://bandit.readthedocs.io/en/1.7.7/plugins/b701_jinja2_autoescape_false.html
     "B701",
 
-    #>> Issue: [B413:blacklist] The pyCrypto library and its module AES are no longer actively maintained and have been deprecated. Consider using pyca/cryptography library.
-    #   Severity: High   Confidence: High
-    #   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
-    #   More Info: https://bandit.readthedocs.io/en/1.7.7/blacklists/blacklist_imports.html#b413-import-pycrypto
-    "B413",
     #>> Issue: [B324:hashlib] Use of insecure MD5 hash function.
     #   Severity: Medium   Confidence: High
     #   CWE: CWE-327 (https://cwe.mitre.org/data/definitions/327.html)
