@@ -14,6 +14,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     test_tender_pq_bids,
     test_tender_pq_bids_with_docs,
+    test_tender_pq_category,
     test_tender_pq_criteria_1,
     test_tender_pq_data,
     test_tender_pq_response_1,
@@ -64,7 +65,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
     def activate_tender(self, profile, filename):
         with patch(
             "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
-            Mock(return_value=profile),
+            Mock(status=200, return_value=Mock({"data": profile})),
         ), open(TARGET_DIR + f'{filename}.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -94,7 +95,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             }
         )
 
-        with open(TARGET_DIR + 'tender-post-attempt-json-data.http', 'w') as self.app.file_obj:
+        with patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+            Mock(return_value=test_tender_pq_short_profile),
+        ), patch(
+            "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+            Mock(return_value=test_tender_pq_category),
+        ), open(
+            TARGET_DIR + 'tender-post-attempt-json-data.http', 'w'
+        ) as self.app.file_obj:
             response = self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': test_tender_data, 'config': self.initial_config}
             )

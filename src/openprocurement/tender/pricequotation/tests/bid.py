@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
@@ -18,9 +18,11 @@ from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_tender_pq_bids,
+    test_tender_pq_category,
     test_tender_pq_criteria,
     test_tender_pq_organization,
     test_tender_pq_requirement_response,
+    test_tender_pq_short_profile,
 )
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,
@@ -73,6 +75,14 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_bids_related_product = snitch(bids_related_product)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value=test_tender_pq_category),
+)
 class TenderBidCriteriaTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))

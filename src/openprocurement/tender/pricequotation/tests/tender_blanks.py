@@ -2137,9 +2137,13 @@ def draft_activation_validations(self):
     profile = deepcopy(test_tender_pq_short_profile)
     profile["status"] = "hidden"
 
+    response_200 = Mock()
+    response_200.status_code = 200
+    response_200.json = Mock(return_value={"data": profile})
+
     with patch(
-        "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
-        Mock(return_value=profile),
+        "openprocurement.api.utils.requests.get",
+        Mock(return_value=response_200),
     ):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -2147,7 +2151,9 @@ def draft_activation_validations(self):
             status=422,
         )
         self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.json["errors"][0]["description"], f"Profile {profile['id']} is not active")
+        self.assertEqual(
+            response.json["errors"][0]["description"], f"Profiles {profile['id']}: hidden not in ('active', 'general')"
+        )
 
     # agreement in profile not equals agreement in tender
     profile["status"] = "active"

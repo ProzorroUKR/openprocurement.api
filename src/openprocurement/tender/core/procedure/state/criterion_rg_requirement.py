@@ -1,11 +1,19 @@
-from schematics.exceptions import ValidationError
-
 from openprocurement.api.constants import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import error_handler, get_first_revision_date, get_now
+from openprocurement.api.utils import (
+    get_first_revision_date,
+    get_now,
+    raise_operation_error,
+)
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.core.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.tender.core.constants import (
+    CRITERION_LIFE_CYCLE_COST_IDS,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.procedure.models.criterion import (
+    PatchExclusionLccRequirement,
+    PatchRequirement,
+    PatchTechnicalFeatureRequirement,
     validate_criteria_requirement_id_uniq,
     validate_requirement,
 )
@@ -34,6 +42,19 @@ class RequirementValidationsMixin:
 
 
 class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
+    def get_patch_data_model(self):
+        criterion = self.request.validated["criterion"]
+        classification_id = criterion["classification"]["id"]
+        model = PatchRequirement
+        if classification_id.startswith("CRITERION.EXCLUSION") or classification_id in CRITERION_LIFE_CYCLE_COST_IDS:
+            model = PatchExclusionLccRequirement
+        elif classification_id == CRITERION_TECHNICAL_FEATURES:
+            model = PatchTechnicalFeatureRequirement
+        return model
+
+    def get_put_data_model(self):
+        return self.get_patch_data_model()
+
     def requirement_on_post(self, data: dict) -> None:
         self.validate_on_post(data)
         self.requirement_always(data)
@@ -41,10 +62,12 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     def requirement_on_patch(self, before: dict, after: dict) -> None:
         self.validate_on_patch(before, after)
         self.requirement_always(after)
+        self.validate_patch_requirement_values(after, before)
 
     def requirement_on_put(self, before: dict, after: dict) -> None:
         self.validate_on_put(before, after)
         self.requirement_always(after)
+        self.validate_patch_requirement_values(after, before)
 
     def requirement_always(self, data: dict) -> None:
         self.invalidate_bids()
@@ -81,6 +104,20 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     def _validate_requirement_data(self, data: dict) -> None:
         criterion = self.request.validated["criterion"]
         validate_requirement(criterion, data)
+
+    def validate_patch_requirement_values(self, before: dict, after: dict) -> None:
+        value_fields = ("expectedValue", "expectedValues", "minValue", "maxValue")
+        criterion = self.request.validated["criterion"]
+        if criterion["classification"]["id"] != CRITERION_TECHNICAL_FEATURES:
+            return
+
+        for field in value_fields:
+            if not after.get(field) and before.get(field):
+                raise_operation_error(
+                    self.request,
+                    f"Disallowed remove {field} field and set other value fields.",
+                    status=422,
+                )
 
 
 class RequirementState(RequirementStateMixin, TenderState):

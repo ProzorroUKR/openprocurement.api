@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "statement",
-        "id": "b4155821470b42f29811764660a146ee"
+        "id": "3dfb56394a5a4405990d915249bbf2b5"
       }
     ]
   }
@@ -30,7 +30,7 @@ Content-Type: application/json
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "statement",
-        "id": "b4155821470b42f29811764660a146ee"
+        "id": "3dfb56394a5a4405990d915249bbf2b5"
       }
     ],
     "expectedValue": true,

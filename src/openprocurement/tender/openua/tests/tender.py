@@ -41,6 +41,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     patch_tender,
     patch_tender_period,
     tender_fields,
+    tender_items_category_profile,
     tender_with_main_procurement_category,
 )
 
@@ -99,6 +100,7 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_one_valid_bid_tender_ua = snitch(one_valid_bid_tender_ua)
     test_invalid1_and_1draft_bids_tender = snitch(invalid1_and_1draft_bids_tender)
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
+    test_tender_items_category_profile = snitch(tender_items_category_profile)
 
 
 def suite():

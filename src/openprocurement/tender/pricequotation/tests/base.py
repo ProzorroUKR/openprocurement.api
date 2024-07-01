@@ -1,6 +1,8 @@
 import os
 from uuid import uuid4
 
+from mock import Mock, patch
+
 from openprocurement.api.context import set_now
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
@@ -156,6 +158,14 @@ class BaseTenderWebTest(BaseCoreWebTest):
         data = self.mongodb.tenders.get(self.tender_id)
         return data['owner_token']
 
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+        Mock(return_value=test_tender_pq_short_profile),
+    )
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+        Mock(return_value=test_tender_pq_category),
+    )
     def create_tender(self):
         data = deepcopy(self.initial_data)
         config = deepcopy(self.initial_config)

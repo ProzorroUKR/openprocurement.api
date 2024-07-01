@@ -54,13 +54,13 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "71b8179cda744ab49c375d4dcd77a85c"
+                  "id": "e611dd8ad224450abcfec42e475bc1f3"
                 },
                 {
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "statement",
-                  "id": "de146cbe00ce498f93ecd841f0121394"
+                  "id": "630fc855cdf14dc1b1e2c2cd8455c927"
                 }
               ],
               "expectedValue": true,
@@ -155,7 +155,7 @@ Content-Type: application/json
                   "title": "Документальне підтвердження",
                   "description": "Довідка в довільній формі",
                   "type": "document",
-                  "id": "9b9d1974cd334d40bfea3b7e00cb5f7e"
+                  "id": "b57f1f1703d54c42abb5387bf26e88b4"
                 }
               ],
               "expectedValue": true,

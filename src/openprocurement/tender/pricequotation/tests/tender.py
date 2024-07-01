@@ -27,6 +27,7 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_data,
 )
 from openprocurement.tender.pricequotation.tests.data import (
+    test_tender_pq_category,
     test_tender_pq_criteria_1,
     test_tender_pq_short_profile,
 )
@@ -40,14 +41,10 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     create_tender_invalid,
     create_tender_with_inn,
     draft_activation_validations,
-    first_bid_tender,
     invalid_tender_conditions,
     listing,
     listing_changes,
     listing_draft,
-    lost_contract_for_active_award,
-    one_invalid_bid_tender,
-    one_valid_bid_tender,
     patch_items_related_buyer_id,
     patch_tender,
     patch_tender_status,
@@ -62,7 +59,6 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     tender_owner_cannot_change_in_draft,
     tender_period_update,
 )
-from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
 
 
 class TenderResourceTestMixin:
@@ -97,6 +93,14 @@ class TenderResourceTestMixin:
 @patch(
     "openprocurement.tender.pricequotation.procedure.state.tender_details.get_tender_profile",
     Mock(return_value=test_tender_pq_short_profile),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_profile",
+    Mock(return_value=test_tender_pq_short_profile),
+)
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
+    Mock(return_value=test_tender_pq_category),
 )
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     docservice = True

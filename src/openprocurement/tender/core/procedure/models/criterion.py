@@ -25,6 +25,7 @@ from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
     CRITERION_LIFE_CYCLE_COST_IDS,
+    CRITERION_TECHNICAL_FEATURES,
 )
 from openprocurement.tender.core.procedure.models.identifier import (
     LegislationIdentifier,
@@ -271,6 +272,29 @@ class PatchExclusionLccRequirement(Model):
     )
 
 
+class PatchTechnicalFeatureRequirement(Model):
+    period = ModelType(ExtendPeriod)
+    eligibleEvidences = ListType(
+        ModelType(EligibleEvidence, required=True),
+    )
+    relatedFeature = MD5Type()
+    status = StringType(
+        choices=[
+            ReqStatuses.ACTIVE,
+            ReqStatuses.CANCELLED,
+        ],
+        default=ReqStatuses.DEFAULT,
+    )
+
+    minValue = BaseType()
+    maxValue = BaseType()
+    expectedValue = BaseType()
+
+    expectedValues = ListType(BaseType(required=True), min_size=1)
+    expectedMinItems = IntType(min_value=0)
+    expectedMaxItems = IntType(min_value=0)
+
+
 class PutRequirement(PatchRequirement):
     status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
 
@@ -373,6 +397,10 @@ class Criterion(ValidateIdMixing, BaseCriterion):
             if tender.get("lots") and value != "lot":
                 raise ValidationError(f"{classification['id']} criteria relatesTo should be `lot` if tender has lots")
 
+        elif classification and classification["id"] == CRITERION_TECHNICAL_FEATURES:
+            if value != "item":
+                raise ValidationError(f"{classification['id']} criteria relatesTo should be `item`")
+
     def validate_relatedItem(self, data, value):
         if not value and data.get("relatesTo") in ["item", "lot"]:
             raise ValidationError("This field is required.")
@@ -384,12 +412,23 @@ class Criterion(ValidateIdMixing, BaseCriterion):
         )
 
         if value and is_criterion_active:
-            tender = get_tender() or get_json_data()
+            json_data = get_json_data()
+            tender = get_tender() or json_data
+
             if data.get("relatesTo") == "lot":
+                # if lots was changed
+                if "lots" in json_data:
+                    tender = json_data
+
                 lot_ids = [i["id"] for i in tender.get("lots") or []]
                 if value not in lot_ids:
                     raise ValidationError("relatedItem should be one of lots")
+
             if data.get("relatesTo") == "item":
+                # if items was changed
+                if "items" in json_data:
+                    tender = json_data
+
                 item_ids = [i["id"] for i in tender.get("items") or []]
                 if value not in item_ids:
                     raise ValidationError("relatedItem should be one of items")

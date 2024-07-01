@@ -3176,12 +3176,15 @@ def tender_item_related_lot_validation(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"][0],
-        {
-            "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
-            "location": "body",
-            "name": "items",
-        },
+        response.json["errors"],
+        [
+            {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
+            {
+                "location": "body",
+                "name": "items",
+                "description": [{"relatedLot": ["relatedLot should be one of lots"]}],
+            },
+        ],
     )
 
 
