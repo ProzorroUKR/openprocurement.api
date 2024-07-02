@@ -9,6 +9,9 @@ from openprocurement.tender.core.migrations.add_config_award_complain_duration i
 from openprocurement.tender.core.migrations.add_config_cancellation_complain_duration import (
     cancellation_complain_duration_populator,
 )
+from openprocurement.tender.core.migrations.add_config_clarification_until_duration import (
+    clarification_until_duration_populator,
+)
 from openprocurement.tender.core.migrations.add_config_complain_regulation_field import (
     tender_complain_regulation_populator,
 )
@@ -168,6 +171,14 @@ def qualification_complain_duration_serializer(obj, value):
     return value
 
 
+def clarification_until_duration_serializer(obj, value):
+    if value is None and TENDER_CONFIG_OPTIONALITY["clarificationUntilDuration"] is True:
+        request = get_request()
+        tender = request.validated.get("tender") or request.validated.get("data")
+        return clarification_until_duration_populator(tender)
+    return value
+
+
 def restricted_serializer(obj, value):
     if value is None and TENDER_CONFIG_OPTIONALITY["restricted"] is True:
         request = get_request()
@@ -208,5 +219,6 @@ class TenderConfigSerializer(BaseConfigSerializer):
         "qualificationComplainDuration": qualification_complain_duration_serializer,
         "awardComplainDuration": award_complain_duration_serializer,
         "cancellationComplainDuration": cancellation_complain_duration_serializer,
+        "clarificationUntilDuration": clarification_until_duration_serializer,
         "restricted": restricted_serializer,
     }

@@ -2,10 +2,7 @@ from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_before
-from openprocurement.tender.esco.constants import (
-    ENQUIRY_STAND_STILL_TIME,
-    QUESTIONS_STAND_STILL,
-)
+from openprocurement.tender.esco.constants import QUESTIONS_STAND_STILL
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
 )
@@ -13,7 +10,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",

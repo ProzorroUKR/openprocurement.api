@@ -6,7 +6,6 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
@@ -24,14 +23,13 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     tendering_period_extra_working_days = False
+    tender_period_working_day = False
 
     should_validate_notice_doc_required = False
 
     def on_post(self, tender):
         super().on_post(tender)
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
@@ -43,9 +41,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-
-        if after["status"] in ("draft", "active.tendering"):
-            self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 

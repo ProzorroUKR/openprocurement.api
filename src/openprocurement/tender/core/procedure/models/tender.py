@@ -225,6 +225,7 @@ class TenderConfig(Model):
     qualificationComplainDuration = IntType(min_value=0)
     awardComplainDuration = IntType(min_value=0)
     cancellationComplainDuration = IntType(min_value=0)
+    clarificationUntilDuration = IntType(min_value=0)
     restricted = BooleanType()
 
     def validate_valueCurrencyEquality(self, data, value):
