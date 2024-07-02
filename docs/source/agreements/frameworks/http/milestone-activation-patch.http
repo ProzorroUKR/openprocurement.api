@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/6a527caaceb94ad398f77579768a6d67/contracts/a2ac96f0669b459981b24978efb9c192/milestones/428d21a6c91445ca8785a53103c07905?acc_token=47f9fd2d63d44d3d9a5effcecf16fb82 HTTP/1.0
+PATCH /api/2.5/agreements/6a527caaceb94ad398f77579768a6d67/contracts/a2ac96f0669b459981b24978efb9c192/milestones/428d21a6c91445ca8785a53103c07905?acc_token=7db1b5b8c8b3419a8f5ffea8a88b6230 HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
