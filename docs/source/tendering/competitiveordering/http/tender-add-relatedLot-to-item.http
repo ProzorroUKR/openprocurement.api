@@ -190,12 +190,12 @@ Content-Type: application/json
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-22T00:00:00+03:00",
       "clarificationsUntil": "2023-10-25T00:00:00+03:00"
     },
+    "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "eedf00bccdb24a20b547ba72173a8d35"
@@ -217,6 +217,7 @@ Content-Type: application/json
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 3,
     "restricted": false
   }
 }

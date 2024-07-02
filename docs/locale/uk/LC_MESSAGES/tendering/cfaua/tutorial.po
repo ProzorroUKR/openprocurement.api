@@ -92,6 +92,9 @@ msgstr ""
 msgid "5"
 msgstr ""
 
+msgid "clarificationUntilDuration"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 

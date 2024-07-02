@@ -26,4 +26,5 @@ Contents:
    qualification_complain_duration
    award_complain_duration
    cancellation_complain_duration
+   clarification_until_duration
    restricted
