@@ -3,7 +3,6 @@ from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     PREQUALIFICATION_COMPLAINT_STAND_STILL,
     QUALIFICATION_COMPLAINT_STAND_STILL,
     TENDERING_EXTRA_PERIOD,
@@ -23,14 +22,13 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
 
     tendering_period_extra = TENDERING_EXTRA_PERIOD
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
     qualification_complaint_stand_still = QUALIFICATION_COMPLAINT_STAND_STILL
     tendering_period_extra_working_days = False
+    tender_period_working_day = False
 
     def on_post(self, tender):
         super().on_post(tender)
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
@@ -42,9 +40,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-
-        if after["status"] in ("draft", "active.tendering"):
-            self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 

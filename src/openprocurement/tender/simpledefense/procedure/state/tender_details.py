@@ -5,7 +5,6 @@ from openprocurement.tender.openuadefense.procedure.state.tender_details import 
 from openprocurement.tender.simpledefense.constants import (
     COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
 )
 
@@ -19,4 +18,3 @@ class SimpleDefenseTenderDetailsState(DefenseTenderDetailsState):
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME

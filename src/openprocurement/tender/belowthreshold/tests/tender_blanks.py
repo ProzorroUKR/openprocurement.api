@@ -41,7 +41,10 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
+from openprocurement.tender.core.utils import (
+    calculate_clarif_business_date,
+    calculate_tender_business_date,
+)
 
 
 def listing(self):
@@ -3654,6 +3657,7 @@ def patch_enquiry_tender_periods(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
+            "status": "active.tendering",
             "data": {
                 "enquiryPeriod": {
                     "startDate": enq_p["startDate"],
@@ -3663,7 +3667,7 @@ def patch_enquiry_tender_periods(self):
                     "startDate": end_data.isoformat(),
                     "endDate": tender_end.isoformat(),
                 },
-            }
+            },
         },
         status=200,
     )

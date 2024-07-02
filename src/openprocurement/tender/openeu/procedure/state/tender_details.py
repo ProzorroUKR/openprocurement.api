@@ -7,7 +7,6 @@ from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTende
 from openprocurement.tender.openua.constants import (
     COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.openua.procedure.state.tender_details import (
@@ -36,12 +35,11 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     complaint_submit_time = COMPLAINT_SUBMIT_TIME
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
     pre_qualification_complaint_stand_still = PREQUALIFICATION_COMPLAINT_STAND_STILL
+    tender_period_working_day = False
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)

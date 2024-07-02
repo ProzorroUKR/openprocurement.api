@@ -7,7 +7,6 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.pricequotation.constants import DEFAULT_TEMPLATE_KEY
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
@@ -18,6 +17,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     tender_create_accreditations = (ACCR_1, ACCR_5)
     tender_central_accreditations = (ACCR_5,)
     tender_edit_accreditations = (ACCR_2,)
+    has_enquiry_period = False
 
     required_criteria = ()
 

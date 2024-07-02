@@ -4,7 +4,6 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     QUESTIONS_STAND_STILL,
 )
 from openprocurement.tender.openeu.procedure.state.tender_details import (
@@ -14,7 +13,6 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     enquiry_period_timedelta = -QUESTIONS_STAND_STILL
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
 
     required_criteria = {
         "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",

@@ -5,7 +5,6 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 from openprocurement.tender.openuadefense.constants import (
     COMPLAINT_SUBMIT_TIME,
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
 )
 
@@ -20,8 +19,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     tendering_period_extra_working_days = True
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-    period_working_day = True
+    tender_period_working_day = True
 
     @classmethod
     def validate_required_criteria(cls, before, after):

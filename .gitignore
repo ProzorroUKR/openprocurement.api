@@ -58,3 +58,4 @@ target/
 
 cover/
 output.html
+.pre-commit-config.yaml

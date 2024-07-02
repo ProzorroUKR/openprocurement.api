@@ -18,11 +18,7 @@ from openprocurement.api.procedure.utils import (
     get_cpv_prefix_length,
     get_cpv_uniq_prefixes,
 )
-from openprocurement.api.utils import (
-    get_agreement_by_id,
-    get_first_revision_date,
-    raise_operation_error,
-)
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
@@ -48,6 +44,7 @@ from openprocurement.tender.core.procedure.utils import (
     validate_field,
 )
 from openprocurement.tender.core.utils import (
+    calculate_clarif_business_date,
     calculate_complaint_business_date,
     calculate_tender_business_date,
 )
@@ -70,6 +67,7 @@ class TenderConfigMixin:
         "hasTenderComplaints",
         "hasAwardComplaints",
         "hasCancellationComplaints",
+        "clarificationUntilDuration",
         "restricted",
     )
 
@@ -138,11 +136,13 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_create_accreditations = None
     tender_central_accreditations = None
     tender_edit_accreditations = None
+    has_enquiry_period = True
+    tender_period_working_day = True
+    clarification_period_working_day = True
 
     required_criteria = ()
 
     enquiry_period_timedelta: timedelta
-    enquiry_stand_still_timedelta: timedelta
     pre_qualification_complaint_stand_still = timedelta(days=0)
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
@@ -165,6 +165,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.watch_value_meta_changes(tender)
+        self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
         super().on_post(tender)
@@ -189,6 +190,8 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.watch_value_meta_changes(after)
         self.validate_required_criteria(before, after)
         self.invalidate_review_requests()
+        if after["status"] in ("draft", "active.tendering"):
+            self.initialize_enquiry_period(after)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -394,6 +397,34 @@ class TenderDetailsMixing(TenderConfigMixin):
             if minimal_step:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
+
+    def initialize_enquiry_period(self, tender):
+        if self.has_enquiry_period:
+            clarification_until_duration = tender["config"]["clarificationUntilDuration"]
+
+            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+
+            end_date = calculate_tender_business_date(
+                tendering_end,
+                self.enquiry_period_timedelta,
+                tender,
+                working_days=self.tender_period_working_day,
+            )
+            clarifications_until = calculate_clarif_business_date(
+                end_date,
+                timedelta(days=clarification_until_duration),
+                tender,
+                working_days=self.clarification_period_working_day,
+            )
+            enquiry_period = tender.get("enquiryPeriod")
+            tender["enquiryPeriod"] = dict(
+                startDate=tender["tenderPeriod"]["startDate"],
+                endDate=end_date.isoformat(),
+                clarificationsUntil=clarifications_until.isoformat(),
+            )
+            invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+            if invalidation_date:
+                tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     def validate_tender_period_start_date_change(self, before, after):
         if before["status"] in ("draft", "draft.stage2", "active.enquiries"):

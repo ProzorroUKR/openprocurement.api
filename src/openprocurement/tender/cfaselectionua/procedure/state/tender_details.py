@@ -44,6 +44,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
 
     should_validate_pre_selection_agreement = False
+    has_enquiry_period = False
 
     def on_post(self, tender):
         super().on_post(tender)
