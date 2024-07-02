@@ -1,5 +1,6 @@
 {
     "config": {
+        "clarificationUntilDuration": 3,
         "hasAuction": false,
         "hasAwardComplaints": true,
         "hasAwardingOrder": true,

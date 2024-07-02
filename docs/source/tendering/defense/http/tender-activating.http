@@ -69,7 +69,7 @@ Content-Type: application/json
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-11-01T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00",
+      "clarificationsUntil": "2023-11-04T00:00:00+02:00",
       "invalidationDate": "2023-10-10T01:00:00+03:00"
     },
     "tenderPeriod": {
@@ -155,6 +155,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "clarificationUntilDuration": 3,
     "restricted": false
   }
 }

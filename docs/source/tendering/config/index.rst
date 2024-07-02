@@ -20,4 +20,5 @@ Contents:
    tender_complaints
    award_complaints
    cancellation_complaints
+   clarification_until_duration
    restricted

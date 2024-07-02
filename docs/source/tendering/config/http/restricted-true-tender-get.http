@@ -726,6 +726,7 @@ Content-Type: application/json
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
+    "clarificationUntilDuration": 3,
     "restricted": true
   }
 }

@@ -126,6 +126,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "clarificationUntilDuration": 3,
     "restricted": false
   }
 }
@@ -261,16 +262,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9f66fb872ea4fb9
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
-    },
-    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-31T00:00:00+02:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
+    },
+    "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "id": "c9f66fb872ea4fb9ae61feaf0933c01b"
@@ -286,6 +287,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9f66fb872ea4fb9
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "clarificationUntilDuration": 3,
     "restricted": false
   },
   "access": {

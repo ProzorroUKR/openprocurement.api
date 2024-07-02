@@ -131,16 +131,16 @@ Content-Type: application/json
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
-    },
-    "date": "2023-10-10T01:00:00+03:00",
     "enquiryPeriod": {
       "startDate": "2023-08-13T01:00:00+03:00",
       "endDate": "2023-09-03T01:00:00+03:00",
       "clarificationsUntil": "2023-11-03T00:00:00+02:00"
     },
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-06T00:00:00+02:00"
+    },
+    "date": "2023-10-10T01:00:00+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
     "qualificationPeriod": {
@@ -631,6 +631,7 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
+    "clarificationUntilDuration": 3,
     "restricted": false
   }
 }

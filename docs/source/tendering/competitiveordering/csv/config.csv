@@ -9,4 +9,5 @@ hasPreSelectionAgreement,true,true
 hasTenderComplaints,false,false
 hasAwardComplaints,false,false
 hasCancellationComplaints,false,false
+clarificationUntilDuration,3,3
 restricted,"false,true",false
