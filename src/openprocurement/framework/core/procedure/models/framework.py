@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
+from schematics.types import BaseType, BooleanType, IntType, MD5Type, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 
@@ -169,6 +169,7 @@ class PatchActiveFramework(Model):
 class FrameworkConfig(Model):
     test = BooleanType()
     restrictedDerivatives = BooleanType()
+    qualificationComplainDuration = IntType(min_value=0)
 
     def validate_restrictedDerivatives(self, data, value):
         framework = get_request().validated.get("data")

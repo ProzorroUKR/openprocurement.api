@@ -39,6 +39,7 @@ test_framework_dps_data = {
 
 test_framework_dps_config = {
     "restrictedDerivatives": False,
+    "qualificationComplainDuration": 0,
 }
 
 test_dps_documents = [

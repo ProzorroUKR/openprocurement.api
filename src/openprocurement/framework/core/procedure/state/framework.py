@@ -7,12 +7,7 @@ from jsonschema.validators import validate
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import (
-    context_unpack,
-    get_agreement_by_id,
-    raise_operation_error,
-    request_init_object,
-)
+from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
     ENQUIRY_STAND_STILL_TIME,
@@ -40,7 +35,7 @@ LOGGER = getLogger(__name__)
 
 
 class FrameworkConfigMixin:
-    configurations = ("restrictedDerivatives",)
+    configurations = ("restrictedDerivatives", "qualificationComplainDuration")
 
     def validate_config(self, data):
         for config_name in self.configurations:

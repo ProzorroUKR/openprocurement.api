@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, StringType
+from schematics.types import BaseType, BooleanType, IntType, StringType
 from schematics.types.compound import DictType
 from schematics.types.serializable import serializable
 

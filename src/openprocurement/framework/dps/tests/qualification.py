@@ -1,10 +1,13 @@
 import unittest
 from copy import deepcopy
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
+    test_framework_dps_config,
     test_framework_dps_data,
+    test_submission_config,
     test_submission_data,
 )
 from openprocurement.framework.dps.tests.qualification_blanks import (  # Documents
@@ -22,6 +25,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     listing,
     listing_changes,
     patch_qualification_active,
+    patch_qualification_active_mock,
     patch_qualification_unsuccessful,
     patch_submission_pending,
     patch_submission_pending_config_restricted,
@@ -31,6 +35,9 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     qualification_not_found,
     qualification_token_invalid,
 )
+
+test_mocked_framework_dps_config = deepcopy(test_framework_dps_config)
+test_mocked_framework_dps_config["qualificationComplainDuration"] = 5
 
 
 class QualificationContentWebTest(SubmissionContentWebTest):
@@ -65,6 +72,33 @@ class QualificationResourceTest(SubmissionContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
+
+
+class TestMockedQualificationResourceTest(SubmissionContentWebTest):
+    initial_submission_config = test_submission_config
+    initial_submission_data = test_submission_data
+    initial_data = test_framework_dps_data
+    initial_config = test_mocked_framework_dps_config
+
+    def setUp(self):
+        patch_path = 'openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS'
+        with patch(patch_path) as patched_load:
+            patched_load.get.return_value = {
+                'type': 'object',
+                'properties': {
+                    'restrictedDerivatives': {'type': 'boolean', 'enum': [True, False], 'default': False},
+                    'qualificationComplainDuration': {'type': 'integer', 'minimum': 5, 'maximum': 5, 'default': 5},
+                },
+                'required': ['restrictedDerivatives', 'qualificationComplainDuration'],
+                'additionalProperties': False,
+            }
+            self.app.authorization = self.initial_auth
+            self.create_framework()
+            self.initial_submission_data["frameworkID"] = self.framework_id
+            self.activate_framework()
+            self.create_submission()
+
+    test_patch_qualification_active_mock = snitch(patch_qualification_active_mock)
 
 
 class TestQualificationDocumentGet(QualificationContentWebTest):
