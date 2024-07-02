@@ -93,6 +93,7 @@ class TenderConfigMixin:
         "qualificationComplainDuration",
         "awardComplainDuration",
         "cancellationComplainDuration",
+        "clarificationUntilDuration",
         "restricted",
     )
 
@@ -176,11 +177,13 @@ class TenderDetailsMixing(TenderConfigMixin):
     tender_create_accreditations = None
     tender_central_accreditations = None
     tender_edit_accreditations = None
+    has_enquiry_period = True
+    tender_period_working_day = True
+    clarification_period_working_day = True
 
     required_criteria = ()
 
     enquiry_period_timedelta: timedelta
-    enquiry_stand_still_timedelta: timedelta
     tendering_period_extra_working_days = False
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
@@ -209,6 +212,7 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_items_classification_prefix(tender)
         self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
+        self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
         self.validate_change_item_profile_or_category(tender, {})
@@ -239,6 +243,8 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
+        if after["status"] in ("draft", "active.tendering"):
+            self.initialize_enquiry_period(after)
         super().on_patch(before, after)
 
     def always(self, data):
@@ -621,6 +627,34 @@ class TenderDetailsMixing(TenderConfigMixin):
             if minimal_step:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
+
+    def initialize_enquiry_period(self, tender):
+        if self.has_enquiry_period:
+            clarification_until_duration = tender["config"]["clarificationUntilDuration"]
+
+            tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
+
+            end_date = calculate_tender_full_date(
+                tendering_end,
+                self.enquiry_period_timedelta,
+                tender=tender,
+                working_days=self.tender_period_working_day,
+            )
+            clarifications_until = calculate_tender_full_date(
+                end_date,
+                timedelta(days=clarification_until_duration),
+                tender=tender,
+                working_days=self.clarification_period_working_day,
+            )
+            enquiry_period = tender.get("enquiryPeriod")
+            tender["enquiryPeriod"] = {
+                "startDate": tender["tenderPeriod"]["startDate"],
+                "endDate": end_date.isoformat(),
+                "clarificationsUntil": clarifications_until.isoformat(),
+            }
+            invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
+            if invalidation_date:
+                tender["enquiryPeriod"]["invalidationDate"] = invalidation_date
 
     def validate_tender_period_start_date_change(self, before, after):
         if before["status"] in ("draft", "draft.stage2", "active.enquiries"):

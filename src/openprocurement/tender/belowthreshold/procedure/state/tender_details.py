@@ -1,11 +1,10 @@
+from datetime import timedelta
+
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.belowthreshold.constants import (
-    ENQUIRY_STAND_STILL_TIME,
-    TENDERING_EXTRA_PERIOD,
-)
+from openprocurement.tender.belowthreshold.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.belowthreshold.procedure.models.tender import (
     PatchActiveTender,
     PatchDraftTender,
@@ -36,7 +35,6 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
     def on_post(self, tender):
         super().on_post(tender)  # TenderDetailsMixing.on_post
-        self.initialize_enquiry_period(tender)
 
     def on_patch(self, before, after):
         enquire_start = before.get("enquiryPeriod", {}).get("startDate")
@@ -65,8 +63,6 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
             self.invalidate_bids_data(after)
         elif after["status"] == "active.tendering":
             after["enquiryPeriod"]["invalidationDate"] = get_now().isoformat()
-        if after["status"] in ("draft", "active.enquiries"):
-            self.initialize_enquiry_period(after)
 
         super().on_patch(before, after)
         self.validate_related_lot_in_items(after)
@@ -88,13 +84,14 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
                 del lot["auctionPeriod"]["startDate"]
 
     def initialize_enquiry_period(self, tender):
+        clarification_until_duration = tender["config"]["clarificationUntilDuration"]
         enquiry_end = dt_from_iso(tender["enquiryPeriod"]["endDate"])
         clarifications_until = calculate_tender_full_date(
             enquiry_end,
-            self.enquiry_stand_still_timedelta,
+            timedelta(days=clarification_until_duration),
             tender=tender,
+            working_days=self.clarification_period_working_day,
         )
-        enquiry_period = tender.get("enquiryPeriod")
         tender["enquiryPeriod"]["clarificationsUntil"] = clarifications_until.isoformat()
 
     def get_patch_data_model(self):
@@ -107,4 +104,4 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
 
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
+    pass

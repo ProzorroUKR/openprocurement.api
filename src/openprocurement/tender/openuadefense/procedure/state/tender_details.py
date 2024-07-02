@@ -4,7 +4,6 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 )
 from openprocurement.tender.openuadefense.constants import (
     ENQUIRY_PERIOD_TIME,
-    ENQUIRY_STAND_STILL_TIME,
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS,
 )
@@ -19,9 +18,9 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     tendering_period_extra_working_days = True
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
-    enquiry_stand_still_timedelta = ENQUIRY_STAND_STILL_TIME
-
     calendar = WORKING_DAYS
+
+    tender_period_working_day = True
     period_working_day = True
     tender_complain_regulation_working_days = True
 

@@ -26,6 +26,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
     "restricted": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
@@ -45,5 +46,6 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
     "restricted": False,
 }

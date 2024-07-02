@@ -3926,6 +3926,7 @@ def patch_enquiry_tender_periods(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
+            "status": "active.tendering",
             "data": {
                 "enquiryPeriod": {
                     "startDate": enq_p["startDate"],
@@ -3935,7 +3936,7 @@ def patch_enquiry_tender_periods(self):
                     "startDate": end_data.isoformat(),
                     "endDate": tender_end.isoformat(),
                 },
-            }
+            },
         },
         status=200,
     )
