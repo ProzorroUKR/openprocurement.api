@@ -95,6 +95,12 @@ msgstr "Оскарження кваліцікації"
 msgid "0"
 msgstr ""
 
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 

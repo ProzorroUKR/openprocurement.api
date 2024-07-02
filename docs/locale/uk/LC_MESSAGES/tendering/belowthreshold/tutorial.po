@@ -76,6 +76,9 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
+msgid "clarificationUntilDuration"
+msgstr ""
+
 msgid "hasQualificationComplaints"
 msgstr ""
 

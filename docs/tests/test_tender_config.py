@@ -23,6 +23,7 @@ from tests.base.data import (
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_below,
+    test_docs_tender_below_maximum,
     test_docs_tender_dps,
     test_docs_tender_esco,
     test_docs_tender_open,
@@ -47,17 +48,20 @@ from openprocurement.tender.belowthreshold.tests.utils import (
     set_tender_lots,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     test_contract_guarantee_criteria,
     test_exclusion_criteria,
     test_language_criteria,
 )
+from openprocurement.tender.core.utils import calculate_clarif_business_date
 from openprocurement.tender.esco.tests.base import test_tender_esco_config
 from openprocurement.tender.open.tests.base import (
     test_tender_dps_config,
     test_tender_open_config,
 )
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
 from openprocurement.tender.openeu.tests.periods import PERIODS
 
 TARGET_DIR = 'docs/source/tendering/config/http/'
@@ -3158,3 +3162,66 @@ class CancellationComplainDurationResourceTest(TenderConfigBaseResourceTest):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertNotIn("complaintPeriod", response.json["data"])
+
+
+class TenderClarificationUntilDurationResourceTest(TenderConfigBaseResourceTest):
+
+    def test_docs_clarification_until_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="clarificationUntilDuration",
+            file_path=TARGET_CSV_DIR + "clarification-until-duration-values.csv",
+        )
+
+    def test_clarification_until_duration_one_working_day(self):
+        with open(TARGET_DIR + "clarification-until-duration-1-working-day.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': deepcopy(test_docs_tender_below_maximum), 'config': deepcopy(test_tender_below_config)},
+            )
+            self.assertEqual(response.status, '201 Created')
+            end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
+            expected_clarif_until = calculate_clarif_business_date(
+                end_date,
+                datetime.timedelta(days=test_tender_below_config["clarificationUntilDuration"]),
+                response.json["data"],
+                True,
+            )
+            self.assertEqual(
+                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
+            )
+
+    def test_clarification_until_duration_three_calendar_days(self):
+        with open(TARGET_DIR + "clarification-until-duration-3-calendar-days.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': deepcopy(test_docs_tender_open), 'config': deepcopy(test_tender_open_config)},
+            )
+            self.assertEqual(response.status, '201 Created')
+            end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
+            expected_clarif_until = calculate_clarif_business_date(
+                end_date,
+                datetime.timedelta(days=test_tender_open_config["clarificationUntilDuration"]),
+                response.json["data"],
+                False,
+            )
+            self.assertEqual(
+                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
+            )
+
+    def test_clarification_until_duration_three_working_days(self):
+        with open(TARGET_DIR + "clarification-until-duration-3-working-days.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                '/tenders?opt_pretty=1',
+                {'data': deepcopy(test_docs_tender_esco), 'config': deepcopy(test_tender_esco_config)},
+            )
+            self.assertEqual(response.status, '201 Created')
+            end_date = dt_from_iso(response.json["data"]['enquiryPeriod']['endDate'])
+            expected_clarif_until = calculate_clarif_business_date(
+                end_date,
+                datetime.timedelta(days=test_tender_openeu_config["clarificationUntilDuration"]),
+                response.json["data"],
+                True,
+            )
+            self.assertEqual(
+                expected_clarif_until.isoformat(), response.json["data"]["enquiryPeriod"]["clarificationsUntil"]
+            )

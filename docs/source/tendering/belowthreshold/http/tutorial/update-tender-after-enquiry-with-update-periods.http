@@ -218,7 +218,7 @@ Content-Type: application/json
     },
     "enquiryPeriod": {
       "startDate": "2023-09-30T01:10:05+03:00",
-      "clarificationsUntil": "2023-10-11T01:10:05+03:00",
+      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
       "endDate": "2023-10-10T01:10:05+03:00",
       "invalidationDate": "2023-10-16T01:14:06+03:00"
     },
@@ -272,6 +272,7 @@ Content-Type: application/json
     "qualificationComplainDuration": 0,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
     "restricted": false
   }
 }
