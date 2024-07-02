@@ -117,7 +117,8 @@ Content-Type: application/json
     "id": "a00a3b5bdaa0437490c883e4482795b2"
   },
   "config": {
-    "restrictedDerivatives": false
+    "restrictedDerivatives": false,
+    "qualificationComplainDuration": 0
   }
 }
 

@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-27 18:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.14.0\n"
+
+msgid "qualificationComplaintDuration"
+msgstr ""
+
+msgid "Field `qualificationComplaintDuration` is the integer field that sets the number of days for the customer to provide explanations for the request."
+msgstr "Полe `qualificationComplaintDuration` - це числове поле, яке встановлює кількість днів для надання відповіді замовником на звернення"
+
+msgid "Possible values for `qualificationComplainDuration` field depends on `frameworkType` field:"
+msgstr "Можливі значення для `qualificationComplainDuration` в залежності від поля `frameworkType`:"
+
+msgid "frameworkType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "dynamicPurchasingSystem"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "electronicCatalogue"
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "Complaints has not fully implemented yet. Examples will be added in the future."
+msgstr "Скарги ще не повністю імплементовані. Приклади будуть додані у майбутньому."
+
