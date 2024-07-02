@@ -11,12 +11,14 @@ from openprocurement.framework.dps.tests.question_blanks import (
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     FrameworkContentWebTest,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
 
 
 class QuestionResourceTest(FrameworkContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_question_invalid = snitch(create_question_invalid)

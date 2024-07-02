@@ -25,6 +25,7 @@ from openprocurement.framework.dps.tests.framework_blanks import (
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseApiWebTest,
     BaseFrameworkWebTest,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
 from openprocurement.framework.electroniccatalogue.tests.framework_blanks import (
@@ -36,6 +37,7 @@ from openprocurement.framework.electroniccatalogue.tests.framework_blanks import
 
 class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_auth = ("Basic", ("broker", ""))
 
     test_listing_changes = snitch(listing_changes)

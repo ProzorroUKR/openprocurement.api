@@ -37,6 +37,7 @@ from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
     test_electronicCatalogue_documents,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
     test_submission_data,
 )
@@ -74,6 +75,7 @@ class SubmissionResourceTest(SubmissionContentWebTest):
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
     initial_data = deepcopy(test_framework_electronic_catalogue_data)
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -88,6 +90,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
 
 class TestDocumentsCreate(SubmissionContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
     docservice = True

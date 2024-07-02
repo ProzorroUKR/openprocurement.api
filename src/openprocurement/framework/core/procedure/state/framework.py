@@ -7,15 +7,9 @@ from jsonschema.validators import validate
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.context import get_now, get_request
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import (
-    context_unpack,
-    get_agreement_by_id,
-    raise_operation_error,
-    request_init_object,
-)
+from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.framework.core.constants import (
     ENQUIRY_PERIOD_DURATION,
-    ENQUIRY_STAND_STILL_TIME,
     MAX_QUALIFICATION_DURATION,
     MIN_QUALIFICATION_DURATION,
     SUBMISSION_STAND_STILL_DURATION,
@@ -40,7 +34,7 @@ LOGGER = getLogger(__name__)
 
 
 class FrameworkConfigMixin:
-    configurations = ("restrictedDerivatives",)
+    configurations = ("restrictedDerivatives", "clarificationUntilDuration")
 
     def validate_config(self, data):
         for config_name in self.configurations:
@@ -66,6 +60,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
+    working_days = True
 
     def __init__(self, request):
         super().__init__(request)
@@ -186,6 +181,7 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
             )
 
     def calculate_framework_periods(self, data):
+        clarification_until_duration = data["config"]["clarificationUntilDuration"]
         now = get_now()
         if enquiry_start := data.get("enquiryPeriod", {}).get("startDate"):
             enquiry_period_start_date = dt_from_iso(enquiry_start)
@@ -205,9 +201,9 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
 
         clarifications_until = calculate_framework_date(
             enquiry_period_end_date,
-            timedelta(days=ENQUIRY_STAND_STILL_TIME),
+            timedelta(days=clarification_until_duration),
             data,
-            working_days=True,
+            working_days=self.working_days,
         )
 
         data["enquiryPeriod"] = {

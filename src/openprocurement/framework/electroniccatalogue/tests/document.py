@@ -15,12 +15,14 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseDSFrameworkContentWebTest,
     FrameworkContentWebTest,
     test_electronicCatalogue_documents,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
 
 
 class TestDocumentGet(FrameworkContentWebTest):
     initial_data = deepcopy(test_framework_electronic_catalogue_data)
+    initial_config = test_framework_electronic_catalogue_config
 
     def setUp(self):
         self.initial_data["documents"] = deepcopy(test_electronicCatalogue_documents)
@@ -34,6 +36,7 @@ class TestDocumentGet(FrameworkContentWebTest):
 
 class TestDocumentsCreate(BaseDSFrameworkContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_framework_document_forbidden = snitch(create_framework_document_forbidden)
@@ -43,6 +46,7 @@ class TestDocumentsCreate(BaseDSFrameworkContentWebTest):
 
 class ElectronicCatalogueDocumentWithDSResourceTest(BaseDSFrameworkContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)

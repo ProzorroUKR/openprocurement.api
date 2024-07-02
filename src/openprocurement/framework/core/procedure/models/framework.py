@@ -15,7 +15,12 @@ from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    IntType,
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
@@ -168,6 +173,7 @@ class PatchActiveFramework(Model):
 
 class FrameworkConfig(Model):
     test = BooleanType()
+    clarificationUntilDuration = IntType(min_value=0)
     restrictedDerivatives = BooleanType()
 
     def validate_restrictedDerivatives(self, data, value):
