@@ -27,6 +27,9 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     def watch_value_meta_changes(tender):
         pass
 
+    def validate_related_lot_in_items(self, after):
+        pass
+
     def on_post(self, tender):
         tender["tenderPeriod"] = {
             "startDate": get_now().isoformat(),
