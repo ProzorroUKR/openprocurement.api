@@ -1,6 +1,9 @@
 from schematics.exceptions import ValidationError
 
-from openprocurement.api.constants import PQ_CRITERIA_ID_FROM
+from openprocurement.api.constants import (
+    CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    PQ_CRITERIA_ID_FROM,
+)
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
@@ -66,6 +69,12 @@ def validate_criteria_id_uniq(objs, *args):
         ids = [i.id for i in objs]
         if len(set(ids)) != len(ids):
             raise ValidationError("Criteria id should be uniq")
+
+        classification_ids = [criterion.classification.id for criterion in objs if criterion.classification]
+        if get_first_revision_date(tender, default=get_now()) > CRITERIA_CLASSIFICATION_UNIQ_FROM and len(
+            set(classification_ids)
+        ) != len(classification_ids):
+            raise ValidationError("Criteria classification id should be uniq")
 
         rg_ids = [rg.id for c in objs for rg in c.requirementGroups or ""]
         if len(rg_ids) != len(set(rg_ids)):

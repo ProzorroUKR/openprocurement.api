@@ -31,6 +31,17 @@ def create_tender_criteria_valid(self):
     self.assertEqual(
         response3.json["errors"], [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
     )
+    # try to PATCH criteria via tender
+    if "stage2" not in self.initial_data["procurementMethodType"]:
+        response3 = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"criteria": [criterion, criterion]}},
+            status=422,
+        )
+        self.assertEqual(
+            response3.json["errors"],
+            [{"location": "body", "name": "criteria", "description": "Criteria classification id should be uniq"}],
+        )
     response3 = self.app.post_json(request_path, {"data": [criterion]})
     self.assertEqual(response3.status, "201 Created")
     self.assertEqual(response3.content_type, "application/json")

@@ -773,6 +773,25 @@ def create_tender_draft_with_criteria(self):
         [{"location": "body", "name": "criteria", "description": ["Criteria id should be uniq"]}],
     )
     # fix criteria ids
+    criterion = deepcopy(patch_criteria[0])
+    criterion.pop("id")
+    criterion["classification"] = {
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    }
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": [criterion, criterion]}}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "criteria",
+                "description": ["Criteria classification id should be uniq"],
+            }
+        ],
+    )
     for c in patch_criteria:
         c["id"] = uuid4().hex
     response = self.app.patch_json(

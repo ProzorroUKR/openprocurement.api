@@ -119,6 +119,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                             raise_operation_error(
                                 get_request(), f"Only procurementMethodDetails can be updated at {after['status']}"
                             )
+        self.validate_criteria(before, after)
         self.always(after)
 
     @staticmethod

@@ -25,10 +25,10 @@ from openprocurement.tender.core.procedure.models.milestone import (
 )
 from openprocurement.tender.core.procedure.models.tender import (
     BaseTender,
-    PatchBaseTender,
     PostBaseTender,
     validate_items_related_lot,
 )
+from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
     validate_funders_unique,
@@ -112,7 +112,7 @@ class PostReportingTender(PostBaseTender):
             raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
 
 
-class PatchReportingTender(PatchBaseTender):
+class PatchReportingTender(CommonBaseTender):
     procurementMethodType = StringType(choices=[REPORTING])
     procuringEntity = ModelType(ReportingProcuringEntity)
     items = ListType(
@@ -237,7 +237,7 @@ class PostNegotiationTender(PostBaseTender):
         validate_milestones_lot(data, value)
 
 
-class PatchNegotiationTender(PatchBaseTender):
+class PatchNegotiationTender(CommonBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION])
     procuringEntity = ModelType(NegotiationProcuringEntity)
     status = StringType(choices=["draft", "active"])
