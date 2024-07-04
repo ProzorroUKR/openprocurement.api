@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-01 10:55+0300\n"
+"POT-Creation-Date: 2024-07-04 09:52+0300\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -323,11 +323,11 @@ msgstr "Можемо знайти відхилену заявку за її id:"
 msgid "Procuring entity approves qualifications by switching to next status."
 msgstr "Замовник схвалює кваліфікацію заявок, перейшовши в наступний статус."
 
-msgid "Before approving qualifications it is required to add sign document to tender. Sign doc should be for every lot in tender or generally for tender if there is no lots. If there is no sign document during approving qualification, we will see an error:"
-msgstr "Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути для кожного лоту в тендері або до тендеру якщо це безлотова процедура. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:"
+msgid "Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender. If there is no sign document during approving qualification, we will see an error:"
+msgstr "Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути доданий до тендеру загалом. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:"
 
-msgid "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document for lot:"
-msgstr "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ для лоту:"
+msgid "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
+msgstr "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
 
 msgid "Let's approve qualifications one more time:"
 msgstr "Ще раз схвалимо кваліфікацію заявок:"
@@ -538,28 +538,3 @@ msgstr "Замовник може змінити статус угоди на `u
 
 msgid "This will transfer `tender` to `unsuccessful` status."
 msgstr "Переведення тендера в статус `unsuccessful`."
-
-#~ msgid "We don't see internal `id` of tender, because tender appears in the listing from `active.tendering` status."
-#~ msgstr ""
-
-#~ msgid "Exploring basic rules"
-#~ msgstr "Розгляньмо основні правила"
-
-#~ msgid "Let's try exploring the `/tenders` endpoint:"
-#~ msgstr "Подивімось, як працює точка входу `/tenders`:"
-
-#~ msgid "Just invoking it reveals empty set."
-#~ msgstr "Командою виклику отримуємо пустий набір."
-
-#~ msgid "Now let's attempt creating some tender:"
-#~ msgstr "Спробуймо створити нову тендерну пропозицію:"
-
-#~ msgid "Error states that the only accepted Content-Type is `application/json`."
-#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-#~ msgid "Let's satisfy the Content-type requirement:"
-#~ msgstr "Треба задовольнити вимоги щодо типу вмісту:"
-
-#~ msgid "Error states that no `data` has been found in JSON body."
-#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
-
