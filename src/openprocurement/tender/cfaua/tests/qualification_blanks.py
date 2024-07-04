@@ -266,7 +266,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
             {
                 "location": "body",
                 "name": "documents",
-                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required",
+                "description": "Document with type 'evaluationReports' and format pkcs7-signature is required",
             }
         ],
     )
@@ -286,7 +286,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"evaluationReports document in tender should be only one",
+        "evaluationReports document in tender should be only one",
     )
 
     # try to add doc with another documentType in pre-qualification
