@@ -19,13 +19,15 @@ from openprocurement.framework.core.procedure.mask import (
 from openprocurement.framework.dps.tests.base import (
     BaseFrameworkWebTest,
     test_framework_dps_data,
+    test_framework_dps_config,
 )
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
 TARGET_CSV_DIR_RESTRICTED = 'docs/source/frameworks/config/csv/restricted/'
 TARGET_CSV_DIR = 'docs/source/frameworks/config/csv/'
 
-test_framework_open_data = deepcopy(test_framework_dps_data)
+test_framework_dps_data = deepcopy(test_framework_dps_data)
+test_framework_dps_config = deepcopy(test_framework_dps_config)
 
 
 class FrameworkConfigCSVMixin:
@@ -98,7 +100,8 @@ class FrameworkConfigCSVMixin:
 class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, FrameworkConfigCSVMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
-    initial_data = test_framework_open_data
+    initial_data = test_framework_dps_data
+    initial_config = test_framework_dps_config
     docservice = True
     docservice_url = DOCS_URL
 
@@ -132,12 +135,16 @@ class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, Fra
         )
 
 
-class RestrictedFrameworkOpenResourceTest(FrameworkConfigBaseResouceTest):
+class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
     def test_docs(self):
         # empty frameworks listing
         data = deepcopy(self.initial_data)
         data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=60)).isoformat()
         data["procuringEntity"]["kind"] = "defense"
+
+        config = deepcopy(self.initial_config)
+        config["restrictedDerivatives"] = True
+
         response = self.app.get('/frameworks')
         self.assertEqual(response.json['data'], [])
 
@@ -148,10 +155,7 @@ class RestrictedFrameworkOpenResourceTest(FrameworkConfigBaseResouceTest):
                     '/frameworks',
                     {
                         'data': data,
-                        'config': {
-                            'restrictedDerivatives': True,
-                            'clarificationUntilDuration': 3,
-                        },
+                        'config': config,
                     },
                 )
                 self.assertEqual(response.status, '201 Created')
@@ -327,4 +331,12 @@ class FrameworkClarificationUntilDurationResourceTest(FrameworkConfigBaseResouce
         self.write_config_values_csv(
             config_name="clarificationUntilDuration",
             file_path=TARGET_CSV_DIR + "clarification-until-duration-values.csv",
+        )
+
+
+class FrameworkQualificationComplainDurationResourceTest(FrameworkConfigBaseResouceTest):
+    def test_docs_qualification_complain_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="qualificationComplainDuration",
+            file_path=TARGET_CSV_DIR + "qualification-complain-duration-values.csv",
         )

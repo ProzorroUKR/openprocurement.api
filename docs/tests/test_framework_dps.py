@@ -7,13 +7,11 @@ from tests.base.data import test_docs_tenderer
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.tests.base import (
     BaseFrameworkWebTest,
     test_framework_dps_config,
     test_framework_dps_data,
-    test_question_data,
 )
 
 TARGET_DIR = 'docs/source/frameworks/dps/tutorial/'

@@ -37,7 +37,8 @@ Content-Type: application/json
     "id": "37edcfe4b6484dee80eecfdb03a03a08"
   },
   "config": {
-    "restricted": false
+    "restricted": false,
+    "qualificationComplainDuration": 0
   }
 }
 
