@@ -1,7 +1,8 @@
-from schematics.types import BaseType, BooleanType, StringType
+from schematics.types import BaseType, BooleanType, IntType, StringType
 from schematics.types.compound import DictType
 
 from openprocurement.api.procedure.models.base import Model, RootModel
+from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.document import (
@@ -40,6 +41,7 @@ class Qualification(RootModel):
     _attachments = DictType(DictType(BaseType), default={})
     revisions = BaseType(default=list)
     config = BaseType()
+    complaintPeriod = ModelType(Period)
 
     mode = StringType(choices=["test"])
 
@@ -47,3 +49,4 @@ class Qualification(RootModel):
 class QualificationConfig(Model):
     test = BooleanType()
     restricted = BooleanType()
+    qualificationComplainDuration = IntType(min_value=0)

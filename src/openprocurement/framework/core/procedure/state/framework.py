@@ -34,7 +34,11 @@ LOGGER = getLogger(__name__)
 
 
 class FrameworkConfigMixin:
-    configurations = ("restrictedDerivatives", "clarificationUntilDuration")
+    configurations = (
+        "restrictedDerivatives",
+        "clarificationUntilDuration",
+        "qualificationComplainDuration",
+    )
 
     def validate_config(self, data):
         for config_name in self.configurations:

@@ -549,9 +549,7 @@ def create_submission_config_restricted(self):
     # Create submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
 
-        expected_config = {
-            "restricted": True,
-        }
+        expected_config = {"restricted": True}
 
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
