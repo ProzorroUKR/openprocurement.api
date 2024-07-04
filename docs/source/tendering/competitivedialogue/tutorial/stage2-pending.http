@@ -1290,14 +1290,13 @@ Content-Type: application/json
       },
       {
         "documentType": "evaluationReports",
-        "relatedItem": "5f416c4b1629461194116a3c41e574a8",
-        "id": "daf7754fd47e42269f67f83fc4f3989f",
+        "id": "9a8b87ebf1394671ba6bff2d040be00d",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/documents/daf7754fd47e42269f67f83fc4f3989f?download=6eead7cd8daa4934845be1900550dc0a",
-        "documentOf": "lot",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e01d495b72a74a27ae9a485bbdccc84a/documents/9a8b87ebf1394671ba6bff2d040be00d?download=2a82399ff9a84f7d9b06d53043c28000",
+        "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"

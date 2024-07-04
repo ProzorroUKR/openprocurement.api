@@ -318,21 +318,19 @@ def check_sign_doc_qualifications_before_stand_still(self):
             {
                 "location": "body",
                 "name": "documents",
-                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
+                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required",
             }
         ],
     )
-    # let's add sign doc for first lot
+    # let's add sign doc
     sign_doc = {
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/pdf",
         "documentType": "evaluationReports",
-        "documentOf": "lot",
-        "relatedItem": self.initial_lots[0]["id"],
     }
-    # try to add 2 sign docs for one lot
+    # try to add 2 sign docs
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
         {"data": [sign_doc, sign_doc]},
@@ -340,7 +338,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"evaluationReports document in tender should be only one for lot {self.initial_lots[0]['id']}",
+        f"evaluationReports document in tender should be only one",
     )
 
     # try to add doc with another documentType in pre-qualification
@@ -355,7 +353,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
         "Can't add document in current (active.pre-qualification) tender status",
     )
 
-    # add right document for first lot
+    # add right document
     sign_doc["documentType"] = "evaluationReports"
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
@@ -364,17 +362,6 @@ def check_sign_doc_qualifications_before_stand_still(self):
     self.assertEqual(response.status, "201 Created")
     doc_1_id = response.json["data"]["id"]
 
-    # try to move to stand-still status without docs for second lot
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": {"status": "active.pre-qualification.stand-still"}},
-        status=422,
-    )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[1]['id']}",
-    )
-
     # patch relatedItem in first doc
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/documents/{doc_1_id}?acc_token={self.tender_token}",
@@ -382,7 +369,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    # try to move to stand-still status without docs for first lot
+    # try to move to stand-still status without docs for tender
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -390,11 +377,10 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
+        f"Document with type 'evaluationReports' and format pkcs7-signature is required",
     )
 
-    # add sign doc for first lot
-    sign_doc["relatedItem"] = self.initial_lots[0]["id"]
+    # add sign doc for tender
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
         {"data": sign_doc},
@@ -2058,8 +2044,6 @@ def change_status_to_standstill_with_complaint(self):
                         "hash": "md5:" + "0" * 32,
                         "format": "application/pdf",
                         "documentType": "evaluationReports",
-                        "documentOf": "lot",
-                        "relatedItem": doc["relatedItem"],
                     }
                 },
             )

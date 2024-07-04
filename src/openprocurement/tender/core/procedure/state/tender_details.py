@@ -392,13 +392,11 @@ class TenderDetailsMixing(TenderConfigMixin):
                     )
 
                 if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
-                    for qualification in after["qualifications"]:
-                        validate_doc_type_required(
-                            get_tender().get("documents", []),
-                            document_type="evaluationReports",
-                            lot_id=qualification.get("lotID"),
-                            after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
-                        )
+                    validate_doc_type_required(
+                        get_tender().get("documents", []),
+                        document_type="evaluationReports",
+                        after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
+                    )
                 if self.all_bids_are_reviewed(after):
                     after["qualificationPeriod"]["endDate"] = calculate_complaint_business_date(
                         get_now(), self.pre_qualification_complaint_stand_still, after

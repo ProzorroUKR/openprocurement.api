@@ -105,12 +105,12 @@ Approve bid's value through qualification objects:
 
 Procuring entity approves qualifications by switching to next status.
 
-Before approving qualifications it is required to add sign document to tender. Sign doc should be for every lot in tender or generally for tender if there is no lots. If there is no sign document during approving qualification, we will see an error:
+Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender. If there is no sign document during approving qualification, we will see an error:
 
 .. http:example:: multiple_lots_tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document for all lots:
+Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
 
 .. http:example:: multiple_lots_tutorial/upload-evaluation-reports-doc.http
    :code:
