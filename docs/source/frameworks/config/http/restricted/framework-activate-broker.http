@@ -75,7 +75,8 @@ Content-Type: application/json
   },
   "config": {
     "clarificationUntilDuration": 3,
-    "restrictedDerivatives": true
+    "restrictedDerivatives": true,
+    "qualificationComplainDuration": 0
   }
 }
 
