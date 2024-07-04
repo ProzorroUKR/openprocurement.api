@@ -3,6 +3,9 @@ from openprocurement.api.procedure.serializers.base import (
     ListSerializer,
 )
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
+from openprocurement.framework.core.procedure.serializers.framework import (
+    qualification_complain_duration_serializer,
+)
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
@@ -51,4 +54,5 @@ class QualificationConfigSerializer(BaseConfigSerializer):
     serializers = {
         "test": test_serializer,
         "restricted": restricted_serializer,
+        "qualificationComplainDuration": qualification_complain_duration_serializer,
     }

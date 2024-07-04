@@ -29,12 +29,19 @@ from openprocurement.framework.core.procedure.utils import (
 from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
-AGREEMENT_DEPENDENT_FIELDS = ("qualificationPeriod", "procuringEntity",)
+AGREEMENT_DEPENDENT_FIELDS = (
+    "qualificationPeriod",
+    "procuringEntity",
+)
 LOGGER = getLogger(__name__)
 
 
 class FrameworkConfigMixin:
-    configurations = ("restrictedDerivatives", "clarificationUntilDuration",)
+    configurations = (
+        "restrictedDerivatives",
+        "clarificationUntilDuration",
+        "qualificationComplainDuration",
+    )
 
     def validate_config(self, data):
         for config_name in self.configurations:
@@ -169,14 +176,21 @@ class FrameworkState(BaseState, FrameworkConfigMixin, ChronographEventsMixing):
         start_date = dt_from_iso(after["qualificationPeriod"]["startDate"])
         end_date = dt_from_iso(after["qualificationPeriod"]["endDate"])
 
-        end_date_min = calculate_framework_full_date(start_date, timedelta(days=min_duration), framework=after)
+        end_date_min = calculate_framework_full_date(
+            start_date,
+            timedelta(days=min_duration),
+            framework=after,
+        )
         if end_date_min > end_date:
             raise_operation_error(
                 get_request(), f"qualificationPeriod must be at least {min_duration} full calendar days long"
             )
 
         end_date_max = calculate_framework_full_date(
-            start_date, timedelta(days=max_duration), framework=after, ceil=True
+            start_date,
+            timedelta(days=max_duration),
+            framework=after,
+            ceil=True,
         )
         if end_date_max < end_date:
             raise_operation_error(
