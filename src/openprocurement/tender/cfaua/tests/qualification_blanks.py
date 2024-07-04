@@ -266,21 +266,19 @@ def check_sign_doc_qualifications_before_stand_still(self):
             {
                 "location": "body",
                 "name": "documents",
-                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required for lot {self.initial_lots[0]['id']}",
+                "description": f"Document with type 'evaluationReports' and format pkcs7-signature is required",
             }
         ],
     )
-    # let's add sign doc for first lot
+    # let's add sign doc
     sign_doc = {
         "title": "sign.p7s",
         "url": self.generate_docservice_url(),
         "hash": "md5:" + "0" * 32,
         "format": "application/pdf",
         "documentType": "evaluationReports",
-        "documentOf": "lot",
-        "relatedItem": self.initial_lots[0]["id"],
     }
-    # try to add 2 sign docs for one lot
+    # try to add 2 sign docs
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
         {"data": [sign_doc, sign_doc]},
@@ -288,7 +286,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"evaluationReports document in tender should be only one for lot {self.initial_lots[0]['id']}",
+        f"evaluationReports document in tender should be only one",
     )
 
     # try to add doc with another documentType in pre-qualification
@@ -303,7 +301,7 @@ def check_sign_doc_qualifications_before_stand_still(self):
         "Can't add document in current (active.pre-qualification) tender status",
     )
 
-    # add right document for first lot
+    # add right document for tender
     sign_doc["documentType"] = "evaluationReports"
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",

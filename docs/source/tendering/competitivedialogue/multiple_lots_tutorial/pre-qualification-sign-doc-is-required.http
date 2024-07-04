@@ -19,7 +19,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "documents",
-      "description": "Document with type 'evaluationReports' and format pkcs7-signature is required for lot 3d9bd8f913544205bad6df7a3843e883"
+      "description": "Document with type 'evaluationReports' and format pkcs7-signature is required"
     }
   ]
 }

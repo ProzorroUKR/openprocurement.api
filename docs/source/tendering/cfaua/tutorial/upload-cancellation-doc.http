@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Notice.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2847bc51f8fc4ed596355aa18be53ff8?Signature=cL95W8LZBeU%2BNNt8mPrlQ8kz7nEbgm00dYJ0LDgp%2FcBsGZpe3OHPMGa8wQ35NpjrDsZQ9Q7lA7%2Bi7gpxn1MbBw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3356ac4c4d7743ccb05d09a29b402e22?Signature=vi0i48CX6fs50egtHjrrWo%2BKmfqUNJrEak%2Bi0gEQ4WNkrD%2FU63xxuXx75xO8%2FqroH%2FgFSMYXrmBj5%2BwADAy3DA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,17 +15,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/cancellations/e9ce3aa4b15a410c89e11683450d44c8/documents/3e2f44e4f79d4eb1abd7c811aa7cdac5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/30730028a07b4aee97ed094ebd250c58/cancellations/e9ce3aa4b15a410c89e11683450d44c8/documents/b5c85bde03cd46f7a48e7613367fd3bb
 
 {
   "data": {
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2847bc51f8fc4ed596355aa18be53ff8?Signature=ud5WptE9i8iXzWacold4%2BVNF%2B1GjEmD0xS%2FFrB8186fhM3wxJmQhQJm%2F%2Bt3Si4nvYMuJeOxBK7zza45gJKPwDw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3356ac4c4d7743ccb05d09a29b402e22?Signature=mLYFKQHcquAnXS%2BH5Z%2BQkNxXot1z0DQ%2B5Rz8BiWtKhcsINARCCwr%2Fs42duI0VkPzEFKqHa2T9ECtd4%2B8bEe0Bg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",
-    "id": "3e2f44e4f79d4eb1abd7c811aa7cdac5",
+    "id": "b5c85bde03cd46f7a48e7613367fd3bb",
     "datePublished": "2023-10-10T01:00:01+03:00",
     "dateModified": "2023-10-10T01:00:01+03:00"
   }

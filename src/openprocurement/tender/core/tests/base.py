@@ -231,22 +231,19 @@ class BaseCoreWebTest(BaseWebTest):
         self.assertEqual(response.status, "201 Created")
 
     def add_qualification_sign_doc(self, tender_id, tender_token):
-        for lot in self.initial_lots:
-            response = self.app.post_json(
-                f"/tenders/{tender_id}/documents?acc_token={tender_token}",
-                {
-                    "data": {
-                        "title": "sign.p7s",
-                        "url": self.generate_docservice_url(),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/pdf",
-                        "documentType": "evaluationReports",
-                        "documentOf": "lot",
-                        "relatedItem": lot["id"],
-                    }
-                },
-            )
-            self.assertEqual(response.status, "201 Created")
+        response = self.app.post_json(
+            f"/tenders/{tender_id}/documents?acc_token={tender_token}",
+            {
+                "data": {
+                    "title": "sign.p7s",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/pdf",
+                    "documentType": "evaluationReports",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
 
     def update_periods(self, status, startend="start", shift=None):
         shift = shift or timedelta()

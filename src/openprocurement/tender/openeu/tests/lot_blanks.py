@@ -745,21 +745,7 @@ def one_lot_2bid_1unqualified(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
-    response = self.app.post_json(
-        f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-        {
-            "data": {
-                "title": "sign.p7s",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "evaluationReports",
-                "documentOf": "lot",
-                "relatedItem": lot_id,
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -830,21 +816,7 @@ def one_lot_2bid(self):
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "active")
 
-    response = self.app.post_json(
-        f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-        {
-            "data": {
-                "title": "sign.p7s",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "evaluationReports",
-                "documentOf": "lot",
-                "relatedItem": lot_id,
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1067,21 +1039,7 @@ def one_lot_3bid_1del(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    response = self.app.post_json(
-        f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-        {
-            "data": {
-                "title": "sign.p7s",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "evaluationReports",
-                "documentOf": "lot",
-                "relatedItem": lot_id,
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1244,21 +1202,7 @@ def one_lot_3bid_1un(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
-    response = self.app.post_json(
-        f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-        {
-            "data": {
-                "title": "sign.p7s",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/pdf",
-                "documentType": "evaluationReports",
-                "documentOf": "lot",
-                "relatedItem": lot_id,
-            }
-        },
-    )
-    self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1550,22 +1494,7 @@ def two_lot_2bid_0com_1can(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    for lot in lots:
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "evaluationReports",
-                    "documentOf": "lot",
-                    "relatedItem": lot,
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1633,22 +1562,7 @@ def two_lot_2bid_2com_2win(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
-    for lot in lots:
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "evaluationReports",
-                    "documentOf": "lot",
-                    "relatedItem": lot,
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1847,22 +1761,7 @@ def two_lot_3bid_1win_bug(self):
             self.assertEqual(response.json["data"]["status"], "unsuccessful")
         else:
             self.assertEqual(response.json["data"]["status"], "active")
-    for lot in lots:
-        response = self.app.post_json(
-            f"/tenders/{tender_id}/documents?acc_token={owner_token}",
-            {
-                "data": {
-                    "title": "sign.p7s",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                    "documentType": "evaluationReports",
-                    "documentOf": "lot",
-                    "relatedItem": lot,
-                }
-            },
-        )
-        self.assertEqual(response.status, "201 Created")
+    self.add_qualification_sign_doc(tender_id, owner_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

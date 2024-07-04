@@ -4,62 +4,33 @@ Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
-  "data": [
-    {
-      "title": "sign.p7s",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e8e2f356af8f4ab69ee0be877e6605ec?Signature=UONa3EVNR%2BK4%2B25G4wj2wnPVQwFGVGbUNCdl3%2FPRxPVFNvKBjU4zmMnNZqPZ1yV6prXvBm2kW7FXFLJD6f4sAw%3D%3D&KeyID=a8968c46",
-      "hash": "md5:00000000000000000000000000000000",
-      "format": "application/pkcs7-signature",
-      "documentType": "evaluationReports",
-      "relatedItem": "3d9bd8f913544205bad6df7a3843e883",
-      "documentOf": "lot"
-    },
-    {
-      "title": "sign.p7s",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/012ce83ef24042d0bf8310786402fd94?Signature=1B5f8JXPYZ82f6AdnMmOEUR2K%2BtwkioAEBv1Q7L%2B0Lh40a7Tk7wPHwn6of7Eo9YmbzEjc9IYHo1R%2B8MXVzlFDw%3D%3D&KeyID=a8968c46",
-      "hash": "md5:00000000000000000000000000000000",
-      "format": "application/pkcs7-signature",
-      "documentType": "evaluationReports",
-      "relatedItem": "21068d0f3d3849709ec8f44d8bd0c140",
-      "documentOf": "lot"
-    }
-  ]
+  "data": {
+    "title": "sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/51f9916bbf2b490ab5bad226980940be?Signature=nzsI9YAlteGMMLQmE6aEtzm4XPA8nmguiL7rGNdXzLzkzGvADLnHEpCYJ9r4tg0NLxuWUcbsYcP1cO3eujpiAg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf",
+    "documentType": "evaluationReports"
+  }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0122f7569ef34718a69b5de8643cccfd/documents/7cd3197f1f1f43858c0a8a131f468d31
 
 {
-  "data": [
-    {
-      "documentType": "evaluationReports",
-      "relatedItem": "3d9bd8f913544205bad6df7a3843e883",
-      "hash": "md5:00000000000000000000000000000000",
-      "title": "sign.p7s",
-      "format": "application/pkcs7-signature",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e8e2f356af8f4ab69ee0be877e6605ec?Signature=i94us1QS3Bx6PBDs%2B%2FuElpTUzc8mGTTSeqhv08YVEWSVnePJ70uEVZd%2FP0J6zTAvUiplrN1LvYUxpJGb4pZVBQ%3D%3D&KeyID=a8968c46",
-      "documentOf": "lot",
-      "language": "uk",
-      "id": "8de774c06e90410185f89cf7680033d7",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
-      "author": "tender_owner"
-    },
-    {
-      "documentType": "evaluationReports",
-      "relatedItem": "21068d0f3d3849709ec8f44d8bd0c140",
-      "hash": "md5:00000000000000000000000000000000",
-      "title": "sign.p7s",
-      "format": "application/pkcs7-signature",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/012ce83ef24042d0bf8310786402fd94?Signature=OJC%2BXvbsZNxOtWcp1zO0gdGWIceV0KeGrsui%2FDF0phSgT1NFB38SWP6s2zIqOew8TQo9EBZLd02Pg4YJot4mCw%3D%3D&KeyID=a8968c46",
-      "documentOf": "lot",
-      "language": "uk",
-      "id": "bb39f3824cbc4247838b3cace68ad838",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
-      "author": "tender_owner"
-    }
-  ]
+  "data": {
+    "documentType": "evaluationReports",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "sign.p7s",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/51f9916bbf2b490ab5bad226980940be?Signature=V6QJ2Eo6nvRS0xjB6kxrpG%2B89USi6HSUA68SpTkHTFtijQyyzCI3okM8pYlLtms3LgYqgshRUjv67Sk%2FjVkPAQ%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "7cd3197f1f1f43858c0a8a131f468d31",
+    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "author": "tender_owner"
+  }
 }
 
