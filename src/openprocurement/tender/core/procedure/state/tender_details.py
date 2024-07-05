@@ -236,7 +236,7 @@ class TenderDetailsMixing(TenderConfigMixin):
     def validate_notice_doc_required(self, tender):
         if self.should_validate_notice_doc_required is False or not tender_created_after(NOTICE_DOC_REQUIRED_FROM):
             return
-        validate_doc_type_required(tender.get("documents", []))
+        validate_doc_type_required(tender.get("documents", []), document_of="tender")
         tender["noticePublicationDate"] = get_now().isoformat()
 
     def validate_pre_selection_agreement(self, tender):
