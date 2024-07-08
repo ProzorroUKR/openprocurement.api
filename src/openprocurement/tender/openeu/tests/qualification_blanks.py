@@ -362,10 +362,10 @@ def check_sign_doc_qualifications_before_stand_still(self):
     self.assertEqual(response.status, "201 Created")
     doc_1_id = response.json["data"]["id"]
 
-    # patch relatedItem in first doc
+    # patch relatedItem and documentOf in first doc
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/documents/{doc_1_id}?acc_token={self.tender_token}",
-        {"data": {"relatedItem": self.initial_lots[1]["id"]}},
+        {"data": {"documentOf": "lot", "relatedItem": self.initial_lots[1]["id"]}},
     )
     self.assertEqual(response.status, "200 OK")
 

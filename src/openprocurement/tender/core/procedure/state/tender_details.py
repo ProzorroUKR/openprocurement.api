@@ -395,6 +395,7 @@ class TenderDetailsMixing(TenderConfigMixin):
                     validate_doc_type_required(
                         get_tender().get("documents", []),
                         document_type="evaluationReports",
+                        document_of="tender",
                         after_date=get_tender()["qualificationPeriod"].get("reportingDatePublication"),
                     )
                 if self.all_bids_are_reviewed(after):
