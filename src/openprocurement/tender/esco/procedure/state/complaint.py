@@ -64,7 +64,7 @@ class ESCOComplaintStateMixin:
             # if bidders complaint about something they don't relate
             # OR it's a whole tender related complaint (not lot)
             # we should sum all bidder amounts
-            sum_value = dict(amount=0, currency="UAH")
+            sum_value = {"amount": 0, "currency": "UAH"}
             for lot_value in all_bids_values(tender, identifier):
                 value = lot_value["value"]
                 sum_value["amount"] += to_decimal(value["amount"])

@@ -1,10 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import validate_input_data
-from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
-    validate_auction_tender_non_lot,
     validate_auction_tender_status,
 )
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource

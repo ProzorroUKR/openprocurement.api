@@ -2,13 +2,11 @@ from decimal import Decimal
 
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
-from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
 
-from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import DecimalType, IsoDateTimeType
+from openprocurement.api.procedure.types import DecimalType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.feature import validate_related_items

@@ -30,7 +30,7 @@ def validate_update_contract_value_net_required(request, name="value", **kwargs)
     if value is not None and requested_fields_changes(request, (name, "status")):
         contract_amount_net = value.get("amountNet")
         if contract_amount_net is None:
-            raise_operation_error(request, dict(amountNet=BaseType.MESSAGES["required"]), status=422, name=name)
+            raise_operation_error(request, {"amountNet": BaseType.MESSAGES["required"]}, status=422, name=name)
 
 
 def validate_update_contract_value_amount(request, name="value", **kwargs):

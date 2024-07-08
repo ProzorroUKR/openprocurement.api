@@ -4,7 +4,6 @@ from parameterized import parameterized
 
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
 )

@@ -18,10 +18,7 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     one_lot_1bid,
-    one_lot_2bid,
     one_lot_2bid_1unqualified,
-    one_lot_3bid_1del,
-    one_lot_3bid_1un,
     patch_tender_currency,
     patch_tender_lot,
     patch_tender_vat,
@@ -32,7 +29,6 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     tender_lot_document,
     tender_lot_guarantee,
     tender_value,
-    two_lot_3bid_1win_bug,
 )
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,

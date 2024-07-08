@@ -586,7 +586,7 @@ def two_lot_2can(self):
         set_complaint_period_end()
     # cancel every lot
     for lot_id in lots:
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",
@@ -659,7 +659,7 @@ def two_lot_2bid_0com_1can(self):
         set_complaint_period_end()
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

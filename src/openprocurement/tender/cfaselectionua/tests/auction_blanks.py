@@ -961,7 +961,7 @@ def patch_tender_lots_auction(self):
     self.assertEqual(tender["lots"][0]["auctionUrl"], patch_data["lots"][0]["auctionUrl"])
 
     self.app.authorization = ("Basic", ("token", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

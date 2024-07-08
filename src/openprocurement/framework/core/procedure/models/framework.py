@@ -65,7 +65,7 @@ class PostFramework(Model):
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(PostDocument, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=[])
     agreementID = StringType()
 
     def validate_frameworkDetails(self, *args, **kw):
@@ -91,7 +91,7 @@ class PatchFramework(Model):
     procuringEntity = ModelType(BaseOrganization)
     classification = ModelType(DKClassification)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(PostDocument), default=list())
+    documents = ListType(ModelType(PostDocument), default=[])
     agreementID = StringType()
 
 
@@ -119,7 +119,7 @@ class Framework(RootModel):
     procuringEntity = ModelType(BaseOrganization, required=True)
     classification = ModelType(DKClassification, required=True)
     additionalClassifications = ListType(ModelType(BaseClassification))
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(Document, required=True), default=[])
     agreementID = StringType()
     questions = ListType(ModelType(Question, required=True))
 
@@ -136,7 +136,7 @@ class Framework(RootModel):
     qualificationPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 
-    _attachments = DictType(DictType(BaseType), default=dict())  # couchdb attachments
+    _attachments = DictType(DictType(BaseType), default=[])  # couchdb attachments
     revisions = BaseType()
     next_check = BaseType()
     config = BaseType()
@@ -161,7 +161,7 @@ class PatchActiveFramework(Model):
     description_ru = StringType()
     qualificationPeriod = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(BaseOrganization)
-    documents = ListType(ModelType(PostDocument), default=list())
+    documents = ListType(ModelType(PostDocument), default=[])
     if SANDBOX_MODE:
         frameworkDetails = StringType()
 

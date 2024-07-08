@@ -1,4 +1,4 @@
-import dateutil
+from copy import deepcopy
 
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -606,7 +606,7 @@ def patch_tender_lot_award_unsuccessful(self):
 
 def create_tender_2lot_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -705,7 +705,7 @@ def patch_tender_2lot_award(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -941,7 +941,7 @@ def create_tender_2lot_award_complaint_document(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -978,7 +978,7 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can add document only in active lot status")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1178,7 +1178,7 @@ def put_tender_2lot_award_complaint_document(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1305,7 +1305,7 @@ def patch_tender_2lot_award_complaint_document(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

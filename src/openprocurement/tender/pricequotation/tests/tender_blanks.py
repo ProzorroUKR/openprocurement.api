@@ -1767,7 +1767,7 @@ def invalid_tender_conditions(self):
     # switch to active.tendering
     self.set_status("active.tendering")
     # cancellation
-    cancellation = dict(**test_tender_pq_cancellation)
+    cancellation = deepcopy(test_tender_pq_cancellation)
     cancellation.update(
         {
             "reason": "invalid conditions",
@@ -1841,7 +1841,7 @@ def one_valid_bid_tender(self):
 
     self.assertEqual(set(contract.keys()), {"id", "status", "awardID", "date", "value"})
 
-    cancellation = dict(**test_tender_pq_cancellation)
+    cancellation = deepcopy(test_tender_pq_cancellation)
     cancellation.update(
         {
             "reason": "invalid conditions",

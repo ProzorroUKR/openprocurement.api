@@ -1,8 +1,5 @@
 from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
 from openprocurement.api.context import get_now
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -80,11 +77,11 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         end_date = calculate_tender_business_date(tendering_end, self.enquiry_period_timedelta, tender)
         clarifications_until = calculate_clarif_business_date(end_date, self.enquiry_stand_still_timedelta, tender)
         enquiry_period = tender.get("enquiryPeriod")
-        tender["enquiryPeriod"] = dict(
-            startDate=tender["tenderPeriod"]["startDate"],
-            endDate=end_date.isoformat(),
-            clarificationsUntil=clarifications_until.isoformat(),
-        )
+        tender["enquiryPeriod"] = {
+            "startDate": tender["tenderPeriod"]["startDate"],
+            "endDate": end_date.isoformat(),
+            "clarificationsUntil": clarifications_until.isoformat(),
+        }
         invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date

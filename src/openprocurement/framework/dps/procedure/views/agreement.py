@@ -11,10 +11,7 @@ from openprocurement.framework.core.procedure.validation import (
 )
 from openprocurement.framework.core.procedure.views.agreement import AgreementsResource
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.framework.dps.procedure.models.agreement import (
-    Agreement,
-    PostAgreement,
-)
+from openprocurement.framework.dps.procedure.models.agreement import Agreement
 
 
 @resource(

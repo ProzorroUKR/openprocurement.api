@@ -1,9 +1,6 @@
 import unittest
 from copy import deepcopy
 
-# from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
-
 # from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 #     create_tender_contract,
 #     patch_contract_multi_items_unit_value,
@@ -21,6 +18,9 @@ from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_data,
     test_tender_pq_multi_buyers_data,
 )
+
+# from openprocurement.api.tests.base import snitch
+
 
 # from datetime import timedelta
 # from unittest.mock import patch

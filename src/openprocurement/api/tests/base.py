@@ -7,8 +7,7 @@ import pytest
 import webtest
 from paste.deploy.loadwsgi import loadapp
 
-from openprocurement.api.constants import TWO_PHASE_COMMIT_FROM, VERSION
-from openprocurement.api.utils import get_now
+from openprocurement.api.constants import VERSION
 
 wsgiapp = None
 

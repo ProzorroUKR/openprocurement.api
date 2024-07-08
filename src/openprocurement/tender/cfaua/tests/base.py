@@ -572,7 +572,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         :param lot_id: id of lot for cancellation
         :return: None
         """
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",

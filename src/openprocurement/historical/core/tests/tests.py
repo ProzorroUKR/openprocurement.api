@@ -22,7 +22,6 @@ from openprocurement.historical.core.constants import HASH, PREVIOUS_HASH, VERSI
 from openprocurement.historical.core.tests.utils import Db, mock_doc
 from openprocurement.historical.core.utils import (
     HasRequestMethod,
-    Root,
     add_responce_headers,
     extract_doc,
     parse_hash,

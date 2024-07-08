@@ -93,7 +93,7 @@ class Item(Model):
     description_en = StringType()
     description_ru = StringType()
     classification = ModelType(CPVClassification)
-    additionalClassifications = ListType(ModelType(AdditionalClassification), default=list())
+    additionalClassifications = ListType(ModelType(AdditionalClassification), default=[])
     quantity = FloatType(min_value=0)  # The number of units required
     deliveryLocation = ModelType(Location)
     relatedLot = MD5Type()

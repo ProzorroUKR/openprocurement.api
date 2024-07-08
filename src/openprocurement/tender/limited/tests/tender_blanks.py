@@ -1020,7 +1020,7 @@ def single_award_tender(self):
     self.assertEqual(response.json["data"], [])
 
     # create award
-    award_data = dict()
+    award_data = {}
     if tender_lots:
         award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
@@ -1132,7 +1132,7 @@ def multiple_awards_tender(self):
     self.assertEqual(response.json["data"], [])
 
     # create award
-    award_data = dict()
+    award_data = {}
     if tender_lots:
         award_data["lotID"] = tender_lots[0]["id"]
     response = self.app.post_json(
@@ -1222,7 +1222,7 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -1245,7 +1245,7 @@ def tender_cancellation(self):
     response = self.set_initial_status(response.json)
 
     # create award
-    award_data = dict()
+    award_data = {}
     if tender.get("lots"):
         award_data["lotID"] = tender["lots"][0]["id"]
     award_data.update({"suppliers": [test_tender_below_organization], "qualified": True, "value": {"amount": 500}})
@@ -1256,7 +1256,7 @@ def tender_cancellation(self):
     self.assertEqual(response.status, "201 Created")
 
     # create cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -1303,7 +1303,7 @@ def tender_cancellation(self):
     self.set_all_awards_complaint_period_end()
 
     # create cancellation in stand still
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -1361,7 +1361,7 @@ def tender_cancellation(self):
     self.set_all_awards_complaint_period_end()
 
     # create cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -1481,7 +1481,7 @@ def tender_cause_desc(self):
 
 
 def tender_with_main_procurement_category(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
@@ -1518,7 +1518,7 @@ def tender_with_main_procurement_category(self):
 
 
 def tender_set_fund_organizations(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["funders"] = [{"name": "Запишіть в тєтрадку"}]
 
     resp = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
@@ -1527,7 +1527,7 @@ def tender_set_fund_organizations(self):
 
 
 def tender_cause_reporting(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     del data["procurementMethodRationale"]
     for category, value in VALUE_AMOUNT_THRESHOLD.items():
         data["mainProcurementCategory"] = category
@@ -1582,7 +1582,8 @@ def tender_cause_reporting(self):
     self.assertEqual(response.json["data"]["cause"], "additionalPurchase")
 
     # try to delete procurementMethodRationale in active tender without cause
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
+    data["value"]["amount"] = 100000
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1605,7 +1606,7 @@ def tender_cause_reporting(self):
     )
 
     # for kind other cause is optional (doesn't matter what value amount tender has)
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["procuringEntity"]["kind"] = "other"
     del data["procurementMethodRationale"]
     data["value"]["amount"] = 2000000

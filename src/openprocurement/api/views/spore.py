@@ -15,16 +15,16 @@ def generate_spore_description(services, name, base_url, version, **kwargs):
 
     See https://github.com/SPORE/specifications for more information on SPORE.
     """
-    spore_doc = dict(
-        name=name,
-        base_url=base_url,
-        version=version,
-        expected_status=[
+    spore_doc = {
+        "name": name,
+        "base_url": base_url,
+        "version": version,
+        "expected_status": [
             200,
         ],
-        methods={},
-        **kwargs
-    )
+        "methods": {},
+        **kwargs,
+    }
 
     for service in services:
         # the :foobar syntax should be removed.

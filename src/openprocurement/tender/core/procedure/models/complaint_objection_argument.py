@@ -28,7 +28,7 @@ class Argument(Model):
     evidences = ListType(
         ModelType(Evidence, required=True),
         serialize_when_none=True,
-        default=list(),
+        default=[],
         validators=[
             validate_items_uniq,
         ],

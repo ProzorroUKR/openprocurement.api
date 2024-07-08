@@ -7,7 +7,6 @@ from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
-    request_fetch_agreement,
     request_init_framework,
     update_logging_context,
 )

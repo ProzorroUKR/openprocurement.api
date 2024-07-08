@@ -363,7 +363,7 @@ def create_tender_stage2(self, initial_lots=None, initial_data=None, features=No
         for i, item in enumerate(data["items"]):
             item["relatedLot"] = lots[i % len(lots)]["id"]
         for firm in data["shortlistedFirms"]:
-            firm["lots"] = [dict(id=lot["id"]) for lot in lots]
+            firm["lots"] = [{"id": lot["id"]} for lot in lots]
         for milestone in data["milestones"]:
             milestone["relatedLot"] = lots[0]["id"]
         self.lots_id = [lot["id"] for lot in lots]

@@ -1,3 +1,4 @@
+# pylint: disable=unused-import
 from copy import deepcopy
 from datetime import datetime, timedelta
 from uuid import uuid4
@@ -171,10 +172,10 @@ def centralized_milestone(app, centralized_plan):
     plan, access_token = centralized_plan
     response = app.post_json("/plans/{}/milestones".format(plan["id"]), {"data": test_milestone_data(app)})
     assert response.status_code == 201
-    result = dict(
-        milestone=dict(data=response.json["data"], token=response.json["access"]["token"]),
-        plan=dict(data=plan, token=access_token),
-    )
+    result = {
+        "milestone": {"data": response.json["data"], "token": response.json["access"]["token"]},
+        "plan": {"data": plan, "token": access_token},
+    }
     return result
 
 

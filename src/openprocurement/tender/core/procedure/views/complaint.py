@@ -123,10 +123,10 @@ class BaseComplaintWriteResource(BaseComplaintResource):
             )
             self.request.response.status = 201
 
-            route_params = dict(
-                tender_id=tender["_id"],
-                complaint_id=complaint["id"],
-            )
+            route_params = {
+                "tender_id": tender["_id"],
+                "complaint_id": complaint["id"],
+            }
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             if self.item_name != "tender":
                 route_params[f"{self.item_name}_id"] = context["id"]

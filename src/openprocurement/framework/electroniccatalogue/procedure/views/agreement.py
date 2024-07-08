@@ -15,7 +15,6 @@ from openprocurement.framework.electroniccatalogue.constants import (
 )
 from openprocurement.framework.electroniccatalogue.procedure.models.agreement import (
     Agreement,
-    PostAgreement,
 )
 
 

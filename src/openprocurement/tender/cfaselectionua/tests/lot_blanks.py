@@ -1892,7 +1892,7 @@ def proc_2lot_2can(self):
     self.assertTrue(all("auctionPeriod" in i for i in response.json["data"]["lots"]))
     # cancel every lot
     for lot_id in lots:
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",
@@ -1979,7 +1979,7 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
     )
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2085,7 +2085,7 @@ def proc_2lot_1bid_0com_1can(self):
     lot_id = lots[0]
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

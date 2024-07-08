@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -132,7 +133,7 @@ class TenderCancellationComplaintObjectionMixin:
 
     def create_cancellation(self, related_lot=None):
         # Create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update({"reasonType": "noDemand"})
         if self.initial_data.get("lots"):
             cancellation.update({"relatedLot": related_lot if related_lot else self.initial_data["lots"][0]["id"]})

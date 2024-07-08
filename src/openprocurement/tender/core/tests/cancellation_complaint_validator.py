@@ -26,16 +26,16 @@ def mock_release_date(date=None):
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_validation_before_release(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "complaints": [
                     {
                         "status": complaint_status,
                     }
                 ]
             },
-            cancellation={},
-        )
+            "cancellation": {},
+        }
     )
     with mock_release_date(get_now() + timedelta(1)):
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -51,16 +51,16 @@ def test_validation_before_release(complaint_status):
 @pytest.mark.parametrize("complaint_status", all_statuses)
 def test_validation_tender_complaint(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "complaints": [
                     {
                         "status": complaint_status,
                     }
                 ]
             },
-            cancellation={},
-        )
+            "cancellation": {},
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -81,8 +81,8 @@ def test_validation_tender_complaint(complaint_status):
 @pytest.mark.parametrize("complaint_status", all_statuses)
 def test_validation_award_complaint(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "awards": [
                     {
                         "complaints": [
@@ -93,8 +93,8 @@ def test_validation_award_complaint(complaint_status):
                     }
                 ]
             },
-            cancellation={},
-        )
+            "cancellation": {},
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -115,8 +115,8 @@ def test_validation_award_complaint(complaint_status):
 @pytest.mark.parametrize("complaint_status", all_statuses)
 def test_validation_qualification_complaint(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "qualifications": [
                     {
                         "complaints": [
@@ -127,8 +127,8 @@ def test_validation_qualification_complaint(complaint_status):
                     }
                 ]
             },
-            cancellation={},
-        )
+            "cancellation": {},
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -157,8 +157,8 @@ b_lot = "1" * 32
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_tender_lot_cancellation_complaint(complaint_status, cancellation_lot, complaint_lot):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "complaints": [
                     {
                         "status": complaint_status,
@@ -166,10 +166,10 @@ def test_tender_lot_cancellation_complaint(complaint_status, cancellation_lot, c
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": cancellation_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -187,8 +187,8 @@ def test_tender_lot_cancellation_complaint(complaint_status, cancellation_lot, c
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_tender_lot_cancellation_complaint_pass(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "complaints": [
                     {
                         "status": complaint_status,
@@ -196,10 +196,10 @@ def test_tender_lot_cancellation_complaint_pass(complaint_status):
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": b_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -217,8 +217,8 @@ def test_tender_lot_cancellation_complaint_pass(complaint_status):
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_award_lot_cancellation_complaint(complaint_status, cancellation_lot, complaint_lot):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "awards": [
                     {
                         "complaints": [
@@ -230,10 +230,10 @@ def test_award_lot_cancellation_complaint(complaint_status, cancellation_lot, co
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": cancellation_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -251,8 +251,8 @@ def test_award_lot_cancellation_complaint(complaint_status, cancellation_lot, co
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_award_lot_cancellation_complaint_pass(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "awards": [
                     {
                         "complaints": [
@@ -264,10 +264,10 @@ def test_award_lot_cancellation_complaint_pass(complaint_status):
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": b_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -285,8 +285,8 @@ def test_award_lot_cancellation_complaint_pass(complaint_status):
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_qualification_lot_cancellation_complaint(complaint_status, cancellation_lot, complaint_lot):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "qualifications": [
                     {
                         "complaints": [
@@ -298,10 +298,10 @@ def test_qualification_lot_cancellation_complaint(complaint_status, cancellation
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": cancellation_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
@@ -319,8 +319,8 @@ def test_qualification_lot_cancellation_complaint(complaint_status, cancellation
 @pytest.mark.parametrize("complaint_status", affected_complaint_statuses)
 def test_qualification_lot_cancellation_complaint_pass(complaint_status):
     request = mock.Mock(
-        validated=dict(
-            tender={
+        validated={
+            "tender": {
                 "qualifications": [
                     {
                         "complaints": [
@@ -332,10 +332,10 @@ def test_qualification_lot_cancellation_complaint_pass(complaint_status):
                     }
                 ]
             },
-            cancellation={
+            "cancellation": {
                 "relatedLot": b_lot,
             },
-        )
+        }
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:

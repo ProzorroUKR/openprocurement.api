@@ -57,7 +57,7 @@ class BidState(BaseState):
     def validate_bid_unit_value(self, data):
         tender = get_tender()
         items_for_lot = False
-        tender_items_id = dict()
+        tender_items_id = {}
 
         def raise_items_error(message):
             raise_operation_error(
@@ -71,7 +71,7 @@ class BidState(BaseState):
         tender_items = tender.get("items", [])
         if lot_values := data.get("lotValues"):
             items_unit_value_amount = defaultdict(lambda: [])
-            lot_values_by_id = dict()
+            lot_values_by_id = {}
             for lot_value in lot_values:
                 tender_items_id[lot_value["relatedLot"]] = {
                     tender_item["id"]

@@ -4,7 +4,6 @@ from unittest.mock import Mock, patch
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )
-from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.pricequotation.tests.base import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response,

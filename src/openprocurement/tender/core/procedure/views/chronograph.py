@@ -8,10 +8,7 @@ from openprocurement.tender.core.procedure.models.chronograph import (
 from openprocurement.tender.core.procedure.serializers.chronograph import (
     ChronographSerializer,
 )
-from openprocurement.tender.core.procedure.utils import (
-    check_is_tender_waiting_for_inspector_approve,
-    save_tender,
-)
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 

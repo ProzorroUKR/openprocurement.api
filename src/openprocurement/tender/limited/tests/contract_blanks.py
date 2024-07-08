@@ -85,7 +85,7 @@ def patch_tender_contract(self):
         {"data": {"qualified": True, "status": "active"}},
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -297,7 +297,7 @@ def activate_contract_cancelled_lot(self):
 
     # Create cancellation on lot
     self.set_all_awards_complaint_period_end()
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -568,7 +568,7 @@ def patch_tender_negotiation_econtract(self):
     contract_id = response.json["data"][0]["id"]
     self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

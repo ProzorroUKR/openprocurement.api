@@ -41,33 +41,33 @@ class LotGuaranteeSerializerMixin(BaseLotSerializersMixin):
         tender = self.get_tender()
         if self.guarantee:
             currency = tender["guarantee"]["currency"] if tender.get("guarantee") else self.guarantee.currency
-            return Guarantee(dict(amount=self.guarantee.amount, currency=currency))
+            return Guarantee({"amount": self.guarantee.amount, "currency": currency})
 
 
 class LotSerializersMixin(LotGuaranteeSerializerMixin):
     @serializable(serialized_name="minimalStep", type=ModelType(Value))
     def lot_minimalStep(self) -> Value:
         tender = self.get_tender()
-        tender_minimal_step = tender["minimalStep"] if tender.get("minimalStep") else dict()
+        tender_minimal_step = tender["minimalStep"] if tender.get("minimalStep") else {}
         if tender_minimal_step and self.minimalStep:
             return Value(
-                dict(
-                    amount=self.minimalStep.amount,
-                    currency=tender_minimal_step.get("currency"),
-                    valueAddedTaxIncluded=tender_minimal_step.get("valueAddedTaxIncluded"),
-                )
+                {
+                    "amount": self.minimalStep.amount,
+                    "currency": tender_minimal_step.get("currency"),
+                    "valueAddedTaxIncluded": tender_minimal_step.get("valueAddedTaxIncluded"),
+                }
             )
 
     @serializable(serialized_name="value", type=ModelType(Value))
     def lot_value(self) -> Value:
         tender = self.get_tender()
-        tender_value = tender["value"] if tender.get("value") else dict()
+        tender_value = tender["value"] if tender.get("value") else {}
         return Value(
-            dict(
-                amount=self.value.amount,
-                currency=tender_value["currency"],
-                valueAddedTaxIncluded=tender_value["valueAddedTaxIncluded"],
-            )
+            {
+                "amount": self.value.amount,
+                "currency": tender_value["currency"],
+                "valueAddedTaxIncluded": tender_value["valueAddedTaxIncluded"],
+            }
         )
 
 

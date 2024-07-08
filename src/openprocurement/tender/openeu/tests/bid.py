@@ -24,7 +24,6 @@ from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_bids,
     test_tender_openeu_features_data,
     test_tender_openeu_lots,
-    test_tender_openeu_restricted_data,
 )
 from openprocurement.tender.openeu.tests.bid_blanks import (
     bid_Administrator_change,

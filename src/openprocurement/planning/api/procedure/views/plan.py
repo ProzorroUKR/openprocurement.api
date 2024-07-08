@@ -1,6 +1,5 @@
 from logging import getLogger
 
-import simplejson
 from cornice.resource import resource
 from cornice.util import json_error
 from pyramid.request import Request

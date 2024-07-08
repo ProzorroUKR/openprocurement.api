@@ -669,7 +669,7 @@ def cancel_lot_after_sing_contract(self):
     activate_contract(self, self.tender_id, contract["id"], self.tender_token, self.tender_token)
 
     # try to cancel lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -768,7 +768,7 @@ def cancel_lot_with_complaint(self):
 
     self.set_all_awards_complaint_period_end()
     # Try to cancel lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -837,7 +837,7 @@ def last_lot_complete(self):
     )
 
     # Cancel 1 lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -950,7 +950,7 @@ def all_cancelled_lots(self):
     )
 
     # Cancel lots
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -973,7 +973,7 @@ def all_cancelled_lots(self):
 
     response = self.app.get("/tenders/{}/lots/{}".format(self.tender_id, first_lot["id"]))
     self.assertEqual(response.json["data"]["status"], "cancelled")
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -1055,7 +1055,7 @@ def cancel_lots_check_awards(self):
     second_award = response.json["data"]
 
     # cancellation for first lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -1139,7 +1139,7 @@ def patch_lot_with_cancellation(self):
     lot = response.json["data"]
 
     # Create cancellation on lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",

@@ -4,7 +4,6 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.cfaselectionua.tests.auction_blanks import (  # TenderAuctionResourceTest; TenderSameValueAuctionResourceTest; TenderLotAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderFeaturesAuctionResourceTest; TenderFeaturesLotAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
     get_tender_auction,
-    get_tender_auction_feature,
     get_tender_auction_not_found,
     get_tender_lot_auction,
     get_tender_lot_auction_features,
@@ -15,9 +14,6 @@ from openprocurement.tender.cfaselectionua.tests.auction_blanks import (  # Tend
     patch_tender_lots_auction,
     post_tender_auction,
     post_tender_auction_document,
-    post_tender_auction_feature,
-    post_tender_auction_not_changed,
-    post_tender_auction_reversed,
     post_tender_lot_auction,
     post_tender_lot_auction_document,
     post_tender_lot_auction_features,

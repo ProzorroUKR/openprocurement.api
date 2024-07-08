@@ -44,10 +44,10 @@ def switch_tender_complaints_draft(self):
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
     start_date = get_now() - timedelta(days=40)
-    tender["complaintPeriod"] = dict(  # tenderPeriod was here before, must be a mistake
-        startDate=start_date.isoformat(),
-        endDate=calculate_tender_business_date(start_date, timedelta(days=30)).isoformat(),
-    )
+    tender["complaintPeriod"] = {  # tenderPeriod was here before, must be a mistake
+        "startDate": start_date.isoformat(),
+        "endDate": calculate_tender_business_date(start_date, timedelta(days=30)).isoformat(),
+    }
     self.mongodb.tenders.save(tender)
 
     # switch
@@ -66,10 +66,10 @@ def switch_tender_cancellation_complaints_draft(self):
     test_cancellation = deepcopy(test_tender_below_cancellation)
     cancellation_data = PostCancellation(test_cancellation).serialize()
     cancellation_data["status"] = "pending"
-    cancellation_data["complaintPeriod"] = dict(
-        startDate=get_now().isoformat(),
-        endDate=(get_now() + timedelta(days=10)).isoformat(),
-    )
+    cancellation_data["complaintPeriod"] = {
+        "startDate": get_now().isoformat(),
+        "endDate": (get_now() + timedelta(days=10)).isoformat(),
+    }
     tender.update(cancellations=[cancellation_data])
     self.mongodb.tenders.save(tender)
 
@@ -89,9 +89,10 @@ def switch_tender_cancellation_complaints_draft(self):
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
-    tender["cancellations"][0]["complaintPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=30)).isoformat(), endDate=(get_now() - timedelta(days=20)).isoformat()
-    )
+    tender["cancellations"][0]["complaintPeriod"] = {
+        "startDate": (get_now() - timedelta(days=30)).isoformat(),
+        "endDate": (get_now() - timedelta(days=20)).isoformat(),
+    }
     self.mongodb.tenders.save(tender)
 
     # switch
@@ -145,9 +146,10 @@ def switch_qualification_complaints_draft(self):
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
-    tender["qualificationPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=20)).isoformat(), endDate=(get_now() - timedelta(days=10)).isoformat()
-    )
+    tender["qualificationPeriod"] = {
+        "startDate": (get_now() - timedelta(days=20)).isoformat(),
+        "endDate": (get_now() - timedelta(days=10)).isoformat(),
+    }
     self.mongodb.tenders.save(tender)
 
     # switch
@@ -185,9 +187,10 @@ def switch_award_complaints_draft(self):
 
     # and once the date passed
     tender = self.mongodb.tenders.get(self.tender_id)
-    tender["awards"][0]["complaintPeriod"] = dict(
-        startDate=(get_now() - timedelta(days=20)).isoformat(), endDate=(get_now() - timedelta(days=10)).isoformat()
-    )
+    tender["awards"][0]["complaintPeriod"] = {
+        "startDate": (get_now() - timedelta(days=20)).isoformat(),
+        "endDate": (get_now() - timedelta(days=10)).isoformat(),
+    }
     self.mongodb.tenders.save(tender)
 
     # switch
@@ -242,7 +245,7 @@ def switch_tender_after_cancellation_unsuccessful(self):
     with change_auth(self.app, ("Basic", ("bot", ""))):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
-            {"data": dict(status="pending")},
+            {"data": {"status": "pending"}},
         )
     self.assertEqual("pending", response.json["data"]["status"])
 

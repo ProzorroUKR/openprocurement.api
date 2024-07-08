@@ -1,7 +1,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentWithDSResourceTestMixin,
 )

@@ -6,9 +6,7 @@ from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
-    test_tender_below_claim,
     test_tender_below_complaint,
-    test_tender_below_draft_claim,
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.utils import change_auth

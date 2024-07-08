@@ -19,11 +19,11 @@ class LotValueSerializerMixin(BaseLotSerializersMixin):
     def lot_value(self):
         tender = self.get_tender()
         return Value(
-            dict(
-                amount=self.value.amount,
-                currency=tender["value"]["currency"],
-                valueAddedTaxIncluded=tender["value"]["valueAddedTaxIncluded"],
-            )
+            {
+                "amount": self.value.amount,
+                "currency": tender["value"]["currency"],
+                "valueAddedTaxIncluded": tender["value"]["valueAddedTaxIncluded"],
+            }
         )
 
 

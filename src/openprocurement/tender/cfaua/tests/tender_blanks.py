@@ -1959,7 +1959,7 @@ def tender_features_invalid(self):
 
 
 def tender_with_main_procurement_category(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"

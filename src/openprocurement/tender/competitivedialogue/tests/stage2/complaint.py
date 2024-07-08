@@ -14,8 +14,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cd_author,
     test_tender_cd_lots,
-    test_tender_cd_shortlisted_firms,
-    test_tender_openeu_bids,
 )
 from openprocurement.tender.competitivedialogue.tests.stage2.award import (
     test_tender_bids,

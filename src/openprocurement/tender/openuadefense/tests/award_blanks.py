@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 from unittest.mock import patch
@@ -1144,7 +1145,7 @@ def patch_tender_lots_award_complaint(self):
         if RELEASE_2020_04_19:
             self.set_all_awards_complaint_period_end()
 
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",

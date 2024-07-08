@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.open.tests.base import (

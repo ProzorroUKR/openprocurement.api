@@ -29,7 +29,7 @@ class CPVClassification(BaseCPVClassification):
 class Item(Model):
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(Classification, required=True), default=list())
+    additionalClassifications = ListType(ModelType(Classification, required=True), default=[])
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = FloatType(min_value=0)  # The number of units required
     deliveryAddress = ModelType(Address)

@@ -1,5 +1,5 @@
 from cornice.resource import resource
-from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
+from pyramid.security import Allow
 
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.serializers.billing import (

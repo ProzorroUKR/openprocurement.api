@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -30,7 +32,7 @@ def lot_create_tender_question(self):
 
 
 def lot_create_tender_cancellations_and_questions(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -104,7 +106,7 @@ def lot_patch_tender_question(self):
     self.assertEqual(response.json["data"]["answer"], "answer")
     self.assertIn("dateAnswered", response.json["data"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

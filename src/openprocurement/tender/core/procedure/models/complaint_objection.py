@@ -2,7 +2,7 @@ from enum import Enum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, IntType, MD5Type, StringType
+from schematics.types import IntType, MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants import (

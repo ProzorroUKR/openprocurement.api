@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import ACCR_3, ACCR_4, ACCR_5
+from openprocurement.api.auth import ACCR_3, ACCR_5
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,

@@ -8,7 +8,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,
-    test_tender_below_bids,
     test_tender_below_lots,
 )
 from openprocurement.tender.belowthreshold.tests.lot_blanks import (

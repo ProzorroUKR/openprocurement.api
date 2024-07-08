@@ -1,3 +1,4 @@
+# pylint: disable=unused-import
 from copy import deepcopy
 from unittest.mock import MagicMock
 
@@ -631,7 +632,7 @@ def test_fail_pass_plans(app, plan, request_tender_data, request_tender_config):
     "plans" field cannot be set via 'data'
     """
     app.authorization = ("Basic", ("broker", "broker"))
-    tender_data = dict(**request_tender_data)
+    tender_data = {**request_tender_data}
     tender_data["plans"] = [{"id": plan["data"]["id"]}]
     response = app.post_json(
         "/tenders",

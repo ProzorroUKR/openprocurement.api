@@ -1,7 +1,6 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
@@ -63,12 +62,11 @@ class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancell
     def setUp(self):
         super().setUp()
         # Create cancellation
-        cancellation = dict(**test_tender_pq_cancellation)
-        cancellation.update({"reasonType": "noDemand"})
+        test_tender_pq_cancellation.update({"reasonType": "noDemand"})
 
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": cancellation},
+            {"data": test_tender_pq_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

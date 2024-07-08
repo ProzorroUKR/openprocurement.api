@@ -65,7 +65,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         tender = get_tender()
         if tender_created_after_2020_rules():
             amount = self.get_complaint_amount(tender, complaint)
-            complaint["value"] = dict(amount=round_up_to_ten(amount), currency="UAH")
+            complaint["value"] = {"amount": round_up_to_ten(amount), "currency": "UAH"}
 
         for doc in complaint.get("documents", ""):
             doc["author"] = "complaint_owner"

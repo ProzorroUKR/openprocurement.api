@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -41,7 +42,6 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (  # Tender
     negotiation_create_cancellation_on_lot,
 )
 from openprocurement.tender.openua.tests.cancellation import (
-    TenderAwardsCancellationResourceTestMixin,
     TenderCancellationComplaintResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 )
@@ -195,7 +195,7 @@ class TenderNegotiationQuickCancellationComplaintResourceTest(
         self.set_all_awards_complaint_period_end()
 
         # Create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -236,7 +236,7 @@ class TenderNegotiationCancellationComplaintResourceTest(
         self.set_all_awards_complaint_period_end()
 
         # create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

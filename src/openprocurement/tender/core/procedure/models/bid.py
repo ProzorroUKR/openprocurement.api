@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import BaseType, MD5Type, StringType
+from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 

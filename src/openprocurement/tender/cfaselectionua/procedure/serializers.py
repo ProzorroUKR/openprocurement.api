@@ -9,7 +9,7 @@ from openprocurement.tender.core.procedure.serializers.document import (
 
 def parameter_values_to_float(_, value):
     if isinstance(value, list):
-        return [dict(code=e["code"], value=float(e["value"])) for e in value]
+        return [{"code": e["code"], "value": float(e["value"])} for e in value]
     return value
 
 

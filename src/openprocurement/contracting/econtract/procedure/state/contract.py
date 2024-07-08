@@ -17,11 +17,8 @@ from openprocurement.tender.cfaselectionua.procedure.state.contract import (
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
-    get_contracts_values_related_to_patched_contract,
     is_multi_currency_tender,
-    save_tender,
 )
-from openprocurement.tender.core.procedure.validation import TYPEMAP
 from openprocurement.tender.esco.procedure.state.contract import ESCOContractStateMixing
 from openprocurement.tender.limited.procedure.state.contract import (
     LimitedContractStateMixing,
@@ -315,7 +312,7 @@ class EContractState(
             status_map["pending"] += ("cancelled",)
             status_map["pending.winner-signing"] += ("cancelled",)
 
-        allowed_statuses_to = status_map.get(before["status"], list())
+        allowed_statuses_to = status_map.get(before["status"], [])
 
         # Validate status change
         if current_status != new_status and new_status not in allowed_statuses_to:

@@ -1,9 +1,4 @@
-from webtest import AppError
-
-from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.tests.base import test_tender_pq_organization
 
 

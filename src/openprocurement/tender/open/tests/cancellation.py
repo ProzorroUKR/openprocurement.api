@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -22,7 +23,6 @@ from openprocurement.tender.open.tests.base import (
     test_tender_dps_config,
     test_tender_dps_data,
     test_tender_open_bids,
-    test_tender_open_data,
 )
 from openprocurement.tender.open.tests.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
@@ -146,7 +146,7 @@ class TenderCancellationComplaintResourceTest(BaseTenderUAContentWebTest, Tender
         super().setUp()
 
         # Create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

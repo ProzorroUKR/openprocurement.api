@@ -1993,12 +1993,11 @@ def tender_bidder_confidential_document(self):
             self.tender_id, self.bid_id, doc_data["id"], self.tender_token
         )
     )
-    expected = dict(**doc_data)
-    self.assertEqual(response.json["data"], expected)
+    self.assertEqual(response.json["data"], doc_data)
 
     # get directly as public
     response = self.app.get("/tenders/{}/bids/{}/documents/{}".format(self.tender_id, self.bid_id, doc_data["id"]))
-    self.assertEqual(response.json["data"], {k: v for k, v in expected.items() if k != "url"})
+    self.assertEqual(response.json["data"], {k: v for k, v in doc_data.items() if k != "url"})
 
     # download as tender owner
     response = self.app.get(

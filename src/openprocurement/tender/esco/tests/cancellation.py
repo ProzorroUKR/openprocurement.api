@@ -1,4 +1,5 @@
 import unittest
+from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
@@ -132,7 +133,7 @@ class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCanc
         super().setUp()
 
         # Create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

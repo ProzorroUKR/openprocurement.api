@@ -20,7 +20,6 @@ from openprocurement.tender.pricequotation.tests.award_blanks import (
 from openprocurement.tender.pricequotation.tests.base import (
     TenderContentWebTest,
     test_tender_pq_bids,
-    test_tender_pq_organization,
 )
 
 

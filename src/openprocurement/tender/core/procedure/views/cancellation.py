@@ -5,7 +5,6 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
     unless_admins,
-    validate_data_documents,
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,

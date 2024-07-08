@@ -1547,7 +1547,7 @@ def validate_requirement_evidence_document(self):
 
 def lcc_criterion_valid(self):
     # create lcc tender draft
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     data["status"] = "draft"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})

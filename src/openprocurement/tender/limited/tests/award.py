@@ -2,7 +2,6 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
