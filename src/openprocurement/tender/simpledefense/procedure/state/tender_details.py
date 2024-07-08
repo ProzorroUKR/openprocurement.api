@@ -17,5 +17,3 @@ class SimpleDefenseTenderDetailsState(DefenseTenderDetailsState):
 
     enquiry_period_timedelta = -ENQUIRY_PERIOD_TIME
     tender_complain_regulation_working_days = True
-
-    required_criteria = {}

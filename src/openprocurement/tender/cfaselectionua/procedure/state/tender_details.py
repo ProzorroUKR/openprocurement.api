@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.constants import CRITERIA_CLASSIFICATION_UNIQ_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
@@ -28,7 +29,11 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
-from openprocurement.tender.core.procedure.utils import dt_from_iso, validate_field
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    tender_created_after,
+    validate_field,
+)
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
     calculate_tender_full_date,
@@ -119,7 +124,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                             raise_operation_error(
                                 get_request(), f"Only procurementMethodDetails can be updated at {after['status']}"
                             )
-        self.validate_criteria(before, after)
+        if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
+            self._validate_criterion_uniq(after.get("criteria", []))
         self.always(after)
 
     @staticmethod

@@ -26,11 +26,11 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
     should_validate_notice_doc_required = False
 
+    @classmethod
+    def validate_required_criteria(cls, before, after):
+        pass
+
 
 class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
     def validate_related_lot_in_items(self, after):
-        pass
-
-    @classmethod
-    def validate_criteria(cls, before, after):
         pass

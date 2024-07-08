@@ -241,7 +241,9 @@ class TenderDetailsMixing(TenderConfigMixin):
         self.validate_docs(after, before)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
-        self.validate_criteria(before, after)
+        self.validate_required_criteria(before, after)
+        if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
+            self._validate_criterion_uniq(after.get("criteria", []))
         self.invalidate_review_requests()
         self.validate_remove_inspector(before, after)
         self.validate_change_item_profile_or_category(after, before)
@@ -690,30 +692,21 @@ class TenderDetailsMixing(TenderConfigMixin):
                 )
 
     @classmethod
-    def validate_criteria(cls, before, after):
+    def validate_required_criteria(cls, before, after):
         if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
             return
-
-        tender_criteria = [
-            criterion["classification"]["id"]
-            for criterion in after.get("criteria", "")
-            if criterion.get("classification")
-        ]
-        if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM) and len(set(tender_criteria)) != len(
-            tender_criteria
-        ):
-            raise_operation_error(
-                get_request(),
-                "Criteria classification id should be uniq",
-                status=422,
-                name="criteria",
-            )
 
         if after.get("status") not in ("active", "active.tendering"):
             return
 
+        tender_criteria = {
+            criterion["classification"]["id"]
+            for criterion in after.get("criteria", "")
+            if criterion.get("classification")
+        }
+
         # exclusion criteria
-        if set(cls.required_criteria) - set(tender_criteria):
+        if set(cls.required_criteria) - tender_criteria:
             raise_operation_error(
                 get_request(),
                 f"Tender must contain all required criteria: {', '.join(sorted(cls.required_criteria))}",

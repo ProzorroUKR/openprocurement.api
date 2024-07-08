@@ -773,22 +773,28 @@ def create_tender_draft_with_criteria(self):
         [{"location": "body", "name": "criteria", "description": ["Criteria id should be uniq"]}],
     )
     # fix criteria ids
-    criterion = deepcopy(patch_criteria[0])
-    criterion.pop("id")
-    criterion["classification"] = {
+    criterion_1 = deepcopy(patch_criteria[0])
+    criterion_1.pop("id")
+    criterion_1["classification"] = {
+        "scheme": " espd211",
+        "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
+    }
+    criterion_2 = deepcopy(patch_criteria[1])
+    criterion_2.pop("id")
+    criterion_2["classification"] = {
         "scheme": " espd211",
         "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
     }
     response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": [criterion, criterion]}}, status=422
+        f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": [criterion_1, criterion_2]}}, status=403
     )
     self.assertEqual(
         response.json["errors"],
         [
             {
                 "location": "body",
-                "name": "criteria",
-                "description": ["Criteria classification id should be uniq"],
+                "name": "data",
+                "description": "Criteria are not unique",
             }
         ],
     )
