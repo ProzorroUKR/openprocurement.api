@@ -1541,20 +1541,20 @@ def validate_doc_type_quantity(documents, document_type="notice", obj_name="tend
             )
 
 
-def validate_doc_type_required(documents, document_type="notice", lot_id=None, after_date=None):
+def validate_doc_type_required(documents, document_type="notice", document_of=None, after_date=None):
     """
     Check whether there is document in list which is required.
     If there is no document the error will be raised.
     :param documents: list of documents
     :param document_type: type of document
-    :param lot_id: lot id. Whether document should be related to particular lot
+    :param document_of: str. What kind of object doc relates to
     :param after_date: date after which document should be published
     """
     for doc in documents:
         if (
             doc.get("documentType") == document_type
             and doc["title"][-4:] == ".p7s"
-            and doc.get("relatedItem") == lot_id
+            and doc.get("documentOf") == document_of
             and (
                 after_date is None
                 or datetime.fromisoformat(doc.get("datePublished")) > datetime.fromisoformat(after_date)
@@ -1564,7 +1564,7 @@ def validate_doc_type_required(documents, document_type="notice", lot_id=None, a
     else:
         raise_operation_error(
             get_request(),
-            f"Document with type '{document_type}' and format pkcs7-signature is required{f' for lot {lot_id}' if lot_id else ''}",
+            f"Document with type '{document_type}' and format pkcs7-signature is required",
             status=422,
             name="documents",
         )
