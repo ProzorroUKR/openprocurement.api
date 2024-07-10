@@ -407,8 +407,8 @@ class Criterion(ValidateIdMixing, BaseCriterion):
 
         is_criterion_active = not data.get("requirementGroups") or any(
             req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-            for rg in data.get("requirementGroups", [])
-            for req in rg.get("requirements", [])
+            for rg in data.get("requirementGroups") or ""
+            for req in rg.get("requirements") or ""
         )
 
         if value and is_criterion_active:
