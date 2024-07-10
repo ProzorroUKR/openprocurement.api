@@ -47,7 +47,9 @@ Views є таким собі ключовим хабом, який збирає 
 
 .. sourcecode:: python
 
-    class SomeResource(BaseResource):
+    class ObjectResource(BaseResource):
+        serializer_class = ObjectSerializer
+
         @json_view(
             permission="patch_permission",
         )
@@ -96,11 +98,14 @@ Models
 
 .. sourcecode:: python
 
-    class Document(BaseDocument)
+    class ChildObject(BaseModel):
+        title = StringType(required=True)
+        description = StringType()
+
+
+    class Object(BaseModel):
         id = MD5Type(required=True)
-        hash = HashType()
-        format = StringType(required=True, regex="^[-\w]+/[-\.\w\+]+$")
-        url = StringType(required=True)
+        child = ModelType(ChildObject, required=True)
 
 Треба бути уважним, бо деякі перевірки даних насправді краще робити в StateClasses.
 
@@ -146,6 +151,22 @@ Serializers
 Таким чином серіалізатори реалізують бізнес логіку, що не дуже добре.
 Краще мати різні серіалізатори, які керуются кодом, що визначає бізнес логіку.
 
+Приклад:
+
+.. sourcecode:: python
+
+    class ChildObjectSerializer(BaseSerializer):
+        serializers = {
+            "description": lambda x: x if x else "No description",
+        }
+
+
+    class ObjectSerializer(BaseSerializer):
+        serializers = {
+            "child": ChildObjectSerializer,
+        }
+
+
 
 StateClasses
 ------------
@@ -153,3 +174,34 @@ StateClasses
 фактично реалізуючи BPMN та sequence діаграми надані БА.
 StateClasses можуть управляти/визначати модель даних, необхідний для кожної дії,
 та серіалізатор відповіді (напр. повний або неповний)
+
+Приклад:
+
+.. sourcecode:: python
+
+    class ObjectState(BaseState):
+        should_do_something: bool = False
+        something_to_return: int = 42
+
+        def on_patch(self, before, after):
+            self.do_something()
+
+        def do_something(self):
+            if self.should_do_something:
+                # do something
+                return self.something_to_return
+
+
+При реалізації похідних стейт класів, наприклад для різних типів тендерів, класи що наслідуються не мають містити реалізації бізнес логіки а мають конфігурувати `core` класи (у випадках коли спеціфічна функціональність не реалізована за допомогою конфігурації об'єкта)
+
+Приклад:
+
+.. sourcecode:: python
+
+    class BelowThresholdObjectState(ObjectState):
+        should_do_something: bool = True
+
+
+    class RequestForProposalObjectState(ObjectState):
+        should_do_something: bool = True
+        something_to_return: int = 10

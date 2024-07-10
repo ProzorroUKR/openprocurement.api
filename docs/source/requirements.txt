@@ -1,4 +1,4 @@
 sphinxcontrib-httpdomain==1.7.0
-sphinx-intl==1.0.0
+sphinx-intl==2.2.0
 sphinx_rtd_theme
 docutils<0.18

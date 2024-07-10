@@ -14,3 +14,4 @@ Contents:
    dps_long_short
    lot_deliveries
    config_has_legal_regulation
+   request_for_proposal
