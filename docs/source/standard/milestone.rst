@@ -14,7 +14,7 @@ Schema
 :title:
     string, required
 
-    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ dictionaries.
+    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ dictionaries.
 
 :description:
     string, required if title == `anotherEvent`

@@ -31,7 +31,7 @@ Milestone (delivery)
 
     Замовник обов'язково повинен обрати коли він очікує поставку.
 
-    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`_ довідниками.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ довідниками.
 
 :description:
     string
