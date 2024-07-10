@@ -59,9 +59,9 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
         )
         # TODO: remove these lines after NOTICE_DOC_REQUIRED_FROM will be set on prod and some time passes
         if (
-                tender_created_before(NOTICE_DOC_REQUIRED_FROM)
-                and tender["status"] == "active.tendering"
-                and not tender.get("noticePublicationDate")
+            tender_created_before(NOTICE_DOC_REQUIRED_FROM)
+            and tender["status"] == "active.tendering"
+            and not tender.get("noticePublicationDate")
         ):
             tender["noticePublicationDate"] = get_now().isoformat()
 
