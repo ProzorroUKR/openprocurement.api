@@ -66,6 +66,12 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 
@@ -308,4 +314,3 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`"
-

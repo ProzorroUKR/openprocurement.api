@@ -431,7 +431,8 @@ Content-Type: application/json
     "hasTenderComplaints": true,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "awardComplainDuration": 0
   }
 }
 

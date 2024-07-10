@@ -1,0 +1,58 @@
+PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards/23995d40cc7347569e6d5f2f47ece4e8?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "23995d40cc7347569e6d5f2f47ece4e8",
+    "status": "active",
+    "date": "2023-10-10T01:00:00+03:00",
+    "value": {
+      "amount": 498.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "bid_id": "d1c44e2996c3401ab8953b4d8372969b",
+    "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
+    "complaintPeriod": {
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-10-13T00:00:00+03:00"
+    }
+  }
+}
+

@@ -12,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -71,14 +71,26 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
 msgid "restricted"
 msgstr ""
 
 msgid "The set of possible configuration values for `negotiation`:"
 msgstr "Набір можливих значень конфігурації для `negotiation`:"
 
+msgid "10"
+msgstr ""
+
 msgid "The set of possible configuration values for `negotiation.quick`:"
 msgstr "Набір можливих значень конфігурації для `negotiation.quick`:"
+
+msgid "5"
+msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
 msgstr "Ви можете ознайомитись з деталями в секції :ref:`config`."
@@ -397,4 +409,3 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
-
