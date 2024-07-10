@@ -1332,7 +1332,8 @@ Content-Type: application/json
       "endDate": "2023-10-14T00:00:00+03:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2023-10-10T01:00:00+03:00",
+      "endDate": "2023-11-08T00:00:00+02:00"
     },
     "qualifications": [
       {
@@ -1383,6 +1384,7 @@ Content-Type: application/json
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": false
   }
 }

@@ -682,6 +682,7 @@ Content-Type: application/json
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": false
   }
 }

@@ -12,7 +12,7 @@ Possible values for `hasValueEstimation` field depends on `procurementMethodType
    :header-rows: 1
 
 hasValueEstimation is `true`
------------------------------
+----------------------------
 
 `hasValueEstimation:true` means that procurement has the expected cost.
 
