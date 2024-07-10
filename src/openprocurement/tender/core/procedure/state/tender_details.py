@@ -732,7 +732,8 @@ class TenderDetailsMixing(TenderConfigMixin):
                 if profile.get("relatedCategory") != category_id:
                     raise_operation_error(request, "Profile should be related to category", status=422)
 
-                self.cancel_all_technical_criteria(after, k)
+                if before:
+                    self.cancel_all_technical_criteria(after, k)
 
     def cancel_all_technical_criteria(self, tender: dict, item_id: str) -> None:
         for criterion in tender.get("criteria", ""):
