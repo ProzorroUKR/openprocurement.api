@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/0122f7569ef34718a69b5de8643cccfd?acc_token=e179e7123ebc4555bde66499540f5ee6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.pre-qualification.stand-still"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'evaluationReports' and format pkcs7-signature is required"
+    }
+  ]
+}
+

@@ -18,6 +18,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
     change_status_to_standstill_with_complaint,
+    check_sign_doc_qualifications_before_stand_still,
     complaint_not_found,
     create_qualification_document,
     create_qualification_document_after_status_change,
@@ -101,6 +102,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
     test_get_tender_qualifications_collection = snitch(lot_get_tender_qualifications_collection)
     test_tender_qualification_cancelled = snitch(tender_qualification_cancelled)
     test_lot_patch_tender_qualifications_lots_none = snitch(lot_patch_tender_qualifications_lots_none)
+    test_check_sign_doc_qualifications_before_stand_still = snitch(check_sign_doc_qualifications_before_stand_still)
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
@@ -146,6 +148,7 @@ class TenderQualificationComplaintResourceTest(TenderQualificationBaseTestCase):
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -217,6 +220,7 @@ class Tender2LotQualificationClaimResourceTest(Tender2LotQualificationComplaintR
                 self.assertEqual(response.json["data"]["status"], "unsuccessful")
                 self.unsuccessful_qualification_id = qualification["id"]
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -245,6 +249,7 @@ class TenderQualificationComplaintDocumentResourceTest(TenderQualificationBaseTe
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
 
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

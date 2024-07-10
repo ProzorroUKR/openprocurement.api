@@ -1093,6 +1093,7 @@ def one_lot_2bid_1un(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1157,6 +1158,7 @@ def one_lot_2bid(self):
     for bid in response.json["data"]["bids"]:
         self.assertEqual(bid["status"], "active")
 
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1345,6 +1347,7 @@ def one_lot_3bid_1del(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1494,6 +1497,7 @@ def one_lot_3bid_1un(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1755,6 +1759,7 @@ def two_lot_2bid_0com_1can(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1798,6 +1803,7 @@ def two_lot_2bid_2com_2win(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

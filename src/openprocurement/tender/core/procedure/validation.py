@@ -734,9 +734,18 @@ def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
 # tender documents
 def validate_document_operation_in_not_allowed_period(request, **_):
     tender_status = request.validated["tender"]["status"]
+    if isinstance(request.validated["data"], list):
+        not_sign_docs = any(
+            [doc for doc in request.validated["data"] if doc.get("documentType") != "evaluationReports"]
+        )
+    else:
+        not_sign_docs = request.validated["data"].get("documentType") != "evaluationReports"
     if (
         request.authenticated_role != "auction"
-        and tender_status not in ("active.tendering", "draft", "draft.stage2")
+        and (
+            tender_status not in ("active.tendering", "draft", "draft.stage2", "active.pre-qualification")
+            or (tender_status == "active.pre-qualification" and not_sign_docs)
+        )
         or request.authenticated_role == "auction"
         and tender_status not in ("active.auction", "active.qualification")
     ):

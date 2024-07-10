@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.openeu 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-26 14:46+0200\n"
+"POT-Creation-Date: 2024-07-04 09:52+0300\n"
 "PO-Revision-Date: 2019-12-19 14:55+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <support@quintagroup.com>\n"
@@ -303,8 +303,17 @@ msgstr "Відхилена пропозиція не присутня в спи�
 msgid "We can access rejected bid by id:"
 msgstr "Можна отримати доступ до відхиленої пропозиції за її ідентифікатором `id`:"
 
-msgid "Procuring entity approves qualifications by switching to next status:"
-msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу:"
+msgid "Procuring entity approves qualifications by switching to next status."
+msgstr "Замовник підтверджує кваліфікацію переходом до наступного статусу."
+
+msgid "Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender if there is no lots. If there is no sign document during approving qualification, we will see an error:"
+msgstr "Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути доданий до тендеру загалом. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:"
+
+msgid "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
+msgstr "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
+
+msgid "Let's approve qualifications one more time:"
+msgstr "Ще раз схвалимо кваліфікацію заявок:"
 
 msgid "You may notice 10 day stand-still time set in `qualificationPeriod`."
 msgstr "Зверніть увагу на період блокування в 10 днів під час `qualificationPeriod`."
@@ -434,28 +443,3 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`"
-
-#~ msgid "Exploring basic rules"
-#~ msgstr "Базові правила"
-
-#~ msgid "Let's try exploring the `/tenders` endpoint:"
-#~ msgstr "Подивимось як працює точка входу `/tenders`:"
-
-#~ msgid "Just invoking it reveals empty set."
-#~ msgstr "При виклику видає пустий набір."
-
-#~ msgid "Now let's attempt creating some tender:"
-#~ msgstr "Спробуймо створити нову закупівлю:"
-
-#~ msgid "Error states that the only accepted Content-Type is `application/json`."
-#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-#~ msgid "Let's satisfy the Content-type requirement:"
-#~ msgstr "Задовільнимо вимогу типу вмісту:"
-
-#~ msgid "Error states that no `data` has been found in JSON body."
-#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
-
-#~ msgid "All operations with contract moved to :ref:`econtracting`"
-#~ msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
-

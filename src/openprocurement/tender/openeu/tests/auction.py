@@ -1,7 +1,10 @@
 import unittest
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
@@ -53,6 +56,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
             )
             self.assertEqual(response.status, "200 OK")
+        self.add_qualification_sign_doc(self.tender_id, self.tender_token)
 
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -73,6 +77,10 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     initial_bids = test_bids_data = [test_tender_openeu_bids[0] for i in range(3)]
     initial_lots = test_tender_below_lots
 
+    @patch(
+        "openprocurement.tender.core.procedure.state.tender_details.EVALUATION_REPORTS_DOC_REQUIRED_FROM",
+        get_now() + timedelta(days=1),
+    )
     def setUp(self):
         super().setUp()
         auth = self.app.authorization

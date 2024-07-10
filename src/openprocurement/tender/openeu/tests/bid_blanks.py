@@ -460,6 +460,7 @@ def get_tender_bidder(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -691,6 +692,7 @@ def delete_tender_bidder(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -833,6 +835,7 @@ def deleted_bid_do_not_locks_tender_in_state(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -901,6 +904,7 @@ def get_tender_tenderers(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1046,6 +1050,7 @@ def bids_invalidation_on_tender_change(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1619,6 +1624,7 @@ def get_tender_bidder_document(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1948,6 +1954,7 @@ def create_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2163,6 +2170,7 @@ def put_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2481,6 +2489,7 @@ def patch_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2934,6 +2943,7 @@ def download_tender_bidder_document(self):
         self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3103,6 +3113,7 @@ def create_tender_bidder_document_nopending(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3309,6 +3320,7 @@ def put_tender_bidder_document_private_json(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -3598,6 +3610,7 @@ def get_tender_bidder_document_ds(self):
             self.assertEqual(response.status, "200 OK")
 
     # switch to active.pre-qualification.stand-still
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},

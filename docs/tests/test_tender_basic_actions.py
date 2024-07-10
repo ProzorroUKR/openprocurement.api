@@ -663,6 +663,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.tick()
 
         # active.pre-qualification.stand-still
+        self.add_qualification_sign_doc(self.tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -1153,6 +1154,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        self.add_qualification_sign_doc(self.tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -2593,6 +2595,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        self.add_qualification_sign_doc(self.tender_id, owner_token)
         response = self.app.patch_json(
             '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
             {"data": {"status": "active.pre-qualification.stand-still"}},

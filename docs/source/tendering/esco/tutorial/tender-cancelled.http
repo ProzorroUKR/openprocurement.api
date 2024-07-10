@@ -1274,6 +1274,19 @@ Content-Type: application/json
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
         "language": "uk"
+      },
+      {
+        "documentType": "evaluationReports",
+        "id": "d7bf562cfe344d528dad1132f65ef481",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pdf",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/552fdec279c740ab85e2b30af7a37d37/documents/d7bf562cfe344d528dad1132f65ef481?download=590385330190406f98a4ebfdefc5856b",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
       }
     ],
     "owner": "broker",

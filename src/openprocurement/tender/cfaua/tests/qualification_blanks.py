@@ -157,6 +157,7 @@ def switch_bid_status_unsuccessul_to_active(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], status)
+    self.add_qualification_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": {"status": "active.pre-qualification.stand-still"}},
@@ -240,3 +241,89 @@ def switch_bid_status_unsuccessul_to_active(self):
     response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     for b in response.json["data"]:
         self.assertEqual(b["status"], "active")
+
+
+def check_sign_doc_qualifications_before_stand_still(self):
+    response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.status, "200 OK")
+    qualifications = response.json["data"]
+    for qualification in qualifications:
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+    # try to move to stand-still status without docs
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "documents",
+                "description": "Document with type 'evaluationReports' and format pkcs7-signature is required",
+            }
+        ],
+    )
+    # let's add sign doc
+    sign_doc = {
+        "title": "sign.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pdf",
+        "documentType": "evaluationReports",
+    }
+    # try to add 2 sign docs
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": [sign_doc, sign_doc]},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "evaluationReports document in tender should be only one",
+    )
+
+    # try to add doc with another documentType in pre-qualification
+    sign_doc["documentType"] = "notice"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": sign_doc},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add document in current (active.pre-qualification) tender status",
+    )
+
+    # add right document for tender
+    sign_doc["documentType"] = "evaluationReports"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": sign_doc},
+    )
+    self.assertEqual(response.status, "201 Created")
+    doc_1_id = response.json["data"]["id"]
+
+    # move to stand-still successfully
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to patch doc in active.pre-qualification.stand-still status
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/documents/{doc_1_id}?acc_token={self.tender_token}",
+        {"data": {"title": "test"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't update document in current (active.pre-qualification.stand-still) tender status",
+    )

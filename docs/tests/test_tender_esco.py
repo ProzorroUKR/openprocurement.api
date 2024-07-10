@@ -605,6 +605,14 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
             self.assertEqual(response.status, "200 OK")
 
         # active.pre-qualification.stand-still
+        with open(TARGET_DIR + 'pre-qualification-sign-doc-is-required.http', 'w') as self.app.file_obj:
+            response = self.app.patch_json(
+                '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
+                {'data': {'status': 'active.pre-qualification.stand-still'}},
+                status=422,
+            )
+        with open(TARGET_DIR + 'upload-evaluation-reports-doc.http', 'w') as self.app.file_obj:
+            self.add_qualification_sign_doc(self.tender_id, owner_token)
         with open(TARGET_DIR + 'pre-qualification-confirmation.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
                 '/tenders/{}?acc_token={}'.format(self.tender_id, owner_token),
@@ -961,6 +969,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
         )
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.json['data']['status'], 'active')
+        self.add_qualification_sign_doc(self.tender_id, owner_token)
 
         with open(TARGET_DIR_MULTIPLE + 'tender-view-pre-qualification-stand-still.http', 'w') as self.app.file_obj:
             response = self.app.patch_json(
