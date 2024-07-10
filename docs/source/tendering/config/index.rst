@@ -21,3 +21,4 @@ Contents:
    award_complaints
    cancellation_complaints
    restricted
+   award_complain_duration

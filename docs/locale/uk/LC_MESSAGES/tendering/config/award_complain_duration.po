@@ -1,0 +1,129 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-07-10 08:02+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api
+# package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "Field `awardComplainDuration` is a integer field that indicates the duration of contesting the results of determining the winne"
+msgstr "Поле `awardComplainDuration` є цілим полем, що вказує тривалість оскарження результатів визначення виграшу"
+
+msgid "Possible values for `awardComplainDuration` field depends on `procurementMethodType` field:"
+msgstr "Можливі значення для поля `awardComplainDuration` залежать від поля `procurementMethodType`"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "5"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "awardComplainDuration is `true`"
+msgstr ""
+
+msgid "Let's create a tender `belowThreshold`:"
+msgstr ""
+
+msgid "Then add relatedLot for item:"
+msgstr ""
+
+msgid "Here we can check that \"complaintPeriod\" field is absent in the response."
+msgstr "Тут ми можемо перевірити, що поле \"complaintPeriod\" відсутнє у відповіді."
+
+#~ msgid "Now, let's create a tender `aboveThreshold`:"
+#~ msgstr ""
+
+#~ msgid "We'll see that response contains a \"complaintPeriod\" field, which means that a complaint period will appear for the tenders with `awardComplainDuration` higher than 0"
+#~ msgstr "Ми побачимо, що відповідь містить поле \"complaintPeriod\", що означає, що період скарги з’явиться для тендерів із `awardComplainDuration` вищим за 0"
+

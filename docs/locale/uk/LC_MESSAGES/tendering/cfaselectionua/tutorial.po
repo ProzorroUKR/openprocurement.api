@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-01-29 19:45+0200\n"
+"POT-Creation-Date: 2024-07-10 08:02+0300\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.11.0\n"
+"Generated-By: Babel 2.15.0\n"
 
 msgid "Tutorial"
 msgstr "Туторіал"
@@ -70,6 +70,12 @@ msgid "hasAwardComplaints"
 msgstr ""
 
 msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "0"
 msgstr ""
 
 msgid "restricted"
@@ -362,28 +368,3 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and `Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
 msgstr "Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
-
-#~ msgid "Exploring basic rules"
-#~ msgstr "Розглянемо основні правила"
-
-#~ msgid "Let's try exploring the `/tenders` endpoint:"
-#~ msgstr "Подивимось як працює точка входу `/tenders`:"
-
-#~ msgid "Just invoking it reveals empty set."
-#~ msgstr "При виклику видає пустий набір."
-
-#~ msgid "Now let's attempt creating some tender:"
-#~ msgstr "Спробуймо створити нову закупівлю:"
-
-#~ msgid "Error states that the only accepted Content-Type is `application/json`."
-#~ msgstr "Помилка вказує, що єдиний прийнятний тип вмісту це `application/json`."
-
-#~ msgid "Let's satisfy the Content-type requirement:"
-#~ msgstr "Задовольнимо вимогу типу вмісту (Content-type):"
-
-#~ msgid "Error states that no `data` has been found in JSON body."
-#~ msgstr "Помилка вказує, що `data` не знайдено у тілі JSON."
-
-#~ msgid "All operations with contract moved to :ref:`econtracting`"
-#~ msgstr "Усі операції над угодою перенесені до :ref:`econtracting`"
-
