@@ -1,6 +1,10 @@
+from openprocurement.api.constants import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.procedure.utils import (
+    dt_from_iso,
+    tender_created_before,
+)
 from openprocurement.tender.core.utils import calculate_complaint_business_date
 from openprocurement.tender.esco.constants import (
     COMPLAINT_SUBMIT_TIME,
@@ -53,6 +57,13 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             startDate=tender["tenderPeriod"]["startDate"],
             endDate=end_date.isoformat(),
         )
+        # TODO: remove these lines after NOTICE_DOC_REQUIRED_FROM will be set on prod and some time passes
+        if (
+            tender_created_before(NOTICE_DOC_REQUIRED_FROM)
+            and tender["status"] == "active.tendering"
+            and not tender.get("noticePublicationDate")
+        ):
+            tender["noticePublicationDate"] = get_now().isoformat()
 
     def validate_minimal_step(self, data, before=None):
         # TODO: adjust this validation in case of it will be allowed to disable auction in esco
