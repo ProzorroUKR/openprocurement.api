@@ -1,10 +1,4 @@
-from openprocurement.api.procedure.serializers.base import (
-    BaseSerializer,
-    ListSerializer,
-)
-from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
-)
+from openprocurement.api.procedure.serializers.base import BaseSerializer
 
 
 class RequirementResponseSerializer(BaseSerializer):

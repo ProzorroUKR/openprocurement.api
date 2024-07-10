@@ -1843,14 +1843,14 @@ def fail_create_plan_without_buyers(self):
 def create_plan_with_buyers(self):
     data = deepcopy(self.initial_data)
     data["buyers"] = [
-        dict(
-            id=uuid.uuid4().hex,
-            name="",
-            name_en="",
-            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
-            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
-            kind="general",
-        )
+        {
+            "id": uuid.uuid4().hex,
+            "name": "",
+            "name_en": "",
+            "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+            "address": {"countryName": "Україна", "postalCode": "01220", "locality": "м. Київ"},
+            "kind": "general",
+        }
     ]
     response = self.app.post_json("/plans", {"data": data})
     self.assertEqual(response.status, "201 Created")
@@ -1864,14 +1864,14 @@ def create_plan_with_buyers(self):
         {
             "data": {
                 "buyers": [
-                    dict(
-                        id=plan["buyers"][0]["id"],
-                        name="Hello",
-                        name_en="",
-                        identifier=dict(scheme="UA-EDR", id="666", legalName="ДП Державне Управління Справами"),
-                        address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
-                        kind="general",
-                    )
+                    {
+                        "id": plan["buyers"][0]["id"],
+                        "name": "Hello",
+                        "name_en": "",
+                        "identifier": {"scheme": "UA-EDR", "id": "666", "legalName": "ДП Державне Управління Справами"},
+                        "address": {"countryName": "Україна", "postalCode": "01220", "locality": "м. Київ"},
+                        "kind": "general",
+                    }
                 ]
             }
         },
@@ -1885,20 +1885,20 @@ def create_plan_with_buyers(self):
 def create_plan_with_two_buyers(self):
     data = deepcopy(self.initial_data)
     data["buyers"] = [
-        dict(
-            name="1",
-            name_en="1",
-            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
-            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
-            kind="general",
-        ),
-        dict(
-            name="2",
-            name_en="2",
-            identifier=dict(scheme="UA-EDR", id="111983", legalName="ДП Державне Управління Справами"),
-            address=dict(countryName="Україна", postalCode="01220", locality="м. Київ"),
-            kind="other",
-        ),
+        {
+            "name": "1",
+            "name_en": "1",
+            "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+            "address": {"countryName": "Україна", "postalCode": "01220", "locality": "м. Київ"},
+            "kind": "general",
+        },
+        {
+            "name": "2",
+            "name_en": "2",
+            "identifier": {"scheme": "UA-EDR", "id": "111983", "legalName": "ДП Державне Управління Справами"},
+            "address": {"countryName": "Україна", "postalCode": "01220", "locality": "м. Київ"},
+            "kind": "other",
+        },
     ]
     response = self.app.post_json("/plans", {"data": data}, status=422)
     self.assertEqual(
@@ -1912,7 +1912,7 @@ def create_plan_with_two_buyers(self):
 
 def create_plan_with_breakdown(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = dict(id="f" * 32, title="state", value=dict(amount=1500, currency="UAH"))
+    breakdown_item = {"id": "f" * 32, "title": "state", "value": {"amount": 1500, "currency": "UAH"}}
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data})
@@ -1969,13 +1969,12 @@ def patch_plan_with_breakdown(self):
     self.assertEqual(response.content_type, "application/json")
     plan = response.json["data"]
 
-    breakdown_item = dict(
-        id="f" * 32,
-        title="state",
-        description="Breakdown state description.",
-        value=dict(amount=1500, currency="UAH"),
-    )
-
+    breakdown_item = {
+        "id": "f" * 32,
+        "title": "state",
+        "description": "Breakdown state description.",
+        "value": {"amount": 1500, "currency": "UAH"},
+    }
     budget = deepcopy(data["budget"])
     budget["breakdown"] = [breakdown_item]
 
@@ -1991,7 +1990,7 @@ def patch_plan_with_breakdown(self):
 
 def fail_create_plan_with_breakdown_invalid_title(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = dict(id="f" * 32, title="test", value=dict(amount=1500, currency="UAH"))
+    breakdown_item = {"id": "f" * 32, "title": "test", "value": {"amount": 1500, "currency": "UAH"}}
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2018,12 +2017,12 @@ def fail_create_plan_with_breakdown_invalid_title(self):
 
 def create_plan_with_breakdown_other_title(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = dict(
-        id="f" * 32,
-        title="other",
-        description="For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
-        value=dict(amount=1500, currency="UAH"),
-    )
+    breakdown_item = {
+        "id": "f" * 32,
+        "title": "other",
+        "description": "For a moment, nothing happened. Then, after a second or so, nothing continued to happen.",
+        "value": {"amount": 1500, "currency": "UAH"},
+    }
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data})
@@ -2036,7 +2035,7 @@ def create_plan_with_breakdown_other_title(self):
 
 def fail_create_plan_with_breakdown_other_title(self):
     data = deepcopy(self.initial_data)
-    breakdown_item = dict(id="f" * 32, title="other", value=dict(amount=1500, currency="UAH"))
+    breakdown_item = {"id": "f" * 32, "title": "other", "value": {"amount": 1500, "currency": "UAH"}}
     data["budget"]["breakdown"] = [breakdown_item]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2056,8 +2055,8 @@ def fail_create_plan_with_breakdown_other_title(self):
 def fail_create_plan_with_diff_breakdown_currencies(self):
     data = deepcopy(self.initial_data)
     del data["budget"]["currency"]
-    breakdown_item_1 = dict(id="f" * 32, title="state", value=dict(amount=1500, currency="UAH"))
-    breakdown_item_2 = dict(id="0" * 32, title="state", value=dict(amount=1500, currency="USD"))
+    breakdown_item_1 = {"id": "f" * 32, "title": "state", "value": {"amount": 1500, "currency": "UAH"}}
+    breakdown_item_2 = {"id": "0" * 32, "title": "state", "value": {"amount": 1500, "currency": "USD"}}
     data["budget"]["breakdown"] = [breakdown_item_1, breakdown_item_2]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)
@@ -2099,7 +2098,7 @@ def fail_create_plan_with_diff_breakdown_currencies(self):
 def fail_create_plan_with_amounts_sum_greater(self):
     data = deepcopy(self.initial_data)
     data["budget"]["breakdown"] = [
-        dict(id="0" * 31 + str(i), title="state", value=dict(amount=1500, currency="UAH")) for i in range(10)
+        {"id": "0" * 31 + str(i), "title": "state", "value": {"amount": 1500, "currency": "UAH"}} for i in range(10)
     ]
 
     response = self.app.post_json("/plans", {"data": data}, status=422)

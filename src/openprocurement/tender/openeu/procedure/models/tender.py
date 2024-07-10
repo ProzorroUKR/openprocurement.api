@@ -1,4 +1,4 @@
-from schematics.types import BaseType, IntType, StringType
+from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.validate import ValidationError
 

@@ -1615,7 +1615,7 @@ def two_lot_2can(self):
 
     # cancel every lot
     for lot in self.initial_lots:
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",
@@ -1641,7 +1641,7 @@ def two_lot_1can(self):
     self.create_tender(initial_lots=self.test_lots_data * 2)
 
     # cancel first lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1678,7 +1678,7 @@ def two_lot_1can(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
     # try to restore lot back by new pending cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1722,7 +1722,7 @@ def two_lot_2bid_0com_1can(self):
     self.create_bid(self.tender_id, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

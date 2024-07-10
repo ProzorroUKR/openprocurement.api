@@ -1,7 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.api.auth import ACCR_1, ACCR_2, ACCR_5
+from openprocurement.api.auth import ACCR_1, ACCR_5
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,

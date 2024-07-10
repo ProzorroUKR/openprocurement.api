@@ -3,7 +3,6 @@ import re
 from configparser import DEFAULTSECT, ConfigParser
 from logging import getLogger
 
-import pytz
 import standards
 from ciso8601 import parse_datetime
 from pytz import timezone

@@ -69,7 +69,7 @@ class TestTenderMilestones(unittest.TestCase):
             self.assertNotIn("milestones", data)
 
     def test_validate_empty(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(milestones=[])
         tender = create_tender_instance(Tender, initial_data)
         with self.assertRaises(ModelValidationError) as e:
@@ -77,7 +77,7 @@ class TestTenderMilestones(unittest.TestCase):
         self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_validate_empty_object(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(milestones=[{}])
         tender = create_tender_instance(Tender, initial_data)
 
@@ -100,7 +100,7 @@ class TestTenderMilestones(unittest.TestCase):
         )
 
     def test_validate_incorrect_required(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -137,7 +137,7 @@ class TestTenderMilestones(unittest.TestCase):
         )
 
     def test_title_other_description_required(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -158,7 +158,7 @@ class TestTenderMilestones(unittest.TestCase):
         self.assertEqual(e.exception.messages, {"milestones": [{"description": ["This field is required."]}]})
 
     def test_title_other_description_empty_invalid(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -180,7 +180,7 @@ class TestTenderMilestones(unittest.TestCase):
         self.assertEqual(e.exception.messages, {"milestones": [{"description": ["This field is required."]}]})
 
     def test_validate_percentage_too_big(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -203,7 +203,7 @@ class TestTenderMilestones(unittest.TestCase):
         )
 
     def test_validate_percentage_sum_float_point(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -240,7 +240,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         lots = ListType(ModelType(Lot, required=True))
 
     def test_validate_related_lot_not_required(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -258,7 +258,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         tender.validate()
 
     def test_validate_related_lot_incorrect(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {
@@ -317,7 +317,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         tender.validate()
 
     def test_validate_lot_sum_third_success(self):
-        initial_data = dict(self.initial_tender_data)
+        initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(
             milestones=[
                 {

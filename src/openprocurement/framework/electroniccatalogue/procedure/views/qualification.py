@@ -26,9 +26,6 @@ from openprocurement.framework.electroniccatalogue.procedure.models.qualificatio
 from openprocurement.framework.electroniccatalogue.procedure.state.framework import (
     ElectronicDialogueFrameworkState,
 )
-from openprocurement.framework.electroniccatalogue.procedure.state.qualification import (
-    ElectronicDialogueQualificationState,
-)
 
 
 @resource(

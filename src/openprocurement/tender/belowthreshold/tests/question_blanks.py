@@ -1,9 +1,10 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
-    test_tender_below_organization,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -457,7 +458,7 @@ def lot_create_tender_question(self):
         # For procedures: openua, openuadefense, openeu, negotiation, negotiation.quick, esco, copetitivedialogue, cfaua
         # validation after RELEASE_2020_04_19 is useless, because enquiryPeriod ended before complaintPeriod
 
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",
@@ -576,7 +577,7 @@ def lot_patch_tender_question(self):
         # For procedures: openua, openuadefense, openeu, negotiation, negotiation.quick, esco, copetitivedialogue, cfaua
         # validation after RELEASE_2020_04_19 is useless, because enquiryPeriod ended before complaintPeriod
 
-        cancellation = dict(**test_tender_below_cancellation)
+        cancellation = deepcopy(test_tender_below_cancellation)
         cancellation.update(
             {
                 "status": "active",

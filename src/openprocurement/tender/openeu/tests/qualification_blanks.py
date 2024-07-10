@@ -2229,7 +2229,7 @@ def create_tender_2lot_qualification_complaint(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2875,7 +2875,7 @@ def create_tender_2lot_qualification_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3062,7 +3062,7 @@ def put_tender_2lot_qualification_complaint_document(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

@@ -18,4 +18,4 @@ class Contract(Model):
     awardID = StringType()
     bidID = StringType()
     date = IsoDateTimeType()
-    parameters = ListType(ModelType(Parameter, required=True), default=list(), validators=[validate_parameters_uniq])
+    parameters = ListType(ModelType(Parameter, required=True), default=[], validators=[validate_parameters_uniq])

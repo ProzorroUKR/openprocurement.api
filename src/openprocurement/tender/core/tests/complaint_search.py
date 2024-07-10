@@ -1,7 +1,10 @@
 from datetime import timedelta
 
 from openprocurement.api.constants import RELEASE_2020_04_19
-from openprocurement.api.tests.base import app, singleton_app
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.tender.core.tests.utils import change_auth
 
 fake_tender_data = {

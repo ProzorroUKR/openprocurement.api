@@ -2,7 +2,6 @@ from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.context import get_data, get_now
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import validate_items_uniq
 from openprocurement.api.procedure.models.period import Period
@@ -23,10 +22,6 @@ from openprocurement.tender.competitivedialogue.procedure.models.stage2.item imp
 )
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-from openprocurement.tender.core.utils import (
-    calculate_complaint_business_date,
-    calculate_tender_business_date,
-)
 from openprocurement.tender.openeu.procedure.models.tender import (
     PatchTender as BasePatchTender,
 )
@@ -34,12 +29,6 @@ from openprocurement.tender.openeu.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.openeu.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.openua.constants import (
-    COMPLAINT_SUBMIT_TIME as COMPLAINT_SUBMIT_TIME_UA,
-)
-from openprocurement.tender.openua.constants import (
-    TENDERING_DURATION as TENDERING_DURATION_UA,
-)
 from openprocurement.tender.openua.procedure.models.organization import (
     ProcuringEntity as UAProcuringEntity,
 )

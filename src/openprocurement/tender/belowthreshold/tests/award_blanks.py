@@ -602,7 +602,7 @@ def create_tender_lots_award(self):
     auth = self.app.authorization
 
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -719,7 +719,7 @@ def patch_tender_lots_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1482,7 +1482,7 @@ def create_tender_lots_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1560,7 +1560,7 @@ def patch_tender_lots_award_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     complaint = response.json["data"]
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2212,7 +2212,7 @@ def create_tender_lots_award_complaint_document(self):
     if RELEASE_2020_04_19 and set_all_awards_complaint_period_end:
         set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2381,7 +2381,7 @@ def put_tender_lots_award_complaint_document(self):
         response.json["errors"][0]["description"], "Can't update document in current (claim) complaint status"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2490,7 +2490,7 @@ def patch_tender_lots_award_complaint_document(self):
         response.json["errors"][0]["description"], "Can't update document in current (claim) complaint status"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3073,7 +3073,7 @@ def create_tender_lots_award_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3187,7 +3187,7 @@ def put_tender_lots_award_document(self):
     self.assertIn("Signature=", response.location)
     self.assertIn("KeyID=", response.location)
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3257,7 +3257,7 @@ def patch_tender_lots_award_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

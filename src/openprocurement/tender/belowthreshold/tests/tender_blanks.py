@@ -2656,7 +2656,7 @@ def invalid_tender_conditions(self):
     self.set_status(self.primary_tender_status)
 
     # cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -2948,7 +2948,7 @@ def lost_contract_for_active_award(self):
 
 
 def tender_with_main_procurement_category(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
@@ -3011,7 +3011,7 @@ def tender_with_main_procurement_category(self):
     get_now() + timedelta(days=1),
 )
 def tender_finance_milestones(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test creation
     data["milestones"] = [
@@ -3072,7 +3072,7 @@ def tender_finance_milestones(self):
 
 
 def tender_milestones_required(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["milestones"] = []
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -3089,7 +3089,7 @@ def tender_milestones_required(self):
 
 
 def tender_milestones_not_required(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["milestones"] = []
 
     self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)

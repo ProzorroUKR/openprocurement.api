@@ -392,7 +392,7 @@ def handle_data_exceptions(request):
             for key, value in e.messages.items():
                 request.errors.add("body", key, value)
         elif isinstance(e.messages, list):
-            for i, value in enumerate(e.messages):
+            for value in e.messages:
                 request.errors.add("body", "data", value)
         request.errors.status = 422
         raise error_handler(request)

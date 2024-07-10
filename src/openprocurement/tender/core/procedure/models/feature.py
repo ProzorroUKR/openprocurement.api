@@ -31,7 +31,7 @@ class Feature(Model):
     description_ru = StringType()
     enum = ListType(
         ModelType(FeatureValue, required=True),
-        default=list(),
+        default=[],
         min_size=1,
         validators=[validate_values_uniq],
     )

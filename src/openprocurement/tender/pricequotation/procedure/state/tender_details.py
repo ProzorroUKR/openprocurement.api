@@ -69,7 +69,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
         if not items or any(i.get("documentType", "") == "contractProforma" for i in data.get("documents", "")):
             return
 
-        classification_id = items[0].get("classification", dict()).get("id")
+        classification_id = items[0].get("classification", {}).get("id")
         template_name = None
         if not classification_id:
             return

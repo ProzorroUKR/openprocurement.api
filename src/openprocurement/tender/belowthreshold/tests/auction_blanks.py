@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -1370,7 +1372,7 @@ def patch_tender_lots_auction(self):
         self.assertEqual(l["auctionUrl"], f"http://auction.prozorro.gov.ua/{l['id']}")
 
     self.app.authorization = ("Basic", ("token", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

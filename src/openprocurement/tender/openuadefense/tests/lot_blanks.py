@@ -11,7 +11,6 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
-    test_tender_below_claim,
 )
 from openprocurement.tender.belowthreshold.tests.utils import (
     activate_contract,
@@ -47,7 +46,7 @@ def question_blocking(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -92,7 +91,7 @@ def next_check_value_with_unanswered_question(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
     self.assertNotIn("next_check", response.json["data"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -210,7 +209,7 @@ def two_lot_1bid_0com_1can(self):
     lot_id = lots[0]
     # cancel lot
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

@@ -21,7 +21,7 @@ def tender_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -49,7 +49,7 @@ def lot_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -83,7 +83,7 @@ def item_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

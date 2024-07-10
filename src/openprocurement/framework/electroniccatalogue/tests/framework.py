@@ -23,7 +23,6 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     unsuccessful_status,
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
-    BaseApiWebTest,
     BaseFrameworkWebTest,
     test_framework_electronic_catalogue_data,
 )

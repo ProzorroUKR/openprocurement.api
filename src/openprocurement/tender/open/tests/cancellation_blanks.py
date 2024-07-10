@@ -18,7 +18,7 @@ from openprocurement.tender.core.tests.utils import change_auth
 
 
 def create_tender_cancellation(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": cancellation_data},
@@ -76,7 +76,7 @@ def create_tender_cancellation(self):
 
 
 def patch_tender_cancellation(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -173,7 +173,7 @@ def cancellation_active_award(self):
         if RELEASE_2020_04_19 < get_now():
             self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -197,7 +197,7 @@ def cancellation_active_award(self):
     else:
         activate_cancellation_after_2020_04_19(self, cancellation["id"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -262,7 +262,7 @@ def cancellation_unsuccessful_award(self):
         if RELEASE_2020_04_19 < get_now():
             self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -281,7 +281,7 @@ def cancellation_unsuccessful_award(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all awards are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -298,7 +298,7 @@ def cancellation_unsuccessful_award(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all awards are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -360,7 +360,7 @@ def cancellation_lot_during_qualification_after_first_winner_chosen(self):
         self.set_all_awards_complaint_period_end()
 
     # cancel the second lot which has pending award
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -415,7 +415,7 @@ def cancellation_lot_during_qualification_before_winner_chosen(self):
         self.assertEqual(response.json["data"][1]["status"], "pending")
 
     # cancel the second lot which has pending award
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -463,7 +463,7 @@ def cancellation_lot_during_qualification_before_winner_chosen(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation_before_19_04_2020(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -484,7 +484,7 @@ def create_tender_cancellation_before_19_04_2020(self):
         ],
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     if RELEASE_2020_04_19 < get_now():
         del cancellation["reasonType"]
 
@@ -501,7 +501,7 @@ def create_tender_cancellation_before_19_04_2020(self):
     self.assertIn("id", cancellation)
     self.assertIn(cancellation["id"], response.headers["Location"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"status": "active", "reasonType": "unsuccessful"})
 
     response = self.app.post_json(
@@ -520,7 +520,7 @@ def create_tender_cancellation_before_19_04_2020(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation_before_19_04_2020(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     if RELEASE_2020_04_19 < get_now():
         del cancellation["reasonType"]
 
@@ -545,7 +545,7 @@ def patch_tender_cancellation_before_19_04_2020(self):
 def create_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     if RELEASE_2020_04_19 < get_now():
         del cancellation["reasonType"]
 
@@ -570,7 +570,7 @@ def create_tender_cancellation_2020_04_19(self):
         ],
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "cancelled"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -592,7 +592,7 @@ def create_tender_cancellation_2020_04_19(self):
 
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(request_path, {"data": cancellation})
     self.assertEqual(response.status, "201 Created")
@@ -607,7 +607,7 @@ def create_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "draft")
     self.assertIn(cancellation_id, response.headers["Location"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[1]})
     response = self.app.post_json(request_path, {"data": cancellation})
     self.assertEqual(response.status, "201 Created")
@@ -732,7 +732,7 @@ def create_cancellation_with_award_complaint(self):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -758,7 +758,7 @@ def create_cancellation_with_award_complaint(self):
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -780,7 +780,7 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1036,7 +1036,7 @@ def patch_tender_cancellation_2020_04_19(self):
         ],
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1114,7 +1114,7 @@ def patch_tender_cancellation_2020_04_19(self):
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def patch_tender_cancellation_2020_04_19_to_pending(self):
     reasonType_choices = self.valid_reasonType_choices
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
 
     # draft 1
@@ -1293,7 +1293,7 @@ def access_create_tender_cancellation_complaint(self):
 
     self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -1358,7 +1358,7 @@ def access_create_tender_cancellation_complaint(self):
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1458,7 +1458,7 @@ def activate_cancellation(self):
 
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -1968,10 +1968,10 @@ def get_tender_cancellation_complaints(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_tender_cancellation_with_cancellation_lots(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     cancellation_data["reasonType"] = "noDemand"
 
-    cancellation_lot_data = dict(**cancellation_data)
+    cancellation_lot_data = deepcopy(cancellation_data)
     lot = self.initial_lots[0]
 
     cancellation_lot_data["relatedLot"] = lot["id"]
@@ -2032,10 +2032,10 @@ def create_tender_cancellation_with_cancellation_lots(self):
 
 
 def create_tender_lots_cancellation_complaint(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     cancellation_data["reasonType"] = "noDemand"
 
-    cancellation_lot_data = dict(**cancellation_data)
+    cancellation_lot_data = deepcopy(cancellation_data)
     lot = self.initial_lots[0]
 
     cancellation_lot_data["relatedLot"] = lot["id"]
@@ -2085,7 +2085,7 @@ def create_tender_lots_cancellation_complaint(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_lot_cancellation_with_tender_cancellation(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     cancellation_data["reasonType"] = "noDemand"
 
     response = self.app.post_json(
@@ -2127,7 +2127,7 @@ def create_lot_cancellation_with_tender_cancellation(self):
         "Forbidden because of a pending cancellation",
     )
 
-    cancellation_lot_data = dict(**cancellation_data)
+    cancellation_lot_data = deepcopy(cancellation_data)
     lot = self.initial_lots[0]
     cancellation_lot_data["relatedLot"] = lot["id"]
     response = self.app.post_json(
@@ -2213,7 +2213,7 @@ def create_cancellation_in_award_complaint_period(self):
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -2247,10 +2247,10 @@ def create_cancellation_in_award_complaint_period(self):
 
 
 def create_tender_dps_lot_cancellation_complaint(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     cancellation_data["reasonType"] = "noDemand"
 
-    cancellation_lot_data = dict(**cancellation_data)
+    cancellation_lot_data = deepcopy(cancellation_data)
     lot = self.initial_lots[0]
 
     cancellation_lot_data["relatedLot"] = lot["id"]
@@ -2302,7 +2302,7 @@ def create_tender_dps_lot_cancellation_complaint(self):
 
 def patch_tender_dps_lot_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",

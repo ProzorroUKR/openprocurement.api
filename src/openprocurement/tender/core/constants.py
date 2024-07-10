@@ -3,10 +3,6 @@ from decimal import Decimal
 
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.cfaselectionua.constants import (
-    MIN_ACTIVE_CONTRACTS,
-    MIN_PERIOD_UNTIL_AGREEMENT_END,
-)
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,

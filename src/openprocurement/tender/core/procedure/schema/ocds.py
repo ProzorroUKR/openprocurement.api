@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import OCID_PREFIX, ROUTE_PREFIX
 from openprocurement.api.context import get_request
 
@@ -164,7 +166,7 @@ def filter_bids_by_lot(bids, lot_id=None):
         for b in bids:
             for lv in b.get("lotValues", ""):
                 if lot_id == lv["relatedLot"]:
-                    b_copy = dict(b)
+                    b_copy = deepcopy(b)
                     # value & date
                     b_copy["date"] = lv.get("date") or b.get("date")  # we have a bug causes lotValues.date missed
                     value = lv.get("value")
@@ -311,7 +313,7 @@ def prepare_release(plan, tender, lot=None):
 
     bids = tender.get("bids")
     if bids:
-        bids = list(filter_bids_by_lot(bids, lot_id))
+        bids = filter_bids_by_lot(bids, lot_id)
         if bids:
             bid_dates = [b["date"] for b in bids if "date" in b]
             r["bids"] = {

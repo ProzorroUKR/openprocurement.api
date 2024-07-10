@@ -5,9 +5,6 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
     AwardComplaintWriteResource,
 )
-from openprocurement.tender.openuadefense.procedure.state.award_claim import (
-    OpenUADefenseAwardClaimState,
-)
 from openprocurement.tender.simpledefense.procedure.state.award_claim import (
     SimpleDefenseAwardClaimState,
 )

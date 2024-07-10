@@ -3,7 +3,6 @@ from uuid import uuid4
 
 from isodate import duration_isoformat
 
-import openprocurement.api.procedure.context
 from openprocurement.tender.cfaua.constants import (
     CLARIFICATIONS_UNTIL_PERIOD,
     MAX_AGREEMENT_PERIOD,

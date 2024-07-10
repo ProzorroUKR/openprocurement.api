@@ -111,7 +111,7 @@ class MongodbResourceListing(BaseResource):
             opt_fields = set()
 
         # prev_page
-        prev_params = dict(**params)
+        prev_params = {**params}
         if params.get("descending"):
             del prev_params["descending"]
         else:

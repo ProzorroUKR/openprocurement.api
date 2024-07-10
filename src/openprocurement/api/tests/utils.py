@@ -2,12 +2,10 @@ import unittest
 from datetime import datetime
 from unittest.mock import Mock, patch
 
-from pyramid.testing import DummyRequest, testConfig
 from pytz import timezone, utc
 from requests.exceptions import ConnectionError
 
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value
 
 

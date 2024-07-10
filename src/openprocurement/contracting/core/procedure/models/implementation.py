@@ -6,4 +6,4 @@ from openprocurement.contracting.core.procedure.models.transaction import Transa
 
 
 class Implementation(Model):
-    transactions = ListType(ModelType(Transaction), default=list())
+    transactions = ListType(ModelType(Transaction), default=[])

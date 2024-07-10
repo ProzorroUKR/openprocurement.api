@@ -1767,7 +1767,7 @@ def patch_tender_lot_award_unsuccessful(self):
 
 
 def create_tender_lots_award(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1888,7 +1888,7 @@ def patch_tender_lots_award(self):
     if RELEASE_2020_04_19:
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2823,7 +2823,7 @@ def create_tender_lots_award_complaint(self):
     if RELEASE_2020_04_19:
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -2911,7 +2911,7 @@ def patch_tender_lots_award_complaint(self):
     if RELEASE_2020_04_19:
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3497,7 +3497,7 @@ def put_tender_lots_award_complaint_document(self):
     if RELEASE_2020_04_19:
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -3623,7 +3623,7 @@ def patch_tender_lots_award_complaint_document(self):
     if RELEASE_2020_04_19:
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

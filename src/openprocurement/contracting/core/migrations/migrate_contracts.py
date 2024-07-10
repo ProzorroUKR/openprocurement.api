@@ -3,7 +3,6 @@
 from collections import defaultdict
 
 from openprocurement.api.context import set_now
-from openprocurement.api.database import get_public_modified
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 
 if __name__ == "__main__":

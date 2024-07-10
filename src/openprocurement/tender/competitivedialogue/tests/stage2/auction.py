@@ -4,7 +4,6 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
-    TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # TenderStage2EU(UA)SameValueAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
@@ -13,7 +12,6 @@ from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # Tend
     post_tender_auction_reversed,
     post_tender_lots_auction_features,
 )
-from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,

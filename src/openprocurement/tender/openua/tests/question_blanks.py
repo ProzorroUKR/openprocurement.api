@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from openprocurement.api.constants import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -18,7 +20,7 @@ def tender_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -46,7 +48,7 @@ def lot_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -80,7 +82,7 @@ def item_has_unanswered_questions(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     self.app.authorization = ("Basic", ("broker", ""))
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

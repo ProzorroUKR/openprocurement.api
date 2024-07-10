@@ -59,11 +59,11 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
             True,
         )
         enquiry_period = tender.get("enquiryPeriod")
-        tender["enquiryPeriod"] = dict(
-            startDate=tender["tenderPeriod"]["startDate"],
-            endDate=end_date.isoformat(),
-            clarificationsUntil=clarifications_until.isoformat(),
-        )
+        tender["enquiryPeriod"] = {
+            "startDate": tender["tenderPeriod"]["startDate"],
+            "endDate": end_date.isoformat(),
+            "clarificationsUntil": clarifications_until.isoformat(),
+        }
         invalidation_date = enquiry_period and enquiry_period.get("invalidationDate")
         if invalidation_date:
             tender["enquiryPeriod"]["invalidationDate"] = invalidation_date

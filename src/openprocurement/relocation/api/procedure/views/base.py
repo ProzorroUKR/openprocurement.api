@@ -1,6 +1,6 @@
 from pyramid.security import ALL_PERMISSIONS, Allow
 
-from openprocurement.api.utils import request_init_object, request_init_transfer
+from openprocurement.api.utils import request_init_transfer
 from openprocurement.api.views.base import BaseResource
 
 

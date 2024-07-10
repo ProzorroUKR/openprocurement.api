@@ -1330,7 +1330,7 @@ def lost_contract_for_active_award(self):
 
 
 def tender_with_main_procurement_category(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
@@ -1370,7 +1370,7 @@ def tender_with_main_procurement_category(self):
 
 def create_tender_with_criteria_lcc(self):
     # create not lcc tender
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -1444,7 +1444,7 @@ def create_tender_with_criteria_lcc(self):
     )
 
     # create lcc tender
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1488,7 +1488,7 @@ def tender_items_category_profile(self):
     response_200_valid_status.status_code = 200
     response_200_valid_status.json = Mock(return_value={"data": {"id": "", "status": "active"}})
 
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     items = data["items"]
     items[0]["profile"] = "1" * 32
 

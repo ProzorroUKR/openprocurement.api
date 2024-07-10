@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
 )

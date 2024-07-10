@@ -1,5 +1,4 @@
 from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_draft_complaint,
     test_tender_below_organization,
 )
 from openprocurement.tender.limited.tests.base import (

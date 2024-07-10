@@ -1,8 +1,6 @@
 from copy import deepcopy
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
-
 
 def set_tender_lots(tender, lots):
     tender["lots"] = []

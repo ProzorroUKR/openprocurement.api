@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
@@ -79,7 +80,7 @@ def create_tender_cancellation_invalid(self):
         response.json["errors"], [{"description": "Rogue field", "location": "body", "name": "invalid_field"}]
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -92,7 +93,7 @@ def create_tender_cancellation_invalid(self):
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["cancellationOf"], "tender", "Because relatedLot is not provided")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -115,7 +116,7 @@ def create_tender_cancellation_invalid(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.pop("reasonType", None)
 
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
@@ -167,7 +168,7 @@ def create_tender_cancellation(self):
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def create_tender_cancellation_before_19_04_2020(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(
         request_path,
@@ -191,7 +192,7 @@ def create_tender_cancellation_before_19_04_2020(self):
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
 def patch_tender_cancellation(self):
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.pop("reasonType", None)
 
     response = self.app.post_json(
@@ -305,7 +306,7 @@ def get_tender_cancellations(self):
 
 def create_tender_lot_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -334,7 +335,7 @@ def create_tender_lot_cancellation(self):
     self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id, "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -373,7 +374,7 @@ def create_tender_lot_cancellation(self):
 
 def patch_tender_lot_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -428,7 +429,7 @@ def patch_tender_lot_cancellation(self):
 
 def create_tender_lots_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -452,7 +453,7 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.json["data"]["lots"][0]["status"], "active")
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -482,7 +483,7 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.json["data"]["lots"][0]["status"], "cancelled")
     self.assertNotEqual(response.json["data"]["status"], "cancelled")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id, "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -493,7 +494,7 @@ def create_tender_lots_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can perform cancellation only in active lot status")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -527,7 +528,7 @@ def create_tender_lots_cancellation(self):
 
 def patch_tender_lots_cancellation(self):
     lot_id = self.initial_lots[0]["id"]
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -945,7 +946,7 @@ def patch_tender_cancellation_document(self):
 def patch_tender_cancellation_2020_04_19(self):
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1052,7 +1053,7 @@ def patch_tender_cancellation_2020_04_19(self):
         ],
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1118,7 +1119,7 @@ def patch_tender_cancellation_2020_04_19(self):
 def permission_cancellation_pending(self):
     reasonType_choices = self.valid_reasonType_choices
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": reasonType_choices[0]})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token), {"data": cancellation}
@@ -1211,10 +1212,10 @@ def permission_cancellation_pending(self):
 
 
 def tender_lot_cancellation_universal_logic(self):
-    cancellation_data = dict(**test_tender_below_cancellation)
+    cancellation_data = deepcopy(test_tender_below_cancellation)
     cancellation_data["reasonType"] = "noDemand"
 
-    cancellation_lot_data = dict(**cancellation_data)
+    cancellation_lot_data = deepcopy(cancellation_data)
     lot = self.initial_lots[0]
 
     cancellation_lot_data["relatedLot"] = lot["id"]

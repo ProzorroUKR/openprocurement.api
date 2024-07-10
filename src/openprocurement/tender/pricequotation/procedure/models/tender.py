@@ -7,7 +7,7 @@ from openprocurement.api.context import get_now
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
+from openprocurement.api.procedure.types import ModelType
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.models.criterion import Criterion

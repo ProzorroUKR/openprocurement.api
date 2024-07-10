@@ -2,7 +2,6 @@ from logging import getLogger
 
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.models.complaint import (

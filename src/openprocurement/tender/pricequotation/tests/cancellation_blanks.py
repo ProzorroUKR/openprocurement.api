@@ -2,8 +2,7 @@ from openprocurement.tender.pricequotation.tests.base import test_tender_pq_canc
 
 
 def create_tender_cancellation_invalid(self):
-    cancellation = dict(**test_tender_pq_cancellation)
-    response = self.app.post_json("/tenders/some_id/cancellations", {"data": cancellation}, status=404)
+    response = self.app.post_json("/tenders/some_id/cancellations", {"data": test_tender_pq_cancellation}, status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -72,10 +71,8 @@ def create_tender_cancellation_invalid(self):
 
 
 def create_tender_cancellation(self):
-    cancellation = dict(**test_tender_pq_cancellation)
-
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
-    response = self.app.post_json(request_path, {"data": cancellation})
+    response = self.app.post_json(request_path, {"data": test_tender_pq_cancellation})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
@@ -135,11 +132,10 @@ def create_tender_cancellation(self):
 def patch_tender_cancellation(self):
     tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
     status = tender['status']
-    cancellation = dict(**test_tender_pq_cancellation)
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-        {"data": cancellation},
+        {"data": test_tender_pq_cancellation},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

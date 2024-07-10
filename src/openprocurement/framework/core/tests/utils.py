@@ -4,16 +4,12 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock
 
-from pyramid.exceptions import URLDecodeError
-from schematics.types import StringType
-
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import (
     BaseFrameworkTest,
     test_framework_data,
 )
-from openprocurement.framework.core.tests.framework import Framework
 from openprocurement.framework.core.utils import (
     calculate_framework_date,
     generate_framework_pretty_id,

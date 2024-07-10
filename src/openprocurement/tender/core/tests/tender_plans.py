@@ -6,8 +6,10 @@ from uuid import uuid4
 import pytest
 from nacl.encoding import HexEncoder
 
-from openprocurement.api.tests.base import app, singleton_app
-from openprocurement.api.utils import generate_docservice_url
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 from openprocurement.planning.api.tests.base import test_plan_data
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.belowthreshold.tests.utils import set_tender_lots
@@ -53,7 +55,7 @@ def test_get_tender_plans_404(app):
 def tender(app):
     app.authorization = ("Basic", ("broker", "broker"))
     test_data = deepcopy(test_tender_openua_central_data)
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
+    response = app.post_json("/tenders", {"data": test_data, "config": test_tender_openua_config})
     assert response.status == "201 Created"
     return response.json
 
@@ -141,7 +143,7 @@ def test_fail_not_draft(app, plan):
     del test_data["status"]
     lots_data = deepcopy(test_tender_below_lots)
     set_tender_lots(test_data, lots_data)
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
+    response = app.post_json("/tenders", {"data": test_data, "config": test_tender_openua_config})
     assert response.status == "201 Created"
 
     tender = response.json
@@ -191,7 +193,7 @@ def test_fail_non_central(app, plan):
 
     test_data = deepcopy(test_tender_openua_central_data)
     test_data["procuringEntity"]["kind"] = "general"
-    response = app.post_json("/tenders", dict(data=test_data, config=test_tender_openua_config))
+    response = app.post_json("/tenders", {"data": test_data, "config": test_tender_openua_config})
     assert response.status == "201 Created"
     tender = response.json
 

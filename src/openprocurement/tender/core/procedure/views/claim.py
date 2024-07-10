@@ -14,20 +14,12 @@ from openprocurement.api.utils import (
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.claim import (
-    Claim,
-    ClaimOwnerPatchClaim,
-    PostClaim,
-    TenderOwnerPatchClaim,
-)
+from openprocurement.tender.core.procedure.models.claim import Claim, PostClaim
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
     TenderComplaintSerializer,
 )
-from openprocurement.tender.core.procedure.state.claim import (
-    ClaimStateMixin,
-    TenderClaimState,
-)
+from openprocurement.tender.core.procedure.state.claim import TenderClaimState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 from openprocurement.tender.core.procedure.validation import (
     validate_any,
@@ -99,10 +91,10 @@ class BaseClaimResource(TenderBaseResource):
                 ),
             )
             self.request.response.status = 201
-            route_params = dict(
-                tender_id=tender["_id"],
-                complaint_id=claim["id"],
-            )
+            route_params = {
+                "tender_id": tender["_id"],
+                "complaint_id": claim["id"],
+            }
             route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
             if self.item_name != "tender":
                 route_params[f"{self.item_name}_id"] = context["id"]

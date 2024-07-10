@@ -5,7 +5,11 @@ from unittest.mock import MagicMock, patch
 
 from openprocurement.api.context import set_now
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.tests.base import app, change_auth, singleton_app
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    change_auth,
+    singleton_app,
+)
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA", True)

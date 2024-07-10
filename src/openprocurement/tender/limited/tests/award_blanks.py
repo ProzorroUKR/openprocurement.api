@@ -1455,7 +1455,7 @@ def cancel_award(self):
 
 def create_award_on_cancel_lot(self):
     # Create cancellation on lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",
@@ -1538,7 +1538,7 @@ def patch_award_on_cancel_lot(self):
     award = response.json["data"]
 
     # Create cancellation on lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "cancellationOf": "lot",

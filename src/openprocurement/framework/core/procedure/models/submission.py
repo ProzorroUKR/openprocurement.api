@@ -29,7 +29,7 @@ class PostSubmission(Model):
         return "Submission"
 
     tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
-    documents = ListType(ModelType(PostDocument, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=[])
     frameworkID = StringType(required=True)
     status = StringType(choices=["draft"], default="draft")
 
@@ -62,7 +62,7 @@ class BotPatchSubmission(Model):
 
 class Submission(RootModel):
     tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), required=True, min_size=1)
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(Document, required=True), default=[])
     qualificationID = StringType()
     frameworkID = StringType(required=True)
     status = StringType(
@@ -83,7 +83,7 @@ class Submission(RootModel):
 
     transfer_token = StringType()
 
-    _attachments = DictType(DictType(BaseType), default=dict())
+    _attachments = DictType(DictType(BaseType), default=[])
     revisions = BaseType(default=list)
     config = BaseType()
 

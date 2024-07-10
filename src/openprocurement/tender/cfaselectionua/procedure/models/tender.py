@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from schematics.types import BaseType, IntType, StringType
+from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 from schematics.validate import ValidationError
@@ -8,7 +8,6 @@ from schematics.validate import ValidationError
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDurationType
 from openprocurement.api.procedure.validation import validate_features_uniq
 from openprocurement.api.validation import validate_items_uniq
 from openprocurement.tender.cfaselectionua.constants import (

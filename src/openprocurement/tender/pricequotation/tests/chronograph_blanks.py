@@ -1,8 +1,3 @@
-from freezegun import freeze_time
-
-from openprocurement.api.utils import get_now
-from openprocurement.tender.core.utils import calculate_tender_business_date
-from openprocurement.tender.pricequotation.constants import QUALIFICATION_DURATION
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_organization,
     test_tender_pq_requirement_response,

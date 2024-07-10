@@ -16,8 +16,6 @@ from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
     STAGE2_STATUS,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
@@ -1543,7 +1541,7 @@ def tender_Administrator_change(self):
     if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
         set_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1620,7 +1618,7 @@ def invalid_tender_conditions(self):
     if RELEASE_2020_04_19 < get_now() and set_complaint_period_end:
         set_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),
@@ -1818,7 +1816,7 @@ def first_bid_tender(self):
 
 
 def tender_milestones_not_required(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     self.app.authorization = ("Basic", ("competitive_dialogue", ""))
     data["milestones"] = []
 

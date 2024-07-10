@@ -22,7 +22,6 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.simpledefense.tests.base import (
     BaseSimpleDefContentWebTest,
     test_tender_simpledefense_bids,
-    test_tender_simpledefense_data,
     test_tender_simpledefense_features_data,
 )
 

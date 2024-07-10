@@ -5,7 +5,6 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
-    test_tender_below_data,
     test_tender_below_data_no_auction,
     test_tender_below_features_data,
     test_tender_below_lots,

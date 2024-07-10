@@ -76,14 +76,12 @@ class Feature(Model):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    enum = ListType(
-        ModelType(FeatureValue, required=True), default=list(), min_size=1, validators=[validate_values_uniq]
-    )
+    enum = ListType(ModelType(FeatureValue, required=True), default=[], min_size=1, validators=[validate_values_uniq])
 
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, default=list()))
+    additionalClassifications = ListType(ModelType(AdditionalClassification, default=[]))
     description_en = StringType(required=True, min_length=1)
     deliveryDate = ModelType(PeriodEndRequired, required=True)
     deliveryAddress = ModelType(Address, required=True)
@@ -122,10 +120,10 @@ class Agreement(BaseAgreement):
             (ChangeTaxRate, ChangeItemPriceVariation, ChangePartyWithdrawal, ChangeThirdParty),
             claim_function=get_change_class,
         ),
-        default=list(),
+        default=[],
     )
-    documents = ListType(ModelType(Document, required=True), default=list())
-    contracts = ListType(ModelType(Contract, required=True), default=list())
+    documents = ListType(ModelType(Document, required=True), default=[])
+    contracts = ListType(ModelType(Contract, required=True), default=[])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -154,10 +152,10 @@ class PostAgreement(BasePostAgreement):
             (PostChangeTaxRate, PostChangeItemPriceVariation, PostChangePartyWithdrawal, PostChangeThirdParty),
             claim_function=get_change_class,
         ),
-        default=list(),
+        default=[],
     )
-    documents = ListType(ModelType(PostDocument, required=True), default=list())
-    contracts = ListType(ModelType(Contract, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=[])
+    contracts = ListType(ModelType(Contract, required=True), default=[])
     features = ListType(ModelType(Feature, required=True), validators=[validate_features_uniq])
     items = ListType(ModelType(Item, required=True))
     procuringEntity = ModelType(ProcuringEntity, required=True)
@@ -171,7 +169,7 @@ class PostAgreement(BasePostAgreement):
 
 
 class PatchActiveAgreement(BasePatchAgreement):
-    documents = ListType(ModelType(PostDocument), default=list())
+    documents = ListType(ModelType(PostDocument), default=[])
     terminationDetails = StringType()
 
 
@@ -180,7 +178,7 @@ class PatchTerminatedAgreement(Model):
 
 
 class PatchAgreementByAdministrator(Model):
-    documents = ListType(ModelType(PostDocument), default=list())
+    documents = ListType(ModelType(PostDocument), default=[])
     procuringEntity = ModelType(ProcuringEntity)
     terminationDetails = StringType()
     status = StringType(choices=["active", "terminated"])

@@ -57,7 +57,7 @@ class BaseRequirementResponse(Model):
     relatedItem = MD5Type()
     evidences = ListType(
         ModelType(Evidence, required=True),
-        default=list(),
+        default=[],
         validators=[validate_object_id_uniq],
     )
 
@@ -98,7 +98,7 @@ class PatchRequirementResponse(BaseRequirementResponse):
     requirement = ModelType(Reference)
     evidences = ListType(
         ModelType(Evidence, required=True),
-        default=list(),
+        default=[],
         validators=[validate_object_id_uniq],
     )
 

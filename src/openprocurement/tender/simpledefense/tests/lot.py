@@ -23,8 +23,6 @@ from openprocurement.tender.openua.tests.lot import (
 from openprocurement.tender.openua.tests.lot_blanks import (  # TenderLotFeatureResourceTest; TenderLotFeatureBidderResourceTest
     claim_blocking,
     create_tender_bidder_feature,
-    create_tender_bidder_feature_invalid,
-    create_tender_bidder_invalid,
     next_check_value_with_unanswered_claim,
     patch_tender_bidder,
 )

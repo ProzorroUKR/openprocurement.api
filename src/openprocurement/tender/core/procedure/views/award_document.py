@@ -1,6 +1,5 @@
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.award_document import (
     AwardDocumentState,
 )

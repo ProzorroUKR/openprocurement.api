@@ -22,7 +22,7 @@ class PostMilestone(Model):
         return uuid4().hex
 
     type = StringType(required=True, choices=["activation", "ban"])
-    documents = ListType(ModelType(PostDocument, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=[])
     status = StringType(choices=["scheduled"], default="scheduled")
 
     @serializable(serialized_name="dueDate", serialize_when_none=False)
@@ -36,7 +36,7 @@ class PostMilestone(Model):
 
 class PatchMilestone(Model):
     status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
-    documents = ListType(ModelType(PostDocument, required=True), default=list())
+    documents = ListType(ModelType(PostDocument, required=True), default=[])
 
 
 class Milestone(Model):
@@ -44,6 +44,6 @@ class Milestone(Model):
     type = StringType(required=True, choices=["activation", "ban"])
     status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
     dueDate = IsoDateTimeType()
-    documents = ListType(ModelType(Document, required=True), default=list())
+    documents = ListType(ModelType(Document, required=True), default=[])
     dateModified = IsoDateTimeType(default=get_now)
     dateMet = IsoDateTimeType()

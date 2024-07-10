@@ -816,7 +816,7 @@ def patch_tender(self):
         self.assertEqual(lot_data["value"]["currency"], base_currency)
         self.assertEqual(lot_data["value"]["valueAddedTaxIncluded"], base_tax)
 
-    changed_value = dict(base_value)
+    changed_value = deepcopy(base_value)
     changed_value["valueAddedTaxIncluded"] = not base_tax
     changed_value["currency"] = "GBP"
     minimal_step = {"amount": result["minimalStep"]["amount"], "currency": "GBP", "valueAddedTaxIncluded": not base_tax}
@@ -1315,7 +1315,7 @@ def lost_contract_for_active_award(self):
 
 
 def tender_with_main_procurement_category(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
@@ -1354,7 +1354,7 @@ def tender_with_main_procurement_category(self):
 
 
 def tender_finance_milestones(self):
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
 
     # test creation
     data["milestones"] = [
@@ -1412,7 +1412,7 @@ def tender_finance_milestones(self):
 
 def create_tender_with_criteria_lcc(self):
     # create not lcc tender
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
@@ -1486,7 +1486,7 @@ def create_tender_with_criteria_lcc(self):
     )
 
     # create lcc tender
-    data = dict(**self.initial_data)
+    data = deepcopy(self.initial_data)
     data["awardCriteria"] = "lifeCycleCost"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")

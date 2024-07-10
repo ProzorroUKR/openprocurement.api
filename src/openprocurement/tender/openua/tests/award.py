@@ -29,10 +29,6 @@ from openprocurement.tender.open.tests.award import (
     Tender2LotAwardQualificationAfterComplaintMixin,
     TenderAwardQualificationAfterComplaintMixin,
 )
-from openprocurement.tender.open.tests.award_blanks import (
-    patch_tender_award_unsuccessful_complaint_first,
-    patch_tender_award_unsuccessful_complaint_second,
-)
 from openprocurement.tender.openua.tests.award_blanks import (
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,

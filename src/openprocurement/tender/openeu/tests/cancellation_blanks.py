@@ -26,7 +26,7 @@ def bids_on_tender_cancellation_in_tendering(self):
     tender = response.json["data"]
     self.assertNotIn("bids", tender)  # bids not visible for others
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -348,7 +348,7 @@ def cancellation_active_tendering_j708(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "pending",
@@ -418,7 +418,7 @@ def cancellation_active_qualification_j1427(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -467,7 +467,7 @@ def cancellation_active_qualification(self):
             {"data": {"status": "active", "qualified": True, "eligible": True}},
         )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -491,7 +491,7 @@ def cancellation_active_qualification(self):
     else:
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -536,7 +536,7 @@ def cancellation_unsuccessful_qualification(self):
             )
             self.assertEqual(response.status, "200 OK")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -555,7 +555,7 @@ def cancellation_unsuccessful_qualification(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all qualifications are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -572,7 +572,7 @@ def cancellation_unsuccessful_qualification(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all qualifications are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -659,7 +659,7 @@ def cancellation_active_award(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -683,7 +683,7 @@ def cancellation_active_award(self):
     else:
         activate_cancellation_with_complaints_after_2020_04_19(self, cancellation["id"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -775,7 +775,7 @@ def cancellation_unsuccessful_award(self):
     if RELEASE_2020_04_19 < get_now():
         self.set_all_awards_complaint_period_end()
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -794,7 +794,7 @@ def cancellation_unsuccessful_award(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all awards are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -811,7 +811,7 @@ def cancellation_unsuccessful_award(self):
         response.json["errors"][0]["description"], "Can't perform cancellation if all awards are unsuccessful"
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -840,7 +840,7 @@ def cancellation_unsuccessful_award(self):
 def create_cancellation_in_qualification_complaint_period(self):
     self.set_status("active.pre-qualification.stand-still")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),

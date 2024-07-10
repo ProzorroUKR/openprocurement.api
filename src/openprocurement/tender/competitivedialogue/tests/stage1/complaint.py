@@ -12,7 +12,6 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_author,
-    test_tender_cd_lots,
 )
 from openprocurement.tender.openua.tests.complaint import (
     TenderUAComplaintResourceTestMixin,

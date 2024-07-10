@@ -11,10 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
-from openprocurement.tender.belowthreshold.tests.utils import (
-    activate_contract,
-    get_contract_data,
-)
+from openprocurement.tender.belowthreshold.tests.utils import activate_contract
 from openprocurement.tender.cfaselectionua.constants import (
     BOT_NAME,
     ENQUIRY_PERIOD,
@@ -1914,7 +1911,7 @@ def invalid_tender_conditions(self):
     self.assertEqual(response.content_type, "text/plain")
 
     # cancellation
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reason": "invalid conditions", "status": "active"})
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(tender_id, owner_token),

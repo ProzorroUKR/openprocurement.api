@@ -380,7 +380,7 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
-    award_statuses = dict()
+    award_statuses = {}
     for award in response.json["data"]:
         award_statuses[award["id"]] = award["status"]
     for award_id in old_awards_ids:
@@ -515,7 +515,7 @@ def create_tender_lot_award(self):
 
 def create_tender_2lot_award(self):
     request_path = "/tenders/{}/awards".format(self.tender_id)
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -607,7 +607,7 @@ def patch_tender_2lot_award(self):
     self.assertEqual(len(response.json["data"]), 2)
     new_award = response.json["data"][-1]
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -837,7 +837,7 @@ def create_tender_2lot_award_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("name.doc", response.json["data"]["title"])
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1017,7 +1017,7 @@ def put_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_length, 8)
     self.assertEqual(response.body, b"content4")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1129,7 +1129,7 @@ def patch_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["description"], "document description2")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

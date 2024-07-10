@@ -1,7 +1,6 @@
 from typing import Optional
 
 from cornice.resource import resource
-from pyramid.security import Allow
 
 from openprocurement.api.procedure.validation import (
     unless_administrator,

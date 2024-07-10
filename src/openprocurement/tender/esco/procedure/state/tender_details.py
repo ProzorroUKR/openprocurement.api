@@ -53,10 +53,10 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     def update_periods(tender):
         tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
         end_date = calculate_complaint_business_date(tendering_end, -COMPLAINT_SUBMIT_TIME, tender)
-        tender["complaintPeriod"] = dict(
-            startDate=tender["tenderPeriod"]["startDate"],
-            endDate=end_date.isoformat(),
-        )
+        tender["complaintPeriod"] = {
+            "startDate": tender["tenderPeriod"]["startDate"],
+            "endDate": end_date.isoformat(),
+        }
         # TODO: remove these lines after NOTICE_DOC_REQUIRED_FROM will be set on prod and some time passes
         if (
             tender_created_before(NOTICE_DOC_REQUIRED_FROM)

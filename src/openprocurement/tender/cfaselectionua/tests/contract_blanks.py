@@ -235,7 +235,7 @@ def lot2_patch_tender_contract(self):
 
     self.set_status("active.awarded", start_end="end")
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

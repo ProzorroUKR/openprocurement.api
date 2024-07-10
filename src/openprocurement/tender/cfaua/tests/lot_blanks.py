@@ -1192,7 +1192,7 @@ def proc_1lot_1can(self):
     # self.assertTrue(all("auctionPeriod" in i for i in response.json['data']['lots']))
     # cancel lot
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1437,7 +1437,7 @@ def question_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",
@@ -1474,7 +1474,7 @@ def claim_blocking(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     # cancel lot
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

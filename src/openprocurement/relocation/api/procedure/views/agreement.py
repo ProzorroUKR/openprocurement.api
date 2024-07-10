@@ -6,9 +6,6 @@ from openprocurement.framework.core.procedure.views.base import FrameworkBaseRes
 from openprocurement.relocation.api.procedure.serializers.agreement import (
     TransferredAgreementSerializer,
 )
-from openprocurement.relocation.api.procedure.serializers.tender import (
-    TransferredTenderSerializer,
-)
 from openprocurement.relocation.api.procedure.utils import (
     save_transfer,
     update_ownership,
@@ -19,17 +16,11 @@ from openprocurement.relocation.api.procedure.validation import (
     validate_agreement_transfer_accreditation_level,
     validate_agreement_transfer_token,
     validate_ownership_data,
-    validate_tender,
-    validate_tender_owner_accreditation_level,
-    validate_tender_transfer_accreditation_level,
-    validate_tender_transfer_token,
 )
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
     get_transfer_location,
 )
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 @resource(

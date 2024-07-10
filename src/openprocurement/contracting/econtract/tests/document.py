@@ -11,7 +11,6 @@ from openprocurement.contracting.api.tests.document_blanks import (
     put_contract_document_json,
 )
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
-from openprocurement.contracting.econtract.tests.data import test_signer_info
 from openprocurement.contracting.econtract.tests.document_blanks import (
     contract_change_document,
     patch_contract_document,

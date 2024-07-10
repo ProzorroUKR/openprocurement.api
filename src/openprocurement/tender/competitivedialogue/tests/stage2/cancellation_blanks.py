@@ -40,7 +40,7 @@ def cancellation_active_qualification_j1427(self):
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
 
-    cancellation = dict(**test_tender_below_cancellation)
+    cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update(
         {
             "status": "active",

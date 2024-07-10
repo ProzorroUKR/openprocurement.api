@@ -25,7 +25,7 @@ class AdditionalClassification(BaseAdditionalClassification):
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=list())
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
     unit = ModelType(Unit)
     deliveryAddress = ModelType(Address)
     deliveryDate = ModelType(Period)

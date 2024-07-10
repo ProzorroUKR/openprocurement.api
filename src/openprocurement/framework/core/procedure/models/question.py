@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
+from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.models.base import Model

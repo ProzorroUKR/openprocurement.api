@@ -22,9 +22,9 @@ class Agreement(RootModel):
     status = StringType(choices=["active", "terminated"], required=True)
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
-    contracts = ListType(ModelType(Contract, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=[])
 
-    _attachments = DictType(DictType(BaseType), default=dict())
+    _attachments = DictType(DictType(BaseType), default={})
 
     dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()
@@ -52,9 +52,9 @@ class PostAgreement(Model):
     status = StringType(choices=["active"], required=True)
     period = ModelType(PeriodEndRequired)
     procuringEntity = ModelType(Organization, required=True)
-    contracts = ListType(ModelType(Contract, required=True), default=list())
+    contracts = ListType(ModelType(Contract, required=True), default=[])
 
-    _attachments = DictType(DictType(BaseType), default=dict())
+    _attachments = DictType(DictType(BaseType), default={})
 
     dateCreated = IsoDateTimeType()
     dateModified = IsoDateTimeType()

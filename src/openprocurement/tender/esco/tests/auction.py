@@ -4,7 +4,6 @@ from copy import deepcopy
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.auction import (
     TenderAuctionResourceTestMixin,
-    TenderLotAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
 from openprocurement.tender.core.tests.utils import change_auth
@@ -22,7 +21,6 @@ from openprocurement.tender.esco.tests.auction_blanks import (  # TenderAuctionR
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_esco_bids,
-    test_tender_esco_features_data,
     test_tender_esco_lots,
 )
 

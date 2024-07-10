@@ -17,7 +17,6 @@ from openprocurement.tender.core.procedure.models.document import (
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_tender_document_update_not_by_author_or_tender_owner,
-    validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,

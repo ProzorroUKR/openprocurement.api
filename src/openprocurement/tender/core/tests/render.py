@@ -2,7 +2,10 @@ import os.path
 from json import loads
 
 from openprocurement.api.context import set_now
-from openprocurement.api.tests.base import app, singleton_app
+from openprocurement.api.tests.base import (  # pylint: disable=unused-import
+    app,
+    singleton_app,
+)
 
 
 def get_fixture(name, ext="json"):

@@ -91,11 +91,10 @@ class TenderCancellationComplaintPostResourceTest(
         self.set_complaint_period_end()
 
         # Create cancellation
-        cancellation = dict(**test_tender_below_cancellation)
-        cancellation.update({"reasonType": "noDemand"})
+        test_tender_below_cancellation.update({"reasonType": "noDemand"})
         response = self.app.post_json(
             "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
-            {"data": cancellation},
+            {"data": test_tender_below_cancellation},
         )
         cancellation = response.json["data"]
         self.cancellation_id = cancellation["id"]

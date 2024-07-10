@@ -9,7 +9,7 @@ from openprocurement.api.constants import (
     CPV_PREFIX_LENGTH_TO_NAME,
     PLAN_BUYERS_REQUIRED_FROM,
 )
-from openprocurement.api.context import get_now, get_request
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification,

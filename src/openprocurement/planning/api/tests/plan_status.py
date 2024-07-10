@@ -1,3 +1,4 @@
+# pylint: disable=unused-import
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
@@ -300,7 +301,7 @@ def test_fail_update_complete_or_cancelled_plan(app, status):
     ]
     test_data["status"] = status
     if status == "cancelled":
-        test_data["cancellation"] = dict(reason="Because", status="active")
+        test_data["cancellation"] = {"reason": "Because", "status": "active"}
 
     response = app.post_json("/plans", {"data": test_data})
     assert response.status == "201 Created"
