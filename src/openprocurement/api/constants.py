@@ -349,6 +349,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_CLARIFICATION_UNTIL_DURATION_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "qualificationDuration": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_QUALIFICATION_DURATION_OPTIONAL",
+        parse_func=parse_bool,
+    ),
     "restricted": get_constant(
         CONSTANTS_CONFIG,
         "TENDER_CONFIG_RESTRICTED_OPTIONAL",

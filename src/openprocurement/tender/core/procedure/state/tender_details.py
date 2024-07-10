@@ -94,6 +94,7 @@ class TenderConfigMixin:
         "awardComplainDuration",
         "cancellationComplainDuration",
         "clarificationUntilDuration",
+        "qualificationDuration",
         "restricted",
     )
 

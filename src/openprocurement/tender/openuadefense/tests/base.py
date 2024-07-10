@@ -89,6 +89,7 @@ test_tender_openuadefense_config = {
     "awardComplainDuration": 4,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

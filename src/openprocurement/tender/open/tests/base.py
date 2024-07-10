@@ -95,6 +95,7 @@ test_tender_open_config = {
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 
@@ -116,6 +117,7 @@ test_tender_dps_config = {
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 

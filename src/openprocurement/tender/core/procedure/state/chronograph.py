@@ -1,3 +1,4 @@
+from datetime import timedelta
 from logging import getLogger
 
 from openprocurement.api.context import get_now
@@ -21,6 +22,7 @@ from openprocurement.tender.core.procedure.utils import (
     is_new_contracting,
     tender_created_after_2020_rules,
 )
+from openprocurement.tender.core.utils import calculate_tender_business_date
 
 LOGGER = getLogger(__name__)
 
@@ -290,6 +292,8 @@ class ChronographEventsMixing:
         return handler
 
     def tendering_end_handler(self, tender):
+        qualification_duration = tender["config"]["qualificationDuration"]
+
         for complaint in tender.get("complaints", ""):
             if complaint.get("status") == "answered" and complaint.get("resolutionType"):
                 self.set_object_status(complaint, complaint["resolutionType"])
@@ -297,7 +301,16 @@ class ChronographEventsMixing:
         if tender["config"]["hasPrequalification"]:
             handler = self.get_change_tender_status_handler("active.pre-qualification")
             handler(tender)
-            tender["qualificationPeriod"] = {"startDate": get_now().isoformat()}
+
+            if qualification_duration > 0:
+                start_date = get_now()
+                end_date = calculate_tender_business_date(
+                    start_date,
+                    timedelta(days=qualification_duration),
+                    tender,
+                    working_days=True,
+                )
+                tender["qualificationPeriod"] = {"startDate": start_date.isoformat(), "endDate": end_date.isoformat()}
 
             self.remove_draft_bids(tender)
             self.check_bids_number(tender)

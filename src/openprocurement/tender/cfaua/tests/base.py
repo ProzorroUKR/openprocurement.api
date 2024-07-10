@@ -104,6 +104,7 @@ test_tender_cfaua_config = {
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
     "restricted": False,
 }
 

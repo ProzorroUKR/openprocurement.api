@@ -244,6 +244,7 @@ test_tender_below_config = {
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 1,
+    "qualificationDuration": 20,
     "restricted": False,
 }
 

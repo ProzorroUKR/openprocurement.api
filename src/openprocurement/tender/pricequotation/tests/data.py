@@ -315,6 +315,7 @@ test_tender_pq_config = {
     "awardComplainDuration": 0,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 0,
+    "qualificationDuration": 0,
     "restricted": False,
 }
 
