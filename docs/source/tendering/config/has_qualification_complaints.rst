@@ -1,7 +1,7 @@
 .. _has_qualification_complaints:
 
 hasQualificationComplaints
-===================
+==========================
 
 Field `hasQualificationComplaints` is a boolean field that determines the presence or absence of an appeal in the procurement (appeal to the AMCU by means of a complaint) after preliminary prequalification of participants.
 
@@ -12,7 +12,7 @@ Possible values for `hasQualificationComplaints` field depends on `procurementMe
    :header-rows: 1
 
 hasQualificationComplaints is `true`
------------------------------
+------------------------------------
 
 Example tutorials:
 
@@ -22,7 +22,7 @@ Example tutorials:
 * :ref:`cfaua` → :ref:`cfaua_tutorial`
 
 hasQualificationComplaints is `false`
-------------------------------
+-------------------------------------
 
 Example tutorials:
 
