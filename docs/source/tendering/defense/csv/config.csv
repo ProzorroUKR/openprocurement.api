@@ -10,5 +10,11 @@ hasTenderComplaints,true,true
 hasAwardComplaints,true,true
 hasCancellationComplaints,true,true
 hasValueEstimation,true,true
+hasQualificationComplaints,false,false
+tenderComplainRegulation,2,2
+qualificationComplainDuration,0,0
 awardComplainDuration,4,4
+cancellationComplainDuration,10,10
+clarificationUntilDuration,3,3
+qualificationDuration,0,0
 restricted,false,false
