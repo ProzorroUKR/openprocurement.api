@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 08:02+0300\n"
+"POT-Creation-Date: 2024-07-11 17:00+0300\n"
 "PO-Revision-Date: 2017-07-25 15:20+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -76,13 +76,19 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
-msgid "clarificationUntilDuration"
+msgid "hasValueEstimation"
 msgstr ""
 
 msgid "hasQualificationComplaints"
 msgstr ""
 
-msgid "hasValueEstimation"
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "qualificationComplainDuration"
 msgstr ""
 
 msgid "awardComplainDuration"
@@ -91,25 +97,19 @@ msgstr ""
 msgid "2"
 msgstr ""
 
-msgid "qualificationComplainDuration"
-msgstr ""
-
-msgid "0"
-msgstr ""
-
-msgid "restricted"
-msgstr ""
-
 msgid "cancellationComplainDuration"
 msgstr ""
 
-msgid "0"
+msgid "clarificationUntilDuration"
 msgstr ""
 
-msgid "tenderComplainRegulation"
+msgid "qualificationDuration"
 msgstr ""
 
-msgid "0"
+msgid "20"
+msgstr ""
+
+msgid "restricted"
 msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
@@ -429,3 +429,4 @@ msgstr "Завантаження нової версії документа"
 
 msgid "Activating the request and cancelling tender"
 msgstr "Активація запиту та скасування закупівлі"
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 08:02+0300\n"
+"POT-Creation-Date: 2024-07-11 17:00+0300\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -74,16 +74,16 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
-msgid "hasQualificationComplaints"
-msgstr ""
-
 msgid "hasValueEstimation"
 msgstr ""
 
-msgid "awardComplainDuration"
+msgid "hasQualificationComplaints"
 msgstr ""
 
-msgid "10"
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "4"
 msgstr ""
 
 msgid "qualificationComplainDuration"
@@ -92,22 +92,25 @@ msgstr ""
 msgid "5"
 msgstr ""
 
-msgid "clarificationUntilDuration"
-msgstr ""
-
-msgid "restricted"
-msgstr ""
-
-msgid "cancellationComplainDuration"
+msgid "awardComplainDuration"
 msgstr ""
 
 msgid "10"
 msgstr ""
 
-msgid "tenderComplainRegulation"
+msgid "cancellationComplainDuration"
 msgstr ""
 
-msgid "4"
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
+
+msgid "20"
+msgstr ""
+
+msgid "restricted"
 msgstr ""
 
 msgid "You can look for more details in :ref:`config` section."
@@ -571,3 +574,4 @@ msgstr "Замовник може змінити статус угоди на `u
 
 msgid "This will transfer `tender` to `unsuccessful` status."
 msgstr "Переведення тендера в статус `unsuccessful`."
+

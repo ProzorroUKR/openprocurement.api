@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 08:02+0300\n"
+"POT-Creation-Date: 2024-07-11 17:00+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: uk\n"
@@ -71,31 +71,10 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
-msgid "hasQualificationComplaints"
-msgstr ""
-
 msgid "hasValueEstimation"
 msgstr ""
 
-msgid "awardComplainDuration"
-msgstr ""
-
-msgid "0"
-msgstr ""
-
-msgid "qualificationComplainDuration"
-msgstr ""
-
-msgid "0"
-msgstr ""
-
-msgid "clarificationUntilDuration"
-msgstr ""
-
-msgid "0"
-msgstr ""
-
-msgid "restricted"
+msgid "hasQualificationComplaints"
 msgstr ""
 
 msgid "tenderComplainRegulation"
@@ -104,10 +83,22 @@ msgstr ""
 msgid "0"
 msgstr ""
 
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "awardComplainDuration"
+msgstr ""
+
 msgid "cancellationComplainDuration"
 msgstr ""
 
-msgid "0"
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
+
+msgid "restricted"
 msgstr ""
 
 msgid "The set of possible configuration values for `negotiation`:"
@@ -382,3 +373,4 @@ msgstr "Активація запиту та скасування закупів
 
 msgid "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 msgstr "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
+

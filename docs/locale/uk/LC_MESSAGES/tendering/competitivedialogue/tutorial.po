@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 08:02+0300\n"
+"POT-Creation-Date: 2024-07-11 17:00+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,16 +69,16 @@ msgstr ""
 msgid "hasCancellationComplaints"
 msgstr ""
 
-msgid "hasQualificationComplaints"
-msgstr ""
-
 msgid "hasValueEstimation"
 msgstr ""
 
-msgid "awardComplainDuration"
+msgid "hasQualificationComplaints"
 msgstr ""
 
-msgid "0"
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "4"
 msgstr ""
 
 msgid "qualificationComplainDuration"
@@ -87,10 +87,10 @@ msgstr ""
 msgid "5"
 msgstr ""
 
-msgid "clarificationUntilDuration"
+msgid "awardComplainDuration"
 msgstr ""
 
-msgid "restricted"
+msgid "0"
 msgstr ""
 
 msgid "cancellationComplainDuration"
@@ -99,10 +99,16 @@ msgstr ""
 msgid "10"
 msgstr ""
 
-msgid "tenderComplainRegulation"
+msgid "clarificationUntilDuration"
 msgstr ""
 
-msgid "4"
+msgid "qualificationDuration"
+msgstr ""
+
+msgid "20"
+msgstr ""
+
+msgid "restricted"
 msgstr ""
 
 msgid "The set of possible configuration values for `competitiveDialogueUA`:"
