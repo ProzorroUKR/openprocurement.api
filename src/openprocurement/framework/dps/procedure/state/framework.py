@@ -17,6 +17,7 @@ from openprocurement.framework.dps.procedure.state.submission import DPSSubmissi
 class DPSFrameworkState(FrameworkState):
     qualification_class = DPSQualificationState
     submission_class = DPSSubmissionState
+    working_days = True
 
     def get_patch_data_model(self):
         request = get_request()

@@ -62,9 +62,7 @@ test_framework_electronic_catalogue_data = {
     "qualificationPeriod": {"endDate": (now + timedelta(days=120)).isoformat()},
 }
 
-test_framework_electronic_catalogue_config = {
-    "restrictedDerivatives": False,
-}
+test_framework_electronic_catalogue_config = {"restrictedDerivatives": False, "clarificationUntilDuration": 3}
 
 test_electronicCatalogue_documents = [
     {
@@ -191,12 +189,13 @@ class FrameworkContentWebTest(BaseFrameworkWebTest):
 
     def setUp(self):
         super().setUp()
-        self.create_framework()
+        self.create_framework(config=self.initial_config)
 
 
 class BaseSubmissionContentWebTest(FrameworkContentWebTest):
     initial_submission_data = None
     initial_submission_config = test_submission_config
+    initial_config = test_framework_electronic_catalogue_config
 
     def get_submission(self, role):
         with change_auth(self.app, ("Basic", (role, ""))):

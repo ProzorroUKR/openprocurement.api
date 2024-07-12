@@ -27,6 +27,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     SubmissionContentWebTest,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
     test_submission_data,
 )
@@ -67,6 +68,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
 
 class TestQualificationDocumentGet(QualificationContentWebTest):
     initial_data = deepcopy(test_framework_electronic_catalogue_data)
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = deepcopy(test_submission_data)
 
     test_get_documents_list = snitch(get_documents_list)
@@ -75,6 +77,7 @@ class TestQualificationDocumentGet(QualificationContentWebTest):
 
 class TestQualificationDocumentsCreate(QualificationContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 

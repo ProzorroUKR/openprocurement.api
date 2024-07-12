@@ -28,6 +28,7 @@ from openprocurement.framework.electroniccatalogue.tests.base import (
     AgreementContentWebTest,
     MilestoneContentWebTest,
     ban_milestone_data_with_documents,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
     test_submission_data,
 )
@@ -55,6 +56,7 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
 
 class TestAgreementCreation(QualificationContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
 

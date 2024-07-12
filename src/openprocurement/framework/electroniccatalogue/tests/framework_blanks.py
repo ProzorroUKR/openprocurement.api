@@ -26,7 +26,7 @@ def create_framework_draft_invalid_kind(self):
 
 
 def cpb_standard_status(self):
-    response = self.app.post_json("/frameworks", {"data": self.initial_data})
+    response = self.app.post_json("/frameworks", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 
@@ -49,7 +49,9 @@ def cpb_standard_status(self):
 
 def accreditation_level(self):
     with change_auth(self.app, ("Basic", ("broker1", ""))):
-        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        response = self.app.post_json(
+            "/frameworks", {"data": self.initial_data, "config": self.initial_config}, status=403
+        )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
@@ -64,7 +66,9 @@ def accreditation_level(self):
         )
 
     with change_auth(self.app, ("Basic", ("broker2", ""))):
-        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        response = self.app.post_json(
+            "/frameworks", {"data": self.initial_data, "config": self.initial_config}, status=403
+        )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
@@ -79,7 +83,9 @@ def accreditation_level(self):
         )
 
     with change_auth(self.app, ("Basic", ("broker3", ""))):
-        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        response = self.app.post_json(
+            "/frameworks", {"data": self.initial_data, "config": self.initial_config}, status=403
+        )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
@@ -94,7 +100,9 @@ def accreditation_level(self):
         )
 
     with change_auth(self.app, ("Basic", ("broker4", ""))):
-        response = self.app.post_json("/frameworks", {"data": self.initial_data}, status=403)
+        response = self.app.post_json(
+            "/frameworks", {"data": self.initial_data, "config": self.initial_config}, status=403
+        )
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(
@@ -109,5 +117,5 @@ def accreditation_level(self):
         )
 
     with change_auth(self.app, ("Basic", ("broker5", ""))):
-        response = self.app.post_json("/frameworks", {"data": self.initial_data})
+        response = self.app.post_json("/frameworks", {"data": self.initial_data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
