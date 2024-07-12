@@ -10,6 +10,7 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
+    test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
 
@@ -22,6 +23,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_electronic_catalogue_data
+    initial_config = test_framework_electronic_catalogue_config
     docservice_url = DOCS_URL
 
     def setUp(self):
@@ -44,7 +46,7 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
 
         # create frameworks
         with open(TARGET_DIR + 'create-framework.http', 'w') as self.app.file_obj:
-            response = self.app.post_json('/frameworks', {'data': self.initial_data})
+            response = self.app.post_json('/frameworks', {'data': self.initial_data, 'config': self.initial_config})
             self.assertEqual(response.status, '201 Created')
 
         framework = response.json['data']

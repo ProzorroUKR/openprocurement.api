@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-10-26-000001",
-    "frameworkID": "7a229c4d310842c39ef98821651b267b",
+    "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
     "agreementType": "electronicCatalogue",
     "status": "active",
     "period": {

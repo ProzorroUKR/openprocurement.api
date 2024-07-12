@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "7a229c4d310842c39ef98821651b267b"
+    "frameworkID": "93bcad4f0fe64036865492ecfe70f113"
   }
 }
 
@@ -64,7 +64,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/7c37a548e4db
         }
       }
     ],
-    "frameworkID": "7a229c4d310842c39ef98821651b267b",
+    "frameworkID": "93bcad4f0fe64036865492ecfe70f113",
     "status": "draft",
     "submissionType": "electronicCatalogue",
     "owner": "broker",

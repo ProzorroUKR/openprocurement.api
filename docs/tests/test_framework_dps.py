@@ -11,6 +11,7 @@ from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.dps.tests.base import (
     BaseFrameworkWebTest,
+    test_framework_dps_config,
     test_framework_dps_data,
     test_question_data,
 )
@@ -24,6 +25,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
+    initial_config = test_framework_dps_config
     docservice_url = DOCS_URL
 
     def setUp(self):
@@ -48,12 +50,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         with open(TARGET_DIR + 'create-framework.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
                 '/frameworks',
-                {
-                    'data': self.initial_data,
-                    'config': {
-                        'restrictedDerivatives': False,
-                    },
-                },
+                {'data': self.initial_data, 'config': self.initial_config},
             )
             self.assertEqual(response.status, '201 Created')
 

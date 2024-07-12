@@ -1,8 +1,10 @@
 import csv
+import json
 import os
 from copy import deepcopy
 from datetime import timedelta
 
+import standards
 from tests.base.constants import DOCS_URL
 from tests.base.data import test_docs_tenderer
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -21,11 +23,79 @@ from openprocurement.framework.dps.tests.base import (
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
 TARGET_CSV_DIR_RESTRICTED = 'docs/source/frameworks/config/csv/restricted/'
+TARGET_CSV_DIR = 'docs/source/frameworks/config/csv/'
 
 test_framework_open_data = deepcopy(test_framework_dps_data)
 
 
-class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
+class FrameworkConfigCSVMixin:
+    def get_config_possible_values(self, config_schema):
+        separator = ","
+        empty = ""
+        if "enum" in config_schema:
+            config_values_enum = config_schema.get("enum", "")
+            config_values = separator.join(map(json.dumps, config_values_enum))
+            return config_values
+        elif "minimum" in config_schema and "maximum" in config_schema:
+            config_values_min = config_schema.get("minimum", "")
+            config_values_max = config_schema.get("maximum", "")
+            if config_values_min == config_values_max:
+                return config_values_min
+            else:
+                return f'{config_values_min} - {config_values_max}'
+        else:
+            return empty
+
+    def get_config_row(self, name, config_schema):
+        row = [name, self.get_config_possible_values(config_schema)]
+        config_default = config_schema.get("default", "")
+        row.append(json.dumps(config_default))
+        return row
+
+    def write_config_values_csv(self, config_name, file_path):
+        framework_types = [
+            "dynamicPurchasingSystem",
+            "electronicCatalogue",
+        ]
+
+        headers = [
+            "frameworkType",
+            "values",
+            "default",
+        ]
+
+        rows = []
+
+        for framework_type in framework_types:
+            schema = standards.load(f"data_model/schema/FrameworkConfig/{framework_type}.json")
+            config_schema = schema["properties"][config_name]
+            row = self.get_config_row(framework_type, config_schema)
+            rows.append(row)
+
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+    @staticmethod
+    def write_config_mask_csv(mapping, file_path):
+        headers = [
+            "path",
+            "value",
+        ]
+
+        rows = []
+
+        for path, rule in mapping.items():
+            rows.append([path, rule["value"]])
+
+        with open(file_path, 'w', newline='') as file_csv:
+            writer = csv.writer(file_csv, lineterminator='\n')
+            writer.writerow(headers)
+            writer.writerows(rows)
+
+
+class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, FrameworkConfigCSVMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
@@ -41,22 +111,6 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
 
     def create_framework(self):
         pass
-
-    def write_config_mask_csv(self, mapping, file_path):
-        headers = [
-            "path",
-            "value",
-        ]
-
-        rows = []
-
-        for path, rule in mapping.items():
-            rows.append([path, rule["value"]])
-
-        with open(file_path, 'w', newline='') as file_csv:
-            writer = csv.writer(file_csv, lineterminator='\n')
-            writer.writerow(headers)
-            writer.writerows(rows)
 
     def test_docs_restricted_submission_mask_mapping_csv(self):
         self.write_config_mask_csv(
@@ -76,6 +130,8 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             file_path=TARGET_CSV_DIR_RESTRICTED + "agreement-mask-mapping.csv",
         )
 
+
+class RestrictedFrameworkOpenResourceTest(FrameworkConfigBaseResouceTest):
     def test_docs(self):
         # empty frameworks listing
         data = deepcopy(self.initial_data)
@@ -93,6 +149,7 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
                         'data': data,
                         'config': {
                             'restrictedDerivatives': True,
+                            'clarificationUntilDuration': 3,
                         },
                     },
                 )
@@ -262,3 +319,11 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
             with open(TARGET_DIR_RESTRICTED + 'agreement-get-anonymous.http', 'w') as self.app.file_obj:
                 response = self.app.get('/agreements/{}'.format(self.agreement_id))
                 self.assertEqual(response.status, '200 OK')
+
+
+class FrameworkClarificationUntilDurationResourceTest(FrameworkConfigBaseResouceTest):
+    def test_docs_clarification_until_duration_values_csv(self):
+        self.write_config_values_csv(
+            config_name="clarificationUntilDuration",
+            file_path=TARGET_CSV_DIR + "clarification-until-duration-values.csv",
+        )
