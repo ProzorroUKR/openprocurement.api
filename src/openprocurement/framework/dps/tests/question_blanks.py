@@ -3,6 +3,7 @@ from datetime import timedelta
 from freezegun import freeze_time
 
 from openprocurement.api.context import get_now
+from openprocurement.framework.core.utils import calculate_framework_date
 from openprocurement.framework.dps.tests.base import test_question_data
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
@@ -175,6 +176,21 @@ def create_question_check_framework_status(self):
 
 def create_question_check_enquiry_period(self):
     self.activate_framework()
+
+    response = self.app.get(f"/frameworks/{self.framework_id}")
+    end_date = response.json["data"]["enquiryPeriod"]["endDate"]
+    clarification_until_duration = response.json["config"]["clarificationUntilDuration"]
+    calculated_clarifications_until = calculate_framework_date(
+        dt_from_iso(end_date),
+        timedelta(days=clarification_until_duration),
+        response.json["data"],
+        working_days=True,
+    )
+    self.assertEqual(
+        dt_from_iso(response.json["data"]["enquiryPeriod"]["clarificationsUntil"]),
+        calculated_clarifications_until,
+    )
+
     self.framework_document = self.mongodb.frameworks.get(self.framework_id)
     self.framework_document_patch = {"enquiryPeriod": {"endDate": (get_now() - timedelta(days=1)).isoformat()}}
     self.save_changes()
