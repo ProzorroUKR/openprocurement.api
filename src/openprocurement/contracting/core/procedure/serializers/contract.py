@@ -19,6 +19,7 @@ class ContractBaseSerializer(BaseUIDSerializer):
         "bid_token",
         "revisions",
         "public_modified",
+        "public_ts",
         "is_public",
         "is_test",
         "config",

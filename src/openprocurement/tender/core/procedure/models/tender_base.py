@@ -153,6 +153,7 @@ class BaseTender(PatchBaseTender):
     _rev = StringType()
     doc_type = StringType()
     public_modified = BaseType()
+    public_ts = BaseType()
 
     date = IsoDateTimeType()
     dateModified = IsoDateTimeType()

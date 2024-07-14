@@ -15,6 +15,7 @@ class QualificationSerializer(BaseUIDSerializer):
         "rev",
         "revisions",
         "public_modified",
+        "public_ts",
         "is_public",
         "is_test",
         "config",

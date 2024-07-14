@@ -21,6 +21,7 @@ class AgreementSerializer(BaseUIDSerializer):
         "owner_token",
         "revisions",
         "public_modified",
+        "public_ts",
         "is_public",
         "is_test",
         "config",
