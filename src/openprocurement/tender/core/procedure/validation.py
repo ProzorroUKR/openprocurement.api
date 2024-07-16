@@ -1537,9 +1537,11 @@ def validate_doc_type_quantity(documents, document_type="notice", obj_name="tend
     :param obj_name: name of object
     """
     grouped_docs = defaultdict(set)
-    for doc in documents:
-        if doc.get("documentType") == document_type:
+    new_doc_versions = set()
+    for doc in reversed(documents):
+        if doc.get("documentType") == document_type and doc["id"] not in new_doc_versions:
             grouped_docs[doc.get("relatedItem")].add(doc["id"])
+        new_doc_versions.add(doc["id"])
     for lot, docs in grouped_docs.items():
         if len(docs) > 1:
             raise_operation_error(
@@ -1559,9 +1561,11 @@ def validate_doc_type_required(documents, document_type="notice", document_of=No
     :param document_of: str. What kind of object doc relates to
     :param after_date: date after which document should be published
     """
-    for doc in documents:
+    new_doc_versions = set()
+    for doc in reversed(documents):
         if (
-            doc.get("documentType") == document_type
+            doc["id"] not in new_doc_versions
+            and doc.get("documentType") == document_type
             and doc["title"][-4:] == ".p7s"
             and doc.get("documentOf") == document_of
             and (
@@ -1570,6 +1574,7 @@ def validate_doc_type_required(documents, document_type="notice", document_of=No
             )
         ):
             break
+        new_doc_versions.add(doc["id"])
     else:
         raise_operation_error(
             get_request(),

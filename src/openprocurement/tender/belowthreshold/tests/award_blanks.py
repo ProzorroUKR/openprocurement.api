@@ -2791,7 +2791,7 @@ def put_tender_award_document(self):
             }
         },
     )
-    self.assertEqual(response.json["data"]["title"], "name.doc")
+    self.assertEqual(response.json["data"]["title"], "name2.doc")
 
     response = self.app.put_json(
         "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(

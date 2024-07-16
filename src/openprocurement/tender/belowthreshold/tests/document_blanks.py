@@ -772,6 +772,20 @@ def tender_notice_documents(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.json["errors"][0]["description"], "notice document in tender should be only one")
 
+    # put another sign with new title
+    self.app.put_json(
+        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "title": "sign_2.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            },
+        },
+    )
+
     # patch documentType in notice doc
     response = self.app.patch_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),

@@ -374,8 +374,8 @@ def update_doc_fields_on_put_document(request, **_):
     json_data = request.validated["json_data"]
 
     # here we update new document with fields from the previous version
-    force_replace = ("id", "author", "title", "format", "documentType")
-    black_list = ("url", "datePublished", "dateModified", "hash")
+    force_replace = ("id", "author", "format", "documentType")
+    black_list = ("title", "url", "datePublished", "dateModified", "hash")
     for key, value in prev_version.items():
         if key in force_replace or (key not in black_list and key not in json_data):
             document[key] = value
