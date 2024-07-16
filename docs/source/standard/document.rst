@@ -17,12 +17,24 @@ Schema
 :documentType:
     string
 
+    Possible values for sign documents:
+
+    * `notice` - **Sign document for publication tender**
+
+      Can be used in :ref:`tender`
+
+    * `evaluationReports` - **Sign document for evaluation report**
+
+      Can be used in :ref:`tender` and :ref:`framework_qualification` in framework.
+
     Possible values for :ref:`tender`
     
 
     * `notice` - **Tender notice**
+
+      NOT USED ANYMORE. Now it's use as sign document.
       
-      The formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+      Earlier this type of document was used as the formal notice that gives details of a tender. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `biddingDocuments` - **Bidding Documents**
       
@@ -67,12 +79,16 @@ Schema
     
     
     * `notice` - **Award Notice**
+
+      NOT USED ANYMORE. Now it's use as sign document.
     
-      The formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+      Earlier this type of document was used as the formal notice that gives details of the contract award. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `evaluationReports` - **Evaluation report**
+
+      NOT USED ANYMORE. Now it's use as sign document.
     
-      Report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award.
+      Earlier this type of document was used as report on the evaluation of the bids and the application of the evaluation criteria, including the justification fo the award.
     
     * `winningBid` - **Winning Bid**
     
@@ -84,7 +100,9 @@ Schema
     
     * `notice` - **Contract notice**
     
-      The formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+      NOT USED ANYMORE. Now it's use as sign document.
+
+      Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
     
     * `contractSigned` - **Signed Contract**
     
@@ -123,7 +141,9 @@ Schema
 
         * `notice` - **Framework agreement notice**
 
-          The formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+          NOT USED ANYMORE. Now it's use as sign document.
+
+          Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
 
         * `contractSigned` - **Signed Framework agreement**
 
