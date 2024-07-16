@@ -4122,26 +4122,30 @@ def check_notice_doc_during_activation(self):
     # let's add sign doc
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
-        {"data": {
-            "title": "sign.p7s",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/pdf",
-            "documentType": "notice",
-        }},
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pdf",
+                "documentType": "notice",
+            }
+        },
     )
     doc_id = response.json["data"]["id"]
 
     # put document title
     self.app.put_json(
         f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}",
-        {"data": {
-            "title": "new.txt",
-            "url": self.generate_docservice_url(),
-            "hash": "md5:" + "0" * 32,
-            "format": "application/pdf",
-            "documentType": "notice",
-        }},
+        {
+            "data": {
+                "title": "new.txt",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pdf",
+                "documentType": "notice",
+            }
+        },
     )
 
     # try to activate tender
