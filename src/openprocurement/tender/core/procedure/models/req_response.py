@@ -421,9 +421,15 @@ class PostBidResponsesMixin(ObjResponseMixin):
         for criteria in tender.get("criteria", []):
 
             # Skip criteria for not existing lots (probably)
-            if criteria.get("relatesTo") == "lot":
+            if criteria.get("relatesTo") in ("lot", "item"):
+                if criteria.get("relatesTo") == "item":
+                    item = [item for item in tender.get("items", "") if item["id"] == criteria["relatedItem"]][0]
+                    related_lot = item["relatedLot"]
+                else:
+                    related_lot = criteria["relatedItem"]
+
                 for lotVal in data["lotValues"]:
-                    if criteria["relatedItem"] == lotVal["relatedLot"]:
+                    if related_lot == lotVal["relatedLot"]:
                         break
                 else:
                     continue
