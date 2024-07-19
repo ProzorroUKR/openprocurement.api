@@ -7,46 +7,148 @@ requestForProposal
 
 - :ref:`developers_structure`
 
+План розробки та технічні вимоги до реалізації:
+-----------------------------------------------
+
+Фреймворк
+~~~~~~~~~
+
+1. Додати новий модуль openprocurement.framework.rfp (**requestForProposal**)
+
+   1. Створити модуль openprocurement.framework.rfp (**requestForProposal**) аналогічний до openprocurement.framework.dps (**dynamicPurchasingSystem**)
+   2. Створити нову схему конфігурації для openprocurement.framework.rfp **requestForProposal**
+      https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/FrameworkConfig
+
+Тендер
+~~~~~~
+
+1. Перенесення бізнес логіки модуля openprocurement.tender.belowthreshold (**belowThreshold**) в модуль openprocurement.tender.core
+
+   1. Перенести логіку стейт класів з модуля openprocurement.tenders.belowthreshold в модуль openprocurement.tenders.core
+   2. Логіка має налаштовувтись атрибутами стейт класів (:ref:`приклад<developers_structure_state_classes>`)
+   3. По замовчуванню за допомогою атрибутів стейт класів модуля openprocurement.tender.core перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів openprocurement.tender що наслідуються від  openprocurement.tender.core модуля
+   4. Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у модулі openprocurement.tender.core.belowthreshold
+
+2. Додати новий модуль openprocurement.tender.rfp (**requestForProposal**)
+
+   1. Створити модуль openprocurement.tender.rfp (**requestForProposal**) аналогічний до openprocurement.tender.belowthreshold (**belowThreshold**), в т.ч. мають бути аналогічні сутнісності:
+
+      - models
+      - state classes
+      - views
+      - tests
+      - etc
+
+   2. Налаштувати стейт класи нового модуля openprocurement.tender.rfp (**requestForProposal**) подібно до openprocurement.tender.belowthreshold (**belowThreshold**) але з особливостями нового типу процедури
+   3. Створити нову схему конфігурації для openprocurement.tender.rfp (**requestForProposal**)
+      https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig
+   4. Пересвідчитись в роботі hasPreSelectionAgreement конфігурації в openprocurement.tender.rfp (**requestForProposal**) або допрацювати/реалізувати її
+
+3. Вимкнути в openprocurement.tender.belowthreshold (**belowThreshold**) функціональність що не відповідає новим вимогам цього типу процедури
+
+   1. Налаштувати схему конфігурації openprocurement.tender.belowthreshold (**belowThreshold**) відповідно до нових обмежень процедури:
+      https://github.com/ProzorroUKR/standards/blob/master/data_model/schema/TenderConfig/belowThreshold.json
+
+
 Додаткова інформація
 --------------------
 
 Система ЦБД складається з наступних базових модулів:
 
-- plan
-- framework
-- tender
-- contracting
-- relocation
-- historical
+- openprocurement.plan
+- openprocurement.framework
+- openprocurement.tender
+- openprocurement.contracting
+- openprocurement.relocation
+- openprocurement.historical
 
 .. note::
-    Дана розробка стосується модуля **tender**.
+    Дана розробка стосується модуля **openprocurement.tender** та **openprocurement.framework**.
 
-Перелік модулів модуля тендерінгу:
+Фреймворк
+~~~~~~~~~
 
-- core
-- belowthreshold (**belowThreshold**)
-- open (**aboveThreshold**, **competitiveOrdering**)
-- openua (**aboveThresholdUA**)
-- openeu (**aboveThresholdEU**)
-- openuadefense (**aboveThresholdUA.defense**)
-- simpledefense (**simple.defense**)
-- pricequotation (**priceQuotation**)
-- limited (**reporting**, **negotiation**, **negotiation.quick**)
-- esco (**esco**)
-- competitivedialogue (**competitiveDialogueUA**, **competitiveDialogueEU**, **competitiveDialogueEU.stage2**, **competitiveDialogueUA.stage2**)
-- cfaua (**closeFrameworkAgreementUA**)
-- cfaselectionua (**closeFrameworkAgreementSelectionUA**)
+Перелік модулів openprocurement.framework:
+
+- openprocurement.framework.core
+- openprocurement.framework.dps
+- openprocurement.framework.electroniccatalogue
+- openprocurement.framework.cfaua
 
 .. note::
-    Дана розробка стосується модулів core, belowthreshold (**belowThreshold**) а також включає створення нового модуля для **requestForProposal**.
+    Дана розробка передбачає створення нового модуля openprocurement.framework.rfp (**requestForProposal**) і не має вплинути на функціональність інших модулів openprocurement.framework
 
 
-Модуль **core** модуля тендерінгу:
+Тендер
+~~~~~~
+
+Перелік модулів openprocurement.tender:
+
+- openprocurement.tender.core
+
+- openprocurement.tender.belowthreshold
+
+  - **belowThreshold**
+
+- openprocurement.tender.open
+
+  - **aboveThreshold**
+  - **competitiveOrdering**
+
+- openprocurement.tender.openua
+
+  - **aboveThresholdUA**
+
+- openprocurement.tender.openeu
+
+  - **aboveThresholdEU**
+
+- openprocurement.tender.openuadefense
+
+  - **aboveThresholdUA.defense**
+
+- openprocurement.tender.simpledefense
+
+  - **simple.defense**
+
+- openprocurement.tender.pricequotation
+
+  - **priceQuotation**
+
+- openprocurement.tender.limited
+
+  - **reporting**
+  - **negotiation**
+  - **negotiation.quick**
+
+- openprocurement.tender.esco
+
+  - **esco**
+
+- openprocurement.tender.competitivedialogue
+
+  - **competitiveDialogueUA**
+  - **competitiveDialogueEU**
+  - **competitiveDialogueEU.stage2**
+  - **competitiveDialogueUA.stage2**
+
+- openprocurement.tender.cfaua
+
+  - **closeFrameworkAgreementUA**
+
+- openprocurement.tender.cfaselectionua
+
+  - **closeFrameworkAgreementSelectionUA**
+
+.. note::
+    Дана розробка стосується модулів openprocurement.tender.core, openprocurement.tender.belowthreshold (**belowThreshold**) а також включає створення нового модуля openprocurement.tender.rfp (**requestForProposal**) і не має вплинути на функціональність інших модулів openprocurement.tender
+
+
+Модуль openprocurement.tender.core:
 
 https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/core
 
-Перелік стейт класів **core** модуля тендерінгу:
+Перелік стейт класів модуля openprocurement.tender.core:
 
 https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/core/procedure/state
 
@@ -89,11 +191,11 @@ https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocureme
 - `CancellationComplaintDocumentState`
 - `CancellationDocumentState`
 
-Модуль **belowthreshold** модуля тендерінгу:
+Модуль openprocurement.tender.belowthreshold:
 
 https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/belowthreshold
 
-Перелік стейт класів **belowthreshold** модуля тендерінгу:
+Перелік стейт класів модуля openprocurement.tender.belowthreshold**:
 
 https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/belowthreshold/procedure/state
 
@@ -117,31 +219,3 @@ https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocureme
 - `BelowThresholdCancellationState`
 - `BTCancellationDocumentState`
 
-План розробки та технічні вимоги до **requestForProposal**:
------------------------------------------------------------
-
-1. Перенесення бізнес логіки процедури **belowThreshold** в **core** модуль
-
-   1. Перенести логіку стейт класів з модуля `openprocurement.tenders.belowthreshold` в модуль `openprocurement.tenders.core`
-   2. Логіка має налаштовувтись атрибутами стейт класів
-   3. По замовчуванню за допомогою атрибутів core стейт класів перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів тендерінгу що наслідуються від **core** модуля
-   4. Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у **belowThreshold**
-
-2. Додати новий модуль для процедури **requestForProposal**
-
-   1. Зробити копію **belowThreshold** модуль змінивши назву процедури на **requestForProposal**, в т.ч.:
-
-      - Models
-      - StateClasses
-      - Views
-      - Tests
-      - etc
-
-   2. Налаштувати стейт класи нового модуля подібно до **belowThreshold** але з особливостями нової процедури якщо такі є
-   3. Створити нову схему конфігурації для нового типу процедури **requestForProposal**:
-      https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig
-
-3. Вимкнути в **belowThreshold** функціональність що не відповідає новим вимогам цього типу процедури
-
-   1. Налаштувати схему конфігурації відповідно до нових обмежень процедури:
-      https://github.com/ProzorroUKR/standards/blob/master/data_model/schema/TenderConfig/belowThreshold.json

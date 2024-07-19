@@ -167,6 +167,7 @@ Serializers
         }
 
 
+.. _developers_structure_state_classes:
 
 StateClasses
 ------------

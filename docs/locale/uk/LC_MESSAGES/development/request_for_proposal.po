@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-07-10 08:27+0300\n"
+"POT-Creation-Date: 2024-07-19 04:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uk\n"
@@ -28,85 +28,226 @@ msgstr ""
 msgid ":ref:`developers_structure`"
 msgstr ""
 
+msgid "План розробки та технічні вимоги до реалізації:"
+msgstr ""
+
+msgid "Фреймворк"
+msgstr ""
+
+msgid "Додати новий модуль openprocurement.framework.rfp (**requestForProposal**)"
+msgstr ""
+
+msgid "Створити модуль openprocurement.framework.rfp (**requestForProposal**) аналогічний до openprocurement.framework.dps (**dynamicPurchasingSystem**)"
+msgstr ""
+
+msgid "Створити нову схему конфігурації для openprocurement.framework.rfp **requestForProposal** https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/FrameworkConfig"
+msgstr ""
+
+msgid "Тендер"
+msgstr ""
+
+msgid "Перенесення бізнес логіки модуля openprocurement.tender.belowthreshold (**belowThreshold**) в модуль openprocurement.tender.core"
+msgstr ""
+
+msgid "Перенести логіку стейт класів з модуля openprocurement.tenders.belowthreshold в модуль openprocurement.tenders.core"
+msgstr ""
+
+msgid "Логіка має налаштовувтись атрибутами стейт класів (:ref:`приклад<developers_structure_state_classes>`)"
+msgstr ""
+
+msgid "По замовчуванню за допомогою атрибутів стейт класів модуля openprocurement.tender.core перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів openprocurement.tender що наслідуються від  openprocurement.tender.core модуля"
+msgstr ""
+
+msgid "Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у модулі openprocurement.tender.core.belowthreshold"
+msgstr ""
+
+msgid "Додати новий модуль openprocurement.tender.rfp (**requestForProposal**)"
+msgstr ""
+
+msgid "Створити модуль openprocurement.tender.rfp (**requestForProposal**) аналогічний до openprocurement.tender.belowthreshold (**belowThreshold**), в т.ч. мають бути аналогічні сутнісності:"
+msgstr ""
+
+msgid "models"
+msgstr ""
+
+msgid "state classes"
+msgstr ""
+
+msgid "views"
+msgstr ""
+
+msgid "tests"
+msgstr ""
+
+msgid "etc"
+msgstr ""
+
+msgid "Налаштувати стейт класи нового модуля openprocurement.tender.rfp (**requestForProposal**) подібно до openprocurement.tender.belowthreshold (**belowThreshold**) але з особливостями нового типу процедури"
+msgstr ""
+
+msgid "Створити нову схему конфігурації для openprocurement.tender.rfp (**requestForProposal**) https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig"
+msgstr ""
+
+msgid "Пересвідчитись в роботі hasPreSelectionAgreement конфігурації в openprocurement.tender.rfp (**requestForProposal**) або допрацювати/реалізувати її"
+msgstr ""
+
+msgid "Вимкнути в openprocurement.tender.belowthreshold (**belowThreshold**) функціональність що не відповідає новим вимогам цього типу процедури"
+msgstr ""
+
+msgid "Налаштувати схему конфігурації openprocurement.tender.belowthreshold (**belowThreshold**) відповідно до нових обмежень процедури: https://github.com/ProzorroUKR/standards/blob/master/data_model/schema/TenderConfig/belowThreshold.json"
+msgstr ""
+
 msgid "Додаткова інформація"
 msgstr ""
 
 msgid "Система ЦБД складається з наступних базових модулів:"
 msgstr ""
 
-msgid "plan"
+msgid "openprocurement.plan"
 msgstr ""
 
-msgid "framework"
+msgid "openprocurement.framework"
 msgstr ""
 
-msgid "tender"
+msgid "openprocurement.tender"
 msgstr ""
 
-msgid "contracting"
+msgid "openprocurement.contracting"
 msgstr ""
 
-msgid "relocation"
+msgid "openprocurement.relocation"
 msgstr ""
 
-msgid "historical"
+msgid "openprocurement.historical"
 msgstr ""
 
-msgid "Дана розробка стосується модуля **tender**."
+msgid "Дана розробка стосується модуля **openprocurement.tender** та **openprocurement.framework**."
 msgstr ""
 
-msgid "Перелік модулів модуля тендерінгу:"
+msgid "Перелік модулів openprocurement.framework:"
 msgstr ""
 
-msgid "core"
+msgid "openprocurement.framework.core"
 msgstr ""
 
-msgid "belowthreshold (**belowThreshold**)"
+msgid "openprocurement.framework.dps"
 msgstr ""
 
-msgid "open (**aboveThreshold**, **competitiveOrdering**)"
+msgid "openprocurement.framework.electroniccatalogue"
 msgstr ""
 
-msgid "openua (**aboveThresholdUA**)"
+msgid "openprocurement.framework.cfaua"
 msgstr ""
 
-msgid "openeu (**aboveThresholdEU**)"
+msgid "Дана розробка передбачає створення нового модуля openprocurement.framework.rfp (**requestForProposal**) і не має вплинути на функціональність інших модулів openprocurement.framework"
 msgstr ""
 
-msgid "openuadefense (**aboveThresholdUA.defense**)"
+msgid "Перелік модулів openprocurement.tender:"
 msgstr ""
 
-msgid "simpledefense (**simple.defense**)"
+msgid "openprocurement.tender.core"
 msgstr ""
 
-msgid "pricequotation (**priceQuotation**)"
+msgid "openprocurement.tender.belowthreshold"
 msgstr ""
 
-msgid "limited (**reporting**, **negotiation**, **negotiation.quick**)"
+msgid "**belowThreshold**"
 msgstr ""
 
-msgid "esco (**esco**)"
+msgid "openprocurement.tender.open"
 msgstr ""
 
-msgid "competitivedialogue (**competitiveDialogueUA**, **competitiveDialogueEU**, **competitiveDialogueEU.stage2**, **competitiveDialogueUA.stage2**)"
+msgid "**aboveThreshold**"
 msgstr ""
 
-msgid "cfaua (**closeFrameworkAgreementUA**)"
+msgid "**competitiveOrdering**"
 msgstr ""
 
-msgid "cfaselectionua (**closeFrameworkAgreementSelectionUA**)"
+msgid "openprocurement.tender.openua"
 msgstr ""
 
-msgid "Дана розробка стосується модулів core, belowthreshold (**belowThreshold**) а також включає створення нового модуля для **requestForProposal**."
+msgid "**aboveThresholdUA**"
 msgstr ""
 
-msgid "Модуль **core** модуля тендерінгу:"
+msgid "openprocurement.tender.openeu"
+msgstr ""
+
+msgid "**aboveThresholdEU**"
+msgstr ""
+
+msgid "openprocurement.tender.openuadefense"
+msgstr ""
+
+msgid "**aboveThresholdUA.defense**"
+msgstr ""
+
+msgid "openprocurement.tender.simpledefense"
+msgstr ""
+
+msgid "**simple.defense**"
+msgstr ""
+
+msgid "openprocurement.tender.pricequotation"
+msgstr ""
+
+msgid "**priceQuotation**"
+msgstr ""
+
+msgid "openprocurement.tender.limited"
+msgstr ""
+
+msgid "**reporting**"
+msgstr ""
+
+msgid "**negotiation**"
+msgstr ""
+
+msgid "**negotiation.quick**"
+msgstr ""
+
+msgid "openprocurement.tender.esco"
+msgstr ""
+
+msgid "**esco**"
+msgstr ""
+
+msgid "openprocurement.tender.competitivedialogue"
+msgstr ""
+
+msgid "**competitiveDialogueUA**"
+msgstr ""
+
+msgid "**competitiveDialogueEU**"
+msgstr ""
+
+msgid "**competitiveDialogueEU.stage2**"
+msgstr ""
+
+msgid "**competitiveDialogueUA.stage2**"
+msgstr ""
+
+msgid "openprocurement.tender.cfaua"
+msgstr ""
+
+msgid "**closeFrameworkAgreementUA**"
+msgstr ""
+
+msgid "openprocurement.tender.cfaselectionua"
+msgstr ""
+
+msgid "**closeFrameworkAgreementSelectionUA**"
+msgstr ""
+
+msgid "Дана розробка стосується модулів openprocurement.tender.core, openprocurement.tender.belowthreshold (**belowThreshold**) а також включає створення нового модуля openprocurement.tender.rfp (**requestForProposal**) і не має вплинути на функціональність інших модулів openprocurement.tender"
+msgstr ""
+
+msgid "Модуль openprocurement.tender.core:"
 msgstr ""
 
 msgid "https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/core"
 msgstr ""
 
-msgid "Перелік стейт класів **core** модуля тендерінгу:"
+msgid "Перелік стейт класів модуля openprocurement.tender.core:"
 msgstr ""
 
 msgid "https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/core/procedure/state"
@@ -226,13 +367,13 @@ msgstr ""
 msgid "`CancellationDocumentState`"
 msgstr ""
 
-msgid "Модуль **belowthreshold** модуля тендерінгу:"
+msgid "Модуль openprocurement.tender.belowthreshold:"
 msgstr ""
 
 msgid "https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/belowthreshold"
 msgstr ""
 
-msgid "Перелік стейт класів **belowthreshold** модуля тендерінгу:"
+msgid "Перелік стейт класів модуля openprocurement.tender.belowthreshold**:"
 msgstr ""
 
 msgid "https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocurement/tender/belowthreshold/procedure/state"
@@ -289,54 +430,135 @@ msgstr ""
 msgid "`BTCancellationDocumentState`"
 msgstr ""
 
-msgid "План розробки та технічні вимоги до **requestForProposal**:"
-msgstr ""
+#~ msgid "plan"
+#~ msgstr ""
 
-msgid "Перенесення бізнес логіки процедури **belowThreshold** в **core** модуль"
-msgstr ""
+#~ msgid "framework"
+#~ msgstr ""
 
-msgid "Перенести логіку стейт класів з модуля `openprocurement.tenders.belowthreshold` в модуль `openprocurement.tenders.core`"
-msgstr ""
+#~ msgid "tender"
+#~ msgstr ""
 
-msgid "Логіка має налаштовувтись атрибутами стейт класів"
-msgstr ""
+#~ msgid "contracting"
+#~ msgstr ""
 
-msgid "По замовчуванню за допомогою атрибутів core стейт класів перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів тендерінгу що наслідуються від **core** модуля"
-msgstr ""
+#~ msgid "relocation"
+#~ msgstr ""
 
-msgid "Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у **belowThreshold**"
-msgstr ""
+#~ msgid "historical"
+#~ msgstr ""
 
-msgid "Додати новий модуль для процедури **requestForProposal**"
-msgstr ""
+#~ msgid "Дана розробка стосується модуля **tender**."
+#~ msgstr ""
 
-msgid "Зробити копію **belowThreshold** модуль змінивши назву процедури на **requestForProposal**, в т.ч.:"
-msgstr ""
+#~ msgid "Перелік модулів модуля тендерінгу:"
+#~ msgstr ""
 
-msgid "Models"
-msgstr ""
+#~ msgid "core"
+#~ msgstr ""
 
-msgid "StateClasses"
-msgstr ""
+#~ msgid "belowthreshold (**belowThreshold**)"
+#~ msgstr ""
 
-msgid "Views"
-msgstr ""
+#~ msgid "open (**aboveThreshold**, **competitiveOrdering**)"
+#~ msgstr ""
 
-msgid "Tests"
-msgstr ""
+#~ msgid "openua (**aboveThresholdUA**)"
+#~ msgstr ""
 
-msgid "etc"
-msgstr ""
+#~ msgid "openeu (**aboveThresholdEU**)"
+#~ msgstr ""
 
-msgid "Налаштувати стейт класи нового модуля подібно до **belowThreshold** але з особливостями нової процедури якщо такі є"
-msgstr ""
+#~ msgid "openuadefense (**aboveThresholdUA.defense**)"
+#~ msgstr ""
 
-msgid "Створити нову схему конфігурації для нового типу процедури **requestForProposal**: https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig"
-msgstr ""
+#~ msgid "simpledefense (**simple.defense**)"
+#~ msgstr ""
 
-msgid "Вимкнути в **belowThreshold** функціональність що не відповідає новим вимогам цього типу процедури"
-msgstr ""
+#~ msgid "pricequotation (**priceQuotation**)"
+#~ msgstr ""
 
-msgid "Налаштувати схему конфігурації відповідно до нових обмежень процедури: https://github.com/ProzorroUKR/standards/blob/master/data_model/schema/TenderConfig/belowThreshold.json"
-msgstr ""
+#~ msgid "limited (**reporting**, **negotiation**, **negotiation.quick**)"
+#~ msgstr ""
+
+#~ msgid "esco (**esco**)"
+#~ msgstr ""
+
+#~ msgid "competitivedialogue (**competitiveDialogueUA**, **competitiveDialogueEU**, **competitiveDialogueEU.stage2**, **competitiveDialogueUA.stage2**)"
+#~ msgstr ""
+
+#~ msgid "cfaua (**closeFrameworkAgreementUA**)"
+#~ msgstr ""
+
+#~ msgid "cfaselectionua (**closeFrameworkAgreementSelectionUA**)"
+#~ msgstr ""
+
+#~ msgid "Дана розробка стосується модулів core, belowthreshold (**belowThreshold**) а також включає створення нового модуля для **requestForProposal**."
+#~ msgstr ""
+
+#~ msgid "Модуль **core** модуля тендерінгу:"
+#~ msgstr ""
+
+#~ msgid "Перелік стейт класів **core** модуля тендерінгу:"
+#~ msgstr ""
+
+#~ msgid "Модуль **belowthreshold** модуля тендерінгу:"
+#~ msgstr ""
+
+#~ msgid "Перелік стейт класів **belowthreshold** модуля тендерінгу:"
+#~ msgstr ""
+
+#~ msgid "План розробки та технічні вимоги до **requestForProposal**:"
+#~ msgstr ""
+
+#~ msgid "Перенесення бізнес логіки процедури **belowThreshold** в **core** модуль"
+#~ msgstr ""
+
+#~ msgid "Перенести логіку стейт класів з модуля `openprocurement.tenders.belowthreshold` в модуль `openprocurement.tenders.core`"
+#~ msgstr ""
+
+#~ msgid "Логіка має налаштовувтись атрибутами стейт класів"
+#~ msgstr ""
+
+#~ msgid "По замовчуванню за допомогою атрибутів core стейт класів перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів тендерінгу що наслідуються від **core** модуля"
+#~ msgstr ""
+
+#~ msgid "Увімкнути перенесену логіку за допомогою перевизначення атрибутів стейт класів у **belowThreshold**"
+#~ msgstr ""
+
+#~ msgid "Додати новий модуль для процедури **requestForProposal**"
+#~ msgstr ""
+
+#~ msgid "Зробити копію **belowThreshold** модуль змінивши назву процедури на **requestForProposal**, в т.ч.:"
+#~ msgstr ""
+
+#~ msgid "Налаштувати стейт класи нового модуля подібно до **belowThreshold** але з особливостями нової процедури якщо такі є"
+#~ msgstr ""
+
+#~ msgid "Створити нову схему конфігурації для нового типу процедури **requestForProposal**: https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig"
+#~ msgstr ""
+
+#~ msgid "Вимкнути в **belowThreshold** функціональність що не відповідає новим вимогам цього типу процедури"
+#~ msgstr ""
+
+#~ msgid "Налаштувати схему конфігурації відповідно до нових обмежень процедури: https://github.com/ProzorroUKR/standards/blob/master/data_model/schema/TenderConfig/belowThreshold.json"
+#~ msgstr ""
+
+#~ msgid "По замовчуванню за допомогою атрибутів стейт класів модуля openprocurement.tender.core перенесена логіка має бути вимкнена і не впливати на функціональність всіх модулів тендерінгу що наслідуються від  openprocurement.tender.core модуля"
+#~ msgstr ""
+
+#~ msgid "Models"
+#~ msgstr ""
+
+#~ msgid "StateClasses"
+#~ msgstr ""
+
+#~ msgid "Views"
+#~ msgstr ""
+
+#~ msgid "Tests"
+#~ msgstr ""
+
+#~ msgid "Пересвідчитись в роботі hasPreSelectionAgreement конфігурації в openprocurement.tender.rfp (**requestForProposal**) або допрацювати її для нового типу процедури"
+#~ msgstr ""
 
