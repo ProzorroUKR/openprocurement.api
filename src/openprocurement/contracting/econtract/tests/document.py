@@ -13,6 +13,7 @@ from openprocurement.contracting.api.tests.document_blanks import (
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.document_blanks import (
     contract_change_document,
+    limited_contract_confidential_document,
     patch_contract_document,
 )
 
@@ -27,6 +28,7 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_create_contract_documnet_json = snitch(create_contract_document_json)
     test_put_contract_document_json = snitch(put_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
+    test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
 
 
 def suite():

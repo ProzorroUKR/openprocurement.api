@@ -11,6 +11,7 @@ from openprocurement.contracting.core.procedure.models.contract import (
     BasePostContract,
 )
 from openprocurement.contracting.core.procedure.models.value import AmountPaid
+from openprocurement.contracting.econtract.procedure.models.document import Document
 from openprocurement.contracting.econtract.procedure.models.item import Item
 from openprocurement.contracting.econtract.procedure.models.organization import (
     Buyer,
@@ -77,3 +78,4 @@ class Contract(BaseContract):
     items = ListType(ModelType(Item, required=True), required=False, min_size=1, validators=[validate_items_uniq])
     contractTemplateName = StringType()
     value = ModelType(ContractValue)
+    documents = ListType(ModelType(Document, required=True))

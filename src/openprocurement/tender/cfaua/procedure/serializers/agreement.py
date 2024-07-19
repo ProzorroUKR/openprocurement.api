@@ -6,12 +6,12 @@ from openprocurement.tender.cfaua.procedure.serializers.contract import (
     ContractSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 
 
 class AgreementSerializer(BaseSerializer):
     serializers = {
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
         "contracts": ListSerializer(ContractSerializer),
     }

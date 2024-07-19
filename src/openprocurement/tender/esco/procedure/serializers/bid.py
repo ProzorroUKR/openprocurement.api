@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.serializers.bid import (
     BidSerializer as BaseBidSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.parameter import (
     ParameterSerializer,
@@ -18,9 +18,9 @@ class BidSerializer(BaseBidSerializer):
     serializers = {
         "value": ValueSerializer,
         "lotValues": ListSerializer(LotValueSerializer),
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
-        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
-        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
-        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
+        "eligibilityDocuments": ListSerializer(DocumentSerializer),
+        "qualificationDocuments": ListSerializer(DocumentSerializer),
+        "financialDocuments": ListSerializer(DocumentSerializer),
         "parameters": ListSerializer(ParameterSerializer),
     }

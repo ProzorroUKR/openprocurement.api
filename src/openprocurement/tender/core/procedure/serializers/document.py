@@ -5,6 +5,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import generate_docservice_url
+from openprocurement.contracting.core.procedure.utils import is_tender_owner
 from openprocurement.tender.core.procedure.context import get_request
 
 
@@ -42,12 +43,6 @@ def download_url_serialize(s, url):
 #  TODO: move it to the Serializer
 
 
-class DocumentSerializer(BaseSerializer):
-    serializers = {
-        "url": download_url_serialize,
-    }
-
-
 def url_to_absolute(url):
     if url.startswith("/"):
         request = get_request()
@@ -62,7 +57,7 @@ def confidential_url_serialize(serializer, url):
     return download_url_serialize(serializer, url)
 
 
-class ConfidentialDocumentSerializer(DocumentSerializer):
+class DocumentSerializer(BaseSerializer):
     serializers = {
         "url": confidential_url_serialize,
     }
@@ -75,6 +70,12 @@ class ConfidentialDocumentSerializer(DocumentSerializer):
             if (
                 request.authenticated_role not in ("aboveThresholdReviewers", "sas")
                 and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
-                and not is_item_owner(request, request.validated["tender"])
+                and (
+                    (request.validated.get("tender") and not is_item_owner(request, request.validated["tender"]))
+                    or (
+                        request.validated.get("contract")
+                        and not is_tender_owner(request, request.validated["contract"])
+                    )
+                )
             ):
                 self.private_fields.add("url")

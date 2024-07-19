@@ -6,12 +6,12 @@ from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 
 
 class AwardSerializer(BaseSerializer):
     serializers = {
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
         "complaints": ListSerializer(ComplaintSerializer),
     }

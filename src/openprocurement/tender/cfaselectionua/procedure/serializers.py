@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.serializers.bid import (
     BidSerializer as BaseBidSerializer,
 )
 from openprocurement.tender.core.procedure.serializers.document import (
-    ConfidentialDocumentSerializer,
+    DocumentSerializer,
 )
 
 
@@ -16,8 +16,8 @@ def parameter_values_to_float(_, value):
 class BidSerializer(BaseBidSerializer):
     serializers = {
         "parameters": parameter_values_to_float,
-        "documents": ListSerializer(ConfidentialDocumentSerializer),
-        "eligibilityDocuments": ListSerializer(ConfidentialDocumentSerializer),
-        "qualificationDocuments": ListSerializer(ConfidentialDocumentSerializer),
-        "financialDocuments": ListSerializer(ConfidentialDocumentSerializer),
+        "documents": ListSerializer(DocumentSerializer),
+        "eligibilityDocuments": ListSerializer(DocumentSerializer),
+        "qualificationDocuments": ListSerializer(DocumentSerializer),
+        "financialDocuments": ListSerializer(DocumentSerializer),
     }
