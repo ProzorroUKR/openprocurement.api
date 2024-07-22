@@ -2,7 +2,6 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import ROUTE_PREFIX
@@ -11,7 +10,6 @@ from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.utils import calculate_framework_date
-from openprocurement.framework.dps.tests.base import test_submission_data
 
 
 def listing(self):

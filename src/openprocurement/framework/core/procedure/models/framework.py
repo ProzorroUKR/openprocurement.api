@@ -15,11 +15,7 @@ from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.types import (
-    IsoDateTimeType,
-    ListType,
-    ModelType,
-)
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
