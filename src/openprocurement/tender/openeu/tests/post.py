@@ -27,7 +27,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
 
     def setUp(self):
@@ -48,7 +47,6 @@ class TenderQualificationComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_openeu_bids
     initial_lots = test_tender_openeu_lots
@@ -106,7 +104,6 @@ class TenderQualificationComplaintPostResourceTest(
 class TenderAwardComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderAwardComplaintPostResourceMixin
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -152,7 +149,6 @@ class TenderAwardComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
 
     @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", date_after_2020_04_19)

@@ -144,7 +144,6 @@ class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
     author_data = test_tender_below_author
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -185,7 +184,6 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     initial_status = "active.tendering"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -202,10 +200,6 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_patch_qualification_document = snitch(patch_qualification_document)
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
-
-
-class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
-    docservice = True
 
     test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
@@ -383,7 +377,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
-    docservice = True
+    pass
 
 
 def suite():

@@ -73,7 +73,6 @@ class TenderLotProcessTestMixin:
 
 
 class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
-    docservice = True
     initial_lots = test_lots_data = test_tender_below_lots
 
     test_get_tender_lot = snitch(get_tender_lot)
@@ -83,7 +82,6 @@ class TenderLotResourceTest(TenderContentWebTest, TenderLotResourceTestMixin, Te
 
 
 class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourceTestMixin):
-    docservice = True
     initial_status = None
     initial_lots = 2 * test_tender_below_lots
     invalid_feature_value = 0.5
@@ -92,7 +90,6 @@ class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourc
 
 
 class TenderLotBidResourceTest(TenderContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
 
@@ -101,7 +98,6 @@ class TenderLotBidResourceTest(TenderContentWebTest):
 
 
 class TenderLotFeatureBidResourceTest(TenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -154,7 +150,6 @@ class TenderLotFeatureBidResourceTest(TenderContentWebTest):
     get_now() + timedelta(days=1),
 )
 class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
-    docservice = True
     test_lots_data = test_tender_below_lots
 
     days_till_auction_starts = 10

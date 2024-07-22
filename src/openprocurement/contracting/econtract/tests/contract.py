@@ -52,7 +52,6 @@ from openprocurement.contracting.econtract.tests.data import (
 class ContractListingTests(BaseEContractTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_contract_data
-    docservice = True
 
     test_empty_listing = snitch(empty_listing)
     test_listing = snitch(listing)
@@ -61,7 +60,6 @@ class ContractListingTests(BaseEContractTest):
 
 class ContractResourceTest(BaseEContractTest):
     initial_data = test_contract_data
-    docservice = True
 
     test_simple_add_contract = snitch(simple_add_contract)
     test_get_contract = snitch(get_contract)

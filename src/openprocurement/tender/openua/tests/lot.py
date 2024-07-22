@@ -92,7 +92,6 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
-    docservice = True
     initial_data = test_tender_openua_data
     initial_lots = 2 * test_tender_below_lots
     test_bids_data = test_tender_openua_bids

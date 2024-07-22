@@ -14,7 +14,6 @@ from openprocurement.tender.core.utils import (
 
 
 class BaseTenderMilestone24HMixin:
-    docservice = True
 
     context_name = None
     initial_bids_tokens = {}
@@ -390,7 +389,6 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
 
 class BaseTenderAwardMilestoneALPMixin:
-    docservice = True
 
     initial_status = "active.auction"
     initial_bids_tokens = {}

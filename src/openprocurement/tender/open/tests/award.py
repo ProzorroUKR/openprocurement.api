@@ -174,7 +174,6 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()

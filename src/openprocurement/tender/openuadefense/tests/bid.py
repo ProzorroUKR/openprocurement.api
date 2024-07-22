@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidDocumentResourceTestMixin,
     TenderBidResourceTestMixin,
 )
 from openprocurement.tender.openua.tests.bid_blanks import (
@@ -29,7 +29,6 @@ from openprocurement.tender.openuadefense.tests.base import (
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
-    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_tender_openuadefense_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author
@@ -47,7 +46,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     test_bids_data = test_tender_openuadefense_bids
     initial_lots = 2 * test_tender_below_lots
     initial_status = "active.tendering"
@@ -56,7 +54,6 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_openuadefense_features_data
     initial_status = "active.tendering"
     test_bids_data = test_tender_openuadefense_bids
@@ -66,13 +63,11 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     # test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin):
-    docservice = True
+class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin):
     test_bids_data = test_tender_openuadefense_bids
 
 
-class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
+class TenderBidderBatchDocumentsResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openuadefense_bids
     bid_data_wo_docs = {
@@ -90,8 +85,8 @@ class TenderBidderBatchDocumentsWithDSResourceTest(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidderBatchDocumentsWithDSResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidderBatchDocumentsResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     return suite

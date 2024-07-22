@@ -201,7 +201,6 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_openuadefense_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -305,7 +304,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardActiveResourceTest
 
 
 class TenderAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, TenderAwardDocumentResourceTestMixin):
-    pass
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 class Tender2LotAwardDocumentResourceTest(TenderAwardPendingResourceTestCase):
@@ -320,12 +319,6 @@ class Tender2LotAwardQualificationAfterComplaintResourceTest(
     Tender2LotAwardQualificationAfterComplaintMixin, TenderAwardPendingResourceTestCase
 ):
     initial_lots = 2 * test_tender_below_lots
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

@@ -86,7 +86,6 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_lots = deepcopy(test_lots[:1])
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

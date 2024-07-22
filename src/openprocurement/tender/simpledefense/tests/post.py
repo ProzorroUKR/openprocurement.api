@@ -22,7 +22,6 @@ from openprocurement.tender.simpledefense.tests.base import (
 class TenderComplaintPostResourceTest(
     BaseSimpleDefContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -39,7 +38,6 @@ class TenderComplaintPostResourceTest(
 class TenderAwardComplaintPostResourceTest(
     BaseSimpleDefContentWebTest, ComplaintPostResourceMixin, TenderAwardComplaintPostResourceMixin
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_simpledefense_bids
 
@@ -84,7 +82,6 @@ class TenderAwardComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseSimpleDefContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()

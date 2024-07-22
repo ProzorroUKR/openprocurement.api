@@ -41,7 +41,6 @@ class TenderResourceTest(
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

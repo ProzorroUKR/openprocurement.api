@@ -9,7 +9,7 @@ from openprocurement.planning.api.tests.document_blanks import (
 )
 
 
-class PlanDocumentWithDSResourceTest(BasePlanWebTest):
+class PlanDocumentResourceTest(BasePlanWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     test_create_plan_document_json_invalid = snitch(create_plan_document_json_invalid)
@@ -19,7 +19,7 @@ class PlanDocumentWithDSResourceTest(BasePlanWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(PlanDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(PlanDocumentResourceTest))
     return suite
 
 

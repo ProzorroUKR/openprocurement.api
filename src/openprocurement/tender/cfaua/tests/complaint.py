@@ -65,7 +65,6 @@ class TenderComplaintObjectionTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -77,7 +76,6 @@ class TenderCancellationComplaintObjectionTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -90,7 +88,6 @@ class TenderAwardComplaintObjectionTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.qualification.stand-still"
     initial_lots = test_tender_cfaua_lots
     initial_bids = test_tender_cfaua_bids

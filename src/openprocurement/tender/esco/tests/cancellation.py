@@ -67,7 +67,6 @@ class TenderCancellationResourceTest(
 
 
 class TenderCancellationBidsAvailabilityTest(BaseESCOContentWebTest, TenderCancellationBidsAvailabilityUtils):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_esco_bids * 2
     initial_lots = test_tender_esco_lots

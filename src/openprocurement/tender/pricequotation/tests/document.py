@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin,
+    TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.document_blanks import (
@@ -10,15 +10,14 @@ from openprocurement.tender.pricequotation.tests.document_blanks import (
 )
 
 
-class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
-    docservice = True
+class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
 
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
     return suite
 
 

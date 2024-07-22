@@ -35,7 +35,6 @@ for test_bid in test_tender_bids:
 
 
 class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderAuctionResourceTestMixin):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = deepcopy(test_tender_bids)
     initial_lots = test_tender_openeu_lots
@@ -69,7 +68,6 @@ class TenderStage2EUAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebT
 
 class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
     # initial_status = 'active.auction'
-    docservice = True
     tenderer_info = deepcopy(test_tender_cd_tenderer)
     initial_lots = test_tender_openeu_lots
 
@@ -120,14 +118,12 @@ class TenderStage2EUSameValueAuctionResourceTest(BaseCompetitiveDialogEUStage2Co
 class TenderStage2EUMultipleLotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderStage2EUAuctionResourceTest
 ):
-    docservice = True
     initial_lots = deepcopy(2 * test_tender_openeu_lots)
 
     test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
 
 class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest):
-    docservice = True
     initial_data = test_tender_cdeu_features_data
     features = [
         {
@@ -210,21 +206,18 @@ class TenderStage2EUFeaturesAuctionResourceTest(BaseCompetitiveDialogEUStage2Con
 class TenderStage2EUFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderStage2EUFeaturesAuctionResourceTest
 ):
-    docservice = True
     initial_lots = test_tender_openeu_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 
 
 class TenderStage2UAAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderAuctionResourceTestMixin):
-    docservice = True
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_bids)
     initial_lots = test_tender_cd_lots
 
 
 class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     initial_bids = [
         {
@@ -250,14 +243,12 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
 class TenderStage2UAMultipleLotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderStage2UAAuctionResourceTest
 ):
-    docservice = True
     initial_lots = deepcopy(2 * test_tender_openeu_lots)
 
     test_patch_tender_auction = snitch(patch_tender_with_lots_auction)
 
 
 class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest):
-    docservice = True
     features = [
         {
             "code": "OCDS-123454-AIR-INTAKE",
@@ -316,7 +307,6 @@ class TenderStage2UAFeaturesAuctionResourceTest(BaseCompetitiveDialogUAStage2Con
 class TenderStage2UAFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderStage2UAFeaturesAuctionResourceTest
 ):
-    docservice = True
     initial_lots = test_tender_openeu_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

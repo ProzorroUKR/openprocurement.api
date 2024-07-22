@@ -44,7 +44,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_ua_data
     initial_lots = test_tender_below_lots
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
@@ -587,7 +586,6 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_data = test_tender_ua_data
     initial_lots = deepcopy(test_tender_below_lots)
     initial_bids = [bid]
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
     initial_status = "active.tendering"

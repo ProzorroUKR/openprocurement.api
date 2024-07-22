@@ -16,7 +16,7 @@ from openprocurement.tender.openeu.tests.qualification import (
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationRequirementResponseTestMixin,
 )
-from openprocurement.tender.openeu.tests.qualification_blanks import (  # TenderStage2EUQualificationResourceTest; TenderStage2EU2LotQualificationResourceTest; TenderStage2EUQualificationDocumentResourceTest; TenderStage2EUQualificationComplaintResourceTest; TenderStage2EULotQualificationComplaintResourceTest; TenderStage2EU2LotQualificationComplaintResourceTest; TenderStage2EUQualificationComplaintDocumentResourceTest; TenderStage2EU2LotQualificationComplaintDocumentResourceTest; TenderStage2EUQualificationDocumentWithDSResourceTest
+from openprocurement.tender.openeu.tests.qualification_blanks import (
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
     check_sign_doc_qualifications_before_stand_still,
@@ -68,7 +68,6 @@ class TenderQualificationBaseTestCase(BaseCompetitiveDialogEUStage2ContentWebTes
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_cd_author
     initial_lots = test_tender_cd_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -102,7 +101,6 @@ class TenderStage2EU2LotQualificationResourceTest(TenderQualificationBaseTestCas
 
 
 class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -119,11 +117,6 @@ class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTes
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
-
-
-class TenderStage2EUQualificationDocumentWithDSResourceTest(TenderStage2EUQualificationDocumentResourceTest):
-    docservice = True
-
     test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
 
@@ -243,7 +236,7 @@ class TenderStageEUQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
-    docservice = True
+    pass
 
 
 def suite():

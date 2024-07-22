@@ -23,7 +23,6 @@ from openprocurement.tender.cfaua.tests.base import (
 
 
 class AuctionViewTests(BaseTenderContentWebTest):
-    docservice = True
     initial_bids = test_tender_cfaua_bids
     initial_status = "active.pre-qualification.stand-still"
 
@@ -35,7 +34,6 @@ class AuctionViewTests(BaseTenderContentWebTest):
 
 
 class AuctionWithBidsOverMaxAwardsTests(BaseTenderContentWebTest):
-    docservice = True
     initial_bids = test_tender_cfaua_bids + deepcopy(test_tender_cfaua_bids)
     initial_status = "active.pre-qualification.stand-still"
 
@@ -43,7 +41,6 @@ class AuctionWithBidsOverMaxAwardsTests(BaseTenderContentWebTest):
 
 
 class AuctionFeaturesOnActiveAuctionTests(BaseTenderContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     initial_data = test_tender_cfaua_features_data
     initial_bids = test_tender_cfaua_features_bids_same_amount

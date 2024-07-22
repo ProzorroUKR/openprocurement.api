@@ -150,7 +150,6 @@ class BaseFrameworkWebTest(BaseCoreWebTest):
     initial_config = test_framework_dps_config
     framework_class = Framework
     framework_type = DPS_TYPE
-    docservice = False
     periods = PERIODS
 
     def create_framework(self, data=None, config=None):
@@ -194,10 +193,6 @@ class FrameworkContentWebTest(BaseFrameworkWebTest):
     def setUp(self):
         super().setUp()
         self.create_framework()
-
-
-class BaseDSFrameworkContentWebTest(FrameworkContentWebTest):
-    docservice = True
 
 
 class BaseSubmissionContentWebTest(FrameworkContentWebTest):

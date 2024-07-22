@@ -115,7 +115,6 @@ class TenderBidCriteriaOneGroupMultipleRequirementsTest(TenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria
 
@@ -140,17 +139,12 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
 
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-
     test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
 
 
-class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
-    docservice = True
+class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     test_criteria = test_tender_pq_criteria
 
@@ -169,7 +163,7 @@ class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     return suite
 

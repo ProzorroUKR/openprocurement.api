@@ -25,7 +25,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -45,7 +44,6 @@ class TenderQualificationComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -102,7 +100,6 @@ class TenderQualificationComplaintPostResourceTest(
 class TenderAwardComplaintResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, ClaimPostResourceMixin, TenderAwardComplaintPostResourceMixin
 ):
-    docservice = True
     initial_status = "active.qualification.stand-still"
     initial_lots = test_tender_cfaua_lots
     initial_bids = test_tender_cfaua_bids
@@ -132,7 +129,6 @@ class TenderAwardComplaintResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    docservice = True
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):

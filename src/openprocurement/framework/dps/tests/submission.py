@@ -94,7 +94,6 @@ class TestDocumentsCreate(SubmissionContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
-    docservice = True
 
     test_create_submission_document_forbidden = snitch(create_submission_document_forbidden)
     test_create_submission_documents = snitch(create_submission_documents)

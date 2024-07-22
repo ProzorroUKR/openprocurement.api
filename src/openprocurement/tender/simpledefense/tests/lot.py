@@ -62,7 +62,6 @@ class TenderLotEdgeCasesTest(BaseSimpleDefContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseSimpleDefContentWebTest, TenderLotFeatureResourceTestMixin):
-    docservice = True
     initial_data = test_tender_simpledefense_data
     initial_lots = 2 * test_tender_below_lots
     invalid_feature_value = 0.5

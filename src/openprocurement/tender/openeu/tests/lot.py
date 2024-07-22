@@ -65,7 +65,6 @@ class TenderLotEdgeCasesTestMixin:
     get_now() + timedelta(days=1),
 )
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
     initial_data = test_tender_openeu_data
@@ -77,7 +76,6 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMixin):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_openeu_lots * 2
     initial_bids = test_tender_openeu_bids
@@ -85,7 +83,6 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest, TenderLotEdgeCasesTestMix
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureResourceTestMixin):
-    docservice = True
     initial_lots = 2 * test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
@@ -95,7 +92,6 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest, TenderLotFeatureRes
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_openeu_bids  # TODO: change attribute identifier
@@ -105,7 +101,6 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
@@ -160,7 +155,6 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
     get_now() + timedelta(days=1),
 )
 class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
-    docservice = True
     setUp = BaseTenderContentWebTest.setUp
     test_lots_data = test_tender_openeu_lots  # TODO: change attribute identifier
     initial_data = test_tender_openeu_data

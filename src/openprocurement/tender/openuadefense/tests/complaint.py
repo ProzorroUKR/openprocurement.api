@@ -61,7 +61,7 @@ class TenderComplaintObjectionResourceTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
+    pass
 
 
 class TenderAwardComplaintObjectionResourceTest(
@@ -70,7 +70,6 @@ class TenderAwardComplaintObjectionResourceTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_openuadefense_bids
     initial_lots = test_tender_below_lots
@@ -85,7 +84,6 @@ class TenderCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()

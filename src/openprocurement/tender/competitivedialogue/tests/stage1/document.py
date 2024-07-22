@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin,
+    TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
@@ -14,16 +14,14 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 )
 
 
-class DialogEUDocumentWithDSResourceTest(BaseCompetitiveDialogEUContentWebTest):
-    docservice = True
+class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class DialogUADocumentWithDSResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentWithDSResourceTestMixin):
-    docservice = True
+class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
@@ -31,8 +29,8 @@ class DialogUADocumentWithDSResourceTest(BaseCompetitiveDialogUAContentWebTest, 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogEUDocumentWithDSResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogUADocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogEUDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(DialogUADocumentResourceTest))
     return suite
 
 

@@ -75,7 +75,6 @@ class TenderStage2EULotAwardResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
     initial_lots = test_tender_cd_lots
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_tender_openeu_bids[0]["value"]["amount"]
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -136,7 +135,6 @@ class TenderStage2EU2LotAwardResourceTest(
     initial_lots = deepcopy(2 * test_tender_cd_lots)
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -198,7 +196,6 @@ class TenderStage2EUAwardComplaintResourceTest(
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_tender_cd_lots)
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -264,7 +261,6 @@ class TenderStage2EULotAwardComplaintResourceTest(
     initial_lots = deepcopy(test_tender_cd_lots)
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -350,7 +346,6 @@ class TenderStage2EUAwardComplaintDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
-    docservice = True
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
@@ -390,7 +385,6 @@ class TenderStage2EU2LotAwardComplaintDocumentResourceTest(BaseCompetitiveDialog
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_tender_cd_lots)
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -446,7 +440,6 @@ class TenderStage2EUAwardDocumentResourceTest(
 ):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
-    docservice = True
     initial_lots = test_tender_cd_lots
 
     def setUp(self):
@@ -474,7 +467,6 @@ class TenderStage2EU2LotAwardDocumentResourceTest(
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = deepcopy(2 * test_tender_cd_lots)
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -559,7 +551,6 @@ class TenderStage2UA2LotAwardResourceTest(BaseCompetitiveDialogUAStage2ContentWe
 class BaseTenderUAAwardPendingTest(BaseCompetitiveDialogUAStage2ContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -640,7 +631,6 @@ class TenderStage2UAAwardComplaintDocumentResourceTest(
 
 class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActiveTest):
     initial_lots = deepcopy(2 * test_tender_cd_lots)
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -662,7 +652,6 @@ class TenderStage2UA2LotAwardComplaintDocumentResourceTest(BaseTenderUAAwardActi
 
 
 class TenderStage2UAAwardDocumentResourceTest(BaseTenderUAAwardPendingTest, TenderAwardDocumentResourceTestMixin):
-    docservice = True
     initial_lots = test_tender_cd_lots
 
 
@@ -670,7 +659,6 @@ class TenderStage2UA2LotAwardDocumentResourceTest(
     BaseTenderUAAwardPendingTest, Tender2LotAwardDocumentResourceTestMixin
 ):
     initial_lots = deepcopy(2 * test_tender_cd_lots)
-    docservice = True
 
 
 class TenderStage2UA2LotAwardQualificationAfterComplaintResourceTest(

@@ -116,7 +116,6 @@ class TestMilestoneCreate(MilestoneContentWebTest):
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
     initial_auth = ('Basic', ('broker', ''))
-    docservice = True
 
     test_patch_ban_milestone = snitch(patch_ban_milestone)
     test_search_by_classification = snitch(search_by_classification)

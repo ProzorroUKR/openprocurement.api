@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award_blanks import (  # TenderLotAwardComplaintResourceTest; TenderAwardDocumentResourceTest; TenderAwardDocumentWithDSResourceTest
+from openprocurement.tender.belowthreshold.tests.award_blanks import (
     create_award_document_bot,
     create_tender_award_complaint_document,
     create_tender_award_complaint_invalid,
@@ -45,7 +45,7 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.openeu.tests.award_blanks import (  # TenderAwardResourceTest
+from openprocurement.tender.openeu.tests.award_blanks import (
     create_tender_award_invalid,
     get_tender_award,
 )
@@ -61,7 +61,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_tender_cfaua_bids[0]["value"]["amount"]
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -93,7 +92,6 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amount = test_tender_cfaua_bids[0]["value"]["amount"]
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -116,7 +114,6 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -149,7 +146,6 @@ class TenderLotAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_cfaua_lots
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -168,7 +164,6 @@ class TenderAwardComplaintExtendedResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -192,7 +187,6 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
     initial_lots = test_tender_cfaua_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -224,7 +218,6 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaua_bids
     initial_lots = test_tender_cfaua_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -237,10 +230,6 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
     test_patch_not_author = snitch(patch_not_author)
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
     test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 

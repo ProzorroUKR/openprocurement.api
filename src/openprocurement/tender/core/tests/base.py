@@ -66,12 +66,11 @@ class BaseWebTest(BaseApiWebTest):
 
     def setUpDS(self):
         self.app.app.registry.docservice_url = self.docservice_url
-        test = self
 
         def request(method, url, **kwargs):
             response = Response()
             if method == "POST" and "/upload" in url:
-                url = test.generate_docservice_url()
+                url = self.generate_docservice_url()
                 response.status_code = 200
                 response.encoding = "application/json"
                 data = '{{"url":"{url}","hash":"md5:{md5}","format":"{format}","title":"{title}"}}'.format(
@@ -95,7 +94,7 @@ class BaseWebTest(BaseApiWebTest):
         return "{}/get/{}?{}".format(self.docservice_url, uuid, urlencode(query))
 
     def get_doc_id_from_url(self, url):
-        ds_url_start = "http://localhost/get/"
+        ds_url_start = f"{self.docservice_url}/get/"
         if url.startswith(ds_url_start):
             prefix_len = len(ds_url_start)
             return url[prefix_len : prefix_len + 32]
@@ -117,7 +116,6 @@ class BaseCoreWebTest(BaseWebTest):
     initial_status = None
     initial_bids = None
     initial_lots = None
-    docservice = True
 
     tender_id = None
 

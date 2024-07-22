@@ -83,7 +83,6 @@ class BaseTenderLotsContentWebTest(BaseTenderContentWebTest):
 
 
 class TenderBidResourceTest(BaseTenderLotsContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cfaua_lots
@@ -116,7 +115,6 @@ class TenderBidFeaturesResourceTest(BaseTenderLotsContentWebTest):
 
 
 class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
     test_bids_data = deepcopy(test_tender_cfaua_bids)
@@ -136,10 +134,6 @@ class TenderBidDocumentResourceTest(BaseTenderLotsContentWebTest):
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
     test_not_found = snitch(not_found)
 
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-
     test_create_tender_bidder_document = snitch(create_tender_bidder_document)
     test_put_tender_bidder_document = snitch(put_tender_bidder_document)
     test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
@@ -155,8 +149,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_post_winningBid_document_in_awarded = snitch(post_winningBid_document_in_awarded)
 
 
-class TenderBidBatchDocumentsWithDSResourceTest(BaseTenderLotsContentWebTest):
-    docservice = True
+class TenderBidBatchDocumentsResourceTest(BaseTenderLotsContentWebTest):
     initial_status = "active.tendering"
 
     test_bids_data = deepcopy(test_tender_cfaua_bids)
@@ -237,10 +230,9 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentsResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentsWithDSResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseEvidenceResourceTest))
     return suite

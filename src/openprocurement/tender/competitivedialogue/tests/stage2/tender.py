@@ -47,7 +47,6 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 
 
 class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest):
-    docservice = True
     initial_auth = ("Basic", ("competitive_dialogue", ""))
     author_data = test_tender_cd_author
     initial_data = test_tender_cdeu_stage2_data
@@ -96,7 +95,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
-    docservice = True
     initial_data = test_tender_cdua_stage2_data
     initial_config = test_tender_cdua_stage2_config
     test_access_token_data = test_tender_cd_access_token  # TODO: change attribute identifier
@@ -144,7 +142,6 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
 
 
 class TenderStage2UAProcessTest(BaseCompetitiveDialogUAStage2WebTest):
-    docservice = True
     test_tender_data_ua = test_tender_cdua_stage2_data  # TODO: change attribute identifier
     author_data = test_tender_cd_author  # TODO: change attribute identifier
 

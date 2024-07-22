@@ -1,19 +1,18 @@
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin,
+    TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 
-class TenderDocumentWithDSResourceTest(BaseESCOContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderDocumentResourceTest(BaseESCOContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
     return suite
 
 

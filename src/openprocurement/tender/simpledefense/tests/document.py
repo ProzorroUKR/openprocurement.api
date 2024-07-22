@@ -10,8 +10,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (  # Ten
 from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContentWebTest
 
 
-class TenderDocumentWithDSResourceTest(BaseSimpleDefContentWebTest):
-    docservice = True
+class TenderDocumentResourceTest(BaseSimpleDefContentWebTest):
 
     test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
     test_create_tender_document_json = snitch(create_tender_document_json)
@@ -21,7 +20,7 @@ class TenderDocumentWithDSResourceTest(BaseSimpleDefContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
     return suite
 
 

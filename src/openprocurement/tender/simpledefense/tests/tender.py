@@ -44,7 +44,6 @@ from openprocurement.tender.simpledefense.tests.tender_blanks import (
 
 
 class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_data = test_tender_simpledefense_data
     initial_lots = test_lots_data = test_tender_below_lots
 
@@ -67,7 +66,6 @@ class TenderUAResourceTest(BaseSimpleDefWebTest, TenderResourceTestMixin):
 
 
 class TenderUAProcessTest(BaseSimpleDefWebTest, TenderUaProcessTestMixin):
-    docservice = True
     initial_data = test_tender_simpledefense_data
     initial_bids = test_bids_data = test_tender_simpledefense_bids
     initial_lots = test_tender_below_lots

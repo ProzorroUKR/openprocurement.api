@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidDocumentWithDSResourceTest
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -12,7 +12,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_organization,
 )
-from openprocurement.tender.cfaselectionua.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeaturesResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidBatchDocumentWithDSResourceTest
+from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     bid_Administrator_change,
     create_tender_bid,
     create_tender_bid_document_invalid_award_status,
@@ -96,8 +96,7 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
         self.mongodb.tenders.save(tender)
 
 
-class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
-    docservice = True
+class TenderBidDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     initial_lots = deepcopy(test_tender_cfaselectionua_lots)
 
@@ -125,8 +124,7 @@ class TenderBidDocumentWithDSResourceTest(TenderContentWebTest):
     test_create_tender_bid_document_invalid_award_status = snitch(create_tender_bid_document_invalid_award_status)
 
 
-class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
-    docservice = True
+class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_lots = deepcopy(test_tender_cfaselectionua_lots)
     initial_status = "active.tendering"
     bid_data_wo_docs = {
@@ -164,7 +162,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidBatchDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))

@@ -17,7 +17,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2L
 )
 from openprocurement.tender.belowthreshold.tests.utils import set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidDocumentResourceTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
     TenderBidResourceTestMixin,
@@ -50,7 +50,6 @@ class CreateBidMixin:
 
 
 class TenderBidResourceTest(BaseSimpleDefContentWebTest, TenderBidResourceTestMixin):
-    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_tender_simpledefense_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author
@@ -87,11 +86,10 @@ class TenderBidFeaturesResourceTest(BaseSimpleDefContentWebTest):
     # test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocumentWithDSResourceTestMixin):
+class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocumentResourceTestMixin):
     initial_status = "active.tendering"
     test_bids_data = test_tender_simpledefense_bids
     author_data = test_tender_below_author
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -190,8 +188,7 @@ class TenderBidDocumentResourceTest(BaseSimpleDefContentWebTest, TenderBidDocume
         )
 
 
-class TenderBidderBatchDocumentsWithDSResourceTest(BaseSimpleDefContentWebTest):
-    docservice = True
+class TenderBidderBatchDocumentsResourceTest(BaseSimpleDefContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_simpledefense_bids
     bid_data_wo_docs = {
@@ -229,7 +226,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidderBatchDocumentsResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))

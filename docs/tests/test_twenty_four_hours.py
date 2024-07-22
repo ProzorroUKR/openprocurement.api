@@ -23,7 +23,6 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_ua_data
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

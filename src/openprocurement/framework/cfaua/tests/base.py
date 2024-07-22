@@ -8,7 +8,6 @@ from openprocurement.tender.core.tests.utils import change_auth
 
 class BaseAgreementTest(BaseWebTest):
     relative_to = os.path.dirname(__file__)
-    docservice = False
     initial_auth = ("Basic", ("broker", ""))
 
 
@@ -44,7 +43,3 @@ class BaseAgreementContentWebTest(BaseAgreementWebTest):
             {"data": {}},
         )
         self.agreement_token = response.json["access"]["token"]
-
-
-class BaseDSAgreementContentWebTest(BaseAgreementContentWebTest):
-    docservice = True

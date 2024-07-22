@@ -27,7 +27,6 @@ from openprocurement.tender.openuadefense.tests.base import (
 
 
 class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourceTestMixin):
-    docservice = True
     initial_status = "active.tendering"
     initial_bids = test_tender_openuadefense_bids
     initial_lots = test_tender_below_lots
@@ -37,7 +36,6 @@ class TenderAuctionResourceTest(BaseTenderUAContentWebTest, TenderAuctionResourc
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     initial_bids = [
         {
@@ -57,13 +55,11 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
 
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
     initial_lots = 2 * test_tender_below_lots
-    docservice = True
 
     test_patch_tender_auction = snitch(patch_tender_lots_auction)
 
 
 class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_openuadefense_features_data
     initial_status = "active.tendering"
     initial_bids = [
@@ -90,7 +86,6 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
-    docservice = True
     initial_lots = test_tender_below_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

@@ -64,7 +64,6 @@ class TenderUaProcessTestMixin:
 
 
 class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
 
@@ -95,7 +94,6 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
     initial_bids = test_tender_open_bids
@@ -111,7 +109,6 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
 
 
 class TenderDPSResourceTest(BaseTenderUAWebTest):
-    docservice = True
     initial_lots = test_tender_below_lots
     initial_config = test_tender_dps_config
     initial_data = test_tender_dps_data

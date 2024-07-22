@@ -130,7 +130,6 @@ class TenderComplaintSwitchResourceTest(BaseTenderContentWebTest):
     initial_bids = test_tender_openeu_bids
     initial_lots = test_tender_openeu_lots
     author_data = test_tender_below_author
-    docservice = True
 
     test_switch_qualification_complaints_draft = snitch(switch_qualification_complaints_draft)
     test_switch_tender_after_cancellation_unsuccessful = snitch(switch_tender_after_cancellation_unsuccessful)

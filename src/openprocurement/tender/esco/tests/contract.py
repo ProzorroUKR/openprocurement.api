@@ -130,7 +130,6 @@ class TenderContractDocumentResourceTest(BaseESCOContentWebTest, TenderContractD
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()

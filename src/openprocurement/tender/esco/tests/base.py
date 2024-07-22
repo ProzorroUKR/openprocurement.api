@@ -79,7 +79,6 @@ class BaseESCOWebTest(BaseTenderWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     # def time_shift(self, *args, **kwargs):
     #     kwargs["extra"] = extra = kwargs.get("extra") or {}

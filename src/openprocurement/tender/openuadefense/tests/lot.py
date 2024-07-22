@@ -48,7 +48,6 @@ from openprocurement.tender.openuadefense.tests.lot_blanks import (
     get_now() + timedelta(days=1),
 )
 class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMixin, TenderUALotResourceTestMixin):
-    docservice = True
     test_lots_data = test_tender_below_lots
     test_tender_lot_milestones = snitch(tender_lot_milestones)
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
@@ -56,7 +55,6 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_lots = test_tender_below_lots * 2
     initial_bids = test_tender_openuadefense_bids
 
@@ -67,7 +65,6 @@ class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureResourceTestMixin):
-    docservice = True
     initial_data = test_tender_openuadefense_data
     initial_lots = 2 * test_tender_below_lots
     invalid_feature_value = 0.5
@@ -76,7 +73,6 @@ class TenderLotFeatureResourceTest(BaseTenderUAContentWebTest, TenderLotFeatureR
 
 
 class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     # initial_status = 'active.tendering'
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_openuadefense_bids
@@ -87,7 +83,6 @@ class TenderLotBidderResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_openuadefense_bids
 
@@ -140,7 +135,6 @@ class TenderLotFeatureBidderResourceTest(BaseTenderUAContentWebTest):
     get_now() + timedelta(days=1),
 )
 class TenderLotProcessTest(BaseTenderUAContentWebTest, TenderLotProcessTestMixin, TenderUALotProcessTestMixin):
-    docservice = True
     setUp = BaseTenderUAContentWebTest.setUp
     initial_data = test_tender_openuadefense_data
     test_bids_data = test_tender_openuadefense_bids

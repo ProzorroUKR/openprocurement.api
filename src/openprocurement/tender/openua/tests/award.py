@@ -126,7 +126,6 @@ class Tender2LotAwardResourceTest(BaseTenderUAContentWebTest):
 class TenderAwardPendingResourceTestCase(BaseTenderUAContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_openua_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -228,7 +227,7 @@ class Tender2LotAwardComplaintDocumentResourceTest(TenderAwardComplaintResourceT
 
 
 class TenderAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, TenderAwardDocumentResourceTestMixin):
-    pass
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 class Tender2LotAwardDocumentResourceTest(TenderAwardPendingResourceTestCase, Tender2LotAwardDocumentResourceTestMixin):
@@ -293,12 +292,6 @@ class TenderAwardRequirementResponsEvidenceResourceTest(
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.doc_id = response.json["data"]["id"]
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

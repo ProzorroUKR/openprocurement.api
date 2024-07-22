@@ -88,7 +88,6 @@ class TenderResourceTestMixin:
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_data = test_tender_cfaselectionua_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
@@ -113,11 +112,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-    docservice = True
     initial_data = test_tender_cfaselectionua_data
     primary_tender_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)
     test_one_valid_bid_tender = snitch(one_valid_bid_tender)

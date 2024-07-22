@@ -15,7 +15,6 @@ class SimpleDefenseResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderCon
 
     relative_to = os.path.dirname(__file__)
     initial_data = None
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

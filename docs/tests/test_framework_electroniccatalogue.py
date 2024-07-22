@@ -22,7 +22,6 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_electronic_catalogue_data
-    docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):

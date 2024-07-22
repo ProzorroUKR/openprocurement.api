@@ -286,7 +286,6 @@ class TenderCancellationResourceTest(
 
 
 class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCancellationBidsAvailabilityUtils):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_openeu_bids * 2
     initial_lots = test_tender_openeu_lots

@@ -20,7 +20,6 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 
@@ -56,7 +55,6 @@ class TenderNegotiationAwardComplaintObjectionResourceTest(
 
 
 class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwardComplaintObjectionResourceTest):
-    docservice = True
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
 
@@ -66,7 +64,6 @@ class TenderNegotiationCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 

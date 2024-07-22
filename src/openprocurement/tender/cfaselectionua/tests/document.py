@@ -21,7 +21,7 @@ from openprocurement.tender.cfaselectionua.tests.document_blanks import (
 )
 
 
-class TenderDocumentWithDSResourceTestMixin:
+class TenderDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
@@ -32,8 +32,7 @@ class TenderDocumentWithDSResourceTestMixin:
     test_put_tender_document_json = snitch(put_tender_document_json)
 
 
-class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
-    docservice = True
+class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_lots = test_tender_cfaselectionua_lots
     initial_status = "active.enquiries"
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
@@ -42,7 +41,7 @@ class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithD
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
     return suite
 
 

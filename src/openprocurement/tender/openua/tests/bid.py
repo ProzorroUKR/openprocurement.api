@@ -7,7 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
     test_tender_below_organization,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidDocumentResourceTest; TenderBidderBatchDocumentWithDSResourceTest; Tender2LotBidResourceTest
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     create_tender_bid_with_document,
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
@@ -23,7 +23,7 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_data,
     test_tender_openua_features_data,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeautreResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidRequirementResponseResourceTest; TenderBidRequirementResponseEvidenceResourceTest; TenderBidDocumentActivateResourceTest; Tender2LotBidResourceTest
+from openprocurement.tender.openua.tests.bid_blanks import (
     bid_activate,
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
@@ -36,9 +36,7 @@ from openprocurement.tender.openua.tests.bid_blanks import (  # TenderBidResourc
     create_tender_bid_no_scale_invalid,
     create_tender_biddder_invalid,
     create_tender_bidder,
-    create_tender_bidder_document,
     create_tender_bidder_document_json,
-    create_tender_bidder_document_nopending,
     create_tender_bidder_document_nopending_json,
     delete_tender_bidder,
     deleted_bid_do_not_locks_tender_in_state,
@@ -57,11 +55,9 @@ from openprocurement.tender.openua.tests.bid_blanks import (  # TenderBidResourc
     patch_bid_with_responses,
     patch_tender_bidder,
     patch_tender_bidder_decimal_problem,
-    patch_tender_bidder_document,
     patch_tender_bidder_document_json,
     patch_tender_draft_bidder,
     patch_tender_with_bids_lots_none,
-    put_tender_bidder_document,
     put_tender_bidder_document_json,
     tender_bidder_confidential_document,
 )
@@ -80,13 +76,6 @@ class TenderBidResourceTestMixin:
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-
-
-class TenderBidDocumentResourceTestMixin:
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
 class TenderBidRequirementResponseTestMixin:
@@ -110,7 +99,6 @@ class TenderBidRequirementResponseTestMixin:
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
-    docservice = True
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
@@ -184,7 +172,6 @@ class CreateBidMixin:
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
-    docservice = True
     initial_data = test_tender_openua_data
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
@@ -212,7 +199,6 @@ test_tender_data_decimal["minimalStep"]["amount"] = test_tender_data_decimal["va
 
 
 class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_data_decimal
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
@@ -222,7 +208,6 @@ class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_openua_data
     test_bids_data = test_tender_openua_bids
     initial_lots = 2 * test_tender_below_lots
@@ -235,7 +220,6 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_openua_features_data
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
@@ -244,8 +228,15 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
-    docservice = True
+class TenderBidDocumentResourceTestMixin:
+    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
+    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
+    test_patch_tender_bidder_document_json = snitch(patch_tender_bidder_document_json)
+    test_create_tender_bidder_document_nopending_json = snitch(create_tender_bidder_document_nopending_json)
+    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
+
+
+class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTestMixin, BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     author_data = test_tender_below_author
@@ -255,7 +246,6 @@ class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
 
 
 class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     author_data = test_tender_below_author
@@ -264,21 +254,7 @@ class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
     test_doc_date_modified = snitch(doc_date_modified)
 
 
-class TenderBidDocumentWithDSResourceTestMixin:
-    docservice = True
-    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
-    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document_json)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_json)
-    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin, TenderBidDocumentResourceTest):
-    docservice = True
-
-
-class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
+class TenderBidderBatchDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_openua_bids
     bid_data_wo_docs = {
@@ -299,7 +275,6 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
-    docservice = True
     initial_data = test_tender_openua_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
@@ -311,7 +286,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
-    docservice = True
     initial_data = test_tender_openua_data
     base_bid_status = "draft"
     initial_status = "active.tendering"
@@ -323,7 +297,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))

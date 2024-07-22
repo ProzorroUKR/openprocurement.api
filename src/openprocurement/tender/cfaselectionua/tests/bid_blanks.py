@@ -1092,7 +1092,7 @@ def create_tender_bid_document_invalid_award_status(self):
     )
 
 
-# TenderBidDocumentWithDSResourceTest
+# TenderBidDocumentResourceTest
 
 
 def create_tender_bid_document_json(self):
@@ -1351,7 +1351,7 @@ def put_tender_bid_document_json(self):
     self.assertIn("Expires=", response.location)
 
 
-# TenderBidBatchDocumentWithDSResourceTest
+# TenderBidBatchDocumentResourceTest
 
 
 def create_tender_bid_with_document_invalid(self):

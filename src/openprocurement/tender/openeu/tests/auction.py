@@ -34,7 +34,6 @@ from openprocurement.tender.openeu.tests.base import (
 
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceTestMixin):
-    docservice = True
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_openeu_bids
@@ -71,7 +70,6 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
 
 
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_organization)
     initial_bids = test_bids_data = [test_tender_openeu_bids[0] for i in range(3)]
@@ -119,7 +117,6 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
 
 class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
-    docservice = True
     initial_data = test_tender_openeu_features_data
     tenderer_info = deepcopy(test_tender_below_organization)
 
@@ -140,7 +137,6 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
-    docservice = True
     initial_lots = test_tender_below_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

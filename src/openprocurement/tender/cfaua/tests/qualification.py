@@ -57,7 +57,6 @@ one_lot_restriction = True
 
 
 class TenderQualificationBaseTestCase(BaseTenderContentWebTest):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification' status sets in setUp
     initial_bids = test_tender_cfaua_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -102,11 +101,6 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
-
-
-class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
-    docservice = True
-
     test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
 
@@ -215,7 +209,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
-    docservice = True
+    pass
 
 
 def suite():

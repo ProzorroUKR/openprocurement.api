@@ -64,7 +64,7 @@ class TenderComplaintObjectionResourceTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
+    pass
 
 
 class TenderQualificationComplaintPostResourceTest(
@@ -72,7 +72,6 @@ class TenderQualificationComplaintPostResourceTest(
     TenderQualificationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_esco_bids
     initial_lots = test_tender_esco_lots
@@ -90,7 +89,6 @@ class TenderAwardComplaintObjectionResourceTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_lots = test_tender_esco_lots
@@ -105,7 +103,6 @@ class TenderCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()

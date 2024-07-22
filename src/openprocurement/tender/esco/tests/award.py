@@ -102,7 +102,6 @@ class TenderLotAwardCheckResourceTest(BaseESCOContentWebTest, TenderLotAwardChec
 
     initial_lots = test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -124,7 +123,6 @@ class TenderLotAwardResourceTest(BaseESCOContentWebTest, TenderLotAwardResourceT
     initial_auth = ("Basic", ("broker", ""))
     expected_award_amountPerformance = award_amount_performance
     expected_award_amount = award_amount
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -165,7 +163,6 @@ class Tender2LotAwardResourceTest(BaseESCOContentWebTest, Tender2LotAwardResourc
     initial_lots = 2 * test_tender_esco_lots
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -186,7 +183,6 @@ class TenderAwardComplaintResourceTest(
     initial_bids = test_tender_esco_bids
     initial_lots = 2 * test_tender_esco_lots
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -210,7 +206,6 @@ class TenderLotAwardComplaintResourceTest(BaseESCOContentWebTest, TenderLotAward
     initial_lots = test_tender_esco_lots
     initial_bids = test_tender_esco_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -277,7 +272,6 @@ class Tender2LotAwardQualificationAfterComplaintResourceTest(
 class TenderAwardComplaintDocumentResourceTest(BaseESCOContentWebTest, TenderAwardComplaintDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -318,7 +312,6 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_lots = 2 * test_tender_esco_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -361,7 +354,6 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseESCOContentWebTest):
 class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -380,12 +372,13 @@ class TenderAwardDocumentResourceTest(BaseESCOContentWebTest, TenderAwardDocumen
         award = response.json["data"]
         self.award_id = award["id"]
 
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
+
 
 class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_esco_bids
     initial_lots = 2 * test_tender_esco_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -405,12 +398,6 @@ class Tender2LotAwardDocumentResourceTest(BaseESCOContentWebTest, Tender2LotAwar
             )
         award = response.json["data"]
         self.award_id = award["id"]
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():
