@@ -1,29 +1,25 @@
-from openprocurement.api.context import get_request
-from openprocurement.api.utils import raise_operation_error
+from copy import deepcopy
+
+from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.tender.core.procedure.context import get_bid
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
-from openprocurement.tender.core.procedure.utils import is_sign_doc
-from openprocurement.tender.core.procedure.validation import validate_sign_doc_quantity
+from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
 
 class BidDocumentState(BaseDocumentState):
     def validate_document_post(self, data):
-        self.validate_proposal_document_already_exists(data)
+        self.validate_sign_documents_already_exists(data)
 
     def validate_document_patch(self, before, after):
-        self.validate_proposal_document_already_exists(after)
+        self.validate_sign_documents_already_exists(after)
 
-    def validate_proposal_document_already_exists(self, doc_data):
-        if is_sign_doc(doc_data, doc_type="proposal"):
-            bid = get_bid()
-            for doc in bid.get("documents", []):
-                if is_sign_doc(doc, doc_type="proposal") and doc["id"] != doc_data.get("id"):
-                    raise_operation_error(
-                        get_request(),
-                        "Proposal document already exists in tender",
-                        name="documents",
-                        status=422,
-                    )
-        documents = self.request.validated["data"]
-        if isinstance(documents, list) and len(documents) > 1:
-            validate_sign_doc_quantity(documents, doc_type="proposal")
+    def validate_sign_documents_already_exists(self, doc_data):
+        bid_docs = deepcopy(get_bid().get("documents", []))
+        new_documents = self.request.validated["data"]
+        if isinstance(new_documents, list):  # POST (array of docs)
+            bid_docs.extend(new_documents)
+        else:  # PATCH/PUT
+            bid_docs.append(doc_data)
+        if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM):
+            validate_doc_type_quantity(bid_docs, document_type="proposal", obj_name="bid")

@@ -768,7 +768,10 @@ def bid_proposal_doc(self):
     bid_data["tenderers"][0]["identifier"]["scheme"] = "UA-EDR"
     bid_data["status"] = "pending"
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
-    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'proposal' is required")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'proposal' and format pkcs7-signature is required",
+    )
 
     bid_data["status"] = "draft"
     bid, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -779,9 +782,13 @@ def bid_proposal_doc(self):
         {"data": {"status": "pending"}},
         status=422,
     )
-    self.assertEqual(response.json["errors"][0]["description"], "Document with type 'proposal' is required")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'proposal' and format pkcs7-signature is required",
+    )
 
-    self.add_proposal_doc(self.tender_id, bid["id"], bid_token)
+    response = self.add_proposal_doc(self.tender_id, bid["id"], bid_token)
+    doc_id = response.json["data"]["id"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
         {"data": {"status": "pending"}},
@@ -804,7 +811,7 @@ def bid_proposal_doc(self):
         },
         status=422,
     )
-    self.assertEqual(response.json["errors"][0]["description"], "Proposal document already exists in tender")
+    self.assertEqual(response.json["errors"][0]["description"], "proposal document in bid should be only one")
 
     # patch bid
     tenderers = deepcopy(bid["tenderers"])
@@ -814,11 +821,38 @@ def bid_proposal_doc(self):
         {"data": {"tenderers": tenderers}},
     )
     self.assertEqual(response.json["data"]["status"], "invalid")
+
+    # try to activate bid with old proposal doc for UA resident
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
+        {"data": {"status": "pending"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'proposal' and format pkcs7-signature is required",
+    )
+
+    # PUT new sign
+    response = self.app.put_json(
+        f"/tenders/{self.tender_id}/bids/{bid['id']}/documents/{doc_id}?acc_token={bid_token}",
+        {
+            "data": {
+                "title": "proposal.p7s",
+                "documentType": "proposal",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "sign/p7s",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # activate bid
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}",
         {"data": {"status": "pending"}},
     )
-    self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(submission_date_1, response.json["data"]["submissionDate"])
 
     # try to activate bid without proposal doc for non UA resident

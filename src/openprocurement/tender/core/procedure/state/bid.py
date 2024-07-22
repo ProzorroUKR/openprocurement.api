@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
+from openprocurement.api.constants import BID_PROPOSAL_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
@@ -18,9 +19,14 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
-    is_sign_doc,
+    tender_created_after,
+    tender_created_before,
 )
-from openprocurement.tender.core.procedure.validation import validate_items_unit_amount, validate_sign_doc_quantity
+from openprocurement.tender.core.procedure.validation import (
+    validate_doc_type_quantity,
+    validate_doc_type_required,
+    validate_items_unit_amount,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -131,28 +137,26 @@ class BidState(BaseState):
             validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def validate_proposal_doc_required(self, bid):
+        if tender_created_before(BID_PROPOSAL_DOC_REQUIRED_FROM):
+            return
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":
-            for doc in bid.get("documents", []):
-                # TODO: add validation after CS-16219
-                # and (not bid.get("submissionDate") or doc["datePublished"] > bid["submissionDate"])
-                if is_sign_doc(doc, doc_type="proposal"):
-                    break
-            else:
-                raise_operation_error(
-                    self.request,
-                    "Document with type 'proposal' is required",
-                    status=422,
-                    name="documents",
-                )
+            validate_doc_type_required(
+                bid.get("documents", []),
+                document_type="proposal",
+                document_of="tender",
+                after_date=bid.get("submissionDate"),
+            )
         bid["submissionDate"] = get_now().isoformat()
 
     def validate_proposal_docs(self, data, before=None):
         documents = data.get("documents", [])
-        if before and len(before.get("documents", [])) != len(documents) or before is None:
-            validate_sign_doc_quantity(documents, doc_type="proposal")
+        if tender_created_after(BID_PROPOSAL_DOC_REQUIRED_FROM) and (
+            before is None or before and len(before.get("documents", [])) != len(documents)
+        ):
+            validate_doc_type_quantity(documents, document_type="proposal", obj_name="bid")
 
     def invalidate_pending_bid_after_patch(self, after, before):
-        if self.request.authenticated_role == "Administrator":
+        if self.request.authenticated_role == "Administrator" or tender_created_before(BID_PROPOSAL_DOC_REQUIRED_FROM):
             return
         if before.get("status") == after.get("status") == "pending":
             after["status"] = "invalid"

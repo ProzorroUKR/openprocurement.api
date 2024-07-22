@@ -170,6 +170,7 @@ class BaseCoreWebTest(BaseWebTest):
                 }
             },
         )
+        return response
 
     def activate_bid(self, tender_id, bid_id, bid_token):
         response = self.app.patch_json(
