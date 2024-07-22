@@ -2,6 +2,7 @@ import unittest
 from copy import deepcopy
 from unittest.mock import patch
 
+from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
@@ -76,29 +77,33 @@ class QualificationResourceTest(SubmissionContentWebTest):
     initial_auth = ('Basic', ('broker', ''))
 
 
-class TestMockedQualificationResourceTest(SubmissionContentWebTest):
+class TestMockedQualificationResourceTest(QualificationContentWebTest):
     initial_submission_config = test_submission_config
     initial_submission_data = test_submission_data
     initial_data = test_framework_dps_data
     initial_config = test_mocked_framework_dps_config
+    docservice = True
 
     def setUp(self):
-        patch_path = 'openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS'
-        with patch(patch_path) as patched_load:
-            patched_load.get.return_value = {
-                'type': 'object',
-                'properties': {
-                    'restrictedDerivatives': {'type': 'boolean', 'enum': [True, False], 'default': False},
-                    'qualificationComplainDuration': {'type': 'integer', 'minimum': 5, 'maximum': 5, 'default': 5},
-                },
-                'required': ['restrictedDerivatives', 'qualificationComplainDuration'],
-                'additionalProperties': False,
+        patched_schema_properties = {
+            "qualificationComplainDuration": {
+                'type': 'integer',
+                'minimum': 5,
+                'maximum': 5,
+                'default': 5,
             }
-            self.app.authorization = self.initial_auth
-            self.create_framework()
-            self.initial_submission_data["frameworkID"] = self.framework_id
-            self.activate_framework()
-            self.create_submission()
+        }
+
+        def patched_schemas_get(key):
+            schema = deepcopy(FRAMEWORK_CONFIG_JSONSCHEMAS[key])
+            schema["properties"].update(patched_schema_properties)
+            return schema
+
+        patch_path = 'openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS'
+        with patch(patch_path) as patched_schemas:
+            patched_schemas.get = patched_schemas_get
+
+            super().setUp()
 
     test_patch_qualification_active_mock = snitch(patch_qualification_active_mock)
 
