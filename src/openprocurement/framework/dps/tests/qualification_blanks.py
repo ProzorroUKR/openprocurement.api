@@ -620,13 +620,19 @@ def patch_submission_pending_config_restricted(self):
 
 
 def patch_qualification_active_mock(self):
-    response = self.app.patch_json(
-        "/submissions/{}?acc_token={}".format(self.submission_id, self.submission_token),
-        {"data": {"status": "active"}},
+    qualification_id = self.qualification_id
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "evaluationReports",
+            }
+        },
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    qualification_id = response.json["data"]["qualificationID"]
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
