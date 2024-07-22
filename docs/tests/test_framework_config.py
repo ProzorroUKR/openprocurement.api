@@ -18,8 +18,8 @@ from openprocurement.framework.core.procedure.mask import (
 )
 from openprocurement.framework.dps.tests.base import (
     BaseFrameworkWebTest,
-    test_framework_dps_data,
     test_framework_dps_config,
+    test_framework_dps_data,
 )
 
 TARGET_DIR_RESTRICTED = 'docs/source/frameworks/config/http/restricted/'
