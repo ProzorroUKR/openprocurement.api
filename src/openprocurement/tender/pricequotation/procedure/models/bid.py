@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
+from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
