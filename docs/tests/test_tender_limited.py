@@ -7,6 +7,7 @@ from tests.base.data import test_docs_award, test_docs_lots, test_docs_tender_li
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
+from openprocurement.api.context import get_now
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
@@ -82,11 +83,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         reporting_data.pop("procurementMethodRationale", None)
 
         with open(TARGET_DIR + 'tutorial/create-tender-reporting-invalid.http', 'w') as self.app.file_obj:
-            response = self.app.post_json(
+            self.app.post_json(
                 '/tenders?opt_pretty=1', {'data': reporting_data, 'config': self.initial_config}, status=422
             )
-        reporting_data["cause"] = "marketUnsuccessful"
-        reporting_data["causeDescription"] = "Закупівля із застосуванням електронного каталогу не відбулася"
+        reporting_data["cause"] = "defencePurchase"
+        reporting_data["causeDescription"] = (
+            "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+        )
 
         with open(TARGET_DIR + 'tutorial/create-tender-reporting-procuringEntity.http', 'w') as self.app.file_obj:
             response = self.app.post_json(
@@ -221,6 +224,57 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                 {'data': {'status': 'active'}},
             )
             self.assertEqual(response.status, '200 OK')
+
+        contract_id = self.app.get(f"/tenders/{self.tender_id}/contracts?acc_token={owner_token}").json["data"][0]["id"]
+
+        # add confidential doc
+        with open(TARGET_DIR + 'tutorial/tender-reporting-contract-conf-docs.http', 'w') as self.app.file_obj:
+            response = self.app.post_json(
+                f'/contracts/{contract_id}/documents?acc_token={owner_token}',
+                {
+                    'data': [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                        },
+                    ]
+                },
+            )
+            self.assertEqual(response.status, '201 Created')
+            doc_id = response.json["data"][0]["id"]
+
+        # get doc directly as tender owner
+        with open(
+            TARGET_DIR + 'tutorial/get-tender-reporting-contract-conf-docs-by-owner.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id}?acc_token={owner_token}")
+            self.assertIn("url", response.json["data"])
+
+        # get doc directly as public
+        with open(
+            TARGET_DIR + 'tutorial/get-tender-reporting-contract-conf-docs-by-public.http', 'w'
+        ) as self.app.file_obj:
+            response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id}")
+            self.assertNotIn("url", response.json["data"])
+
+        # download as tender public
+        with open(
+            TARGET_DIR + 'tutorial/upload-tender-reporting-contract-conf-doc-by-public.http', 'w'
+        ) as self.app.file_obj:
+            self.app.get(
+                f"/contracts/{contract_id}/documents/{doc_id}?download=1",
+                status=403,
+            )
 
 
 class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):

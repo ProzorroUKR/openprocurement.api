@@ -26,7 +26,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/479178eb904d41
     "documentOf": "contract",
     "id": "08682b48035643a39d924df55eb915e0",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00"
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "confidentiality": "public"
   }
 }
 

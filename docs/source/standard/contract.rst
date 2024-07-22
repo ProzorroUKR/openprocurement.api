@@ -104,7 +104,7 @@ Schema
         [complaint period end - now]
 
 :documents:
-    List of :ref:`Document` objects
+    List of :ref:`ConfidentialDocument` objects
 
     |ocdsDescription|
     All documents and attachments related to the contract, including any notices.

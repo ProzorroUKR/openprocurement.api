@@ -25,7 +25,8 @@ Content-Type: application/json
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2fbdf60afd54cf3acdc89af698f87d2?Signature=kkWFx7aNWwgD%2F3KSmjbnzA%2BYzH4PvTJL1XRiDauwDPCQRsMHTfnUXxTygRpeggxjBENLuks5YIdiYyxxv6yBDg%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
     "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00"
+    "dateModified": "2023-10-10T01:00:00+03:00",
+    "confidentiality": "public"
   }
 }
 

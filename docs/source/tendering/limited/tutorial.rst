@@ -223,7 +223,7 @@ All operations with contract moved to :ref:`econtracting`
 
 
 Contract registration
----------------------
+~~~~~~~~~~~~~~~~~~~~~~
 
 **Reporting** tender contract can be registered immediately after award confirmation:
 
@@ -238,6 +238,48 @@ Contract registration
 **Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation):
 
 .. http:example:: http/tutorial/tender-negotiation-quick-contract-sign.http
+   :code:
+
+Confidential documents for contract
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When creating a tender, the customer selects one of the items (`cause`) from the drop-down list of reasons for applying the purchase contract report.
+If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`"documentOf": "contract"` and `"documentOf": "change"`) must be hidden in such reporting procedure.
+
+Documents are confidential if reporting has one ot the causes:
+
+    * criticalInfrastructure
+    * civilProtection
+    * RNBO
+    * lastHope
+    * UZ
+    * defencePurchase
+
+and has one of document types:
+
+    * contractSigned - Signed contract
+    * contractAnnexe - Annexes to the contract
+
+Confidentiality is set automatically by the CDB for documents, in case of application of the above causes.
+
+Let's add documents to contract and see what `confidentiality` was set by CBD:
+
+.. http:example:: http/tutorial/tender-reporting-contract-conf-docs.http
+   :code:
+
+The customer see these kind of doucments and can download:
+
+.. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-owner.http
+   :code:
+
+All others can't read the document:
+
+.. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-public.http
+   :code:
+
+Nobody but the owner can download the confidential document:
+
+.. http:example:: http/tutorial/upload-tender-reporting-contract-conf-doc-by-public.http
    :code:
 
 Cancelling tender

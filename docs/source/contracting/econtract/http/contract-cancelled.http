@@ -145,7 +145,8 @@ Content-Type: application/json
         "documentOf": "contract",
         "id": "8bab0d7af5a64157a2c15757833cd8b3",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "confidentiality": "public"
       },
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -155,7 +156,8 @@ Content-Type: application/json
         "documentOf": "contract",
         "id": "08682b48035643a39d924df55eb915e0",
         "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "confidentiality": "public"
       }
     ],
     "date": "2023-10-10T01:00:00+03:00",
