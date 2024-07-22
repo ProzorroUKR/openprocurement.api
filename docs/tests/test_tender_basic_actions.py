@@ -83,7 +83,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
@@ -3051,7 +3050,6 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
     initial_data = test_tender_below_data
     initial_config = test_tender_below_config
     initial_bids = test_tender_below_bids
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

@@ -69,7 +69,6 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     # initial_bids[2]['tenderers'][0]['identifier']['id'] = u'44437256'
     reverse = False
     awarding_key = "amount"
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -98,7 +97,6 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = test_tender_cfaselectionua_lots
     initial_bids = test_tender_cfaselectionua_bids
-    docservice = True
 
     test_create_tender_lot_award = snitch(create_tender_lot_award)
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
@@ -111,7 +109,6 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     initial_status = "active.qualification"
     initial_lots = 2 * test_tender_cfaselectionua_lots
     initial_bids = test_tender_cfaselectionua_bids
-    docservice = True
 
     test_create_tender_lots_award = snitch(create_tender_lots_award)
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
@@ -121,11 +118,6 @@ class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentR
     initial_status = "active.qualification"
     initial_bids = test_tender_cfaselectionua_bids
     initial_lots = test_tender_cfaselectionua_lots
-    docservice = True
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
 
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
@@ -154,11 +146,6 @@ class Tender2LotAwardDocumentResourceTest(TenderContentWebTest, Tender2LotAwardD
         award = response.json["data"]
         self.award_id = award["id"]
         self.app.authorization = auth
-
-
-@unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")
-class Tender2LotAwardDocumentWithDSResourceTest(Tender2LotAwardDocumentResourceTest):
-    docservice = True
 
 
 def suite():

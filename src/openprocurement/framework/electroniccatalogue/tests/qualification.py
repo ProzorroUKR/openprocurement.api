@@ -77,7 +77,6 @@ class TestQualificationDocumentsCreate(QualificationContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_auth = ('Basic', ('broker', ''))
-    docservice = True
 
     test_create_qualification_document_forbidden = snitch(create_qualification_document_forbidden)
     test_create_qualification_document = snitch(create_qualification_document)

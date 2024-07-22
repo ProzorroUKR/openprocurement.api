@@ -50,7 +50,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     Check base work with tender. (crete, get, edit)
     """
 
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cdeu_data
     initial_lots = test_lots_data = test_tender_cd_lots
@@ -84,7 +83,6 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_data = test_tender_cdua_data
     initial_lots = test_lots_data = test_tender_cd_lots
 

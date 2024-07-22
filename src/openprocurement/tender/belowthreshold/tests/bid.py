@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_organization,
     test_tender_below_simple_data,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # TenderBidResourceTest; TenderBidFeaturesResourceTest; TenderBidDocumentResourceTest; TenderBidDocumentWithDSResourceTest; TenderBidBatchDocumentWithDSResourceTest; Tender2LotBidResourceTest; TenderLotsWithDisabledValueRestriction; TenderWithDisabledValueRestriction; TenderLotsWithDisabledValueCurrencyEquality; TenderWithDisabledValueCurrencyEquality
+from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
     create_one_tender_bid_document_json_bulk,
@@ -99,7 +99,6 @@ class TenderBidFeaturesResourceTest(TenderContentWebTest):
 
 
 class TenderBidDocumentResourceTest(TenderContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     guarantee_criterion = True
 
@@ -146,10 +145,15 @@ class TenderBidDocumentResourceTest(TenderContentWebTest):
     test_not_found = snitch(not_found)
     test_patch_tender_bid_document = snitch(patch_tender_bid_document)
     test_create_tender_bid_document_invalid_award_status = snitch(create_tender_bid_document_invalid_award_status)
+    test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
+    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
+    test_create_one_tender_bid_document_json_bulk = snitch(create_one_tender_bid_document_json_bulk)
+    test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
+    test_create_tender_bid_document_with_award_json = snitch(create_tender_bid_document_with_award_json)
+    test_create_tender_bid_document_with_award_json_bulk = snitch(create_tender_bid_document_with_award_json_bulk)
 
 
 class TenderBidRRResourceTest(TenderContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     guarantee_criterion = True
     guarantee_criterion_data = test_language_criteria
@@ -159,19 +163,7 @@ class TenderBidRRResourceTest(TenderContentWebTest):
     test_update_tender_bid_pmr_related_tenderer = snitch(update_tender_bid_pmr_related_tenderer)
 
 
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_bid_document_json = snitch(create_tender_bid_document_json)
-    test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
-    test_create_one_tender_bid_document_json_bulk = snitch(create_one_tender_bid_document_json_bulk)
-    test_put_tender_bid_document_json = snitch(put_tender_bid_document_json)
-    test_create_tender_bid_document_with_award_json = snitch(create_tender_bid_document_with_award_json)
-    test_create_tender_bid_document_with_award_json_bulk = snitch(create_tender_bid_document_with_award_json_bulk)
-
-
 class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
-    docservice = True
     guarantee_criterion = False
     initial_status = "active.tendering"
     initial_data = test_tender_below_simple_data
@@ -193,8 +185,7 @@ class SimpleTenderBidDocumentResourceTest(TenderContentWebTest):
         )
 
 
-class TenderBidBatchDocumentWithDSResourceTest(TenderContentWebTest):
-    docservice = True
+class TenderBidBatchDocumentResourceTest(TenderContentWebTest):
     initial_status = "active.tendering"
     bid_data_wo_docs = {"tenderers": [test_tender_below_organization], "value": {"amount": 500}, "documents": []}
 
@@ -312,7 +303,6 @@ class TenderWithDisabledValueCurrencyEquality(TenderContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))

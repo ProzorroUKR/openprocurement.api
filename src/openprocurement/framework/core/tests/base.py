@@ -21,13 +21,11 @@ test_framework_data = {
 
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
-    docservice = False
 
 
 class BaseCoreWebTest(BaseWebTest):
     initial_data = None
     initial_status = None
-    docservice = False
 
     framework_id = None
 

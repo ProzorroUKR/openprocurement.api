@@ -56,7 +56,6 @@ def prepare_for_auction(self):
 
 class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTestMixin):
     # initial_data = tender_data
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_esco_bids
     initial_bids[1]["value"] = {
@@ -76,7 +75,6 @@ class TenderAuctionResourceTest(BaseESCOContentWebTest, TenderAuctionResourceTes
 
 
 class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_esco_bids[0]["tenderers"])
     initial_lots = test_tender_esco_lots
@@ -128,7 +126,6 @@ class TenderSameValueAuctionResourceTest(BaseESCOContentWebTest):
 
 
 class TenderAuctionFieldsTest(BaseESCOContentWebTest):
-    docservice = True
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_esco_bids
@@ -143,7 +140,6 @@ class TenderAuctionFieldsTest(BaseESCOContentWebTest):
 
 
 class TenderMultipleLotAuctionResourceTest(TenderMultipleLotAuctionResourceTestMixin, TenderAuctionResourceTest):
-    docservice = True
     initial_lots = 2 * test_tender_esco_lots
 
     test_get_tender_auction = snitch(get_tender_lots_auction)

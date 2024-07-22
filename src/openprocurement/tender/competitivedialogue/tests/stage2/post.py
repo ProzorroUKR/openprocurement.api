@@ -31,7 +31,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
     BaseCompetitiveDialogUAStage2ContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["author"] = test_tender_cd_author
     initial_lots = test_tender_cd_lots
@@ -53,7 +52,6 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUStage2ContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
     claim_data = deepcopy(test_tender_below_claim)
     claim_data["author"] = test_tender_cd_author
     initial_lots = test_tender_cd_lots
@@ -78,7 +76,6 @@ class TenderCompetitiveDialogEUStage2AwardComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_lots = test_tender_cd_lots
@@ -155,7 +152,6 @@ class TenderCompetitiveDialogUAStage2AwardComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = test_tender_cd_lots
@@ -206,7 +202,6 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -269,7 +264,6 @@ class TenderCancellationComplaintPostResourceTest(
     ComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_lots = test_tender_cd_lots
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)

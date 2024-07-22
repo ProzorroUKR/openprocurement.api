@@ -113,7 +113,6 @@ bid_amount = round(
     get_now() + timedelta(days=1),
 )
 class TenderBidResourceTest(BaseESCOContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     test_bids_data = test_tender_esco_bids
     initial_lots = test_tender_esco_lots
@@ -180,7 +179,6 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_esco_lots
     initial_bids = test_bids_data = test_tender_esco_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -190,10 +188,6 @@ class TenderBidDocumentResourceTest(BaseESCOContentWebTest):
         self.bid2_token = self.initial_bids_tokens[self.bid2_id]
 
     test_patch_and_put_document_into_invalid_bid = snitch(patch_and_put_document_into_invalid_bid)
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
-    docservice = True
 
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
@@ -210,8 +204,7 @@ class TenderBidDocumentWithDSResourceTest(TenderBidDocumentResourceTest):
     test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
-class TenderBidBatchDocumentsWithDSResourceTest(BaseESCOContentWebTest):
-    docservice = True
+class TenderBidBatchDocumentsResourceTest(BaseESCOContentWebTest):
     initial_status = "active.tendering"
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
@@ -268,8 +261,7 @@ def suite():
     suite.addTest(TenderBidResourceTest)
     suite.addTest(TenderBidFeaturesResourceTest)
     suite.addTest(TenderBidDocumentResourceTest)
-    suite.addTest(TenderBidDocumentWithDSResourceTest)
-    suite.addTest(TenderBidBatchDocumentsWithDSResourceTest)
+    suite.addTest(TenderBidBatchDocumentsResourceTest)
     suite.addTest(TenderBidRequirementResponseResourceTest)
     suite.addTest(TenderBidRequirementResponseEvidenceResourceTest)
     return suite

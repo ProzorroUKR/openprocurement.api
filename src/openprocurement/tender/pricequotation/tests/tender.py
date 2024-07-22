@@ -103,7 +103,6 @@ class TenderResourceTestMixin:
     Mock(return_value=test_tender_pq_category),
 )
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_data = test_tender_pq_data
     initial_auth = ("Basic", ("broker", ""))
     test_criteria = test_tender_pq_short_profile['criteria']

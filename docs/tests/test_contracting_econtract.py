@@ -45,7 +45,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
-    docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):
@@ -538,7 +537,6 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data_multi_buyers
-    docservice = False
     docservice_url = DOCS_URL
 
     def setUp(self):

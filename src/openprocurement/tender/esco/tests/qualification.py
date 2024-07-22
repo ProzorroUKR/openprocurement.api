@@ -65,7 +65,6 @@ class TenderQualificationBaseTestCase(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
     initial_lots = test_tender_esco_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -121,11 +120,6 @@ class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
     test_create_qualification_document_after_status_change = snitch(create_qualification_document_after_status_change)
     test_put_qualification_document_after_status_change = snitch(put_qualification_document_after_status_change)
     test_tender_owner_create_qualification_document = snitch(tender_owner_create_qualification_document)
-
-
-class TenderQualificationDocumentWithDSResourceTest(TenderQualificationDocumentResourceTest):
-    docservice = True
-
     test_create_tender_qualifications_document_json_bulk = snitch(create_tender_qualifications_document_json_bulk)
 
 
@@ -293,7 +287,7 @@ class TenderQualificationRequirementResponseEvidenceResourceTest(
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationBaseTestCase,
 ):
-    docservice = True
+    pass
 
 
 def suite():

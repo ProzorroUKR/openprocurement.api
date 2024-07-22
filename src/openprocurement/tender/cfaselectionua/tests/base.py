@@ -103,7 +103,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     initial_bids = None
     initial_lots = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "draft.pending"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (

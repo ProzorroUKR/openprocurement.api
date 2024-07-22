@@ -51,7 +51,6 @@ class TenderTest(BaseTenderWebTest):
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
     initial_lots = test_lots_data = test_tender_openeu_lots
@@ -81,7 +80,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderUARes
 
 
 class TenderProcessTest(BaseTenderWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_openeu_data
     initial_lots = test_tender_openeu_lots
@@ -96,7 +94,6 @@ class TenderProcessTest(BaseTenderWebTest):
 
 
 class TenderGuarantee(BaseTenderWebTest):
-    docservice = True
     initial_status = "draft"
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_openeu_lots

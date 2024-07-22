@@ -97,7 +97,6 @@ class TenderCompetitiveDialogEUObjectionResourceTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_lots = test_tender_cd_lots
 
 
@@ -106,7 +105,6 @@ class TenderCompetitiveDialogUAObjectionResourceTest(
     TenderComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_lots = test_tender_cd_lots
 
 
@@ -116,7 +114,6 @@ class TenderCompetitiveDialogEUStage2AwardComplaintObjectionResourceTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.qualification' status sets in setUp
     initial_bids = test_tender_bids
     initial_lots = test_tender_cd_lots
@@ -154,7 +151,6 @@ class TenderCompetitiveDialogUAStage2AwardComplaintObjectionResourceTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_bids
     initial_lots = test_tender_cd_lots
@@ -169,7 +165,6 @@ class TenderCompetitiveDialogEUQualificationComplaintObjectionResourceTest(
     TenderQualificationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_bids
     initial_auth = ("Basic", ("broker", ""))
@@ -186,7 +181,6 @@ class TenderCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_lots = test_tender_cd_lots
 
     def setUp(self):

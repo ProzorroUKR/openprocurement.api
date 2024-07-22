@@ -25,7 +25,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
     min_bids_number = MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'

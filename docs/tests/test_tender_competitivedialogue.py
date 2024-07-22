@@ -105,7 +105,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data_stage1
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
@@ -1705,7 +1704,6 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAStage2WebTest, MockWebTe
 
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data_stage1
-    docservice = True
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 

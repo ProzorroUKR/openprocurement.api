@@ -98,13 +98,11 @@ test_plan_data = {
 class BasePlanTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
 
 class BasePlanWebTest(BaseCoreWebTest):
     relative_to = os.path.dirname(__file__)
     initial_data = test_plan_data
-    docservice = True
 
     def setUp(self):
         super().setUp()

@@ -97,12 +97,10 @@ class TenderResourceTestMixin:
 
 
 class TenderTest(BaseApiWebTest):
-    docservice = True
     initial_data = test_tender_below_data
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_data = test_tender_below_data
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_lots_data = test_tender_below_lots
@@ -140,7 +138,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
 
     test_invalid_tender_conditions = snitch(invalid_tender_conditions)

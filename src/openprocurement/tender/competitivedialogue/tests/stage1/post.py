@@ -26,7 +26,6 @@ from openprocurement.tender.openua.tests.post import (
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -43,7 +42,6 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -63,7 +61,6 @@ class TenderCompetitiveDialogUAQualificationComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cd_stage1_bids
     initial_lots = test_tender_cd_lots
@@ -148,7 +145,6 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderQualificationComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.tendering"  # 'active.pre-qualification.stand-still' status sets in setUp
     initial_bids = test_tender_cd_stage1_bids
     initial_lots = test_tender_cd_lots
@@ -232,7 +228,6 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    docservice = True
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):

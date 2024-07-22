@@ -55,7 +55,6 @@ from openprocurement.tender.openua.tests.tender_blanks import (
 
 
 class TenderESCOTest(BaseESCOWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_esco_data
     test_bids_data = test_tender_esco_bids
@@ -74,7 +73,6 @@ class TenderESCOTest(BaseESCOWebTest):
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):
     """ESCO tender test"""
 
-    docservice = True
     initialize_initial_data = False
     initial_data = test_tender_esco_data
     # for passing test from TenderUAResourceTestMixin
@@ -105,7 +103,6 @@ class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAReso
 
 
 class TestTenderEUProcess(BaseESCOContentWebTest):
-    docservice = True
     initialize_initial_data = False
     initial_data = test_tender_esco_data
     initial_bids = test_bids_data = test_tender_esco_bids

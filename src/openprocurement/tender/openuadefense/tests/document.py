@@ -14,8 +14,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (  # Ten
 from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentWebTest
 
 
-class TenderDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
+class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
 
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
@@ -30,7 +29,7 @@ class TenderDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
     return suite
 
 

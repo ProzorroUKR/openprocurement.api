@@ -76,7 +76,6 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_reporting_data
     test_tender_data_local = test_tender_reporting_data
     initial_bids = None
-    docservice = True
 
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
     test_create_tender_award = snitch(create_tender_award)
@@ -92,7 +91,6 @@ class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_reporting_data
     initial_bids = None
-    docservice = True
 
     test_create_tender_award_complaints = snitch(create_tender_award_complaints)
 
@@ -135,7 +133,6 @@ class TenderNegotiationAwardComplaintResourceTest(BaseTenderContentWebTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
     initial_lots = test_lots
-    docservice = True
 
     def create_award(self):
         # Create award
@@ -412,7 +409,6 @@ class TenderLotNegotiationQuickAwardComplaintResourceTest(TenderLotNegotiationAw
 class TenderNegotiationAwardComplaintDocumentResourceTest(
     BaseTenderContentWebTest, TenderAwardComplaintDocumentResourceTestMixin
 ):
-    docservice = True
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 
@@ -460,7 +456,6 @@ class TenderNegotiationQuickAwardComplaintDocumentResourceTest(TenderNegotiation
 
 
 class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocumentResourceTestMixin):
-    docservice = True
     initial_status = "active"
     initial_data = test_tender_reporting_data
     initial_bids = None
@@ -478,6 +473,8 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
     test_create_tender_award_document_invalid = snitch(create_tender_award_document_invalid)
     test_patch_not_author = lambda x: 1  # disable edr bot test for now
     test_create_award_document_bot = lambda x: 1  # disable edr bot test for now
+
+    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 class TenderAwardNegotiationDocumentResourceTest(TenderAwardDocumentResourceTest):
@@ -520,14 +517,7 @@ class TenderLotAwardNegotiationDocumentResourceTest(TenderAwardNegotiationDocume
 
 
 class TenderLotAwardNegotiationQuickDocumentResourceTest(TenderLotAwardNegotiationDocumentResourceTest):
-    docservice = True
     initial_data = test_tender_negotiation_quick_data
-
-
-class TenderAwardDocumentWithDSResourceTest(TenderAwardDocumentResourceTest):
-    docservice = True
-
-    test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
 def suite():

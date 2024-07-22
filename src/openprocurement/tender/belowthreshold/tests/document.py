@@ -21,7 +21,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
 )
 
 
-class TenderDocumentWithDSResourceTestMixin:
+class TenderDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)
@@ -33,14 +33,12 @@ class TenderDocumentWithDSResourceTestMixin:
     test_tender_notice_documents = snitch(tender_notice_documents)
 
 
-class TenderDocumentWithDSResourceTest(TenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
-    docservice = True
+class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 
-class TenderLotDocumentWithDSResourceTest(TenderContentWebTest):
+class TenderLotDocumentResourceTest(TenderContentWebTest):
     initial_lots = test_tender_below_lots
-    docservice = True
 
     test_lot_patch_tender_document_json_lots_none = snitch(lot_patch_tender_document_json_lots_none)
     test_lot_patch_tender_document_json_items_none = snitch(lot_patch_tender_document_json_items_none)
@@ -48,7 +46,8 @@ class TenderLotDocumentWithDSResourceTest(TenderContentWebTest):
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotDocumentResourceTest))
     return suite
 
 

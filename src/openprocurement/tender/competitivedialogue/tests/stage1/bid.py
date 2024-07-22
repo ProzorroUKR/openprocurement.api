@@ -43,7 +43,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     bids_activation_on_tender_documents,
 )
 from openprocurement.tender.openua.tests.bid import (
-    TenderBidDocumentWithDSResourceTestMixin,
+    TenderBidDocumentResourceTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
@@ -59,7 +59,6 @@ class CompetitiveDialogEUBidResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_cd_stage1_bids
     initial_lots = test_tender_cd_lots
-    docservice = True
 
     # overwriting TenderBidResourceTestMixin.test_create_tender_bidder
     test_create_tender_bidder = snitch(create_tender_bidder)
@@ -113,7 +112,6 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     initial_status = "active.tendering"
     test_bids_data = test_tender_cd_stage1_bids
     initial_lots = test_tender_cd_lots
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -149,7 +147,7 @@ class CompetitiveDialogEUBidDocumentResourceTest(BaseCompetitiveDialogEUContentW
     test_bids_view_j1446 = snitch(bids_view_j1446)
 
 
-class TenderUABidDocumentWithDSWebTest(TenderBidDocumentWithDSResourceTestMixin, BaseCompetitiveDialogUAContentWebTest):
+class TenderUABidDocumentWebTest(TenderBidDocumentResourceTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_status = "active.tendering"
     test_bids_data = test_tender_cd_stage1_bids
 

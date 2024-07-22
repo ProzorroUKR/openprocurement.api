@@ -412,7 +412,7 @@ def patch_tender_document(self):
         )
 
 
-# TenderDocumentWithDSResourceTest
+# TenderDocumentResourceTest
 
 
 def create_tender_document_json_invalid(self):

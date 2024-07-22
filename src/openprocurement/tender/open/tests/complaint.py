@@ -307,7 +307,6 @@ class TenderCancellationComplaintObjectionTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_lots = test_tender_below_lots * 2
 
     test_objection_related_item_equals_related_cancellation = snitch(objection_related_item_equals_related_cancellation)
@@ -323,7 +322,6 @@ class TenderAwardComplaintObjectionTest(
     TenderAwardComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots

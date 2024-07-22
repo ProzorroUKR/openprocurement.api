@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin,
+    TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -13,9 +13,8 @@ from openprocurement.tender.limited.tests.base import (
 )
 
 
-class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentWithDSResourceTestMixin):
+class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_data = test_tender_reporting_data
-    docservice = True
 
 
 class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):
@@ -28,24 +27,11 @@ class TenderNegotiationQuickDocumentResourceTest(TenderNegotiationDocumentResour
     initial_config = test_tender_negotiation_quick_config
 
 
-class TenderDocumentWithDSResourceTest(TenderDocumentResourceTest, TenderDocumentWithDSResourceTestMixin):
-    docservice = True
-
-
-class TenderNegotiationDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
-    initial_data = test_tender_negotiation_data
-    initial_config = test_tender_negotiation_config
-
-
-class TenderNegotiationQuickDocumentWithDSResourceTest(TenderDocumentWithDSResourceTest):
-    initial_data = test_tender_negotiation_quick_data
-    initial_config = test_tender_negotiation_quick_config
-
-
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderNegotiationDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderNegotiationQuickDocumentResourceTest))
     return suite
 
 

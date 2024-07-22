@@ -37,9 +37,7 @@ from openprocurement.tender.open.tests.bid_blanks import (
     create_tender_bid_no_scale_invalid,
     create_tender_biddder_invalid,
     create_tender_bidder,
-    create_tender_bidder_document,
     create_tender_bidder_document_json,
-    create_tender_bidder_document_nopending,
     create_tender_bidder_document_nopending_json,
     create_tender_bidder_value_greater_then_lot,
     delete_tender_bidder,
@@ -60,12 +58,10 @@ from openprocurement.tender.open.tests.bid_blanks import (
     patch_tender_bid_with_disabled_value_restriction,
     patch_tender_bidder,
     patch_tender_bidder_decimal_problem,
-    patch_tender_bidder_document,
     patch_tender_bidder_document_json,
     patch_tender_draft_bidder,
     patch_tender_with_bids_lots_none,
     post_tender_bid_with_disabled_value_restriction,
-    put_tender_bidder_document,
     put_tender_bidder_document_json,
     tender_bidder_confidential_document,
 )
@@ -87,13 +83,6 @@ class TenderBidResourceTestMixin:
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_activation_on_tender_documents = snitch(bids_activation_on_tender_documents)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
-
-
-class TenderBidDocumentResourceTestMixin:
-    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
-    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending)
 
 
 class TenderBidRequirementResponseTestMixin:
@@ -118,7 +107,6 @@ class TenderBidRequirementResponseTestMixin:
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
-    docservice = True
 
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
@@ -193,7 +181,6 @@ class CreateBidMixin:
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -206,7 +193,6 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
 
 
 class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -224,7 +210,6 @@ class TenderBidDecimalResourceTest(BaseTenderUAContentWebTest):
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_open_data
     test_bids_data = test_tender_open_bids
     initial_lots = 2 * test_tender_below_lots
@@ -241,7 +226,6 @@ class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):
 
 
 class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
     initial_data = test_tender_open_features_data
     initial_lots = test_tender_below_lots
     initial_status = "active.tendering"
@@ -251,8 +235,15 @@ class TenderBidFeaturesResourceTest(BaseTenderUAContentWebTest):
     test_features_bidder_invalid = snitch(features_bidder_invalid)
 
 
-class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
-    docservice = True
+class TenderBidDocumentResourceTestMixin:
+    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
+    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document_json)
+    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_json)
+    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
+
+
+class TenderBidDocumentResourceTest(CreateBidMixin, TenderBidDocumentResourceTestMixin, BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_open_bids
@@ -262,7 +253,6 @@ class TenderBidDocumentResourceTest(CreateBidMixin, BaseTenderUAContentWebTest):
 
 
 class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
-    docservice = True
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_open_bids
@@ -271,22 +261,7 @@ class TenderBidActivateDocumentTest(CreateBidMixin, BaseTenderUAContentWebTest):
     test_doc_date_modified = snitch(doc_date_modified)
 
 
-class TenderBidDocumentWithDSResourceTestMixin:
-    docservice = True
-    test_create_tender_bidder_document_json = snitch(create_tender_bidder_document_json)
-    test_put_tender_bidder_document_json = snitch(put_tender_bidder_document_json)
-    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document_json)
-    test_create_tender_bidder_document_nopending = snitch(create_tender_bidder_document_nopending_json)
-    test_tender_bidder_confidential_document = snitch(tender_bidder_confidential_document)
-
-
-class TenderBidDocumentWithDSResourceTest(TenderBidDocumentWithDSResourceTestMixin, TenderBidDocumentResourceTest):
-    docservice = True
-    initial_lots = test_tender_below_lots
-
-
-class TenderBidderBatchDocumentWithDSResourceTest(BaseTenderUAContentWebTest):
-    docservice = True
+class TenderBidderBatchDocumentResourceTest(BaseTenderUAContentWebTest):
     initial_status = "active.tendering"
     initial_lots = test_tender_below_lots
     test_bids_data = test_tender_open_bids
@@ -308,7 +283,6 @@ class TenderBidRequirementResponseResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
     base_bid_status = "draft"
@@ -320,7 +294,6 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     CreateBidMixin,
     BaseTenderUAContentWebTest,
 ):
-    docservice = True
     initial_data = test_tender_open_data
     initial_lots = test_tender_below_lots
     base_bid_status = "draft"
@@ -339,7 +312,7 @@ class TenderWithDisabledValueRestriction(BaseTenderUAContentWebTest):
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidDocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidderBatchDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidFeaturesResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBidRequirementResponseResourceTest))

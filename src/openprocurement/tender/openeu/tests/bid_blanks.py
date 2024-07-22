@@ -3188,7 +3188,7 @@ def create_tender_bidder_document_nopending(self):
     )
 
 
-# TenderBidDocumentWithDSResourceTest
+# TenderBidDocumentResourceTest
 
 
 def patch_tender_bidder_document_private_json(self):

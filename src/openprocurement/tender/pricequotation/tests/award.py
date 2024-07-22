@@ -53,7 +53,6 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_pq_bids
-    docservice = True
 
     def setUp(self):
         super().setUp()

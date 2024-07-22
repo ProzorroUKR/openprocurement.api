@@ -363,7 +363,6 @@ class ComplaintPostResourceMixin:
 class TenderComplaintPostResourceTest(
     BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-    docservice = True
     initial_lots = test_tender_below_lots
 
     def setUp(self):
@@ -384,7 +383,6 @@ class TenderAwardComplaintPostResourceTest(
     ClaimPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,
 ):
-    docservice = True
     initial_status = "active.qualification"
     initial_bids = test_tender_open_bids
     initial_lots = test_tender_below_lots
@@ -431,7 +429,6 @@ class TenderAwardComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseTenderUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    docservice = True
     initial_lots = test_tender_below_lots
 
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)

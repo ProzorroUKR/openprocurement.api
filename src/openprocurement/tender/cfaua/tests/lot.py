@@ -40,7 +40,6 @@ one_lot_restriction = True
 
 
 class TenderLotResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
     initial_data = test_tender_cfaua_data
@@ -59,7 +58,6 @@ class TenderLotResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cfaua_lots
     initial_bids = test_tender_cfaua_bids
@@ -70,7 +68,6 @@ class TenderLotEdgeCasesTest(BaseTenderContentWebTest):
 
 
 class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cfaua_data
@@ -84,7 +81,6 @@ class TenderLotFeatureResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotBidderResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
     test_bids_data = test_tender_cfaua_bids  # TODO: change attribute identifier
@@ -95,7 +91,6 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_lots = test_tender_cfaua_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_data = test_tender_cfaua_data
@@ -155,7 +150,6 @@ class TenderLotFeatureBidderResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotProcessTest(BaseTenderContentWebTest):
-    docservice = True
     setUp = BaseTenderContentWebTest.setUp
     test_lots_data = test_tender_cfaua_lots  # TODO: change attribute identifier
     initial_data = test_tender_cfaua_data

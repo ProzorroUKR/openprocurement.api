@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.belowthreshold.tests.document import (
-    TenderDocumentWithDSResourceTestMixin,
+    TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -15,10 +15,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 )
 
 
-class TenderStage2DocumentWithDSResourceTest(
-    BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
-):
-    docservice = True
+class TenderStage2DocumentResourceTest(BaseCompetitiveDialogEUStage2ContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     initial_lots = test_tender_cd_lots
 
@@ -26,10 +23,7 @@ class TenderStage2DocumentWithDSResourceTest(
     test_patch_tender_document = snitch(patch_tender_document)
 
 
-class TenderStage2UADocumentWithDSResourceTest(
-    BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentWithDSResourceTestMixin
-):
-    docservice = True
+class TenderStage2UADocumentResourceTest(BaseCompetitiveDialogUAStage2ContentWebTest, TenderDocumentResourceTestMixin):
     initial_lots = test_tender_cd_lots
 
     test_put_tender_document = snitch(put_tender_document)
@@ -38,8 +32,8 @@ class TenderStage2UADocumentWithDSResourceTest(
 
 def suite():
     suite = unittest.TestSuite()
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2DocumentWithDSResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UADocumentWithDSResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2DocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderStage2UADocumentResourceTest))
     return suite
 
 

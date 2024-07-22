@@ -246,7 +246,6 @@ class TenderAwardComplaintDocumentResourceTest(BaseTenderContentWebTest, TenderA
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -285,7 +284,6 @@ class Tender2LotAwardComplaintDocumentResourceTest(BaseTenderContentWebTest):
     initial_bids = test_tender_openeu_bids
     initial_lots = 2 * test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -327,7 +325,6 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
     initial_status = "active.qualification"
     initial_bids = test_tender_openeu_bids
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()
@@ -352,7 +349,6 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
     initial_bids = test_tender_openeu_bids
     initial_lots = 2 * test_tender_openeu_lots
     initial_auth = ("Basic", ("broker", ""))
-    docservice = True
 
     def setUp(self):
         super().setUp()

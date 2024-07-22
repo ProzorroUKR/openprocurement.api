@@ -57,7 +57,6 @@ from openprocurement.tender.openua.tests.tender_blanks import empty_listing
 
 
 class CFAUATenderTest(BaseTenderWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_cfaua_with_lots_data)
     initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
@@ -66,7 +65,6 @@ class CFAUATenderTest(BaseTenderWebTest):
 
 
 class TenderCheckStatusTest(BaseTenderContentWebTest):
-    docservice = True
     BaseTenderContentWebTest.backup_pure_data()
 
     test_active_qualification_to_act_pre_qualification_st = snitch(active_qualification_to_act_pre_qualification_st)
@@ -74,7 +72,6 @@ class TenderCheckStatusTest(BaseTenderContentWebTest):
 
 
 class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_cfaua_with_lots_data)
     initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
@@ -113,7 +110,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 class TenderProcessTest(BaseTenderWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_data = deepcopy(test_tender_cfaua_with_lots_data)
     initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
@@ -130,7 +126,6 @@ class TenderProcessTest(BaseTenderWebTest):
 
 
 class TenderPendingAwardsResourceTest(BaseTenderContentWebTest):
-    docservice = True
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
 

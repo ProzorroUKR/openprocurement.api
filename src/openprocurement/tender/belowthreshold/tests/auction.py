@@ -59,7 +59,6 @@ class TenderMultipleLotAuctionResourceTestMixin:
 
 
 class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestMixin):
-    docservice = True
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_below_bids)
@@ -68,7 +67,6 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
 
 
 class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
-    docservice = True
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_below_bids)
@@ -86,7 +84,6 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
 
 class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
-    docservice = True
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
     initial_bids = deepcopy(test_tender_below_bids)
@@ -107,7 +104,6 @@ class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
 
 class TenderSameValueAuctionResourceTest(TenderContentWebTest):
-    docservice = True
     initial_status = "active.auction"
     initial_bids = [
         {
@@ -123,7 +119,6 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
 
 
 class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourceTestMixin):
-    docservice = True
     initial_lots = test_tender_below_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
@@ -135,7 +130,6 @@ class TenderLotAuctionResourceTest(TenderContentWebTest, TenderLotAuctionResourc
 
 
 class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleLotAuctionResourceTestMixin):
-    docservice = True
     initial_lots = 2 * test_tender_below_lots
     initial_data = auction_test_tender_data
     initial_status = "active.tendering"
@@ -144,7 +138,6 @@ class TenderMultipleLotAuctionResourceTest(TenderContentWebTest, TenderMultipleL
 
 
 class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
-    docservice = True
     initial_data = test_tender_below_features_data
     initial_status = "active.tendering"
     initial_bids = [
@@ -167,7 +160,6 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
-    docservice = True
     initial_lots = test_tender_below_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)

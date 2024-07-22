@@ -29,7 +29,6 @@ class RestrictedFrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin
     AppClass = DumpsWebTestApp
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_open_data
-    docservice = True
     docservice_url = DOCS_URL
 
     def setUp(self):
